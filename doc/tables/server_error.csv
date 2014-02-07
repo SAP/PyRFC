@@ -1,0 +1,17 @@
+===================== ================ ========================= ================= ============== ===========
+Error type            Corresponds to   In C triggered via        Fields to fill in Effect on      Effect in t
+                      ABAP statement   return code               error info        connection     
+===================== ================ ========================= ================= ============== ===========
+ABAP exception        RAISE            RFC_ABAP_EXCEPTION        key               Remains open   SY-SUBRC is
+                      <exception key>                                                             
+ABAP exception with d MESSAGE ...      RFC_ABAP_EXCEPTION        key,              Remains open   As above. T
+                      RAISING                                    abapMsgType                      
+                      <exception key>                            abapMsgClass                     
+                                                                 abapMsgNumber                    
+                                                                 abapMsgV1-V4                     
+ABAP message          MESSAGE ...      RFC_ABAP_MESSAGE          abapMsgType       Is closed      SY-SUBRC is
+                                                                 abapMsgClass                     
+                                                                 abapMsgNumber                    
+                                                                 abapMsgV1-V4                     
+System failure                         RC_EXTERNAL_FAILURE       message           Is closed      SY-SUBRC is
+===================== ================ ========================= ================= ============== ===========

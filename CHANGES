@@ -1,0 +1,129 @@
+Change log
+==========
+
+1.9.3 (2014-01-26)
+------------------
+- Fixed Date wrap bug (reported by Flavio Marinone)
+- Documentation rework
+
+
+1.9.2 (2012-11-26)
+------------------
+- Fixed BCD wrap bug (reported by Thomas Marcon)
+
+1.9.1 (2012-10-02)
+------------------
+- Added server usage
+
+  - Server class (wraps server related activities)
+  - FunctionDescription and TypeDescription as classes for improved
+    metadata handling.
+
+- Added support for transactional, queued, and background RFC (tRFC, qRFC, bgRFC)
+  for client usage.
+
+- Renamed exceptions in accordance with PEP08:
+
+  - Exception names changed to Error (e.g. ExternalRuntimeException renamed to
+    ExternalRuntimeError).
+  - Rfc now uppercase, e.g. RFCLibError.
+  - Abap now uppercase, e.g. ABAPRuntimeError.
+
+- Connection class
+
+  - removed __init__ optional parameter `strip`, added `config` dictionary as optional
+    parameter.
+  - renamed connectionInfo to get_connection_attributes()
+  - renamed resetServerContext to reset_server_context()
+
+- RFCTYPE_BCD fields are now converted to Decimal object (wrap). For filling,
+  you may pass either Decimal objects or floats.
+
+1.9 (2012-09-14)
+----------------
+- Restructured exceptions:
+
+  - All exceptions are now directly available in the pyrfc package (e.g. from pyrfc import LogonException)
+  - RfclibException renamed to `RfcLibException`
+  - All used exceptions (corresponding to RFC error group classes) inherit now from RfcLibException
+    (implication for `LogonException`, `AbapRuntimeException`, `AbapApplicationException`)
+  - Constructor for `RfcLibException` changed (first argument is now message), allowing to raise exceptions manually with
+    only one string value
+  - AbapException deleted.
+  - Added external exceptions (`ExternalRuntimeException`, `ExternalApplicationException`, `ExternalAuthorizationException`)
+
+- restructured and added tests (MRFC and STFC function groups).
+
+  - fixed bugfix implications from rev. 1.8.2. (LogonException does not have code fields now)
+
+- Added examples (sample/): printDescription.py
+
+1.8.2 (2012-04-05)
+------------------
+- bugfix: LogonException now inherits from RfcException instead of
+  RfcLibException so it only needs one message argument.
+
+1.8.1 (2012-02-27)
+------------------
+- (bugfix in removed module) 
+
+1.8 (2012-02-07)
+----------------
+- added strip parameter in `Connection` to rstrip whitespaces in rfc results
+- added resetServerContext
+- fixed bug when dealing with xstring results
+- added __bool__ for easy check if connections is alive
+- release GIL for RfcInvoke and RfcOpenConnection
+
+
+1.7 (2011-12-23)
+----------------
+- wrapped fillVariable into try..except block to
+  enrich exception information
+- Added _pyrfc.connectionInfo (sapnwrfc.RfcGetConnectionAttributes)
+
+
+1.6 (2011-12-12)
+----------------
+- added bcd conversion
+- added performance test
+- added setup.py test suite
+
+
+1.5 (2011-12-05)
+----------------
+- first buildout configuration that works on Linux and Windows
+- rename the C extension to ``_pyrfc`` and importing it
+  at the root of a new "real" Python package ``pyrfc``.
+  This is fully backwards compatible and allows splitting the
+  single module into a C-only part and separate Python modules
+  for bettr maintainability.
+- move pure Python code from the Cython extension module into
+  separate Python modules for maintainability
+
+
+1.4 (2011-11-25)
+----------------
+- start on package documentation
+- re-added support for zero dates
+
+
+1.3 (2011-11-22)
+----------------
+- fixed various buffer length issues
+
+
+1.2 (2011-11-18)
+----------------
+- malloc'ed buffer, never too small
+- type-specific RFCGetters
+
+
+1.1 (2011-11-16)
+----------------
+- your buffer was too small
+
+
+1.0 (2011-11-11)
+----------------
+- first egg release
