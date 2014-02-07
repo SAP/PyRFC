@@ -25,7 +25,8 @@ following the instructions provided in *Download and Documentation* section of t
 A prerequisite to download is having a **customer or partner account** on _SAP Service Marketplace_ and if you
 are SAP employee please check SAP OSS note [1037575 - Software download authorizations for SAP employees](http://service.sap.com/sap/support/notes/1037575).
 
-_SAP NW RFC Library_ is fully backwards compatible, supporting all NetWeaver systems, from today, down to release R/3 4.0. You can therefore always use the newest version and connect to older systems as well.
+_SAP NW RFC Library_ is fully backwards compatible, supporting all NetWeaver systems, from today, down to release R/3 4.0. 
+You can therefore always use the newest version released on Service Marketplace and connect to older systems as well.
 
 
 Usage examples
@@ -90,6 +91,6 @@ Installation & Documentation
 ----------------------------
 
 For further details on connection parameters, _pyrfc_ installation and usage, 
-please refer to [_pyrfc_ documentation](https://github.com/SAP/pages/PyRFC), 
+please refer to [_pyrfc_ documentation](http://sap.github.io/PyRFC), 
 complementing _SAP NW RFC Library_ [programming guide and documentation](http://service.sap.com/rfc-library) 
 provided on SAP Service Marketplace.
