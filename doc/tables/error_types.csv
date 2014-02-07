@@ -1,0 +1,10 @@
+======================= =============================== =========================== ====================
+type (SPJ)              code [numeric] (C)              group (C)                   class (Python)
+======================= =============================== =========================== ====================
+ABAP exception          RFC_ABAP_EXCEPTION [5]          ABAP_APPLICATION_FAILURE    ABAPApplicationError    
+system failure          RFC_ABAP_RUNTIME_FAILURE [3]    ABAP_RUNTIME_FAILURE        ABAPRuntimeError        
+ABAP message            RFC_ABAP_MESSAGE [4]            ABAP_RUNTIME_FAILURE        ABAPRuntimeError        
+communication failure   RFC_COMMUNICATION_FAILURE [1]   COMMUNICATION_FAILURE       CommunicationError      
+-                       RFC_LOGON_FAILURE [2]           LOGON_FAILURE               LogonError              
+======================= =============================== =========================== ====================                                                                                                                      
+     

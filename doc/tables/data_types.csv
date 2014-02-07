@@ -1,0 +1,11 @@
+Type Category        ABAP                      Meaning                      RFC        Python    Remark                                                               
+numeric           I          Integer (whole number)                     INT         int          Internal 1 and 2 byte integers (INT1, INT2) are also mapped to int   
+numeric           F          Floating point number                      FLOAT       float        
+numeric           P          Packed number / BCD number                 BCD         Decimal      
+character         C          Text field (alphanumeric characters)       CHAR        unicode      
+character         D          Date field (Format: YYYYMMDD)              DATE        datetime.date
+character         T          Time field (Format: HHMMSS)                TIME        datetime.time
+character         N          Numeric text field (numeric characters)    NUM         unicode      
+hexadecimal       X          Hexadecimal field                          BYTE        str [bytes]  
+Variable Length   STRING     Dynamic length string                      STRING      unicode      
+Variable Length   XSTRING    Dynamic length hexadecimal string          BYTE        str [bytes]  
