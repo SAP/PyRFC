@@ -58,7 +58,7 @@ Clone the repository
 
   .. code-block:: sh
 
-     git clone https://github.wdf.sap.corp/D037732/pyrfc
+     git clone https://github.com/SAP/PyRFC
 
 Edit ``setup.py`` and set the CYTHON_VERSION
 
@@ -80,7 +80,7 @@ Open the ``GIT Bash`` shell and clone the repository.
 
   .. code-block:: sh
 
-     git clone https://github.wdf.sap.corp/D037732/pyrfc
+     git clone https://github.com/SAP/PyRFC
 
 Open the ``CMD Shell`` from ``Microsoft Windows SDK 7.0`` and change to cloned ``pyrfc`` folder.
 

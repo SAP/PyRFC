@@ -90,6 +90,6 @@ Installation & Documentation
 ----------------------------
 
 For further details on connection parameters, _pyrfc_ installation and usage, 
-please refer to [_pyrfc_ documentation](https://github.wdf.sap.corp/pages/D037732/pyrfc), 
+please refer to [_pyrfc_ documentation](https://github.com/SAP/pages/PyRFC), 
 complementing _SAP NW RFC Library_ [programming guide and documentation](http://service.sap.com/rfc-library) 
 provided on SAP Service Marketplace.
