@@ -1,0 +1,410 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; pyrfc 1.9.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyrfc 1.9.3 documentation" href="index.html" />
+    <link rel="next" title="Client scenario" href="client.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyrfc 1.9.3 documentation</a></div>
+        <div class="rel">
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |
+          <a href="client.html" title="Client scenario"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Python connector is a wrapper for the <em>SAP NetWeaver RFC Library</em> and you need to obtain and install it first.</p>
+<p>If Python is not already installed on your system, you need to download and install Python as well.</p>
+<p>After having <em>SAP NW RFC Library</em> and Python installed on your system, you can download and install one of provided
+<tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> eggs, relevant for your platform and start using <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt>.</p>
+<p>You can also clone this repository and build <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> from the source code, following <a class="reference internal" href="build.html#build"><em>Building from source</em></a>.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#install-c-connector"><em>SAP NW RFC Library Installation</em></a>.</li>
+<li><a class="reference internal" href="#install-python-connector"><em>Python Connector Installation</em></a>.</li>
+</ul>
+<div class="section" id="sap-nw-rfc-library-installation">
+<span id="install-c-connector"></span><h2>SAP NW RFC Library Installation<a class="headerlink" href="#sap-nw-rfc-library-installation" title="Permalink to this headline">¶</a></h2>
+<p>The entry page for <em>SAP NetWeaver RFC library</em> is SAP Service Marketplace (SMP), <a class="reference external" href="http://service.sap.com/rfc-library">http://service.sap.com/rfc-library</a>,
+with detailed instructions how to
+<a class="reference external" href="http://service.sap.com/sap/support/notes/1025361">download</a>,
+<a class="reference external" href="https://websmp103.sap-ag.de/~sapidb/011000358700000869672007.pdf">use</a> and
+<a class="reference external" href="https://websmp103.sap-ag.de/sap/support/notes/1056696">compile</a>.</p>
+<p>Basically, you should search for <tt class="docutils literal"><span class="pre">SAP</span> <span class="pre">NW</span> <span class="pre">RFC</span> <span class="pre">SDK</span> <span class="pre">7.20</span></tt>, in <tt class="docutils literal"><span class="pre">Software</span> <span class="pre">Downloads</span></tt> of SAP Software Download Center
+on <a class="reference external" href="http://service.sap.com/support">SMP Support Portal</a>, download SAP NW RFC Library adequate for your platform
+and Python version combination (see the matrix below) and unpack using <tt class="docutils literal"><span class="pre">SAPCAR</span></tt> archive utility.</p>
+<div class="figure align-center">
+<img alt="_images/SMP-SAPNWRFCSDK.png" src="_images/SMP-SAPNWRFCSDK.png" />
+</div>
+<p><tt class="docutils literal"><span class="pre">SAPCAR</span></tt> can be donwloaded from the SMP as well and you should search for <tt class="docutils literal"><span class="pre">SAPCAR</span> <span class="pre">7.20</span></tt></p>
+<div class="figure align-center">
+<img alt="_images/SMP-SAPCAR.png" src="_images/SMP-SAPCAR.png" />
+</div>
+<p id="install-combination">Which SAP NW RFC Library version is relevant for your platform? Here are platform/Python combinations tested so far:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="15%" />
+<col width="25%" />
+<col width="21%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Platform</th>
+<th class="head">Python version</th>
+<th class="head">NetWeaver RFC Library (SMP)</th>
+<th class="head">Filename (SMP)</th>
+<th class="head">Python egg</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Windows</td>
+<td>Python 2.7 (32bit)</td>
+<td><em>Windows Server on IA32 32bit</em></td>
+<td><tt class="docutils literal"><span class="pre">NWRFC_20-20004566.SAR</span></tt></td>
+<td>pyrfc-1.9.3-py2.7-win32.egg</td>
+</tr>
+<tr class="row-odd"><td>Windows</td>
+<td>Python 2.7 (64bit)</td>
+<td><em>Windows on x64 64bit</em></td>
+<td><tt class="docutils literal"><span class="pre">NWRFC_20-20004568.SAR</span></tt></td>
+<td>pyrfc-1.9.3-py2.7-win-amd64.egg</td>
+</tr>
+<tr class="row-even"><td>Linux</td>
+<td>Python 2.7 (64bit)</td>
+<td><em>Linux on x86_64 64bit</em></td>
+<td><tt class="docutils literal"><span class="pre">NWRFC_20-20004565.SAR</span></tt></td>
+<td>pyrfc-1.9.3-py2.7-linux-x86_64.egg</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><em>SAP NW RFC Library</em> is fully backwards compatible and it is reccomended using
+the newest version also for older backend system releases</li>
+<li>SMP search terms and filenames given here will not be regularly updated,
+you should always search  for current version or filename in <tt class="docutils literal"><span class="pre">Software</span> <span class="pre">Downloads</span></tt>.</li>
+<li>The server functionality is currently not working under Windows 32bit</li>
+</ul>
+</div>
+<p>The Python connector relies on <em>SAP NW RFC Library</em> and must be able to find library
+files at runtime. Therefore, you might either install the <em>SAP NW RFC Library</em>
+in the standard library paths of your system or install it in any location and tell the
+Python connector where to look.</p>
+<p>Here are configuration examples for Windows and Linux operating systems.</p>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Create an directory, e.g. <tt class="docutils literal"><span class="pre">c:\nwrfcsdk</span></tt>.</li>
+<li>Unpack the SAR archive to it, e.g. <tt class="docutils literal"><span class="pre">c:\nwrfcsdk\lib</span></tt> shall exist.</li>
+<li>Include the <tt class="docutils literal"><span class="pre">lib</span></tt> directory to the library search path on Windows, i.e.
+<a class="reference internal" href="#install-problems-envvar-win"><em>extend</em></a> the <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable.</li>
+</ol>
+</div>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Create the directory, e.g. <tt class="docutils literal"><span class="pre">/usr/sap/nwrfcsdk</span></tt>.</p>
+</li>
+<li><p class="first">Unpack the SAR archive to it, e.g. <tt class="docutils literal"><span class="pre">/usr/sap/nwrfcsdk/lib</span></tt> shall exist.</p>
+</li>
+<li><p class="first">Include the <tt class="docutils literal"><span class="pre">lib</span></tt> directory in the library search path:</p>
+<ul>
+<li><p class="first">As <tt class="docutils literal"><span class="pre">root</span></tt>, create a file <tt class="docutils literal"><span class="pre">/etc/ld.so.conf.d/nwrfcsdk.conf</span></tt> and
+enter the following values:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="c"># include nwrfcsdk</span>
+/usr/sap/nwrfcsdk/lib
+</pre></div>
+</div>
+</li>
+<li><p class="first">As <tt class="docutils literal"><span class="pre">root</span></tt>, run the command <tt class="docutils literal"><span class="pre">ldconfig</span></tt>.</p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="python-connector-installation">
+<span id="install-python-connector"></span><h2>Python Connector Installation<a class="headerlink" href="#python-connector-installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Windows<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul id="install-python-win">
+<li><p class="first">If not already installed, you need to instal Python first.</p>
+<p>First, decide whether you want to go with the 32bit or 64bit version and use standard Windows installers</p>
+<p>Python 2.7 (32 bit), <a class="reference external" href="http://www.python.org/ftp/python/2.7.6/python-2.7.6.msi">http://www.python.org/ftp/python/2.7.6/python-2.7.6.msi</a></p>
+<p>Python 2.7 (64 bit) <a class="reference external" href="http://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi">http://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi</a></p>
+<p>Add Python and Scripts directories to <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable, e.g.</p>
+<div class="highlight-none"><div class="highlight"><pre>set PATH=c:\Python27;c:\Python27\Scripts;%PATH%
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install <tt class="docutils literal"><span class="pre">easy_install</span></tt></p>
+<p>Use the <tt class="docutils literal"><span class="pre">distribute</span></tt> implementation of <tt class="docutils literal"><span class="pre">easy_install</span></tt> by downloading
+<a class="reference external" href="http://python-distribute.org/distribute_setup.py">http://python-distribute.org/distribute_setup.py</a> and running</p>
+<div class="highlight-none"><div class="highlight"><pre>python distribute_setup.py
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>At this point you may like to install the <a class="reference external" href="http://pypi.python.org/pypi/pip">pip</a> package which extends
+the functionality of <tt class="docutils literal"><span class="pre">easy_install</span></tt>. However, <tt class="docutils literal"><span class="pre">pip</span></tt> cannot handle binary
+build distributions, which will be used later.</p>
+<p class="last">If you are in a internal network that uses a proxy to access resources from
+the internet, you may encounter <a class="reference internal" href="#install-problems"><em>connection problems</em></a>.</p>
+</div>
+</li>
+<li><p class="first">Virtual environment (optional)</p>
+<p>You may now create an <a class="reference internal" href="#install-virtualenv"><em>virtual environment</em></a>
+and activate it.</p>
+</li>
+<li><p class="first">Install the Python connector</p>
+<p>Open the command prompt with administrator rights, change to the <tt class="docutils literal"><span class="pre">pyrfc\dist</span></tt> directory
+and install adequate <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> egg. You need administrator rights, otherwise <tt class="docutils literal"><span class="pre">easy_install</span></tt>
+will open a new window and close it after execution &#8211; leaving you without the option to see what
+was done or what was the error.</p>
+<div class="highlight-sh"><div class="highlight"><pre>easy_install &lt;egg name&gt;
+</pre></div>
+</div>
+<p>Please look up the correct <a class="reference internal" href="#install-combination"><em>egg name</em></a>
+depending on your platform and Python version.</p>
+</li>
+<li><p class="first">Run <tt class="docutils literal"><span class="pre">python</span></tt> and type <tt class="docutils literal"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></tt>. If this finishes silently, without
+oputput, the installation was successful.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="python-on-linux">
+<h3>Python on Linux<a class="headerlink" href="#python-on-linux" title="Permalink to this headline">¶</a></h3>
+<ul id="install-python-linux">
+<li><p class="first">Install Python 2.7 (64bit, usually the default) via your preferred package manager
+and <tt class="docutils literal"><span class="pre">easy_install</span></tt>.</p>
+</li>
+<li><p class="first">Virtual environment (optional)</p>
+<p>You may now create an <a class="reference internal" href="#install-virtualenv"><em>virtual environment</em></a>
+and activate it.</p>
+</li>
+<li><p class="first">Install the Python connector:</p>
+<div class="highlight-sh"><div class="highlight"><pre>easy_install &lt;egg name&gt;
+</pre></div>
+</div>
+<p>Please look up the correct <a class="reference internal" href="#install-combination"><em>egg name</em></a>
+depending on your platform and Python version.</p>
+</li>
+<li><p class="first">Run <tt class="docutils literal"><span class="pre">python</span></tt>, type <tt class="docutils literal"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></tt> and it it finishes silently, without
+any output, the installation was successful.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="virtual-environments">
+<span id="install-virtualenv"></span><h2>Virtual environments<a class="headerlink" href="#virtual-environments" title="Permalink to this headline">¶</a></h2>
+<p>We recommend using a <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtual environment</a> for the installation. This
+allows you to isolate the Python connector installation from your system wide
+Python installation.</p>
+<p>We will now show the example usage for a Windows user that wants to create
+a virtual environment in <tt class="docutils literal"><span class="pre">C:\PythonVE\py27-pyrfc</span></tt>.</p>
+<ol class="arabic simple">
+<li>Install <tt class="docutils literal"><span class="pre">virtualenv</span></tt> on your system.</li>
+</ol>
+<blockquote>
+<div><div class="highlight-none"><div class="highlight"><pre>C:\&gt;pip virtualenv
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>Open a command prompt and change to a directory where you want to create a virtual
+environment and create a virtual environment.</li>
+</ol>
+<blockquote>
+<div><div class="highlight-none"><div class="highlight"><pre>C:\&gt;cd PythonVE
+C:\PythonVE\&gt;virtualenv --distribute --no-site-packages py27-sapwnrfc2
+</pre></div>
+</div>
+<p>(Since <tt class="docutils literal"><span class="pre">virtualenv</span></tt> version 1.7, the <tt class="docutils literal"><span class="pre">--no-site-packages</span></tt> option is the
+default and can be omitted.)</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Activate the environment via</li>
+</ol>
+<blockquote>
+<div><div class="highlight-none"><div class="highlight"><pre>C:\PythonVE\&gt;cd py27-pyrfc
+C:\PythonVE\py27-pyrfc\&gt;Scripts\activate.bat
+(py27-pyrfc) C:\PythonVE\py27-pyrfc\&gt;
+</pre></div>
+</div>
+<p>(On Linux use <tt class="docutils literal"><span class="pre">source</span> <span class="pre">bin/activate</span></tt>.)</p>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>After working on your project, you leave the virtual environment with</li>
+</ol>
+<blockquote>
+<div><div class="highlight-none"><div class="highlight"><pre>(py27-pyrfc) C:\PythonVE\py27-pyrfc\&gt;deactivate
+C:\PythonVE\py27-pyrfc\&gt;
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="problems">
+<span id="install-problems"></span><h2>Problems<a class="headerlink" href="#problems" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="behind-a-proxy">
+<h3>Behind a Proxy<a class="headerlink" href="#behind-a-proxy" title="Permalink to this headline">¶</a></h3>
+<p>If you are within an internal network that accesses the internet through
+an HTTP(S) proxy, some of the shell commands will fail with urlopen errors, etc.</p>
+<p>Assuming that your HTTP(S) proxy could be accessed via <tt class="docutils literal"><span class="pre">http://proxy:8080</span></tt>, on Windows
+you can communicate this proxy to your shell via:</p>
+<div class="highlight-python"><pre>SET HTTP_PROXY=http://proxy:8080
+SET HTTPS_PROXY=http://proxy:8080</pre>
+</div>
+<p>or permanently set environment variables.</p>
+</div>
+<div class="section" id="id3">
+<h3>SAP NW RFC Library Installation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">The</span> <span class="pre">specified</span> <span class="pre">module</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">found.</span></tt></p>
+<p>(Windows)
+This error indicates that the Python connector was not able to find the
+C connector on your system. Please check, if the <tt class="docutils literal"><span class="pre">lib</span></tt> directory of the
+C connector is in your <tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">%1</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">Win32</span> <span class="pre">application.</span></tt></p>
+<p>(Windows)
+This error occurs when SAP NW RFC Library 64bit version is installed on a system with 32bit version Python.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="environment-variables">
+<h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="install-problems-envvar-win">
+<span id="id4"></span><h4>Windows<a class="headerlink" href="#install-problems-envvar-win" title="Permalink to this headline">¶</a></h4>
+<p>The environment variable may be set within a command prompt via the <tt class="docutils literal"><span class="pre">set</span></tt>
+command, e.g.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">set</span> <span class="pre">PATH=%PATH%;C:\nwrfcsdk\lib</span></tt> (extend PATH with the C connector lib)</li>
+<li><tt class="docutils literal"><span class="pre">set</span> <span class="pre">HTTPS_PROXY=proxy:8080</span></tt> (setting an proxy for HTTPS communication)</li>
+</ul>
+<p>When the command prompt is closed, the environment variable is reset. To achieve
+a persistent change of the environment variable, do the following (Windows 7):</p>
+<ol class="arabic simple">
+<li>Open the Start Menu and type <tt class="docutils literal"><span class="pre">environment</span></tt> into the search box.</li>
+<li>A window opens in which the user variables are displayed in the upper part
+and the system variables in the lower part. You may select and edit
+the desired variable.</li>
+<li>The modified variables are used when a <em>new</em> command prompt is opened.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sap-nw-rfc-library-installation">SAP NW RFC Library Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-connector-installation">Python Connector Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#virtual-environments">Virtual environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problems">Problems</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><tt class="docutils literal"><span class="pre">pyrfc</span></tt></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="intro.html" title="Introduction"
+             >previous</a> |
+          <a href="client.html" title="Client scenario"
+             >next</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+            <br/>
+            <a href="_sources/install.txt"
+               rel="nofollow">Show Source</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2014, SAP.
+      Last updated on 2014-02-04 14:14.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

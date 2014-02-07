@@ -1,0 +1,912 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyrfc &mdash; pyrfc 1.9.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyrfc 1.9.3 documentation" href="index.html" />
+    <link rel="next" title="Change log" href="changelog.html" />
+    <link rel="prev" title="Bibliography" href="bibliography.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyrfc 1.9.3 documentation</a></div>
+        <div class="rel">
+          <a href="bibliography.html" title="Bibliography"
+             accesskey="P">previous</a> |
+          <a href="changelog.html" title="Change log"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pyrfc">
+<h1><tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt><a class="headerlink" href="#pyrfc" title="Permalink to this headline">¶</a></h1>
+<p>The <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> package.</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="section" id="connection">
+<span id="apiconn"></span><h2>Connection<a class="headerlink" href="#connection" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrfc.Connection">
+<em class="property">class </em><tt class="descclassname">pyrfc.</tt><tt class="descname">Connection</tt><a class="headerlink" href="#pyrfc.Connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>A connection to an SAP backend system</p>
+<p>Instantiating an <a class="reference internal" href="#pyrfc.Connection" title="pyrfc.Connection"><tt class="xref py py-class docutils literal"><span class="pre">pyrfc.Connection</span></tt></a> object will
+automatically attempt to open a connection the SAP backend.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> (<em>dict or None (default)</em>) &#8211; <p>Configuration of the instance. Allowed keys are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">rstrip</span></tt></dt>
+<dd>right strips strings returned from RFC call (default is True)</dd>
+<dt><tt class="docutils literal"><span class="pre">return_import_params</span></tt></dt>
+<dd>importing parameters are returned by the RFC call (default is False)</dd>
+</dl>
+</li>
+<li><strong>params</strong> (<em>Keyword parameters</em>) &#8211; <p>SAP connection parameters. The parameters consist of
+<tt class="docutils literal"><span class="pre">client</span></tt>, <tt class="docutils literal"><span class="pre">user</span></tt>, <tt class="docutils literal"><span class="pre">passwd</span></tt>, <tt class="docutils literal"><span class="pre">lang</span></tt>, <tt class="docutils literal"><span class="pre">trace</span></tt>
+and additionally one of</p>
+<ul>
+<li>Direct application server logon: <tt class="docutils literal"><span class="pre">ashost</span></tt>, <tt class="docutils literal"><span class="pre">sysnr</span></tt>.</li>
+<li>Logon with load balancing: <tt class="docutils literal"><span class="pre">mshost</span></tt>, <tt class="docutils literal"><span class="pre">msserv</span></tt>, <tt class="docutils literal"><span class="pre">sysid</span></tt>,
+<tt class="docutils literal"><span class="pre">group</span></tt>.
+<tt class="docutils literal"><span class="pre">msserv</span></tt> is needed only, if the service of the message server
+is not defined as sapms&lt;SYSID&gt; in /etc/services.</li>
+<li>When logging on with SNC, <tt class="docutils literal"><span class="pre">user</span></tt> and <tt class="docutils literal"><span class="pre">passwd</span></tt> are to be replaced by
+<tt class="docutils literal"><span class="pre">snc_qop</span></tt>, <tt class="docutils literal"><span class="pre">snc_myname</span></tt>, <tt class="docutils literal"><span class="pre">snc_partnername</span></tt>, and optionally
+<tt class="docutils literal"><span class="pre">snc_lib</span></tt>.
+(If <tt class="docutils literal"><span class="pre">snc_lib</span></tt> is not specified, the RFC library uses the &#8220;global&#8221; GSS library
+defined via environment variable SNC_LIB.)</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the connection attempt fails.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="pyrfc.Connection.rstrip">
+<tt class="descname">rstrip</tt><em class="property"> None</em><a class="headerlink" href="#pyrfc.Connection.rstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, returned strings from <a class="reference internal" href="#pyrfc.Connection.call" title="pyrfc.Connection.call"><tt class="xref py py-meth docutils literal"><span class="pre">call()</span></tt></a> are right stripped.
+For details see <a class="reference internal" href="client.html#client-connectionconfig-rstrip"><em>rstrip</em></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrfc.Connection.return_import_params">
+<tt class="descname">return_import_params</tt><em class="property"> None</em><a class="headerlink" href="#pyrfc.Connection.return_import_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, <a class="reference internal" href="#pyrfc.Connection.call" title="pyrfc.Connection.call"><tt class="xref py py-meth docutils literal"><span class="pre">call()</span></tt></a> also returns parameters of type IMPORT.
+For details see <a class="reference internal" href="client.html#client-connectionconfig-returnimportparams"><em>return_import_params</em></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.call">
+<tt class="descname">call</tt><big>(</big><em>func_name</em>, <em>params</em><big>)</big><a class="headerlink" href="#pyrfc.Connection.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invokes a remote-enabled function module via RFC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>func_name</strong> (<em>string</em>) &#8211; Name of the function module that will be invoked.</li>
+<li><strong>params</strong> (<em>keyword arguments</em>) &#8211; Parameter of the function module. All non optional
+IMPORT, CHANGING, and TABLE parameters must be provided.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Dictionary with all EXPORT, CHANGING, and TABLE parameters.
+The IMPORT parameters are also given, if <a class="reference internal" href="#pyrfc.Connection.return_import_params" title="pyrfc.Connection.return_import_params"><tt class="xref py py-attr docutils literal"><span class="pre">Connection.return_import_params</span></tt></a>
+is set to <tt class="docutils literal"><span class="pre">True</span></tt>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the RFC call fails.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#pyrfc.Connection.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explicitly close the connection.</p>
+<p>Note that this is usually not necessary as the connection will be closed
+automatically upon object destruction. However, if the the object destruction
+is delayed by the garbage collection, problems may occur when too many
+connections are opened.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.confirm_unit">
+<tt class="descname">confirm_unit</tt><big>(</big><em>unit</em><big>)</big><a class="headerlink" href="#pyrfc.Connection.confirm_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confirm the current unit in the backend.</p>
+<p>This also destroys the unit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unit</strong> &#8211; a unit descriptor as returned by
+<a class="reference internal" href="#pyrfc.Connection.initialize_unit" title="pyrfc.Connection.initialize_unit"><tt class="xref py py-meth docutils literal"><span class="pre">initialize_unit()</span></tt></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the connection attempt fails.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.destroy_unit">
+<tt class="descname">destroy_unit</tt><big>(</big><em>unit</em><big>)</big><a class="headerlink" href="#pyrfc.Connection.destroy_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroy the current unit.</p>
+<p>E.g. if the completed unit could not be recorded in the frontend.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unit</strong> &#8211; a unit descriptor as returned by
+<a class="reference internal" href="#pyrfc.Connection.initialize_unit" title="pyrfc.Connection.initialize_unit"><tt class="xref py py-meth docutils literal"><span class="pre">initialize_unit()</span></tt></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the connection attempt fails.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.fill_and_submit_unit">
+<tt class="descname">fill_and_submit_unit</tt><big>(</big><em>unit</em>, <em>calls</em><span class="optional">[</span>, <em>queue_names=None</em><span class="optional">[</span>, <em>attributes=None</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#pyrfc.Connection.fill_and_submit_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fills a unit with one or more RFC and submits it to the backend.</p>
+<p>Fills a unit for this connection, prepare the invocation
+of multiple RFC function modules in it, and submits the unit
+to the backend.</p>
+<p>Afterwards, the unit is still attached to the connection object,
+until confirm_unit() or destroy_unit() is called. Until one of these
+methods are called, no other unit could be filled and submitted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>unit</strong> &#8211; a unit descriptor as returned by
+<a class="reference internal" href="#pyrfc.Connection.initialize_unit" title="pyrfc.Connection.initialize_unit"><tt class="xref py py-meth docutils literal"><span class="pre">initialize_unit()</span></tt></a>.</li>
+<li><strong>calls</strong> &#8211; a list of call descriptions. Each call description is a
+tuple that contains the function name as the first element and
+the function arguments in form of a dictionary as the second element.</li>
+<li><strong>queue_names</strong> (<em>list of strings or None (default)</em>) &#8211; <p>If the unit uses the background protocol, various queue names can
+be given (leading to a asynchronous unit, type &#8216;Q&#8217;). If parameter
+is an empty list or None, a synchronous unit (type &#8216;T&#8217;) is created.</p>
+<p>If the unit does not use the background protocol, the queue name
+may be a list with exactly one element, leading to a qRFC, or
+an empty list or None, leading to a tRFC.</p>
+</li>
+<li><strong>attributes</strong> (<em>dict or None (default)</em>) &#8211; <p>optional argument for attributes of the unit &#8211; only valid if the background protocol
+is used. The attributes dict may contain the following keywords:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="18%" />
+<col width="15%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">keyword</th>
+<th class="head">default</th>
+<th class="head">type</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>kernel_trace</td>
+<td>0</td>
+<td>int</td>
+<td>If != 0, the backend will write kernel traces, while executing this unit.</td>
+</tr>
+<tr class="row-odd"><td>sat_trace</td>
+<td>0</td>
+<td>int</td>
+<td>If != 0, the backend will write statistic records, while executing this unit.</td>
+</tr>
+<tr class="row-even"><td>unit_history</td>
+<td>0</td>
+<td>int</td>
+<td>If != 0, the backend will keep a &#8220;history&#8221; for this unit.</td>
+</tr>
+<tr class="row-odd"><td>lock</td>
+<td>0</td>
+<td>int</td>
+<td>Used only for type Q: If != 0, the unit will be written to the queue, but not processed.
+The unit can then be started manually in the ABAP debugger.</td>
+</tr>
+<tr class="row-even"><td>no_commit_check</td>
+<td>0</td>
+<td>int</td>
+<td>Per default the backend will check during execution of a unit, whether one of the
+unit&#8217;s function modules triggers an explicit or implicit COMMITWORK.
+In this case the unit is aborted with an error, because the transactional integrity of
+this unit cannot be guaranteed. By setting &#8220;no_commit_check&#8221; to true (!=0), this behavior
+can be suppressed, meaning the unit will be executed anyway, even if one of it&#8217;s
+function modules &#8220;misbehaves&#8221; and triggers a COMMIT WORK.</td>
+</tr>
+<tr class="row-odd"><td>user</td>
+<td>current operating system user</td>
+<td>String, len&nbsp;12</td>
+<td>Sender User (optional).</td>
+</tr>
+<tr class="row-even"><td>client</td>
+<td>&#8220;000&#8221;</td>
+<td>String, len&nbsp;3</td>
+<td>Sender Client (&#8220;Mandant&#8221;) (optional).</td>
+</tr>
+<tr class="row-odd"><td>t_code</td>
+<td>&#8220;&#8221;</td>
+<td>String, len&nbsp;20</td>
+<td>Sender Transaction Code (optional).</td>
+</tr>
+<tr class="row-even"><td>program</td>
+<td>current executable name</td>
+<td>String, len&nbsp;40</td>
+<td>Sender Program (optional).</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass thereof if an error
+occurred. In this case, the unit is destroyed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.get_connection_attributes">
+<tt class="descname">get_connection_attributes</tt><big>(</big><big>)</big><a class="headerlink" href="#pyrfc.Connection.get_connection_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get connection details</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Mapping of connection information keys:<blockquote>
+<div><ul class="simple">
+<li>active_unit: True if there is a filled and submitted unit w/o being confirmed or destroyed.</li>
+<li>dest: RFC destination</li>
+<li>host: Own host name</li>
+<li>partnerHost: Partner host name</li>
+<li>sysNumber: R/3 system number</li>
+<li>sysId: R/3 system ID</li>
+<li>client: Client (&#8220;Mandant&#8221;)</li>
+<li>user: User</li>
+<li>language: Language</li>
+<li>trace: Trace level (0-3)</li>
+<li>isoLanguage: 2-byte ISO-Language</li>
+<li>codepage: Own code page</li>
+<li>partnerCodepage: Partner code page</li>
+<li>rfcRole: C/S: RFC Client / RFC Server</li>
+<li>type: 2/3/E/R: R/2,R/3,Ext,Reg.Ext</li>
+<li>partnerType: 2/3/E/R: R/2,R/3,Ext,Reg.Ext</li>
+<li>rel: My system release</li>
+<li>partnerRe: Partner system release</li>
+<li>kernelRel: Partner kernel release</li>
+<li>cpicConvId: CPI-C Conversation ID</li>
+<li>progName: Name calling APAB program (report, module pool)</li>
+<li>partnerBytesPerChar: Bytes per char in backend codepage.</li>
+<li>partnerSystemCodepage: Partner system code page</li>
+<li>reserved: Reserved for later use</li>
+</ul>
+</div></blockquote>
+<p>Note: all values, except <tt class="docutils literal"><span class="pre">active_unit</span></tt> are right stripped
+string values.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the RFC call fails.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.get_function_description">
+<tt class="descname">get_function_description</tt><big>(</big><em>func_name</em><big>)</big><a class="headerlink" href="#pyrfc.Connection.get_function_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a function description of a function module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>func_name</strong> (<em>string</em>) &#8211; Name of the function module whose description
+will be returned.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <a class="reference internal" href="#pyrfc.FunctionDescription" title="pyrfc.FunctionDescription"><tt class="xref py py-class docutils literal"><span class="pre">FunctionDescription</span></tt></a> object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.get_unit_state">
+<tt class="descname">get_unit_state</tt><big>(</big><em>unit</em><big>)</big><a class="headerlink" href="#pyrfc.Connection.get_unit_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the processing status of the given background unit.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only available for background units.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unit</strong> &#8211; a unit descriptor as returned by
+<a class="reference internal" href="#pyrfc.Connection.initialize_unit" title="pyrfc.Connection.initialize_unit"><tt class="xref py py-meth docutils literal"><span class="pre">initialize_unit()</span></tt></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The state of the current bgRFC unit. Possible values are:
+RFC_UNIT_NOT_FOUND
+RFC_UNIT_IN_PROCESS
+RFC_UNIT_COMMITTED
+RFC_UNIT_ROLLED_BACK
+RFC_UNIT_CONFIRMED</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.initialize_unit">
+<tt class="descname">initialize_unit</tt><big>(</big><span class="optional">[</span><em>background=True</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#pyrfc.Connection.initialize_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes a logical unit of work (LUW), shorthand: unit</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The background protocol (bgRFC) is not working in the current version.
+Please use only tRFC/qRFC protocols.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>background</strong> (<em>boolean</em>) &#8211; The bgRFC protocol will be used. If set to False,
+the t/qRFC protocol will be used. Note that the bgRFC protocol
+has extended functionality. Default: True</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary describing the unit.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.ping">
+<tt class="descname">ping</tt><big>(</big><big>)</big><a class="headerlink" href="#pyrfc.Connection.ping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a RFC Ping through the current connection</p>
+<p>Returns nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the RFC Ping fails.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Connection.reset_server_context">
+<tt class="descname">reset_server_context</tt><big>(</big><big>)</big><a class="headerlink" href="#pyrfc.Connection.reset_server_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the SAP server context (&#8220;user context / ABAP session context&#8221;)
+associated with the given client connection, but does not close the connection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof in case resetting the server context fails.
+(Better close the connection in that case.).
+<tt class="xref py py-exc docutils literal"><span class="pre">sapnwrf2.CommunicationError</span></tt> if no conversion
+was found for the</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="server">
+<span id="apiserv"></span><h2>Server<a class="headerlink" href="#server" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrfc.Server">
+<em class="property">class </em><tt class="descclassname">pyrfc.</tt><tt class="descname">Server</tt><a class="headerlink" href="#pyrfc.Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>An SAP server</p>
+<p>An instance of <a class="reference internal" href="#pyrfc.Server" title="pyrfc.Server"><tt class="xref py py-class docutils literal"><span class="pre">Server</span></tt></a> allows for installing
+Python callback functions and serve requests from SAP systems.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> (<em>dict or None (default)</em>) &#8211; <p>Configuration of the instance. Allowed keys are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">rstrip</span></tt></dt>
+<dd>right strips strings passed to Python callback
+functions. (default is True)</dd>
+<dt><tt class="docutils literal"><span class="pre">debug</span></tt></dt>
+<dd>For testing/debugging operations. If True, the server
+behaves more permissive, e.g. allows incoming calls without a
+valid connection handle. (default is False)</dd>
+</dl>
+</li>
+<li><strong>params</strong> (<em>Keyword parameters</em>) &#8211; Parameters for registering the server.
+The parameters may contain the following keywords:
+<tt class="docutils literal"><span class="pre">GWHOST</span></tt>, <tt class="docutils literal"><span class="pre">GWSERV</span></tt>, <tt class="docutils literal"><span class="pre">PROGRAM_ID</span></tt>, <tt class="docutils literal"><span class="pre">TRACE</span></tt>,
+and <tt class="docutils literal"><span class="pre">SAPROUTER</span></tt>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the connection attempt fails.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="pyrfc.Server.rstrip">
+<tt class="descname">rstrip</tt><em class="property"> None</em><a class="headerlink" href="#pyrfc.Server.rstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, strings passed to the callback functions are right stripped.
+For details see <a class="reference internal" href="server.html#server-config-rstrip"><em>rstrip</em></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrfc.Server.debug">
+<tt class="descname">debug</tt><em class="property"> None</em><a class="headerlink" href="#pyrfc.Server.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, the server behaves more permissive, e.g. allows incoming calls without a valid connection handle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Server.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#pyrfc.Server.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explicitly close the registration.</p>
+<p>Note that this is usually not necessary as the registration will be closed
+automatically upon object destruction. However, if the the object destruction
+is delayed by the garbage collection, problems may occur when too many
+servers are registered.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Server.install_function">
+<tt class="descname">install_function</tt><big>(</big><em>func_name</em>, <em>callback</em><big>)</big><a class="headerlink" href="#pyrfc.Server.install_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Installs a function in the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>func_desc</strong> &#8211; A function description object of
+<a class="reference internal" href="#pyrfc.FunctionDescription" title="pyrfc.FunctionDescription"><tt class="xref py py-class docutils literal"><span class="pre">FunctionDescription</span></tt></a></li>
+<li><strong>callback</strong> &#8211; A callback function that implements the logic.
+The function must accept a <tt class="docutils literal"><span class="pre">request_context</span></tt> parameter and
+all IMPORT, CHANGING, and TABLE parameters of the given
+<tt class="docutils literal"><span class="pre">func_desc</span></tt>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt> if a function with the name given is already
+installed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrfc.Server.serve">
+<tt class="descname">serve</tt><big>(</big><em>timeout</em><big>)</big><a class="headerlink" href="#pyrfc.Server.serve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves for a given timeout.</p>
+<p>Note: internally this function installs a generic server function
+and registers the server at the gateway (if required).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout</strong> &#8211; Number of seconds to serve or None (default) for no timeout.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><tt class="xref py py-exc docutils literal"><span class="pre">RFCError</span></tt></a> or a subclass
+thereof if the installation or the registration attempt fails.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="functiondescription">
+<span id="apifuncdesc"></span><h2>FunctionDescription<a class="headerlink" href="#functiondescription" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Actually, the FunctionDescription class does not support exceptions.</p>
+</div>
+<dl class="class">
+<dt id="pyrfc.FunctionDescription">
+<em class="property">class </em><tt class="descclassname">pyrfc.</tt><tt class="descname">FunctionDescription</tt><a class="headerlink" href="#pyrfc.FunctionDescription" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function description</p>
+<p>This class wraps the RFC_FUNCTION_DESC_HANDLE as e.g. returned by
+RfcGetFunctionDesc() and used for server functionality.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Actually, the function description does not support exceptions
+(cf. RfcAddException() etc.)</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; Name of the function.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Attributes and methods</em></p>
+<dl class="docutils">
+<dt><strong>name</strong></dt>
+<dd>The name of the function.</dd>
+<dt><strong>parameters</strong></dt>
+<dd>The parameters as a list of dicts.</dd>
+</dl>
+<dl class="method">
+<dt id="pyrfc.FunctionDescription.add_parameter">
+<tt class="descname">add_parameter</tt><big>(</big><em>name</em>, <em>parameter_type</em>, <em>direction</em>, <em>nuc_length</em>, <em>uc_length</em><span class="optional">[</span>, <em>decimals=0</em><span class="optional">[</span>, <em>default_value=&quot;&quot;</em><span class="optional">[</span>, <em>parameter_text=&quot;&quot;</em><span class="optional">[</span>, <em>optional=False</em><span class="optional">[</span>, <em>type_description=None</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#pyrfc.FunctionDescription.add_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a parameter to the function description.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>string (30)</em>) &#8211; Parameter name</li>
+<li><strong>parameter_type</strong> (<em>string</em>) &#8211; Type of the parameter</li>
+<li><strong>direction</strong> (<em>string</em>) &#8211; Direction (RFC_IMPORT, RFC_EXPORT, RFC_CHANGING, RFC_TABLES)</li>
+<li><strong>nuc_length</strong> (<em>int</em>) &#8211; NUC length</li>
+<li><strong>uc_length</strong> (<em>int</em>) &#8211; UC length</li>
+<li><strong>decimals</strong> (<em>int</em>) &#8211; Decimals (default=0)</li>
+<li><strong>default_value</strong> (<em>string (30)</em>) &#8211; Default value (default=&#8221;&#8221;)</li>
+<li><strong>parameter_text</strong> (<em>string (79)</em>) &#8211; Parameter text (default=&#8221;&#8221;)</li>
+<li><strong>optional</strong> (<em>bool</em>) &#8211; Is the parameter optional (default=False)</li>
+<li><strong>type_description</strong> (<em>object of class TypeDescription</em>) &#8211; An object of class TypeDescription or None (default=None)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="typedescription">
+<span id="apitypedesc"></span><h2>TypeDescription<a class="headerlink" href="#typedescription" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrfc.TypeDescription">
+<em class="property">class </em><tt class="descclassname">pyrfc.</tt><tt class="descname">TypeDescription</tt><a class="headerlink" href="#pyrfc.TypeDescription" title="Permalink to this definition">¶</a></dt>
+<dd><p>A type description</p>
+<p>This class wraps the RFC_TYPE_DESC_HANDLE as e.g. contained in
+a parameter description of a function description.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; Name of the type.</li>
+<li><strong>nuc_length</strong> &#8211; Length of the type in non unicode systems.</li>
+<li><strong>uc_length</strong> &#8211; Length of the type in unicode systems.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Attributes and methods</em></p>
+<dl class="docutils">
+<dt><strong>name</strong></dt>
+<dd>The name of the function.</dd>
+<dt><strong>nuc_length</strong></dt>
+<dd>The length in bytes if chars are non unicode.</dd>
+<dt><strong>uc_length</strong></dt>
+<dd>The length in bytes if chars are unicode.</dd>
+<dt><strong>fields</strong></dt>
+<dd>The fields as a list of dicts.</dd>
+</dl>
+<dl class="method">
+<dt id="pyrfc.TypeDescription.add_field">
+<tt class="descname">add_field</tt><big>(</big><em>name</em>, <em>field_type</em>, <em>nuc_length</em>, <em>uc_length</em>, <em>nuc_offset</em>, <em>uc_offset</em><span class="optional">[</span>, <em>decimals=0</em><span class="optional">[</span>, <em>type_description=None</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#pyrfc.TypeDescription.add_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a field to the type description.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>string (30)</em>) &#8211; Field name</li>
+<li><strong>field_type</strong> (<em>string</em>) &#8211; Type of the field</li>
+<li><strong>nuc_length</strong> (<em>int</em>) &#8211; NUC length</li>
+<li><strong>uc_length</strong> (<em>int</em>) &#8211; UC length</li>
+<li><strong>nuc_offset</strong> (<em>int</em>) &#8211; NUC offset.</li>
+<li><strong>uc_offset</strong> (<em>int</em>) &#8211; UC offset.</li>
+<li><strong>decimals</strong> (<em>int</em>) &#8211; Decimals (default=0)</li>
+<li><strong>type_description</strong> (<em>object of class TypeDescription</em>) &#8211; An object of class TypeDescription or None (default=None)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="errors">
+<span id="apierr"></span><h2>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h2>
+<p>If a problem occurs in the Python connector or in an underlying component (e.g.
+C connector, SAP system, ABAP code, ...), an exception is raised. The class
+of the exception indicates where the problem occurred.</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">RFCError</span></tt>: This error is raised, if a problem occurred in the Python
+connector.</li>
+<li><tt class="docutils literal"><span class="pre">RFCLibError</span></tt>: This error is raised, if a problem occurred in the C
+connector.</li>
+<li>All other errors represent errors with the RFC call to the SAP backend
+system. For these errors, the errorInfo struct of the C connector is wrapped,
+e.g. for a given exception <tt class="docutils literal"><span class="pre">e</span></tt>, the error code is available in <tt class="docutils literal"><span class="pre">e.code</span></tt>.
+The class of the error depends on the group of the error.</li>
+</ol>
+<a class="reference internal image-reference" href="_images/exceptions.png" id="inheritance-of-errors"><img alt="Inheritance of errors: Exception-&gt;RFCError-&gt;RFCLibError-&gt;specific errors" class="align-center" id="inheritance-of-errors" src="_images/exceptions.png" style="width: 445.5px; height: 532.8px;" /></a>
+<dl class="exception">
+<dt id="pyrfc.RFCError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">RFCError</tt><a class="headerlink" href="#pyrfc.RFCError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception base class</p>
+<p>Indicates that there was an error in the Python connector.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.RFCLibError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">RFCLibError</tt><big>(</big><em>message=None</em>, <em>code=None</em>, <em>key=None</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.RFCLibError" title="Permalink to this definition">¶</a></dt>
+<dd><p>RFC library error</p>
+<p>Base class for exceptions raised by the local underlying C connector (sapnwrfc.c).</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.LogonError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">LogonError</tt><big>(</big><em>message=None</em>, <em>code=2</em>, <em>key=u'RFC_LOGON_FAILURE'</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.LogonError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logon error</p>
+<p>This exception is raised if a RFC call returns an RC code greater than 0 and
+the error object has an RFC_ERROR_GROUP value of
+LOGON_FAILURE.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.CommunicationError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">CommunicationError</tt><big>(</big><em>message=None</em>, <em>code=None</em>, <em>key=None</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.CommunicationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Communication error</p>
+<p>This exception is raised if a RFC call returns an RC code greater than 0 and
+the error object has an RFC_ERROR_GROUP value of
+COMMUNICATION_FAILURE.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.ABAPApplicationError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">ABAPApplicationError</tt><big>(</big><em>message=None</em>, <em>code=None</em>, <em>key=None</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.ABAPApplicationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>ABAP application error</p>
+<p>This exception is raised if a RFC call returns an RC code greater than 0 and
+the error object has an RFC_ERROR_GROUP value of
+ABAP_APPLICATION_FAILURE.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.ABAPRuntimeError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">ABAPRuntimeError</tt><big>(</big><em>message=None</em>, <em>code=None</em>, <em>key=None</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.ABAPRuntimeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>ABAP runtime error</p>
+<p>This exception is raised if a RFC call returns an RC code greater than 0 and
+the error object has an RFC_ERROR_GROUP value of
+ABAP_RUNTIME_FAILURE.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.ExternalAuthorizationError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">ExternalAuthorizationError</tt><big>(</big><em>message=None</em>, <em>code=None</em>, <em>key=None</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.ExternalAuthorizationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>External authorization error</p>
+<p>This exception is raised if a RFC call returns an RC code greater than 0 and
+the error object has an RFC_ERROR_GROUP value of
+EXTERNAL_AUTHORIZATION_FAILURE.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.ExternalRuntimeError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">ExternalRuntimeError</tt><big>(</big><em>message=None</em>, <em>code=None</em>, <em>key=None</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.ExternalRuntimeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>External runtime error</p>
+<p>This exception is raised if a RFC call returns an RC code greater than 0 and
+the error object has an RFC_ERROR_GROUP value of
+EXTERNAL_RUNTIME_FAILURE.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrfc.ExternalApplicationError">
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">ExternalApplicationError</tt><big>(</big><em>message=None</em>, <em>code=None</em>, <em>key=None</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.ExternalApplicationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>External application error</p>
+<p>This exception is raised if a RFC call returns an RC code greater than 0 and
+the error object has an RFC_ERROR_GROUP value of
+EXTERNAL_APPLICATION_FAILURE.</p>
+</dd></dl>
+
+<div class="section" id="error-types-codes-groups-and-classes">
+<span id="error-types"></span><h3>Error types, codes, groups, and classes<a class="headerlink" href="#error-types-codes-groups-and-classes" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="bibliography.html#c09a"><em>Schmidt and Li (2009a)</em></a> describe four possible <em>error types</em> on
+the basis of the return code (i.e. <em>error code</em>) of a RFM invocation:</p>
+<ul class="simple">
+<li>ABAP exception,</li>
+<li>system failure,</li>
+<li>ABAP messages, and</li>
+<li>communication failure.</li>
+</ul>
+<p>However, there are in total roughly 30 possible return codes that indicate some
+kind of error. As each error information struct provides an
+<em>error group</em> information with seven possible groups,
+which was taken as the basis for the exception <em>classes</em>.</p>
+<p>The following table should facilitate the matching between the different
+error representations.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="31%" />
+<col width="27%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">type (SPJ)</th>
+<th class="head">code [numeric] (C)</th>
+<th class="head">group (C)</th>
+<th class="head">class (Python)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ABAP exception</td>
+<td>RFC_ABAP_EXCEPTION [5]</td>
+<td>ABAP_APPLICATION_FAILURE</td>
+<td>ABAPApplicationError</td>
+</tr>
+<tr class="row-odd"><td>system failure</td>
+<td>RFC_ABAP_RUNTIME_FAILURE [3]</td>
+<td>ABAP_RUNTIME_FAILURE</td>
+<td>ABAPRuntimeError</td>
+</tr>
+<tr class="row-even"><td>ABAP message</td>
+<td>RFC_ABAP_MESSAGE [4]</td>
+<td>ABAP_RUNTIME_FAILURE</td>
+<td>ABAPRuntimeError</td>
+</tr>
+<tr class="row-odd"><td>communication failure</td>
+<td>RFC_COMMUNICATION_FAILURE [1]</td>
+<td>COMMUNICATION_FAILURE</td>
+<td>CommunicationError</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>RFC_LOGON_FAILURE [2]</td>
+<td>LOGON_FAILURE</td>
+<td>LogonError</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href=""><tt class="docutils literal"><span class="pre">pyrfc</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#connection">Connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#server">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functiondescription">FunctionDescription</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#typedescription">TypeDescription</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#errors">Errors</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="bibliography.html" title="Bibliography"
+             >previous</a> |
+          <a href="changelog.html" title="Change log"
+             >next</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+            <br/>
+            <a href="_sources/pyrfc.txt"
+               rel="nofollow">Show Source</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2014, SAP.
+      Last updated on 2014-02-04 13:28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
