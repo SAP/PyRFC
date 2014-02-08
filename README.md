@@ -20,7 +20,7 @@ Python 3 is currently not supported and using Python 2.7 is therefore recommende
 OS X and ARM platforms are currently not supported either, as _SAP NW RFC Library_ is not available for those platforms.
 
 To start using _pyrfc_ you need to obtain _SAP NW RFC Library_ from _SAP Service Marketplace_,
-following the instructions provided in *Download and Documentation* section of the _SAP NW RFC Library_ page http://service.sap.com/rfc-library.
+following [these instructions](http://sap.github.io/PyRFC/install.html#install-c-connector).
 
 A prerequisite to download is having a **customer or partner account** on _SAP Service Marketplace_ and if you
 are SAP employee please check SAP OSS note [1037575 - Software download authorizations for SAP employees](http://service.sap.com/sap/support/notes/1037575).
