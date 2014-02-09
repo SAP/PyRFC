@@ -13,9 +13,6 @@ After having *SAP NW RFC Library* and Python installed on your system, you can d
 
 You can also clone this repository and build :mod:`pyrfc` from the source code, following :ref:`build`.
 
-* :ref:`install-c-connector`.
-* :ref:`install-python-connector`.
-
 .. _install-c-connector:
 
 SAP NW RFC Library Installation
