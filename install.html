@@ -58,10 +58,6 @@
 <p>After having <em>SAP NW RFC Library</em> and Python installed on your system, you can download and install one of provided
 <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> eggs, relevant for your platform and start using <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt>.</p>
 <p>You can also clone this repository and build <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> from the source code, following <a class="reference internal" href="build.html#build"><em>Building from source</em></a>.</p>
-<ul class="simple">
-<li><a class="reference internal" href="#install-c-connector"><em>SAP NW RFC Library Installation</em></a>.</li>
-<li><a class="reference internal" href="#install-python-connector"><em>Python Connector Installation</em></a>.</li>
-</ul>
 <div class="section" id="sap-nw-rfc-library-installation">
 <span id="install-c-connector"></span><h2>SAP NW RFC Library Installation<a class="headerlink" href="#sap-nw-rfc-library-installation" title="Permalink to this headline">¶</a></h2>
 <p>The entry page for <em>SAP NetWeaver RFC library</em> is SAP Service Marketplace (SMP), <a class="reference external" href="http://service.sap.com/rfc-library">http://service.sap.com/rfc-library</a>,
@@ -292,8 +288,9 @@ C:\PythonVE\py27-pyrfc\&gt;
 an HTTP(S) proxy, some of the shell commands will fail with urlopen errors, etc.</p>
 <p>Assuming that your HTTP(S) proxy could be accessed via <tt class="docutils literal"><span class="pre">http://proxy:8080</span></tt>, on Windows
 you can communicate this proxy to your shell via:</p>
-<div class="highlight-python"><pre>SET HTTP_PROXY=http://proxy:8080
-SET HTTPS_PROXY=http://proxy:8080</pre>
+<div class="highlight-python"><div class="highlight"><pre>SET HTTP_PROXY=http://proxy:8080
+SET HTTPS_PROXY=http://proxy:8080
+</pre></div>
 </div>
 <p>or permanently set environment variables.</p>
 </div>
@@ -398,8 +395,8 @@ the desired variable.</li>
           
     <div class="footer">
         &copy; Copyright 2014, SAP.
-      Last updated on 2014-02-04 14:14.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+      Last updated on 2014-02-09 20:32.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
         </div>
         <div class="clearer"></div>
