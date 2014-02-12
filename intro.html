@@ -53,8 +53,18 @@
             
   <div class="section" id="introduction">
 <span id="intro"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>The <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> Python package provides a comfortable way for interacting with SAP programming language ABAP, via SAP RFC protocol.
-For readability, we will use the common term <em>Python connector</em>, as a synonym for the <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> package.</p>
+<p>The Python connector (a synonym for the <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> package) wraps the existing <em>SAP NW RFC Library</em>,
+often colloquially called <em>SAP C connector</em> or <em>SAP NW RFC SDK</em>. To start using <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt>
+and similar connectors effectively, we highly recommend reading a series of insightful articles
+about RFC communication and <em>SAP NW RFC Library</em>, published in the SAP Professional Journal (SPJ),
+in 2009, by Ulrich Schmidt and Guangwei Li: <em>Improve communication between your C/C++ applications
+and SAP systems with SAP NetWeaver RFC SDK</em>
+<a class="reference external" href="http://www.sdn.sap.com/irj/sdn/index?overridelayout=true&amp;rid=/library/uuid/302f1a30-f4cb-2c10-e985-c8a280a96e43">Part 1: RFC client programs</a>,
+<a class="reference external" href="http://www.sdn.sap.com/irj/scn/go/portal/prtroot/docs/library/uuid/b02b0719-4ccc-2c10-71ab-fe31483e466f">Part 2: RFC server programs</a>,
+<a class="reference external" href="http://www.sdn.sap.com/irj/sdn/go/portal/prtroot/docs/library/uuid/5070f62a-6acd-2c10-8cb5-858ef06adbb9">Part 3: Advanced topics</a>.</p>
+<p>The lecture of these articles and <a class="reference external" href="http://help.sap.com/saphelp_nw73ehp1/helpdata/en/48/a88c805134307de10000000a42189b/content.htm?frameset=/en/48/a994a77e28674be10000000a421937/frameset.htm">NW RFC SDK Guide (SAP Help)</a>
+are recommended as an introduction into RFC communication and programming, while <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> documentation is
+focused merely on technical aspects of <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> API.</p>
 <div class="section" id="example-usage">
 <h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
 <p>In order to call remote enabled ABAP function module, we need to open a connection with
@@ -78,19 +88,6 @@ or use the connection as a context manager:</p>
 <span class="c"># connection automatically closed here</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="background">
-<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
-<p>The Python connector wraps the existing <em>SAP NW RFC Library</em> (often colloquially called <em>SAP C connector</em>, <em>SAP NW RFC SDK</em> ...).
-To start using <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> effectively we highly recommend reading a series of insightful articles about RFC communication
-and <em>SAP NW RFC Library</em>, published in the SAP Professional Journal (SPJ), in 2009, by Ulrich Schmidt and Guangwei Li:
-<em>Improve communication between your C/C++ applications and SAP systems with SAP NetWeaver RFC SDK</em>,
-<a class="reference external" href="http://www.sdn.sap.com/irj/sdn/index?overridelayout=true&amp;rid=/library/uuid/302f1a30-f4cb-2c10-e985-c8a280a96e43">Part 1: RFC client programs</a>,
-<a class="reference external" href="http://www.sdn.sap.com/irj/scn/go/portal/prtroot/docs/library/uuid/b02b0719-4ccc-2c10-71ab-fe31483e466f">Part 2: RFC server programs</a>,
-<a class="reference external" href="http://www.sdn.sap.com/irj/sdn/go/portal/prtroot/docs/library/uuid/5070f62a-6acd-2c10-8cb5-858ef06adbb9">Part 3: Advanced topics</a>.</p>
-<p>We recommend the lecture of these articles and <a class="reference external" href="http://help.sap.com/saphelp_nw70/helpdata/en/6f/1bd5b6a85b11d6b28500508b5d5211/frameset.htm">SAP Help</a> as an introduction into RFC communication
-and assume the knowledge of these articles as a base for
-following <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> documentation, focused merely on technical aspects of <tt class="xref py py-mod docutils literal"><span class="pre">pyrfc</span></tt> API.</p>
 </div>
 <div class="section" id="functional-coverage">
 <h2>Functional coverage<a class="headerlink" href="#functional-coverage" title="Permalink to this headline">¶</a></h2>
@@ -168,13 +165,13 @@ RFC</td>
           <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#example-usage">Example usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#functional-coverage">Functional coverage</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Security</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
@@ -219,7 +216,7 @@ RFC</td>
           
     <div class="footer">
         &copy; Copyright 2014, SAP.
-      Last updated on 2014-02-04 14:14.
+      Last updated on 2014-02-12 10:52.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
     </div>
         </div>

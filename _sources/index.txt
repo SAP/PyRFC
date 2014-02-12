@@ -1,7 +1,7 @@
 PyRFC - The Python RFC Connector
 ================================
 
-The `pyrfc Python package <https://github.wdf.sap.corp/D037732/pyrfc>`_ provides Python bindings for *SAP NetWeaver RFC Library*, 
+The `pyrfc Python package <https://github.com/SAP/PyRFC>`_ provides Python bindings for *SAP NetWeaver RFC Library*, 
 for a comfortable way of calling ABAP modules from Python and Python modules from ABAP, 
 via SAP Remote Function Call (RFC) protocol.
 
@@ -21,6 +21,7 @@ Documentation
    install
    client
    server
+   authentication
    build   
    remarks
    bibliography
