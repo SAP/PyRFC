@@ -7,8 +7,19 @@ Introduction
 ============
 
 
-The :mod:`pyrfc` Python package provides a comfortable way for interacting with SAP programming language ABAP, via SAP RFC protocol. 
-For readability, we will use the common term *Python connector*, as a synonym for the :mod:`pyrfc` package.
+The Python connector (a synonym for the :mod:`pyrfc` package) wraps the existing *SAP NW RFC Library*, 
+often colloquially called *SAP C connector* or *SAP NW RFC SDK*. To start using :mod:`pyrfc` 
+and similar connectors effectively, we highly recommend reading a series of insightful articles 
+about RFC communication and *SAP NW RFC Library*, published in the SAP Professional Journal (SPJ),
+in 2009, by Ulrich Schmidt and Guangwei Li: *Improve communication between your C/C++ applications 
+and SAP systems with SAP NetWeaver RFC SDK*
+`Part 1: RFC client programs <http://www.sdn.sap.com/irj/sdn/index?overridelayout=true&rid=/library/uuid/302f1a30-f4cb-2c10-e985-c8a280a96e43>`_,
+`Part 2: RFC server programs <http://www.sdn.sap.com/irj/scn/go/portal/prtroot/docs/library/uuid/b02b0719-4ccc-2c10-71ab-fe31483e466f>`_, 
+`Part 3: Advanced topics <http://www.sdn.sap.com/irj/sdn/go/portal/prtroot/docs/library/uuid/5070f62a-6acd-2c10-8cb5-858ef06adbb9>`_.
+
+The lecture of these articles and `NW RFC SDK Guide (SAP Help) <http://help.sap.com/saphelp_nw73ehp1/helpdata/en/48/a88c805134307de10000000a42189b/content.htm?frameset=/en/48/a994a77e28674be10000000a421937/frameset.htm>`_ 
+are recommended as an introduction into RFC communication and programming, while :mod:`pyrfc` documentation is 
+focused merely on technical aspects of :mod:`pyrfc` API.
 
 
 Example usage
@@ -40,22 +51,6 @@ or use the connection as a context manager:
      with Connection(user='me', ...) as conn:
         conn.call(...)
      # connection automatically closed here
-
-
-Background
-==========
-
-The Python connector wraps the existing *SAP NW RFC Library* (often colloquially called *SAP C connector*, *SAP NW RFC SDK* ...). 
-To start using :mod:`pyrfc` effectively we highly recommend reading a series of insightful articles about RFC communication 
-and *SAP NW RFC Library*, published in the SAP Professional Journal (SPJ), in 2009, by Ulrich Schmidt and Guangwei Li:
-*Improve communication between your C/C++ applications and SAP systems with SAP NetWeaver RFC SDK*,
-`Part 1: RFC client programs <http://www.sdn.sap.com/irj/sdn/index?overridelayout=true&rid=/library/uuid/302f1a30-f4cb-2c10-e985-c8a280a96e43>`_,
-`Part 2: RFC server programs <http://www.sdn.sap.com/irj/scn/go/portal/prtroot/docs/library/uuid/b02b0719-4ccc-2c10-71ab-fe31483e466f>`_, 
-`Part 3: Advanced topics <http://www.sdn.sap.com/irj/sdn/go/portal/prtroot/docs/library/uuid/5070f62a-6acd-2c10-8cb5-858ef06adbb9>`_.
-
-We recommend the lecture of these articles and `SAP Help <http://help.sap.com/saphelp_nw70/helpdata/en/6f/1bd5b6a85b11d6b28500508b5d5211/frameset.htm>`_ as an introduction into RFC communication 
-and assume the knowledge of these articles as a base for
-following :mod:`pyrfc` documentation, focused merely on technical aspects of :mod:`pyrfc` API.
 
 
 Functional coverage

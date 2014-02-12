@@ -21,6 +21,7 @@ Documentation
    install
    client
    server
+   authentication
    build   
    remarks
    bibliography
