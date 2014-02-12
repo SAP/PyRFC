@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Security &mdash; pyrfc 1.9.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyrfc 1.9.3 documentation" href="index.html" />
+    <link rel="next" title="Building from source" href="build.html" />
+    <link rel="prev" title="Server scenario" href="server.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyrfc 1.9.3 documentation</a></div>
+        <div class="rel">
+          <a href="server.html" title="Server scenario"
+             accesskey="P">previous</a> |
+          <a href="build.html" title="Building from source"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="security">
+<span id="authentication"></span><h1>Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h1>
+<p>Plain RFC connections are mainly used for prototyping, while in production
+secure connections are required. For more information on RFC security see:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://service.sap.com/security">Security on SAP Service Marketplace</a></li>
+<li><a class="reference external" href="http://wiki.scn.sap.com/wiki/display/Security/Best+Practice+-+How+to+analyze+and+secure+RFC+connections">RFC Security Best Practices on SAP SCN</a></li>
+<li><a class="reference external" href="http://help.sap.com/saphelp_nw70ehp1/helpdata/en/0a/0a2e0fef6211d3a6510000e835363f/frameset.htm">Secure Network Communication (SNC) - SAP Help</a></li>
+<li><a class="reference external" href="http://scn.sap.com/docs/DOC-14065">SNC User Guide</a></li>
+</ul>
+<p>SAP NW RFC Library supports plain and secure connection with following authentication methods:</p>
+<ul class="simple">
+<li><a class="reference external" href="plain_auth">Plain with user / password</a></li>
+<li>SNC<ul>
+<li><a class="reference external" href="secure-auth-pse">with User PSE</a></li>
+<li><a class="reference external" href="secure-auth-x509">with X509</a></li>
+</ul>
+</li>
+</ul>
+<p>NW ABAP servers support in addition:</p>
+<ul class="simple">
+<li>SAP logon tickets</li>
+<li>Security Assertion Markup Language (SAML)</li>
+</ul>
+<p>Assuming you are familiar with abovementioned concepts and have ABAP backend system
+configured for SNC communication, here you may find connection strings examples,
+for testing plain and secure RFC connections, with various authentication methods.</p>
+<div class="section" id="id1">
+<h2>Authentication<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="plain-auth">
+<span id="id2"></span><h3>Plain with user / password<a class="headerlink" href="#plain-auth" title="Permalink to this headline">¶</a></h3>
+<p>The simplest and least secure form of the user authentication.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ABAP_SYSTEM</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="s">&#39;demo&#39;</span><span class="p">,</span>
+     <span class="s">&#39;passwd&#39;</span><span class="p">:</span> <span class="s">&#39;welcome&#39;</span><span class="p">,</span>
+
+     <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;I64&#39;</span><span class="p">,</span>
+     <span class="s">&#39;client&#39;</span><span class="p">:</span> <span class="s">&#39;800&#39;</span><span class="p">,</span>
+     <span class="s">&#39;ashost&#39;</span><span class="p">:</span> <span class="s">&#39;10.0.0.1&#39;</span><span class="p">,</span>
+     <span class="s">&#39;sysnr&#39;</span><span class="p">:</span> <span class="s">&#39;00&#39;</span><span class="p">,</span>
+     <span class="s">&#39;saprouter&#39;</span><span class="p">:</span> <span class="n">SAPROUTER</span><span class="p">,</span>
+     <span class="s">&#39;trace&#39;</span><span class="p">:</span> <span class="s">&#39;3&#39;</span>
+<span class="p">}</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">get_connection</span><span class="p">(</span><span class="n">ABAP_SYSTEM</span><span class="p">)</span> <span class="c"># plain</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="snc-with-user-pse">
+<span id="secure-auth-user-pse"></span><h3>SNC with User PSE<a class="headerlink" href="#snc-with-user-pse" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://help.sap.com/saphelp_nw73/helpdata/en/4c/61a6c6364012f3e10000000a15822b/content.htm?frameset=/en/4c/6269c8c72271d0e10000000a15822b/frameset.htm">User PSE</a>
+is used for opening the SNC connection and the same user is used for the authentication
+(logon) in NW ABAP backend. Generally not recomended, see <a class="reference external" href="http://service.sap.com/sap/support/notes/1028503">SAP Note 1028503 - SNC-secured RFC connection: Logon ticket is ignored</a></p>
+<p><strong>Prerequisites</strong></p>
+<ul class="simple">
+<li>SNC name must be configured for the ABAP user in NW ABAP system, using transaction SU01</li>
+</ul>
+<div class="figure align-center">
+<img alt="_images/SU01-SNC.png" src="_images/SU01-SNC.png" />
+</div>
+<ul class="simple">
+<li>SAP Single Sign On must be configured on a client and the user must be logged in on a client.</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ABAP_SYSTEM</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s">&#39;snc_partnername&#39;</span><span class="p">:</span> <span class="s">&#39;p:CN=I64, O=SAP-AG, C=DE&#39;</span><span class="p">,</span>
+     <span class="s">&#39;snc_lib&#39;</span><span class="p">:</span> <span class="s">&#39;C:</span><span class="se">\\</span><span class="s">Program Files (x86)</span><span class="se">\\</span><span class="s">SECUDE</span><span class="se">\\</span><span class="s">OfficeSecurity</span><span class="se">\\</span><span class="s">secude.dll&#39;</span><span class="p">,</span>
+
+     <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;I64&#39;</span><span class="p">,</span>
+     <span class="s">&#39;client&#39;</span><span class="p">:</span> <span class="s">&#39;800&#39;</span><span class="p">,</span>
+     <span class="s">&#39;ashost&#39;</span><span class="p">:</span> <span class="s">&#39;10.0.0.1&#39;</span><span class="p">,</span>
+     <span class="s">&#39;sysnr&#39;</span><span class="p">:</span> <span class="s">&#39;00&#39;</span><span class="p">,</span>
+     <span class="s">&#39;saprouter&#39;</span><span class="p">:</span> <span class="n">SAPROUTER</span><span class="p">,</span>
+     <span class="s">&#39;trace&#39;</span><span class="p">:</span> <span class="s">&#39;3&#39;</span>
+<span class="p">}</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">get_connection</span><span class="p">(</span><span class="n">ABAP_SYSTEM</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example the SNC_LIB key contains the path to security library
+(SAP cryptographic library or 3rd party product). Alternatively, the
+SNC_LIB can be set as the environment variable, in which case it does
+not have to be provided as a parameter for opening SNC connection.</p>
+</div>
+<div class="section" id="snc-with-x509">
+<span id="secure-auth-x509"></span><h3>SNC with X509<a class="headerlink" href="#snc-with-x509" title="Permalink to this headline">¶</a></h3>
+<p>The client system PSE is used for opening SNC connection and forwarding user
+X509 certificate to NW ABAP backend system, for authentication and logon.</p>
+<p><strong>Prerequisites</strong></p>
+<ul class="simple">
+<li>The user does not have to be logged into the client system, neither the Single
+Sign On must be configured on a client</li>
+<li>The trusted relationship must be established between the NW ABAP backend and
+the client system.</li>
+<li>The client system must be registered in the NW ABAP backend Access Control
+List (ACL), using transaction SNC0</li>
+<li>Keystores are generated on a client system, using SAP cryptography tool <em>SAPGENPSE</em> and
+the environment variable SECUDIR points to the folder with generated keystores</li>
+</ul>
+<div class="figure align-center">
+<img alt="_images/SNC0-1.png" src="_images/SNC0-1.png" />
+</div>
+<div class="figure align-center">
+<img alt="_images/SNC0-2.png" src="_images/SNC0-2.png" />
+</div>
+<ul class="simple">
+<li>User X509 certificate must be mapped to ABAP NW backend user, using transaction EXTID_DN</li>
+</ul>
+<div class="figure align-center">
+<img alt="_images/EXTID_DN-1.png" src="_images/EXTID_DN-1.png" />
+</div>
+<div class="figure align-center">
+<img alt="_images/EXTID_DN-2.png" src="_images/EXTID_DN-2.png" />
+</div>
+<p>The same connection parameters as in a previous example, with X509 certificate added.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ABAP_SYSTEM</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s">&#39;snc_partnername&#39;</span><span class="p">:</span> <span class="s">&#39;p:CN=I64, O=SAP-AG, C=DE&#39;</span><span class="p">,</span>
+     <span class="s">&#39;snc_lib&#39;</span><span class="p">:</span> <span class="s">&#39;C:</span><span class="se">\\</span><span class="s">Program Files (x86)</span><span class="se">\\</span><span class="s">SECUDE</span><span class="se">\\</span><span class="s">OfficeSecurity</span><span class="se">\\</span><span class="s">secude.dll&#39;</span><span class="p">,</span>
+
+     <span class="s">&#39;x509cert&#39;</span><span class="p">:</span> <span class="s">&#39;MIIDJjCCAtCgAwIBAgIBNzA ... NgalgcTJf3iUjZ1e5Iv5PLKO&#39;</span><span class="p">,</span>
+
+     <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;I64&#39;</span><span class="p">,</span>
+     <span class="s">&#39;client&#39;</span><span class="p">:</span> <span class="s">&#39;800&#39;</span><span class="p">,</span>
+     <span class="s">&#39;ashost&#39;</span><span class="p">:</span> <span class="s">&#39;10.0.0.1&#39;</span><span class="p">,</span>
+     <span class="s">&#39;sysnr&#39;</span><span class="p">:</span> <span class="s">&#39;00&#39;</span><span class="p">,</span>
+     <span class="s">&#39;saprouter&#39;</span><span class="p">:</span> <span class="n">SAPROUTER</span><span class="p">,</span>
+     <span class="s">&#39;trace&#39;</span><span class="p">:</span> <span class="s">&#39;3&#39;</span>
+<span class="p">}</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">get_connection</span><span class="p">(</span><span class="n">ABAP_SYSTEM</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference external" href="http://help.sap.com/saphelp_nw04s/helpdata/en/b1/07dd3aeedb7445e10000000a114084/frameset.htm">SAP Help</a> for more information.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Security</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><tt class="docutils literal"><span class="pre">pyrfc</span></tt></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="server.html" title="Server scenario"
+             >previous</a> |
+          <a href="build.html" title="Building from source"
+             >next</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+            <br/>
+            <a href="_sources/authentication.txt"
+               rel="nofollow">Show Source</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2014, SAP.
+      Last updated on 2014-02-12 11:17.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
