@@ -53,9 +53,9 @@ The simplest and least secure form of the user authentication.
         'sysnr': '00',
         'saprouter': SAPROUTER,
         'trace': '3'
-    }
+   }
 
-    c = get_connection(ABAP_SYSTEM) # plain
+   c = get_connection(ABAP_SYSTEM) # plain
 
 .. _secure-auth-user-pse:
 
@@ -87,9 +87,9 @@ is used for opening the SNC connection and the same user is used for the authent
         'sysnr': '00',
         'saprouter': SAPROUTER,
         'trace': '3'
-     Ulrich,}
+   }
 
-    c = get_connection(ABAP_SYSTEM)
+   c = get_connection(ABAP_SYSTEM)
 
 In this example the SNC_LIB key contains the path to security library
 (SAP cryptographic library or 3rd party product). Alternatively, the 
@@ -145,9 +145,9 @@ The same connection parameters as in a previous example, with X509 certificate a
         'sysnr': '00',
         'saprouter': SAPROUTER,
         'trace': '3'
-    }
+   }
 
-    c = get_connection(ABAP_SYSTEM)
+   c = get_connection(ABAP_SYSTEM)
 
 See `SAP Help <http://help.sap.com/saphelp_nw04s/helpdata/en/b1/07dd3aeedb7445e10000000a114084/frameset.htm>`_ for more information.
 
