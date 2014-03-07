@@ -33,6 +33,7 @@ API documentation
    :maxdepth: 2
 
    pyrfc
+   readtable
 
 Change log
 ==========
