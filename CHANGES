@@ -1,11 +1,15 @@
 Change log
 ==========
 
+1.9.4 (Development)
+- RfcGetVersion API added
+- More docu
+- Unit tests
+
 1.9.3 (2014-01-26)
 ------------------
 - Fixed Date wrap bug (reported by Flavio Marinone)
 - Documentation rework
-
 
 1.9.2 (2012-11-26)
 ------------------

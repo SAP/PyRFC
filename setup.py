@@ -20,7 +20,7 @@ from distutils.extension import Extension
 # Note: Historically, the default setup.py did _not_ contain cython requirements.
 #       To build just the extensions inplace, use:
 #       python setup.py build_ext --inplace
-CYTHON_VERSION = '0.19.2'  # fixed to assure conscious change of version.
+CYTHON_VERSION = '0.20.1'  # fixed to assure conscious change of version.
 try:
     import Cython
 except ImportError:

@@ -223,6 +223,7 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcDestroyFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcInvoke(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo) nogil
 
+    SAP_UC* RfcGetVersion(unsigned* majorVersion, unsigned* minorVersion, unsigned* patchLevel)
 
     SAP_UC* RfcGetRcAsString(RFC_RC rc)
     SAP_UC* RfcGetTypeAsString(RFCTYPE type)

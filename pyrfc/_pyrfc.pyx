@@ -58,11 +58,25 @@ _type2rfc = {
 # no connection is present.
 #
 # NOTES ON NOGIL:
-# If a C connector function is called that may take a while (e.g. invoking RFC),
+# NW RFC Lib function call may take a while (e.g. invoking RFC),
 # other threads may be blocked meanwhile. To avoid this, some statements
-# calling C connector functions are executed within a "with nogil:" block,
+# calling NW RFC Lib functions are executed within a "with nogil:" block,
 # thereby releasing the Python global interpreter lock (GIL).
 
+
+################################################################################
+# NW RFC LIB FUNCTIONALITY
+################################################################################
+
+def get_nwrfclib_version():
+    """Get SAP NW RFC Lib version
+    :returns: tuple of major, minor and patch level
+    """
+    cdef unsigned major = 0
+    cdef unsigned minor = 0
+    cdef unsigned patchlevel = 0
+    RfcGetVersion(&major, &minor, &patchlevel)
+    return (major, minor, patchlevel)
 
 ################################################################################
 # CLIENT FUNCTIONALITY
@@ -1147,7 +1161,6 @@ cdef class Server:
     cdef bint alive
     cdef bint installed
 
-
     cdef RFC_CONNECTION_HANDLE _get_c_handle(self):
         return <RFC_CONNECTION_HANDLE> self._handle
 
@@ -1503,6 +1516,10 @@ cdef RFC_UNIT_IDENTIFIER fillUnitIdentifier(unit) except *:
     free(sapuc)
     return uIdentifier
 
+################################################################################
+# FILL FUNCTIONS                                                               #
+################################################################################
+
 cdef fillFunctionParameter(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container, name, value):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
@@ -1519,8 +1536,6 @@ cdef fillStructureField(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE cont
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_STRUCTURE_HANDLE struct
     cdef RFC_FIELD_DESC fieldDesc
-    cdef SAP_UC* strValue
-    cdef SAP_RAW* bValue
     cdef SAP_UC* cName = fillString(name)
     rc = RfcGetFieldDescByName(typeDesc, cName, &fieldDesc, &errorInfo)
     free(cName)
@@ -1997,7 +2012,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             raise wrapError(&errorInfo)
         return datetime.datetime.strptime(wrapString(timeValue, 6), '%H%M%S').time()
     else:
-        raise RFCError('Unknown RFC type %d when wrapping %s' % (typ, wrapString(cName)))
+        raise RFCError('Unknown RFC type %d whenc wrapping %s' % (typ, wrapString(cName)))
 
 cdef wrapError(RFC_ERROR_INFO* errorInfo):
     group2error = { ABAP_APPLICATION_FAILURE: ABAPApplicationError,
