@@ -19,7 +19,7 @@ from pyrfc._exception import RFCError, RFCLibError,\
     ABAPApplicationError, ABAPRuntimeError,\
     ExternalAuthorizationError, ExternalApplicationError, ExternalRuntimeError
 
-from pyrfc._pyrfc import Connection, TypeDescription, FunctionDescription, Server
+from pyrfc._pyrfc import get_nwrfclib_version, Connection, TypeDescription, FunctionDescription, Server
 
 # TODO: define __all__ variable
 #
