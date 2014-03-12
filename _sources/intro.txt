@@ -13,9 +13,9 @@ and similar connectors effectively, we highly recommend reading a series of insi
 about RFC communication and *SAP NW RFC Library*, published in the SAP Professional Journal (SPJ),
 in 2009, by Ulrich Schmidt and Guangwei Li: *Improve communication between your C/C++ applications 
 and SAP systems with SAP NetWeaver RFC SDK*
-`Part 1: RFC client programs <http://www.sdn.sap.com/irj/sdn/index?overridelayout=true&rid=/library/uuid/302f1a30-f4cb-2c10-e985-c8a280a96e43>`_,
-`Part 2: RFC server programs <http://www.sdn.sap.com/irj/scn/go/portal/prtroot/docs/library/uuid/b02b0719-4ccc-2c10-71ab-fe31483e466f>`_, 
-`Part 3: Advanced topics <http://www.sdn.sap.com/irj/sdn/go/portal/prtroot/docs/library/uuid/5070f62a-6acd-2c10-8cb5-858ef06adbb9>`_.
+`Part 1: RFC Client Programming <https://scn.sap.com/docs/DOC-52886>`_,
+`Part 2: RFC Server Programming <https://scn.sap.com/docs/DOC-52887>`_, 
+`Part 3: Advanced Topics <https://scn.sap.com/docs/DOC-52888>`_.
 
 The lecture of these articles and `NW RFC SDK Guide (SAP Help) <http://help.sap.com/saphelp_nw73ehp1/helpdata/en/48/a88c805134307de10000000a42189b/content.htm?frameset=/en/48/a994a77e28674be10000000a421937/frameset.htm>`_ 
 are recommended as an introduction into RFC communication and programming, while :mod:`pyrfc` documentation is 

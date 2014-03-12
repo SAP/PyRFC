@@ -155,4 +155,7 @@ GitHub then serves these files under a special ``/pages/`` url.
 To update GitHub Pages, copy everyhing under ``_build/html`` and overwrite the existing files in the ``gh-pages`` branch root.
 
 .. note::
-    An additional file .nojekyll is placed in ``gh-pages`` to disable the default GitHub processing which breaks sphinx style folders with leading underscores.
+
+   An additional file .nojekyll is placed in ``gh-pages`` to disable the default GitHub processing which breaks sphinx style folders with leading underscores.
+
+   ``gh-pages`` updates are a bit inconvenien, check if this answer helps http://stackoverflow.com/questions/4750520/git-branch-gh-pages
