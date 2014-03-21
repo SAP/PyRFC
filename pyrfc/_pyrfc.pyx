@@ -19,7 +19,10 @@ import signal
 import time
 import datetime
 from collections import Iterable
-from types import StringTypes
+try:
+    from types import StringTypes
+except ImportError:
+    StringTypes = (str,)
 from decimal import Decimal
 from csapnwrfc cimport *
 
