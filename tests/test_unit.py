@@ -4,7 +4,7 @@
 import datetime, pyrfc, unittest, socket, timeit
 from ConfigParser import ConfigParser
 
-config = ConfigParser()
+config = configparser()
 config.read('pyrfc.cfg')
 
 

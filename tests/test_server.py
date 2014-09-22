@@ -9,7 +9,7 @@ from pyrfc import TypeDescription, FunctionDescription, Server, \
                       ExternalRuntimeError
 
 from pyrfc._pyrfc import _Testing
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 config = ConfigParser()
 config.read('pyrfc.cfg')

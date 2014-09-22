@@ -19,7 +19,6 @@ import signal
 import time
 import datetime
 from collections import Iterable
-from types import StringTypes
 from decimal import Decimal
 from csapnwrfc cimport *
 
@@ -751,7 +750,7 @@ cdef class Connection:
         if len(calls)==0:
             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
         for func_name, params in calls:
-            if not isinstance(func_name, StringTypes) or not isinstance(params, dict):
+            if not isinstance(func_name, basestring) or not isinstance(params, dict):
                 raise TypeError("Parameter 'calls' must contain valid call descriptions (func_name, params dict).")
         if self.active_unit:
             raise RFCError(u"There is an active unit for this connection. "

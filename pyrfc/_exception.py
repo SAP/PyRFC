@@ -68,6 +68,7 @@ class RFCLibError(RFCError):
                  msg_class=None, msg_type=None, msg_number=None,
                  msg_v1=None, msg_v2=None, msg_v3=None, msg_v4=None):
         super(RFCLibError, self).__init__(message)
+        self.message = message # Exception.message removed in Py3
         self.code = code
         self.key = key
         self.msg_class = msg_class

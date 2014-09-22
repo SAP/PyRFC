@@ -7,7 +7,7 @@
 # Some of them are used as well.
 
 import datetime, pyrfc, unittest, socket, timeit
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 config = ConfigParser()
 config.read('pyrfc.cfg')
