@@ -126,6 +126,17 @@ This is not required for building the distribution, but rather for importing the
 The build process remains the same, only before building the distribution, you need to 
 activate the virtual environment and assure that library paths are correct in ``setup.py``.
 
+Python 3
+--------
+
+Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu
+
+  .. code-block:: sh
+
+     sudo apt-get install python3-setuptools python3-dev python-configparser
+     sudo easy_install3 pip
+     sudo pip3 install cython sphinx ipython
+
 
 Building the documentation
 ==========================

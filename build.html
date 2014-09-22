@@ -162,6 +162,17 @@ This is not required for building the distribution, but rather for importing the
 <p>The build process remains the same, only before building the distribution, you need to
 activate the virtual environment and assure that library paths are correct in <tt class="docutils literal"><span class="pre">setup.py</span></tt>.</p>
 </div>
+<div class="section" id="python-3">
+<h3>Python 3<a class="headerlink" href="#python-3" title="Permalink to this headline">¶</a></h3>
+<p>Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu</p>
+<blockquote>
+<div><div class="highlight-sh"><div class="highlight"><pre>sudo apt-get install python3-setuptools python3-dev python-configparser
+sudo easy_install3 pip
+sudo pip3 install cython sphinx ipython
+</pre></div>
+</div>
+</div></blockquote>
+</div>
 </div>
 <div class="section" id="building-the-documentation">
 <h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
@@ -255,8 +266,8 @@ as an orphan and the output of the documentation build process (<tt class="docut
           
     <div class="footer">
         &copy; Copyright 2014, SAP.
-      Last updated on 2014-03-12 14:42.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+      Last updated on 2014-09-22 17:00.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>
