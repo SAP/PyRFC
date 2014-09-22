@@ -3,7 +3,7 @@
 
 import datetime, pyrfc, unittest, socket, timeit
 from decimal import Decimal
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 config = ConfigParser()
 config.read('pyrfc.cfg')
@@ -123,14 +123,16 @@ class STFCTest(unittest.TestCase):
         imp = dict(RFCFLOAT=1.23456789, RFCCHAR1=u'a',
                     RFCINT2=0x7ffe, RFCINT1=0x7f,
                     RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
-                    RFCHEX3='fgh', RFCCHAR2=u'ij',
+                    RFCHEX3=str.encode('fgh'),
+                    RFCCHAR2=u'ij',
                     RFCTIME=datetime.time(12,34,56),
                     RFCDATE=datetime.date(2011,10,17),
                     RFCDATA1=u'k'*50, RFCDATA2=u'l'*50)
         out = dict(RFCFLOAT=imp['RFCFLOAT']+1, RFCCHAR1=u'X',
                     RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
                     RFCINT4=imp['RFCINT4']+1,
-                    RFCHEX3='\xf1\xf2\xf3', RFCCHAR2=u'YZ',
+                    RFCHEX3=b'\xf1\xf2\xf3',
+                    RFCCHAR2=u'YZ',
                     RFCDATE=datetime.date.today(),
                     RFCDATA1=u'k'*50, RFCDATA2=u'l'*50)
         result = self.conn.call('STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=[imp])
@@ -148,7 +150,8 @@ class STFCTest(unittest.TestCase):
         imp = dict(RFCFLOAT=1.23456789, RFCCHAR1=u'a',
             RFCINT2=0x7ffe, RFCINT1=0x7f,
             RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
-            RFCHEX3='fgh', RFCCHAR2=u'ij',
+            RFCHEX3=str.encode('fgh'),
+            RFCCHAR2=u'ij',
             RFCTIME=datetime.time(12,34,56),
             RFCDATE=datetime.date(2011,10,17),
             RFCDATA1=u'k'*50, RFCDATA2=u'l'*50,
@@ -158,7 +161,8 @@ class STFCTest(unittest.TestCase):
         out = dict(RFCFLOAT=imp['RFCFLOAT']+1, RFCCHAR1=u'X',
             RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
             RFCINT4=imp['RFCINT4']+1,
-            RFCHEX3='\xf1\xf2\xf3', RFCCHAR2=u'YZ',
+            RFCHEX3=b'\xf1\xf2\xf3',
+            RFCCHAR2=u'YZ',
             RFCDATE=datetime.date.today(),
             RFCDATA1=u'k'*50, RFCDATA2=u'l'*50,
             RFCNUMC10='1234512345',

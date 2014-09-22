@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime, pyrfc, unittest, socket, timeit
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 config = ConfigParser()
 config.read('pyrfc.cfg')
@@ -108,13 +108,13 @@ class ConnectionTest(unittest.TestCase):
 
     def test_connection_attributes(self):
         data = self.conn.get_connection_attributes()
-        self.assertEquals(data['client'], unicode(params['client']))
-        self.assertEquals(data['host'], unicode(socket.gethostname()))
-        self.assertEquals(data['isoLanguage'], unicode(params['lang'].upper()))
+        self.assertEqual(data['client'], str(params['client']))
+        self.assertEqual(data['host'], str(socket.gethostname()))
+        self.assertEqual(data['isoLanguage'], str(params['lang'].upper()))
         # Only valid for direct logon systems:
-        # self.assertEquals(data['sysNumber'], unicode(params['sysnr']))
-        self.assertEquals(data['user'], unicode(params['user'].upper()))
-        self.assertEquals(data['rfcRole'], u'C')
+        # self.assertEqual(data['sysNumber'], str(params['sysnr']))
+        self.assertEqual(data['user'], str(params['user'].upper()))
+        self.assertEqual(data['rfcRole'], u'C')
 
 # old tests, referring to non static z-functions
 #    def test_invalid_input(self):
