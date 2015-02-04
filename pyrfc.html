@@ -697,7 +697,7 @@ system. For these errors, the errorInfo struct of the C connector is wrapped,
 e.g. for a given exception <tt class="docutils literal"><span class="pre">e</span></tt>, the error code is available in <tt class="docutils literal"><span class="pre">e.code</span></tt>.
 The class of the error depends on the group of the error.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/exceptions.png" id="inheritance-of-errors"><img alt="Inheritance of errors: Exception-&gt;RFCError-&gt;RFCLibError-&gt;specific errors" class="align-center" id="inheritance-of-errors" src="_images/exceptions.png" /></a>
+<a class="reference internal image-reference" href="_images/exceptions.png" id="inheritance-of-errors"><img alt="Inheritance of errors: Exception-&gt;RFCError-&gt;RFCLibError-&gt;specific errors" class="align-center" id="inheritance-of-errors" src="_images/exceptions.png" style="width: 445.5px; height: 532.8px;" /></a>
 <dl class="exception">
 <dt id="pyrfc.RFCError">
 <em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">RFCError</tt><a class="headerlink" href="#pyrfc.RFCError" title="Permalink to this definition">¶</a></dt>
@@ -714,7 +714,7 @@ The class of the error depends on the group of the error.</li>
 
 <dl class="exception">
 <dt id="pyrfc.LogonError">
-<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">LogonError</tt><big>(</big><em>message=None</em>, <em>code=2</em>, <em>key='RFC_LOGON_FAILURE'</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.LogonError" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><tt class="descclassname">pyrfc.</tt><tt class="descname">LogonError</tt><big>(</big><em>message=None</em>, <em>code=2</em>, <em>key=u'RFC_LOGON_FAILURE'</em>, <em>msg_class=None</em>, <em>msg_type=None</em>, <em>msg_number=None</em>, <em>msg_v1=None</em>, <em>msg_v2=None</em>, <em>msg_v3=None</em>, <em>msg_v4=None</em><big>)</big><a class="headerlink" href="#pyrfc.LogonError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Logon error</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0 and
 the error object has an RFC_ERROR_GROUP value of
@@ -901,7 +901,7 @@ error representations.</p>
           
     <div class="footer">
         &copy; Copyright 2014, SAP.
-      Last updated on 2014-09-22 17:00.
+      Last updated on 2015-02-04 12:11.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
