@@ -20,7 +20,7 @@ from distutils.extension import Extension
 # Note: Historically, the default setup.py did _not_ contain cython requirements.
 #       To build just the extensions inplace, use:
 #       python setup.py build_ext --inplace
-CYTHON_VERSION = '0.21'  # fixed to assure conscious change of version.
+CYTHON_VERSION = '0.21.1'  # fixed to assure conscious change of version.
 try:
     import Cython
 except ImportError:
@@ -48,7 +48,7 @@ elif sys.platform.startswith('win'):
     MACROS = [('_LARGEFILE_SOURCE', None), ('SAPwithUNICODE', None), ('_CONSOLE', None), ('WIN32', None), ('SAPonNT', None), ('SAP_PLATFORM_MAKENAME', 'ntintel'), ('UNICODE', None), ('_UNICODE', None)]
     COMPILE_ARGS = ['-I{}\\include'.format(SAPNWRFC_HOME)]
     #LINK_ARGS = ['-L{}\\lib'.format(SAPNWRFC_HOME)] # JK: Does not work with MS VS8.0 Linker, works with MinGW?
-    LINK_ARGS = ['-LIBPATH:{}\\lib'.format(SAPNWRFC_HOME)]
+    LINK_ARGS = ['-LIBPATH:{0}\\lib'.format(SAPNWRFC_HOME)]
 
 pyrfc = Extension( '%s._%s' % (NAME, NAME)
     , ['%s/_%s.pyx' % (NAME, NAME)]
