@@ -107,7 +107,7 @@ Windows
 
 .. _`install-python-win`:
 
-* If not already installed, you need to instal Python first.
+* If not already installed, you need to install Python first.
 
   First, decide whether you want to go with the 32bit or 64bit version and use standard Windows installers
 
@@ -123,12 +123,12 @@ Windows
 
 * Install ``easy_install``
 
-  Use the ``distribute`` implementation of ``easy_install`` by downloading
-  http://python-distribute.org/distribute_setup.py and running
+  Use the ``distribute`` implementation of ``easy_install`` by downloading 
+  https://bootstrap.pypa.io/ez_setup.py and running
 
   .. code-block:: none
 
-     python distribute_setup.py
+     python ez_setup.py
 
   .. note::
 
