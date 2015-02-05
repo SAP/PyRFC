@@ -15,6 +15,7 @@ Toolchain preparation
 Linux platform
 ---------------
 * :ref:`Install Python <install-python-linux>`
+* Install ``easy_install`` as described in :ref:`pyrfc installation <install-python-connector>`
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git 
   client is required as well, use whatever your distribution has
@@ -26,6 +27,7 @@ Windows platform
 -----------------
 
 * :ref:`Install Python <install-python-win>`
+* Install ``easy_install`` as described in :ref:`pyrfc installation <install-python-connector>`
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git 
   client is required as well. Download and install from 
@@ -54,20 +56,20 @@ Otherwise, follow the example below.
 Linux platform
 --------------
 
-Clone the repository
+Clone the repository:
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     git clone https://github.com/SAP/PyRFC
+   git clone https://github.com/SAP/PyRFC
 
 Edit ``setup.py`` and set the CYTHON_VERSION
 
 Build the distribution
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     python setup.py clean --all
-     python setup.py bdist_egg
+   python setup.py clean --all
+   python setup.py bdist_egg
 
 The result is found in the ``dist/`` directory. The process has to be done on all platforms 
 for which we provide eggs. 
@@ -78,9 +80,9 @@ Windows platform
 
 Open the ``GIT Bash`` shell and clone the repository.
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     git clone https://github.com/SAP/PyRFC
+   git clone https://github.com/SAP/PyRFC
 
 Open the ``CMD Shell`` from ``Microsoft Windows SDK 7.0`` and change to cloned ``pyrfc`` folder.
 
@@ -88,17 +90,17 @@ Edit ``setup.py`` and set the CYTHON_VERSION
 
 Set env variables for the release, use /x64 for 64 bit and /x86 for 32 bit:
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     set DISTUTILS_USE_SDK=1
-     setenv /x64 /release
+   set DISTUTILS_USE_SDK=1
+   setenv /x64 /release
 
 Build the distribution:
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     python setup.py clean --all
-     python setup.py bdist_egg
+   python setup.py clean --all
+   python setup.py bdist_egg
 
 Check the ``pyrfc\dist`` folder for a new created egg.
 
@@ -114,11 +116,11 @@ the PATH variable.
 However, the PATH variable is modified when using a virtual environment, therefore
 modify the ``Scripts/activate.bat`` file with:
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     set SAPNWRFC_HOME=C:\nwrfcsdk_x86
-     set PATH=C:\nwrfcsdk_x86\lib\;%PATH%
-     set PATH=%VIRTUAL_ENV%\Scripts;%PATH%
+   set SAPNWRFC_HOME=C:\nwrfcsdk_x86
+   set PATH=C:\nwrfcsdk_x86\lib\;%PATH%
+   set PATH=%VIRTUAL_ENV%\Scripts;%PATH%
 
 This assures that specific SAP NW RFC Library is used (e.g. 32bit in this example). 
 This is not required for building the distribution, but rather for importing the Python connector.
@@ -131,11 +133,11 @@ Python 3
 
 Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     sudo apt-get install python3-setuptools python3-dev python-configparser
-     sudo easy_install3 pip
-     sudo pip3 install cython sphinx ipython
+   sudo apt-get install python3-setuptools python3-dev python-configparser
+   sudo easy_install3 pip
+   sudo pip3 install cython sphinx ipython
 
 
 Building the documentation
@@ -145,25 +147,29 @@ Ensure that the lib directory of the SAP NW RFC library is in your PATH environm
 
 Change into the ``doc`` directory and type:
 
-  .. code-block:: sh
+.. code-block:: sh
 
-     make clean
-     make html
+   make clean
+   make html
 
 The result is found in ``_build/html`` and for other options call ``make``.
 
 * If you get an error *'sphinx-build' is not recognized as an internal or external command, operable program or batch file* on calling ``make html``, install ``sphinx``
 * If you have DLL import errors (Windows), check the lib directory of the SAP NW RFC Library PATH env variable.
 
-GitHub Pages
-------------
-
 The docu is hosted on GitHub Pages, a propietary solution where a git branch ``gh-pages`` is created 
 as an orphan and the output of the documentation build process (``_build/html``) is stored in that branch. 
-
 GitHub then serves these files under a special ``/pages/`` url.
 
 To update GitHub Pages, copy everyhing under ``_build/html`` and overwrite the existing files in the ``gh-pages`` branch root.
+
+.. code-block:: sh
+
+    cp _build/html ~/tmp
+    git checkout gh-pages
+    rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv 
+    cp -Rf ~/tmp/_build/html/. .
+
 
 .. note::
 

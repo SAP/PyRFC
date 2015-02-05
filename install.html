@@ -212,8 +212,22 @@ oputput, the installation was successful.</p>
 <div class="section" id="python-on-linux">
 <h3>Python on Linux<a class="headerlink" href="#python-on-linux" title="Permalink to this headline">¶</a></h3>
 <ul id="install-python-linux">
-<li><p class="first">Install Python 2.7 (64bit, usually the default) via your preferred package manager
-and <tt class="docutils literal"><span class="pre">easy_install</span></tt>.</p>
+<li><p class="first">Install Python 2.7 (64bit, usually the default) via your preferred package manager</p>
+</li>
+<li><p class="first">Install <tt class="docutils literal"><span class="pre">easy_install</span></tt></p>
+<p>Use the <tt class="docutils literal"><span class="pre">distribute</span></tt> implementation of <tt class="docutils literal"><span class="pre">easy_install</span></tt> by downloading
+<a class="reference external" href="https://bootstrap.pypa.io/ez_setup.py">https://bootstrap.pypa.io/ez_setup.py</a> and running</p>
+<div class="highlight-none"><div class="highlight"><pre>python ez_setup.py
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>At this point you may like to install the <a class="reference external" href="http://pypi.python.org/pypi/pip">pip</a> package which extends
+the functionality of <tt class="docutils literal"><span class="pre">easy_install</span></tt>. However, <tt class="docutils literal"><span class="pre">pip</span></tt> cannot handle binary
+build distributions, which will be used later.</p>
+<p class="last">If you are in a internal network that uses a proxy to access resources from
+the internet, you may encounter <a class="reference internal" href="#install-problems"><em>connection problems</em></a>.</p>
+</div>
 </li>
 <li><p class="first">Virtual environment (optional)</p>
 <p>You may now create an <a class="reference internal" href="#install-virtualenv"><em>virtual environment</em></a>
@@ -294,8 +308,8 @@ SET HTTPS_PROXY=http://proxy:8080
 </div>
 <p>or permanently set environment variables.</p>
 </div>
-<div class="section" id="id3">
-<h3>SAP NW RFC Library Installation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>SAP NW RFC Library Installation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first"><tt class="docutils literal"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">The</span> <span class="pre">specified</span> <span class="pre">module</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">found.</span></tt></p>
 <p>(Windows)
@@ -312,7 +326,7 @@ This error occurs when SAP NW RFC Library 64bit version is installed on a system
 <div class="section" id="environment-variables">
 <h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="install-problems-envvar-win">
-<span id="id4"></span><h4>Windows<a class="headerlink" href="#install-problems-envvar-win" title="Permalink to this headline">¶</a></h4>
+<span id="id5"></span><h4>Windows<a class="headerlink" href="#install-problems-envvar-win" title="Permalink to this headline">¶</a></h4>
 <p>The environment variable may be set within a command prompt via the <tt class="docutils literal"><span class="pre">set</span></tt>
 command, e.g.</p>
 <ul class="simple">
@@ -396,7 +410,7 @@ the desired variable.</li>
           
     <div class="footer">
         &copy; Copyright 2014, SAP.
-      Last updated on 2015-02-04 12:11.
+      Last updated on 2015-02-05 11:14.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

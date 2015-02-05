@@ -62,6 +62,7 @@ the distribution release code and documentation.</p>
 <h3>Linux platform<a class="headerlink" href="#linux-platform" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="install.html#install-python-linux"><em>Install Python</em></a></li>
+<li>Install <tt class="docutils literal"><span class="pre">easy_install</span></tt> as described in <a class="reference internal" href="install.html#install-python-connector"><em>pyrfc installation</em></a></li>
 <li><a class="reference internal" href="install.html#install-c-connector"><em>Install SAP NW RFC Library</em></a></li>
 <li>To get any software from the Git source control system the Git
 client is required as well, use whatever your distribution has</li>
@@ -74,6 +75,7 @@ header and library files as provided by your distribution.</li>
 <h3>Windows platform<a class="headerlink" href="#windows-platform" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="install.html#install-python-win"><em>Install Python</em></a></li>
+<li>Install <tt class="docutils literal"><span class="pre">easy_install</span></tt> as described in <a class="reference internal" href="install.html#install-python-connector"><em>pyrfc installation</em></a></li>
 <li><a class="reference internal" href="install.html#install-c-connector"><em>Install SAP NW RFC Library</em></a></li>
 <li>To get any software from the Git source control system the Git
 client is required as well. Download and install from
@@ -99,47 +101,37 @@ for example:</p>
 <p>Otherwise, follow the example below.</p>
 <div class="section" id="id1">
 <h3>Linux platform<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>Clone the repository</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre>git clone https://github.com/SAP/PyRFC
+<p>Clone the repository:</p>
+<div class="highlight-sh"><div class="highlight"><pre>git clone https://github.com/SAP/PyRFC
 </pre></div>
 </div>
-</div></blockquote>
 <p>Edit <tt class="docutils literal"><span class="pre">setup.py</span></tt> and set the CYTHON_VERSION</p>
 <p>Build the distribution</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre>python setup.py clean --all
+<div class="highlight-sh"><div class="highlight"><pre>python setup.py clean --all
 python setup.py bdist_egg
 </pre></div>
 </div>
-</div></blockquote>
 <p>The result is found in the <tt class="docutils literal"><span class="pre">dist/</span></tt> directory. The process has to be done on all platforms
 for which we provide eggs.</p>
 </div>
 <div class="section" id="id2">
 <h3>Windows platform<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Open the <tt class="docutils literal"><span class="pre">GIT</span> <span class="pre">Bash</span></tt> shell and clone the repository.</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre>git clone https://github.com/SAP/PyRFC
+<div class="highlight-sh"><div class="highlight"><pre>git clone https://github.com/SAP/PyRFC
 </pre></div>
 </div>
-</div></blockquote>
 <p>Open the <tt class="docutils literal"><span class="pre">CMD</span> <span class="pre">Shell</span></tt> from <tt class="docutils literal"><span class="pre">Microsoft</span> <span class="pre">Windows</span> <span class="pre">SDK</span> <span class="pre">7.0</span></tt> and change to cloned <tt class="docutils literal"><span class="pre">pyrfc</span></tt> folder.</p>
 <p>Edit <tt class="docutils literal"><span class="pre">setup.py</span></tt> and set the CYTHON_VERSION</p>
 <p>Set env variables for the release, use /x64 for 64 bit and /x86 for 32 bit:</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre><span class="nb">set </span><span class="nv">DISTUTILS_USE_SDK</span><span class="o">=</span>1
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">set </span><span class="nv">DISTUTILS_USE_SDK</span><span class="o">=</span>1
 setenv /x64 /release
 </pre></div>
 </div>
-</div></blockquote>
 <p>Build the distribution:</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre>python setup.py clean --all
+<div class="highlight-sh"><div class="highlight"><pre>python setup.py clean --all
 python setup.py bdist_egg
 </pre></div>
 </div>
-</div></blockquote>
 <p>Check the <tt class="docutils literal"><span class="pre">pyrfc\dist</span></tt> folder for a new created egg.</p>
 </div>
 <div class="section" id="virtual-environments">
@@ -150,13 +142,11 @@ the 32bit version on 64 bit system in <tt class="docutils literal"><span class="
 the PATH variable.</p>
 <p>However, the PATH variable is modified when using a virtual environment, therefore
 modify the <tt class="docutils literal"><span class="pre">Scripts/activate.bat</span></tt> file with:</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre><span class="nb">set </span><span class="nv">SAPNWRFC_HOME</span><span class="o">=</span>C:<span class="se">\n</span>wrfcsdk_x86
+<div class="highlight-sh"><div class="highlight"><pre><span class="nb">set </span><span class="nv">SAPNWRFC_HOME</span><span class="o">=</span>C:<span class="se">\n</span>wrfcsdk_x86
 <span class="nb">set </span><span class="nv">PATH</span><span class="o">=</span>C:<span class="se">\n</span>wrfcsdk_x86<span class="se">\l</span>ib<span class="se">\;</span>%PATH%
 <span class="nb">set </span><span class="nv">PATH</span><span class="o">=</span>%VIRTUAL_ENV%<span class="se">\S</span>cripts<span class="p">;</span>%PATH%
 </pre></div>
 </div>
-</div></blockquote>
 <p>This assures that specific SAP NW RFC Library is used (e.g. 32bit in this example).
 This is not required for building the distribution, but rather for importing the Python connector.</p>
 <p>The build process remains the same, only before building the distribution, you need to
@@ -165,41 +155,40 @@ activate the virtual environment and assure that library paths are correct in <t
 <div class="section" id="python-3">
 <h3>Python 3<a class="headerlink" href="#python-3" title="Permalink to this headline">¶</a></h3>
 <p>Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre>sudo apt-get install python3-setuptools python3-dev python-configparser
+<div class="highlight-sh"><div class="highlight"><pre>sudo apt-get install python3-setuptools python3-dev python-configparser
 sudo easy_install3 pip
 sudo pip3 install cython sphinx ipython
 </pre></div>
 </div>
-</div></blockquote>
 </div>
 </div>
 <div class="section" id="building-the-documentation">
 <h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
 <p>Ensure that the lib directory of the SAP NW RFC library is in your PATH environment.</p>
 <p>Change into the <tt class="docutils literal"><span class="pre">doc</span></tt> directory and type:</p>
-<blockquote>
-<div><div class="highlight-sh"><div class="highlight"><pre>make clean
+<div class="highlight-sh"><div class="highlight"><pre>make clean
 make html
 </pre></div>
 </div>
-</div></blockquote>
 <p>The result is found in <tt class="docutils literal"><span class="pre">_build/html</span></tt> and for other options call <tt class="docutils literal"><span class="pre">make</span></tt>.</p>
 <ul class="simple">
 <li>If you get an error <em>&#8216;sphinx-build&#8217; is not recognized as an internal or external command, operable program or batch file</em> on calling <tt class="docutils literal"><span class="pre">make</span> <span class="pre">html</span></tt>, install <tt class="docutils literal"><span class="pre">sphinx</span></tt></li>
 <li>If you have DLL import errors (Windows), check the lib directory of the SAP NW RFC Library PATH env variable.</li>
 </ul>
-<div class="section" id="github-pages">
-<h3>GitHub Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h3>
 <p>The docu is hosted on GitHub Pages, a propietary solution where a git branch <tt class="docutils literal"><span class="pre">gh-pages</span></tt> is created
-as an orphan and the output of the documentation build process (<tt class="docutils literal"><span class="pre">_build/html</span></tt>) is stored in that branch.</p>
-<p>GitHub then serves these files under a special <tt class="docutils literal"><span class="pre">/pages/</span></tt> url.</p>
+as an orphan and the output of the documentation build process (<tt class="docutils literal"><span class="pre">_build/html</span></tt>) is stored in that branch.
+GitHub then serves these files under a special <tt class="docutils literal"><span class="pre">/pages/</span></tt> url.</p>
 <p>To update GitHub Pages, copy everyhing under <tt class="docutils literal"><span class="pre">_build/html</span></tt> and overwrite the existing files in the <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch root.</p>
+<div class="highlight-sh"><div class="highlight"><pre>cp _build/html ~/tmp
+git checkout gh-pages
+rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv
+cp -Rf ~/tmp/_build/html/. .
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>An additional file .nojekyll is placed in <tt class="docutils literal"><span class="pre">gh-pages</span></tt> to disable the default GitHub processing which breaks sphinx style folders with leading underscores.</p>
 <p class="last"><tt class="docutils literal"><span class="pre">gh-pages</span></tt> updates are a bit inconvenien, check if this answer helps <a class="reference external" href="http://stackoverflow.com/questions/4750520/git-branch-gh-pages">http://stackoverflow.com/questions/4750520/git-branch-gh-pages</a></p>
-</div>
 </div>
 </div>
 </div>
@@ -266,7 +255,7 @@ as an orphan and the output of the documentation build process (<tt class="docut
           
     <div class="footer">
         &copy; Copyright 2014, SAP.
-      Last updated on 2015-02-04 12:11.
+      Last updated on 2015-02-05 11:14.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
