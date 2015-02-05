@@ -171,7 +171,26 @@ Python on Linux
 .. _`install-python-linux`:
 
 * Install Python 2.7 (64bit, usually the default) via your preferred package manager
-  and ``easy_install``.
+
+* Install ``easy_install`` 
+
+  Use the ``distribute`` implementation of ``easy_install`` by downloading 
+  https://bootstrap.pypa.io/ez_setup.py and running
+
+  .. code-block:: none
+
+     python ez_setup.py
+
+  .. note::
+
+     At this point you may like to install the `pip`_ package which extends
+     the functionality of ``easy_install``. However, ``pip`` cannot handle binary
+     build distributions, which will be used later.
+
+     If you are in a internal network that uses a proxy to access resources from
+     the internet, you may encounter :ref:`connection problems<install-problems>`.
+
+     .. _pip: http://pypi.python.org/pypi/pip
 
 * Virtual environment (optional)
 

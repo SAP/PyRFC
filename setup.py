@@ -20,7 +20,7 @@ from distutils.extension import Extension
 # Note: Historically, the default setup.py did _not_ contain cython requirements.
 #       To build just the extensions inplace, use:
 #       python setup.py build_ext --inplace
-CYTHON_VERSION = '0.21.1'  # fixed to assure conscious change of version.
+CYTHON_VERSION = '0.21.2'  # fixed to assure conscious change of version.
 try:
     import Cython
 except ImportError:
@@ -41,12 +41,12 @@ def _read(name):
 if sys.platform.startswith('linux'):
     LIBS = ['sapnwrfc', 'sapucum']
     MACROS = [('NDEBUG', None), ('_LARGEFILE_SOURCE', None), ('_FILE_OFFSET_BITS', 64), ('SAPonUNIX', None), ('SAPwithUNICODE', None) , ('SAPwithTHREADS', None), ('SAPonLIN', None)]
-    COMPILE_ARGS = ['-Wall', '-O2', '-fexceptions', '-funsigned-char', '-fno-strict-aliasing', '-Wall', '-Wno-uninitialized', '-Wcast-align', '-fPIC', '-pthread', '-minline-all-stringops', '-I{}/include'.format(SAPNWRFC_HOME)]
-    LINK_ARGS = ['-L{}/lib'.format(SAPNWRFC_HOME)]
+    COMPILE_ARGS = ['-Wall', '-O2', '-fexceptions', '-funsigned-char', '-fno-strict-aliasing', '-Wall', '-Wno-uninitialized', '-Wcast-align', '-fPIC', '-pthread', '-minline-all-stringops', '-I{0}/include'.format(SAPNWRFC_HOME)]
+    LINK_ARGS = ['-L{0}/lib'.format(SAPNWRFC_HOME)]
 elif sys.platform.startswith('win'):
     LIBS = ['sapnwrfc', 'libsapucum']
     MACROS = [('_LARGEFILE_SOURCE', None), ('SAPwithUNICODE', None), ('_CONSOLE', None), ('WIN32', None), ('SAPonNT', None), ('SAP_PLATFORM_MAKENAME', 'ntintel'), ('UNICODE', None), ('_UNICODE', None)]
-    COMPILE_ARGS = ['-I{}\\include'.format(SAPNWRFC_HOME)]
+    COMPILE_ARGS = ['-I{0}\\include'.format(SAPNWRFC_HOME)]
     #LINK_ARGS = ['-L{}\\lib'.format(SAPNWRFC_HOME)] # JK: Does not work with MS VS8.0 Linker, works with MinGW?
     LINK_ARGS = ['-LIBPATH:{0}\\lib'.format(SAPNWRFC_HOME)]
 
@@ -69,6 +69,7 @@ setup(name=NAME,
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Cython',
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
