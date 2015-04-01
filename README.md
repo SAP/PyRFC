@@ -12,10 +12,8 @@ via SAP Remote Function Call (RFC) protocol.
 Platforms & Prerequisites
 -------------------------
 
-The _pyrfc_ has been initially built with Python 2.6 and later enhanced, mostly used and tested with Python 2.7, 
+The _pyrfc_ has been initially built with Python 2.6 and later enhanced, mostly used and tested with Python 2.7 and Python 3,
 on Linux and Windows 64 and 32 bit platforms.
-
-Python 3 is currently not supported and using Python 2.7 is therefore recommended for now.
 
 OS X and ARM platforms are currently not supported either, as _SAP NW RFC Library_ is not available for those platforms.
 
