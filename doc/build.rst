@@ -167,8 +167,8 @@ To update GitHub Pages, copy everyhing under ``_build/html`` and overwrite the e
 
     cp _build/html ~/tmp
     git checkout gh-pages
-    rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv 
-    cp -Rf ~/tmp/_build/html/. .
+    rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv .buildinfo 
+    cp -R ~/tmp/_build/html/. .
 
 
 .. note::
