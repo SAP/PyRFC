@@ -2002,14 +2002,17 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
         value = wrapString(dateValue, 8)
-        if (value == '00000000') or (u' ' == value[1]):
+        if (value == '00000000') or (u' ' == value[0]):
             return None
         return datetime.datetime.strptime(value, '%Y%m%d').date()
     elif typ == RFCTYPE_TIME:
         rc = RfcGetTime(container, cName, timeValue, &errorInfo)
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
-        return datetime.datetime.strptime(wrapString(timeValue, 6), '%H%M%S').time()
+        value = wrapString(timeValue, 6)
+        if (u' ' == value[0]):
+            return None
+        return datetime.datetime.strptime(value, '%H%M%S').time()
     else:
         raise RFCError('Unknown RFC type %d whenc wrapping %s' % (typ, wrapString(cName)))
 
