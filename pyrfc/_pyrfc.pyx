@@ -2039,10 +2039,14 @@ cdef wrapString(SAP_UC* uc, length=-1, rstrip=False):
         length = strlenU(uc)
     if length == 0:
         return ''
-    cdef unsigned utf8_size = length * 2
+    cdef unsigned utf8_size = length * 3
     cdef char *utf8 = <char*> malloc(utf8_size + 1)
     utf8[0] = '\0'
     cdef unsigned result_len = 0
+    rc = RfcSAPUCToUTF8(uc, length, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
+    if rc == RFC_BUFFER_TOO_SMALL:
+        free(utf8)
+        utf8 = <char*> malloc(utf8_size)
     rc = RfcSAPUCToUTF8(uc, length, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
