@@ -2031,6 +2031,7 @@ cdef wrapError(RFC_ERROR_INFO* errorInfo):
         wrapString(errorInfo.abapMsgV1), wrapString(errorInfo.abapMsgV2),
         wrapString(errorInfo.abapMsgV3), wrapString(errorInfo.abapMsgV4))
 
+from cpython.unicode cimport PyUnicode_DecodeUTF16
 
 cdef wrapString(SAP_UC* uc, length=-1, rstrip=False):
     cdef RFC_RC rc
@@ -2039,21 +2040,9 @@ cdef wrapString(SAP_UC* uc, length=-1, rstrip=False):
         length = strlenU(uc)
     if length == 0:
         return ''
-    cdef unsigned utf8_size = length * 3
-    cdef char *utf8 = <char*> malloc(utf8_size + 1)
-    utf8[0] = '\0'
-    cdef unsigned result_len = 0
-    rc = RfcSAPUCToUTF8(uc, length, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
-    if rc == RFC_BUFFER_TOO_SMALL:
-        free(utf8)
-        utf8 = <char*> malloc(utf8_size)
-    rc = RfcSAPUCToUTF8(uc, length, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
-    if rc != RFC_OK:
-        raise wrapError(&errorInfo)
-    try:
-        if rstrip:
-            return utf8.rstrip().decode('UTF-8')
-        else:
-            return utf8.decode('UTF-8')
-    finally:
-        free(utf8)
+
+    pyStr = PyUnicode_DecodeUTF16(<char*>uc, length*2, NULL, NULL)
+    if rstrip:
+        return pyStr.rstrip()
+    else:
+        return pyStr
