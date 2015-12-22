@@ -1602,11 +1602,24 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
-            cValue = fillString(value.strftime('%Y%m%d'))
+            if value is None:
+                cValue = fillString('19700101')
+            elif type(value) == unicode:
+                if len(value) == 0 or '':
+                    cValue = fillString('19700101')
+                else: # type value is date
+                    cValue = fillString(value)
+            else:
+                cValue = fillString(value.strftime('%Y%m%d'))
             rc = RfcSetDate(container, cName, cValue, &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_TIME:
-            cValue = fillString(value.strftime('%H%M%S'))
+            if (value is None):
+                cValue = fillString('000000')
+            elif type(value) is unicode:
+                cValue = fillString(value)
+            else: # type(value) is time:
+                cValue = fillString(value.strftime('%H%M%S'))
             rc = RfcSetTime(container, cName, cValue, &errorInfo)
             free(cValue)
         else:
@@ -2002,19 +2015,19 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
         value = wrapString(dateValue, 8)
-        if (value == '00000000') or (u' ' == value[0]):
+        if (value == '00000000') or (' ' in value):
             return None
-        return datetime.datetime.strptime(value, '%Y%m%d').date()
+        return value # datetime.datetime.strptime(value, '%Y%m%d').date()
     elif typ == RFCTYPE_TIME:
         rc = RfcGetTime(container, cName, timeValue, &errorInfo)
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
         value = wrapString(timeValue, 6)
-        if (u' ' == value[0]):
+        if (' ' in value):
             return None
-        return datetime.datetime.strptime(value, '%H%M%S').time()
+        return value # datetime.datetime.strptime(value, '%H%M%S').time()
     else:
-        raise RFCError('Unknown RFC type %d whenc wrapping %s' % (typ, wrapString(cName)))
+        raise RFCError('Unknown RFC type %d when wrapping %s' % (typ, wrapString(cName)))
 
 cdef wrapError(RFC_ERROR_INFO* errorInfo):
     group2error = { ABAP_APPLICATION_FAILURE: ABAPApplicationError,
@@ -2032,20 +2045,21 @@ cdef wrapError(RFC_ERROR_INFO* errorInfo):
         wrapString(errorInfo.abapMsgV3), wrapString(errorInfo.abapMsgV4))
 
 
-cdef wrapString(SAP_UC* uc, length=-1, rstrip=False):
+cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
-    if length == -1:
-        length = strlenU(uc)
-    if length == 0:
+    if uclen == -1:
+        uclen = strlenU(uc)
+    if uclen == 0:
         return ''
-    cdef unsigned utf8_size = length * 2
-    cdef char *utf8 = <char*> malloc(utf8_size + 1)
+    cdef unsigned utf8_size = uclen * 3 + 1
+    cdef char *utf8 = <char*> malloc(utf8_size)
     utf8[0] = '\0'
     cdef unsigned result_len = 0
-    rc = RfcSAPUCToUTF8(uc, length, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
+    rc = RfcSAPUCToUTF8(uc, uclen, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
     if rc != RFC_OK:
-        raise wrapError(&errorInfo)
+        # raise wrapError(&errorInfo)
+        raise RFCError('wrapString uclen: %u utf8_size: %u' % (uclen, utf8_size))
     try:
         if rstrip:
             return utf8.rstrip().decode('UTF-8')

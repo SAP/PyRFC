@@ -1,13 +1,13 @@
-
 import os
 import sys
 from setuptools import setup, find_packages
 from distutils.extension import Extension
+import Cython.Distutils
 # Cython import
 # Note: Historically, the default setup.py did _not_ contain cython requirements.
 #       To build just the extensions inplace, use:
 #       python setup.py build_ext --inplace
-CYTHON_VERSION = '0.22'  # fixed to assure conscious change of version.
+CYTHON_VERSION = '0.23.4'  # fixed to assure conscious change of version.
 try:
     import Cython
 except ImportError:
