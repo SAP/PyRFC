@@ -1,8 +1,11 @@
+.DS_Store
+.idea
+.eggs
+.venv
 build/
 develop-eggs/
 doc/_build/
 eggs/
-.eggs/
 etc/
 parts/
 var/
