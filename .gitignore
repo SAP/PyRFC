@@ -2,6 +2,7 @@
 .idea
 .eggs
 .venv
+.cache
 build/
 develop-eggs/
 doc/_build/
