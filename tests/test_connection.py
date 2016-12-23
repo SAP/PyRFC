@@ -1,70 +1,132 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime, pyrfc, unittest, socket, timeit
-from configparser import ConfigParser
+import datetime
+import pyrfc
+import socket
 
-config = ConfigParser()
-config.read('pyrfc.cfg')
-params = config._sections['connection']
+import pytest
 
-class ConnectionTest(unittest.TestCase):
+from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
-    @classmethod
-    def setUpClass(cls):
-        cls.conn = pyrfc.Connection(**params)
-        # Assure english as connection language
-        connection_info = cls.conn.get_connection_attributes()
-        if connection_info['isoLanguage'] != u'EN':
-            raise pyrfc.RFCError("Testing must be done with English as language.")
+class TestConnection():
 
-    @classmethod
-    def tearDownClass(cls):
-        pass
+    def setup_method(self, test_method):
+        """ A connection to an SAP backend system
+              Instantiating an :class:`pyrfc.Connection` object will
+              automatically attempt to open a connection the SAP backend.
+              :param config: Configuration of the instance. Allowed keys are:
+                    ``dtime``
+                      returns datetime types (accepts strings and datetimes), default is False
+                    ``rstrip``
+                      right strips strings returned from RFC call (default is True)
+                    ``return_import_params``
+                      importing parameters are returned by the RFC call (default is False)
+              :type config: dict or None (default)
+        """
+        self.conn = pyrfc.Connection(**params)
+        assert self.conn.alive
 
-    # TODO: test correct status after error -> or to the error tests?
+    def test_info(self):
+        connection_info = self.conn.get_connection_attributes()
+        assert connection_info['isoLanguage'] == u'EN'
 
+    def teardown_method(self, test_method):
+        self.conn.close()
+        assert not self.conn.alive
+
+    # todo: test correct status after error -> or to the error tests?
     def test_incomplete_params(self):
         incomplete_params = params.copy()
         for p in ['ashost', 'gwhost', 'mshost']:
             if p in incomplete_params:
                 del incomplete_params[p]
-        with self.assertRaises(pyrfc.ExternalRuntimeError) as run:
+        try:
             pyrfc.Connection(**incomplete_params)
-        self.assertEqual(run.exception.code, 20)
-        self.assertEqual(run.exception.key, 'RFC_INVALID_PARAMETER')
-        self.assertEqual(run.exception.message, 'Parameter ASHOST, GWHOST or MSHOST is missing.')
-
+        except pyrfc.RFCError as ex:
+            error = get_error(ex)
+        assert error['code'] == 20
+        assert error['key'] == 'RFC_INVALID_PARAMETER'
+        assert error['message'][0] in ['Parameter ASHOST, GWHOST, MSHOST or SERVER_PORT is missing.',
+        		'Parameter ASHOST, GWHOST or MSHOST is missing.']
+ 
     def test_denied_users(self):
         denied_params = params.copy()
         denied_params['user'] = 'BLAFASEL'
-        with self.assertRaises(pyrfc.LogonError) as run:
+        try:
             pyrfc.Connection(**denied_params)
-        self.assertEqual(run.exception.code, 2)
-        self.assertEqual(run.exception.key, 'RFC_LOGON_FAILURE')
-        self.assertEqual(run.exception.message, 'Name or password is incorrect (repeat logon)')
+        except pyrfc.LogonError as ex:
+            error = get_error(ex)
+
+        assert error['code'] == 2
+        assert error['key'] == 'RFC_LOGON_FAILURE'
+        assert error['message'][0] == 'Name or password is incorrect (repeat logon)'
 
     def test_config_parameter(self):
         # rstrip test
-        conn2 = pyrfc.Connection(config={'rstrip': False}, **config._sections['connection'])
+        conn = pyrfc.Connection(config={'rstrip': False}, **config_sections['connection'])
         hello = u'Hällo SAP!' + u' ' * 245
-        result = conn2.call('STFC_CONNECTION', REQUTEXT=hello)
-        self.assertEqual(result['ECHOTEXT'], hello, "Test with rstrip=False (input length=255 char)")
-        result = conn2.call('STFC_CONNECTION', REQUTEXT=hello.rstrip())
-        self.assertEqual(result['ECHOTEXT'], hello, "Test with rstrip=False (input length=10 char)")
-        conn2.close()
-
-        # return_import_params
+        result = conn.call('STFC_CONNECTION', REQUTEXT=hello)
+        assert result['ECHOTEXT'] == hello # Test with rstrip=False (input length=255 char)
+        result = conn.call('STFC_CONNECTION', REQUTEXT=hello.rstrip())
+        assert result['ECHOTEXT'] == hello # Test with rstrip=False (input length=10 char)
+        conn.close()
+        # dtime test
+        conn = pyrfc.Connection(config={'dtime': True}, **config_sections['connection'])
+        dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
+        assert type(dates['MODDATE']) is datetime.date
+        assert type(dates['MODTIME']) is datetime.time
+        del conn
+        conn = pyrfc.Connection(**config_sections['connection'])
+        dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
+        assert type(dates['MODDATE']) is not datetime.date
+        assert type(dates['MODDATE']) is not datetime.time
+        del conn
+        # no import params return
         result = self.conn.call('STFC_CONNECTION', REQUTEXT=hello)
-        with self.assertRaises(KeyError):
-            imp_var = result['REQUTEXT']
-        conn3 = pyrfc.Connection(config={'return_import_params': True}, **config._sections['connection'])
-        result = conn3.call('STFC_CONNECTION', REQUTEXT=hello.rstrip())
-        imp_var = result['REQUTEXT']
-        conn3.close()
+        assert 'REQTEXT' not in result
+        # return import params
+        conn = pyrfc.Connection(config={'return_import_params': True}, **config_sections['connection'])
+        result = conn.call('STFC_CONNECTION', REQUTEXT=hello.rstrip())
+        assert hello.rstrip() == result['REQUTEXT']
+        conn.close()
 
+    def test_ping(self):
+        self.conn.ping()
 
-    @unittest.skip("time consuming; may block other tests")
+    def test_call_undefined(self):
+        try:
+            self.conn.call('undefined')
+        except pyrfc.ABAPApplicationError as ex:
+            error = get_error(ex)
+        assert error['code'] == 5
+        assert error['key'] == 'FU_NOT_FOUND'
+        assert error['message'][0] == 'ID:FL Type:E Number:046 undefined'
+
+        try:
+            self.conn.call('STFC_CONNECTION', undefined=0)
+        except pyrfc.ExternalRuntimeError as ex:
+            error = get_error(ex)
+        assert error['code'] == 20
+        assert error['key'] == 'RFC_INVALID_PARAMETER'
+        assert error['message'][0] == "field 'undefined' not found"
+
+    def test_date_output(self):
+        lm = self.conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
+       	assert len(lm['MODDATE']) > 0
+       	assert len(lm['MODTIME']) > 0
+
+    def test_connection_attributes(self):
+        data = self.conn.get_connection_attributes()
+        assert data['client'] == str(params['client'])
+        assert data['host'] == str(socket.gethostname())
+        assert data['isoLanguage'] == str(params['lang'].upper())
+        # Only valid for direct logon systems:
+        # self.assertEqual(data['sysNumber'], str(params['sysnr']))
+        assert data['user'] == str(params['user'].upper())
+        assert data['rfcRole'] == u'C'
+
+'''
     def test_many_connections(self):
         # If too many connections are established, the following error will occur (on interactive python shell)
         #
@@ -80,41 +142,12 @@ class ConnectionTest(unittest.TestCase):
         #LINE        14345
         #COUNTER     1
         # ABAP:
-        for i in range(150):
+        for i in range(101):
             conn2 = pyrfc.Connection(**params)
-            conn2.close() # Use explicit close() here. If ommitted, the server may block an open connection attempt
+            # conn2.close() # Use explicit close() here. If ommitted, the server may block an open connection attempt
                           # _and refuse further connections_, resulting in RFC_INVALID_HANDLE errors for the other
                           # test!
 
-    def test_ping(self):
-        self.conn.ping()
-
-    def test_call_undefined(self):
-        with self.assertRaises(pyrfc.ABAPApplicationError) as run:
-            self.conn.call('undefined')
-        self.assertEqual(run.exception.code, 5)
-        self.assertEqual(run.exception.key, 'FU_NOT_FOUND')
-        self.assertEqual(run.exception.message, 'ID:FL Type:E Number:046 undefined')
-        with self.assertRaises(pyrfc.ExternalRuntimeError) as run:
-            self.conn.call('STFC_CONNECTION', undefined=0)
-        self.assertEqual(run.exception.code, 20)
-        self.assertEqual(run.exception.key, 'RFC_INVALID_PARAMETER')
-        self.assertEqual(run.exception.message, "field 'undefined' not found")
-
-
-    def test_date_output(self):
-        self.conn.call('BAPI_USER_GET_DETAIL', USERNAME='mc_test')
-
-
-    def test_connection_attributes(self):
-        data = self.conn.get_connection_attributes()
-        self.assertEqual(data['client'], str(params['client']))
-        self.assertEqual(data['host'], str(socket.gethostname()))
-        self.assertEqual(data['isoLanguage'], str(params['lang'].upper()))
-        # Only valid for direct logon systems:
-        # self.assertEqual(data['sysNumber'], str(params['sysnr']))
-        self.assertEqual(data['user'], str(params['user'].upper()))
-        self.assertEqual(data['rfcRole'], u'C')
 
 # old tests, referring to non static z-functions
 #    def test_invalid_input(self):
@@ -131,6 +164,4 @@ class ConnectionTest(unittest.TestCase):
 #            out = self.conn.call('Z_PBR_TEST_2', IV_INPUT_XSTRING=s)
 #            self.assertEqual(s, out['EV_EXPORT_XSTRING'])
 
-if __name__ == '__main__':
-    unittest.main()
-
+'''

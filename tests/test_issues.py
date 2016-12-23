@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import datetime
+import socket
+import pyrfc
+
+import pytest
+
+from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
+
+class TestIssues():
+
+    def setup_method(self, test_method):
+        """ A connection to an SAP backend system
+              Instantiating an :class:`pyrfc.Connection` object will
+              automatically attempt to open a connection the SAP backend.
+              :param config: Configuration of the instance. Allowed keys are:
+                    ``dtime``
+                      returns datetime types (accepts strings and datetimes), default is False
+                    ``rstrip``
+                      right strips strings returned from RFC call (default is True)
+                    ``return_import_params``
+                      importing parameters are returned by the RFC call (default is False)
+              :type config: dict or None (default)
+        """
+        self.conn = pyrfc.Connection(**params)
+        assert self.conn.alive
+
+    def test_info(self):
+        connection_info = self.conn.get_connection_attributes()
+        assert connection_info['isoLanguage'] == u'EN'
+
+    def teardown_method(self, test_method):
+        self.conn.close()
+        assert not self.conn.alive
+
+    def test_issue31(self):
+        """
+        This test cases covers the issue 31
+        """
+        filename = 'tests/data/issue31/rfcexec.exe'
+        block = 1024
+
+        with open(filename, 'rb') as file1:
+            send = file1.read()
+
+        send_content = [{'': bytearray(send[i:i+block])} for i in range(0, len(send), block)]
+
+        result = self.conn.call('ZTEST_RAW_TABLE', TT_TBL1024=send_content)
+
+        content = bytearray()
+        for line in send_content:
+            content += line['']
+
+        assert send == content
+
+        received_content = bytearray()
+        for line in result['TT_TBL1024']:
+            received_content += line['LINE']
+
+        assert type(content) is bytearray
+        assert type(content) == type(received_content)
+        received_content = received_content[:len(content)]
+        assert len(content) == len(received_content)
+        assert content == received_content
+
+
+
+

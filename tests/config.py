@@ -1,33 +1,24 @@
-I64 = {
-    user:      'user',
-    passwd:    'secret',
-    ashost:    '1.1.1.1',
-    sysnr:     '00',
-    client:    '800',
-    lang:      'EN'}
 
+try:
+    from configparser import ConfigParser
+    COPA = ConfigParser()
+except ImportError as ex:
+    COPA = config_parser()
+    from configparser import config_parser
 
-###########################
-# test_engine.py setup
-user_engine = user
-passwd_engine = passwd
+COPA.read('tests/pyrfc.cfg')
+CONFIG_SECTIONS = COPA._sections
+PARAMS = CONFIG_SECTIONS['test']
 
-params_engine = {
-    'ashost': ashost,
-    'client': client,
-    'saprouter': saprouter,
-    'sysnr': sysnr
-}
-
-config_engine = {
-    'connection.poolsize': '30',
-    'connection.precreate': '1',
-    'connection.reset_on_return': 'true',
-    'connection.ashost': ashost,
-    'connection.client': client,
-    'connection.saprouter': saprouter,
-    'connection.sysnr': sysnr,
-    'connection.lang': 'de' # TODO: Should this be here?
-    }
-
-
+def get_error(ex):
+    error = {}
+    ex_type_full = str(type(ex))
+    error['type'] = ex_type_full[ex_type_full.rfind(".")+1:ex_type_full.rfind("'")]
+    error['code'] = ex.code if hasattr(ex, 'code') else '<None>'
+    error['key'] = ex.key if hasattr(ex, 'key') else '<None>'
+    error['message'] = ex.message.split("\n")
+    error['msg_class'] = ex.msg_class if hasattr(ex, 'msg_class') else '<None>'
+    error['msg_type'] = ex.msg_type if hasattr(ex, 'msg_type') else '<None>'
+    error['msg_number'] = ex.msg_number if hasattr(ex, 'msg_number') else '<None>'
+    error['msg_v1'] = ex.msg_v1 if hasattr(ex, 'msg_v1') else '<None>'
+    return error
