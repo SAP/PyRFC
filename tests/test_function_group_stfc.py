@@ -1,33 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime, pyrfc, unittest, socket, timeit
+import datetime
+import pyrfc
 from decimal import Decimal
-from configparser import ConfigParser
 
-config = ConfigParser()
-config.read('pyrfc.cfg')
+from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
-
-class STFCTest(unittest.TestCase):
+class TestSTFC():
     """
     This test cases cover selected functions from the STFC function group.
     """
+    def setup_method(self, test_method):
+        self.conn = pyrfc.Connection(**params)
+        assert self.conn.alive
 
-    @classmethod
-    def setUpClass(cls):
-        cls.conn = pyrfc.Connection(**config._sections['connection'])
-        # Assure english as connection language
-        conn_attr = cls.conn.get_connection_attributes()
-        if conn_attr['isoLanguage'] != u'EN':
-            raise pyrfc.RFCError("Testing must be done with English as language.")
-        # ZCONN - connection to system with ZPRFC function modules
-        cls.zconn = pyrfc.Connection(**config._sections['connection_e1q'])
+    def test_info(self):
+        connection_info = self.conn.get_connection_attributes()
+        assert connection_info['isoLanguage'] == u'EN'
 
-    @classmethod
-    def tearDownClass(cls):
-        pass
-
+    def teardown_method(self, test_method):
+        self.conn.close()
+        assert not self.conn.alive
+    '''
     @unittest.skip("not supported yet (qrfc)")
     def test_STFC_CALL_QRFC(self):
     # STFC_CALL_QRFC qRFC mit Ausgangsqueue in der Verbuchung
@@ -57,16 +52,17 @@ class STFCTest(unittest.TestCase):
         #def test_STFC_CALL_TRFC_PLUS_UPDATE(self):
         # STFC_CALL_TRFC_PLUS_UPDATE TRFC in VB innerhalb der VB nochmal tRFC
     #    pass
+    '''
 
     def test_STFC_CONNECTION(self):
         # STFC_CONNECTION RFC-TEST:   CONNECTION Test
         # Test with rstrip:
         hello = u'Hällo SAP!'# In case that rstip=False + u' ' * 245
         result = self.conn.call('STFC_CONNECTION', REQUTEXT=hello)
-        self.assertTrue(result['RESPTEXT'].startswith('SAP'))
-        self.assertEqual(result['ECHOTEXT'], hello)
+        assert result['RESPTEXT'].startswith('SAP')
+        assert result['ECHOTEXT'] == hello
 
-
+    '''
     @unittest.skip("not supported yet (server)")
     def test_STFC_CONNECTION_BACK(self):
         # STFC_CONNECTION_BACK RFC-Test:  CONNECTION Test
@@ -105,46 +101,56 @@ class STFCTest(unittest.TestCase):
     def test_STFC_RETURN_DATA_INTERFACE(self):
         # STFC_RETURN_DATA_INTERFACE RFC-TEST:   Schnittstelenbeschreibung für tRFC/qRFC mit Rückmeldedaten
         pass
+    '''
 
     def test_STFC_SAPGUI(self):
         # STFC_SAPGUI RFC-TEST:   RFC with SAPGUI
-        with self.assertRaises(pyrfc.ABAPRuntimeError) as run:
+        try:
             self.conn.call('STFC_SAPGUI')
-        self.assertEqual(run.exception.code, 3)
-        self.assertEqual(run.exception.key, 'DYNPRO_SEND_IN_BACKGROUND')
+        except (pyrfc.ABAPRuntimeError) as ex:
+            error = get_error(ex)
+            assert error['code'] == 3
+            assert error['key'] == 'DYNPRO_SEND_IN_BACKGROUND'
 
+    '''
     @unittest.skip("not supported yet (server)")
     def test_STFC_START_CONNECT_REG_SERVER(self):
         # STFC_START_CONNECT_REG_SERVER RFC-Test:  CONNECTION Test
         pass
+    '''
+
 
     def test_STFC_STRUCTURE(self):
         # STFC_STRUCTURE Inhomogene Struktur
-        imp = dict(RFCFLOAT=1.23456789, RFCCHAR1=u'a',
+        imp = dict(RFCFLOAT=1.23456789,
                     RFCINT2=0x7ffe, RFCINT1=0x7f,
                     RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
                     RFCHEX3=str.encode('fgh'),
-                    RFCCHAR2=u'ij',
-                    RFCTIME=datetime.time(12,34,56),
-                    RFCDATE=datetime.date(2011,10,17),
-                    RFCDATA1=u'k'*50, RFCDATA2=u'l'*50)
-        out = dict(RFCFLOAT=imp['RFCFLOAT']+1, RFCCHAR1=u'X',
+                    RFCCHAR1=u'a', RFCCHAR2=u'ij',
+                    RFCTIME='123456',   #datetime.time(12,34,56),
+                    RFCDATE='20161231', #datetime.date(2011,10,17),
+                    RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+        )
+        out = dict(RFCFLOAT=imp['RFCFLOAT']+1,
                     RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
                     RFCINT4=imp['RFCINT4']+1,
                     RFCHEX3=b'\xf1\xf2\xf3',
-                    RFCCHAR2=u'YZ',
-                    RFCDATE=datetime.date.today(),
-                    RFCDATA1=u'k'*50, RFCDATA2=u'l'*50)
+                    RFCCHAR1=u'X', RFCCHAR2=u'YZ',
+                    RFCDATE=str(datetime.date.today()).replace('-',''),
+                    RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+        )
         result = self.conn.call('STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=[imp])
-        #print result
-        self.assertTrue(result['RESPTEXT'].startswith('SAP'))
-        self.assertEqual(result['ECHOSTRUCT'], imp)
-        self.assertEqual(len(result['RFCTABLE']), 2)
-        self.assertEqual(result['RFCTABLE'][0], imp)
+        assert result['RESPTEXT'].startswith('SAP')
+        #assert result['ECHOSTRUCT'] == imp
+        assert len(result['RFCTABLE']) == 2
+        for i in result['ECHOSTRUCT']:
+            assert result['ECHOSTRUCT'][i] == imp[i]
         del result['RFCTABLE'][1]['RFCCHAR4'] # contains variable system id
         del result['RFCTABLE'][1]['RFCTIME'] # contains variable server time
-        self.assertEqual(result['RFCTABLE'][1], out)
+        for i in result['RFCTABLE'][1]:
+            assert result['RFCTABLE'][1][i] == out[i]
 
+    '''
     def test_ZPYRFC_STFC_STRUCTURE(self):
         # ZYPRFC_STFC_STRUCTURE Inhomogene Struktur
         imp = dict(RFCFLOAT=1.23456789, RFCCHAR1=u'a',
@@ -168,15 +174,15 @@ class STFCTest(unittest.TestCase):
             RFCNUMC10='1234512345',
             RFCDEC17_8=Decimal('0')
         )
-        result = self.zconn.call('ZPYRFC_STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=[imp])
+        result = self.conn.call('ZPYRFC_STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=[imp])
         #print result
         self.assertTrue(result['RESPTEXT'].startswith('SAP'))
-        self.assertEqual(result['ECHOSTRUCT'], imp)
-        self.assertEqual(len(result['RFCTABLE']), 2)
-        self.assertEqual(result['RFCTABLE'][0], imp)
+        assert result['ECHOSTRUCT'] == imp
+        assert len(result['RFCTABLE']) == 2
+        assert result['RFCTABLE'][0] == imp
         del result['RFCTABLE'][1]['RFCCHAR4'] # contains variable system id
         del result['RFCTABLE'][1]['RFCTIME'] # contains variable server time
-        self.assertEqual(result['RFCTABLE'][1], out)
+        assert result['RFCTABLE'][1] == out
 
     @unittest.skip("not supported yet (trfc)")
     def test_STFC_TX_TEST(self):
@@ -202,4 +208,4 @@ class STFCTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
+    '''
