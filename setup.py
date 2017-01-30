@@ -53,7 +53,7 @@ PYRFC_EXT = Extension(
 setup(name=NAME,
       version=_read('VERSION').strip(),
       description='Python bindings for SAP NetWeaver RFC Library (libsapnwrfc)',
-      long_description=_read('README.rst'),
+      long_description=_read('README.md'),
       classifiers=[ # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
