@@ -1614,29 +1614,27 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
-            if not value:
-                # None or '' -> ''
-                cValue = fillString('') # '19700101'
-            else:
+            if (value): # not None or empty
                 if type(value) is datetime.date:
-                    # python date -> ABAP datestr
+                    # python date to ABAP str
                     cValue = fillString(value.strftime('%Y%m%d'))
                 else:
-                    # python unicode or str to ABAP datestr
+                    # python unicode or str to ABAP str
                     cValue = fillString(value)
-            rc = RfcSetDate(container, cName, cValue, &errorInfo)
-            free(cValue)
+                print 'date type', type(value), 'value', value, 'len', len(value)
+                rc = RfcSetDate(container, cName, cValue, &errorInfo)
+                free(cValue)
         elif typ == RFCTYPE_TIME:
-            if not value:
-                cValue = fillString('') # '000000'
-            else:
+            if (value): # not None or empty
                 if type(value) is datetime.time:
+                    # python time to ABAP str
                     cValue = fillString(value.strftime('%H%M%S'))
                 else:
                     # python unicode or str to ABAP str
                     cValue = fillString(value)
-            rc = RfcSetTime(container, cName, cValue, &errorInfo)
-            free(cValue)
+                print 'time type', type(value), 'value', value, 'len', len(value)
+                rc = RfcSetTime(container, cName, cValue, &errorInfo)
+                free(cValue)
         else:
             raise RFCError('Unknown RFC type %d when filling %s' % (typ, wrapString(cName)))
     except TypeError as e:
