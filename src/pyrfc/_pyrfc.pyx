@@ -1621,7 +1621,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                 else:
                     # python unicode or str to ABAP str
                     cValue = fillString(value)
-                print 'date type', type(value), 'value', value, 'len', len(value)
+                # print 'date type', type(value), 'value', value, 'len', len(value)
                 rc = RfcSetDate(container, cName, cValue, &errorInfo)
                 free(cValue)
         elif typ == RFCTYPE_TIME:
@@ -1632,7 +1632,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                 else:
                     # python unicode or str to ABAP str
                     cValue = fillString(value)
-                print 'time type', type(value), 'value', value, 'len', len(value)
+                # print 'time type', type(value), 'value', value, 'len', len(value)
                 rc = RfcSetTime(container, cName, cValue, &errorInfo)
                 free(cValue)
         else:
