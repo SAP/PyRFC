@@ -1,34 +1,31 @@
-PyRFC - The Python RFC Connector
-================================
+# PyRFC - The Python RFC Connector
 
-Description
------------
+## Description
 
 The _pyrfc_ Python package provides Python bindings for _SAP NetWeaver RFC Library_, 
 for a comfortable way of calling ABAP modules from Python and Python modules from ABAP, 
 via SAP Remote Function Call (RFC) protocol.
 
-
-Platforms & Prerequisites
--------------------------
+## Platforms & Prerequisites
 
 The _pyrfc_ has been initially built with Python 2.6 and later enhanced, mostly used and tested with Python 2.7 and Python 3,
-on Linux and Windows 64 and 32 bit platforms.
+on Ubuntu Linux and Windows 64 and 32 bit platforms.
 
 OS X and ARM platforms are currently not supported either, as _SAP NW RFC Library_ is not available for those platforms.
+
+On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributable Package (KB973544), or [newer](https://www.microsoft.com/en-us/download/details.aspx?id=48145), must be installed, per [SAP Note 1375494 - SAP system does not start after applying SAP kernel patch](https://launchpad.support.sap.com/#/notes/1375494).
 
 To start using _pyrfc_ you need to obtain _SAP NW RFC Library_ from _SAP Service Marketplace_,
 following [these instructions](http://sap.github.io/PyRFC/install.html#install-c-connector).
 
 A prerequisite to download is having a **customer or partner account** on _SAP Service Marketplace_ and if you
-are SAP employee please check SAP OSS note [1037575 - Software download authorizations for SAP employees](http://service.sap.com/sap/support/notes/1037575).
+are SAP employee please check [SAP Note 1037575 - Software download authorizations for SAP employees](https://launchpad.support.sap.com/#/notes/1037575).
 
 _SAP NW RFC Library_ is fully backwards compatible, supporting all NetWeaver systems, from today, down to release R/3 4.0. 
 You can therefore always use the newest version released on Service Marketplace and connect to older systems as well.
 
 
-Usage examples
---------------
+## Usage examples
 
 In order to call remote enabled ABAP function module (ABAP RFM), first a connection must be opened.
 
