@@ -177,6 +177,12 @@ cdef class Connection:
         self._close() # Although the _close() method is also called in the destructor, the
                       # explicit call assures the immediate closing to the connection.
 
+    def open(self):
+        self._open()
+
+    def reopen(self):
+        self._reopen()
+
     def close(self):
         """ Explicitly close the connection.
 
