@@ -3,7 +3,9 @@ Change log
 
 1.9.6
 -----
-- don't fill invalid dates and times into container, let the backend logic handle
+- don't fix and fill invalid dates and times into container, let the client and backend handle
+- expose open and reopen methods
+- Windows prerequisites added to README
 
 1.9.5
 -----
