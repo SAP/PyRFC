@@ -48,8 +48,8 @@ class TestConnection():
         assert error['code'] == 20
         assert error['key'] == 'RFC_INVALID_PARAMETER'
         assert error['message'][0] in ['Parameter ASHOST, GWHOST, MSHOST or SERVER_PORT is missing.',
-        		'Parameter ASHOST, GWHOST or MSHOST is missing.']
- 
+                     'Parameter ASHOST, GWHOST or MSHOST is missing.']
+
     def test_denied_users(self):
         denied_params = params.copy()
         denied_params['user'] = 'BLAFASEL'
@@ -113,8 +113,8 @@ class TestConnection():
 
     def test_date_output(self):
         lm = self.conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
-       	assert len(lm['MODDATE']) > 0
-       	assert len(lm['MODTIME']) > 0
+        assert len(lm['MODDATE']) > 0
+        assert len(lm['MODTIME']) > 0
 
     def test_connection_attributes(self):
         data = self.conn.get_connection_attributes()

@@ -177,6 +177,12 @@ cdef class Connection:
         self._close() # Although the _close() method is also called in the destructor, the
                       # explicit call assures the immediate closing to the connection.
 
+    def open(self):
+        self._open()
+
+    def reopen(self):
+        self._reopen()
+
     def close(self):
         """ Explicitly close the connection.
 
@@ -1614,29 +1620,27 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
-            if not value:
-                # None or '' -> ''
-                cValue = fillString('') # '19700101'
-            else:
+            if (value): # not None or empty
                 if type(value) is datetime.date:
-                    # python date -> ABAP datestr
+                    # python date to ABAP str
                     cValue = fillString(value.strftime('%Y%m%d'))
                 else:
-                    # python unicode or str to ABAP datestr
+                    # python unicode or str to ABAP str
                     cValue = fillString(value)
-            rc = RfcSetDate(container, cName, cValue, &errorInfo)
-            free(cValue)
+                # print 'date type', type(value), 'value', value, 'len', len(value)
+                rc = RfcSetDate(container, cName, cValue, &errorInfo)
+                free(cValue)
         elif typ == RFCTYPE_TIME:
-            if not value:
-                cValue = fillString('') # '000000'
-            else:
+            if (value): # not None or empty
                 if type(value) is datetime.time:
+                    # python time to ABAP str
                     cValue = fillString(value.strftime('%H%M%S'))
                 else:
                     # python unicode or str to ABAP str
                     cValue = fillString(value)
-            rc = RfcSetTime(container, cName, cValue, &errorInfo)
-            free(cValue)
+                # print 'time type', type(value), 'value', value, 'len', len(value)
+                rc = RfcSetTime(container, cName, cValue, &errorInfo)
+                free(cValue)
         else:
             raise RFCError('Unknown RFC type %d when filling %s' % (typ, wrapString(cName)))
     except TypeError as e:
@@ -1712,12 +1716,13 @@ cdef fillError(exception, RFC_ERROR_INFO* errorInfo):
 cdef SAP_UC* fillString(pyuc) except NULL:
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
-    cdef unsigned sapuc_size = len(pyuc) + 1
+    ucbytes = pyuc.encode('utf-8')
+    cdef unsigned ucbytes_len = len(ucbytes)
+    cdef unsigned sapuc_size = ucbytes_len + 1
     cdef SAP_UC* sapuc = mallocU(sapuc_size)
     sapuc[0] = '\0'
     cdef unsigned result_len = 0
-    utf8 = pyuc.encode('UTF-8')
-    rc = RfcUTF8ToSAPUC(utf8, len(utf8), sapuc, &sapuc_size, &result_len, &errorInfo)
+    rc = RfcUTF8ToSAPUC(ucbytes, ucbytes_len, sapuc, &sapuc_size, &result_len, &errorInfo)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
     return sapuc
