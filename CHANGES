@@ -1,7 +1,19 @@
 Change log
 ==========
 
+1.9.6
+-----
+- don't fix and fill invalid dates and times into container, let the client and backend handle
+- expose open and reopen methods
+- Windows prerequisites added to README
+- 8 bytes unicode fix, issue #38
+
+1.9.5
+-----
+- wheels packages added
+
 1.9.4 (Development)
+-------------------
 - RfcGetVersion API added
 - More docu
 - Unit tests
