@@ -6,6 +6,7 @@ Change log
 - don't fix and fill invalid dates and times into container, let the client and backend handle
 - expose open and reopen methods
 - Windows prerequisites added to README
+- 8 bytes unicode fix, issue #38
 
 1.9.5
 -----

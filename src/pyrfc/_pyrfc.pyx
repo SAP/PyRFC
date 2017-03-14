@@ -1716,12 +1716,13 @@ cdef fillError(exception, RFC_ERROR_INFO* errorInfo):
 cdef SAP_UC* fillString(pyuc) except NULL:
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
-    cdef unsigned sapuc_size = len(pyuc) + 1
+    ucbytes = pyuc.encode('utf-8')
+    cdef unsigned ucbytes_len = len(ucbytes)
+    cdef unsigned sapuc_size = ucbytes_len + 1
     cdef SAP_UC* sapuc = mallocU(sapuc_size)
     sapuc[0] = '\0'
     cdef unsigned result_len = 0
-    utf8 = pyuc.encode('UTF-8')
-    rc = RfcUTF8ToSAPUC(utf8, len(utf8), sapuc, &sapuc_size, &result_len, &errorInfo)
+    rc = RfcUTF8ToSAPUC(ucbytes, ucbytes_len, sapuc, &sapuc_size, &result_len, &errorInfo)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
     return sapuc
