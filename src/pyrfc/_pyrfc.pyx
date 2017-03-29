@@ -7,9 +7,9 @@
 # http: //www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an 
+# software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-# either express or implied. See the License for the specific 
+# either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
 """ The _pyrfc C-extension module """
@@ -150,7 +150,7 @@ cdef class Connection:
             self._bconfig |= _MASK_RETURN_IMPORT_PARAMS
         if self._config['rstrip']:
             self._bconfig |= _MASK_RSTRIP
-        
+
         self.paramCount = len(params)
         self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
         cdef int i = 0
@@ -324,7 +324,6 @@ cdef class Connection:
         })
         return result
 
-
     def get_function_description(self, func_name):
         """ Returns a function description of a function module.
 
@@ -387,6 +386,51 @@ cdef class Connection:
                 return wrapResult(funcDesc, funcCont, RFC_IMPORT, self._bconfig)
         finally:
             RfcDestroyFunction(funcCont, NULL)
+
+    ##########################################################################
+    ## HELPER METHODS
+
+    def func_desc_remove(self, sysid, func_name):
+        """Removes the Function Description from SAP NW RFC Lib cache
+
+        :param sysid: system id (connection parameters sysid)
+        :type sysid: string
+
+        :param func_name: Name of the function module that will be invoked.
+        :type func_name: string
+
+        :returns: error code
+        """
+        cdef RFC_ERROR_INFO errorInfo
+        sysId = fillString(sysid)
+        funcName = fillString(func_name)
+        cdef RFC_RC rc = RfcRemoveFunctionDesc(sysId, funcName, &errorInfo)
+        free(sysId)
+        free(funcName)
+        if rc != RFC_OK:
+            self._error(&errorInfo)
+        return rc
+
+    def func_desc_get_cached(self, sysid, func_name):
+        """Removes the Function Description from SAP NW RFC Lib cache
+
+        :param sysid: system id (connection parameters sysid)
+        :type sysid: string
+
+        :param func_name: Name of the function module that will be invoked.
+        :type func_name: string
+
+        :returns: function description
+        """
+        cdef RFC_ERROR_INFO errorInfo
+        sysId = fillString(sysid)
+        funcName = fillString(func_name)
+        cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetCachedFunctionDesc(sysId, funcName, &errorInfo)
+        free(sysId)
+        free(funcName)
+        if funcDesc == NULL:
+            self._error(&errorInfo)
+        return wrapFunctionDescription(funcDesc)
 
     ##########################################################################
     ## TRANSACTIONAL / QUEUED RFC
