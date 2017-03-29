@@ -272,6 +272,8 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcGetParameterDescByIndex(RFC_FUNCTION_DESC_HANDLE funcDesc, unsigned index, RFC_PARAMETER_DESC* paramDesc, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetParameterDescByName(RFC_FUNCTION_DESC_HANDLE funcDesc, SAP_UC* name, RFC_PARAMETER_DESC* paramDesc, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcDestroyFunctionDesc(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcRemoveFunctionDesc(const_SAP_UC_ptr repositoryID, const_SAP_UC_ptr functionName, RFC_ERROR_INFO* errorInfo)
+    RFC_FUNCTION_DESC_HANDLE RfcGetCachedFunctionDesc(const_SAP_UC_ptr repositoryID, const_SAP_UC_ptr funcName, RFC_ERROR_INFO* errorInfo);
 
     RFC_RC RfcGetRowCount(RFC_TABLE_HANDLE tableHandle, unsigned* rowCount, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcMoveTo(RFC_TABLE_HANDLE tableHandle, unsigned index, RFC_ERROR_INFO* errorInfo)

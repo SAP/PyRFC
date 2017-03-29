@@ -69,7 +69,6 @@ class TestIssues():
         assert content == received_content
 
     def test_issue38(self):
-
         test = [
             'string',
             u'四周远处都能望见',
@@ -83,8 +82,22 @@ class TestIssues():
             result = self.conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
             assert is_input['ZSHLP_MAT1'] == result['ZSHLP_MAT1']
 
+    def test_issue40(self):
 
+        # put in cache
+        result = self.conn.call('BAPI_USER_GET_DETAIL', USERNAME="DEMO")
 
+        # get from cache
+        fd = self.conn.func_desc_get_cached('S16', 'BAPI_USER_GET_DETAIL')
+        assert fd.__class__ is pyrfc._pyrfc.FunctionDescription
 
-
+        # remove from cache
+        self.conn.func_desc_remove('S16', 'BAPI_USER_GET_DETAIL')
+        try:
+            fd = self.conn.func_desc_get_cached('S16', 'BAPI_USER_GET_DETAIL')
+            assert fd.__class__ is not 'pyrfc._pyrfc.FunctionDescription'
+        except pyrfc.RFCError as ex:
+            error = get_error(ex)
+            assert error['code'] == 17
+            assert error['key'] == 'RFC_NOT_FOUND'
 

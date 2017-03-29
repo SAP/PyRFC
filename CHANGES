@@ -1,6 +1,12 @@
 Change log
 ==========
 
+1.9.7
+-----
+- helper methods added:
+    remove function description from cache (issue #40)
+    read function description from cache (for unit test of the above)
+
 1.9.6
 -----
 - don't fix and fill invalid dates and times into container, let the client and backend handle
