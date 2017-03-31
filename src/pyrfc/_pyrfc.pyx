@@ -389,6 +389,42 @@ cdef class Connection:
 
     ##########################################################################
     ## HELPER METHODS
+    def type_desc_get(self, type_name):
+        """Removes the Type Description from SAP NW RFC Lib cache
+
+        :param type_name: system id (connection parameters sysid)
+        :type type_name: string
+
+        :returns: error code
+        """
+        cdef RFC_ERROR_INFO errorInfo
+        typeName = fillString(type_name)
+        cdef RFC_TYPE_DESC_HANDLE typeDesc = RfcGetTypeDesc(self._handle, typeName, &errorInfo)
+        free(typeName)
+        if typeDesc == NULL:
+            self._error(&errorInfo)
+        return wrapTypeDescription(typeDesc)
+
+    def type_desc_remove(self, sysid, type_name):
+        """Removes the Type Description from SAP NW RFC Lib cache
+
+        :param sysid: system id (connection parameters sysid)
+        :type sysid: string
+
+        :param type_name: Name of the type to be removed
+        :type func_name: string
+
+        :returns: error code
+        """
+        cdef RFC_ERROR_INFO errorInfo
+        sysId = fillString(sysid)
+        typeName = fillString(type_name)
+        cdef RFC_RC rc = RfcRemoveTypeDesc(sysId, typeName, &errorInfo)
+        free(sysId)
+        free(typeName)
+        if rc != RFC_OK:
+            self._error(&errorInfo)
+        return rc
 
     def func_desc_remove(self, sysid, func_name):
         """Removes the Function Description from SAP NW RFC Lib cache
@@ -396,7 +432,7 @@ cdef class Connection:
         :param sysid: system id (connection parameters sysid)
         :type sysid: string
 
-        :param func_name: Name of the function module that will be invoked.
+        :param func_name: Name of the function module to be removed
         :type func_name: string
 
         :returns: error code
@@ -429,6 +465,7 @@ cdef class Connection:
         free(sysId)
         free(funcName)
         if funcDesc == NULL:
+            # todo errorInfo here corrupted, causes wrapString exceptions
             self._error(&errorInfo)
         return wrapFunctionDescription(funcDesc)
 

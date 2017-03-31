@@ -264,6 +264,8 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcGetFieldDescByName(RFC_TYPE_DESC_HANDLE typeHandle, SAP_UC* name, RFC_FIELD_DESC* fieldDescr, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetTypeLength(RFC_TYPE_DESC_HANDLE typeHandle, unsigned* nucByteLength, unsigned* ucByteLength, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcDestroyTypeDesc(RFC_TYPE_DESC_HANDLE typeHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_TYPE_DESC_HANDLE RfcGetTypeDesc(RFC_CONNECTION_HANDLE rfcHandle, SAP_UC* typeName, RFC_ERROR_INFO* errorInfo);
+    RFC_RC RfcRemoveTypeDesc(SAP_UC* repositoryID, SAP_UC* typeName, RFC_ERROR_INFO* errorInfo);
 
     RFC_FUNCTION_DESC_HANDLE RfcCreateFunctionDesc(SAP_UC* name, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetFunctionName(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_ABAP_NAME bufferForName, RFC_ERROR_INFO* errorInfo)
