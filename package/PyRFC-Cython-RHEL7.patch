@@ -1,0 +1,12 @@
+diff -ruN PyRFC-1.9.6/setup.py PyRFC-1.9.6.patch/setup.py
+--- PyRFC-1.9.6/setup.py	2017-03-14 19:46:43.000000000 +0100
++++ PyRFC-1.9.6.patch/setup.py	2017-04-05 11:19:24.621797476 +0200
+@@ -4,7 +4,7 @@
+ from setuptools import setup, find_packages
+ from distutils.extension import Extension
+ 
+-CYTHON_VERSION = '0.25.2'  # fixed to assure conscious change of version.
++CYTHON_VERSION = '0.19'  # fixed to assure conscious change of version.
+ try:
+     import Cython.Distutils
+ except ImportError:
