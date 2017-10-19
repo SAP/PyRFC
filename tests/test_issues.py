@@ -85,7 +85,7 @@ class TestIssues():
             assert is_input['ZSHLP_MAT1'] == result['ZSHLP_MAT1']
 
     def test_issue40(self):
-
+        '''
         # put in cache
         result = self.conn.call('BAPI_USER_GET_DETAIL', USERNAME="DEMO")
 
@@ -94,7 +94,7 @@ class TestIssues():
         assert fd.__class__ is pyrfc._pyrfc.FunctionDescription
 
         # remove from cache
-        '''
+
         self.conn.func_desc_remove('S16', 'BAPI_USER_GET_DETAIL')
         try:
             fd = self.conn.func_desc_get_cached('S16', 'BAPI_USER_GET_DETAIL')

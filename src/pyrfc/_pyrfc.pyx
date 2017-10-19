@@ -154,7 +154,7 @@ cdef class Connection:
         self.paramCount = len(params)
         self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
         cdef int i = 0
-        for name, value in params.items():
+        for name, value in params.iteritems():
             self.connectionParams[i].name = fillString(name)
             self.connectionParams[i].value = fillString(value)
             i += 1
@@ -374,7 +374,7 @@ cdef class Connection:
         if not funcCont:
             self._error(&errorInfo)
         try: # now we have a function module
-            for name, value in params.items():
+            for name, value in params.iteritems():
                 fillFunctionParameter(funcDesc, funcCont, name, value)
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
@@ -498,7 +498,7 @@ cdef class Connection:
                 if not funcCont:
                     self._error(&errorInfo)
                 try:
-                    for name, value in params.items():
+                    for name, value in params.iteritems():
                         fillFunctionParameter(funcDesc, funcCont, name, value)
                     # Add RFC call to transaction
                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)
@@ -661,7 +661,7 @@ cdef class Connection:
                 if not funcCont:
                     self._error(&errorInfo)
                 try:
-                    for name, value in params.items():
+                    for name, value in params.iteritems():
                         fillFunctionParameter(funcDesc, funcCont, name, value)
                     # Add RFC call to unit
                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)
@@ -1201,7 +1201,7 @@ cdef RFC_RC genericRequestHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_
         fillError(new_error, serverErrorInfo)
         return RFC_EXTERNAL_FAILURE
 
-    for name, value in result.items():
+    for name, value in result.iteritems():
         fillFunctionParameter(funcDesc, funcHandle, name, value)
     return RFC_OK
 
@@ -1252,7 +1252,7 @@ cdef class Server:
         self.paramCount = len(params)
         self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
         cdef int i = 0
-        for name, value in params.items():
+        for name, value in params.iteritems():
             self.connectionParams[i].name = fillString(name)
             self.connectionParams[i].value = fillString(value)
             i += 1
@@ -1307,7 +1307,7 @@ cdef class Server:
         cdef RFC_ERROR_INFO errorInfo
 
         # Remove all installed server functions
-        for name, server_data in server_functions.items():
+        for name, server_data in server_functions.iteritems():
             if server_data["server"] == self:
                 del server_functions[name]
 
@@ -1475,7 +1475,7 @@ cdef class _Testing:
         if not funcCont:
             raise wrapError(&errorInfo)
         try: # now we have a function module
-            for name, value in params.items():
+            for name, value in params.iteritems():
                 fillFunctionParameter(funcDesc, funcCont, name, value)
 
             rc = genericRequestHandler(NULL, funcCont, &errorInfo)
@@ -1627,7 +1627,7 @@ cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines)
         if not lineHandle:
             raise wrapError(&errorInfo)
         if type(line) is dict:
-            for name, value in line.items():
+            for name, value in line.iteritems():
                 fillStructureField(typeDesc, lineHandle, name, value)
         else:
             for value in line:
@@ -1645,7 +1645,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             rc = RfcGetStructure(container, cName, &struct, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            for name, value in value.items():
+            for name, value in value.iteritems():
                 fillStructureField(typeDesc, struct, name, value)
         elif typ == RFCTYPE_TABLE:
             rc = RfcGetTable(container, cName, &table, &errorInfo)
