@@ -374,7 +374,7 @@ cdef class Connection:
         if not funcCont:
             self._error(&errorInfo)
         try: # now we have a function module
-            for name, value in params.iteritems():
+            for name, value in params.items():
                 fillFunctionParameter(funcDesc, funcCont, name, value)
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
@@ -447,28 +447,6 @@ cdef class Connection:
             self._error(&errorInfo)
         return rc
 
-    def func_desc_get_cached(self, sysid, func_name):
-        """Removes the Function Description from SAP NW RFC Lib cache
-
-        :param sysid: system id (connection parameters sysid)
-        :type sysid: string
-
-        :param func_name: Name of the function module that will be invoked.
-        :type func_name: string
-
-        :returns: function description
-        """
-        cdef RFC_ERROR_INFO errorInfo
-        sysId = fillString(sysid)
-        funcName = fillString(func_name)
-        cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetCachedFunctionDesc(sysId, funcName, &errorInfo)
-        free(sysId)
-        free(funcName)
-        if funcDesc == NULL:
-            # todo errorInfo here corrupted, causes wrapString exceptions
-            self._error(&errorInfo)
-        return wrapFunctionDescription(funcDesc)
-
     ##########################################################################
     ## TRANSACTIONAL / QUEUED RFC
 
@@ -520,7 +498,7 @@ cdef class Connection:
                 if not funcCont:
                     self._error(&errorInfo)
                 try:
-                    for name, value in params.iteritems():
+                    for name, value in params.items():
                         fillFunctionParameter(funcDesc, funcCont, name, value)
                     # Add RFC call to transaction
                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)
@@ -683,7 +661,7 @@ cdef class Connection:
                 if not funcCont:
                     self._error(&errorInfo)
                 try:
-                    for name, value in params.iteritems():
+                    for name, value in params.items():
                         fillFunctionParameter(funcDesc, funcCont, name, value)
                     # Add RFC call to unit
                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)
@@ -1223,7 +1201,7 @@ cdef RFC_RC genericRequestHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_
         fillError(new_error, serverErrorInfo)
         return RFC_EXTERNAL_FAILURE
 
-    for name, value in result.iteritems():
+    for name, value in result.items():
         fillFunctionParameter(funcDesc, funcHandle, name, value)
     return RFC_OK
 
@@ -1497,7 +1475,7 @@ cdef class _Testing:
         if not funcCont:
             raise wrapError(&errorInfo)
         try: # now we have a function module
-            for name, value in params.iteritems():
+            for name, value in params.items():
                 fillFunctionParameter(funcDesc, funcCont, name, value)
 
             rc = genericRequestHandler(NULL, funcCont, &errorInfo)
@@ -1648,8 +1626,12 @@ cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines)
         lineHandle = RfcAppendNewRow(container, &errorInfo)
         if not lineHandle:
             raise wrapError(&errorInfo)
-        for name, value in line.iteritems():
-            fillStructureField(typeDesc, lineHandle, name, value)
+        if type(line) is dict:
+            for name, value in line.items():
+                fillStructureField(typeDesc, lineHandle, name, value)
+        else:
+            for value in line:
+                fillStructureField(typeDesc, lineHandle, '', value)
 
 cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, value, RFC_TYPE_DESC_HANDLE typeDesc):
     cdef RFC_RC rc
@@ -1663,7 +1645,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             rc = RfcGetStructure(container, cName, &struct, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            for name, value in value.iteritems():
+            for name, value in value.items():
                 fillStructureField(typeDesc, struct, name, value)
         elif typ == RFCTYPE_TABLE:
             rc = RfcGetTable(container, cName, &table, &errorInfo)
@@ -1966,6 +1948,9 @@ cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container
     for i in range(fieldCount):
         RfcGetFieldDescByIndex(typeDesc, i, &fieldDesc, NULL)
         result[wrapString(fieldDesc.name)] = wrapVariable(fieldDesc.type, container, fieldDesc.name, fieldDesc.nucLength, fieldDesc.typeDescHandle, config)
+    if len(result) == 1:
+        if '' in result:
+            result = result.values()[0]
     return result
 
 ## Used for debugging tables, cf. wrapTable()
