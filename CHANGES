@@ -6,6 +6,7 @@ Change log
 - helper methods added:
     remove function description from cache (issue #40)
     read function description from cache (for unit test of the above)
+- tables with elementary line types (not a structure) don't require '' keys anymore
 
 1.9.6
 -----
