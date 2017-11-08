@@ -8,8 +8,7 @@ via SAP Remote Function Call (RFC) protocol.
 
 ## Platforms & Prerequisites
 
-The _pyrfc_ has been initially built with Python 2.6 and later enhanced, mostly used and tested with Python 2.7 and Python 3,
-on Ubuntu Linux and Windows 64 and 32 bit platforms.
+The _pyrfc_ has been initially built with Python 2.6 and wheels are provided for Python 2.7 and 3.6, on 64 bit Linux and Windows platform.
 
 OS X and ARM platforms are currently not supported either, as _SAP NW RFC Library_ is not available for those platforms.
 
@@ -23,7 +22,6 @@ are SAP employee please check [SAP Note 1037575 - Software download authorizatio
 
 _SAP NW RFC Library_ is fully backwards compatible, supporting all NetWeaver systems, from today, down to release R/3 4.0. 
 You can therefore always use the newest version released on Service Marketplace and connect to older systems as well.
-
 
 ## Usage examples
 
@@ -62,13 +60,11 @@ like in a next example, showing the connection via saprouter.
 
 >>> from pyrfc import Connection
 
->>> SAPROUTER = '/H/111.22.33.44/S/3299/W/e5ngxs/H/555.66.777.888/H/'
-
 >>> TEST = {
 ...    'user'      : 'me',
 ...    'passwd'    : 'secret',
 ...    'ashost'    : '10.0.0.1',
-...    'saprouter' : SAPROUTER,
+...    'saprouter' : '/H/111.22.33.44/S/3299/W/e5ngxs/H/555.66.777.888/H/',
 ...    'sysnr'     : '00',
 ...    'client'    : '100',
 ...    'trace' : '3', #optional, in case you want to trace
