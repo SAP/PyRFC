@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 from distutils.extension import Extension
 
-CYTHON_VERSION = '0.25.2'  # fixed to assure conscious change of version.
+CYTHON_VERSION = '0.27.3'  # fixed to assure conscious change of version.
 try:
     import Cython.Distutils
 except ImportError:

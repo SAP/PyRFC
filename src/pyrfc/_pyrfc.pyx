@@ -1950,7 +1950,7 @@ cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container
         result[wrapString(fieldDesc.name)] = wrapVariable(fieldDesc.type, container, fieldDesc.name, fieldDesc.nucLength, fieldDesc.typeDescHandle, config)
     if len(result) == 1:
         if '' in result:
-            result = result.values()[0]
+            result = result['']
     return result
 
 ## Used for debugging tables, cf. wrapTable()

@@ -3,10 +3,12 @@ Change log
 
 1.9.7
 -----
+- Cython 0.27.3
 - helper methods added:
     remove function description from cache (issue #40)
     read function description from cache (for unit test of the above)
-- tables with elementary line types (not a structure) don't require '' keys anymore
+- no '' keys required anymore for tables with elementary line types (not a structure) 
+- Linux and Windows wheels for Python 2.7 and 3.6
 
 1.9.6
 -----
