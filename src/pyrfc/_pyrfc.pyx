@@ -1630,8 +1630,7 @@ cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines)
             for name, value in line.iteritems():
                 fillStructureField(typeDesc, lineHandle, name, value)
         else:
-            for value in line:
-                fillStructureField(typeDesc, lineHandle, '', value)
+            fillStructureField(typeDesc, lineHandle, '', line)
 
 cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, value, RFC_TYPE_DESC_HANDLE typeDesc):
     cdef RFC_RC rc
