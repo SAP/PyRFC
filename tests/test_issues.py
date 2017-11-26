@@ -80,7 +80,7 @@ class TestIssues():
         ]
 
         for s in test:
-            is_input = {'ZSHLP_MAT1': s}
+            is_input = {'ZSHLP_MAT1': s, 'ZFLTP': 123.45}
             result = self.conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
             assert is_input['ZSHLP_MAT1'] == result['ZSHLP_MAT1']
 
