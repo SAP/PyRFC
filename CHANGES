@@ -1,6 +1,11 @@
 Change log
 ==========
 
+1.9.8
+-----
+- Fix array fill
+- Fix float values handling
+
 1.9.7
 -----
 - Cython 0.27.3
