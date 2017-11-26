@@ -1672,11 +1672,11 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             rc = RfcSetNum(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_BCD:
-            cValue = fillString(str(value)) # cast to string; works for float and Decimal
-            rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
-            free(cValue)
+            #cValue = fillString(str(value)) # cast to string; works for float and Decimal
+            #rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
+            #free(cValue)
             # Setting the value if passed as float.
-            #rc = RfcSetFloat(container, cName, value, &errorInfo)
+            rc = RFC_OK # RfcSetFloat(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_FLOAT:
             rc = RfcSetFloat(container, cName, value, &errorInfo)
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
