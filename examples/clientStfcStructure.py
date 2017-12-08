@@ -2,7 +2,11 @@ from pyrfc import Connection
 
 from pprint import pprint
 import datetime
-from ConfigParser import ConfigParser
+try:
+    from ConfigParser import ConfigParser
+except ModuleNotFoundError as e:
+    from configparser import ConfigParser
+
 import sys
 
 imp = dict(
@@ -17,9 +21,9 @@ imp = dict(
     RFCDATA1=u'k'*50, RFCDATA2=u'l'*50, # CHAR[50] each
 
     RFCTIME=datetime.time(12,34,56), # TIME
-    RFCDATE=datetime.date(2012,10,03), # DATE
+    RFCDATE=datetime.date(2012,10,3), # DATE
 
-    RFCHEX3='\x66\x67\x68' # BYTE[3]: String with 3 hexadecimal values (='fgh')
+    RFCHEX3=b'\x66\x67\x68' # BYTE[3]: String with 3 hexadecimal values (='fgh')
 )
 
 def main():
