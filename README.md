@@ -74,7 +74,7 @@ like in a next example, showing the connection via saprouter.
 >>> conn = get_connection(TEST)
 Connecting ... 10.0.0.1
 
->>>c.alive
+>>>conn.alive
 True
 ```
 
