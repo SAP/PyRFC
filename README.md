@@ -15,7 +15,7 @@ OS X and ARM platforms are currently not supported either, as _SAP NW RFC Librar
 On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributable Package (KB973544), or [newer](https://www.microsoft.com/en-us/download/details.aspx?id=48145), must be installed, per [SAP Note 1375494 - SAP system does not start after applying SAP kernel patch](https://launchpad.support.sap.com/#/notes/1375494).
 
 To start using _pyrfc_ you need to obtain _SAP NW RFC Library_ from _SAP Service Marketplace_,
-following [these instructions](http://sap.github.io/PyRFC/install.html#install-c-connector).
+following [these instructions](http://sap.github.io/PyRFC/install.html#install-c-connector). The /dist/ folder of this repository contains egg files (.egg) and wheel files (.whl). Either use _easy_install_ to install the appropriate egg file for your system or use _pip_ to install _pyrfc_ from an appropriate wheel file.
 
 A prerequisite to download is having a **customer or partner account** on _SAP Service Marketplace_ and if you
 are SAP employee please check [SAP Note 1037575 - Software download authorizations for SAP employees](https://launchpad.support.sap.com/#/notes/1037575).
@@ -74,7 +74,7 @@ like in a next example, showing the connection via saprouter.
 >>> conn = get_connection(TEST)
 Connecting ... 10.0.0.1
 
->>>c.alive
+>>>conn.alive
 True
 ```
 
