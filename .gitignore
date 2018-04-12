@@ -29,3 +29,4 @@ tests/config-sap.py
 tests/pyrfc-sap.cfg
 pool/
 setuptools*.egg
+.pytest_cache
