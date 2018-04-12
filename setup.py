@@ -1,10 +1,11 @@
 from codecs import open
+import inspect
 import os
 import sys
 from setuptools import setup, find_packages
 from distutils.extension import Extension
 
-CYTHON_VERSION = '0.27.3'  # fixed to assure conscious change of version.
+CYTHON_VERSION = '0.28.1'  # fixed to assure conscious change of version.
 try:
     import Cython.Distutils
 except ImportError:
@@ -17,7 +18,8 @@ if not SAPNWRFC_HOME:
 # Python sources
 PYTHONSOURCE = os.environ.get('PYTHONSOURCE')
 if not PYTHONSOURCE:
-    sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
+    PYTHONSOURCE = inspect.getfile(inspect).split('/inspect.py')[0]
+    #sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
 
 NAME = 'pyrfc'
 HERE = os.path.abspath(os.path.dirname(__file__))
