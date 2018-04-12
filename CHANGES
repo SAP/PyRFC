@@ -1,29 +1,29 @@
 Change log
 ==========
 
-1.9.8
------
+1.9.8 (2017-11-26)
+------------------
 - Fix array fill
 - Fix float values handling
 
-1.9.7
------
+1.9.7 (2017-11-08)
+------------------
 - Cython 0.27.3
-- helper methods added:
+- Helper methods added:
     remove function description from cache (issue #40)
     read function description from cache (for unit test of the above)
-- no '' keys required anymore for tables with elementary line types (not a structure) 
+- No '' keys required anymore for tables with elementary line types (not a structure) 
 - Linux and Windows wheels for Python 2.7 and 3.6
 
-1.9.6
------
-- don't fix and fill invalid dates and times into container, let the client and backend handle
-- expose open and reopen methods
+1.9.6 (2017-03-17)
+------------------
+- Don't fix and fill invalid dates and times into container, let the client and backend handle
+- Expose open and reopen methods
 - Windows prerequisites added to README
 - 8 bytes unicode fix, issue #38
 
-1.9.5
------
+1.9.5 (2016-12-23)
+------------------
 - wheels packages added
 
 1.9.4 (Development)
