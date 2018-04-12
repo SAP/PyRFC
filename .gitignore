@@ -1,6 +1,9 @@
+.DS_Store
+doc
 .eggs
 .pytest_cache
 __pycache__
 build
 src
 tests
+
