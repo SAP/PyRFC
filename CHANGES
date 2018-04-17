@@ -1,6 +1,11 @@
 Change log
 ==========
 
+1.9.9 (2018-04-18)
+-----------------
+- Deactivate not requested parameters (see RfcSetParameterActive)
+
+
 1.9.8 (2017-11-26)
 ------------------
 - Fix array fill

@@ -343,11 +343,14 @@ cdef class Connection:
             self._error(&errorInfo)
         return wrapFunctionDescription(funcDesc)
 
-    def call(self, func_name, **params):
+    def call(self, func_name, options={}, **params):
         """ Invokes a remote-enabled function module via RFC.
 
         :param func_name: Name of the function module that will be invoked.
         :type func_name: string
+        
+        :param options: Call options, like 'skip', to deactivate certain parameters.
+        :type options: dictionary
 
         :param params: Parameter of the function module. All non optional
               IMPORT, CHANGING, and TABLE parameters must be provided.
@@ -363,6 +366,7 @@ cdef class Connection:
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         cdef unsigned paramCount
+        cdef SAP_UC *cName
         funcName = fillString(func_name)
         if not self.alive:
             self._open()
@@ -373,7 +377,18 @@ cdef class Connection:
         cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
         if not funcCont:
             self._error(&errorInfo)
+        cdef int isActive = 0
         try: # now we have a function module
+            if 'not_requested' in options:
+                skip_parameters = options['not_requested']
+                if not isinstance(skip_parameters, list):
+                    skip_parameters = [skip_parameters]
+                for name in skip_parameters:
+                    cName = fillString(name)
+                    rc = RfcSetParameterActive(funcCont, cName, isActive, &errorInfo)
+                    free(cName)
+                    if rc != RFC_OK:
+                        self._error(&errorInfo)
             for name, value in params.iteritems():
                 fillFunctionParameter(funcDesc, funcCont, name, value)
             with nogil:
