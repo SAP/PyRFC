@@ -64,7 +64,7 @@ class TestConnection():
 
     def test_config_parameter(self):
         # rstrip test
-        conn = pyrfc.Connection(config={'rstrip': False}, **config_sections['connection'])
+        conn = pyrfc.Connection(config={'rstrip': False}, **config_sections['coevi51'])
         hello = u'Hällo SAP!' + u' ' * 245
         result = conn.call('STFC_CONNECTION', REQUTEXT=hello)
         assert result['ECHOTEXT'] == hello # Test with rstrip=False (input length=255 char)
@@ -72,12 +72,12 @@ class TestConnection():
         assert result['ECHOTEXT'] == hello # Test with rstrip=False (input length=10 char)
         conn.close()
         # dtime test
-        conn = pyrfc.Connection(config={'dtime': True}, **config_sections['connection'])
+        conn = pyrfc.Connection(config={'dtime': True}, **config_sections['coevi51'])
         dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
         assert type(dates['MODDATE']) is datetime.date
         assert type(dates['MODTIME']) is datetime.time
         del conn
-        conn = pyrfc.Connection(**config_sections['connection'])
+        conn = pyrfc.Connection(**config_sections['coevi51'])
         dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
         assert type(dates['MODDATE']) is not datetime.date
         assert type(dates['MODDATE']) is not datetime.time
@@ -86,7 +86,7 @@ class TestConnection():
         result = self.conn.call('STFC_CONNECTION', REQUTEXT=hello)
         assert 'REQTEXT' not in result
         # return import params
-        conn = pyrfc.Connection(config={'return_import_params': True}, **config_sections['connection'])
+        conn = pyrfc.Connection(config={'return_import_params': True}, **config_sections['coevi51'])
         result = conn.call('STFC_CONNECTION', REQUTEXT=hello.rstrip())
         assert hello.rstrip() == result['REQUTEXT']
         conn.close()
@@ -126,6 +126,23 @@ class TestConnection():
         assert data['user'] == str(params['user'].upper())
         assert data['rfcRole'] == u'C'
 
+    def test_not_requested(self):
+        PLNTY='A'
+        PLNNR='00100000'
+        NOT_REQUESTED = [
+        'ET_COMPONENTS',
+        'ET_HDR_HIERARCHY',
+        'ET_MPACKAGES',
+        'ET_OPERATIONS',
+        'ET_OPR_HIERARCHY',
+        'ET_PRTS',
+        'ET_RELATIONS',
+        ]
+        result = self.conn.call('EAM_TASKLIST_GET_DETAIL', {'not_requested': NOT_REQUESTED}, IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
+        assert len(result['ET_RETURN']) == 0
+        result = self.conn.call('EAM_TASKLIST_GET_DETAIL', IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
+        assert len(result['ET_RETURN']) == 1
+        
 '''
     def test_many_connections(self):
         # If too many connections are established, the following error will occur (on interactive python shell)

@@ -8,7 +8,7 @@ except ImportError as ex:
 
 COPA.read('tests/pyrfc.cfg')
 CONFIG_SECTIONS = COPA._sections
-PARAMS = CONFIG_SECTIONS['test']
+PARAMS = CONFIG_SECTIONS['coevi51']
 def get_error(ex):
     error = {}
     ex_type_full = str(type(ex))
