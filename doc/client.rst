@@ -389,8 +389,8 @@ numeric           I          Integer (whole number)                     INT     
 numeric           F          Floating point number                      FLOAT       float
 numeric           P          Packed number / BCD number                 BCD         Decimal
 character         C          Text field (alphanumeric characters)       CHAR        unicode
-character         D          Date field (Format: YYYYMMDD)              DATE        datetime.date
-character         T          Time field (Format: HHMMSS)                TIME        datetime.time
+character         D          Date field (Format: YYYYMMDD)              DATE        datetime.date  or string -> config['dtime']
+character         T          Time field (Format: HHMMSS)                TIME        datetime.time  or string -> config['dtime']
 character         N          Numeric text field (numeric characters)    NUM         unicode
 hexadecimal       X          Hexadecimal field                          BYTE        str [bytes]
 variable length   STRING     Dynamic length string                      STRING      unicode
@@ -399,7 +399,7 @@ variable length   XSTRING    Dynamic length hexadecimal string          BYTE    
 
 Further `details on predefined ABAP types`_ are available online.
 
-.. _details on predefined ABAP types: http://help.sap.com/saphelp_nw04/helpdata/en/fc/eb2fd9358411d1829f0000e829fbfe/content.htm
+.. _details on predefined ABAP types: https://help.sap.com/http.svc/rc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenddic_builtin_types_intro.htm
 
 The Python representation of a parameter is a simple key-value pair, where
 the key is the name of the parameter and the value is the value of the parameter

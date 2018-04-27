@@ -20,12 +20,12 @@ SAP NW RFC Library Installation
 
 The entry page for *SAP NetWeaver RFC library* is SAP Service Marketplace (SMP), http://service.sap.com/rfc-library, 
 with detailed instructions how to 
-`download <http://service.sap.com/sap/support/notes/1025361>`_, 
+`download <https://launchpad.support.sap.com/#/notes/1025361>`_, 
 `use <https://websmp103.sap-ag.de/~sapidb/011000358700000869672007.pdf>`_ and 
-`compile <https://websmp103.sap-ag.de/sap/support/notes/1056696>`_.
+`compile <https://launchpad.support.sap.com/#/notes/1056696>`_.
 
 Basically, you should search for ``SAP NW RFC SDK 7.20``, in ``Software Downloads`` of SAP Software Download Center 
-on `SMP Support Portal <http://service.sap.com/support>`_, download SAP NW RFC Library adequate for your platform 
+on `SMP Support Portal <https://support.sap.com>`_, download SAP NW RFC Library adequate for your platform 
 and Python version combination (see the matrix below) and unpack using ``SAPCAR`` archive utility.
 
 .. figure:: images/SMP-SAPNWRFCSDK.png
@@ -59,7 +59,7 @@ Linux      Python 2.7 (64bit) *Linux on x86_64 64bit*        ``NWRFC_20-20004565
 
    * The server functionality is currently not working under Windows 32bit
 
-.. _SAP Note 1025361: http://service.sap.com/sap/support/notes/1025361
+.. _SAP Note 1025361: https://launchpad.support.sap.com/#/notes/1025361
 .. _download location: http://www.service.sap.com/~form/handler?_APP=00200682500000001943&_EVENT=DISPHIER&HEADER=N&FUNCTIONBAR=N&EVENT=TREE&TMPL=01200314690200010197&V=MAINT
 
 
