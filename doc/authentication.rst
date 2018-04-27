@@ -7,10 +7,9 @@ Security
 Plain RFC connections are mainly used for prototyping, while in production
 secure connections are required. For more information on RFC security see:
 
-* `Security on SAP Service Marketplace <https://service.sap.com/security>`_
+* `Security on SAP Service Marketplace <https://www.sap.com/corporate/en/company/security.html>`_
 * `RFC Security Best Practices on SAP SCN <http://wiki.scn.sap.com/wiki/display/Security/Best+Practice+-+How+to+analyze+and+secure+RFC+connections>`_
 * `Secure Network Communication (SNC) - SAP Help <http://help.sap.com/saphelp_nw70ehp1/helpdata/en/0a/0a2e0fef6211d3a6510000e835363f/frameset.htm>`_
-* `SNC User Guide <http://scn.sap.com/docs/DOC-14065>`_
 
 SAP NW RFC Library supports plain and secure connection with following authentication methods:
 
@@ -64,7 +63,7 @@ SNC with User PSE
 
 `User PSE <http://help.sap.com/saphelp_nw73/helpdata/en/4c/61a6c6364012f3e10000000a15822b/content.htm?frameset=/en/4c/6269c8c72271d0e10000000a15822b/frameset.htm>`_
 is used for opening the SNC connection and the same user is used for the authentication
-(logon) in NW ABAP backend. Generally not recomended, see `SAP Note 1028503 - SNC-secured RFC connection: Logon ticket is ignored <http://service.sap.com/sap/support/notes/1028503>`_
+(logon) in NW ABAP backend. Generally not recomended, see `SAP Note 1028503 - SNC-secured RFC connection: Logon ticket is ignored <https://launchpad.support.sap.com/#/notes/1028503>`_
 
 **Prerequisites**
 

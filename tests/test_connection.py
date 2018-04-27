@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from decimal import Decimal
 import datetime
 import pyrfc
 import socket
@@ -142,7 +143,62 @@ class TestConnection():
         assert len(result['ET_RETURN']) == 0
         result = self.conn.call('EAM_TASKLIST_GET_DETAIL', IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
         assert len(result['ET_RETURN']) == 1
-        
+
+    def test_datatypes(self):
+        INPUTS = [ dict(
+            # Float
+            ZFLTP = 0.123456789,
+
+            # Decimal
+            ZDEC = 12345.67,
+
+            # Currency, Quantity
+            ZCURR = 1234.56,
+            ZQUAN = 12.3456,
+            ZQUAN_SIGN = -12.345
+        ),
+
+        dict(
+            # Float
+            ZFLTP = Decimal('0.123456789'),
+
+            # Decimal
+            ZDEC = Decimal('12345.67'),
+
+            # Currency, Quantity
+            ZCURR = Decimal('1234.56'),
+            ZQUAN = Decimal('12.3456'),
+            ZQUAN_SIGN = Decimal('-12.345'),
+        ),
+
+        dict(
+            # Float
+            ZFLTP = '0.123456789',
+
+            # Decimal
+            ZDEC = '12345.67',
+
+            # Currency, Quantity
+            ZCURR = '1234.56',
+            ZQUAN = '12.3456',
+            ZQUAN_SIGN = '-12.345',    
+        ) ]
+
+        for is_input in INPUTS:
+            result = self.conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+            for k in is_input:
+                in_value = is_input[k]
+                out_value = result[k]
+                if k == 'ZFLTP':
+                    assert(type(out_value) is float)
+                else:
+                    assert(type(out_value) is Decimal)
+                if type(in_value) != type(out_value):
+                    assert(str(in_value) == str(out_value))
+                else:
+                    assert(in_value == out_value)
+
+
 '''
     def test_many_connections(self):
         # If too many connections are established, the following error will occur (on interactive python shell)
