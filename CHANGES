@@ -1,8 +1,8 @@
 Change log
 ==========
 
-1.9.92 (in progress)
---------------------
+1.9.92 (2018-07-31)
+-------------------
 - pyrfc.__version__ attribute added
 - Cython version restriction removed
 - Documentation
