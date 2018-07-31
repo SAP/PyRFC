@@ -21,7 +21,7 @@ from pyrfc._exception import RFCError, RFCLibError,\
 
 from pyrfc._pyrfc import get_nwrfclib_version, Connection, TypeDescription, FunctionDescription, Server
 
-__version__ = "1.9.91"
+__version__ = "1.9.92"
 
 # TODO: define __all__ variable
 #
