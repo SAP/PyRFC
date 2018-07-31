@@ -1,6 +1,12 @@
 Change log
 ==========
 
+1.9.92 (in progress)
+--------------------
+- pyrfc.__version__ attribute added
+- Cython version restriction removed
+- Documentation
+
 1.9.91 (2018-04-27)
 ------------------
 - BCD and Floats input conversion fix
