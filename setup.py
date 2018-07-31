@@ -5,11 +5,10 @@ import sys
 from setuptools import setup, find_packages
 from distutils.extension import Extension
 
-CYTHON_VERSION = '0.28.2'  # fixed to assure conscious change of version.
 try:
     import Cython.Distutils
 except ImportError:
-    sys.exit('Cython not installed. Please install version {}.'.format(CYTHON_VERSION))
+    sys.exit('Cython not installed.')
 
 # SAP NW RFC SDK dependency
 SAPNWRFC_HOME = os.environ.get('SAPNWRFC_HOME')
@@ -82,7 +81,7 @@ setup(name=NAME,
       zip_safe=False, # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
       install_requires=['setuptools'],
       setup_requires=['setuptools-git',
-                      'Cython==' + CYTHON_VERSION,
+                      'Cython',
                       'Sphinx'],
       cmdclass={'build_ext': Cython.Distutils.build_ext},
       ext_modules=[PYRFC_EXT],
