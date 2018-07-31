@@ -8,12 +8,12 @@ Change log
 - Documentation
 
 1.9.91 (2018-04-27)
-------------------
+-------------------
 - BCD and Floats input conversion fix
 
 
 1.9.9 (2018-04-18)
------------------
+------------------
 - Deactivate not requested parameters (see RfcSetParameterActive)
 
 
