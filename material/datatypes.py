@@ -91,7 +91,7 @@ ZQUAN_SIGN = -12.345,
 )
 
 
-result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+result = conn.call('/COE/RBP_FE_DATATYPES['ES_OUTPUT']
 for key, in_value in is_input.iteritems():
     out_value = result[key]
     if type(in_value) != type(out_value):
