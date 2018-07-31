@@ -10,6 +10,7 @@ import pytest
 
 from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
+
 class TestConnection():
 
     def setup_method(self, test_method):
@@ -27,6 +28,11 @@ class TestConnection():
         """
         self.conn = pyrfc.Connection(**params)
         assert self.conn.alive
+
+    def test_version(self):
+        with open('VERSION', 'r') as f:
+            VERSION = f.read().strip()
+        assert pyrfc.__version__ == VERSION
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
@@ -49,7 +55,7 @@ class TestConnection():
         assert error['code'] == 20
         assert error['key'] == 'RFC_INVALID_PARAMETER'
         assert error['message'][0] in ['Parameter ASHOST, GWHOST, MSHOST or SERVER_PORT is missing.',
-                     'Parameter ASHOST, GWHOST or MSHOST is missing.']
+                                       'Parameter ASHOST, GWHOST or MSHOST is missing.']
 
     def test_denied_users(self):
         denied_params = params.copy()
@@ -65,21 +71,27 @@ class TestConnection():
 
     def test_config_parameter(self):
         # rstrip test
-        conn = pyrfc.Connection(config={'rstrip': False}, **config_sections['coevi51'])
+        conn = pyrfc.Connection(
+            config={'rstrip': False}, **config_sections['coevi51'])
         hello = u'Hällo SAP!' + u' ' * 245
         result = conn.call('STFC_CONNECTION', REQUTEXT=hello)
-        assert result['ECHOTEXT'] == hello # Test with rstrip=False (input length=255 char)
+        # Test with rstrip=False (input length=255 char)
+        assert result['ECHOTEXT'] == hello
         result = conn.call('STFC_CONNECTION', REQUTEXT=hello.rstrip())
-        assert result['ECHOTEXT'] == hello # Test with rstrip=False (input length=10 char)
+        # Test with rstrip=False (input length=10 char)
+        assert result['ECHOTEXT'] == hello
         conn.close()
         # dtime test
-        conn = pyrfc.Connection(config={'dtime': True}, **config_sections['coevi51'])
-        dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
+        conn = pyrfc.Connection(
+            config={'dtime': True}, **config_sections['coevi51'])
+        dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')[
+            'LASTMODIFIED']
         assert type(dates['MODDATE']) is datetime.date
         assert type(dates['MODTIME']) is datetime.time
         del conn
         conn = pyrfc.Connection(**config_sections['coevi51'])
-        dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
+        dates = conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')[
+            'LASTMODIFIED']
         assert type(dates['MODDATE']) is not datetime.date
         assert type(dates['MODDATE']) is not datetime.time
         del conn
@@ -87,7 +99,8 @@ class TestConnection():
         result = self.conn.call('STFC_CONNECTION', REQUTEXT=hello)
         assert 'REQTEXT' not in result
         # return import params
-        conn = pyrfc.Connection(config={'return_import_params': True}, **config_sections['coevi51'])
+        conn = pyrfc.Connection(
+            config={'return_import_params': True}, **config_sections['coevi51'])
         result = conn.call('STFC_CONNECTION', REQUTEXT=hello.rstrip())
         assert hello.rstrip() == result['REQUTEXT']
         conn.close()
@@ -113,7 +126,8 @@ class TestConnection():
         assert error['message'][0] == "field 'undefined' not found"
 
     def test_date_output(self):
-        lm = self.conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')['LASTMODIFIED']
+        lm = self.conn.call('BAPI_USER_GET_DETAIL', USERNAME='demo')[
+            'LASTMODIFIED']
         assert len(lm['MODDATE']) > 0
         assert len(lm['MODTIME']) > 0
 
@@ -128,64 +142,67 @@ class TestConnection():
         assert data['rfcRole'] == u'C'
 
     def test_not_requested(self):
-        PLNTY='A'
-        PLNNR='00100000'
+        PLNTY = 'A'
+        PLNNR = '00100000'
         NOT_REQUESTED = [
-        'ET_COMPONENTS',
-        'ET_HDR_HIERARCHY',
-        'ET_MPACKAGES',
-        'ET_OPERATIONS',
-        'ET_OPR_HIERARCHY',
-        'ET_PRTS',
-        'ET_RELATIONS',
+            'ET_COMPONENTS',
+            'ET_HDR_HIERARCHY',
+            'ET_MPACKAGES',
+            'ET_OPERATIONS',
+            'ET_OPR_HIERARCHY',
+            'ET_PRTS',
+            'ET_RELATIONS',
         ]
-        result = self.conn.call('EAM_TASKLIST_GET_DETAIL', {'not_requested': NOT_REQUESTED}, IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
+        result = self.conn.call('EAM_TASKLIST_GET_DETAIL', {
+                                'not_requested': NOT_REQUESTED}, IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
         assert len(result['ET_RETURN']) == 0
-        result = self.conn.call('EAM_TASKLIST_GET_DETAIL', IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
+        result = self.conn.call('EAM_TASKLIST_GET_DETAIL',
+                                IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
         assert len(result['ET_RETURN']) == 1
 
     def test_datatypes(self):
-        INPUTS = [ dict(
+        INPUTS = [dict(
             # Float
-            ZFLTP = 0.123456789,
+            ZFLTP=0.123456789,
 
             # Decimal
-            ZDEC = 12345.67,
+            ZDEC=12345.67,
 
             # Currency, Quantity
-            ZCURR = 1234.56,
-            ZQUAN = 12.3456,
-            ZQUAN_SIGN = -12.345
+            ZCURR=1234.56,
+            ZQUAN=12.3456,
+            ZQUAN_SIGN=-12.345
         ),
 
-        dict(
+            dict(
             # Float
-            ZFLTP = Decimal('0.123456789'),
+            ZFLTP=Decimal('0.123456789'),
 
             # Decimal
-            ZDEC = Decimal('12345.67'),
+            ZDEC=Decimal('12345.67'),
 
             # Currency, Quantity
-            ZCURR = Decimal('1234.56'),
-            ZQUAN = Decimal('12.3456'),
-            ZQUAN_SIGN = Decimal('-12.345'),
+            ZCURR=Decimal('1234.56'),
+            ZQUAN=Decimal('12.3456'),
+            ZQUAN_SIGN=Decimal('-12.345'),
         ),
 
-        dict(
+            dict(
             # Float
-            ZFLTP = '0.123456789',
+            ZFLTP='0.123456789',
 
             # Decimal
-            ZDEC = '12345.67',
+            ZDEC='12345.67',
 
             # Currency, Quantity
-            ZCURR = '1234.56',
-            ZQUAN = '12.3456',
-            ZQUAN_SIGN = '-12.345',    
-        ) ]
+            ZCURR='1234.56',
+            ZQUAN='12.3456',
+            ZQUAN_SIGN='-12.345',
+        )]
 
         for is_input in INPUTS:
-            result = self.conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+            result = self.conn.call(
+                '/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
             for k in is_input:
                 in_value = is_input[k]
                 out_value = result[k]
