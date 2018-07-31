@@ -1,9 +1,11 @@
 # PyRFC - The Python RFC Connector
 
+[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 ## Description
 
-The _pyrfc_ Python package provides Python bindings for _SAP NetWeaver RFC Library_, 
-for a comfortable way of calling ABAP modules from Python and Python modules from ABAP, 
+The _pyrfc_ Python package provides Python bindings for _SAP NetWeaver RFC Library_,
+for a comfortable way of calling ABAP modules from Python and Python modules from ABAP,
 via SAP Remote Function Call (RFC) protocol.
 
 ## Platforms & Prerequisites
@@ -20,7 +22,7 @@ following [these instructions](http://sap.github.io/PyRFC/install.html#install-c
 A prerequisite to download is having a **customer or partner account** on _SAP Service Marketplace_ and if you
 are SAP employee please check [SAP Note 1037575 - Software download authorizations for SAP employees](https://launchpad.support.sap.com/#/notes/1037575).
 
-_SAP NW RFC Library_ is fully backwards compatible, supporting all NetWeaver systems, from today, down to release R/3 4.0. 
+_SAP NW RFC Library_ is fully backwards compatible, supporting all NetWeaver systems, from today, down to release R/3 4.0.
 You can therefore always use the newest version released on Service Marketplace and connect to older systems as well.
 
 ## Usage examples
@@ -49,7 +51,7 @@ Finally, the connection is closed automatically when the instance is deleted by 
     # connection automatically closed here
 ```
 
-Alternatively, connection parameters can be provided as a dictionary, 
+Alternatively, connection parameters can be provided as a dictionary,
 like in a next example, showing the connection via saprouter.
 
 ```python
@@ -78,10 +80,9 @@ Connecting ... 10.0.0.1
 True
 ```
 
-Installation & Documentation
-----------------------------
+## Installation & Documentation
 
-For further details on connection parameters, _pyrfc_ installation and usage, 
-please refer to [_pyrfc_ documentation](http://sap.github.io/PyRFC), 
-complementing _SAP NW RFC Library_ [programming guide and documentation](http://service.sap.com/rfc-library) 
+For further details on connection parameters, _pyrfc_ installation and usage,
+please refer to [_pyrfc_ documentation](http://sap.github.io/PyRFC),
+complementing _SAP NW RFC Library_ [programming guide and documentation](http://service.sap.com/rfc-library)
 provided on SAP Service Marketplace.
