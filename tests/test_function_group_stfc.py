@@ -7,10 +7,12 @@ from decimal import Decimal
 
 from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
+
 class TestSTFC():
     """
     This test cases cover selected functions from the STFC function group.
     """
+
     def setup_method(self, test_method):
         self.conn = pyrfc.Connection(**params)
         assert self.conn.alive
@@ -49,7 +51,7 @@ class TestSTFC():
         pass
 
         # no remote-enabled module
-        #def test_STFC_CALL_TRFC_PLUS_UPDATE(self):
+        # def test_STFC_CALL_TRFC_PLUS_UPDATE(self):
         # STFC_CALL_TRFC_PLUS_UPDATE TRFC in VB innerhalb der VB nochmal tRFC
     #    pass
     '''
@@ -57,7 +59,7 @@ class TestSTFC():
     def test_STFC_CONNECTION(self):
         # STFC_CONNECTION RFC-TEST:   CONNECTION Test
         # Test with rstrip:
-        hello = u'Hällo SAP!'# In case that rstip=False + u' ' * 245
+        hello = u'Hällo SAP!'  # In case that rstip=False + u' ' * 245
         result = self.conn.call('STFC_CONNECTION', REQUTEXT=hello)
         assert result['RESPTEXT'].startswith('SAP')
         assert result['ECHOTEXT'] == hello
@@ -82,10 +84,10 @@ class TestSTFC():
     def test_STFC_PING_VB(self):
         pass
         # STFC_PING_VB RFC-Ping der in VB gerufen werden kann
-        #with self.assertRaises(pyrfc.ABAPRuntimeError) as run:
+        # with self.assertRaises(pyrfc.ABAPRuntimeError) as run:
         #    self.conn.call('STFC_PING_VB')
-        #self.assertEqual(run.exception.code, 3)
-        #self.assertEqual(run.exception.key, 'CALL_FUNCTION_NOT_REMOTE')
+        # self.assertEqual(run.exception.code, 3)
+        # self.assertEqual(run.exception.key, 'CALL_FUNCTION_NOT_REMOTE')
 
     @unittest.skip("not supported yet (qrfc)")
     def test_STFC_QRFC_TCPIC(self):
@@ -119,36 +121,45 @@ class TestSTFC():
         pass
     '''
 
-
     def test_STFC_STRUCTURE(self):
         # STFC_STRUCTURE Inhomogene Struktur
         imp = dict(RFCFLOAT=1.23456789,
-                    RFCINT2=0x7ffe, RFCINT1=0x7f,
-                    RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
-                    RFCHEX3=str.encode('fgh'),
-                    RFCCHAR1=u'a', RFCCHAR2=u'ij',
-                    RFCTIME='123456',   #datetime.time(12,34,56),
-                    RFCDATE='20161231', #datetime.date(2011,10,17),
-                    RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
-        )
+                   RFCINT2=0x7ffe, RFCINT1=0x7f,
+                   RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
+                   RFCHEX3=str.encode('fgh'),
+                   RFCCHAR1=u'a', RFCCHAR2=u'ij',
+                   RFCTIME='123456',  # datetime.time(12,34,56),
+                   RFCDATE='20161231',  # datetime.date(2011,10,17),
+                   RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+                   )
         out = dict(RFCFLOAT=imp['RFCFLOAT']+1,
-                    RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
-                    RFCINT4=imp['RFCINT4']+1,
-                    RFCHEX3=b'\xf1\xf2\xf3',
-                    RFCCHAR1=u'X', RFCCHAR2=u'YZ',
-                    RFCDATE=str(datetime.date.today()).replace('-',''),
-                    RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
-        )
-        result = self.conn.call('STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=[imp])
+                   RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
+                   RFCINT4=imp['RFCINT4']+1,
+                   RFCHEX3=b'\xf1\xf2\xf3',
+                   RFCCHAR1=u'X', RFCCHAR2=u'YZ',
+                   RFCDATE=str(datetime.date.today()).replace('-', ''),
+                   RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+                   )
+        table = []
+        xtable = []
+        records = ['1111', '2222', '3333', '4444', '5555']
+        for rid in records:
+            imp['RFCCHAR4'] = rid
+            table.append(imp)
+            xtable.append(imp)
+        # print 'table len', len(table), len(xtable)
+        result = self.conn.call(
+            'STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=xtable)
+        # print 'table len', len(table), len(xtable)
         assert result['RESPTEXT'].startswith('SAP')
-        #assert result['ECHOSTRUCT'] == imp
-        assert len(result['RFCTABLE']) == 2
+        # assert result['ECHOSTRUCT'] == imp
+        assert len(result['RFCTABLE']) == 1+len(table)
         for i in result['ECHOSTRUCT']:
             assert result['ECHOSTRUCT'][i] == imp[i]
-        del result['RFCTABLE'][1]['RFCCHAR4'] # contains variable system id
-        del result['RFCTABLE'][1]['RFCTIME'] # contains variable server time
-        for i in result['RFCTABLE'][1]:
-            assert result['RFCTABLE'][1][i] == out[i]
+        del result['RFCTABLE'][5]['RFCCHAR4']  # contains variable system id
+        del result['RFCTABLE'][5]['RFCTIME']  # contains variable server time
+        for i in result['RFCTABLE'][5]:
+            assert result['RFCTABLE'][5][i] == out[i]
 
     '''
     def test_ZPYRFC_STFC_STRUCTURE(self):
@@ -175,7 +186,7 @@ class TestSTFC():
             RFCDEC17_8=Decimal('0')
         )
         result = self.conn.call('ZPYRFC_STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=[imp])
-        #print result
+        # print result
         self.assertTrue(result['RESPTEXT'].startswith('SAP'))
         assert result['ECHOSTRUCT'] == imp
         assert len(result['RFCTABLE']) == 2
@@ -204,8 +215,8 @@ class TestSTFC():
     def test_TRFC_RAISE_ERROR(self):
         # TRFC_RAISE_ERROR ARFC: Raise different type of error messages
         pass
+'''
 
 
 if __name__ == '__main__':
     unittest.main()
-    '''

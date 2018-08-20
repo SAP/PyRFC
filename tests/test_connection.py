@@ -14,18 +14,6 @@ from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, g
 class TestConnection():
 
     def setup_method(self, test_method):
-        """ A connection to an SAP backend system
-              Instantiating an :class:`pyrfc.Connection` object will
-              automatically attempt to open a connection the SAP backend.
-              :param config: Configuration of the instance. Allowed keys are:
-                    ``dtime``
-                      returns datetime types (accepts strings and datetimes), default is False
-                    ``rstrip``
-                      right strips strings returned from RFC call (default is True)
-                    ``return_import_params``
-                      importing parameters are returned by the RFC call (default is False)
-              :type config: dict or None (default)
-        """
         self.conn = pyrfc.Connection(**params)
         assert self.conn.alive
 
@@ -255,3 +243,5 @@ class TestConnection():
 #            self.assertEqual(s, out['EV_EXPORT_XSTRING'])
 
 '''
+if __name__ == '__main__':
+    unittest.main()

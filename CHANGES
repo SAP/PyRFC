@@ -1,6 +1,10 @@
 Change log
 ==========
 
+1.9.93 (2018-08-20)
+-------------------
+- Tables' processing memory consumption optimisation (#60)
+
 1.9.92 (2018-07-31)
 -------------------
 - pyrfc.__version__ attribute added
