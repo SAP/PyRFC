@@ -280,6 +280,7 @@ cdef extern from "sapnwrfc.h":
 
     RFC_RC RfcGetRowCount(RFC_TABLE_HANDLE tableHandle, unsigned* rowCount, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcMoveTo(RFC_TABLE_HANDLE tableHandle, unsigned index, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcDeleteCurrentRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetTable(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TABLE_HANDLE* tableHandle, RFC_ERROR_INFO* errorInfo)
     RFC_STRUCTURE_HANDLE RfcAppendNewRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcUTF8ToSAPUC(unsigned char *utf8, unsigned utf8Length,  SAP_UC *sapuc,  unsigned *sapucSize, unsigned *resultLength, RFC_ERROR_INFO *errorInfo)

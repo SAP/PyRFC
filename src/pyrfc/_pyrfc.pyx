@@ -1637,15 +1637,21 @@ cdef fillStructureField(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE cont
 cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines):
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_STRUCTURE_HANDLE lineHandle
-    for line in lines:
-        lineHandle = RfcAppendNewRow(container, &errorInfo)
+    cdef unsigned int rowCount = len(lines)
+    cdef unsigned int i = 0
+    while i < rowCount:
+        lineHandle = RfcAppendNewRow(container, &errorInfo) 
         if not lineHandle:
             raise wrapError(&errorInfo)
+        line = lines[i]
+        # line = lines[0]
         if type(line) is dict:
             for name, value in line.iteritems():
                 fillStructureField(typeDesc, lineHandle, name, value)
         else:
             fillStructureField(typeDesc, lineHandle, '', line)
+        # https://stackoverflow.com/questions/33626623/the-most-efficient-way-to-remove-first-n-elements-in-a-list
+        i += 1 # del lines[:1]
 
 cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, value, RFC_TYPE_DESC_HANDLE typeDesc):
     cdef RFC_RC rc
@@ -1978,18 +1984,20 @@ cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container
 cdef wrapTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, config):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
-    cdef unsigned lines
+    cdef unsigned rowCount
     # # For debugging in tables (cf. class TableCursor)
     # tc = TableCursor()
     # tc.typeDesc = typeDesc
     # tc.container = container
     # return tc
-    RfcGetRowCount(container, &lines, &errorInfo)
-    result = []
-    for i in range(lines): #TODO: lazy?
-        RfcMoveTo(container, i, &errorInfo)
-        result.append(wrapStructure(typeDesc, container, config))
-    return result
+    RfcGetRowCount(container, &rowCount, &errorInfo)
+    table = [None] * rowCount
+    while rowCount > 0:
+        rowCount -= 1
+        RfcMoveTo(container, rowCount, &errorInfo)
+        table[rowCount] = wrapStructure(typeDesc, container, config)
+        RfcDeleteCurrentRow(container, &errorInfo)
+    return table
 
 cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, unsigned cLen, RFC_TYPE_DESC_HANDLE typeDesc, config):
     cdef RFC_RC rc

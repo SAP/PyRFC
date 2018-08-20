@@ -9,8 +9,10 @@ import pytest
 
 from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
+
 def utf8len(s):
     return len(s.encode('utf-8'))
+
 
 class TestIssues():
 
@@ -81,7 +83,8 @@ class TestIssues():
 
         for s in test:
             is_input = {'ZSHLP_MAT1': s, 'ZFLTP': 123.45}
-            result = self.conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+            result = self.conn.call(
+                '/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
             assert is_input['ZSHLP_MAT1'] == result['ZSHLP_MAT1']
 
     def test_issue40(self):
@@ -104,3 +107,7 @@ class TestIssues():
             assert error['code'] == 17
             assert error['key'] == 'RFC_NOT_FOUND'
             '''
+
+
+if __name__ == '__main__':
+    unittest.main()

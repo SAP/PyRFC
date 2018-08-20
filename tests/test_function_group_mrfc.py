@@ -14,6 +14,7 @@ import pytest
 
 from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
+
 class TestMRFC():
     """
     This test cases cover selected functions from the MRFC function group.
@@ -72,7 +73,8 @@ class TestMRFC():
             assert error['msg_class'] == u'SR'
             assert error['msg_type'] == 'E'
             assert error['msg_number'] == '006'
-            self.conn.call('RFC_PING') # Assures that the connection handle is correctly synchronized
+            # Assures that the connection handle is correctly synchronized
+            self.conn.call('RFC_PING')
 
         # '2_E': 'ABAPApplicationError-5-RAISE_EXCEPTION- Number:000-True',
         # cf. ExceptionTest.c (l. 65ff)
@@ -84,7 +86,6 @@ class TestMRFC():
             assert error['key'] == 'RAISE_EXCEPTION'
             assert error['msg_number'] == '006'
             self.conn.call('RFC_PING')
-
 
     def test_RFC_RAISE_ERROR_AbapRuntimeError(self):
         # RFC_RAISE_ERROR ARFC: Raise Different Type of Error Message
@@ -165,20 +166,20 @@ class TestMRFC():
             #assert error['key'] == 'RFC_NOT_FOUND'
             #self.conn.call('RFC_PING')
     '''
-    #def test_RFC_RAISE_ERROR_CommunicationError(self):
-        # Comment: cf. result_print of the error_test.py
-        # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message (CM_NO_DATA_RECEIVED)-True',
-        ##try:
-        ##    self.conn.call('RFC_RAISE_ERROR', METHOD='32', MESSAGETYPE='E')
-        #except (pyrfc.ABAPRuntimeError) as ex:
-        #    error = get_error(ex)
-        #    assert error['code'] == 4
-        #    assert error['key'] == 'ON:N'
-        ##except (pyrfc.CommunicationError) as ex:
-        ##    error = get_error(ex)
-        ##    assert error['code'] == 1
-        ##    assert error['key'] == 'RFC_COMMUNICATION_FAILURE'
-        ##    self.conn.call('RFC_PING')
+    # def test_RFC_RAISE_ERROR_CommunicationError(self):
+    # Comment: cf. result_print of the error_test.py
+    # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message (CM_NO_DATA_RECEIVED)-True',
+    # try:
+    ##    self.conn.call('RFC_RAISE_ERROR', METHOD='32', MESSAGETYPE='E')
+    # except (pyrfc.ABAPRuntimeError) as ex:
+    #    error = get_error(ex)
+    #    assert error['code'] == 4
+    #    assert error['key'] == 'ON:N'
+    # except (pyrfc.CommunicationError) as ex:
+    ##    error = get_error(ex)
+    ##    assert error['code'] == 1
+    ##    assert error['key'] == 'RFC_COMMUNICATION_FAILURE'
+    # self.conn.call('RFC_PING')
     '''
     @unittest.skip("not remote-enabled")
     def test_RFC_RAISE_ERROR_VB(self):
@@ -200,11 +201,16 @@ class TestMRFC():
         pass
 
     '''
+
     def test_STFC_CHANGING(self):
         # STFC_CHANGING example with CHANGING parameters
         start_value = 33
         counter = 88
-        result = self.conn.call('STFC_CHANGING', START_VALUE=start_value, COUNTER=counter)
-        assert result['COUNTER'] ==counter + 1
+        result = self.conn.call(
+            'STFC_CHANGING', START_VALUE=start_value, COUNTER=counter)
+        assert result['COUNTER'] == counter + 1
         assert result['RESULT'] == start_value + counter
 
+
+if __name__ == '__main__':
+    unittest.main()
