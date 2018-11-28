@@ -1,4 +1,4 @@
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import sys
 
 from pyrfc import Connection,\
@@ -7,10 +7,10 @@ from pyrfc import Connection,\
 
 def parameter_key_function(parameter):
     """ returns a key for sorting parameters """
-    value = {u'RFC_IMPORT':1,
-             u'RFC_CHANGING':2,
-             u'RFC_TABLES':3,
-             u'RFC_EXPORT':4}
+    value = {'RFC_IMPORT':1,
+             'RFC_CHANGING':2,
+             'RFC_TABLES':3,
+             'RFC_EXPORT':4}
     return value[parameter['direction']]
 
 def main(function_name):
@@ -21,57 +21,57 @@ def main(function_name):
     try:
         connection = Connection(**params_connection)
         func_desc = connection.get_function_description(function_name)
-        print u"Parameters of function: {0}".format(function_name)
+        print("Parameters of function: {0}".format(function_name))
 
-        parameter_keys = [u'name', u'parameter_type', u'direction',
-                          u'nuc_length', u'uc_length', u'decimals',
-                          u'default_value', u'optional',
-                          u'type_description', u'parameter_text']
+        parameter_keys = ['name', 'parameter_type', 'direction',
+                          'nuc_length', 'uc_length', 'decimals',
+                          'default_value', 'optional',
+                          'type_description', 'parameter_text']
         parameter_widths = [20, 17, 11, 10, 9, 9, 15, 10, 15, 20]
         for key, width in zip(parameter_keys, parameter_widths):
-            sys.stdout.write(u"{0}".format(key).ljust(width).upper() + u" ")
-        sys.stdout.write(u"\n")
+            sys.stdout.write("{0}".format(key).ljust(width).upper() + " ")
+        sys.stdout.write("\n")
 
         for parameter in sorted(func_desc.parameters, key=parameter_key_function):
             for key, width in zip(parameter_keys, parameter_widths):
-                if key == u'type_description' and parameter[key] is not None:
+                if key == 'type_description' and parameter[key] is not None:
                     sys.stdout.write(
-                        u"{0}".format(parameter[key].name).ljust(width) + u" "
+                        "{0}".format(parameter[key].name).ljust(width) + " "
                     )
                 else:
                     sys.stdout.write(
-                        u"{0}".format(parameter[key]).ljust(width) + u" "
+                        "{0}".format(parameter[key]).ljust(width) + " "
                     )
-            sys.stdout.write(u"\n")
+            sys.stdout.write("\n")
             type_desc = parameter['type_description']
             if type_desc is not None:
                 # type_desc of class TypeDescription
-                field_keys = [u'name', u'field_type', u'nuc_length',
-                              u'nuc_offset', u'uc_length', u'uc_offset',
-                              u'decimals', u'type_description']
+                field_keys = ['name', 'field_type', 'nuc_length',
+                              'nuc_offset', 'uc_length', 'uc_offset',
+                              'decimals', 'type_description']
                 field_widths = [20, 17, 10, 10, 9, 9, 10, 15]
 
-                sys.stdout.write(u" " * 4 + u"-----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(type_desc))
+                sys.stdout.write(" " * 4 + "-----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(type_desc))
                 for key, width in zip(field_keys, field_widths):
-                    sys.stdout.write(u"{0}".format(key).ljust(width).upper() + u" ")
-                sys.stdout.write(u"\n")
+                    sys.stdout.write("{0}".format(key).ljust(width).upper() + " ")
+                sys.stdout.write("\n")
 
                 for field_description in type_desc.fields:
                     for key, width in zip(field_keys, field_widths):
-                        sys.stdout.write(u"{0}".format(field_description[key]).ljust(width) + u" ")
-                    sys.stdout.write(u"\n")
-                sys.stdout.write(u" " * 4 + u"-----------( Structure of {0.name} )-----------\n".format(type_desc))
-            sys.stdout.write(u"-" * sum(parameter_widths) + u"\n")
+                        sys.stdout.write("{0}".format(field_description[key]).ljust(width) + " ")
+                    sys.stdout.write("\n")
+                sys.stdout.write(" " * 4 + "-----------( Structure of {0.name} )-----------\n".format(type_desc))
+            sys.stdout.write("-" * sum(parameter_widths) + "\n")
         connection.close()
 
     except CommunicationError:
-        print u"Could not connect to server."
+        print("Could not connect to server.")
         raise
     except LogonError:
-        print u"Could not log in. Wrong credentials?"
+        print("Could not log in. Wrong credentials?")
         raise
     except (ABAPApplicationError, ABAPRuntimeError):
-        print u"An error occurred."
+        print("An error occurred.")
         raise
 
 if __name__ == '__main__':

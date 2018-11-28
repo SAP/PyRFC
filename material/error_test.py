@@ -16,7 +16,7 @@ from pyrfc import RFCError, ExternalRuntimeError, CommunicationError
 from config import params_connection
 
 result = {}
-methods = range(1, 54)
+methods = list(range(1, 54))
 #methods = range(1, 20)
 messagetypes = ['E']# , 'W', 'S', 'I']
 
@@ -26,7 +26,7 @@ def run_error():
             with pyrfc.Connection(**params_connection) as connection:
                 ex = None
                 try:
-                    print "Call RFC_RAISE_ERROR with METHOD={} / MESSAGETYPE={}".format(method, messagetype),
+                    print("Call RFC_RAISE_ERROR with METHOD={} / MESSAGETYPE={}".format(method, messagetype), end=' ')
                     connection.call("RFC_RAISE_ERROR", METHOD=str(method), MESSAGETYPE=messagetype)
                     raise RFCError("No error occured.")
                 except RFCError as e:
@@ -37,9 +37,9 @@ def run_error():
                 except ExternalRuntimeError as ert:
                     alive = False
                 except CommunicationError as ce:
-                    print "<CommErr>",
+                    print("<CommErr>", end=' ')
                     alive = False
-                print "... alive={}".format(alive)
+                print("... alive={}".format(alive))
                 result["{}_{}".format(method, messagetype)] = (ex, alive)
 
 def get_exc_desc(ex, alive=None):

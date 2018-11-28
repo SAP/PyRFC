@@ -45,8 +45,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'pyrfc'
-copyright = u'2014, SAP'
+project = 'pyrfc'
+copyright = '2014, SAP'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -110,17 +110,17 @@ def process_docstring(app, what, name, obj, options, lines):
     #    lines[i] = lines[i].replace('connection', 'hurz')
 
     if name == 'pyrfc.Connection.rstrip':
-        lines.append(u"If True, returned strings from :meth:`~Connection.call` are right stripped.")
-        lines.append(u"For details see :ref:`client-connectionconfig-rstrip`.")
+        lines.append("If True, returned strings from :meth:`~Connection.call` are right stripped.")
+        lines.append("For details see :ref:`client-connectionconfig-rstrip`.")
     elif name == 'pyrfc.Connection.return_import_params':
-        lines.append(u"If True, :meth:`~Connection.call` also returns parameters of type IMPORT.")
-        lines.append(u"For details see :ref:`client-connectionconfig-returnimportparams`.")
+        lines.append("If True, :meth:`~Connection.call` also returns parameters of type IMPORT.")
+        lines.append("For details see :ref:`client-connectionconfig-returnimportparams`.")
     elif name == 'pyrfc.Server.rstrip':
-        lines.append(u"If True, strings passed to the callback functions are right stripped.")
-        lines.append(u"For details see :ref:`server-config-rstrip`.")
+        lines.append("If True, strings passed to the callback functions are right stripped.")
+        lines.append("For details see :ref:`server-config-rstrip`.")
     elif name == 'pyrfc.Server.debug':
-        lines.append(u"If True, the server behaves more permissive, e.g. "
-                     u"allows incoming calls without a valid connection handle.")
+        lines.append("If True, the server behaves more permissive, e.g. "
+                     "allows incoming calls without a valid connection handle.")
 
 
 def setup(app):
@@ -224,8 +224,8 @@ latex_paper_size = 'a4'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'pyrfc-%s.tex' % release, u'pyrfc Documentation',
-   u'SAP', 'manual'),
+  ('index', 'pyrfc-%s.tex' % release, 'pyrfc Documentation',
+   'SAP', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -257,6 +257,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pyrfc', u'pyrfc Documentation',
-     [u'SAP'], 1)
+    ('index', 'pyrfc', 'pyrfc Documentation',
+     ['SAP'], 1)
 ]

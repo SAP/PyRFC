@@ -11,10 +11,10 @@ connection_info = {
 
 import pyrfc
 
-function_name = u'ZHHDEMO_STRUCT_MOD'
-table_name = u'ZHHT_COL2'
-struct_name = u'ZHHS_COL2'
-field_name = u'COL3'
+function_name = 'ZHHDEMO_STRUCT_MOD'
+table_name = 'ZHHT_COL2'
+struct_name = 'ZHHS_COL2'
+field_name = 'COL3'
 
 def get_structure():
     with pyrfc.Connection(**connection_info) as con:
@@ -22,13 +22,13 @@ def get_structure():
             'RFC_GET_FUNCTION_INTERFACE',
             **{'FUNCNAME': function_name}
         )
-        assert any(p[u'TABNAME'] == table_name for p in interface_response[u'PARAMS'])
+        assert any(p['TABNAME'] == table_name for p in interface_response['PARAMS'])
         structure_response = con.call(
             'RFC_GET_STRUCTURE_DEFINITION',
             **{'TABNAME': table_name}
         )
-        fields = structure_response[u'FIELDS']
-        return [f[u'FIELDNAME'] for f in fields]
+        fields = structure_response['FIELDS']
+        return [f['FIELDNAME'] for f in fields]
 
 
 def function_call():
@@ -43,9 +43,9 @@ def invalidate():
         #con.reset_server_context()
 
 if __name__ == '__main__':
-    print('STRUCTURE 1', get_structure())
-    print('RESULT 1', function_call())
-    raw_input('Structure changed now. Press Enter to continue...')
+    print(('STRUCTURE 1', get_structure()))
+    print(('RESULT 1', function_call()))
+    input('Structure changed now. Press Enter to continue...')
     invalidate()
-    print('STRUCTURE 2', get_structure())
-    print('RESULT 2', function_call())
+    print(('STRUCTURE 2', get_structure()))
+    print(('RESULT 2', function_call()))

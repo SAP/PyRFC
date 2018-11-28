@@ -26,7 +26,7 @@ class TestMRFC():
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info['isoLanguage'] == u'EN'
+        assert connection_info['isoLanguage'] == 'EN'
 
     def teardown_method(self, test_method):
         self.conn.close()
@@ -70,7 +70,7 @@ class TestMRFC():
             error = get_error(ex)
             assert error['code'] == 5
             assert error['key'] == 'RAISE_EXCEPTION'
-            assert error['msg_class'] == u'SR'
+            assert error['msg_class'] == 'SR'
             assert error['msg_type'] == 'E'
             assert error['msg_number'] == '006'
             # Assures that the connection handle is correctly synchronized
@@ -96,7 +96,7 @@ class TestMRFC():
         except (pyrfc.ABAPRuntimeError) as ex:
             error = get_error(ex)
             assert error['code'] == 4
-            assert error['message'][0] == u'Function not supported'
+            assert error['message'][0] == 'Function not supported'
             self.conn.call('RFC_PING')
 
         # cf. ExceptionTest.c (l. 112ff)
@@ -130,7 +130,7 @@ class TestMRFC():
         except (pyrfc.ABAPRuntimeError) as ex:
             error = get_error(ex)
             assert error['code'] == 4
-            assert u'Division by 0' in error['message'][0]
+            assert 'Division by 0' in error['message'][0]
             self.conn.call('RFC_PING')
 
         # '3_E': 'ABAPRuntimeError-3-COMPUTE_INT_ZERODIVIDE-Division by 0 (type I)-True''] ==

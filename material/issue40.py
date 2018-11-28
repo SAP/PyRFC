@@ -11,10 +11,10 @@ connection_info = {
 
 import pyrfc
 
-function_name = u'ZHHDEMO_STRUCT_MOD'
-table_name = u'ZHHT_COL2'
-struct_name = u'ZHHS_COL2'
-field_name = u'COL3'
+function_name = 'ZHHDEMO_STRUCT_MOD'
+table_name = 'ZHHT_COL2'
+struct_name = 'ZHHS_COL2'
+field_name = 'COL3'
 
 def get_structure(con):
     type_desc = con.type_desc_get(struct_name)
@@ -23,7 +23,7 @@ def get_structure(con):
 def function_call(con):
     table = con.call(function_name)['EX_ZHHT_COL2']
     struct = table[0]
-    return field_name in struct.keys()
+    return field_name in list(struct.keys())
 
 def invalidate(con):
     con.func_desc_remove(connection_info['sysid'], function_name)
@@ -35,7 +35,7 @@ def invalidate(con):
 
 if __name__ == '__main__':
     c1 = pyrfc.Connection(**connection_info)
-    print 'STRUCTURE', get_structure(c1) #, 'RFC', function_call(c1)
-    raw_input('Structure changed now. Press Enter to continue...')
+    print('STRUCTURE', get_structure(c1)) #, 'RFC', function_call(c1)
+    input('Structure changed now. Press Enter to continue...')
     invalidate(c1)
-    print 'STRUCTURE', get_structure(c1) #, 'RFC', function_call(c1)
+    print('STRUCTURE', get_structure(c1)) #, 'RFC', function_call(c1)

@@ -3,7 +3,7 @@ from pyrfc import Server, Connection, RFCError, RFCLibError, \
                       ExternalRuntimeError
 from pyrfc._pyrfc import _Testing
 
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import sys
 
 config = ConfigParser()
@@ -28,13 +28,13 @@ def my_stfc_connection(request_context, REQUTEXT=""):
     #print "my_stfc_connection was called with arguments: {}".format(kwargs)
     return {
         'ECHOTEXT': REQUTEXT,
-        'RESPTEXT': u"Local server here."
+        'RESPTEXT': "Local server here."
     }
 # func_desc_stfc_connection = conn.get_function_description("STFC_CONNECTION")
 # server.install_function(func_desc_stfc_connection, my_stfc_connection)
 
 def my_stfc_changing(request_context, **kwargs): # TODO: Maybe only expect import/changing/tables values.
-    print "my_stfc_changing was called with arguments: {}".format(kwargs)
+    print("my_stfc_changing was called with arguments: {}".format(kwargs))
     start_value = kwargs['START_VALUE']
     counter = kwargs['COUNTER']
     return {
@@ -73,9 +73,9 @@ def my_raise_error(request_context, REQUTEXT):
         raise RFCLibError("This is an invalid exception.", 23, "INV_EXC")
     return {
         'ECHOTEXT': REQUTEXT,
-        'RESPTEXT': u"Local (raise error) server here. Use the following values"
-                    u"for REQUTEXT: EXCEPTION, EXCEPTION_MESSAGE, MESSAGE, or"
-                    u"FAILURE."
+        'RESPTEXT': "Local (raise error) server here. Use the following values"
+                    "for REQUTEXT: EXCEPTION, EXCEPTION_MESSAGE, MESSAGE, or"
+                    "FAILURE."
     }
 func_desc_stfc_connection = conn.get_function_description("STFC_CONNECTION")
 server.install_function(func_desc_stfc_connection, my_raise_error)
@@ -95,5 +95,5 @@ server.install_function(func_desc_stfc_connection, my_raise_error)
 
 if __name__ == '__main__':
     duration = 20
-    print "--- Server registration and serving (for {} seconds)---".format(duration)
+    print("--- Server registration and serving (for {} seconds)---".format(duration))
     server.serve(duration)

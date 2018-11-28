@@ -34,7 +34,7 @@ class TestIssues():
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info['isoLanguage'] == u'EN'
+        assert connection_info['isoLanguage'] == 'EN'
 
     def teardown_method(self, test_method):
         self.conn.close()
@@ -75,10 +75,10 @@ class TestIssues():
     def test_issue38(self):
         test = [
             'string',
-            u'四周远处都能望见',
-            u'\U0001F4AA',
-            u'\u0001\uf4aa',
-            u'a\xac\u1234\u20ac\U0001F4AA'
+            '四周远处都能望见',
+            '\U0001F4AA',
+            '\u0001\uf4aa',
+            'a\xac\u1234\u20ac\U0001F4AA'
         ]
 
         for s in test:

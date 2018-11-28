@@ -9,9 +9,9 @@ params = config._sections['coe_he_66'] # or coevi51
 
 conn = Connection(**params)
 
-print('Platform:', system(), release())
-print('Python version:', version_info)
-print('SAP NW RFC:', get_nwrfclib_version())
+print(('Platform:', system(), release()))
+print(('Python version:', version_info))
+print(('SAP NW RFC:', get_nwrfclib_version()))
 
 PLNTY='A'
 PLNNR='00100000'

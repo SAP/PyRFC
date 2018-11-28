@@ -18,7 +18,7 @@ config.read('pyrfc.cfg')
 def my_stfc_connection(request_context, REQUTEXT):
     return {
         'ECHOTEXT': REQUTEXT,
-        'RESPTEXT': u"Local server here."
+        'RESPTEXT': "Local server here."
     }
 
 def my_stfc_changing(request_context, START_VALUE, COUNTER):
@@ -51,9 +51,9 @@ def my_sftc_connection_error(request_context, REQUTEXT):
         raise RFCError("Invalid exception")
     return {
         'ECHOTEXT': REQUTEXT,
-        'RESPTEXT': u"Local (raise error) server here. Use the following values"
-                    u"for REQUTEXT: EXCEPTION, EXCEPTION_MESSAGE, MESSAGE, "
-                    u"FAILURE, or INVALID."
+        'RESPTEXT': "Local (raise error) server here. Use the following values"
+                    "for REQUTEXT: EXCEPTION, EXCEPTION_MESSAGE, MESSAGE, "
+                    "FAILURE, or INVALID."
     }
 
 class ServerTest(unittest.TestCase):
@@ -78,22 +78,22 @@ class ServerTest(unittest.TestCase):
         animals = TypeDescription("animals", nuc_length=20, uc_length=28)
         self.assertEqual(animals.nuc_length,20)
         self.assertEqual(animals.uc_length,28)
-        animals.add_field(name=u'LION', field_type='RFCTYPE_CHAR', nuc_length=5, uc_length=10, nuc_offset=0, uc_offset=0)
-        animals.add_field(name=u'ELEPHANT', field_type='RFCTYPE_FLOAT', nuc_length=8, uc_length=8, decimals=16, nuc_offset=8, uc_offset=16)
-        animals.add_field(name=u'ZEBRA', field_type='RFCTYPE_INT', nuc_length=4, uc_length=4, nuc_offset=16, uc_offset=24)
+        animals.add_field(name='LION', field_type='RFCTYPE_CHAR', nuc_length=5, uc_length=10, nuc_offset=0, uc_offset=0)
+        animals.add_field(name='ELEPHANT', field_type='RFCTYPE_FLOAT', nuc_length=8, uc_length=8, decimals=16, nuc_offset=8, uc_offset=16)
+        animals.add_field(name='ZEBRA', field_type='RFCTYPE_INT', nuc_length=4, uc_length=4, nuc_offset=16, uc_offset=24)
 
-        i_dont_exist = FunctionDescription(u"I_DONT_EXIST")
-        i_dont_exist.add_parameter(name=u"DOG", parameter_type="RFCTYPE_INT",
+        i_dont_exist = FunctionDescription("I_DONT_EXIST")
+        i_dont_exist.add_parameter(name="DOG", parameter_type="RFCTYPE_INT",
             direction="RFC_IMPORT", nuc_length=4, uc_length=4)
-        i_dont_exist.add_parameter(name=u"CAT", parameter_type="RFCTYPE_CHAR",
+        i_dont_exist.add_parameter(name="CAT", parameter_type="RFCTYPE_CHAR",
             direction="RFC_IMPORT", nuc_length=5, uc_length=10)
-        i_dont_exist.add_parameter(name=u"ZOO", parameter_type="RFCTYPE_STRUCTURE",
+        i_dont_exist.add_parameter(name="ZOO", parameter_type="RFCTYPE_STRUCTURE",
             direction="RFC_IMPORT", nuc_length=20, uc_length=28, type_description=animals)
-        i_dont_exist.add_parameter(name=u"BIRD", parameter_type="RFCTYPE_FLOAT",
+        i_dont_exist.add_parameter(name="BIRD", parameter_type="RFCTYPE_FLOAT",
             direction="RFC_IMPORT", nuc_length=8, uc_length=8, decimals=16)
 
         self.assertEqual(len(i_dont_exist.parameters), 4)
-        self.assertEqual(i_dont_exist.name, u"I_DONT_EXIST")
+        self.assertEqual(i_dont_exist.name, "I_DONT_EXIST")
 
 
     def test_func_desc_auto(self):
@@ -133,7 +133,7 @@ class ServerTest(unittest.TestCase):
         # Invocation test
         result = test.invoke_srv_function("STFC_CONNECTION", REQUTEXT="request_text")
         self.assertEqual(result['ECHOTEXT'], "request_text")
-        self.assertEqual(result['RESPTEXT'], u"Local server here.")
+        self.assertEqual(result['RESPTEXT'], "Local server here.")
 
         result = test.invoke_srv_function("STFC_CHANGING", START_VALUE=23, COUNTER=7)
         self.assertEqual(result['COUNTER'], 17) # COUNTER = COUNTER + 10

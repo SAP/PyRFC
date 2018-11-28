@@ -9,24 +9,24 @@ params = config._sections['test']
 
 conn = Connection(**params)
 
-print('Platform:', system(), release())
-print('Python version:', version_info)
-print('SAP NW RFC:', get_nwrfclib_version())
+print(('Platform:', system(), release()))
+print(('Python version:', version_info))
+print(('SAP NW RFC:', get_nwrfclib_version()))
 
 
 result = conn.call('/COE/RBP_PAM_SERVICE_ORD_CHANG', IV_ORDERID='4711', IT_NOTICE_NOTIFICATION=[{'': 'ABCD'}, {'': 'XYZ'}])
 
 for line in result['ET_STRING']:
-    print line
+    print(line)
 
 for line in result['ET_TABLE']:
-    print line
+    print(line)
 
 result = conn.call('/COE/RBP_PAM_SERVICE_ORD_CHANG', IV_ORDERID='4711', IT_NOTICE_NOTIFICATION=['ABCD', 'XYZ'])
 
 for line in result['ET_STRING']:
-    print line
+    print(line)
 
 for line in result['ET_TABLE']:
-    print line
+    print(line)
 

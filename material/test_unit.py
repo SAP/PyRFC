@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime, pyrfc, unittest, socket, timeit
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 config = configparser()
 config.read('pyrfc.cfg')
@@ -41,63 +41,63 @@ class TransactionTest(unittest.TestCase):
         :type idoc: int
         """
         idoc_control = {
-            u"TABNAM": u"EDI_DC40",
-            u"MANDT": u"000",
-            u"DOCNUM": u"{0:016d}".format(idoc_id),
-            u"DIRECT": u"2",
-            u"IDOCTYP": u"TXTRAW01",
-            u"MESTYP": u"TXTRAW",
-            u"SNDPRT": u"LS",
-            u"SNDPRN": u"SPJ_DEMO",
-            u"RCVPRT": u"LS",
-            u"RCVPRN": u"T90CLNT090",
+            "TABNAM": "EDI_DC40",
+            "MANDT": "000",
+            "DOCNUM": "{0:016d}".format(idoc_id),
+            "DIRECT": "2",
+            "IDOCTYP": "TXTRAW01",
+            "MESTYP": "TXTRAW",
+            "SNDPRT": "LS",
+            "SNDPRN": "SPJ_DEMO",
+            "RCVPRT": "LS",
+            "RCVPRN": "T90CLNT090",
             }
         idoc_data_dicts = []
         for i in range(1, idoc_id+2):
             idoc_data = {
-                u"SEGNAM": u"E1TXTRW",
-                u"MANDT": u"000",
-                u"DOCNUM": u"{0:016d}".format(idoc_id),
-                u"SEGNUM": u"{0:06d}".format(i),
-                u"SDATA": u"El perro de San Roque {}".format(idoc_id + i)
+                "SEGNAM": "E1TXTRW",
+                "MANDT": "000",
+                "DOCNUM": "{0:016d}".format(idoc_id),
+                "SEGNUM": "{0:06d}".format(i),
+                "SDATA": "El perro de San Roque {}".format(idoc_id + i)
             }
             idoc_data_dicts.append(idoc_data)
         return {
-            u"IDOC_CONTROL_REC_40": [idoc_control],
-            u"IDOC_DATA_REC_40": idoc_data_dicts
+            "IDOC_CONTROL_REC_40": [idoc_control],
+            "IDOC_DATA_REC_40": idoc_data_dicts
         }
 
 
     def test_tRFC_create(self):
-        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], u"No active TA (base condition).")
+        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], "No active TA (base condition).")
 
         # incomplete parameters
         unit = self.conn.initialize_unit(background=False)
         with self.assertRaises(TypeError) as e:
             self.conn.fill_and_submit_unit(unit)
-        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], u"No active TA after create-call w/ incomplete params.")
+        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], "No active TA after create-call w/ incomplete params.")
 
         with self.assertRaises(ValueError) as e:
             self.conn.fill_and_submit_unit(unit, "testtest")
-        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], u"No active TA after create-call w/ invalid params.")
+        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], "No active TA after create-call w/ invalid params.")
 
         # default behavior
         idoc = self._get_idoc_desc(11)
-        self.conn.fill_and_submit_unit(unit, [(u"IDOC_INBOUND_ASYNCHRONOUS", idoc)])
+        self.conn.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)])
         self.assertTrue(self.conn.get_connection_attributes()['active_unit'])
-        self.conn.fill_and_submit_unit(unit, [(u"IDOC_INBOUND_ASYNCHRONOUS", idoc)])
+        self.conn.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)])
         self.conn.destroy_unit(unit)
         self.assertFalse(self.conn.get_connection_attributes()['active_unit'])
 
     def test_qRFC_create(self):
-        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], u"No active TA (base condition).")
+        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], "No active TA (base condition).")
 
         # invalid parameters (more than one queue name given)
         idoc = self._get_idoc_desc(21)
         unit = self.conn.initialize_unit(background=False)
         with self.assertRaises(pyrfc.RFCError) as e:
-            self.conn.fill_and_submit_unit(unit, [(u"IDOC_INBOUND_ASYNCHRONOUS", idoc)], queue_names=['bla', 'fasel'])
-        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], u"No active TA after create-call w/ invalid params.")
+            self.conn.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)], queue_names=['bla', 'fasel'])
+        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], "No active TA after create-call w/ invalid params.")
 
     def test_tbgRFC_create(self):
         pass
@@ -112,52 +112,52 @@ class TransactionTest(unittest.TestCase):
         # TODO: to implement
 
     def test_unit_confirm(self):
-        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], u"No active TA (base condition).")
+        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], "No active TA (base condition).")
 
         unit = self.conn.initialize_unit(background=False)
         with self.assertRaises(pyrfc.RFCError) as e: # missing transaction
             self.conn.confirm_unit(unit)
-        self.assertEqual(e.exception.message, u"No transaction handle for this connection available.")
+        self.assertEqual(e.exception.message, "No transaction handle for this connection available.")
 
         unit = self.conn.initialize_unit(background=False)
         idoc = self._get_idoc_desc(31)
         with self.assertRaises(pyrfc.RFCError) as e: # already destroyed transaction
-            self.conn.fill_and_submit_unit(unit, [(u"IDOC_INBOUND_ASYNCHRONOUS", idoc)])
+            self.conn.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)])
             self.conn.destroy_unit(unit)
             self.conn.confirm_unit(unit)
-        self.assertEqual(e.exception.message, u"No transaction handle for this connection available.")
+        self.assertEqual(e.exception.message, "No transaction handle for this connection available.")
 
         unit = self.conn.initialize_unit(background=False)
         idoc = self._get_idoc_desc(32)
         with self.assertRaises(pyrfc.RFCError) as e: # already confirmed transaction
-            self.conn.fill_and_submit_unit(unit, [(u"IDOC_INBOUND_ASYNCHRONOUS", idoc)])
+            self.conn.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)])
             self.conn.confirm_unit(unit)
             self.conn.confirm_unit(unit)
-        self.assertEqual(e.exception.message, u"No transaction handle for this connection available.")
+        self.assertEqual(e.exception.message, "No transaction handle for this connection available.")
 
     def test_unit_destroy(self):
-        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], u"No active TA (base condition).")
+        self.assertFalse(self.conn.get_connection_attributes()['active_unit'], "No active TA (base condition).")
 
         unit = self.conn.initialize_unit(background=False)
         with self.assertRaises(pyrfc.RFCError) as e: # missing transaction
             self.conn.destroy_unit(unit)
-        self.assertEqual(e.exception.message, u"No transaction handle for this connection available.")
+        self.assertEqual(e.exception.message, "No transaction handle for this connection available.")
 
         unit = self.conn.initialize_unit(background=False)
         idoc = self._get_idoc_desc(41)
         with self.assertRaises(pyrfc.RFCError) as e: # already destroyed transaction
-            self.conn.fill_and_submit_unit(unit, [(u"IDOC_INBOUND_ASYNCHRONOUS", idoc)])
+            self.conn.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)])
             self.conn.destroy_unit(unit)
             self.conn.destroy_unit(unit)
-        self.assertEqual(e.exception.message, u"No transaction handle for this connection available.")
+        self.assertEqual(e.exception.message, "No transaction handle for this connection available.")
 
         unit = self.conn.initialize_unit(background=False)
         idoc = self._get_idoc_desc(42)
         with self.assertRaises(pyrfc.RFCError) as e: # already confirmed transaction
-            self.conn.fill_and_submit_unit(unit, [(u"IDOC_INBOUND_ASYNCHRONOUS", idoc)])
+            self.conn.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)])
             self.conn.confirm_unit(unit)
             self.conn.destroy_unit(unit)
-        self.assertEqual(e.exception.message, u"No transaction handle for this connection available.")
+        self.assertEqual(e.exception.message, "No transaction handle for this connection available.")
 
 if __name__ == '__main__':
     unittest.main()

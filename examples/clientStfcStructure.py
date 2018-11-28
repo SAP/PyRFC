@@ -3,7 +3,7 @@ from pyrfc import Connection
 from pprint import pprint
 import datetime
 try:
-    from ConfigParser import ConfigParser
+    from configparser import ConfigParser
 except ModuleNotFoundError as e:
     from configparser import ConfigParser
 
@@ -15,10 +15,10 @@ imp = dict(
     RFCINT4=0x7ffffffe, # INT: integer value (4 bytes)
     RFCFLOAT=1.23456789, # FLOAT
 
-    RFCCHAR1=u'a', # CHAR[1]
-    RFCCHAR2=u'ij', # CHAR[2]
-    RFCCHAR4=u'bcde', # CHAR[4]
-    RFCDATA1=u'k'*50, RFCDATA2=u'l'*50, # CHAR[50] each
+    RFCCHAR1='a', # CHAR[1]
+    RFCCHAR2='ij', # CHAR[2]
+    RFCCHAR4='bcde', # CHAR[4]
+    RFCDATA1='k'*50, RFCDATA2='l'*50, # CHAR[50] each
 
     RFCTIME=datetime.time(12,34,56), # TIME
     RFCDATE=datetime.date(2012,10,3), # DATE

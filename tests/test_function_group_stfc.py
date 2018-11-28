@@ -19,7 +19,7 @@ class TestSTFC():
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info['isoLanguage'] == u'EN'
+        assert connection_info['isoLanguage'] == 'EN'
 
     def teardown_method(self, test_method):
         self.conn.close()
@@ -59,7 +59,7 @@ class TestSTFC():
     def test_STFC_CONNECTION(self):
         # STFC_CONNECTION RFC-TEST:   CONNECTION Test
         # Test with rstrip:
-        hello = u'Hällo SAP!'  # In case that rstip=False + u' ' * 245
+        hello = 'Hällo SAP!'  # In case that rstip=False + u' ' * 245
         result = self.conn.call('STFC_CONNECTION', REQUTEXT=hello)
         assert result['RESPTEXT'].startswith('SAP')
         assert result['ECHOTEXT'] == hello
@@ -125,20 +125,20 @@ class TestSTFC():
         # STFC_STRUCTURE Inhomogene Struktur
         imp = dict(RFCFLOAT=1.23456789,
                    RFCINT2=0x7ffe, RFCINT1=0x7f,
-                   RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
+                   RFCCHAR4='bcde', RFCINT4=0x7ffffffe,
                    RFCHEX3=str.encode('fgh'),
-                   RFCCHAR1=u'a', RFCCHAR2=u'ij',
+                   RFCCHAR1='a', RFCCHAR2='ij',
                    RFCTIME='123456',  # datetime.time(12,34,56),
                    RFCDATE='20161231',  # datetime.date(2011,10,17),
-                   RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+                   RFCDATA1='k'*50, RFCDATA2='l'*50
                    )
         out = dict(RFCFLOAT=imp['RFCFLOAT']+1,
                    RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
                    RFCINT4=imp['RFCINT4']+1,
                    RFCHEX3=b'\xf1\xf2\xf3',
-                   RFCCHAR1=u'X', RFCCHAR2=u'YZ',
+                   RFCCHAR1='X', RFCCHAR2='YZ',
                    RFCDATE=str(datetime.date.today()).replace('-', ''),
-                   RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+                   RFCDATA1='k'*50, RFCDATA2='l'*50
                    )
         table = []
         xtable = []

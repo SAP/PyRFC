@@ -24,7 +24,7 @@ class TestConnection():
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info['isoLanguage'] == u'EN'
+        assert connection_info['isoLanguage'] == 'EN'
 
     def teardown_method(self, test_method):
         self.conn.close()
@@ -61,7 +61,7 @@ class TestConnection():
         # rstrip test
         conn = pyrfc.Connection(
             config={'rstrip': False}, **config_sections['coevi51'])
-        hello = u'Hällo SAP!' + u' ' * 245
+        hello = 'Hällo SAP!' + ' ' * 245
         result = conn.call('STFC_CONNECTION', REQUTEXT=hello)
         # Test with rstrip=False (input length=255 char)
         assert result['ECHOTEXT'] == hello
@@ -127,7 +127,7 @@ class TestConnection():
         # Only valid for direct logon systems:
         # self.assertEqual(data['sysNumber'], str(params['sysnr']))
         assert data['user'] == str(params['user'].upper())
-        assert data['rfcRole'] == u'C'
+        assert data['rfcRole'] == 'C'
 
     def test_not_requested(self):
         PLNTY = 'A'

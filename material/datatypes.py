@@ -18,7 +18,7 @@ conn = Connection(**connection_info)
 is_input = dict(
 
     # Character
-    ZCHAR = u'Hällö SÄP!',
+    ZCHAR = 'Hällö SÄP!',
     ZCLNT = '510',
     ZUNIT_DTEL = 'KGM',
     ZCUKY_DTEL = 'USD',
@@ -42,16 +42,16 @@ is_input = dict(
     # String
     ZRAW = bytes('abc\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'),
     ZRAWSTRING = bytes('四周远处都能望见'),
-    ZSTRING = u'\u0001\uf4aa',
-    ZSSTRING = u'四周远处都能望见'
+    ZSTRING = '\u0001\uf4aa',
+    ZSSTRING = '四周远处都能望见'
 )
 
 result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
 for k in is_input:
     if is_input[k] != result[k]:
-        print k, type(result[k]) 
+        print(k, type(result[k])) 
         if str(is_input[k]) != str(result[k]):
-            print '!', k, is_input[k], result[k]
+            print('!', k, is_input[k], result[k])
 
 
 is_input = dict(
@@ -68,14 +68,14 @@ is_input = dict(
 )
 
 result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
-for key, in_val in is_input.iteritems():
+for key, in_val in is_input.items():
     out_val = result[key]
     if type(in_val) != type(out_val):
         if str(in_val) != str(out_val):
-            print 'str:', k, in_val, out_val
+            print('str:', k, in_val, out_val)
     else:
         if in_val != result[key]:
-            print key, in_val, out_val
+            print(key, in_val, out_val)
 
 is_input = dict(
 # Float
@@ -91,15 +91,15 @@ ZQUAN_SIGN = -12.345,
 )
 
 
-result = conn.call('/COE/RBP_FE_DATATYPES['ES_OUTPUT']
-for key, in_value in is_input.iteritems():
+result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+for key, in_value in is_input.items():
     out_value = result[key]
     if type(in_value) != type(out_value):
         if str(in_value) != str(out_value):
-            print 'str:', k, in_value, out_value
+            print('str:', k, in_value, out_value)
     else:
         if in_value != result[key]:
-            print key, in_value, out_value
+            print(key, in_value, out_value)
 
 is_input = dict(
 # Float
@@ -116,14 +116,14 @@ ZQUAN_SIGN = Decimal('-12.345'),
 
 
 result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
-for key, in_value in is_input.iteritems():
+for key, in_value in is_input.items():
     out_value = result[key]
     if type(in_value) != type(out_value):
         if str(in_value) != str(out_value):
-            print 'str:', k, in_value, out_value
+            print('str:', k, in_value, out_value)
     else:
         if in_value != result[key]:
-            print key, in_value, out_value
+            print(key, in_value, out_value)
 
 INPUTS = {
     'dec': dict(
@@ -168,12 +168,12 @@ INPUTS = {
 
 for in_type in INPUTS:
     result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = INPUTS[in_type])['ES_OUTPUT']
-    print
-    print in_type
+    print()
+    print(in_type)
     for k in is_input:
         in_val = is_input[k]
         out_val = result[k]
-        print k, type(in_val), type(out_val), in_val, out_val
+        print(k, type(in_val), type(out_val), in_val, out_val)
         if type(in_val) != type(out_val):
             assert(str(in_val) == str(out_val))
         else:
