@@ -17,18 +17,47 @@ class TestConnection():
         self.conn = pyrfc.Connection(**params)
         assert self.conn.alive
 
-    def test_version(self):
-        with open('VERSION', 'r') as f:
-            VERSION = f.read().strip()
-        assert pyrfc.__version__ == VERSION
-
-    def test_info(self):
-        connection_info = self.conn.get_connection_attributes()
-        assert connection_info['isoLanguage'] == u'EN'
-
     def teardown_method(self, test_method):
         self.conn.close()
         assert not self.conn.alive
+    
+    def test_version_and_options_getters(self):
+        with open('VERSION', 'r') as f:
+            VERSION = f.read().strip()
+            version = self.conn.version
+            assert 'major' in version
+            assert 'minor' in version
+            assert 'patchLevel' in version
+            assert 'binding' in version
+            assert version['binding'] == VERSION
+        assert all (k in self.conn.options for k in ('dtime', 'return_import_params', 'rstrip'))
+
+    def test_info(self):
+        connection_info = self.conn.get_connection_attributes()
+        info_keys = (
+            'host',
+            'partnerHost',
+            'sysNumber',
+            'sysId',
+            'client',
+            'user',
+            'language',
+            'trace',
+            'isoLanguage',
+            'codepage',
+            'partnerCodepage',
+            'rfcRole',
+            'type',
+            'partnerType',
+            'rel',
+            'partnerRel',
+            'kernelRel',
+            'cpicConvId',
+            'progName',
+            'partnerBytesPerChar',
+            'reserved'
+        )
+        assert all (k in connection_info for k in info_keys)
 
     # todo: test correct status after error -> or to the error tests?
     def test_incomplete_params(self):

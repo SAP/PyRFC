@@ -252,7 +252,7 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcSetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TIME time, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetStructure(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_STRUCTURE_HANDLE* structHandle, RFC_ERROR_INFO* errorInfo)
 
-    RFC_RC RfcInstallGenericServerFunction(void* serverFunction, void* funcDescProvider, RFC_ERROR_INFO* errorInfo)
+    # RFC_RC RfcInstallGenericServerFunction(void* serverFunction, void* funcDescProvider, RFC_ERROR_INFO* errorInfo)
 
     RFC_FUNCTION_DESC_HANDLE RfcDescribeFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
 
