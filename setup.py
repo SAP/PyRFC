@@ -40,17 +40,49 @@ elif sys.platform.startswith('win'):
     LIBS = ['sapnwrfc', 'libsapucum']
     MACROS = [('_LARGEFILE_SOURCE', None), ('SAPwithUNICODE', None), ('_CONSOLE', None), ('WIN32', None),
               ('SAPonNT', None), ('SAP_PLATFORM_MAKENAME', 'ntintel'), ('UNICODE', None), ('_UNICODE', None)]
-    COMPILE_ARGS = ['-I{}\\include'.format(SAPNWRFC_HOME), '-I{}\\Include'.format(
-        PYTHONSOURCE), '-I{}\\Include\\PC'.format(PYTHONSOURCE)]
+    COMPILE_ARGS = ['-I{}\\include'.format(SAPNWRFC_HOME), '-I{}\\Include'.format(PYTHONSOURCE), '-I{}\\Include\\PC'.format(PYTHONSOURCE)]
     LINK_ARGS = [
         '-LIBPATH:{}\\lib'.format(SAPNWRFC_HOME), '-LIBPATH:{}\\PCbuild'.format(PYTHONSOURCE)]
+elif sys.platform.startswith('darwin'):
+    MACOS_VERSION_MIN='10.14'
+    #os.environ['MACOSX_DEPLOYMENT_TARGET']=MACOS_VERSION_MIN
+    #os.environ['CLANG_CXX_LIBRARY']='libc++'
+    #os.environ['CLANG_CXX_LANGUAGE_STANDARD']='c++11'
+    #os.environ['OTHER_CPLUSPLUSFLAGS']='-std=c++11'
+    #os.environ['GCC_VERSION']='com.apple.compilers.llvm.clang.1_0'
+    #os.environ['GCC_ENABLE_CPP_EXCEPTIONS']='YES'
+    # https://github.com/nodejs/node-gyp/issues/1574
+    #os.environ['CXXFLAGS']='-mmacosx-version-min={}'.format(MACOS_VERSION_MIN)
+
+
+    LIBS = ['sapnwrfc', 'sapucum']
+    MACROS = [('NDEBUG', None), ('_LARGEFILE_SOURCE', None), ('_FILE_OFFSET_BITS', 64),
+              ('SAPonUNIX', None), ('SAPwithUNICODE', None), ('SAPwithTHREADS', None), ('SAPonLIN', None)]
+    COMPILE_ARGS = ['-Wall', '-O2', '-fexceptions', '-funsigned-char', '-fno-strict-aliasing', '-Wall', '-Wno-uninitialized',
+                    '-Wcast-align', '-fPIC', '-pthread', '-minline-all-stringops', '-I{}/include'.format(SAPNWRFC_HOME),
+                    '-std=c++11',
+                    '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
+                    # copy include/unicode to include/unicode/unicode
+                    '-I/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/unicode']
+    LINK_ARGS = ['-L{}/lib'.format(SAPNWRFC_HOME),
+                    '-stdlib=libc++',
+                    '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
+                    # https://stackoverflow.com/questions/6638500/how-to-specify-rpath-in-a-makefile
+                    '-Wl,-rpath,{}/lib'.format(SAPNWRFC_HOME)]
 else:
     sys.exit('Platform not supported: {}.'.format(sys.platform))
 
 # https://docs.python.org/2/distutils/apiref.html
 PYRFC_EXT = Extension(
-    name='%s._%s' % (NAME, NAME), sources=['src/%s/_%s.pyx' % (NAME, NAME)], libraries=LIBS, define_macros=MACROS, extra_compile_args=COMPILE_ARGS, extra_link_args=LINK_ARGS
+    language='c++',
+    name='%s._%s' % (NAME, NAME), 
+    sources=['src/%s/_%s.pyx' % (NAME, NAME)],
+    libraries=LIBS, define_macros=MACROS,
+    extra_compile_args=COMPILE_ARGS, 
+    extra_link_args=LINK_ARGS
 )
+
+print PYRFC_EXT
 
 # cf. http://docs.python.org/distutils/setupscript.html#additional-meta-data
 setup(name=NAME,

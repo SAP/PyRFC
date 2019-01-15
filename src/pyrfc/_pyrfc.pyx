@@ -124,8 +124,8 @@ cdef class Connection:
              thereof if the connection attempt fails.
     """
     cdef unsigned paramCount
-    cdef unsigned _bconfig
-    cdef public object _config
+    cdef unsigned __bconfig
+    cdef public object __config
     cdef public bint alive
     cdef bint active_transaction
     cdef bint active_unit
@@ -134,22 +134,38 @@ cdef class Connection:
     cdef RFC_TRANSACTION_HANDLE _tHandle
     cdef RFC_UNIT_HANDLE _uHandle
 
+    property version:
+        def __get__(self):
+            """Get SAP NW RFC SDK and PyRFC binding versions
+            :returns: SAP NW RFC SDK major, minor, patch level and PyRFC binding version
+            """
+            _BINDING = '1.9.94'
+            cdef unsigned major = 0
+            cdef unsigned minor = 0
+            cdef unsigned patchlevel = 0
+            RfcGetVersion(&major, &minor, &patchlevel)
+            return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'binding': _BINDING}
+
+    property options:
+        def __get__(self):
+            return self.__config
+
     def __init__(self, config={}, **params):
         cdef RFC_ERROR_INFO errorInfo
 
         # set connection config, rstrip default True
-        self._config = {}
-        self._config['dtime'] = config.get('dtime', False)
-        self._config['return_import_params'] = config.get('return_import_params', False)
-        self._config['rstrip'] = config.get('rstrip', True)
+        self.__config = {}
+        self.__config['dtime'] = config.get('dtime', False)
+        self.__config['return_import_params'] = config.get('return_import_params', False)
+        self.__config['rstrip'] = config.get('rstrip', True)
         # set internal configuration
-        self._bconfig = 0
-        if self._config['dtime']:
-            self._bconfig |= _MASK_DTIME
-        if self._config['return_import_params']:
-            self._bconfig |= _MASK_RETURN_IMPORT_PARAMS
-        if self._config['rstrip']:
-            self._bconfig |= _MASK_RSTRIP
+        self.__bconfig = 0
+        if self.__config['dtime']:
+            self.__bconfig |= _MASK_DTIME
+        if self.__config['return_import_params']:
+            self.__bconfig |= _MASK_RETURN_IMPORT_PARAMS
+        if self.__config['rstrip']:
+            self.__bconfig |= _MASK_RSTRIP
 
         self.paramCount = len(params)
         self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
@@ -395,10 +411,10 @@ cdef class Connection:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
             if rc != RFC_OK:
                 self._error(&errorInfo)
-            if self._bconfig & _MASK_RETURN_IMPORT_PARAMS:
-                return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self._bconfig)
+            if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
+                return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)
             else:
-                return wrapResult(funcDesc, funcCont, RFC_IMPORT, self._bconfig)
+                return wrapResult(funcDesc, funcCont, RFC_IMPORT, self.__bconfig)
         finally:
             RfcDestroyFunction(funcCont, NULL)
 
@@ -1348,96 +1364,7 @@ cdef class Server:
 
         raise wrapError(errorInfo)
 
-    def install_function(self, func_desc, callback):
-        """ Installs a function in the server.
 
-        :param func_desc: A function description object of
-               :class:`~pyrfc.FunctionDescription`
-        :param callback: A callback function that implements the logic.
-               The function must accept a ``request_context`` parameter and
-               all IMPORT, CHANGING, and TABLE parameters of the given
-               ``func_desc``.
-        :raises: :exc:`TypeError` if a function with the name given is already
-               installed.
-        """
-        name = func_desc.name
-        if name in server_functions:
-            raise TypeError("Function name already defined.")
-        server_functions[name] = {
-            "func_desc": func_desc,
-            "callback": callback,
-            "server": self
-        }
-
-    def serve(self, timeout=None):
-        """ Serves for a given timeout.
-
-        Note: internally this function installs a generic server function
-        and registers the server at the gateway (if required).
-
-        :param timeout: Number of seconds to serve or None (default) for no timeout.
-        :raises: :exc:`~pyrfc.RFCError` or a subclass
-               thereof if the installation or the registration attempt fails.
-        """
-        cdef RFC_RC rc
-        cdef RFC_ERROR_INFO errorInfo
-
-        if not self.installed:
-            # The following line produces a warning during C compilation,
-            # refering to repositoryLookup signature.
-            rc = RfcInstallGenericServerFunction(<void*> genericRequestHandler, <void*> repositoryLookup, &errorInfo)
-            if rc != RFC_OK:
-                self._error(&errorInfo)
-            self.installed = True
-
-        if not self.alive:
-            self._register()
-
-        is_serving = True
-        if timeout is not None:
-            start_time = datetime.datetime.utcnow()
-
-        try:
-            while is_serving:
-
-                rc = RfcListenAndDispatch(self._handle, 3, &errorInfo)
-                #print ".",  # Add print statement? Allows keyboard interrupts to raise Exception
-
-                if rc in (RFC_OK, RFC_RETRY):
-                    pass
-                elif rc == RFC_ABAP_EXCEPTION: # Implementing function raised ABAPApplicationError
-                    pass
-                elif rc == RFC_NOT_FOUND: # Unknown function module
-                    self.alive = False
-                elif rc == RFC_EXTERNAL_FAILURE: # SYSTEM_FAILURE sent to backend
-                    self.alive = False
-                elif rc == RFC_ABAP_MESSAGE: # ABAP Message has been sent to backend
-                    self.alive = False
-                elif rc in (RFC_CLOSED, RFC_COMMUNICATION_FAILURE): # Connection broke down during transmission of return values
-                    self.alive = False
-
-                #tmp = str(signal.getsignal(signal.SIGINT))
-                #print "... {}".format(signal.getsignal(signal.SIGINT))
-                #sys.stdout.write(".") # to see Keyboard interrupt
-                #time.sleep(0.001) # sleep a millisecond to see Keyboard interrupts.
-
-                #time.sleep(0.5)
-
-                if not self.alive:
-                    self._register()
-
-                now_time = datetime.datetime.utcnow()
-                if timeout is not None:
-                    if (now_time-start_time).seconds > timeout:
-                        is_serving = False
-                        _server_log("Server", "timeout reached ({} sec)".format(timeout))
-
-        # HERE I GO - Test it with a datetime call... maybe that would
-        # catch the CTRL+C
-        except KeyboardInterrupt:
-            _server_log("Server", "Shutting down...")
-            self.close()
-            return
 
 cdef class _Testing:
     """For testing purposes only."""

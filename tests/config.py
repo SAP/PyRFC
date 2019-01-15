@@ -2,11 +2,12 @@
 try:
     from configparser import ConfigParser
     COPA = ConfigParser()
+    COPA.read('tests/pyrfc.cfg')
 except ImportError as ex:
     COPA = config_parser()
+    COPA.read_file('tests/pyrfc.cfg')
     from configparser import config_parser
 
-COPA.read('tests/pyrfc.cfg')
 CONFIG_SECTIONS = COPA._sections
 PARAMS = CONFIG_SECTIONS['coevi51']
 def get_error(ex):

@@ -9,6 +9,15 @@ connection_info = {
     'sysid': 'S16'
 }
 
+
+connection_info = {'user': 'demo',
+'passwd': 'welcome',
+'ashost': '10.68.110.51',
+'sysnr': '00',
+'client': '620',
+'lang': 'EN'
+}
+
 import pyrfc
 
 function_name = u'ZHHDEMO_STRUCT_MOD'
