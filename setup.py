@@ -53,6 +53,7 @@ elif sys.platform.startswith('darwin'):
                     '-isystem',
                     '-std=c++11',
                     '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
+                    # unicode paths fix:
                     # sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
                     # sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
                     '-I{}/include'.format(SAPNWRFC_HOME)
