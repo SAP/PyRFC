@@ -4,69 +4,61 @@
 Installation
 ============
 
-Python connector is a wrapper for the *SAP NetWeaver RFC Library* and you need to obtain and install it first.
+If `SAP NetWeaver RFC SDK <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_ and Python
+are already installed on your system, you can pip install the :mod:`pyrfc` wheel from the dist
+folder, or clone this repository and build :mod:`pyrfc` from the source code, following :ref:`build`.
 
-If Python is not already installed on your system, you need to download and install Python as well.
-
-After having *SAP NW RFC Library* and Python installed on your system, you can download and install one of provided
-:mod:`pyrfc` eggs, relevant for your platform and start using :mod:`pyrfc`.
-
-You can also clone this repository and build :mod:`pyrfc` from the source code, following :ref:`build`.
+You may use Python 3 (Python 2 by the end of 2019) and the latest SAP NW RFC SDK
+release (fully backwards compatible).
 
 .. _install-c-connector:
 
-SAP NW RFC Library Installation
-===============================
+SAP NW RFC SDK Installation
+===========================
 
-The entry page for *SAP NetWeaver RFC library* is [SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html), 
-with detailed instructions how to download, compile and use the library.
+If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the _rfcexec_ utility, without any parameter. 
 
-.. _install-combination:
+The error message like below indicates that SAP NW RFC SDK installation is technically correct, expecting more input parameters. 
+Different error message may be caused by missing Windows C++ binary for example, or another installation inconsistency:
 
-Which SAP NW RFC Library version is relevant for your platform? Here are platform/Python combinations tested so far:
+     .. code-block:: sh
 
-========== ================== ============================== ========================= ======================================
-Platform   Python version       NetWeaver RFC Library (SMP)       Filename (SMP)                  Python egg
-========== ================== ============================== ========================= ======================================
-Windows    Python 2.7 (32bit) *Windows Server on IA32 32bit* ``NWRFC_20-20004566.SAR`` pyrfc-1.9.3-py2.7-win32.egg
-Windows    Python 2.7 (64bit) *Windows on x64 64bit*         ``NWRFC_20-20004568.SAR`` pyrfc-1.9.3-py2.7-win-amd64.egg
-Linux      Python 2.7 (64bit) *Linux on x86_64 64bit*        ``NWRFC_20-20004565.SAR`` pyrfc-1.9.3-py2.7-linux-x86_64.egg
-========== ================== ============================== ========================= ======================================
-
-.. note::
-   * *SAP NW RFC Library* is fully backwards compatible and it is reccomended using 
-     the newest version also for older backend system releases
-
-   * SMP search terms and filenames given here will not be regularly updated,
-     you should always search  for current version or filename in ``Software Downloads``.
-
-   * The server functionality is currently not working under Windows 32bit
-
-.. _SAP Note 1025361: https://launchpad.support.sap.com/#/notes/1025361
+        $ cd /usr/local/sap/nwrfcsdk/bin
+        $ ./rfcexec
+        Error: Not all mandatory parameters specified
+        Please start the program in the following way:
+        rfcexec -t -a <program ID> -g <gateway host> -x <gateway service>
+                -f <file with list of allowed commands> -s <allowed Sys ID>
+        The options "-t" (trace), "-f" and "-s" are optional.
 
 
-The Python connector relies on *SAP NW RFC Library* and must be able to find library 
-files at runtime. Therefore, you might either install the *SAP NW RFC Library* 
+Information on where to download the SAP NW RFC SDK you may find `here <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_ .
+
+The PyRFC connector relies on *SAP NW RFC SDK* and must be able to find the library
+files at runtime. Therefore, you might either install the *SAP NW RFC SDK*
 in the standard library paths of your system or install it in any location and tell the
 Python connector where to look.
 
-Here are configuration examples for Windows and Linux operating systems.
+Here are configuration examples for Windows, Linux and macOS operating systems.
 
 Windows
 -------
 
-1. Create an directory, e.g. ``c:\nwrfcsdk``.
-2. Unpack the SAR archive to it, e.g. ``c:\nwrfcsdk\lib`` shall exist.
-3. Include the ``lib`` directory to the library search path on Windows, i.e.
+1. Create the SAP NW RFC SDK root directory, e.g. ``c:\nwrfcsdk``
+2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=c:\nwrfcsdk``
+3. Unpack the SAP NW RFC SDK archive to it, e.g. ``c:\nwrfcsdk\lib`` shall exist.
+4. Include the ``lib`` directory to the library search path on Windows, i.e.
    :ref:`extend<install-problems-envvar-win>` the ``PATH`` environment variable.
 
+Add ``c:\nwrfcsdk\lib`` to PATH.
 
 Linux
 -----
 
-1. Create the directory, e.g. ``/usr/sap/nwrfcsdk``.
-2. Unpack the SAR archive to it, e.g. ``/usr/sap/nwrfcsdk/lib`` shall exist.
-3. Include the ``lib`` directory in the library search path:
+1. Create the SAP NW RFC SDK root directory, e.g. ``/usr/local/sap/nwrfcsdk``.
+2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
+3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
+4. Include the ``lib`` directory in the library search path:
 
    * As ``root``, create a file ``/etc/ld.so.conf.d/nwrfcsdk.conf`` and
      enter the following values:
@@ -74,9 +66,68 @@ Linux
      .. code-block:: sh
 
         # include nwrfcsdk
-        /usr/sap/nwrfcsdk/lib
+        /usr/local/sap/nwrfcsdk/lib
 
-   * As ``root``, run the command ``ldconfig``.
+   * As ``root``, run the command ``ldconfig``. To check if libraries are installed:
+
+     .. code-block:: sh
+
+        $ ldconfig -p | grep sap # should show something like:
+          libsapucum.so (libc6,x86-64) => /usr/local/sap/nwrfcsdk/lib/libsapucum.so
+          libsapnwrfc.so (libc6,x86-64) => /usr/local/sap/nwrfcsdk/lib/libsapnwrfc.so
+          libicuuc.so.50 (libc6,x86-64) => /usr/local/sap/nwrfcsdk/lib/libicuuc.so.50
+          libicui18n.so.50 (libc6,x86-64) => /usr/local/sap/nwrfcsdk/lib/libicui18n.so.50
+          libicudecnumber.so (libc6,x86-64) => /usr/local/sap/nwrfcsdk/lib/libicudecnumber.so
+          libicudata.so.50 (libc6,x86-64) => /usr/local/sap/nwrfcsdk/lib/libicudata.so.50
+          libgssapi_krb5.so.2 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2
+          libgssapi.so.3 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libgssapi.so.3
+        $    
+
+macOS
+-----
+
+1. Create the SAP NW RFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
+2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
+3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist. 
+4. Set the remote paths in SAP NW RFC SDK by running following bash script:
+
+     .. code-block:: sh
+
+        #!/bin/bash
+
+        RPATH="$SAPNWRFC_HOME/lib"
+        cd $RPATH
+
+        #
+        # add LC_RPATH
+        #
+        for filename in *.dylib; do
+            install_name_tool -add_rpath $RPATH $filename 
+        done
+
+        #
+        # fix LC_LOAD_DYLIB
+        #
+
+        # in libisui18n
+        install_name_tool -change libicuuc.50.dylib @rpath/libicuuc.50.dylib libicui18n.50.dylib
+        install_name_tool -change libicudata.50.dylib @rpath/libicudata.50.dylib libicui18n.50.dylib
+        # in libicuuc
+        install_name_tool -change libicudata.50.dylib @rpath/libicudata.50.dylib libicuuc.50.dylib
+
+This location is fixed to the default ``/usr/local/sap/nwrfcsdk/lib`` rpath, embedded into node-rfc package published on npm.
+
+After moving SAP NW RFC SDK to another location on your system, the rpaths must be adjusted in SAP NW RFC SDK and in pyrfc.so libraries.
+
+For SAP NW RFC SDK, set the SAPNWRFC_HOME env variable to new SAP NW RFC SDK root directory and re-run the above script. 
+
+For pyrfc:
+
+     .. code-block:: sh
+
+        $ unzip unzip pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+        $ cd pyrfc
+        $ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib /usr/new-path/lib s_pyrfc.cpython-37m-darwin.so 
 
 
 .. _install-python-connector:
@@ -84,95 +135,46 @@ Linux
 Python Connector Installation
 =============================
 
+Using virtual environments you can isolate Python/PyRFC projects, working without administrator privileges.
+
 Windows
 -------
 
 .. _`install-python-win`:
 
-* If not already installed, you need to install Python first.
-
-  First, decide whether you want to go with the 32bit or 64bit version and use standard Windows installers
-
-  Python 2.7 (32 bit), http://www.python.org/ftp/python/2.7.6/python-2.7.6.msi
-
-  Python 2.7 (64 bit) http://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi
+* If not already installed, install the Python first: https://www.python.org/downloads/windows/
 
   Add Python and Scripts directories to ``PATH`` environment variable, e.g.
 
   .. code-block:: none
 
-     set PATH=c:\Python27;c:\Python27\Scripts;%PATH%
+     set PATH=c:\Python37;c:\Python37\Scripts;%PATH%
 
-* Install ``easy_install``
-
-  Use the ``distribute`` implementation of ``easy_install`` by downloading 
-  https://bootstrap.pypa.io/ez_setup.py and running
-
-  .. code-block:: none
-
-     python ez_setup.py
-
-  .. note::
-
-     At this point you may like to install the `pip`_ package which extends
-     the functionality of ``easy_install``. However, ``pip`` cannot handle binary
-     build distributions, which will be used later.
-
-     If you are in a internal network that uses a proxy to access resources from
-     the internet, you may encounter :ref:`connection problems<install-problems>`.
-
-     .. _pip: http://pypi.python.org/pypi/pip
-
-
-* Virtual environment (optional)
-
-  You may now create an :ref:`virtual environment <install-virtualenv>`
-  and activate it.
-
+* Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
 
 * Install the Python connector
 
-  Open the command prompt with administrator rights, change to the ``pyrfc\dist`` directory
-  and install adequate :mod:`pyrfc` egg. You need administrator rights, otherwise ``easy_install`` 
-  will open a new window and close it after execution -- leaving you without the option to see what
-  was done or what was the error.
+  Open the command prompt, with administrator rights if needed, change to the ``pyrfc\dist`` directory
+  and install adequate :mod:`pyrfc` wheel.
 
   .. code-block:: sh
 
-     easy_install <egg name>
+     wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
 
-  Please look up the correct :ref:`egg name<install-combination>`
-  depending on your platform and Python version.
+     pip install pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+     
+  Please look up the correct :ref:`wheel name<install-combination>` depending on your platform and Python version.
 
-* Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without
-  oputput, the installation was successful.
+* Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
 
 Python on Linux
 ---------------
 
 .. _`install-python-linux`:
 
-* Install Python 2.7 (64bit, usually the default) via your preferred package manager
+* Install Python 3.7 
 
-* Install ``easy_install`` 
-
-  Use the ``distribute`` implementation of ``easy_install`` by downloading 
-  https://bootstrap.pypa.io/ez_setup.py and running
-
-  .. code-block:: none
-
-     python ez_setup.py
-
-  .. note::
-
-     At this point you may like to install the `pip`_ package which extends
-     the functionality of ``easy_install``. However, ``pip`` cannot handle binary
-     build distributions, which will be used later.
-
-     If you are in a internal network that uses a proxy to access resources from
-     the internet, you may encounter :ref:`connection problems<install-problems>`.
-
-     .. _pip: http://pypi.python.org/pypi/pip
+* Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
 
 * Virtual environment (optional)
 

@@ -121,13 +121,7 @@ complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk)
 
 * Python 2 will not be maintained past 2020 
 
-* Unicode path fix required on macOS for build from source:
-
-```shell
-MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
-```
+* Unicode path fix required for [build from source](http://sap.github.io/PyRFC/build.html) on macOS
 
 ## How to obtain support
 
