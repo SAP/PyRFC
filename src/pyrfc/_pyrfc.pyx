@@ -1364,6 +1364,93 @@ cdef class Server:
 
         raise wrapError(errorInfo)
 
+    def install_function(self, func_desc, callback):
+            """ Installs a function in the server.
+            :param func_desc: A function description object of
+                :class:`~pyrfc.FunctionDescription`
+            :param callback: A callback function that implements the logic.
+                The function must accept a ``request_context`` parameter and
+                all IMPORT, CHANGING, and TABLE parameters of the given
+                ``func_desc``.
+            :raises: :exc:`TypeError` if a function with the name given is already
+                installed.
+            """
+            name = func_desc.name
+            if name in server_functions:
+                raise TypeError("Function name already defined.")
+            server_functions[name] = {
+                "func_desc": func_desc,
+                "callback": callback,
+                "server": self
+            }
+
+    def serve(self, timeout=None):
+        """ Serves for a given timeout.
+        Note: internally this function installs a generic server function
+        and registers the server at the gateway (if required).
+        :param timeout: Number of seconds to serve or None (default) for no timeout.
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+            thereof if the installation or the registration attempt fails.
+        """
+        cdef RFC_RC rc
+        cdef RFC_ERROR_INFO errorInfo
+
+        if not self.installed:
+            # The following line produces a warning during C compilation,
+            # refering to repositoryLookup signature.
+            # rc = RfcInstallGenericServerFunction(<void*> genericRequestHandler, <void*> repositoryLookup, &errorInfo)
+            if rc != RFC_OK:
+                self._error(&errorInfo)
+            self.installed = True
+
+        if not self.alive:
+            self._register()
+
+        is_serving = True
+        if timeout is not None:
+            start_time = datetime.datetime.utcnow()
+
+        try:
+            while is_serving:
+
+                rc = RfcListenAndDispatch(self._handle, 3, &errorInfo)
+                #print ".",  # Add print statement? Allows keyboard interrupts to raise Exception
+
+                if rc in (RFC_OK, RFC_RETRY):
+                    pass
+                elif rc == RFC_ABAP_EXCEPTION: # Implementing function raised ABAPApplicationError
+                    pass
+                elif rc == RFC_NOT_FOUND: # Unknown function module
+                    self.alive = False
+                elif rc == RFC_EXTERNAL_FAILURE: # SYSTEM_FAILURE sent to backend
+                    self.alive = False
+                elif rc == RFC_ABAP_MESSAGE: # ABAP Message has been sent to backend
+                    self.alive = False
+                elif rc in (RFC_CLOSED, RFC_COMMUNICATION_FAILURE): # Connection broke down during transmission of return values
+                    self.alive = False
+
+                #tmp = str(signal.getsignal(signal.SIGINT))
+                #print "... {}".format(signal.getsignal(signal.SIGINT))
+                #sys.stdout.write(".") # to see Keyboard interrupt
+                #time.sleep(0.001) # sleep a millisecond to see Keyboard interrupts.
+
+                #time.sleep(0.5)
+
+                if not self.alive:
+                    self._register()
+
+                now_time = datetime.datetime.utcnow()
+                if timeout is not None:
+                    if (now_time-start_time).seconds > timeout:
+                        is_serving = False
+                        _server_log("Server", "timeout reached ({} sec)".format(timeout))
+
+        # HERE I GO - Test it with a datetime call... maybe that would
+        # catch the CTRL+C
+        except KeyboardInterrupt:
+            _server_log("Server", "Shutting down...")
+            self.close()
+            return
 
 
 cdef class _Testing:

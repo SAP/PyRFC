@@ -54,8 +54,9 @@ elif sys.platform.startswith('darwin'):
                     '-std=c++11',
                     '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
                     # sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-                    '-I{}/include'.format(SAPNWRFC_HOME),
-                    '-I{}'.format(MACOS_UNICODE_DIR)
+                    # sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
+                    '-I{}/include'.format(SAPNWRFC_HOME)
+                    #'-I{}'.format(MACOS_UNICODE_DIR) 
                     ]
     LINK_ARGS = ['-L{}/lib'.format(SAPNWRFC_HOME),
                     '-stdlib=libc++',
