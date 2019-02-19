@@ -1,6 +1,12 @@
 Change log
 ==========
 
+1.9.94 (2019-02-20)
+-------------------
+- macOS experimental support
+- README update, closing #93 and #80
+- Documentation update, closing #81 and #82
+
 1.9.93 (2018-08-20)
 -------------------
 - Tables' processing memory consumption optimisation (#60)

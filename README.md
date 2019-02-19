@@ -1,31 +1,68 @@
-# PyRFC - The Python RFC Connector
+# SAP NW RFC SDK Client for Python
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-## Description
+Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/products/connectors/nwrfcsdk.html) client bindings for Python.
 
-The _pyrfc_ Python package provides Python bindings for _SAP NetWeaver RFC Library_,
-for a comfortable way of calling ABAP modules from Python and Python modules from ABAP,
-via SAP Remote Function Call (RFC) protocol.
+## Features
 
-## Platforms & Prerequisites
+* Stateless and stateful connections (multiple function calls in the same ABAP session (same context))
+* Sequential and parallel calls, using one or more clients
+* Automatic conversion between Python and ABAP datatypes
+* Extensive unit tests
 
-The _pyrfc_ has been initially built with Python 2.6 and wheels are provided for Python 2.7 and 3.6, on 64 bit Linux and Windows platform.
+## Supported platforms
 
-OS X and ARM platforms are currently not supported either, as _SAP NW RFC Library_ is not available for those platforms.
+* Python 3, Python 2 [until 2020](https://pythonclock.org/)
+
+* The _pyrfc_ connector can be [built from source](http://sap.github.io/PyRFC/build.html) on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
+
+* Pre-built _pyrfc_ wheels are provided in the [dist](dist) folder, for Python 3 and Python 2 (until 2020), for Windows 8.1, Ubuntu 16.04 and macOS 10.14 (experimental)
+
+## Prerequisites
+
+SAP NW RFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and locally installed ([installation instructions](http://sap.github.io/PyRFC/install.html#sap-nw-rfc-library-installation)). More information on [SAP NW RFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html).
+
+SAP NW RFC Library is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C. Using the latest version is reccomended.
+
+### Windows
 
 On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributable Package (KB973544), or [newer](https://www.microsoft.com/en-us/download/details.aspx?id=48145), must be installed, per [SAP Note 1375494 - SAP system does not start after applying SAP kernel patch](https://launchpad.support.sap.com/#/notes/1375494).
 
-To start using _pyrfc_ you need to obtain _SAP NW RFC Library_ from _SAP Service Marketplace_,
-following [these instructions](http://sap.github.io/PyRFC/install.html#install-c-connector). The /dist/ folder of this repository contains egg files (.egg) and wheel files (.whl). Either use _easy_install_ to install the appropriate egg file for your system or use _pip_ to install _pyrfc_ from an appropriate wheel file.
+### macOS
 
-A prerequisite to download is having a **customer or partner account** on _SAP Service Marketplace_ and if you
-are SAP employee please check [SAP Note 1037575 - Software download authorizations for SAP employees](https://launchpad.support.sap.com/#/notes/1037575).
+The macOS firewall stealth mode must be disabled ([Can't ping a machine - why?](https://discussions.apple.com/thread/2554739)):
 
-_SAP NW RFC Library_ is fully backwards compatible, supporting all NetWeaver systems, from today, down to release R/3 4.0.
-You can therefore always use the newest version released on Service Marketplace and connect to older systems as well.
+```shell
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+```
 
-## Usage examples
+## Installation
+
+After the SAP NW RFC SDK [installed](#prerequisites) on your system, you can pip install the _pyrfc_ package for your platform from the [dist](dist) folder:
+
+```shell
+wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+
+pip install pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+```
+
+Alternatively, or if the _pyrfc_ package for your platform not provided, [build the package from source](http://sap.github.io/PyRFC/build.html) on your system and pip install:
+
+```shell
+git clone https://github.com/SAP/PyRFC.git
+cd PyRFC
+python setup.py bdist_wheel
+pip install dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+# set ABAP system parameters in test/pyrfc.cfg
+pytest -vv
+```
+See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
+complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
+
+## Getting started
+
+**Note:** The package must be [installed](#installation) before use.
 
 In order to call remote enabled ABAP function module (ABAP RFM), first a connection must be opened.
 
@@ -34,7 +71,7 @@ In order to call remote enabled ABAP function module (ABAP RFM), first a connect
 >>> conn = Connection(ashost='10.0.0.1', sysnr='00', client='100', user='me', passwd='secret')
 ```
 
-Using an open connection, we can invoke remote function calls (RFC).
+Using an open connection, remote function modules (RFM) can be invoked:
 
 ```python
 >>> result = conn.call('STFC_CONNECTION', REQUTEXT=u'Hello SAP!')
@@ -42,7 +79,6 @@ Using an open connection, we can invoke remote function calls (RFC).
 {u'ECHOTEXT': u'Hello SAP!',
  u'RESPTEXT': u'SAP R/3 Rel. 702   Sysid: ABC   Date: 20121001   Time: 134524   Logon_Data: 100/ME/E'}
 ```
-
 Finally, the connection is closed automatically when the instance is deleted by the garbage collector. As this may take some time, we may either call the close() method explicitly or use the connection as a context manager:
 
 ```python
@@ -51,18 +87,17 @@ Finally, the connection is closed automatically when the instance is deleted by 
     # connection automatically closed here
 ```
 
-Alternatively, connection parameters can be provided as a dictionary,
-like in a next example, showing the connection via saprouter.
+Alternatively, connection parameters can be provided as a dictionary:
 
 ```python
->>> def get_connection(connmeta):
+>>> def get_connection(conn_params):
 ...     """Get connection"""
-...     print 'Connecting ...', connmeta['ashost']
-...     return Connection(**connmeta)
+...     print 'Connecting ...', conn_params['ashost']
+...     return Connection(**conn_param)
 
 >>> from pyrfc import Connection
 
->>> TEST = {
+>>> abap_system = {
 ...    'user'      : 'me',
 ...    'passwd'    : 'secret',
 ...    'ashost'    : '10.0.0.1',
@@ -73,16 +108,25 @@ like in a next example, showing the connection via saprouter.
 ...    'lang'      : 'EN'
 ... }
 
->>> conn = get_connection(TEST)
+>>> conn = get_connection(abap_system)
 Connecting ... 10.0.0.1
 
 >>>conn.alive
 True
 ```
+See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
+complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
-## Installation & Documentation
+## Known Issues
 
-For further details on connection parameters, _pyrfc_ installation and usage,
-please refer to [_pyrfc_ documentation](http://sap.github.io/PyRFC),
-complementing _SAP NW RFC Library_ [programming guide and documentation](http://service.sap.com/rfc-library)
-provided on SAP Service Marketplace.
+Python 2 will not be maintained past 2020 
+
+## How to obtain support
+
+If you encounter an issue or have a feature request, you can create a [ticket](https://github.com/SAP/PyRFC/issues).
+
+Check out the SCN Forum (search for "pyrfc") and stackoverflow (use the tag "pyrfc"), to discuss code-related problems and questions.
+
+## License
+
+Copyright (c) 2013 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
