@@ -42,9 +42,11 @@ elif sys.platform.startswith('win'):
     LINK_ARGS = [
         '-LIBPATH:{}\\lib'.format(SAPNWRFC_HOME), '-LIBPATH:{}\\PCbuild'.format(PYTHONSOURCE)]
 elif sys.platform.startswith('darwin'):
-    MACOS_VERSION_MIN='10.9'
-    MACOS_UNICODE_DIR='/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode'
-
+    MACOS_VERSION_MIN='10.10'
+    # unicode paths fix:
+    # $ MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
+    # $ sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
+    # $ sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
     LIBS = ['sapnwrfc', 'sapucum']
     MACROS = [('NDEBUG', None), ('_LARGEFILE_SOURCE', None), ('_FILE_OFFSET_BITS', 64),
               ('SAPonUNIX', None), ('SAPwithUNICODE', None), ('SAPwithTHREADS', None), ('SAPonLIN', None)]
@@ -53,11 +55,7 @@ elif sys.platform.startswith('darwin'):
                     '-isystem',
                     '-std=c++11',
                     '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
-                    # unicode paths fix:
-                    # sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-                    # sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
                     '-I{}/include'.format(SAPNWRFC_HOME)
-                    #'-I{}'.format(MACOS_UNICODE_DIR) 
                     ]
     LINK_ARGS = ['-L{}/lib'.format(SAPNWRFC_HOME),
                     '-stdlib=libc++',
