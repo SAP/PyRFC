@@ -6,13 +6,14 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Installation &#8212; pyrfc 1.9.91 documentation</title>
+    <title>Installation &#8212; pyrfc 1.9.94 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Client scenario" href="client.html" />
@@ -21,7 +22,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 1.9.91 documentation</a></div>
+          href="index.html">pyrfc 1.9.94 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |
@@ -43,184 +44,197 @@
             
   <div class="section" id="installation">
 <span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>Python connector is a wrapper for the <em>SAP NetWeaver RFC Library</em> and you need to obtain and install it first.</p>
-<p>If Python is not already installed on your system, you need to download and install Python as well.</p>
-<p>After having <em>SAP NW RFC Library</em> and Python installed on your system, you can download and install one of provided
-<code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> eggs, relevant for your platform and start using <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code>.</p>
-<p>You can also clone this repository and build <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> from the source code, following <a class="reference internal" href="build.html#build"><span class="std std-ref">Building from source</span></a>.</p>
-<div class="section" id="sap-nw-rfc-library-installation">
-<span id="install-c-connector"></span><h2>SAP NW RFC Library Installation<a class="headerlink" href="#sap-nw-rfc-library-installation" title="Permalink to this headline">¶</a></h2>
-<p>The entry page for <em>SAP NetWeaver RFC library</em> is [SAP Support Portal](<a class="reference external" href="https://support.sap.com/en/product/connectors/nwrfcsdk.html">https://support.sap.com/en/product/connectors/nwrfcsdk.html</a>),
-with detailed instructions how to download, compile and use the library.</p>
-<p id="install-combination">Which SAP NW RFC Library version is relevant for your platform? Here are platform/Python combinations tested so far:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="15%" />
-<col width="25%" />
-<col width="21%" />
-<col width="31%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Platform</th>
-<th class="head">Python version</th>
-<th class="head">NetWeaver RFC Library (SMP)</th>
-<th class="head">Filename (SMP)</th>
-<th class="head">Python egg</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Windows</td>
-<td>Python 2.7 (32bit)</td>
-<td><em>Windows Server on IA32 32bit</em></td>
-<td><code class="docutils literal notranslate"><span class="pre">NWRFC_20-20004566.SAR</span></code></td>
-<td>pyrfc-1.9.3-py2.7-win32.egg</td>
-</tr>
-<tr class="row-odd"><td>Windows</td>
-<td>Python 2.7 (64bit)</td>
-<td><em>Windows on x64 64bit</em></td>
-<td><code class="docutils literal notranslate"><span class="pre">NWRFC_20-20004568.SAR</span></code></td>
-<td>pyrfc-1.9.3-py2.7-win-amd64.egg</td>
-</tr>
-<tr class="row-even"><td>Linux</td>
-<td>Python 2.7 (64bit)</td>
-<td><em>Linux on x86_64 64bit</em></td>
-<td><code class="docutils literal notranslate"><span class="pre">NWRFC_20-20004565.SAR</span></code></td>
-<td>pyrfc-1.9.3-py2.7-linux-x86_64.egg</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<ul class="last simple">
-<li><em>SAP NW RFC Library</em> is fully backwards compatible and it is reccomended using
-the newest version also for older backend system releases</li>
-<li>SMP search terms and filenames given here will not be regularly updated,
-you should always search  for current version or filename in <code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Downloads</span></code>.</li>
-<li>The server functionality is currently not working under Windows 32bit</li>
-</ul>
+<p>If <a class="reference external" href="https://support.sap.com/en/product/connectors/nwrfcsdk.html">SAP NetWeaver RFC SDK</a> and Python
+are already installed on your system, you can pip install the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> wheel from the dist
+folder, or clone this repository and build <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> from the source code, following <a class="reference internal" href="build.html#build"><span class="std std-ref">Building from source</span></a>.</p>
+<p>You may use Python 3 (Python 2 by the end of 2019) and the latest SAP NW RFC SDK
+release (fully backwards compatible).</p>
+<div class="section" id="sap-nw-rfc-sdk-installation">
+<span id="install-c-connector"></span><h2>SAP NW RFC SDK Installation<a class="headerlink" href="#sap-nw-rfc-sdk-installation" title="Permalink to this headline">¶</a></h2>
+<p>If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the <code class="docutils literal notranslate"><span class="pre">rfcexec</span></code> utility, without any parameter.</p>
+<p>The error message like below indicates that SAP NW RFC SDK installation is technically correct, expecting more input parameters.
+Different error message may be caused by missing Windows C++ binary for example, or another installation inconsistency:</p>
+<blockquote>
+<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /usr/local/sap/nwrfcsdk/bin
+$ ./rfcexec
+Error: Not all mandatory parameters specified
+Please start the program in the following way:
+rfcexec -t -a &lt;program ID&gt; -g &lt;gateway host&gt; -x &lt;gateway service&gt;
+        -f &lt;file with list of allowed commands&gt; -s &lt;allowed Sys ID&gt;
+The options <span class="s2">&quot;-t&quot;</span> <span class="o">(</span>trace<span class="o">)</span>, <span class="s2">&quot;-f&quot;</span> and <span class="s2">&quot;-s&quot;</span> are optional.
+</pre></div>
 </div>
-<p>The Python connector relies on <em>SAP NW RFC Library</em> and must be able to find library
-files at runtime. Therefore, you might either install the <em>SAP NW RFC Library</em>
+</div></blockquote>
+<p>Information on where to download the SAP NW RFC SDK you may find <a class="reference external" href="https://support.sap.com/en/product/connectors/nwrfcsdk.html">here</a> .</p>
+<p>The PyRFC connector relies on <em>SAP NW RFC SDK</em> and must be able to find the library
+files at runtime. Therefore, you might either install the <em>SAP NW RFC SDK</em>
 in the standard library paths of your system or install it in any location and tell the
 Python connector where to look.</p>
-<p>Here are configuration examples for Windows and Linux operating systems.</p>
+<p>Here are configuration examples for Windows, Linux and macOS operating systems.</p>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li>Create an directory, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk</span></code>.</li>
-<li>Unpack the SAR archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk\lib</span></code> shall exist.</li>
+<li>Create the SAP NW RFC SDK home directory, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk</span></code></li>
+<li>Set the SAPNWRFC_HOME env variable: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=c:\nwrfcsdk</span></code></li>
+<li>Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk\lib</span></code> shall exist.</li>
 <li>Include the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory to the library search path on Windows, i.e.
 <a class="reference internal" href="#install-problems-envvar-win"><span class="std std-ref">extend</span></a> the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable.</li>
 </ol>
+<p>Add <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk\lib</span></code> to PATH.</p>
 </div>
 <div class="section" id="linux">
 <h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
-<li><p class="first">Create the directory, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/sap/nwrfcsdk</span></code>.</p>
+<li><p class="first">Create the SAP NW RFC SDK home directory, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk</span></code></p>
 </li>
-<li><p class="first">Unpack the SAR archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/sap/nwrfcsdk/lib</span></code> shall exist.</p>
+<li><p class="first">Set the SAPNWRFC_HOME env variable: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk</span></code></p>
+</li>
+<li><p class="first">Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> shall exist.</p>
 </li>
 <li><p class="first">Include the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory in the library search path:</p>
 <ul>
 <li><p class="first">As <code class="docutils literal notranslate"><span class="pre">root</span></code>, create a file <code class="docutils literal notranslate"><span class="pre">/etc/ld.so.conf.d/nwrfcsdk.conf</span></code> and
 enter the following values:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># include nwrfcsdk</span>
-/usr/sap/nwrfcsdk/lib
+/usr/local/sap/nwrfcsdk/lib
 </pre></div>
 </div>
 </li>
-<li><p class="first">As <code class="docutils literal notranslate"><span class="pre">root</span></code>, run the command <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code>.</p>
+<li><p class="first">As <code class="docutils literal notranslate"><span class="pre">root</span></code>, run the command <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code>. To check if libraries are installed:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ ldconfig -p <span class="p">|</span> grep sap <span class="c1"># should show something like:</span>
+  libsapucum.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libsapucum.so
+  libsapnwrfc.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libsapnwrfc.so
+  libicuuc.so.50 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicuuc.so.50
+  libicui18n.so.50 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicui18n.so.50
+  libicudecnumber.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicudecnumber.so
+  libicudata.so.50 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicudata.so.50
+  libgssapi_krb5.so.2 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2
+  libgssapi.so.3 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/lib/x86_64-linux-gnu/libgssapi.so.3
+$
+</pre></div>
+</div>
 </li>
 </ul>
 </li>
 </ol>
 </div>
+<div class="section" id="macos">
+<h3>macOS<a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h3>
+<p>The macOS firewall stealth mode is by default active, blocking the ICMP protocol based network access to Macbook. Applications like
+Ping do not work by default (<a class="reference external" href="https://discussions.apple.com/thread/2554739">Can’t ping a machine - why?</a>) and the stealth mode
+must be disabled:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`shell</span>
+<span class="pre">sudo</span> <span class="pre">/usr/libexec/ApplicationFirewall/socketfilterfw</span> <span class="pre">--setstealthmode</span> <span class="pre">on</span>
+<span class="pre">`</span></code></p>
+<ol class="arabic">
+<li><p class="first">Create the SAP NW RFC SDK root directory <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk</span></code> (this location is fixed, more info below)</p>
+</li>
+<li><p class="first">Set SAPNWRFC_HOME environment variable to that location: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk</span></code></p>
+</li>
+<li><p class="first">Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> shall exist.</p>
+</li>
+<li><p class="first">Set the remote paths in SAP NW RFC SDK by running following bash script:</p>
+<blockquote>
+<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nv">RPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SAPNWRFC_HOME</span><span class="s2">/lib&quot;</span>
+<span class="nb">cd</span> <span class="nv">$RPATH</span>
+
+<span class="c1">#</span>
+<span class="c1"># add LC_RPATH</span>
+<span class="c1">#</span>
+<span class="k">for</span> filename in *.dylib<span class="p">;</span> <span class="k">do</span>
+    install_name_tool -add_rpath <span class="nv">$RPATH</span> <span class="nv">$filename</span>
+<span class="k">done</span>
+
+<span class="c1">#</span>
+<span class="c1"># fix LC_LOAD_DYLIB</span>
+<span class="c1">#</span>
+
+<span class="c1"># in libisui18n</span>
+install_name_tool -change libicuuc.50.dylib @rpath/libicuuc.50.dylib libicui18n.50.dylib
+install_name_tool -change libicudata.50.dylib @rpath/libicudata.50.dylib libicui18n.50.dylib
+<span class="c1"># in libicuuc</span>
+install_name_tool -change libicudata.50.dylib @rpath/libicudata.50.dylib libicuuc.50.dylib
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+<p>This location is fixed to the default <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> rpath, embedded into node-rfc package published on npm.</p>
+<p>After moving SAP NW RFC SDK to another location on your system, the rpaths must be adjusted in SAP NW RFC SDK and in pyrfc.so libraries.</p>
+<p>For SAP NW RFC SDK, set the SAPNWRFC_HOME env variable to new SAP NW RFC SDK root directory and re-run the above script.</p>
+<p>For pyrfc:</p>
+<blockquote>
+<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ unzip unzip pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+$ <span class="nb">cd</span> pyrfc
+$ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib /usr/new-path/lib s_pyrfc.cpython-37m-darwin.so
+</pre></div>
+</div>
+</div></blockquote>
+</div>
 </div>
 <div class="section" id="python-connector-installation">
 <span id="install-python-connector"></span><h2>Python Connector Installation<a class="headerlink" href="#python-connector-installation" title="Permalink to this headline">¶</a></h2>
+<p>Using virtual environments you can isolate Python/PyRFC projects, working without administrator privileges.</p>
 <div class="section" id="id2">
 <h3>Windows<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul id="install-python-win">
-<li><p class="first">If not already installed, you need to install Python first.</p>
-<p>First, decide whether you want to go with the 32bit or 64bit version and use standard Windows installers</p>
-<p>Python 2.7 (32 bit), <a class="reference external" href="http://www.python.org/ftp/python/2.7.6/python-2.7.6.msi">http://www.python.org/ftp/python/2.7.6/python-2.7.6.msi</a></p>
-<p>Python 2.7 (64 bit) <a class="reference external" href="http://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi">http://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi</a></p>
+<li><p class="first">If not already installed, install the Python first: <a class="reference external" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a></p>
 <p>Add Python and Scripts directories to <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable, e.g.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set PATH=c:\Python27;c:\Python27\Scripts;%PATH%
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set PATH=c:\Python37;c:\Python37\Scripts;%PATH%
 </pre></div>
 </div>
 </li>
-<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">easy_install</span></code></p>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">distribute</span></code> implementation of <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> by downloading
-<a class="reference external" href="https://bootstrap.pypa.io/ez_setup.py">https://bootstrap.pypa.io/ez_setup.py</a> and running</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python ez_setup.py
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>At this point you may like to install the <a class="reference external" href="http://pypi.python.org/pypi/pip">pip</a> package which extends
-the functionality of <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>. However, <code class="docutils literal notranslate"><span class="pre">pip</span></code> cannot handle binary
-build distributions, which will be used later.</p>
-<p class="last">If you are in a internal network that uses a proxy to access resources from
-the internet, you may encounter <a class="reference internal" href="#install-problems"><span class="std std-ref">connection problems</span></a>.</p>
-</div>
-</li>
-<li><p class="first">Virtual environment (optional)</p>
-<p>You may now create an <a class="reference internal" href="#install-virtualenv"><span class="std std-ref">virtual environment</span></a>
-and activate it.</p>
+<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p>
 </li>
 <li><p class="first">Install the Python connector</p>
-<p>Open the command prompt with administrator rights, change to the <code class="docutils literal notranslate"><span class="pre">pyrfc\dist</span></code> directory
-and install adequate <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> egg. You need administrator rights, otherwise <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>
-will open a new window and close it after execution – leaving you without the option to see what
-was done or what was the error.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>easy_install &lt;egg name&gt;
+<p>Clone the repository, change to the <code class="docutils literal notranslate"><span class="pre">pyrfc\dist</span></code> directory and install the adequate <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> wheel,
+or just fetch and install the adequate wheel from github:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+
+pip install pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
 </pre></div>
 </div>
-<p>Please look up the correct <a class="reference internal" href="#install-combination"><span class="std std-ref">egg name</span></a>
-depending on your platform and Python version.</p>
+<p>Please look up the correct wheel name, depending on your platform and Python version.</p>
 </li>
-<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without
-oputput, the installation was successful.</p>
+<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="python-on-linux">
-<h3>Python on Linux<a class="headerlink" href="#python-on-linux" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Linux<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ul id="install-python-linux">
-<li><p class="first">Install Python 2.7 (64bit, usually the default) via your preferred package manager</p>
+<li><p class="first">Install Python 3</p>
 </li>
-<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">easy_install</span></code></p>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">distribute</span></code> implementation of <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> by downloading
-<a class="reference external" href="https://bootstrap.pypa.io/ez_setup.py">https://bootstrap.pypa.io/ez_setup.py</a> and running</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python ez_setup.py
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>At this point you may like to install the <a class="reference external" href="http://pypi.python.org/pypi/pip">pip</a> package which extends
-the functionality of <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>. However, <code class="docutils literal notranslate"><span class="pre">pip</span></code> cannot handle binary
-build distributions, which will be used later.</p>
-<p class="last">If you are in a internal network that uses a proxy to access resources from
-the internet, you may encounter <a class="reference internal" href="#install-problems"><span class="std std-ref">connection problems</span></a>.</p>
-</div>
+<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p>
 </li>
 <li><p class="first">Virtual environment (optional)</p>
 <p>You may now create an <a class="reference internal" href="#install-virtualenv"><span class="std std-ref">virtual environment</span></a>
 and activate it.</p>
 </li>
 <li><p class="first">Install the Python connector:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>easy_install &lt;egg name&gt;
+<p>Clone the repository, change to the <code class="docutils literal notranslate"><span class="pre">pyrfc\dist</span></code> directory and install the adequate <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> wheel,
+or just fetch and install the adequate wheel from github:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
+
+pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
 </pre></div>
 </div>
-<p>Please look up the correct <a class="reference internal" href="#install-combination"><span class="std std-ref">egg name</span></a>
-depending on your platform and Python version.</p>
+<p>Please look up the correct wheel name, depending on your platform and Python version.</p>
 </li>
-<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">python</span></code>, type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code> and it it finishes silently, without
-any output, the installation was successful.</p>
+<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p>
 </li>
 </ul>
+</div>
+<div class="section" id="id4">
+<h3>macOS<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p id="install-python-macos">The macOS system version of Python is usually the older one and using wirtual environments, like <a class="reference external" href="https://github.com/pyenv/pyenv">pyenv</a> for example, is recommended:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pyenv install <span class="m">3</span>.7.2
+pyenv virtualenv <span class="m">3</span>.7.2 py372
+</pre></div>
+</div>
+<p>Install the Python connector the same way like for Linux.</p>
 </div>
 </div>
 <div class="section" id="virtual-environments">
@@ -229,7 +243,7 @@ any output, the installation was successful.</p>
 allows you to isolate the Python connector installation from your system wide
 Python installation.</p>
 <p>We will now show the example usage for a Windows user that wants to create
-a virtual environment in <code class="docutils literal notranslate"><span class="pre">C:\PythonVE\py27-pyrfc</span></code>.</p>
+a virtual environment in <code class="docutils literal notranslate"><span class="pre">C:\PythonVE\py37-pyrfc</span></code>.</p>
 <ol class="arabic simple">
 <li>Install <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> on your system.</li>
 </ol>
@@ -244,7 +258,7 @@ environment and create a virtual environment.</li>
 </ol>
 <blockquote>
 <div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\&gt;cd PythonVE
-C:\PythonVE\&gt;virtualenv --distribute --no-site-packages py27-sapwnrfc2
+C:\PythonVE\&gt;virtualenv --distribute --no-site-packages py37-sapwnrfc2
 </pre></div>
 </div>
 <p>(Since <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> version 1.7, the <code class="docutils literal notranslate"><span class="pre">--no-site-packages</span></code> option is the
@@ -254,9 +268,9 @@ default and can be omitted.)</p>
 <li>Activate the environment via</li>
 </ol>
 <blockquote>
-<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\PythonVE\&gt;cd py27-pyrfc
-C:\PythonVE\py27-pyrfc\&gt;Scripts\activate.bat
-(py27-pyrfc) C:\PythonVE\py27-pyrfc\&gt;
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\PythonVE\&gt;cd py37-pyrfc
+C:\PythonVE\py37-pyrfc\&gt;Scripts\activate.bat
+(py37-pyrfc) C:\PythonVE\py37-pyrfc\&gt;
 </pre></div>
 </div>
 <p>(On Linux use <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">bin/activate</span></code>.)</p>
@@ -265,8 +279,8 @@ C:\PythonVE\py27-pyrfc\&gt;Scripts\activate.bat
 <li>After working on your project, you leave the virtual environment with</li>
 </ol>
 <blockquote>
-<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(py27-pyrfc) C:\PythonVE\py27-pyrfc\&gt;deactivate
-C:\PythonVE\py27-pyrfc\&gt;
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(py37-pyrfc) C:\PythonVE\py37-pyrfc\&gt;deactivate
+C:\PythonVE\py37-pyrfc\&gt;
 </pre></div>
 </div>
 </div></blockquote>
@@ -285,8 +299,8 @@ you can communicate this proxy to your shell via:</p>
 </div>
 <p>or permanently set environment variables.</p>
 </div>
-<div class="section" id="id4">
-<h3>SAP NW RFC Library Installation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="sap-nw-rfc-library-installation">
+<h3>SAP NW RFC Library Installation<a class="headerlink" href="#sap-nw-rfc-library-installation" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first"><code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">The</span> <span class="pre">specified</span> <span class="pre">module</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">found.</span></code></p>
 <p>(Windows)
@@ -330,11 +344,11 @@ the desired variable.</li>
       </div>
         </div>
         <div class="sidebar">
-          <h3>Table Of Contents</h3>
+          <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#sap-nw-rfc-library-installation">SAP NW RFC Library Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sap-nw-rfc-sdk-installation">SAP NW RFC SDK Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#python-connector-installation">Python Connector Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#virtual-environments">Virtual environments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems">Problems</a></li>
@@ -390,8 +404,8 @@ the desired variable.</li>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2018-07-31 15:01.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+      Last updated on 2019-02-20 14:02.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
         </div>
         <div class="clearer"></div>

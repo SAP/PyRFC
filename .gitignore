@@ -1,10 +1,13 @@
 .DS_Store
-doc
 .eggs
+.vscode
 .pytest_cache
 __pycache__
 build
+doc
 src
 tests
 _sources
+*.inv
+*.pyc
 
