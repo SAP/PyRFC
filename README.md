@@ -34,7 +34,7 @@ On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributabl
 The macOS firewall stealth mode must be disabled ([Can't ping a machine - why?](https://discussions.apple.com/thread/2554739)):
 
 ```shell
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 ```
 
 ## Installation
