@@ -90,9 +90,9 @@ The macOS firewall stealth mode is by default active, blocking the ICMP protocol
 Ping do not work by default (`Can't ping a machine - why? <https://discussions.apple.com/thread/2554739>`_) and the stealth mode
 must be disabled:
 
-```shell
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
-```
+.. code-block:: sh
+
+    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
 1. Create the SAP NW RFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
 2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
