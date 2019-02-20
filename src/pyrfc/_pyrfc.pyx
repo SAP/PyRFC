@@ -18,7 +18,7 @@ import sys
 import signal
 import time
 import datetime
-from collections import Iterable
+import collections # from collections import Iterable
 from decimal import Decimal
 from csapnwrfc cimport *
 
@@ -855,7 +855,7 @@ cdef class Connection:
 
         if not isinstance(unit, dict) or 'id' not in unit or 'background' not in unit:
             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")
-        if not isinstance(calls, Iterable):
+        if not isinstance(calls, collections.Iterable):
             raise TypeError("Parameter 'calls' must be iterable.")
         if len(calls)==0:
             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
@@ -1392,7 +1392,7 @@ cdef class Server:
         :raises: :exc:`~pyrfc.RFCError` or a subclass
             thereof if the installation or the registration attempt fails.
         """
-        cdef RFC_RC rc
+        cdef RFC_RC rc = RFC_OK
         cdef RFC_ERROR_INFO errorInfo
 
         if not self.installed:
