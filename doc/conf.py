@@ -112,7 +112,7 @@ def process_docstring(app, what, name, obj, options, lines):
     if name == 'pyrfc.Connection.rstrip':
         lines.append(u"If True, returned strings from :meth:`~Connection.call` are right stripped.")
         lines.append(u"For details see :ref:`client-connectionconfig-rstrip`.")
-    elif name == 'pyrfc.Connection.return_import_params':
+    elif name == 'pyrfc.Connection.config.return_import_params':
         lines.append(u"If True, :meth:`~Connection.call` also returns parameters of type IMPORT.")
         lines.append(u"For details see :ref:`client-connectionconfig-returnimportparams`.")
     elif name == 'pyrfc.Server.rstrip':

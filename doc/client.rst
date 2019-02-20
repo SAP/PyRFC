@@ -39,8 +39,8 @@ instance by `unpacking`_ the dictionary, e.g.
 
 .. _client-stfcstructure:
 
-Example ``clientStfcStructure.py``
-----------------------------------
+Example `clientStfcStructure.py <https://github.com/SAP/PyRFC/blob/master/examples/clientStfcStructure.py>`_
+------------------------------------------------------------------------------------------------------------
 
 Lets do a remote function call with a more complex set of parameters.
 
@@ -115,8 +115,8 @@ There are some points worth mentioning.
 
 .. _client-printdescription:
 
-Example ``clientPrintDescription.py``
--------------------------------------
+Example `clientPrintDescription.py <https://github.com/SAP/PyRFC/blob/master/examples/clientPrintDescription.py>`_
+------------------------------------------------------------------------------------------------------------------
 
 As you have seen in the previous example, all you need to know for
 calling a FM is the FM's name and its parameters -- the so called
@@ -215,8 +215,8 @@ For further description see :ref:`Errors <apierr>`.
 
 .. _client-idocunit:
 
-Example clientIDocUnit.py
--------------------------
+Example `clientIDoc.py <https://github.com/SAP/PyRFC/blob/master/examples/clientIDoc.py>`_
+------------------------------------------------------------------------------------------
 
 .. warning::
 
@@ -314,8 +314,8 @@ The following keywords for the config dictionary are possible:
 
 .. _client-connectionconfig-rstrip:
 
-:attr:`~Connection.rstrip`
------------------------------
+:attr:`~Connection.options.rstrip`
+----------------------------------
 
 ABAP allows two different ways to store strings: A fixed length string type C
 and a dynamic length string type STRING.
@@ -328,8 +328,8 @@ right-stripped before being returned by an RFC call.
 
 .. _client-connectionconfig-returnimportparams:
 
-:attr:`~Connection.return_import_params`
--------------------------------------------
+:attr:`~Connection.options.return_import_params`
+------------------------------------------------
 Usually, you do not need the IMPORT parameters in the result of
 :meth:`Connection.call`. If ``return_import_params`` is set to ``False``,
 parameters of type IMPORT are filtered out.
@@ -354,7 +354,6 @@ some basic methods for working with a connection:
    Connection.reset_server_context
    Connection.get_connection_attributes
    Connection.close
-
 
 
 .. _client-tech:
