@@ -123,9 +123,9 @@ $
 <p>The macOS firewall stealth mode is by default active, blocking the ICMP protocol based network access to Macbook. Applications like
 Ping do not work by default (<a class="reference external" href="https://discussions.apple.com/thread/2554739">Can’t ping a machine - why?</a>) and the stealth mode
 must be disabled:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`shell</span>
-<span class="pre">sudo</span> <span class="pre">/usr/libexec/ApplicationFirewall/socketfilterfw</span> <span class="pre">--setstealthmode</span> <span class="pre">off</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
+</pre></div>
+</div>
 <ol class="arabic">
 <li><p class="first">Create the SAP NW RFC SDK root directory <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk</span></code> (this location is fixed, more info below)</p>
 </li>
@@ -404,7 +404,7 @@ the desired variable.</li>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-02-20 14:02.
+      Last updated on 2019-02-20 14:45.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
         </div>
