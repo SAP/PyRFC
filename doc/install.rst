@@ -91,7 +91,7 @@ Ping do not work by default (`Can't ping a machine - why? <https://discussions.a
 must be disabled:
 
 ```shell
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 ```
 
 1. Create the SAP NW RFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
