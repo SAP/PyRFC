@@ -4,6 +4,7 @@ Change log
 1.9.94 (2019-02-20)
 -------------------
 - macOS experimental support
+- Passing optional RFC call argument equal None, closing #91
 - README update, closing #93 and #80
 - Documentation update, closing #81 and #82
 
