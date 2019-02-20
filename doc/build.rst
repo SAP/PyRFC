@@ -14,46 +14,57 @@ Toolchain preparation
 
 Linux platform
 ---------------
-* :ref:`Install Python and pip <install-python-linux>`
+* :ref:`Install Python, pip <install-python-linux>` and utilities:
+
+  .. code-block:: sh
+
+     pip install cython wheel pytest sphinx 
+   
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git 
   client is required as well, use whatever your distribution has
-* Install Cython. Versions tested so far are 0.17.2, 0.19.0 and 0.20.0, other are expected to work as well.
 * The system must contain a ``gcc`` compiler as well as  development
-  header and library files as provided by your distribution.
+  header and library files as provided by your distribution
 
 Windows platform
 -----------------
 
-* :ref:`Install Python <install-python-win>`
+* :ref:`Install Python, pip<install-python-win>` and utilities:
+  
+  .. code-block:: sh
+
+     pip install cython wheel pytest sphinx 
+
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git 
   client is required as well. Download and install from 
   http://code.google.com/p/msysgit/downloads/list?can=3. 
   During installation specify that Git runs 
   out of the Bash shell as you may need that shell later on.
-* Install Cython, using `Windows installer <http://www.lfd.uci.edu/~gohlke/pythonlibs/#cython>`_, 
-  see also http://wiki.cython.org/64BitCythonExtensionsOnWindows
-* Download and install the compiler toolchain, tested on Windows 7 32 and 64 bit platforms
+* Download and install the compiler toolchain, tested on Windows platforms
 
-  * `MS VisualStudio2008 Express Edition <http://go.microsoft.com/?linkid=7729279>`_
-  * `Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1 <http://www.microsoft.com/en-us/download/details.aspx?id=3138>`_
+  * `MS VisualStudio2008 Express Edition <http://go.microsoft.com/?linkid=7729279>`_ or later
+  * `Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1 <http://www.microsoft.com/en-us/download/details.aspx?id=3138>`_ or later
 
 macOS platform
 --------------
 
 
-* Install Xcode command line tools and C++ development headers
+* Install Xcode command line tools with C++ development headers and fix the unicode include path:
 
+  .. code-block:: sh
 
-    # $ MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-    # $ sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-    # $ sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/
+    xcode-select --install
+    sudo installer -pkg macOS_SDK_headers_for_macOS_10.14.pkg -target /
+
+    MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
+    sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
+    sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/
 
 Building the code
 =================
 
-To build eggs for different Python versions, install these versions
+To build wheels for different Python versions, install these versions
 on your system and create a virtual environment for each of these versions,
 for example:
 
@@ -80,7 +91,7 @@ Build the distribution
    python setup.py bdist_wheel
 
 The result is found in the ``dist/`` directory. The process has to be done on all platforms 
-for which we provide eggs. 
+for which we provide wheels. 
 
 
 Windows platform
@@ -110,7 +121,7 @@ Build the distribution:
    python setup.py clean --all
    python setup.py bdist_wheel
 
-Check the ``pyrfc\dist`` folder for a new created egg.
+Check the ``pyrfc\dist`` folder for a new created wheel.
 
 macOS platform
 --------------
@@ -183,7 +194,7 @@ To update GitHub Pages, copy everyhing under ``_build/html`` and overwrite the e
 
 .. code-block:: sh
 
-    cp _build/html ~/tmp
+    cp -R _build/html ~/tmp
     git checkout gh-pages
     rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv .buildinfo 
     cp -R ~/tmp/_build/html/. .

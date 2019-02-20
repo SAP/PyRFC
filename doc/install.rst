@@ -16,7 +16,7 @@ release (fully backwards compatible).
 SAP NW RFC SDK Installation
 ===========================
 
-If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the _rfcexec_ utility, without any parameter. 
+If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the ``rfcexec`` utility, without any parameter. 
 
 The error message like below indicates that SAP NW RFC SDK installation is technically correct, expecting more input parameters. 
 Different error message may be caused by missing Windows C++ binary for example, or another installation inconsistency:
@@ -44,8 +44,8 @@ Here are configuration examples for Windows, Linux and macOS operating systems.
 Windows
 -------
 
-1. Create the SAP NW RFC SDK root directory, e.g. ``c:\nwrfcsdk``
-2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=c:\nwrfcsdk``
+1. Create the SAP NW RFC SDK home directory, e.g. ``c:\nwrfcsdk``
+2. Set the SAPNWRFC_HOME env variable: ``SAPNWRFC_HOME=c:\nwrfcsdk``
 3. Unpack the SAP NW RFC SDK archive to it, e.g. ``c:\nwrfcsdk\lib`` shall exist.
 4. Include the ``lib`` directory to the library search path on Windows, i.e.
    :ref:`extend<install-problems-envvar-win>` the ``PATH`` environment variable.
@@ -55,8 +55,8 @@ Add ``c:\nwrfcsdk\lib`` to PATH.
 Linux
 -----
 
-1. Create the SAP NW RFC SDK root directory, e.g. ``/usr/local/sap/nwrfcsdk``.
-2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
+1. Create the SAP NW RFC SDK home directory, e.g. ``/usr/local/sap/nwrfcsdk``
+2. Set the SAPNWRFC_HOME env variable: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
 3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
 4. Include the ``lib`` directory in the library search path:
 

@@ -1365,29 +1365,33 @@ cdef class Server:
         raise wrapError(errorInfo)
 
     def install_function(self, func_desc, callback):
-            """ Installs a function in the server.
-            :param func_desc: A function description object of
-                :class:`~pyrfc.FunctionDescription`
-            :param callback: A callback function that implements the logic.
-                The function must accept a ``request_context`` parameter and
-                all IMPORT, CHANGING, and TABLE parameters of the given
-                ``func_desc``.
-            :raises: :exc:`TypeError` if a function with the name given is already
-                installed.
-            """
-            name = func_desc.name
-            if name in server_functions:
-                raise TypeError("Function name already defined.")
-            server_functions[name] = {
-                "func_desc": func_desc,
-                "callback": callback,
-                "server": self
-            }
+        """
+        Installs a function in the server.
+        
+        :param func_desc: A function description object of
+            :class:`~pyrfc.FunctionDescription`
+        :param callback: A callback function that implements the logic.
+            The function must accept a ``request_context`` parameter and
+            all IMPORT, CHANGING, and TABLE parameters of the given
+            ``func_desc``.
+        :raises: :exc:`TypeError` if a function with the name given is already
+            installed.
+        """
+        name = func_desc.name
+        if name in server_functions:
+            raise TypeError("Function name already defined.")
+        server_functions[name] = {
+            "func_desc": func_desc,
+            "callback": callback,
+            "server": self
+        }
 
     def serve(self, timeout=None):
-        """ Serves for a given timeout.
+        """
+        Serves for a given timeout.
         Note: internally this function installs a generic server function
         and registers the server at the gateway (if required).
+        
         :param timeout: Number of seconds to serve or None (default) for no timeout.
         :raises: :exc:`~pyrfc.RFCError` or a subclass
             thereof if the installation or the registration attempt fails.
