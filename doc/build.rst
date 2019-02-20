@@ -14,8 +14,7 @@ Toolchain preparation
 
 Linux platform
 ---------------
-* :ref:`Install Python <install-python-linux>`
-* Install ``easy_install`` as described in :ref:`pyrfc installation <install-python-connector>`
+* :ref:`Install Python and pip <install-python-linux>`
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git 
   client is required as well, use whatever your distribution has
@@ -27,7 +26,6 @@ Windows platform
 -----------------
 
 * :ref:`Install Python <install-python-win>`
-* Install ``easy_install`` as described in :ref:`pyrfc installation <install-python-connector>`
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git 
   client is required as well. Download and install from 
@@ -41,6 +39,16 @@ Windows platform
   * `MS VisualStudio2008 Express Edition <http://go.microsoft.com/?linkid=7729279>`_
   * `Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1 <http://www.microsoft.com/en-us/download/details.aspx?id=3138>`_
 
+macOS platform
+--------------
+
+
+* Install Xcode command line tools and C++ development headers
+
+
+    # $ MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
+    # $ sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
+    # $ sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/
 
 Building the code
 =================
@@ -69,7 +77,7 @@ Build the distribution
 .. code-block:: sh
 
    python setup.py clean --all
-   python setup.py bdist_egg
+   python setup.py bdist_wheel
 
 The result is found in the ``dist/`` directory. The process has to be done on all platforms 
 for which we provide eggs. 
@@ -100,12 +108,13 @@ Build the distribution:
 .. code-block:: sh
 
    python setup.py clean --all
-   python setup.py bdist_egg
+   python setup.py bdist_wheel
 
 Check the ``pyrfc\dist`` folder for a new created egg.
 
 macOS platform
 --------------
+
 
 
 .. code-block:: sh
@@ -146,8 +155,7 @@ Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu
 .. code-block:: sh
 
    sudo apt-get install python3-setuptools python3-dev python-configparser
-   sudo easy_install3 pip
-   sudo pip3 install cython sphinx ipython
+   sudo pip3 install cython sphinx ipython pytest wheel
 
 
 Building the documentation

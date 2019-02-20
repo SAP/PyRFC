@@ -86,6 +86,14 @@ Linux
 macOS
 -----
 
+The macOS firewall stealth mode is by default active, blocking the ICMP protocol based network access to Macbook. Applications like
+Ping do not work by default (`Can't ping a machine - why? <https://discussions.apple.com/thread/2554739>`_) and the stealth mode
+must be disabled:
+
+```shell
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+```
+
 1. Create the SAP NW RFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
 2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
 3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist. 
@@ -154,8 +162,8 @@ Windows
 
 * Install the Python connector
 
-  Open the command prompt, with administrator rights if needed, change to the ``pyrfc\dist`` directory
-  and install adequate :mod:`pyrfc` wheel.
+  Clone the repository, change to the ``pyrfc\dist`` directory and install the adequate :mod:`pyrfc` wheel,
+  or just fetch and install the adequate wheel from github:
 
   .. code-block:: sh
 
@@ -163,16 +171,16 @@ Windows
 
      pip install pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
      
-  Please look up the correct :ref:`wheel name<install-combination>` depending on your platform and Python version.
+  Please look up the correct wheel name, depending on your platform and Python version.
 
 * Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
 
-Python on Linux
----------------
+Linux
+-----
 
 .. _`install-python-linux`:
 
-* Install Python 3.7 
+* Install Python 3 
 
 * Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
 
@@ -182,17 +190,33 @@ Python on Linux
   and activate it.
 
 * Install the Python connector:
+  
+  Clone the repository, change to the ``pyrfc\dist`` directory and install the adequate :mod:`pyrfc` wheel,
+  or just fetch and install the adequate wheel from github:
 
   .. code-block:: sh
 
-     easy_install <egg name>
+     wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
 
-  Please look up the correct :ref:`egg name<install-combination>`
-  depending on your platform and Python version.
+     pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl 
+     
+  Please look up the correct wheel name, depending on your platform and Python version.
+  
+* Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
 
-* Run ``python``, type ``from pyrfc import *`` and it it finishes silently, without
-  any output, the installation was successful.
+macOS
+-----
 
+.. _`install-python-macOS`:
+
+The macOS system version of Python is usually the older one and using wirtual environments, like `pyenv <https://github.com/pyenv/pyenv>`_ for example, is recommended:
+
+.. code-block:: sh
+
+   pyenv install 3.7.2
+   pyenv virtualenv 3.7.2 py372
+
+Install the Python connector the same way like for Linux.
 
 .. _install-virtualenv:
 
@@ -206,7 +230,7 @@ Python installation.
 .. _virtual environment: http://pypi.python.org/pypi/virtualenv
 
 We will now show the example usage for a Windows user that wants to create
-a virtual environment in ``C:\PythonVE\py27-pyrfc``.
+a virtual environment in ``C:\PythonVE\py37-pyrfc``.
 
 1. Install ``virtualenv`` on your system.
 
@@ -220,7 +244,7 @@ a virtual environment in ``C:\PythonVE\py27-pyrfc``.
   .. code-block:: none
 
      C:\>cd PythonVE
-     C:\PythonVE\>virtualenv --distribute --no-site-packages py27-sapwnrfc2
+     C:\PythonVE\>virtualenv --distribute --no-site-packages py37-sapwnrfc2
 
   (Since ``virtualenv`` version 1.7, the ``--no-site-packages`` option is the
   default and can be omitted.)
@@ -229,9 +253,9 @@ a virtual environment in ``C:\PythonVE\py27-pyrfc``.
 
   .. code-block:: none
 
-     C:\PythonVE\>cd py27-pyrfc
-     C:\PythonVE\py27-pyrfc\>Scripts\activate.bat
-     (py27-pyrfc) C:\PythonVE\py27-pyrfc\>
+     C:\PythonVE\>cd py37-pyrfc
+     C:\PythonVE\py37-pyrfc\>Scripts\activate.bat
+     (py37-pyrfc) C:\PythonVE\py37-pyrfc\>
 
   (On Linux use ``source bin/activate``.)
 
@@ -239,9 +263,8 @@ a virtual environment in ``C:\PythonVE\py27-pyrfc``.
 
   .. code-block:: none
 
-     (py27-pyrfc) C:\PythonVE\py27-pyrfc\>deactivate
-     C:\PythonVE\py27-pyrfc\>
-
+     (py37-pyrfc) C:\PythonVE\py37-pyrfc\>deactivate
+     C:\PythonVE\py37-pyrfc\>
 
 .. _install-problems:
 
