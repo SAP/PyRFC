@@ -23,9 +23,11 @@ if not PYTHONSOURCE:
 NAME = 'pyrfc'
 HERE = os.path.abspath(os.path.dirname(__file__))
 
+
 def _read(name):
     with open(os.path.join(HERE, name), 'rb', 'utf-8') as f:
         return f.read()
+
 
 if sys.platform.startswith('linux'):
     LIBS = ['sapnwrfc', 'sapucum']
@@ -38,11 +40,12 @@ elif sys.platform.startswith('win'):
     LIBS = ['sapnwrfc', 'libsapucum']
     MACROS = [('_LARGEFILE_SOURCE', None), ('SAPwithUNICODE', None), ('_CONSOLE', None), ('WIN32', None),
               ('SAPonNT', None), ('SAP_PLATFORM_MAKENAME', 'ntintel'), ('UNICODE', None), ('_UNICODE', None)]
-    COMPILE_ARGS = ['-I{}\\include'.format(SAPNWRFC_HOME), '-I{}\\Include'.format(PYTHONSOURCE), '-I{}\\Include\\PC'.format(PYTHONSOURCE)]
+    COMPILE_ARGS = ['-I{}\\include'.format(SAPNWRFC_HOME), '-I{}\\Include'.format(
+        PYTHONSOURCE), '-I{}\\Include\\PC'.format(PYTHONSOURCE)]
     LINK_ARGS = [
         '-LIBPATH:{}\\lib'.format(SAPNWRFC_HOME), '-LIBPATH:{}\\PCbuild'.format(PYTHONSOURCE)]
 elif sys.platform.startswith('darwin'):
-    MACOS_VERSION_MIN='10.10'
+    MACOS_VERSION_MIN = '10.10'
     # unicode paths fix:
     # $ MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
     # $ sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
@@ -51,27 +54,27 @@ elif sys.platform.startswith('darwin'):
     MACROS = [('NDEBUG', None), ('_LARGEFILE_SOURCE', None), ('_FILE_OFFSET_BITS', 64),
               ('SAPonUNIX', None), ('SAPwithUNICODE', None), ('SAPwithTHREADS', None), ('SAPonLIN', None)]
     COMPILE_ARGS = ['-Wall', '-O2', '-fexceptions', '-funsigned-char', '-fno-strict-aliasing', '-Wall', '-Wno-uninitialized',
-                    '-Wcast-align', '-fPIC', '-pthread', '-minline-all-stringops', 
+                    '-Wcast-align', '-fPIC', '-pthread', '-minline-all-stringops',
                     '-isystem',
                     '-std=c++11',
                     '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
                     '-I{}/include'.format(SAPNWRFC_HOME)
                     ]
     LINK_ARGS = ['-L{}/lib'.format(SAPNWRFC_HOME),
-                    '-stdlib=libc++',
-                    '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
-                    # https://stackoverflow.com/questions/6638500/how-to-specify-rpath-in-a-makefile
-                    '-Wl,-rpath,{}/lib'.format(SAPNWRFC_HOME)]
+                 '-stdlib=libc++',
+                 '-mmacosx-version-min={}'.format(MACOS_VERSION_MIN),
+                 # https://stackoverflow.com/questions/6638500/how-to-specify-rpath-in-a-makefile
+                 '-Wl,-rpath,{}/lib'.format(SAPNWRFC_HOME)]
 else:
     sys.exit('Platform not supported: {}.'.format(sys.platform))
 
 # https://docs.python.org/2/distutils/apiref.html
 PYRFC_EXT = Extension(
     language='c++',
-    name='%s._%s' % (NAME, NAME), 
+    name='%s._%s' % (NAME, NAME),
     sources=['src/%s/_%s.pyx' % (NAME, NAME)],
     libraries=LIBS, define_macros=MACROS,
-    extra_compile_args=COMPILE_ARGS, 
+    extra_compile_args=COMPILE_ARGS,
     extra_link_args=LINK_ARGS
 )
 
@@ -90,6 +93,8 @@ setup(name=NAME,
           'Programming Language :: Python',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
           'Topic :: Software Development :: Libraries :: Python Modules',
       ],
       keywords='%s sap' % NAME,

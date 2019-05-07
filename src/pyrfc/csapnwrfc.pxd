@@ -19,14 +19,15 @@ cdef extern from "sapucx.h":
 cdef extern from "sapuc.h":
     ctypedef unsigned short SAP_USHORT
     ctypedef SAP_USHORT SAP_UTF16
-    size_t strlenU(SAP_UC*)
+    # size_t strlenU(SAP_UC*)
+    unsigned strlenU(SAP_UC*)
     SAP_CHAR *mallocU(size_t)
     void *malloc(size_t)
     void free(void*)
     void *memcpy(void*, void*, size_t)
     void strncpyU(SAP_UTF16*, SAP_UTF16*, size_t)
     void memsetR(void*, unsigned short, size_t)
-    size_t sizeofR(par)
+    # size_t sizeofR(par)
 
 cdef extern from "sapnwrfc.h":
     ctypedef unsigned char SAP_RAW
@@ -36,6 +37,7 @@ cdef extern from "sapnwrfc.h":
     ctypedef SAP_RAW RFC_INT1
     ctypedef short RFC_INT2
     ctypedef int RFC_INT
+    ctypedef long long RFC_INT8
     ctypedef double RFC_FLOAT
     ctypedef RFC_CHAR RFC_DATE[8]
     ctypedef RFC_CHAR RFC_TIME[6]
@@ -62,6 +64,7 @@ cdef extern from "sapnwrfc.h":
         RFCTYPE_INT
         RFCTYPE_INT2
         RFCTYPE_INT1
+        RFCTYPE_INT8
         RFCTYPE_STRUCTURE
         RFCTYPE_STRING
         RFCTYPE_XSTRING
@@ -238,6 +241,7 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcGetInt(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT  *value, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetInt1(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT1  *value, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetInt2(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT2  *value, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcGetInt8(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT8  *value, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetDate(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_DATE emptyDate, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TIME emptyTime, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetStringLength(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, unsigned* stringLength, RFC_ERROR_INFO* errorInfo)

@@ -1,6 +1,11 @@
 Change log
 ==========
 
+1.9.95 (2019-05-07)
+-------------------
+- Data type INT8 added
+- Unit tests
+
 1.9.94 (2019-02-20)
 -------------------
 - macOS experimental support

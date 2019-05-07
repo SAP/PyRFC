@@ -1,3 +1,6 @@
+from pprint import pprint
+from pyrfc import Connection
+
 connection_info = {
     'user': 'demo',
     'passwd': 'Welcome',
@@ -9,12 +12,9 @@ connection_info = {
     'sysid': 'S16'
 }
 
-from pprint import pprint
-from pyrfc import Connection
-
 function_name = u'ZHHDEMO_STRUCT_MOD'
-#table_name = u'ZHHTT_COL2'
-#struct_name = u'ZHHS_COL2'
+# table_name = u'ZHHTT_COL2'
+# struct_name = u'ZHHS_COL2'
 table_name = u'ZHHT_COL2'
 struct_name = u'ZHHS_COL2'
 

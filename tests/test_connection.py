@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from decimal import Decimal
 import datetime
-import pyrfc
 import socket
+import unittest
+import pyrfc
 
-import pytest
-
+from decimal import Decimal
 from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
 
@@ -20,7 +19,7 @@ class TestConnection():
     def teardown_method(self, test_method):
         self.conn.close()
         assert not self.conn.alive
-    
+
     def test_version_and_options_getters(self):
         with open('VERSION', 'r') as f:
             VERSION = f.read().strip()
@@ -30,7 +29,8 @@ class TestConnection():
             assert 'patchLevel' in version
             assert 'binding' in version
             assert version['binding'] == VERSION
-        assert all (k in self.conn.options for k in ('dtime', 'return_import_params', 'rstrip'))
+        assert all(k in self.conn.options for k in (
+            'dtime', 'return_import_params', 'rstrip'))
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
@@ -54,10 +54,10 @@ class TestConnection():
             'kernelRel',
             'cpicConvId',
             'progName',
-            'partnerBytesPerChar',
-            'reserved'
+            'partnerBytesPerChar'
+            # 'reserved'
         )
-        assert all (k in connection_info for k in info_keys)
+        assert all(k in connection_info for k in info_keys)
 
     # todo: test correct status after error -> or to the error tests?
     def test_incomplete_params(self):
