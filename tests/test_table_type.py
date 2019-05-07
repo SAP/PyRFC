@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime
+import unittest
 import pyrfc
-from decimal import Decimal
 
-from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
+from tests.config import PARAMS as params
 
 
 class TestTT():

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from pyrfc import *
+from decimal import Decimal
 
 connection_info = {
     'user': 'demo',
@@ -10,64 +12,61 @@ connection_info = {
     'sysid': 'MME'
 }
 
-from pyrfc import *
-from decimal import Decimal
-
 conn = Connection(**connection_info)
 
 is_input = dict(
 
     # Character
-    ZCHAR = u'Hällö SÄP!',
-    ZCLNT = '510',
-    ZUNIT_DTEL = 'KGM',
-    ZCUKY_DTEL = 'USD',
-    ZLANG = 'e',
+    ZCHAR=u'Hällö SÄP!',
+    ZCLNT='510',
+    ZUNIT_DTEL='KGM',
+    ZCUKY_DTEL='USD',
+    ZLANG='e',
 
     # Date, time
-    ZDATS = '20161231', #datetime.date(2011,10,17),
-    ZTIMS = '123456',   #datetime.time(12,34,56),
+    ZDATS='20161231',  # datetime.date(2011,10,17),
+    ZTIMS='123456',  # datetime.time(12,34,56),
 
     # Integer
-    ZINT1 = 2 ** 8 - 1,  # 255
-    ZINT2 = 2 ** 15 - 1, # 32767
-    ZINT4 = 2 ** 31 - 1, # 2147483647
+    ZINT1=2 ** 8 - 1,  # 255
+    ZINT2=2 ** 15 - 1,  # 32767
+    ZINT4=2 ** 31 - 1,  # 2147483647
 
     # Numeric
-    ZACCP = '201805',
-    ZNUMC = '123456',
+    ZACCP='201805',
+    ZNUMC='123456',
 
-    ZPREC = 2,
+    ZPREC=2,
 
     # String
-    ZRAW = bytes('abc\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'),
-    ZRAWSTRING = bytes('四周远处都能望见'),
-    ZSTRING = u'\u0001\uf4aa',
-    ZSSTRING = u'四周远处都能望见'
+    ZRAW=bytes('abc\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'),
+    ZRAWSTRING=bytes('四周远处都能望见'),
+    ZSTRING=u'\u0001\uf4aa',
+    ZSSTRING=u'四周远处都能望见'
 )
 
-result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
 for k in is_input:
     if is_input[k] != result[k]:
-        print k, type(result[k]) 
+        print k, type(result[k])
         if str(is_input[k]) != str(result[k]):
             print '!', k, is_input[k], result[k]
 
 
 is_input = dict(
     # Float
-    ZFLTP = '0.123456789',
+    ZFLTP='0.123456789',
 
     # Decimal
-    ZDEC = '12345.67',
+    ZDEC='12345.67',
 
     # Currency, Quantity
-    ZCURR = '1234.56',
-    ZQUAN = '12.3456',
-    ZQUAN_SIGN = '-12.345',    
+    ZCURR='1234.56',
+    ZQUAN='12.3456',
+    ZQUAN_SIGN='-12.345',
 )
 
-result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
 for key, in_val in is_input.iteritems():
     out_val = result[key]
     if type(in_val) != type(out_val):
@@ -78,16 +77,16 @@ for key, in_val in is_input.iteritems():
             print key, in_val, out_val
 
 is_input = dict(
-# Float
-ZFLTP = 0.123456789,
+    # Float
+    ZFLTP=0.123456789,
 
-# Decimal
-ZDEC = 12345.67,
+    # Decimal
+    ZDEC=12345.67,
 
-# Currency, Quantity
-ZCURR = 1234.56,
-ZQUAN = 12.3456,
-ZQUAN_SIGN = -12.345,
+    # Currency, Quantity
+    ZCURR=1234.56,
+    ZQUAN=12.3456,
+    ZQUAN_SIGN=-12.345,
 )
 
 
@@ -102,20 +101,20 @@ for key, in_value in is_input.iteritems():
             print key, in_value, out_value
 
 is_input = dict(
-# Float
-ZFLTP = Decimal('0.123456789'),
+    # Float
+    ZFLTP=Decimal('0.123456789'),
 
-# Decimal
-ZDEC = Decimal('12345.67'),
+    # Decimal
+    ZDEC=Decimal('12345.67'),
 
-# Currency, Quantity
-ZCURR = Decimal('1234.56'),
-ZQUAN = Decimal('12.3456'),
-ZQUAN_SIGN = Decimal('-12.345'),
+    # Currency, Quantity
+    ZCURR=Decimal('1234.56'),
+    ZQUAN=Decimal('12.3456'),
+    ZQUAN_SIGN=Decimal('-12.345'),
 )
 
 
-result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = is_input)['ES_OUTPUT']
+result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
 for key, in_value in is_input.iteritems():
     out_value = result[key]
     if type(in_value) != type(out_value):
@@ -128,46 +127,47 @@ for key, in_value in is_input.iteritems():
 INPUTS = {
     'dec': dict(
         # Float
-        ZFLTP = Decimal('0.123456789'),
+        ZFLTP=Decimal('0.123456789'),
 
         # Decimal
-        ZDEC = Decimal('12345.67'),
+        ZDEC=Decimal('12345.67'),
 
         # Currency, Quantity
-        ZCURR = Decimal('1234.56'),
-        ZQUAN = Decimal('12.3456'),
-        ZQUAN_SIGN = Decimal('-12.345'),
+        ZCURR=Decimal('1234.56'),
+        ZQUAN=Decimal('12.3456'),
+        ZQUAN_SIGN=Decimal('-12.345'),
     ),
-    
+
     'numbers': dict(
         # Float
-        ZFLTP = 0.123456789,
+        ZFLTP=0.123456789,
 
         # Decimal
-        ZDEC = 12345.67,
+        ZDEC=12345.67,
 
         # Currency, Quantity
-        ZCURR = 1234.56,
-        ZQUAN = 12.3456,
-        ZQUAN_SIGN = -12.345
+        ZCURR=1234.56,
+        ZQUAN=12.3456,
+        ZQUAN_SIGN=-12.345
     ),
 
     'strings': dict(
         # Float
-        ZFLTP = '0.123456789',
+        ZFLTP='0.123456789',
 
         # Decimal
-        ZDEC = '12345.67',
+        ZDEC='12345.67',
 
         # Currency, Quantity
-        ZCURR = '1234.56',
-        ZQUAN = '12.3456',
-        ZQUAN_SIGN = '-12.345',    
-     )
+        ZCURR='1234.56',
+        ZQUAN='12.3456',
+        ZQUAN_SIGN='-12.345',
+    )
 }
 
 for in_type in INPUTS:
-    result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT = INPUTS[in_type])['ES_OUTPUT']
+    result = conn.call('/COE/RBP_FE_DATATYPES',
+                       IS_INPUT=INPUTS[in_type])['ES_OUTPUT']
     print
     print in_type
     for k in is_input:

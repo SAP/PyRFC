@@ -13,6 +13,7 @@
 # language governing permissions and limitations under the License.
 
 """ The _pyrfc C-extension module """
+#define MAXL = 214748364
 
 import sys
 import signal
@@ -41,6 +42,7 @@ _type2rfc = {
     'RFCTYPE_INT': RFCTYPE_INT,
     'RFCTYPE_INT2': RFCTYPE_INT2,
     'RFCTYPE_INT1': RFCTYPE_INT1,
+    'RFCTYPE_INT8': RFCTYPE_INT8,
     'RFCTYPE_STRUCTURE': RFCTYPE_STRUCTURE,
     'RFCTYPE_STRING': RFCTYPE_STRING,
     'RFCTYPE_XSTRING': RFCTYPE_XSTRING
@@ -139,7 +141,7 @@ cdef class Connection:
             """Get SAP NW RFC SDK and PyRFC binding versions
             :returns: SAP NW RFC SDK major, minor, patch level and PyRFC binding version
             """
-            _BINDING = '1.9.94'
+            _BINDING = '1.9.95'
             cdef unsigned major = 0
             cdef unsigned minor = 0
             cdef unsigned patchlevel = 0
@@ -192,6 +194,20 @@ cdef class Connection:
     def __exit__(self, type, value, traceback):
         self._close() # Although the _close() method is also called in the destructor, the
                       # explicit call assures the immediate closing to the connection.
+
+    def __test97(self, count):
+       # cdef RFC_CHAR* big = mallocU (count+1);
+       cdef SAP_UC* big = mallocU (count+1);
+       cdef size_t i = 0;
+       while i < count:
+           big[i] = 'a';
+           i+=1;
+       big[i] = 0;
+       # print big[0], big[1], big[count]
+       cdef size_t length = strlenU(big);
+       print "count", count, "length:", length;
+       # print sizeof(unsigned), sizeof(size_t), sizeof(RFC_INT8) # 4 8 8
+       free(big);
 
     def open(self):
         self._open()
@@ -633,7 +649,7 @@ cdef class Connection:
 #        unitAttr.client[0] = '\0'         # (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
 #        unitAttr.tCode[0] = '\0'         # (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
 #        unitAttr.program[0] = '\0'         # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
-#        unitAttr.hostname[0] = '\0'         # (SAP_UC hostname[40+1];			///< Sender hostname. Used only when the external program is server. In the client case the nwrfclib fills this automatically.
+#        unitAttr.hostname[0] = '\0'         # (SAP_UC hostname[40+1];			///< Sender hostname. Used only when the external program is server. In the client case the nwrfclib fills this automatically.:1591
         #unitAttr.sendingDate[0] = '\0'         # (RFC_DATE sendingDate;			///< Sending date in UTC (GMT-0). Used only when the external program is server. In the client case the nwrfclib fills this automatically.
         #unitAttr.sendingTime[0] = '\0'         # (RFC_TIME sendingTime;			///< Sending time in UTC (GMT-0). Used only when the external program is server. In the client case the nwrfclib fills this automatically.
         if attributes is not None:
@@ -1715,7 +1731,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             cValue = fillString(str(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
-        elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
+        elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2, RFCTYPE_INT8):
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
             if (value): # not None or empty
@@ -1854,7 +1870,7 @@ cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes, rstrip=True):
         , 'progName': wrapString(attributes.progName, 128, rstrip)                            # Name of the calling APAB program (report, module pool)
         , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, rstrip)        # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
         , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, rstrip)    #  Partner system code page
-        , 'reserved': wrapString(attributes.reserved, 78, rstrip)                             # Reserved for later use
+        # , 'reserved': wrapString(attributes.reserved, 78, rstrip)                             # Reserved for later use
  }
 
 
@@ -2030,6 +2046,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
     cdef RFC_INT intValue
     cdef RFC_INT1 int1Value
     cdef RFC_INT2 int2Value
+    cdef RFC_INT8 int8Value
     cdef RFC_DATE dateValue
     cdef RFC_TIME timeValue
     cdef unsigned resultLen, strLen
@@ -2059,7 +2076,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return wrapString(stringValue)
+            return wrapString(stringValue, resultLen)
         finally:
             free(stringValue)
     elif typ == RFCTYPE_NUM:
@@ -2133,6 +2150,11 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
         return int2Value
+    elif typ == RFCTYPE_INT8:
+        rc = RfcGetInt8(container, cName, &int8Value, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        return int8Value
     elif typ == RFCTYPE_DATE:
         rc = RfcGetDate(container, cName, dateValue, &errorInfo)
         if rc != RFC_OK:

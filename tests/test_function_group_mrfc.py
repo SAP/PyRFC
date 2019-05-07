@@ -6,13 +6,10 @@
 # Furthermore, the python script error_test.py in this directory provides more test cases.
 # Some of them are used as well.
 
-import datetime
+import unittest
 import pyrfc
-import socket
 
-import pytest
-
-from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
+from tests.config import PARAMS as params, get_error
 
 
 class TestMRFC():

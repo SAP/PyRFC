@@ -2,7 +2,6 @@
 
 from abap_systems import DSP
 from pyrfc import Connection
-from pprint import pprint
 
 function_name = u'ZDT'
 # umlauts = u'Hällo SAP!'
@@ -12,6 +11,6 @@ umlauts = u'Россия'
 if __name__ == '__main__':
     conn = Connection(**DSP)
     res = conn.call(function_name, IN1=1, MTEXT=umlauts)
-    #res = conn.call(function_name, REQUSTR=umlauts, REQUTEXT=umlauts)
+    # res = conn.call(function_name, REQUSTR=umlauts, REQUTEXT=umlauts)
     print umlauts
     print res

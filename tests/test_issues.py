@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime
-import socket
 import pyrfc
 
-import pytest
-
-from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
+from tests.config import PARAMS as params
 
 
 def utf8len(s):
