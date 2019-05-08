@@ -21,5 +21,6 @@ from pyrfc._exception import RFCError, RFCLibError,\
 
 from pyrfc._pyrfc import get_nwrfclib_version, Connection, TypeDescription, FunctionDescription, Server
 
-# TODO: define __all__ variable
-#
+__author__ = """"Srdjan Boskovic"""
+__email__ = 'srdjan.boskovic@sap.com'
+__version__ = '1.9.96'

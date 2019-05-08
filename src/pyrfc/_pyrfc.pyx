@@ -141,12 +141,11 @@ cdef class Connection:
             """Get SAP NW RFC SDK and PyRFC binding versions
             :returns: SAP NW RFC SDK major, minor, patch level and PyRFC binding version
             """
-            _BINDING = '1.9.95'
             cdef unsigned major = 0
             cdef unsigned minor = 0
             cdef unsigned patchlevel = 0
             RfcGetVersion(&major, &minor, &patchlevel)
-            return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'binding': _BINDING}
+            return {'major': major, 'minor': minor, 'patchLevel': patchlevel}
 
     property options:
         def __get__(self):
