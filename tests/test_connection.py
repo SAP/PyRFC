@@ -27,8 +27,7 @@ class TestConnection():
             assert 'major' in version
             assert 'minor' in version
             assert 'patchLevel' in version
-            assert 'binding' in version
-            assert version['binding'] == VERSION
+            assert pyrfc.__version__ == VERSION
         assert all(k in self.conn.options for k in (
             'dtime', 'return_import_params', 'rstrip'))
 

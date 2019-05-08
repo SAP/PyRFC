@@ -1,6 +1,11 @@
 Change log
 ==========
 
+1.9.96 (XXXX-XX-XX)
+-------------------
+- Markdown README format configured in setup.py
+- Binding version moved to pyrfc.__version__
+
 1.9.95 (2019-05-07)
 -------------------
 - Data type INT8 added

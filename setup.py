@@ -83,6 +83,7 @@ setup(name=NAME,
       version=_read('VERSION').strip(),
       description='Python bindings for SAP NetWeaver RFC Library (libsapnwrfc)',
       long_description=_read('README.md'),
+      long_description_content_type='text/markdown',
       classifiers=[  # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
