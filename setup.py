@@ -14,11 +14,12 @@ except ImportError:
 SAPNWRFC_HOME = os.environ.get('SAPNWRFC_HOME')
 if not SAPNWRFC_HOME:
     sys.exit('Environment variable SAPNWRFC_HOME not set. Please specify this variable with the root directory of the SAP NW RFC Library.')
+
 # Python sources
 PYTHONSOURCE = os.environ.get('PYTHONSOURCE')
 if not PYTHONSOURCE:
     PYTHONSOURCE = inspect.getfile(inspect).split('/inspect.py')[0]
-    #sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
+    # sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
 
 NAME = 'pyrfc'
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -46,10 +47,12 @@ elif sys.platform.startswith('win'):
         '-LIBPATH:{}\\lib'.format(SAPNWRFC_HOME), '-LIBPATH:{}\\PCbuild'.format(PYTHONSOURCE)]
 elif sys.platform.startswith('darwin'):
     MACOS_VERSION_MIN = '10.10'
-    # unicode paths fix:
-    # $ MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-    # $ sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-    # $ sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
+    # unicode paths fix
+    # https://apple.stackexchange.com/questions/337940/why-is-usr-include-missing-i-have-xcode-and-command-line-tools-installed-moja
+    # https://github.com/neovim/neovim/issues/9050#issuecomment-424417456
+    # $ MACOS_UNICODE_INC=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
+    # $ sudo ln -s $MACOS_UNICODE_INC/uchar.h $SAPNWRFC_HOME/include
+    # $ sudo ln -s $MACOS_UNICODE_INC $SAPNWRFC_HOME/include/unicode
     LIBS = ['sapnwrfc', 'sapucum']
     MACROS = [('NDEBUG', None), ('_LARGEFILE_SOURCE', None), ('_FILE_OFFSET_BITS', 64),
               ('SAPonUNIX', None), ('SAPwithUNICODE', None), ('SAPwithTHREADS', None), ('SAPonLIN', None)]
