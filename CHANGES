@@ -1,10 +1,12 @@
 Change log
 ==========
 
-1.9.96 (XXXX-XX-XX)
+1.9.96 (2019-05-28)
 -------------------
 - Markdown README format configured in setup.py
 - Binding version moved to pyrfc.__version__
+- Function and type descriptor getters accept also lowercase names
+- Input date and time check logic and performance improvement
 
 1.9.95 (2019-05-07)
 -------------------

@@ -31,3 +31,4 @@ pool/
 setuptools*.egg
 .pytest_cache
 __pycache__
+.vscode/ipch
