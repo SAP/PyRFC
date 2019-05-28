@@ -161,6 +161,54 @@ class TestSTFC():
         for i in result['RFCTABLE'][5]:
             assert result['RFCTABLE'][5][i] == out[i]
 
+    def test_date_time(self):
+        DATETIME_TEST = [
+            {'RFCDATE': '20161231', 'RFCTIME': '123456'},  # good
+            {'RFCDATE': '2016123', 'RFCTIME': '123456'},  # shorter date
+            {'RFCDATE': '201612311', 'RFCTIME': '123456'},  # longer date
+            {'RFCDATE': '20161232', 'RFCTIME': '123456'},  # out of range date
+            {'RFCDATE': 20161231, 'RFCTIME': '123456'},  # wrong date type
+            {'RFCDATE': '20161231', 'RFCTIME': '12345'},  # shorter time
+            {'RFCDATE': '20161231', 'RFCTIME': '1234566'},  # longer time
+            {'RFCDATE': '20161231', 'RFCTIME': '123466'},  # out of range time
+            {'RFCDATE': '20161231', 'RFCTIME': 123456}  # wrong time type
+        ]
+        counter = 0
+        for dt in DATETIME_TEST:
+            counter += 1
+            try:
+                result = self.conn.call('STFC_STRUCTURE', IMPORTSTRUCT=dt)[
+                    'ECHOSTRUCT']
+                assert dt['RFCDATE'] == result['RFCDATE']
+                assert dt['RFCTIME'] == result['RFCTIME']
+                assert counter == 1
+            except Exception as e:
+                if counter < 6:
+                    assert e.message == 'Invalid date value when filling RFCDATE: %s' % (
+                        str(dt['RFCDATE']))
+                else:
+                    assert e.message == 'Invalid time value when filling RFCTIME: %s' % (
+                        str(dt['RFCTIME']))
+
+    # STFC_STRUCTURE Inhomogene Struktur
+    imp = dict(RFCFLOAT=1.23456789,
+               RFCINT2=0x7ffe, RFCINT1=0x7f,
+               RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
+               RFCHEX3=str.encode('fgh'),
+               RFCCHAR1=u'a', RFCCHAR2=u'ij',
+               RFCTIME='123456',  # datetime.time(12,34,56),
+               RFCDATE='20161231',  # datetime.date(2011,10,17),
+               RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+               )
+    out = dict(RFCFLOAT=imp['RFCFLOAT']+1,
+               RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
+               RFCINT4=imp['RFCINT4']+1,
+               RFCHEX3=b'\xf1\xf2\xf3',
+               RFCCHAR1=u'X', RFCCHAR2=u'YZ',
+               RFCDATE=str(datetime.date.today()).replace('-', ''),
+               RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
+               )
+
     '''
     def test_ZPYRFC_STFC_STRUCTURE(self):
         # ZYPRFC_STFC_STRUCTURE Inhomogene Struktur
