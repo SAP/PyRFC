@@ -365,7 +365,7 @@ cdef class Connection:
         :return: A :class:`FunctionDescription` object.
         """
         cdef RFC_ERROR_INFO errorInfo
-        funcName = fillString(func_name)
+        funcName = fillString(func_name.upper())
         if not self.alive:
             self._open()
         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
@@ -444,7 +444,7 @@ cdef class Connection:
         :returns: error code
         """
         cdef RFC_ERROR_INFO errorInfo
-        typeName = fillString(type_name)
+        typeName = fillString(type_name.upper())
         cdef RFC_TYPE_DESC_HANDLE typeDesc = RfcGetTypeDesc(self._handle, typeName, &errorInfo)
         free(typeName)
         if typeDesc == NULL:
@@ -1734,24 +1734,28 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
             if (value): # not None or empty
-                if type(value) is datetime.date:
-                    # python date to ABAP str
-                    cValue = fillString(value.strftime('%Y%m%d'))
-                else:
-                    # python unicode or str to ABAP str
-                    cValue = fillString(value)
-                # print 'date type', type(value), 'value', value, 'len', len(value)
+                try:
+                    if type(value) is datetime.date:
+                        cValue = fillString('{:04d}{:02d}{:02d}'.format(value.year, value.month, value.day))
+                    else:
+                        if (len(value)) != 8: raise
+                        datetime.date(int(value[:4]), int(value[4:6]), int(value[6:8]))
+                        cValue = fillString(value)
+                except:
+                    raise RFCError('Invalid date value when filling %s: %s' % (wrapString(cName), str(value)))  
                 rc = RfcSetDate(container, cName, cValue, &errorInfo)
                 free(cValue)
         elif typ == RFCTYPE_TIME:
             if (value): # not None or empty
-                if type(value) is datetime.time:
-                    # python time to ABAP str
-                    cValue = fillString(value.strftime('%H%M%S'))
-                else:
-                    # python unicode or str to ABAP str
-                    cValue = fillString(value)
-                # print 'time type', type(value), 'value', value, 'len', len(value)
+                try:
+                    if type(value) is datetime.time:
+                        cValue = fillString('{:02d}{:02d}{:02d}'.format(value.hour, value.minute, value.second))
+                    else:
+                        if (len(value)) != 6: raise
+                        datetime.time(int(value[:2]), int(value[2:4]), int(value[4:6]))
+                        cValue = fillString(value)
+                except:
+                    raise RFCError('Invalid time value when filling %s: %s' % (wrapString(cName), str(value)))  
                 rc = RfcSetTime(container, cName, cValue, &errorInfo)
                 free(cValue)
         else:
@@ -2199,7 +2203,6 @@ cdef wrapError(RFC_ERROR_INFO* errorInfo):
         wrapString(errorInfo.abapMsgClass), wrapString(errorInfo.abapMsgType), wrapString(errorInfo.abapMsgNumber),
         wrapString(errorInfo.abapMsgV1), wrapString(errorInfo.abapMsgV2),
         wrapString(errorInfo.abapMsgV3), wrapString(errorInfo.abapMsgV4))
-
 
 cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
     cdef RFC_RC rc

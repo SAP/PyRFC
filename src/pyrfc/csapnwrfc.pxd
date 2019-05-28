@@ -123,6 +123,7 @@ cdef extern from "sapnwrfc.h":
     ctypedef void* RFC_CONNECTION_HANDLE
     ctypedef void* RFC_TRANSACTION_HANDLE
     ctypedef void* RFC_UNIT_HANDLE
+    ctypedef void* RFC_METADATA_QUERY_RESULT_HANDLE 
 
     ctypedef struct RFC_CONNECTION_PARAMETER:
         SAP_UC* name
@@ -271,7 +272,17 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcDestroyTypeDesc(RFC_TYPE_DESC_HANDLE typeHandle, RFC_ERROR_INFO *errorInfo)
     RFC_TYPE_DESC_HANDLE RfcGetTypeDesc(RFC_CONNECTION_HANDLE rfcHandle, SAP_UC* typeName, RFC_ERROR_INFO* errorInfo);
     RFC_RC RfcRemoveTypeDesc(SAP_UC* repositoryID, SAP_UC* typeName, RFC_ERROR_INFO* errorInfo);
-
+    RFC_RC RfcMetadataBatchQuery(
+        RFC_CONNECTION_HANDLE rfcHandle,
+        const SAP_UC** functionNames,
+        unsigned functionCount,
+        const SAP_UC** typeNames,
+        unsigned typeCount,
+        const SAP_UC** classNames,
+        unsigned classCount,
+        RFC_METADATA_QUERY_RESULT_HANDLE handle,
+        RFC_ERROR_INFO* errorInfo)
+        
     RFC_FUNCTION_DESC_HANDLE RfcCreateFunctionDesc(SAP_UC* name, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetFunctionName(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_ABAP_NAME bufferForName, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcAddParameter(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_PARAMETER_DESC* paramDescr, RFC_ERROR_INFO* errorInfo)
@@ -304,3 +315,5 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcConfirmUnit(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER* identifier, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcDestroyUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetUnitState(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER* identifier, RFC_UNIT_STATE* state, RFC_ERROR_INFO* errorInfo)
+
+	
