@@ -184,10 +184,10 @@ class TestSTFC():
                 assert counter == 1
             except Exception as e:
                 if counter < 6:
-                    assert e.message == 'Invalid date value when filling RFCDATE: %s' % (
+                    assert str(e) == 'Invalid date value when filling RFCDATE: %s' % (
                         str(dt['RFCDATE']))
                 else:
-                    assert e.message == 'Invalid time value when filling RFCTIME: %s' % (
+                    assert str(e) == 'Invalid time value when filling RFCTIME: %s' % (
                         str(dt['RFCTIME']))
 
     # STFC_STRUCTURE Inhomogene Struktur
