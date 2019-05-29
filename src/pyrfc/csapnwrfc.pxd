@@ -253,6 +253,7 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcSetString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_UC* stringValue, unsigned valueLength, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcSetFloat(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_FLOAT value, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcSetInt(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT value, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcSetInt8(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT8 value, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcSetDate(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_DATE date, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcSetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TIME time, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetStructure(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_STRUCTURE_HANDLE* structHandle, RFC_ERROR_INFO* errorInfo)

@@ -1,6 +1,11 @@
 Change log
 ==========
 
+1.9.97 (XXXX-XX-XX)
+-------------------
+- INT8 input handling fix
+
+
 1.9.96 (2019-05-28)
 -------------------
 - Markdown README format configured in setup.py
