@@ -21,7 +21,7 @@ def main(function_name):
     try:
         connection = Connection(**params_connection)
         func_desc = connection.get_function_description(function_name)
-        print u"Parameters of function: {0}".format(function_name)
+        print (u"Parameters of function: {0}".format(function_name))
 
         parameter_keys = [u'name', u'parameter_type', u'direction',
                           u'nuc_length', u'uc_length', u'decimals',

@@ -7,7 +7,7 @@ import pyrfc
 from tests.config import PARAMS as params
 
 
-class TestTT():
+class TestTT:
     """
     This test cases cover table types of variable and structure types
     """
@@ -21,15 +21,18 @@ class TestTT():
         assert not self.conn.alive
 
     def test_TABLE_TYPE(self):
-        result = self.conn.call('/COE/RBP_PAM_SERVICE_ORD_CHANG', IV_ORDERID='4711',
-                                IT_NOTICE_NOTIFICATION=[{'': 'ABCD'}, {'': 'XYZ'}])
-        assert len(result['ET_RETURN']) > 0
-        erl = result['ET_RETURN'][0]
-        assert erl['TYPE'] == 'E'
-        assert erl['ID'] == 'IWO_BAPI'
-        assert erl['NUMBER'] == '121'
-        assert erl['MESSAGE_V1'] == '4711'
+        result = self.conn.call(
+            "/COE/RBP_PAM_SERVICE_ORD_CHANG",
+            IV_ORDERID="4711",
+            IT_NOTICE_NOTIFICATION=[{"": "ABCD"}, {"": "XYZ"}],
+        )
+        assert len(result["ET_RETURN"]) > 0
+        erl = result["ET_RETURN"][0]
+        assert erl["TYPE"] == "E"
+        assert erl["ID"] == "IWO_BAPI"
+        assert erl["NUMBER"] == "121"
+        assert erl["MESSAGE_V1"] == "4711"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

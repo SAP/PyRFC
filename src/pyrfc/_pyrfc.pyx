@@ -1730,8 +1730,11 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             cValue = fillString(str(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
-        elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2, RFCTYPE_INT8):
+        elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
             rc = RfcSetInt(container, cName, value, &errorInfo)
+        elif typ == RFCTYPE_INT8:
+            rc = RfcSetInt8(container, cName, value, &errorInfo)
+            #rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
             if (value): # not None or empty
                 try:

@@ -7,11 +7,10 @@ from tests.config import PARAMS as params
 
 
 def utf8len(s):
-    return len(s.encode('utf-8'))
+    return len(s.encode("utf-8"))
 
 
-class TestIssues():
-
+class TestIssues:
     def setup_method(self, test_method):
         """ A connection to an SAP backend system
               Instantiating an :class:`pyrfc.Connection` object will
@@ -30,7 +29,7 @@ class TestIssues():
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info['isoLanguage'] == u'EN'
+        assert connection_info["isoLanguage"] == u"EN"
 
     def teardown_method(self, test_method):
         self.conn.close()
@@ -40,7 +39,7 @@ class TestIssues():
         """
         This test cases covers the issue 31
         """
-        '''
+        """
         filename = 'tests/data/issue31/rfcexec.exe'
         block = 1024
 
@@ -66,25 +65,26 @@ class TestIssues():
         received_content = received_content[:len(content)]
         assert len(content) == len(received_content)
         assert content == received_content
-        '''
+        """
 
     def test_issue38(self):
         test = [
-            'string',
-            u'四周远处都能望见',
-            u'\U0001F4AA',
-            u'\u0001\uf4aa',
-            u'a\xac\u1234\u20ac\U0001F4AA'
+            "string",
+            u"四周远处都能望见",
+            u"\U0001F4AA",
+            u"\u0001\uf4aa",
+            u"a\xac\u1234\u20ac\U0001F4AA",
         ]
 
         for s in test:
-            is_input = {'ZSHLP_MAT1': s, 'ZFLTP': 123.45}
-            result = self.conn.call(
-                '/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
-            assert is_input['ZSHLP_MAT1'] == result['ZSHLP_MAT1']
+            is_input = {"ZSHLP_MAT1": s, "ZFLTP": 123.45}
+            result = self.conn.call("/COE/RBP_FE_DATATYPES", IS_INPUT=is_input)[
+                "ES_OUTPUT"
+            ]
+            assert is_input["ZSHLP_MAT1"] == result["ZSHLP_MAT1"]
 
     def test_issue40(self):
-        '''
+        """
         # put in cache
         result = self.conn.call('BAPI_USER_GET_DETAIL', USERNAME="DEMO")
 
@@ -102,8 +102,8 @@ class TestIssues():
             error = get_error(ex)
             assert error['code'] == 17
             assert error['key'] == 'RFC_NOT_FOUND'
-            '''
+            """
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

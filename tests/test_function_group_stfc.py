@@ -8,7 +8,7 @@ import pyrfc
 from tests.config import PARAMS as params, get_error
 
 
-class TestSTFC():
+class TestSTFC:
     """
     This test cases cover selected functions from the STFC function group.
     """
@@ -19,12 +19,13 @@ class TestSTFC():
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info['isoLanguage'] == u'EN'
+        assert connection_info["isoLanguage"] == u"EN"
 
     def teardown_method(self, test_method):
         self.conn.close()
         assert not self.conn.alive
-    '''
+
+    """
     @unittest.skip("not supported yet (qrfc)")
     def test_STFC_CALL_QRFC(self):
     # STFC_CALL_QRFC qRFC mit Ausgangsqueue in der Verbuchung
@@ -54,17 +55,17 @@ class TestSTFC():
         # def test_STFC_CALL_TRFC_PLUS_UPDATE(self):
         # STFC_CALL_TRFC_PLUS_UPDATE TRFC in VB innerhalb der VB nochmal tRFC
     #    pass
-    '''
+    """
 
     def test_STFC_CONNECTION(self):
         # STFC_CONNECTION RFC-TEST:   CONNECTION Test
         # Test with rstrip:
-        hello = u'Hällo SAP!'  # In case that rstip=False + u' ' * 245
-        result = self.conn.call('STFC_CONNECTION', REQUTEXT=hello)
-        assert result['RESPTEXT'].startswith('SAP')
-        assert result['ECHOTEXT'] == hello
+        hello = u"Hällo SAP!"  # In case that rstip=False + u' ' * 245
+        result = self.conn.call("STFC_CONNECTION", REQUTEXT=hello)
+        assert result["RESPTEXT"].startswith("SAP")
+        assert result["ECHOTEXT"] == hello
 
-    '''
+    """
     @unittest.skip("not supported yet (server)")
     def test_STFC_CONNECTION_BACK(self):
         # STFC_CONNECTION_BACK RFC-Test:  CONNECTION Test
@@ -103,113 +104,131 @@ class TestSTFC():
     def test_STFC_RETURN_DATA_INTERFACE(self):
         # STFC_RETURN_DATA_INTERFACE RFC-TEST:   Schnittstelenbeschreibung für tRFC/qRFC mit Rückmeldedaten
         pass
-    '''
+    """
 
     def test_STFC_SAPGUI(self):
         # STFC_SAPGUI RFC-TEST:   RFC with SAPGUI
         try:
-            self.conn.call('STFC_SAPGUI')
+            self.conn.call("STFC_SAPGUI")
         except (pyrfc.ABAPRuntimeError) as ex:
             error = get_error(ex)
-            assert error['code'] == 3
-            assert error['key'] == 'DYNPRO_SEND_IN_BACKGROUND'
+            assert error["code"] == 3
+            assert error["key"] == "DYNPRO_SEND_IN_BACKGROUND"
 
-    '''
+    """
     @unittest.skip("not supported yet (server)")
     def test_STFC_START_CONNECT_REG_SERVER(self):
         # STFC_START_CONNECT_REG_SERVER RFC-Test:  CONNECTION Test
         pass
-    '''
+    """
 
     def test_STFC_STRUCTURE(self):
         # STFC_STRUCTURE Inhomogene Struktur
-        imp = dict(RFCFLOAT=1.23456789,
-                   RFCINT2=0x7ffe, RFCINT1=0x7f,
-                   RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
-                   RFCHEX3=str.encode('fgh'),
-                   RFCCHAR1=u'a', RFCCHAR2=u'ij',
-                   RFCTIME='123456',  # datetime.time(12,34,56),
-                   RFCDATE='20161231',  # datetime.date(2011,10,17),
-                   RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
-                   )
-        out = dict(RFCFLOAT=imp['RFCFLOAT']+1,
-                   RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
-                   RFCINT4=imp['RFCINT4']+1,
-                   RFCHEX3=b'\xf1\xf2\xf3',
-                   RFCCHAR1=u'X', RFCCHAR2=u'YZ',
-                   RFCDATE=str(datetime.date.today()).replace('-', ''),
-                   RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
-                   )
+        imp = dict(
+            RFCFLOAT=1.23456789,
+            RFCINT2=0x7FFE,
+            RFCINT1=0x7F,
+            RFCCHAR4=u"bcde",
+            RFCINT4=0x7FFFFFFE,
+            RFCHEX3=str.encode("fgh"),
+            RFCCHAR1=u"a",
+            RFCCHAR2=u"ij",
+            RFCTIME="123456",  # datetime.time(12,34,56),
+            RFCDATE="20161231",  # datetime.date(2011,10,17),
+            RFCDATA1=u"k" * 50,
+            RFCDATA2=u"l" * 50,
+        )
+        out = dict(
+            RFCFLOAT=imp["RFCFLOAT"] + 1,
+            RFCINT2=imp["RFCINT2"] + 1,
+            RFCINT1=imp["RFCINT1"] + 1,
+            RFCINT4=imp["RFCINT4"] + 1,
+            RFCHEX3=b"\xf1\xf2\xf3",
+            RFCCHAR1=u"X",
+            RFCCHAR2=u"YZ",
+            RFCDATE=str(datetime.date.today()).replace("-", ""),
+            RFCDATA1=u"k" * 50,
+            RFCDATA2=u"l" * 50,
+        )
         table = []
         xtable = []
-        records = ['1111', '2222', '3333', '4444', '5555']
+        records = ["1111", "2222", "3333", "4444", "5555"]
         for rid in records:
-            imp['RFCCHAR4'] = rid
+            imp["RFCCHAR4"] = rid
             table.append(imp)
             xtable.append(imp)
         # print 'table len', len(table), len(xtable)
-        result = self.conn.call(
-            'STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=xtable)
+        result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=imp, RFCTABLE=xtable)
         # print 'table len', len(table), len(xtable)
-        assert result['RESPTEXT'].startswith('SAP')
+        assert result["RESPTEXT"].startswith("SAP")
         # assert result['ECHOSTRUCT'] == imp
-        assert len(result['RFCTABLE']) == 1+len(table)
-        for i in result['ECHOSTRUCT']:
-            assert result['ECHOSTRUCT'][i] == imp[i]
-        del result['RFCTABLE'][5]['RFCCHAR4']  # contains variable system id
-        del result['RFCTABLE'][5]['RFCTIME']  # contains variable server time
-        for i in result['RFCTABLE'][5]:
-            assert result['RFCTABLE'][5][i] == out[i]
+        assert len(result["RFCTABLE"]) == 1 + len(table)
+        for i in result["ECHOSTRUCT"]:
+            assert result["ECHOSTRUCT"][i] == imp[i]
+        del result["RFCTABLE"][5]["RFCCHAR4"]  # contains variable system id
+        del result["RFCTABLE"][5]["RFCTIME"]  # contains variable server time
+        for i in result["RFCTABLE"][5]:
+            assert result["RFCTABLE"][5][i] == out[i]
 
     def test_date_time(self):
         DATETIME_TEST = [
-            {'RFCDATE': '20161231', 'RFCTIME': '123456'},  # good
-            {'RFCDATE': '2016123', 'RFCTIME': '123456'},  # shorter date
-            {'RFCDATE': '201612311', 'RFCTIME': '123456'},  # longer date
-            {'RFCDATE': '20161232', 'RFCTIME': '123456'},  # out of range date
-            {'RFCDATE': 20161231, 'RFCTIME': '123456'},  # wrong date type
-            {'RFCDATE': '20161231', 'RFCTIME': '12345'},  # shorter time
-            {'RFCDATE': '20161231', 'RFCTIME': '1234566'},  # longer time
-            {'RFCDATE': '20161231', 'RFCTIME': '123466'},  # out of range time
-            {'RFCDATE': '20161231', 'RFCTIME': 123456}  # wrong time type
+            {"RFCDATE": "20161231", "RFCTIME": "123456"},  # good
+            {"RFCDATE": "2016123", "RFCTIME": "123456"},  # shorter date
+            {"RFCDATE": "201612311", "RFCTIME": "123456"},  # longer date
+            {"RFCDATE": "20161232", "RFCTIME": "123456"},  # out of range date
+            {"RFCDATE": 20161231, "RFCTIME": "123456"},  # wrong date type
+            {"RFCDATE": "20161231", "RFCTIME": "12345"},  # shorter time
+            {"RFCDATE": "20161231", "RFCTIME": "1234566"},  # longer time
+            {"RFCDATE": "20161231", "RFCTIME": "123466"},  # out of range time
+            {"RFCDATE": "20161231", "RFCTIME": 123456},  # wrong time type
         ]
         counter = 0
         for dt in DATETIME_TEST:
             counter += 1
             try:
-                result = self.conn.call('STFC_STRUCTURE', IMPORTSTRUCT=dt)[
-                    'ECHOSTRUCT']
-                assert dt['RFCDATE'] == result['RFCDATE']
-                assert dt['RFCTIME'] == result['RFCTIME']
+                result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
+                assert dt["RFCDATE"] == result["RFCDATE"]
+                assert dt["RFCTIME"] == result["RFCTIME"]
                 assert counter == 1
             except Exception as e:
                 if counter < 6:
-                    assert str(e) == 'Invalid date value when filling RFCDATE: %s' % (
-                        str(dt['RFCDATE']))
+                    assert str(e) == "Invalid date value when filling RFCDATE: %s" % (
+                        str(dt["RFCDATE"])
+                    )
                 else:
-                    assert str(e) == 'Invalid time value when filling RFCTIME: %s' % (
-                        str(dt['RFCTIME']))
+                    assert str(e) == "Invalid time value when filling RFCTIME: %s" % (
+                        str(dt["RFCTIME"])
+                    )
 
     # STFC_STRUCTURE Inhomogene Struktur
-    imp = dict(RFCFLOAT=1.23456789,
-               RFCINT2=0x7ffe, RFCINT1=0x7f,
-               RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
-               RFCHEX3=str.encode('fgh'),
-               RFCCHAR1=u'a', RFCCHAR2=u'ij',
-               RFCTIME='123456',  # datetime.time(12,34,56),
-               RFCDATE='20161231',  # datetime.date(2011,10,17),
-               RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
-               )
-    out = dict(RFCFLOAT=imp['RFCFLOAT']+1,
-               RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
-               RFCINT4=imp['RFCINT4']+1,
-               RFCHEX3=b'\xf1\xf2\xf3',
-               RFCCHAR1=u'X', RFCCHAR2=u'YZ',
-               RFCDATE=str(datetime.date.today()).replace('-', ''),
-               RFCDATA1=u'k'*50, RFCDATA2=u'l'*50
-               )
+    imp = dict(
+        RFCFLOAT=1.23456789,
+        RFCINT2=0x7FFE,
+        RFCINT1=0x7F,
+        RFCCHAR4=u"bcde",
+        RFCINT4=0x7FFFFFFE,
+        RFCHEX3=str.encode("fgh"),
+        RFCCHAR1=u"a",
+        RFCCHAR2=u"ij",
+        RFCTIME="123456",  # datetime.time(12,34,56),
+        RFCDATE="20161231",  # datetime.date(2011,10,17),
+        RFCDATA1=u"k" * 50,
+        RFCDATA2=u"l" * 50,
+    )
+    out = dict(
+        RFCFLOAT=imp["RFCFLOAT"] + 1,
+        RFCINT2=imp["RFCINT2"] + 1,
+        RFCINT1=imp["RFCINT1"] + 1,
+        RFCINT4=imp["RFCINT4"] + 1,
+        RFCHEX3=b"\xf1\xf2\xf3",
+        RFCCHAR1=u"X",
+        RFCCHAR2=u"YZ",
+        RFCDATE=str(datetime.date.today()).replace("-", ""),
+        RFCDATA1=u"k" * 50,
+        RFCDATA2=u"l" * 50,
+    )
 
-    '''
+    """
     def test_ZPYRFC_STFC_STRUCTURE(self):
         # ZYPRFC_STFC_STRUCTURE Inhomogene Struktur
         imp = dict(RFCFLOAT=1.23456789, RFCCHAR1=u'a',
@@ -263,8 +282,8 @@ class TestSTFC():
     def test_TRFC_RAISE_ERROR(self):
         # TRFC_RAISE_ERROR ARFC: Raise different type of error messages
         pass
-'''
+"""
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
