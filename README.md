@@ -44,9 +44,9 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 After the SAP NW RFC SDK [installed](#prerequisites) on your system, you can pip install the _pyrfc_ package for your platform from the [dist](dist) folder:
 
 ```shell
-wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+wget https://github.com/SAP/PyRFC/raw/master/dist/pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 
-pip install pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 ```
 
 Alternatively, or if the _pyrfc_ package for your platform not provided, [build the package from source](http://sap.github.io/PyRFC/build.html) on your system and pip install:
@@ -55,7 +55,7 @@ Alternatively, or if the _pyrfc_ package for your platform not provided, [build 
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
 python setup.py bdist_wheel
-pip install dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+pip install dist/pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 # set ABAP system parameters in test/pyrfc.cfg
 pytest -vv
 ```
