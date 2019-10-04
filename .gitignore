@@ -13,6 +13,8 @@ parts/
 var/
 bin/
 cython_debug/
+pool/
+__pycache__
 .installed.cfg
 .project
 .pydevproject
@@ -26,8 +28,6 @@ cython_debug/
 *.so
 *.swp
 pyrfc.cfg
-pool/
 setuptools*.egg
 .pytest_cache
-__pycache__
 .vscode/ipch
