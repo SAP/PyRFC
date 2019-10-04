@@ -379,7 +379,7 @@ cdef class Connection:
 
         :param func_name: Name of the function module that will be invoked.
         :type func_name: string
-        
+
         :param options: Call options, like 'skip', to deactivate certain parameters.
         :type options: dictionary
 
@@ -1022,7 +1022,9 @@ class TypeDescription(object):
         :param type_description: An object of class TypeDescription or None (default=None)
         :type type_description: object of class TypeDescription
         """
-        if len(name)<1 or len(name)>30:
+        if len(name)<1:
+            return None
+        if len(name)>30:
             raise TypeError("'name' (string) should be from 1-30 chars.")
         if field_type not in _type2rfc:
             raise TypeError("'field_type' (string) must be in [" + ", ".join(_type2rfc) + "]")
@@ -1382,7 +1384,7 @@ cdef class Server:
     def install_function(self, func_desc, callback):
         """
         Installs a function in the server.
-        
+
         :param func_desc: A function description object of
             :class:`~pyrfc.FunctionDescription`
         :param callback: A callback function that implements the logic.
@@ -1406,7 +1408,7 @@ cdef class Server:
         Serves for a given timeout.
         Note: internally this function installs a generic server function
         and registers the server at the gateway (if required).
-        
+
         :param timeout: Number of seconds to serve or None (default) for no timeout.
         :raises: :exc:`~pyrfc.RFCError` or a subclass
             thereof if the installation or the registration attempt fails.
@@ -1673,7 +1675,7 @@ cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines)
     cdef unsigned int rowCount = len(lines)
     cdef unsigned int i = 0
     while i < rowCount:
-        lineHandle = RfcAppendNewRow(container, &errorInfo) 
+        lineHandle = RfcAppendNewRow(container, &errorInfo)
         if not lineHandle:
             raise wrapError(&errorInfo)
         line = lines[i]
@@ -1745,7 +1747,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                         datetime.date(int(value[:4]), int(value[4:6]), int(value[6:8]))
                         cValue = fillString(value)
                 except:
-                    raise RFCError('Invalid date value when filling %s: %s' % (wrapString(cName), str(value)))  
+                    raise RFCError('Invalid date value when filling %s: %s' % (wrapString(cName), str(value)))
                 rc = RfcSetDate(container, cName, cValue, &errorInfo)
                 free(cValue)
         elif typ == RFCTYPE_TIME:
@@ -1758,7 +1760,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                         datetime.time(int(value[:2]), int(value[2:4]), int(value[4:6]))
                         cValue = fillString(value)
                 except:
-                    raise RFCError('Invalid time value when filling %s: %s' % (wrapString(cName), str(value)))  
+                    raise RFCError('Invalid time value when filling %s: %s' % (wrapString(cName), str(value)))
                 rc = RfcSetTime(container, cName, cValue, &errorInfo)
                 free(cValue)
         else:
@@ -1922,7 +1924,7 @@ cdef wrapTypeDescription(RFC_TYPE_DESC_HANDLE typeDesc):
             field_description['type_description'] = None
         else:
             field_description['type_description'] = wrapTypeDescription(fieldDesc.typeDescHandle)
-            # Add field to object
+        # Add field to object
         type_desc.add_field(**field_description)
 
     return type_desc
