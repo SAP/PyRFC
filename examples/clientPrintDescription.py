@@ -1,9 +1,9 @@
-from ConfigParser import ConfigParser
 import sys
 
 from pyrfc import Connection,\
     ABAPApplicationError, ABAPRuntimeError, LogonError, CommunicationError
 
+from config import PARAMS as params_connection
 
 def parameter_key_function(parameter):
     """ returns a key for sorting parameters """
@@ -14,10 +14,6 @@ def parameter_key_function(parameter):
     return value[parameter['direction']]
 
 def main(function_name):
-    config = ConfigParser()
-    config.read('sapnwrfc.cfg')
-    params_connection = config._sections['connection']
-
     try:
         connection = Connection(**params_connection)
         func_desc = connection.get_function_description(function_name)
@@ -65,13 +61,13 @@ def main(function_name):
         connection.close()
 
     except CommunicationError:
-        print u"Could not connect to server."
+        print ("Could not connect to server.")
         raise
     except LogonError:
-        print u"Could not log in. Wrong credentials?"
+        print ("Could not log in. Wrong credentials?")
         raise
     except (ABAPApplicationError, ABAPRuntimeError):
-        print u"An error occurred."
+        print ("An error occurred.")
         raise
 
 if __name__ == '__main__':

@@ -24,9 +24,7 @@ cython_debug/
 *.c
 *.so
 *.swp
-setup.cfg
-tests/config-sap.py
-tests/pyrfc-sap.cfg
+pyrfc.cfg
 pool/
 setuptools*.egg
 .pytest_cache

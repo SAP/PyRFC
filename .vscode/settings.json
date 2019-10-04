@@ -1,3 +1,4 @@
 {
-    "restructuredtext.confPath": "${workspaceFolder}/doc"
+    "restructuredtext.confPath": "${workspaceFolder}/doc",
+    "python.pythonPath": "/Users/d037732/.pyenv/versions/py374/bin/python"
 }
