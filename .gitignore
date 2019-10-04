@@ -4,6 +4,7 @@
 .venv
 .cache
 build/
+dist/
 develop-eggs/
 doc/_build/
 eggs/
