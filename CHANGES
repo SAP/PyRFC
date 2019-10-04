@@ -1,10 +1,13 @@
 Change log
 ==========
 
-1.9.98 (2019-10-04)
+1.9.98 (XXXX-XX-XX)
+-------------------
+- Client function description example, fix #115
+
+1.9.97 (2019-10-04)
 -------------------
 - INT8 input handling fix
-- Client function description example, fix #115
 
 
 1.9.96 (2019-05-28)
