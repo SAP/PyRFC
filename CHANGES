@@ -3,7 +3,11 @@ Change log
 
 1.9.98 (XXXX-XX-XX)
 -------------------
+
+- Documentation, fix #111
 - Client function description example, fix #115
+- Decimal floating point types added RFC_DECF16 and RFC_DECF34, fix #116
+
 
 1.9.97 (2019-10-04)
 -------------------

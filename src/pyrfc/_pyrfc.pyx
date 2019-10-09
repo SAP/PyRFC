@@ -1727,7 +1727,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             cValue = fillString(value)
             rc = RfcSetNum(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
-        elif typ == RFCTYPE_BCD or typ == RFCTYPE_FLOAT:
+        elif typ == RFCTYPE_BCD or typ == RFCTYPE_FLOAT or typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
             # cast floats and decimals to strings, prevents decimal->float rounding errors
             cValue = fillString(str(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
@@ -2128,6 +2128,30 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
             if rc == 23: # Buffer too small, use returned requried result length
                 print("Warning: Buffer for BCD (cLen={}, buffer={}) too small: "
+                      "trying with {}".format(cLen, strLen, resultLen))
+                free(stringValue)
+                strLen = resultLen
+                stringValue = mallocU(strLen+1)
+                rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
+        finally:
+            free(stringValue)
+    elif typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
+        # An upper bound for the length of the _string representation_
+        # of the DECF is given by (2*cLen)-1 (each digit is encoded in 4bit,
+        # the first 4 bit are reserved for the sign)
+        # Furthermore, a sign char, a decimal separator char may be present
+        # => (2*cLen)+1
+        # and exponent char, sign and exponent
+        # => +9
+        strLen = 2*cLen + 10
+        try:
+            stringValue = mallocU(strLen+1)
+            rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
+            if rc == 23: # Buffer too small, use returned requried result length
+                print("Warning: Buffer for DECF (cLen={}, buffer={}) too small: "
                       "trying with {}".format(cLen, strLen, resultLen))
                 free(stringValue)
                 strLen = resultLen
