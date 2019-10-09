@@ -81,6 +81,7 @@ Using an open connection, remote function modules (RFM) can be invoked:
 {u'ECHOTEXT': u'Hello SAP!',
  u'RESPTEXT': u'SAP R/3 Rel. 702   Sysid: ABC   Date: 20121001   Time: 134524   Logon_Data: 100/ME/E'}
 ```
+
 Finally, the connection is closed automatically when the instance is deleted by the garbage collector. As this may take some time, we may either call the close() method explicitly or use the connection as a context manager:
 
 ```python
@@ -121,7 +122,7 @@ complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk)
 
 ## Known Issues
 
-* Python 2 will not be maintained past 2020 
+* Python 2 will not be maintained past 2020
 
 * Unicode path fix required for [build from source](http://sap.github.io/PyRFC/build.html) on macOS
 
