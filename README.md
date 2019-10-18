@@ -17,7 +17,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 * The _pyrfc_ connector can be [built from source](http://sap.github.io/PyRFC/build.html) on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
 
-* Pre-built _pyrfc_ wheels are provided in respective [releases](releases) folder, for Python 3 and Python 2 (until 2020), for Windows 10, Ubuntu 16.04 and macOS 10.14 (experimental).
+* Pre-built _pyrfc_ wheels are provided in respective [releases](https://github.com/SAP/PyRFC/releases), for Python 3 and Python 2 (until 2020), for Windows 10, Ubuntu 16.04 and macOS 10.14 (experimental).
 
 ## Prerequisites
 
