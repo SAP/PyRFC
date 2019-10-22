@@ -170,36 +170,6 @@ class TestSTFC:
         for i in result["RFCTABLE"][5]:
             assert result["RFCTABLE"][5][i] == out[i]
 
-    def test_date_time(self):
-        DATETIME_TEST = [
-            {"RFCDATE": "20161231", "RFCTIME": "123456"},  # good
-            {"RFCDATE": "2016123", "RFCTIME": "123456"},  # shorter date
-            {"RFCDATE": "201612311", "RFCTIME": "123456"},  # longer date
-            {"RFCDATE": "20161232", "RFCTIME": "123456"},  # out of range date
-            {"RFCDATE": 20161231, "RFCTIME": "123456"},  # wrong date type
-            {"RFCDATE": "20161231", "RFCTIME": "12345"},  # shorter time
-            {"RFCDATE": "20161231", "RFCTIME": "1234566"},  # longer time
-            {"RFCDATE": "20161231", "RFCTIME": "123466"},  # out of range time
-            {"RFCDATE": "20161231", "RFCTIME": 123456},  # wrong time type
-        ]
-        counter = 0
-        for dt in DATETIME_TEST:
-            counter += 1
-            try:
-                result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
-                assert dt["RFCDATE"] == result["RFCDATE"]
-                assert dt["RFCTIME"] == result["RFCTIME"]
-                assert counter == 1
-            except Exception as e:
-                if counter < 6:
-                    assert str(e) == "Invalid date value when filling RFCDATE: %s" % (
-                        str(dt["RFCDATE"])
-                    )
-                else:
-                    assert str(e) == "Invalid time value when filling RFCTIME: %s" % (
-                        str(dt["RFCTIME"])
-                    )
-
     # STFC_STRUCTURE Inhomogene Struktur
     imp = dict(
         RFCFLOAT=1.23456789,

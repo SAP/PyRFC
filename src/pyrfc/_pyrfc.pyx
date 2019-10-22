@@ -13,13 +13,12 @@
 # language governing permissions and limitations under the License.
 
 """ The _pyrfc C-extension module """
-#define MAXL = 214748364
 
 import sys
 import signal
 import time
 import datetime
-import collections # from collections import Iterable
+import collections
 from decimal import Decimal
 from csapnwrfc cimport *
 
@@ -193,20 +192,6 @@ cdef class Connection:
     def __exit__(self, type, value, traceback):
         self._close() # Although the _close() method is also called in the destructor, the
                       # explicit call assures the immediate closing to the connection.
-
-    def __test97(self, count):
-       # cdef RFC_CHAR* big = mallocU (count+1);
-       cdef SAP_UC* big = mallocU (count+1);
-       cdef size_t i = 0;
-       while i < count:
-           big[i] = 'a';
-           i+=1;
-       big[i] = 0;
-       # print big[0], big[1], big[count]
-       cdef size_t length = strlenU(big);
-       print "count", count, "length:", length;
-       # print sizeof(unsigned), sizeof(size_t), sizeof(RFC_INT8) # 4 8 8
-       free(big);
 
     def open(self):
         self._open()
@@ -398,7 +383,7 @@ cdef class Connection:
         cdef RFC_ERROR_INFO errorInfo
         cdef unsigned paramCount
         cdef SAP_UC *cName
-        funcName = fillString(func_name)
+        cdef SAP_UC *funcName = fillString(func_name)
         if not self.alive:
             self._open()
         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
@@ -717,7 +702,7 @@ cdef class Connection:
                     RfcDestroyFunction(funcCont, NULL)
             # TODO: segfault here. FIXME
             # execute
-            print " Invocation finished. submitting unit."
+            #_# print " Invocation finished. submitting unit."
             #with nogil:
             rc = RfcSubmitUnit(self._uHandle, &errorInfo)
             if rc != RFC_OK:
@@ -728,7 +713,7 @@ cdef class Connection:
             RfcDestroyUnit(self._uHandle, NULL)
             raise
 
-        print " - wrapping Unit IDentifier."
+        #_#print " - wrapping Unit IDentifier."
         unit_identifier = wrapUnitIdentifier(uIdentifier)
         return unit_identifier["queued"]
 
@@ -1145,11 +1130,12 @@ server_functions = {}
 # ctypedef RFC_RC RFC_FUNC_DESC_CALLBACK(SAP_UC *functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle)
 
 def _server_log(origin, log_message):
-    print u"[{timestamp} UTC] {origin} '{msg}'".format(
-        timestamp = datetime.datetime.utcnow(),
-        origin = origin,
-        msg = log_message
-    )
+    pass
+    #_#print u"[{timestamp} UTC] {origin} '{msg}'".format(
+    #_#    timestamp = datetime.datetime.utcnow(),
+    #_#    origin = origin,
+    #_#    msg = log_message
+    #_#)
 
 cdef RFC_RC repositoryLookup(SAP_UC* functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle):
     cdef RFC_CONNECTION_PARAMETER loginParams[1]
@@ -1707,10 +1693,6 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
             fillTable(typeDesc, table, value)
-        elif typ == RFCTYPE_CHAR:
-            cValue = fillString(value)
-            rc = RfcSetChars(container, cName, cValue, strlenU(cValue), &errorInfo)
-            free(cValue)
         elif typ == RFCTYPE_BYTE:
             bValue = fillBytes(value)
             rc = RfcSetBytes(container, cName, bValue, len(value), &errorInfo)
@@ -1719,35 +1701,56 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             bValue = fillBytes(value)
             rc = RfcSetXString(container, cName, bValue, len(value), &errorInfo)
             free(bValue)
+        elif typ == RFCTYPE_CHAR:
+            if type(value) is not str:
+                raise TypeError('an string is required, received', value)
+            cValue = fillString(value)
+            rc = RfcSetChars(container, cName, cValue, strlenU(cValue), &errorInfo)
+            free(cValue)
         elif typ == RFCTYPE_STRING:
+            if type(value) is not str:
+                raise TypeError('an string is required, received', value)
             cValue = fillString(value)
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_NUM:
+            try:
+                Decimal(value)
+            except:
+                raise TypeError('a decimal value is required, received', value)
             cValue = fillString(value)
             rc = RfcSetNum(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_BCD or typ == RFCTYPE_FLOAT or typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
             # cast floats and decimals to strings, prevents decimal->float rounding errors
+            try:
+                Decimal(value)
+            except:
+                raise TypeError('a decimal value is required, received', value)
             cValue = fillString(str(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
+            if type(value) is not int:
+                raise TypeError('an integer is required, received', value)
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_INT8:
+            if type(value) is not int:
+                raise TypeError('an integer is required, received', value)
             rc = RfcSetInt8(container, cName, value, &errorInfo)
-            #rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
             if (value): # not None or empty
                 try:
                     if type(value) is datetime.date:
                         cValue = fillString('{:04d}{:02d}{:02d}'.format(value.year, value.month, value.day))
                     else:
-                        if (len(value)) != 8: raise
+                        # raise len error
+                        if len(value) != 8: raise
+                        # raise type or out of range error
                         datetime.date(int(value[:4]), int(value[4:6]), int(value[6:8]))
                         cValue = fillString(value)
                 except:
-                    raise RFCError('Invalid date value when filling %s: %s' % (wrapString(cName), str(value)))
+                    raise TypeError('a date value required, received', value)
                 rc = RfcSetDate(container, cName, cValue, &errorInfo)
                 free(cValue)
         elif typ == RFCTYPE_TIME:
@@ -1756,11 +1759,14 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                     if type(value) is datetime.time:
                         cValue = fillString('{:02d}{:02d}{:02d}'.format(value.hour, value.minute, value.second))
                     else:
-                        if (len(value)) != 6: raise
+                        # raise len error
+                        if len(value) != 6: raise
+                        # raise type or out of range error
                         datetime.time(int(value[:2]), int(value[2:4]), int(value[4:6]))
                         cValue = fillString(value)
                 except:
-                    raise RFCError('Invalid time value when filling %s: %s' % (wrapString(cName), str(value)))
+                    #raise RFCError('Invalid time value when filling %s: %s' % (wrapString(cName), str(value)))
+                    raise TypeError('a time value required, received', value)
                 rc = RfcSetTime(container, cName, cValue, &errorInfo)
                 free(cValue)
         else:
@@ -2102,7 +2108,8 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             rc = RfcGetBytes(container, cName, byteValue, cLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return (<char*> byteValue)[:cLen]
+            return (byteValue)
+            # return (<char*> byteValue)[:cLen] # python 2
         finally:
             free(byteValue)
     elif typ == RFCTYPE_XSTRING:
@@ -2113,7 +2120,8 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             rc = RfcGetXString(container, cName, byteValue, strLen, &resultLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return (<char*> byteValue)[:resultLen]
+            return (byteValue)
+            # return (<char*> byteValue)[:cLen] # python 2
         finally:
             free(byteValue)
     elif typ == RFCTYPE_BCD:
@@ -2127,8 +2135,8 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             stringValue = mallocU(strLen+1)
             rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
             if rc == 23: # Buffer too small, use returned requried result length
-                print("Warning: Buffer for BCD (cLen={}, buffer={}) too small: "
-                      "trying with {}".format(cLen, strLen, resultLen))
+                #print("Warning: Buffer for BCD (cLen={}, buffer={}) too small: "
+                #      "trying with {}".format(cLen, strLen, resultLen))
                 free(stringValue)
                 strLen = resultLen
                 stringValue = mallocU(strLen+1)
@@ -2151,8 +2159,8 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             stringValue = mallocU(strLen+1)
             rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
             if rc == 23: # Buffer too small, use returned requried result length
-                print("Warning: Buffer for DECF (cLen={}, buffer={}) too small: "
-                      "trying with {}".format(cLen, strLen, resultLen))
+                #print("Warning: Buffer for DECF (cLen={}, buffer={}) too small: "
+                #      "trying with {}".format(cLen, strLen, resultLen))
                 free(stringValue)
                 strLen = resultLen
                 stringValue = mallocU(strLen+1)
