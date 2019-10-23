@@ -168,6 +168,8 @@ cdef class Connection:
             self.__bconfig |= _MASK_RSTRIP
 
         self.paramCount = len(params)
+        if self.paramCount < 3:
+            raise RFCError("Connection parameters missing")
         self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
         cdef int i = 0
         for name, value in params.iteritems():
@@ -263,8 +265,6 @@ cdef class Connection:
         """
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
-        if not self.alive:
-            self._open()
         rc = RfcPing(self._handle, &errorInfo)
         if rc != RFC_OK:
             self._error(&errorInfo)
@@ -386,6 +386,8 @@ cdef class Connection:
         cdef RFC_ERROR_INFO errorInfo
         cdef unsigned paramCount
         cdef SAP_UC *cName
+        if type(func_name) is not str:
+            raise RFCError("Remote function module name must be a string, received:", func_name)
         cdef SAP_UC *funcName = fillString(func_name)
         if not self.alive:
             self._open()

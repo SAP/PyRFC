@@ -29,9 +29,65 @@ from tests.config import (
     ABAP_to_python_time,
     python_to_ABAP_date,
     python_to_ABAP_time,
+    UNICODETEST,
 )
 
 client = Connection(**CONNECTION_INFO)
+
+
+def test_basic_datatypes():
+    INPUTS = [
+        dict(
+            # Float
+            ZFLTP=0.123456789,
+            # Decimal
+            ZDEC=12345.67,
+            # Currency, Quantity
+            ZCURR=1234.56,
+            ZQUAN=12.3456,
+            ZQUAN_SIGN=-12.345,
+        ),
+        dict(
+            # Float
+            ZFLTP=Decimal("0.123456789"),
+            # Decimal
+            ZDEC=Decimal("12345.67"),
+            # Currency, Quantity
+            ZCURR=Decimal("1234.56"),
+            ZQUAN=Decimal("12.3456"),
+            ZQUAN_SIGN=Decimal("-12.345"),
+        ),
+        dict(
+            # Float
+            ZFLTP="0.123456789",
+            # Decimal
+            ZDEC="12345.67",
+            # Currency, Quantity
+            ZCURR="1234.56",
+            ZQUAN="12.3456",
+            ZQUAN_SIGN="-12.345",
+        ),
+    ]
+
+    for is_input in INPUTS:
+        result = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=is_input)["ES_OUTPUT"]
+        for k in is_input:
+            in_value = is_input[k]
+            out_value = result[k]
+            if k == "ZFLTP":
+                assert type(out_value) is float
+            else:
+                assert type(out_value) is Decimal
+            if type(in_value) != type(out_value):
+                assert str(in_value) == str(out_value)
+            else:
+                assert in_value == out_value
+
+
+def test_date_output(self):
+    lm = self.conn.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
+    assert len(lm["MODDATE"]) > 0
+    assert len(lm["MODTIME"]) > 0
 
 
 def test_min_max_positive():

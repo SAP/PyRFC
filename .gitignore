@@ -31,3 +31,5 @@ pyrfc.cfg
 setuptools*.egg
 .pytest_cache
 .vscode/ipch
+src/pyrfc/*.cpp
+src/pyrfc/*.html
