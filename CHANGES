@@ -8,6 +8,7 @@ Change log
 - Datatypes checks and unit test, fix #91, #120
 - Connection info request when disconnected does not open the connection
 - Connection and RFM call parameters check
+- Connection call and RFM parameters errors unit test
 
 1.9.98 (2019-10-09)
 -------------------

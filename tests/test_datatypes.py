@@ -84,8 +84,8 @@ def test_basic_datatypes():
                 assert in_value == out_value
 
 
-def test_date_output(self):
-    lm = self.conn.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
+def test_date_output():
+    lm = client.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
     assert len(lm["MODDATE"]) > 0
     assert len(lm["MODTIME"]) > 0
 

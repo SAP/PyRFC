@@ -88,6 +88,35 @@ class TestConnection:
         assert error["key"] == "RFC_INVALID_PARAMETER"
         assert error["message"][0] == "field 'undefined' not found"
 
+    def test_RFC_RAISE_ERROR(self):
+        try:
+            result = self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
+        except pyrfc.ABAPRuntimeError as ex:
+            assert ex.code == 4
+            assert ex.key == "Function not supported"
+            assert ex.message == "Function not supported"
+            assert ex.msg_class == "SR"
+            assert ex.msg_type == "A"
+            assert ex.msg_number == "006"
+
+    def test_non_existing_field_structure(self):
+        IMPORTSTRUCT = {"XRFCCHAR1": "A", "RFCCHAR2": "BC", "RFCCHAR4": "DEFG"}
+        try:
+            result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        except pyrfc.ExternalRuntimeError as ex:
+            assert ex.code == 20
+            assert ex.key == "RFC_INVALID_PARAMETER"
+            assert ex.message == "field 'XRFCCHAR1' not found"
+
+    def test_non_existing_field_table(self):
+        IMPORTSTRUCT = {"XRFCCHAR1": "A", "RFCCHAR2": "BC", "RFCCHAR4": "DEFG"}
+        try:
+            result = self.conn.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+        except pyrfc.ExternalRuntimeError as ex:
+            assert ex.code == 20
+            assert ex.key == "RFC_INVALID_PARAMETER"
+            assert ex.message == "field 'XRFCCHAR1' not found"
+
 
 if __name__ == "__main__":
     unittest.main()
