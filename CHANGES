@@ -6,6 +6,7 @@ Change log
 
 - Python 3.8
 - Datatypes checks and unit test, fix #91, #120
+- Connection info request when disconnected does not open the connection
 
 
 1.9.98 (2019-10-09)
