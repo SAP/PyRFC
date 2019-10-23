@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*
+
 import datetime
 
 try:
@@ -73,7 +75,7 @@ def python_to_ABAP_time(py_time):
 
 CONFIG_SECTIONS = COPA._sections
 CONNECTION_INFO = CONFIG_SECTIONS["coevi51"]
-UNICODETEST = "ทดสอบสร้างลูกค้าจากภายนอกครั้งที่" * 7
+UNICODETEST = u"ทดสอบสร้างลูกค้าจากภายนอกครั้งที่" * 7
 
 PARAMS = CONNECTION_INFO
 

@@ -1707,14 +1707,14 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             rc = RfcSetXString(container, cName, bValue, len(value), &errorInfo)
             free(bValue)
         elif typ == RFCTYPE_CHAR:
-            if type(value) is not str:
-                raise TypeError('an string is required, received', value)
+            if type(value) is not str and type(value) is not unicode:
+                raise TypeError('an string is required, received', value, 'of type:', str(type(value)))
             cValue = fillString(value)
             rc = RfcSetChars(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_STRING:
-            if type(value) is not str:
-                raise TypeError('an string is required, received', value)
+            if type(value) is not str and type(value) is not unicode:
+                raise TypeError('an string is required, received', value, 'of type:', str(type(value)))
             cValue = fillString(value)
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)

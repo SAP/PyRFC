@@ -15,6 +15,7 @@
 # language governing permissions and limitations under the License.
 
 import os
+import sys
 import datetime
 import unittest
 from decimal import Decimal
@@ -276,8 +277,12 @@ def test_bcd_floats_accept_decimals():
 
 
 def test_raw_types_accept_bytes():
-    str_unicode = "四周远处都"
-    ZRAW = bytes(str_unicode, encoding="utf-8")  # or str_unicode.encode("utf-8")
+    str_unicode = u"四周远处都"
+    if sys.version > "3.0":
+        ZRAW = bytes(str_unicode, encoding="utf-8")  # or str_unicode.encode("utf-8")
+    else:
+        # todo Python 2
+        ZRAW = str_unicode.encode("utf-8")
     IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
     output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
         "ES_OUTPUT"
@@ -290,8 +295,14 @@ def test_raw_types_accept_bytes():
 
 
 def test_raw_types_accept_bytearray():
-    str_unicode = "四周远处都"
-    ZRAW = bytearray(str_unicode, encoding="utf-8")  # or str_unicode.encode("utf-8")
+    str_unicode = u"四周远处都"
+    if sys.version > "3.0":
+        ZRAW = bytearray(
+            str_unicode, encoding="utf-8"
+        )  # or str_unicode.encode("utf-8")
+    else:
+        # todo Python 2
+        ZRAW = str_unicode.encode("utf-8")
     IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
     output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
         "ES_OUTPUT"
@@ -342,15 +353,19 @@ def test_date_time():
 
 
 def test_date_accepts_string():
-    TEST_DATE = "20180625"
+    TEST_DATE = u"20180625"
 
     IMPORTSTRUCT = {"RFCDATE": TEST_DATE}
     IMPORTTABLE = [IMPORTSTRUCT]
     output = client.call(
         "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
     )
-    assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
-    assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
+    if sys.version > "3.0":
+        assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
+        assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
+    else:
+        assert type(output["ECHOSTRUCT"]["RFCDATE"]) is unicode
+        assert type(output["RFCTABLE"][0]["RFCDATE"]) is unicode
     assert output["ECHOSTRUCT"]["RFCDATE"] == TEST_DATE
     assert output["RFCTABLE"][0]["RFCDATE"] == TEST_DATE
 
@@ -363,8 +378,12 @@ def test_date_accepts_date():
     output = client.call(
         "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
     )
-    assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
-    assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
+    if sys.version > "3.0":
+        assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
+        assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
+    else:
+        assert type(output["ECHOSTRUCT"]["RFCDATE"]) is unicode
+        assert type(output["RFCTABLE"][0]["RFCDATE"]) is unicode
     assert output["ECHOSTRUCT"]["RFCDATE"] == python_to_ABAP_date(TEST_DATE)
     assert output["RFCTABLE"][0]["RFCDATE"] == python_to_ABAP_date(TEST_DATE)
 
@@ -377,8 +396,12 @@ def test_time_accepts_string():
     output = client.call(
         "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
     )
-    assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
-    assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
+    if sys.version > "3.0":
+        assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
+        assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
+    else:
+        assert type(output["ECHOSTRUCT"]["RFCTIME"]) is unicode
+        assert type(output["RFCTABLE"][0]["RFCTIME"]) is unicode
     assert output["ECHOSTRUCT"]["RFCTIME"] == TEST_TIME
     assert output["RFCTABLE"][0]["RFCTIME"] == TEST_TIME
 
@@ -391,78 +414,119 @@ def test_time_accepts_time():
     output = client.call(
         "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
     )
-    assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
-    assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
+    if sys.version > "3.0":
+        assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
+        assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
+    else:
+        assert type(output["ECHOSTRUCT"]["RFCTIME"]) is unicode
+        assert type(output["RFCTABLE"][0]["RFCTIME"]) is unicode
     assert output["ECHOSTRUCT"]["RFCTIME"] == python_to_ABAP_time(TEST_TIME)
     assert output["RFCTABLE"][0]["RFCTIME"] == python_to_ABAP_time(TEST_TIME)
 
 
 def test_error_int_rejects_string():
     IMPORTSTRUCT = {"RFCINT1": "1"}
-    IMPORTTABLE = [IMPORTSTRUCT]
+    RFCTABLE = [IMPORTSTRUCT]
     try:
         output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
         )
     except Exception as ex:
         assert type(ex) is TypeError
-        assert ex.args == (
-            "an integer is required, received",
-            "1",
-            "RFCINT1",
-            "IMPORTSTRUCT",
-        )
+        if sys.version > "3.0":
+            assert ex.args == (
+                "an integer is required, received",
+                "1",
+                "RFCINT1",
+                "IMPORTSTRUCT",
+            )
+        else:
+            assert ex.args == (
+                "an integer is required, received",
+                "1",
+                "RFCINT1",
+                "RFCTABLE",
+            )
 
 
 def test_error_int_rejects_float():
     IMPORTSTRUCT = {"RFCINT1": 1.0}
-    IMPORTTABLE = [IMPORTSTRUCT]
+    RFCTABLE = [IMPORTSTRUCT]
     try:
         output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
         )
     except Exception as ex:
         assert type(ex) is TypeError
-        assert ex.args == (
-            "an integer is required, received",
-            1.0,
-            "RFCINT1",
-            "IMPORTSTRUCT",
-        )
+        if sys.version > "3.0":
+            assert ex.args == (
+                "an integer is required, received",
+                1.0,
+                "RFCINT1",
+                "IMPORTSTRUCT",
+            )
+        else:
+            assert ex.args == (
+                "an integer is required, received",
+                1.0,
+                "RFCINT1",
+                "RFCTABLE",
+            )
 
 
 def test_error_string_rejects_int():
     IMPORTSTRUCT = {"RFCCHAR4": None}
-    IMPORTTABLE = [IMPORTSTRUCT]
+    RFCTABLE = [IMPORTSTRUCT]
     try:
         output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
         )
     except Exception as ex:
         assert type(ex) is TypeError
-        assert ex.args == (
-            "an string is required, received",
-            None,
-            "RFCCHAR4",
-            "IMPORTSTRUCT",
-        )
+        if sys.version > "3.0":
+            assert ex.args == (
+                "an string is required, received",
+                None,
+                "of type:",
+                "<class 'NoneType'>",
+                "RFCCHAR4",
+                "IMPORTSTRUCT",
+            )
+        else:
+            assert ex.args == (
+                "an string is required, received",
+                None,
+                "of type:",
+                "<type 'NoneType'>",
+                "RFCCHAR4",
+                "RFCTABLE",
+            )
 
 
 def test_float_rejects_not_a_number_string():
     IMPORTSTRUCT = {"RFCFLOAT": "A"}
-    IMPORTTABLE = [IMPORTSTRUCT]
+    RFCTABLE = [IMPORTSTRUCT]
     try:
         output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
         )
     except Exception as ex:
         assert type(ex) is TypeError
-        assert ex.args == (
-            "a decimal value is required, received",
-            "A",
-            "RFCFLOAT",
-            "IMPORTSTRUCT",
-        )
+        if sys.version > '3.0':
+            assert ex.args == (
+                "a decimal value is required, received",
+                "A",
+                "RFCFLOAT",
+                "IMPORTSTRUCT",
+            )
+        else:
+            assert ex.args == (
+                "a decimal value is required, received",
+                "A",
+                "RFCFLOAT",
+                "RFCTABLE",
+            )
+
 
 
 def test_bcd_rejects_not_a_number_string():
