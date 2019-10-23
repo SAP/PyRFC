@@ -327,17 +327,20 @@ cdef class Connection:
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_ATTRIBUTES attributes
+        cdef RFC_INT isValid
 
-        if not self.alive:
-            self._open()
-        rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
-        if rc != RFC_OK:
-            self._error(&errorInfo)
+        rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo);
 
-        result = wrapConnectionAttributes(attributes)
-        result.update({
-            'active_unit': self.active_unit or self.active_transaction
-        })
+        result = {}
+        if (isValid and rc == RFC_OK):
+            rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
+            if rc != RFC_OK:
+                self._error(&errorInfo)
+
+            result = wrapConnectionAttributes(attributes)
+            result.update({
+                'active_unit': self.active_unit or self.active_transaction
+            })
         return result
 
     def get_function_description(self, func_name):

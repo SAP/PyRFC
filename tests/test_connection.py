@@ -31,7 +31,7 @@ class TestConnection:
             k in self.conn.options for k in ("dtime", "return_import_params", "rstrip")
         )
 
-    def test_info(self):
+    def test_connection_info(self):
         connection_info = self.conn.get_connection_attributes()
         info_keys = (
             "host",
@@ -57,6 +57,12 @@ class TestConnection:
             # 'reserved'
         )
         assert all(k in connection_info for k in info_keys)
+
+    def test_connection_info_disconnected(self):
+        self.conn.close()
+        assert not self.conn.alive
+        connection_info = self.conn.get_connection_attributes()
+        assert connection_info == {}
 
     # todo: test correct status after error -> or to the error tests?
     def test_incomplete_params(self):
