@@ -2113,8 +2113,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             rc = RfcGetBytes(container, cName, byteValue, cLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return (byteValue)
-            # return (<char*> byteValue)[:cLen] # python 2
+            return byteValue[:cLen]
         finally:
             free(byteValue)
     elif typ == RFCTYPE_XSTRING:
@@ -2125,8 +2124,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             rc = RfcGetXString(container, cName, byteValue, strLen, &resultLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return (byteValue)
-            # return (<char*> byteValue)[:cLen] # python 2
+            return byteValue[:resultLen]
         finally:
             free(byteValue)
     elif typ == RFCTYPE_BCD:

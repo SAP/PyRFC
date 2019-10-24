@@ -14,13 +14,26 @@
 
 # import from internal modules that they could be directly imported from
 # the pyrfc package
-from pyrfc._exception import RFCError, RFCLibError,\
-    CommunicationError, LogonError,\
-    ABAPApplicationError, ABAPRuntimeError,\
-    ExternalAuthorizationError, ExternalApplicationError, ExternalRuntimeError
+from pyrfc._exception import (
+    RFCError,
+    RFCLibError,
+    CommunicationError,
+    LogonError,
+    ABAPApplicationError,
+    ABAPRuntimeError,
+    ExternalAuthorizationError,
+    ExternalApplicationError,
+    ExternalRuntimeError,
+)
 
-from pyrfc._pyrfc import get_nwrfclib_version, Connection, TypeDescription, FunctionDescription, Server
+from pyrfc._pyrfc import (
+    get_nwrfclib_version,
+    Connection,
+    TypeDescription,
+    FunctionDescription,
+    Server,
+)
 
 __author__ = """"Srdjan Boskovic"""
-__email__ = 'srdjan.boskovic@sap.com'
-__version__ = '1.9.98'
+__email__ = "srdjan.boskovic@sap.com"
+__version__ = "1.9.99"

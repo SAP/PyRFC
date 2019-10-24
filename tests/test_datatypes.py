@@ -31,6 +31,8 @@ from tests.config import (
     python_to_ABAP_date,
     python_to_ABAP_time,
     UNICODETEST,
+    BYTEARRAY_TEST,
+    BYTES_TEST,
 )
 
 client = Connection(**CONNECTION_INFO)
@@ -83,6 +85,16 @@ def test_basic_datatypes():
                 assert str(in_value) == str(out_value)
             else:
                 assert in_value == out_value
+
+
+def test_string_unicode():
+    hello = u"Hällo SAP!"
+    result = client.call("STFC_CONNECTION", REQUTEXT=hello)["ECHOTEXT"]
+    assert result == hello
+
+    hello = u"01234" * 51
+    result = client.call("STFC_CONNECTION", REQUTEXT=hello)["ECHOTEXT"]
+    assert result == hello
 
 
 def test_date_output():
@@ -277,38 +289,26 @@ def test_bcd_floats_accept_decimals():
 
 
 def test_raw_types_accept_bytes():
-    str_unicode = u"四周远处都"
-    if sys.version > "3.0":
-        ZRAW = bytes(str_unicode, encoding="utf-8")  # or str_unicode.encode("utf-8")
-    else:
-        # todo Python 2
-        ZRAW = str_unicode.encode("utf-8")
+    ZRAW = BYTES_TEST
+    DIFF = b"\x00\x00\x00\x00"
     IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
     output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
         "ES_OUTPUT"
     ]
-
-    assert output["ZRAW"] == ZRAW
+    assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
     assert type(output["ZRAW"]) is bytes
     assert type(output["ZRAWSTRING"]) is bytes
 
 
 def test_raw_types_accept_bytearray():
-    str_unicode = u"四周远处都"
-    if sys.version > "3.0":
-        ZRAW = bytearray(
-            str_unicode, encoding="utf-8"
-        )  # or str_unicode.encode("utf-8")
-    else:
-        # todo Python 2
-        ZRAW = str_unicode.encode("utf-8")
+    ZRAW = BYTEARRAY_TEST
+    DIFF = b"\x00\x00\x00\x00"
     IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
     output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
         "ES_OUTPUT"
     ]
-
-    assert output["ZRAW"] == ZRAW
+    assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
     assert type(output["ZRAW"]) is bytes
     assert type(output["ZRAWSTRING"]) is bytes
@@ -512,7 +512,7 @@ def test_float_rejects_not_a_number_string():
         )
     except Exception as ex:
         assert type(ex) is TypeError
-        if sys.version > '3.0':
+        if sys.version > "3.0":
             assert ex.args == (
                 "a decimal value is required, received",
                 "A",
@@ -526,7 +526,6 @@ def test_float_rejects_not_a_number_string():
                 "RFCFLOAT",
                 "RFCTABLE",
             )
-
 
 
 def test_bcd_rejects_not_a_number_string():

@@ -76,6 +76,8 @@ def python_to_ABAP_time(py_time):
 CONFIG_SECTIONS = COPA._sections
 CONNECTION_INFO = CONFIG_SECTIONS["coevi51"]
 UNICODETEST = u"ทดสอบสร้างลูกค้าจากภายนอกครั้งที่" * 7
-
+UNICODE1 = u"四周远处都"
+BYTEARRAY_TEST = bytearray.fromhex("01414243444549500051fdfeff")
+BYTES_TEST = bytes(BYTEARRAY_TEST)
 PARAMS = CONNECTION_INFO
 
