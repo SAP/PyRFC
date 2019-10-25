@@ -1,180 +1,52 @@
 # -*- coding: utf-8 -*-
 from pyrfc import *
 from decimal import Decimal
+import datetime
+from config import CONNECTION_INFO, RFC_MATH
 
-connection_info = {
-    'user': 'demo',
-    'passwd': 'welcome',
-    'ashost': '10.68.110.51',
-    'sysnr': '00',
-    'lang': 'EN',
-    'client': '620',
-    'sysid': 'MME'
-}
 
-conn = Connection(**connection_info)
+conn_strip = Connection({"rstrip": True}, **CONNECTION_INFO)
+hello = u"Hällo SAP!    "
+result = conn_strip.call("STFC_CONNECTION", REQUTEXT=hello)
+# assert len(result["RESPTEXT"]) == len(result["ECHOTEXT"])
+# self.conn_strip.close()
 
-is_input = dict(
+"""
 
-    # Character
-    ZCHAR=u'Hällö SÄP!',
-    ZCLNT='510',
-    ZUNIT_DTEL='KGM',
-    ZCUKY_DTEL='USD',
-    ZLANG='e',
+client = Connection(**CONNECTION_INFO)
 
-    # Date, time
-    ZDATS='20161231',  # datetime.date(2011,10,17),
-    ZTIMS='123456',  # datetime.time(12,34,56),
 
-    # Integer
-    ZINT1=2 ** 8 - 1,  # 255
-    ZINT2=2 ** 15 - 1,  # 32767
-    ZINT4=2 ** 31 - 1,  # 2147483647
+uc = u"四周远处都"
+uc = u"ÄÜ"
+uc = u"fgh"
+buc = uc.encode("utf-8")
+print(len(uc), uc)
+print(len(buc), buc)
 
-    # Numeric
-    ZACCP='201805',
-    ZNUMC='123456',
+ZRAW = buc
+IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
+output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+    "ES_OUTPUT"
+]
+print(len(ZRAW), ZRAW)
+print(len(output["ZRAW"]), output["ZRAW"])
 
-    ZPREC=2,
 
-    # String
-    ZRAW=bytes('abc\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'),
-    ZRAWSTRING=bytes('四周远处都能望见'),
-    ZSTRING=u'\u0001\uf4aa',
-    ZSSTRING=u'四周远处都能望见'
+imp = dict(
+    RFCFLOAT=1.23456789,
+    RFCINT2=0x7FFE,
+    RFCINT1=0x7F,
+    RFCCHAR4=u"bcde",
+    RFCINT4=0x7FFFFFFE,
+    RFCHEX3=buc,
+    RFCCHAR1=u"a",
+    RFCCHAR2=u"ij",
+    RFCTIME="123456",  # datetime.time(12,34,56),
+    RFCDATE="20161231",  # datetime.date(2011,10,17),
+    RFCDATA1=u"k" * 50,
+    RFCDATA2=u"l" * 50,
 )
+result = client.call("STFC_STRUCTURE", IMPORTSTRUCT=imp)["ECHOSTRUCT"]
 
-result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
-for k in is_input:
-    if is_input[k] != result[k]:
-        print k, type(result[k])
-        if str(is_input[k]) != str(result[k]):
-            print '!', k, is_input[k], result[k]
-
-
-is_input = dict(
-    # Float
-    ZFLTP='0.123456789',
-
-    # Decimal
-    ZDEC='12345.67',
-
-    # Currency, Quantity
-    ZCURR='1234.56',
-    ZQUAN='12.3456',
-    ZQUAN_SIGN='-12.345',
-)
-
-result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
-for key, in_val in is_input.iteritems():
-    out_val = result[key]
-    if type(in_val) != type(out_val):
-        if str(in_val) != str(out_val):
-            print 'str:', k, in_val, out_val
-    else:
-        if in_val != result[key]:
-            print key, in_val, out_val
-
-is_input = dict(
-    # Float
-    ZFLTP=0.123456789,
-
-    # Decimal
-    ZDEC=12345.67,
-
-    # Currency, Quantity
-    ZCURR=1234.56,
-    ZQUAN=12.3456,
-    ZQUAN_SIGN=-12.345,
-)
-
-
-result = conn.call('/COE/RBP_FE_DATATYPES['ES_OUTPUT']
-for key, in_value in is_input.iteritems():
-    out_value = result[key]
-    if type(in_value) != type(out_value):
-        if str(in_value) != str(out_value):
-            print 'str:', k, in_value, out_value
-    else:
-        if in_value != result[key]:
-            print key, in_value, out_value
-
-is_input = dict(
-    # Float
-    ZFLTP=Decimal('0.123456789'),
-
-    # Decimal
-    ZDEC=Decimal('12345.67'),
-
-    # Currency, Quantity
-    ZCURR=Decimal('1234.56'),
-    ZQUAN=Decimal('12.3456'),
-    ZQUAN_SIGN=Decimal('-12.345'),
-)
-
-
-result = conn.call('/COE/RBP_FE_DATATYPES', IS_INPUT=is_input)['ES_OUTPUT']
-for key, in_value in is_input.iteritems():
-    out_value = result[key]
-    if type(in_value) != type(out_value):
-        if str(in_value) != str(out_value):
-            print 'str:', k, in_value, out_value
-    else:
-        if in_value != result[key]:
-            print key, in_value, out_value
-
-INPUTS = {
-    'dec': dict(
-        # Float
-        ZFLTP=Decimal('0.123456789'),
-
-        # Decimal
-        ZDEC=Decimal('12345.67'),
-
-        # Currency, Quantity
-        ZCURR=Decimal('1234.56'),
-        ZQUAN=Decimal('12.3456'),
-        ZQUAN_SIGN=Decimal('-12.345'),
-    ),
-
-    'numbers': dict(
-        # Float
-        ZFLTP=0.123456789,
-
-        # Decimal
-        ZDEC=12345.67,
-
-        # Currency, Quantity
-        ZCURR=1234.56,
-        ZQUAN=12.3456,
-        ZQUAN_SIGN=-12.345
-    ),
-
-    'strings': dict(
-        # Float
-        ZFLTP='0.123456789',
-
-        # Decimal
-        ZDEC='12345.67',
-
-        # Currency, Quantity
-        ZCURR='1234.56',
-        ZQUAN='12.3456',
-        ZQUAN_SIGN='-12.345',
-    )
-}
-
-for in_type in INPUTS:
-    result = conn.call('/COE/RBP_FE_DATATYPES',
-                       IS_INPUT=INPUTS[in_type])['ES_OUTPUT']
-    print
-    print in_type
-    for k in is_input:
-        in_val = is_input[k]
-        out_val = result[k]
-        print k, type(in_val), type(out_val), in_val, out_val
-        if type(in_val) != type(out_val):
-            assert(str(in_val) == str(out_val))
-        else:
-            assert(in_val == out_val)
+print(len(result["RFCHEX3"]), result["RFCHEX3"])
+"""
