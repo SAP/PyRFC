@@ -31,9 +31,7 @@ SAP NW RFC Library is fully backwards compatible, supporting all NetWeaver syste
 
 On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributable Package (KB973544), or [newer](https://www.microsoft.com/en-us/download/details.aspx?id=48145), must be installed, per [SAP Note 1375494 - SAP system does not start after applying SAP kernel patch](https://launchpad.support.sap.com/#/notes/1375494).
 
-:exclamation:
-
- Due to a [change introduced with Python 3.8 for Windows], PATH directories are no longer searched for DLL. The SAP NWRFC SDK lib path is no longer required on PATH.
+:exclamation: Due to a [change introduced with Python 3.8 for Windows], PATH directories are no longer searched for DLL. The SAP NWRFC SDK lib path is no longer required on PATH.
 
 ### macOS
 
