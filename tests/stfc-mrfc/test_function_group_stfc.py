@@ -57,14 +57,6 @@ class TestSTFC:
     #    pass
     """
 
-    def test_STFC_CONNECTION(self):
-        # STFC_CONNECTION RFC-TEST:   CONNECTION Test
-        # Test with rstrip:
-        hello = u"Hällo SAP!"  # In case that rstip=False + u' ' * 245
-        result = self.conn.call("STFC_CONNECTION", REQUTEXT=hello)
-        assert result["RESPTEXT"].startswith("SAP")
-        assert result["ECHOTEXT"] == hello
-
     """
     @unittest.skip("not supported yet (server)")
     def test_STFC_CONNECTION_BACK(self):
@@ -106,15 +98,6 @@ class TestSTFC:
         pass
     """
 
-    def test_STFC_SAPGUI(self):
-        # STFC_SAPGUI RFC-TEST:   RFC with SAPGUI
-        try:
-            self.conn.call("STFC_SAPGUI")
-        except (pyrfc.ABAPRuntimeError) as ex:
-            error = get_error(ex)
-            assert error["code"] == 3
-            assert error["key"] == "DYNPRO_SEND_IN_BACKGROUND"
-
     """
     @unittest.skip("not supported yet (server)")
     def test_STFC_START_CONNECT_REG_SERVER(self):
@@ -122,53 +105,7 @@ class TestSTFC:
         pass
     """
 
-    def test_STFC_STRUCTURE(self):
-        # STFC_STRUCTURE Inhomogene Struktur
-        imp = dict(
-            RFCFLOAT=1.23456789,
-            RFCINT2=0x7FFE,
-            RFCINT1=0x7F,
-            RFCCHAR4=u"bcde",
-            RFCINT4=0x7FFFFFFE,
-            RFCHEX3="fgh".encode("utf-8"),
-            RFCCHAR1=u"a",
-            RFCCHAR2=u"ij",
-            RFCTIME="123456",  # datetime.time(12,34,56),
-            RFCDATE="20161231",  # datetime.date(2011,10,17),
-            RFCDATA1=u"k" * 50,
-            RFCDATA2=u"l" * 50,
-        )
-        out = dict(
-            RFCFLOAT=imp["RFCFLOAT"] + 1,
-            RFCINT2=imp["RFCINT2"] + 1,
-            RFCINT1=imp["RFCINT1"] + 1,
-            RFCINT4=imp["RFCINT4"] + 1,
-            RFCHEX3=b"\xf1\xf2\xf3",
-            RFCCHAR1=u"X",
-            RFCCHAR2=u"YZ",
-            RFCDATE=str(datetime.date.today()).replace("-", ""),
-            RFCDATA1=u"k" * 50,
-            RFCDATA2=u"l" * 50,
-        )
-        table = []
-        xtable = []
-        records = ["1111", "2222", "3333", "4444", "5555"]
-        for rid in records:
-            imp["RFCCHAR4"] = rid
-            table.append(imp)
-            xtable.append(imp)
-        # print 'table len', len(table), len(xtable)
-        result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=imp, RFCTABLE=xtable)
-        # print 'table len', len(table), len(xtable)
-        assert result["RESPTEXT"].startswith("SAP")
-        # assert result['ECHOSTRUCT'] == imp
-        assert len(result["RFCTABLE"]) == 1 + len(table)
-        for i in result["ECHOSTRUCT"]:
-            assert result["ECHOSTRUCT"][i] == imp[i]
-        del result["RFCTABLE"][5]["RFCCHAR4"]  # contains variable system id
-        del result["RFCTABLE"][5]["RFCTIME"]  # contains variable server time
-        for i in result["RFCTABLE"][5]:
-            assert result["RFCTABLE"][5][i] == out[i]
+
 
     # STFC_STRUCTURE Inhomogene Struktur
     imp = dict(

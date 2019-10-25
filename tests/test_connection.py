@@ -182,6 +182,64 @@ class TestConnection:
         assert added_row["RFCINT2"] == IMPORTSTRUCT["RFCINT2"] + 1
         assert added_row["RFCINT4"] == IMPORTSTRUCT["RFCINT4"] + 1
 
+    def test_STFC_STRUCTURE(self):
+        # STFC_STRUCTURE Inhomogene Struktur
+        imp = dict(
+            RFCFLOAT=1.23456789,
+            RFCINT2=0x7FFE,
+            RFCINT1=0x7F,
+            RFCCHAR4=u"bcde",
+            RFCINT4=0x7FFFFFFE,
+            RFCHEX3="fgh".encode("utf-8"),
+            RFCCHAR1=u"a",
+            RFCCHAR2=u"ij",
+            RFCTIME="123456",  # datetime.time(12,34,56),
+            RFCDATE="20161231",  # datetime.date(2011,10,17),
+            RFCDATA1=u"k" * 50,
+            RFCDATA2=u"l" * 50,
+        )
+        out = dict(
+            RFCFLOAT=imp["RFCFLOAT"] + 1,
+            RFCINT2=imp["RFCINT2"] + 1,
+            RFCINT1=imp["RFCINT1"] + 1,
+            RFCINT4=imp["RFCINT4"] + 1,
+            RFCHEX3=b"\xf1\xf2\xf3",
+            RFCCHAR1=u"X",
+            RFCCHAR2=u"YZ",
+            RFCDATE=str(datetime.date.today()).replace("-", ""),
+            RFCDATA1=u"k" * 50,
+            RFCDATA2=u"l" * 50,
+        )
+        table = []
+        xtable = []
+        records = ["1111", "2222", "3333", "4444", "5555"]
+        for rid in records:
+            imp["RFCCHAR4"] = rid
+            table.append(imp)
+            xtable.append(imp)
+        # print 'table len', len(table), len(xtable)
+        result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=imp, RFCTABLE=xtable)
+        # print 'table len', len(table), len(xtable)
+        assert result["RESPTEXT"].startswith("SAP")
+        # assert result['ECHOSTRUCT'] == imp
+        assert len(result["RFCTABLE"]) == 1 + len(table)
+        for i in result["ECHOSTRUCT"]:
+            assert result["ECHOSTRUCT"][i] == imp[i]
+        del result["RFCTABLE"][5]["RFCCHAR4"]  # contains variable system id
+        del result["RFCTABLE"][5]["RFCTIME"]  # contains variable server time
+        for i in result["RFCTABLE"][5]:
+            assert result["RFCTABLE"][5][i] == out[i]
+
+    def test_STFC_CHANGING(self):
+        # STFC_CHANGING example with CHANGING parameters
+        start_value = 33
+        counter = 88
+        result = self.conn.call(
+            "STFC_CHANGING", START_VALUE=start_value, COUNTER=counter
+        )
+        assert result["COUNTER"] == counter + 1
+        assert result["RESULT"] == start_value + counter
+
 
 """
 # old tests, referring to non static z-functions
