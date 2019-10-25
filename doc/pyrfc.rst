@@ -29,7 +29,7 @@ Connection
 
    .. autoattribute:: options.rstrip
    .. autoattribute:: options.return_import_params
-   .. automethod:: call(func_name, params)
+   .. automethod:: call(func_name, options, params)
    .. automethod:: close()
    .. automethod:: confirm_unit(unit)
    .. automethod:: destroy_unit(unit)

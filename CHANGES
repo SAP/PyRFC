@@ -1,14 +1,16 @@
 Change log
 ==========
 
-1.9.99 (2012-10-10)
+1.9.99 (2012-10-25)
 -------------------
 
-- Python 3.8
+- Python 3.8 wheels added, 3.6 and 3.5 dropped
 - Datatypes checks and unit test, fix #91, #120
-- Connection info request when disconnected does not open the connection
+- Connection info request when disconnected, does not open the connection any more
 - Connection and RFM call parameters check
 - Connection call and RFM parameters errors unit test
+- Unit tests consolidation
+- Documentation, fix #121
 
 1.9.98 (2019-10-09)
 -------------------

@@ -128,6 +128,7 @@ Connecting ... 10.0.0.1
 >>>conn.alive
 True
 ```
+
 See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
