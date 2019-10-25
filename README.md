@@ -21,6 +21,8 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Prerequisites
 
+### All platforms
+
 SAP NW RFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and locally installed ([installation instructions](http://sap.github.io/PyRFC/install.html#sap-nw-rfc-library-installation)). More information on [SAP NW RFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html).
 
 SAP NW RFC Library is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C. Using the latest version is recommended.
@@ -28,6 +30,10 @@ SAP NW RFC Library is fully backwards compatible, supporting all NetWeaver syste
 ### Windows
 
 On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributable Package (KB973544), or [newer](https://www.microsoft.com/en-us/download/details.aspx?id=48145), must be installed, per [SAP Note 1375494 - SAP system does not start after applying SAP kernel patch](https://launchpad.support.sap.com/#/notes/1375494).
+
+:exclamation:
+
+ Due to a [change introduced with Python 3.8 for Windows], PATH directories are no longer searched for DLL. The SAP NWRFC SDK lib path is no longer required on PATH.
 
 ### macOS
 
@@ -59,6 +65,7 @@ pip install dist/pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 # set ABAP system parameters in test/pyrfc.cfg
 pytest -vv
 ```
+
 See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
@@ -66,12 +73,18 @@ complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk)
 
 **Note:** The package must be [installed](#installation) before use.
 
+### Open Connection
+
 In order to call remote enabled ABAP function module (ABAP RFM), first a connection must be opened.
 
 ```python
 >>> from pyrfc import Connection
 >>> conn = Connection(ashost='10.0.0.1', sysnr='00', client='100', user='me', passwd='secret')
 ```
+
+Connection parameters are documented in **sapnwrfc.ini** file, located in the SAP NWRFC SDK `demo` folder.
+
+### Call ABAP function modules
 
 Using an open connection, remote function modules (RFM) can be invoked:
 
