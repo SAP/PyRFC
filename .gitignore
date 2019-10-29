@@ -29,6 +29,7 @@ __pycache__
 *.swp
 *.cpp
 *.html
+*.code-workspace
 pyrfc.cfg
 setuptools*.egg
 .pytest_cache
