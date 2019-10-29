@@ -45,10 +45,12 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
 ## Installation
 
-After the SAP NW RFC SDK [installed](#prerequisites) on your system, you can pip install the _pyrfc_ package for your platform from the [dist](dist) folder:
+After the SAP NW RFC SDK [installed](#prerequisites) on your system, download the [latest _pyrfc_ release](https://github.com/SAP/PyRFC/releases/latest) for your platform and run pip install:
+
+For PyRFC release 1.9.99, for Python 3.7 on Darwin, run for example:
 
 ```shell
-wget https://github.com/SAP/PyRFC/raw/master/dist/pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
+wget https://github.com/SAP/PyRFC/releases/download/1.9.99/pyrfc-1.9.99-cp38-cp38-macosx_10_15_x86_64.whl
 
 pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 ```

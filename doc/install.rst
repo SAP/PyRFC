@@ -16,9 +16,9 @@ release (fully backwards compatible).
 SAP NW RFC SDK Installation
 ===========================
 
-If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the ``rfcexec`` utility, without any parameter. 
+If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the ``rfcexec`` utility, without any parameter.
 
-The error message like below indicates that SAP NW RFC SDK installation is technically correct, expecting more input parameters. 
+The error message like below indicates that SAP NW RFC SDK installation is technically correct, expecting more input parameters.
 Different error message may be caused by missing Windows C++ binary for example, or another installation inconsistency:
 
      .. code-block:: sh
@@ -81,7 +81,7 @@ Linux
           libicudata.so.50 (libc6,x86-64) => /usr/local/sap/nwrfcsdk/lib/libicudata.so.50
           libgssapi_krb5.so.2 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2
           libgssapi.so.3 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libgssapi.so.3
-        $    
+        $
 
 macOS
 -----
@@ -96,7 +96,7 @@ must be disabled:
 
 1. Create the SAP NW RFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
 2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
-3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist. 
+3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
 4. Set the remote paths in SAP NW RFC SDK by running following bash script:
 
      .. code-block:: sh
@@ -110,7 +110,7 @@ must be disabled:
         # add LC_RPATH
         #
         for filename in *.dylib; do
-            install_name_tool -add_rpath $RPATH $filename 
+            install_name_tool -add_rpath $RPATH $filename
         done
 
         #
@@ -127,7 +127,7 @@ This location is fixed to the default ``/usr/local/sap/nwrfcsdk/lib`` rpath, emb
 
 After moving SAP NW RFC SDK to another location on your system, the rpaths must be adjusted in SAP NW RFC SDK and in pyrfc.so libraries.
 
-For SAP NW RFC SDK, set the SAPNWRFC_HOME env variable to new SAP NW RFC SDK root directory and re-run the above script. 
+For SAP NW RFC SDK, set the SAPNWRFC_HOME env variable to new SAP NW RFC SDK root directory and re-run the above script.
 
 For pyrfc:
 
@@ -135,7 +135,7 @@ For pyrfc:
 
         $ unzip unzip pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
         $ cd pyrfc
-        $ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib /usr/new-path/lib s_pyrfc.cpython-37m-darwin.so 
+        $ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib /usr/new-path/lib s_pyrfc.cpython-37m-darwin.so
 
 
 .. _install-python-connector:
@@ -162,15 +162,14 @@ Windows
 
 * Install the Python connector
 
-  Clone the repository, change to the ``pyrfc\dist`` directory and install the adequate :mod:`pyrfc` wheel,
-  or just fetch and install the adequate wheel from github:
+  Download the adequate wheel from the latest release and pip install:
 
   .. code-block:: sh
 
-     wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+     wget https://github.com/SAP/PyRFC/releases/download/1.9.99/pyrfc-1.9.99-cp38-cp38-macosx_10_15_x86_64.whl
 
-     pip install pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
-     
+     pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
+
   Please look up the correct wheel name, depending on your platform and Python version.
 
 * Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
@@ -180,7 +179,7 @@ Linux
 
 .. _`install-python-linux`:
 
-* Install Python 3 
+* Install Python 3
 
 * Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
 
@@ -190,7 +189,7 @@ Linux
   and activate it.
 
 * Install the Python connector:
-  
+
   Clone the repository, change to the ``pyrfc\dist`` directory and install the adequate :mod:`pyrfc` wheel,
   or just fetch and install the adequate wheel from github:
 
@@ -198,10 +197,10 @@ Linux
 
      wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
 
-     pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl 
-     
+     pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
+
   Please look up the correct wheel name, depending on your platform and Python version.
-  
+
 * Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
 
 macOS
