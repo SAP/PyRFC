@@ -59,7 +59,7 @@ if sys.platform.startswith("linux"):
     ]
     LINK_ARGS = ["-L{}/lib".format(SAPNWRFC_HOME)]
 elif sys.platform.startswith("win"):
-    subprocess.call("./tests/nwrfcsdk-version.bat", shell=True)
+    subprocess.call("tests\\nwrfcsdk-version.bat", shell=True)
     LIBS = ["sapnwrfc", "libsapucum"]
     MACROS = [
         ("_LARGEFILE_SOURCE", None),
