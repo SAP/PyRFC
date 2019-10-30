@@ -1,6 +1,7 @@
 import inspect
 import os
 import sys
+import subprocess
 from codecs import open
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
@@ -31,6 +32,7 @@ def _read(name):
 
 
 if sys.platform.startswith("linux"):
+    subprocess.call("./tests/nwrfcsdk-version-linux.sh", shell=True)
     LIBS = ["sapnwrfc", "sapucum"]
     MACROS = [
         ("NDEBUG", None),
@@ -57,6 +59,7 @@ if sys.platform.startswith("linux"):
     ]
     LINK_ARGS = ["-L{}/lib".format(SAPNWRFC_HOME)]
 elif sys.platform.startswith("win"):
+    subprocess.call("./tests/nwrfcsdk-version.bat", shell=True)
     LIBS = ["sapnwrfc", "libsapucum"]
     MACROS = [
         ("_LARGEFILE_SOURCE", None),
@@ -78,6 +81,7 @@ elif sys.platform.startswith("win"):
         "-LIBPATH:{}\\PCbuild".format(PYTHONSOURCE),
     ]
 elif sys.platform.startswith("darwin"):
+    subprocess.call("./tests/nwrfcsdk-version-darwin.sh", shell=True)
     MACOS_VERSION_MIN = "10.10"
     # unicode paths fix
     # https://apple.stackexchange.com/questions/337940/why-is-usr-include-missing-i-have-xcode-and-command-line-tools-installed-moja
