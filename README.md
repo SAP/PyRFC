@@ -71,7 +71,7 @@ complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk)
 
 ## Getting started
 
-**Note:** The package must be [installed](#installation) before use.
+**Note:** The package must be [installed](#installation) before use.
 
 ### Open Connection
 
