@@ -86,7 +86,7 @@ Connection parameters are documented in **sapnwrfc.ini** file, located in the SA
 
 ### Call ABAP function modules
 
-Using an open connection, remote function modules (RFM) can be invoked:
+Using an open connection, remote function modules (RFM) can be invoked. More info in [pyrfc documentation](http://sap.github.io/PyRFC/client.html#client-scenariol).
 
 ```python
 >>> result = conn.call('STFC_CONNECTION', REQUTEXT=u'Hello SAP!')

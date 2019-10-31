@@ -6,8 +6,8 @@
 Client scenario
 ===============
 
-In *Client* scenario, Python calls remote enabled ABAP function module (FM) [#f1]_ 
-via SAP RFC protocol, as shown in :ref:`intro`. To introduce the functionality, 
+In *Client* scenario, Python calls remote enabled ABAP function module (FM) [#f1]_
+via SAP RFC protocol, as shown in :ref:`intro`. To introduce the functionality,
 we will start with an three :ref:`examples<client-ex>`, then show some
 :ref:`details<client-connectionconfig>` of the :class:`Connection`, and finally
 cover some :ref:`implementation details<client-tech>`.
@@ -112,6 +112,8 @@ There are some points worth mentioning.
 2. Parameters are represented as key-value pairs in a dictionary. For more
    complex types, the value is a dictionary (for structures) or a list of
    dictionaries (for tables).
+3. ABAP does not allow IMPORT and EXPORT parameters with the same name,
+   preventing name clashes on Python side
 
 .. _client-printdescription:
 
