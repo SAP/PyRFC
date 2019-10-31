@@ -37,6 +37,33 @@ from tests.config import (
 
 client = Connection(**CONNECTION_INFO)
 
+def test_structure_rejects_non_dict():
+    try:
+        IMPORTSTRUCT = {"RFCINT1": "1"}
+
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=[IMPORTSTRUCT])
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] == 'dictionary required for structure parameter, received'
+        if sys.version > "3.0":
+            assert ex.args[1] ==  "<class 'list'>"
+        else:
+            assert ex.args[1] ==  "<type 'list'>"
+        assert ex.args[2] == 'IMPORTSTRUCT'
+
+def test_table_rejects_non_list():
+    try:
+        IMPORTSTRUCT = {"RFCINT1": "1"}
+
+        output = client.call("STFC_STRUCTURE", RFCTABLE=IMPORTSTRUCT)
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] == 'list required for table parameter, received'
+        if sys.version > "3.0":
+            assert ex.args[1] ==  "<class 'dict'>"
+        else:
+            assert ex.args[1] ==  "<type 'dict'>"
+        assert ex.args[2] == 'RFCTABLE'
 
 def test_basic_datatypes():
     INPUTS = [
@@ -316,13 +343,22 @@ def test_raw_types_accept_bytearray():
 
 def test_date_time():
     DATETIME_TEST = [
-        {"RFCDATE": "20161231", "RFCTIME": "123456"},  # good
+        {"RFCDATE": "20161231", "RFCTIME": "123456"},  # good, correct date
+        {"RFCDATE": "", "RFCTIME": "123456"},  # good, empty date
+        {"RFCDATE": "        ", "RFCTIME": "123456"},  # good, space date
+        {"RFCDATE": "20161231", "RFCTIME": ""},  # good, empty time
+        {"RFCDATE": "20161231", "RFCTIME": "      "},  # good, space time
+        {"RFCDATE": "20161231", "RFCTIME": "000000"},  # good, zero time
         {"RFCDATE": "2016123", "RFCTIME": "123456"},  # shorter date
+        {"RFCDATE": " ", "RFCTIME": "123456"},  # shorter empty date
         {"RFCDATE": "201612311", "RFCTIME": "123456"},  # longer date
+        {"RFCDATE": "         ", "RFCTIME": "123456"},  # longer empty date
         {"RFCDATE": "20161232", "RFCTIME": "123456"},  # out of range date
         {"RFCDATE": 20161231, "RFCTIME": "123456"},  # wrong date type
         {"RFCDATE": "20161231", "RFCTIME": "12345"},  # shorter time
+        {"RFCDATE": "20161231", "RFCTIME": " "},  # shorter empty time
         {"RFCDATE": "20161231", "RFCTIME": "1234566"},  # longer time
+        {"RFCDATE": "20161231", "RFCTIME": "       "},  # longer empty time
         {"RFCDATE": "20161231", "RFCTIME": "123466"},  # out of range time
         {"RFCDATE": "20161231", "RFCTIME": 123456},  # wrong time type
     ]
@@ -332,24 +368,24 @@ def test_date_time():
         try:
             result = client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             assert dt["RFCDATE"] == result["RFCDATE"]
-            assert dt["RFCTIME"] == result["RFCTIME"]
-            assert counter == 1
+            if dt["RFCTIME"] == "":
+                assert "000000" == result["RFCTIME"]
+            else:
+                assert dt["RFCTIME"] == result["RFCTIME"]
         except Exception as e:
             assert type(e) is TypeError
-            if counter < 6:
-                assert e.args == (
-                    "a date value required, received",
-                    dt["RFCDATE"],
-                    "RFCDATE",
-                    "IMPORTSTRUCT",
-                )
+
+            if counter < 13:
+                assert e.args[0] == "date value required, received"
+                assert e.args[1] == dt["RFCDATE"]
+                assert e.args[3] == str(type(dt["RFCDATE"]))
+                assert e.args[4] == "RFCDATE"
             else:
-                assert e.args == (
-                    "a time value required, received",
-                    dt["RFCTIME"],
-                    "RFCTIME",
-                    "IMPORTSTRUCT",
-                )
+                assert e.args[0] == "time value required, received"
+                assert e.args[1] == dt["RFCTIME"]
+                assert e.args[3] == str(type(dt["RFCTIME"]))
+                assert e.args[4] == "RFCTIME"
+            assert e.args[5] == "IMPORTSTRUCT"
 
 
 def test_date_accepts_string():
@@ -426,106 +462,133 @@ def test_time_accepts_time():
 
 def test_error_int_rejects_string():
     IMPORTSTRUCT = {"RFCINT1": "1"}
-    RFCTABLE = [IMPORTSTRUCT]
     try:
-        output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
-        )
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
     except Exception as ex:
         assert type(ex) is TypeError
+        assert ex.args[0] =="an integer required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
         if sys.version > "3.0":
-            assert ex.args == (
-                "an integer is required, received",
-                "1",
-                "RFCINT1",
-                "IMPORTSTRUCT",
-            )
+            assert ex.args[3] == "<class 'str'>"
         else:
-            assert ex.args == (
-                "an integer is required, received",
-                "1",
-                "RFCINT1",
-                "RFCTABLE",
-            )
-
+            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[4] =="RFCINT1"
+        assert ex.args[5] =="IMPORTSTRUCT"
+    try:
+        output = client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert type(ex) is TypeError
+        assert ex.args[0] =="an integer required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
+        if sys.version > "3.0":
+            assert ex.args[3] == "<class 'str'>"
+        else:
+            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[4] =="RFCINT1"
+        assert ex.args[5] =="RFCTABLE"
 
 def test_error_int_rejects_float():
     IMPORTSTRUCT = {"RFCINT1": 1.0}
-    RFCTABLE = [IMPORTSTRUCT]
     try:
-        output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
-        )
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
     except Exception as ex:
         assert type(ex) is TypeError
+        assert ex.args[0] =="an integer required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
         if sys.version > "3.0":
-            assert ex.args == (
-                "an integer is required, received",
-                1.0,
-                "RFCINT1",
-                "IMPORTSTRUCT",
-            )
+            assert ex.args[3] == "<class 'float'>"
         else:
-            assert ex.args == (
-                "an integer is required, received",
-                1.0,
-                "RFCINT1",
-                "RFCTABLE",
-            )
+            assert ex.args[3] == "<type 'float'>"
+        assert ex.args[4] =="RFCINT1"
+        assert ex.args[5] =="IMPORTSTRUCT"
+
+    try:
+        output = client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="an integer required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
+        if sys.version > "3.0":
+            assert ex.args[3] == "<class 'float'>"
+        else:
+            assert ex.args[3] == "<type 'float'>"
+        assert ex.args[4] =="RFCINT1"
+        assert ex.args[5] =="RFCTABLE"
+
+
+def test_error_string_rejects_None():
+    IMPORTSTRUCT = {"RFCCHAR4": None}
+    try:
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="an string is required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
+        if sys.version > "3.0":
+            assert ex.args[3] == "<class 'NoneType'>"
+        else:
+            assert ex.args[3] == "<type 'NoneType'>"
+        assert ex.args[4] =="RFCCHAR4"
+        assert ex.args[5] =="IMPORTSTRUCT"
+
+
+    try:
+        output = client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="an string is required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
+        if sys.version > "3.0":
+            assert ex.args[3] == "<class 'NoneType'>"
+        else:
+            assert ex.args[3] == "<type 'NoneType'>"
+        assert ex.args[4] =="RFCCHAR4"
+        assert ex.args[5] =="RFCTABLE"
 
 
 def test_error_string_rejects_int():
-    IMPORTSTRUCT = {"RFCCHAR4": None}
-    RFCTABLE = [IMPORTSTRUCT]
+    IMPORTSTRUCT = {"RFCCHAR4": 1}
     try:
-        output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
-        )
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
     except Exception as ex:
         assert type(ex) is TypeError
+        assert ex.args[0] =="an string is required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
         if sys.version > "3.0":
-            assert ex.args == (
-                "an string is required, received",
-                None,
-                "of type:",
-                "<class 'NoneType'>",
-                "RFCCHAR4",
-                "IMPORTSTRUCT",
-            )
+            assert ex.args[3] == "<class 'int'>"
         else:
-            assert ex.args == (
-                "an string is required, received",
-                None,
-                "of type:",
-                "<type 'NoneType'>",
-                "RFCCHAR4",
-                "RFCTABLE",
-            )
+            assert ex.args[3] == "<type 'int'>"
+        assert ex.args[4] =="RFCCHAR4"
+        assert ex.args[5] =="IMPORTSTRUCT"
+    try:
+        output = client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="an string is required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
+        if sys.version > "3.0":
+            assert ex.args[3] == "<class 'int'>"
+        else:
+            assert ex.args[3] == "<type 'int'>"
+        assert ex.args[4] =="RFCCHAR4"
+        assert ex.args[5] =="RFCTABLE"
 
 
 def test_float_rejects_not_a_number_string():
     IMPORTSTRUCT = {"RFCFLOAT": "A"}
-    RFCTABLE = [IMPORTSTRUCT]
     try:
-        output = client.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=RFCTABLE
-        )
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
     except Exception as ex:
         assert type(ex) is TypeError
+        assert ex.args[0] =="a decimal value required, received"
+        assert ex.args[1] == IMPORTSTRUCT["RFCFLOAT"]
         if sys.version > "3.0":
-            assert ex.args == (
-                "a decimal value is required, received",
-                "A",
-                "RFCFLOAT",
-                "IMPORTSTRUCT",
-            )
+            assert ex.args[3] == "<class 'str'>"
         else:
-            assert ex.args == (
-                "a decimal value is required, received",
-                "A",
-                "RFCFLOAT",
-                "RFCTABLE",
-            )
+            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[4] =="RFCFLOAT"
+        assert ex.args[5] =="IMPORTSTRUCT"
 
 
 def test_bcd_rejects_not_a_number_string():
@@ -537,13 +600,14 @@ def test_bcd_rejects_not_a_number_string():
         ]
     except Exception as ex:
         assert type(ex) is TypeError
-        assert ex.args == (
-            "a decimal value is required, received",
-            "A",
-            "ZDEC",
-            "IS_INPUT",
-        )
-
+        assert ex.args[0] =="a decimal value required, received"
+        assert ex.args[1] == IS_INPUT["ZDEC"]
+        if sys.version > "3.0":
+            assert ex.args[3] == "<class 'str'>"
+        else:
+            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[4] =="ZDEC"
+        assert ex.args[5] =="IS_INPUT"
 
 client.close()
 

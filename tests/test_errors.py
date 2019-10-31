@@ -76,8 +76,9 @@ class TestConnection:
             self.conn.call(1)
         except pyrfc.RFCError as ex:
             assert ex.args == (
-                "Remote function module name must be a string, received:",
+                "Remote function module name must be unicode string, received:",
                 1,
+                int,
             )
 
     def test_call_non_existing_RFM_parameter(self):

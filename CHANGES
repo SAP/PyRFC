@@ -1,10 +1,17 @@
 Change log
 ==========
 
-1.9.99 (2012-10-25)
+2.0.0 (2019-11-01)
+------------------
+
+- Documentation
+- macOS rpath fix/show scripts
+- Tables and structure parameters type check
+
+1.9.99 (2019-10-25)
 -------------------
 
-- Python 3.8 wheels added, 3.6 and 3.5 dropped
+- Python 3.8 wheels added, 3,6, 3.5 dropped
 - Datatypes checks and unit test, fix #91, #120
 - Connection info request when disconnected, does not open the connection any more
 - Connection and RFM call parameters check

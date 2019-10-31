@@ -134,9 +134,23 @@ class TestConnection:
             assert error["key"] == "RFC_INVALID_HANDLE"
             assert error["message"][0] == "An invalid handle was passed to the API call"
 
-    def test_STFC_returns_unicode(self):
+    def test_RFM_name_string(self):
         result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
         assert result["ECHOTEXT"] == UNICODETEST
+
+    def test_RFM_name_unicode(self):
+        result = self.conn.call(u"STFC_CONNECTION", REQUTEXT=UNICODETEST)
+        assert result["ECHOTEXT"] == UNICODETEST
+
+    def test_RFM_name_invalid_type(self):
+        try:
+            self.conn.call(123)
+        except Exception as ex:
+            assert ex.args == (
+                "Remote function module name must be unicode string, received:",
+                123,
+                int,
+            )
 
     def test_STFC_returns_structure_and_table(self):
         IMPORTSTRUCT = {

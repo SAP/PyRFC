@@ -18,7 +18,8 @@
 
 # Set DLL path, due to https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
 import os
-if os.name == 'nt':
+
+if os.name == "nt":
     try:
         os.add_dll_directory(os.path.join(os.environ["SAPNWRFC_HOME"], "lib"))
     except Exception:
@@ -46,4 +47,4 @@ from pyrfc._pyrfc import (
 
 __author__ = """"Srdjan Boskovic"""
 __email__ = "srdjan.boskovic@sap.com"
-__version__ = "1.9.99"
+__version__ = "2.0.0"

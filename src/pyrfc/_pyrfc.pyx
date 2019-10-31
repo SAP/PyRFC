@@ -387,7 +387,8 @@ cdef class Connection:
         cdef unsigned paramCount
         cdef SAP_UC *cName
         if type(func_name) is not str:
-            raise RFCError("Remote function module name must be a string, received:", func_name)
+            if type(func_name) is not unicode:
+                raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
         cdef SAP_UC *funcName = fillString(func_name)
         if not self.alive:
             self._open()
@@ -1686,14 +1687,19 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
     cdef RFC_TABLE_HANDLE table
     cdef SAP_UC* cValue
     cdef SAP_RAW* bValue
+    #print ("fill", wrapString(cName), value)
     try:
         if typ == RFCTYPE_STRUCTURE:
+            if type(value) is not dict:
+               raise TypeError('dictionary required for structure parameter, received', str(type(value)))
             rc = RfcGetStructure(container, cName, &struct, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
             for name, value in value.iteritems():
                 fillStructureField(typeDesc, struct, name, value)
         elif typ == RFCTYPE_TABLE:
+            if type(value) is not list:
+               raise TypeError('list required for table parameter, received', str(type(value)))
             rc = RfcGetTable(container, cName, &table, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
@@ -1708,13 +1714,13 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             free(bValue)
         elif typ == RFCTYPE_CHAR:
             if type(value) is not str and type(value) is not unicode:
-                raise TypeError('an string is required, received', value, 'of type:', str(type(value)))
+                raise TypeError('an string is required, received', value, 'of type', str(type(value)))
             cValue = fillString(value)
             rc = RfcSetChars(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_STRING:
             if type(value) is not str and type(value) is not unicode:
-                raise TypeError('an string is required, received', value, 'of type:', str(type(value)))
+                raise TypeError('an string is required, received', value, 'of type', str(type(value)))
             cValue = fillString(value)
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
@@ -1722,7 +1728,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             try:
                 Decimal(value)
             except:
-                raise TypeError('a decimal value is required, received', value)
+                raise TypeError('a decimal value is required, received', value, 'of type', str(type(value)))
             cValue = fillString(value)
             rc = RfcSetNum(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
@@ -1731,49 +1737,61 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             try:
                 Decimal(value)
             except:
-                raise TypeError('a decimal value is required, received', value)
+                raise TypeError('a decimal value required, received', value, 'of type', str(type(value)))
             cValue = fillString(str(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
             if type(value) is not int:
-                raise TypeError('an integer is required, received', value)
+                raise TypeError('an integer required, received', value, 'of type', str(type(value)))
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_INT8:
             if type(value) is not int:
-                raise TypeError('an integer is required, received', value)
+                raise TypeError('an integer required, received', value, 'of type', str(type(value)))
             rc = RfcSetInt8(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
             if (value): # not None or empty
-                try:
-                    if type(value) is datetime.date:
-                        cValue = fillString('{:04d}{:02d}{:02d}'.format(value.year, value.month, value.day))
-                    else:
-                        # raise len error
-                        if len(value) != 8: raise
-                        # raise type or out of range error
-                        datetime.date(int(value[:4]), int(value[4:6]), int(value[6:8]))
-                        cValue = fillString(value)
-                except:
-                    raise TypeError('a date value required, received', value)
+                format_ok = True
+                if type(value) is datetime.date:
+                    cValue = fillString('{:04d}{:02d}{:02d}'.format(value.year, value.month, value.day))
+                else:
+                    try:
+                        if len(value) != 8:
+                            format_ok = False
+                        else:
+                            if len(value.rstrip()) > 0:
+                                datetime.date(int(value[:4]), int(value[4:6]), int(value[6:8]))
+                            cValue = fillString(value)
+                    except:
+                        format_ok = False
+                if not format_ok:
+                    raise TypeError('date value required, received', value, 'of type', str(type(value)))
                 rc = RfcSetDate(container, cName, cValue, &errorInfo)
                 free(cValue)
+            else:
+                rc = RFC_OK
         elif typ == RFCTYPE_TIME:
             if (value): # not None or empty
-                try:
-                    if type(value) is datetime.time:
-                        cValue = fillString('{:02d}{:02d}{:02d}'.format(value.hour, value.minute, value.second))
-                    else:
-                        # raise len error
-                        if len(value) != 6: raise
-                        # raise type or out of range error
-                        datetime.time(int(value[:2]), int(value[2:4]), int(value[4:6]))
-                        cValue = fillString(value)
-                except:
-                    #raise RFCError('Invalid time value when filling %s: %s' % (wrapString(cName), str(value)))
-                    raise TypeError('a time value required, received', value)
+                format_ok = True
+                if type(value) is datetime.time:
+                    cValue = fillString('{:02d}{:02d}{:02d}'.format(value.hour, value.minute, value.second))
+                else:
+                    try:
+                        if len(value) != 6:
+                            format_ok = False
+                        else:
+                            if len(value.rstrip()) > 0:
+                                datetime.time(int(value[:2]), int(value[2:4]), int(value[4:6]))
+                            cValue = fillString(value)
+                    except:
+                        format_ok = False
+
+                if not format_ok:
+                    raise TypeError('time value required, received', value, 'of type', str(type(value)))
                 rc = RfcSetTime(container, cName, cValue, &errorInfo)
                 free(cValue)
+            else:
+                rc = RFC_OK
         else:
             raise RFCError('Unknown RFC type %d when filling %s' % (typ, wrapString(cName)))
     except TypeError as e:
