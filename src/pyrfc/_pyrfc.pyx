@@ -1750,7 +1750,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                 raise TypeError('an integer required, received', value, 'of type', str(type(value)))
             rc = RfcSetInt8(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
-            if (value): # not None or empty
+            if value:
                 format_ok = True
                 if type(value) is datetime.date:
                     cValue = fillString('{:04d}{:02d}{:02d}'.format(value.year, value.month, value.day))
@@ -1771,7 +1771,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             else:
                 rc = RFC_OK
         elif typ == RFCTYPE_TIME:
-            if (value): # not None or empty
+            if value:
                 format_ok = True
                 if type(value) is datetime.time:
                     cValue = fillString('{:02d}{:02d}{:02d}'.format(value.hour, value.minute, value.second))
