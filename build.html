@@ -1,10 +1,12 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <title>Building from source &#8212; pyrfc 1.9.99 documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Building from source &#8212; pyrfc 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +22,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 1.9.99 documentation</a></div>
+          href="index.html">pyrfc 2.0.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="authentication.html" title="Security"
              accesskey="P">previous</a> |
@@ -50,36 +52,41 @@ the distribution release code and documentation.</p>
 <div class="section" id="linux-platform">
 <h3>Linux platform<a class="headerlink" href="#linux-platform" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p><a class="reference internal" href="install.html#install-python-linux"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
+<li><p class="first"><a class="reference internal" href="install.html#install-python-linux"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip install cython wheel pytest sphinx
 </pre></div>
 </div>
 </li>
-<li><p><a class="reference internal" href="install.html#install-c-connector"><span class="std std-ref">Install SAP NW RFC Library</span></a></p></li>
-<li><p>To get any software from the Git source control system the Git
-client is required as well, use whatever your distribution has</p></li>
-<li><p>The system must contain a <code class="docutils literal notranslate"><span class="pre">gcc</span></code> compiler as well as  development
-header and library files as provided by your distribution</p></li>
+<li><p class="first"><a class="reference internal" href="install.html#install-c-connector"><span class="std std-ref">Install SAP NW RFC Library</span></a></p>
+</li>
+<li><p class="first">To get any software from the Git source control system the Git
+client is required as well, use whatever your distribution has</p>
+</li>
+<li><p class="first">The system must contain a <code class="docutils literal notranslate"><span class="pre">gcc</span></code> compiler as well as  development
+header and library files as provided by your distribution</p>
+</li>
 </ul>
 </div>
 <div class="section" id="windows-platform">
 <h3>Windows platform<a class="headerlink" href="#windows-platform" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p><a class="reference internal" href="install.html#install-python-win"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
+<li><p class="first"><a class="reference internal" href="install.html#install-python-win"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip install cython wheel pytest sphinx
 </pre></div>
 </div>
 </li>
-<li><p><a class="reference internal" href="install.html#install-c-connector"><span class="std std-ref">Install SAP NW RFC Library</span></a></p></li>
-<li><p>To get any software from the Git source control system the Git
+<li><p class="first"><a class="reference internal" href="install.html#install-c-connector"><span class="std std-ref">Install SAP NW RFC Library</span></a></p>
+</li>
+<li><p class="first">To get any software from the Git source control system the Git
 client is required as well. Download and install from
 <a class="reference external" href="http://code.google.com/p/msysgit/downloads/list?can=3">http://code.google.com/p/msysgit/downloads/list?can=3</a>.
 During installation specify that Git runs
-out of the Bash shell as you may need that shell later on.</p></li>
-<li><p>Download and install the compiler toolchain, tested on Windows platforms</p>
+out of the Bash shell as you may need that shell later on.</p>
+</li>
+<li><p class="first">Download and install the compiler toolchain, tested on Windows platforms</p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://go.microsoft.com/?linkid=7729279">MS VisualStudio2008 Express Edition</a> or later</p></li>
-<li><p><a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=3138">Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1</a> or later</p></li>
+<li><a class="reference external" href="http://go.microsoft.com/?linkid=7729279">MS VisualStudio2008 Express Edition</a> or later</li>
+<li><a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=3138">Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1</a> or later</li>
 </ul>
 </li>
 </ul>
@@ -87,7 +94,7 @@ out of the Bash shell as you may need that shell later on.</p></li>
 <div class="section" id="macos-platform">
 <h3>macOS platform<a class="headerlink" href="#macos-platform" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p>Install Xcode command line tools with C++ development headers and fix the unicode include path:</p>
+<li><p class="first">Install Xcode command line tools with C++ development headers and fix the unicode include path:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>xcode-select --install
 sudo installer -pkg macOS_SDK_headers_for_macOS_10.14.pkg -target /
 
@@ -187,8 +194,8 @@ make html
 </div>
 <p>The result is found in <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> and for other options call <code class="docutils literal notranslate"><span class="pre">make</span></code>.</p>
 <ul class="simple">
-<li><p>If you get an error <em>‘sphinx-build’ is not recognized as an internal or external command, operable program or batch file</em> on calling <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code>, install <code class="docutils literal notranslate"><span class="pre">sphinx</span></code></p></li>
-<li><p>If you have DLL import errors (Windows), check the lib directory of the SAP NW RFC Library PATH env variable.</p></li>
+<li>If you get an error <em>‘sphinx-build’ is not recognized as an internal or external command, operable program or batch file</em> on calling <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code>, install <code class="docutils literal notranslate"><span class="pre">sphinx</span></code></li>
+<li>If you have DLL import errors (Windows), check the lib directory of the SAP NW RFC Library PATH env variable.</li>
 </ul>
 <p>The docu is hosted on GitHub Pages, a propietary solution where a git branch <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> is created
 as an orphan and the output of the documentation build process (<code class="docutils literal notranslate"><span class="pre">_build/html</span></code>) is stored in that branch.
@@ -201,9 +208,9 @@ cp -R ~/tmp/_build/html/. .
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
+<p class="first admonition-title">Note</p>
 <p>An additional file .nojekyll is placed in <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> to disable the default GitHub processing which breaks sphinx style folders with leading underscores.</p>
-<p><code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> updates are a bit inconvenien, check if this answer helps <a class="reference external" href="http://stackoverflow.com/questions/4750520/git-branch-gh-pages">http://stackoverflow.com/questions/4750520/git-branch-gh-pages</a></p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> updates are a bit inconvenien, check if this answer helps <a class="reference external" href="http://stackoverflow.com/questions/4750520/git-branch-gh-pages">http://stackoverflow.com/questions/4750520/git-branch-gh-pages</a></p>
 </div>
 </div>
 </div>
@@ -231,7 +238,7 @@ cp -R ~/tmp/_build/html/. .
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
@@ -242,6 +249,8 @@ cp -R ~/tmp/_build/html/. .
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
             </form>
           </div>
         </div>
@@ -271,8 +280,8 @@ cp -R ~/tmp/_build/html/. .
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-10-25 13:21.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Last updated on 2019-11-04 14:14.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
         </div>
         <div class="clearer"></div>

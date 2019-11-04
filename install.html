@@ -1,10 +1,12 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <title>Installation &#8212; pyrfc 1.9.99 documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Installation &#8212; pyrfc 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +22,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 1.9.99 documentation</a></div>
+          href="index.html">pyrfc 2.0.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |
@@ -43,10 +45,9 @@
   <div class="section" id="installation">
 <span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>If <a class="reference external" href="https://support.sap.com/en/product/connectors/nwrfcsdk.html">SAP NetWeaver RFC SDK</a> and Python
-are already installed on your system, you can pip install the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> wheel from the dist
-folder, or clone this repository and build <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> from the source code, following <a class="reference internal" href="build.html#build"><span class="std std-ref">Building from source</span></a>.</p>
-<p>You may use Python 3 (Python 2 by the end of 2019) and the latest SAP NW RFC SDK
-release (fully backwards compatible).</p>
+are already installed on your system, you can pip install the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> wheel from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a>,
+or clone this repository and build <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> from the source code, following <a class="reference internal" href="build.html#build"><span class="std std-ref">Building from source</span></a>.</p>
+<p>Use the Python 3 and the latest pyrfc and SAP NW RFC SDK release (fully backwards compatible).</p>
 <div class="section" id="sap-nw-rfc-sdk-installation">
 <span id="install-c-connector"></span><h2>SAP NW RFC SDK Installation<a class="headerlink" href="#sap-nw-rfc-sdk-installation" title="Permalink to this headline">¶</a></h2>
 <p>If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the <code class="docutils literal notranslate"><span class="pre">rfcexec</span></code> utility, without any parameter.</p>
@@ -72,30 +73,33 @@ Python connector where to look.</p>
 <div class="section" id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p>Create the SAP NW RFC SDK home directory, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk</span></code></p></li>
-<li><p>Set the SAPNWRFC_HOME env variable: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=c:\nwrfcsdk</span></code></p></li>
-<li><p>Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk\lib</span></code> shall exist.</p></li>
-<li><p>Include the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory to the library search path on Windows, i.e.
-<a class="reference internal" href="#install-problems-envvar-win"><span class="std std-ref">extend</span></a> the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable.</p></li>
+<li>Create the SAP NW RFC SDK home directory, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk</span></code></li>
+<li>Set the SAPNWRFC_HOME env variable: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=c:\nwrfcsdk</span></code></li>
+<li>Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk\lib</span></code> shall exist.</li>
+<li>Include the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory to the library search path on Windows, i.e.
+<a class="reference internal" href="#install-problems-envvar-win"><span class="std std-ref">extend</span></a> the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable.</li>
 </ol>
 <p>Add <code class="docutils literal notranslate"><span class="pre">c:\nwrfcsdk\lib</span></code> to PATH.</p>
 </div>
 <div class="section" id="linux">
 <h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
-<li><p>Create the SAP NW RFC SDK home directory, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk</span></code></p></li>
-<li><p>Set the SAPNWRFC_HOME env variable: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk</span></code></p></li>
-<li><p>Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> shall exist.</p></li>
-<li><p>Include the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory in the library search path:</p>
+<li><p class="first">Create the SAP NW RFC SDK home directory, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk</span></code></p>
+</li>
+<li><p class="first">Set the SAPNWRFC_HOME env variable: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk</span></code></p>
+</li>
+<li><p class="first">Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> shall exist.</p>
+</li>
+<li><p class="first">Include the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory in the library search path:</p>
 <ul>
-<li><p>As <code class="docutils literal notranslate"><span class="pre">root</span></code>, create a file <code class="docutils literal notranslate"><span class="pre">/etc/ld.so.conf.d/nwrfcsdk.conf</span></code> and
+<li><p class="first">As <code class="docutils literal notranslate"><span class="pre">root</span></code>, create a file <code class="docutils literal notranslate"><span class="pre">/etc/ld.so.conf.d/nwrfcsdk.conf</span></code> and
 enter the following values:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># include nwrfcsdk</span>
 /usr/local/sap/nwrfcsdk/lib
 </pre></div>
 </div>
 </li>
-<li><p>As <code class="docutils literal notranslate"><span class="pre">root</span></code>, run the command <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code>. To check if libraries are installed:</p>
+<li><p class="first">As <code class="docutils literal notranslate"><span class="pre">root</span></code>, run the command <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code>. To check if libraries are installed:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ ldconfig -p <span class="p">|</span> grep sap <span class="c1"># should show something like:</span>
   libsapucum.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libsapucum.so
   libsapnwrfc.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libsapnwrfc.so
@@ -121,37 +125,11 @@ must be disabled:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 </pre></div>
 </div>
-<ol class="arabic">
-<li><p>Create the SAP NW RFC SDK root directory <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk</span></code> (this location is fixed, more info below)</p></li>
-<li><p>Set SAPNWRFC_HOME environment variable to that location: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk</span></code></p></li>
-<li><p>Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> shall exist.</p></li>
-<li><p>Set the remote paths in SAP NW RFC SDK by running following bash script:</p>
-<blockquote>
-<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="nv">RPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SAPNWRFC_HOME</span><span class="s2">/lib&quot;</span>
-<span class="nb">cd</span> <span class="nv">$RPATH</span>
-
-<span class="c1">#</span>
-<span class="c1"># add LC_RPATH</span>
-<span class="c1">#</span>
-<span class="k">for</span> filename in *.dylib<span class="p">;</span> <span class="k">do</span>
-    install_name_tool -add_rpath <span class="nv">$RPATH</span> <span class="nv">$filename</span>
-<span class="k">done</span>
-
-<span class="c1">#</span>
-<span class="c1"># fix LC_LOAD_DYLIB</span>
-<span class="c1">#</span>
-
-<span class="c1"># in libisui18n</span>
-install_name_tool -change libicuuc.50.dylib @rpath/libicuuc.50.dylib libicui18n.50.dylib
-install_name_tool -change libicudata.50.dylib @rpath/libicudata.50.dylib libicui18n.50.dylib
-<span class="c1"># in libicuuc</span>
-install_name_tool -change libicudata.50.dylib @rpath/libicudata.50.dylib libicuuc.50.dylib
-</pre></div>
-</div>
-</div></blockquote>
-</li>
+<ol class="arabic simple">
+<li>Create the SAP NW RFC SDK root directory <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk</span></code> (this location is fixed, more info below)</li>
+<li>Set SAPNWRFC_HOME environment variable to that location: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk</span></code></li>
+<li>Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> shall exist.</li>
+<li>Set the remote paths in SAP NW RFC SDK by running <cite>fix_paths.sh &lt;https://github.com/SAP/PyRFC/blob/master/ci/utils/fix_paths.sh&gt;_</cite> script.</li>
 </ol>
 <p>This location is fixed to the default <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> rpath, embedded into node-rfc package published on npm.</p>
 <p>After moving SAP NW RFC SDK to another location on your system, the rpaths must be adjusted in SAP NW RFC SDK and in pyrfc.so libraries.</p>
@@ -168,109 +146,60 @@ $ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib /usr/new-path/lib s_pyrfc
 </div>
 <div class="section" id="python-connector-installation">
 <span id="install-python-connector"></span><h2>Python Connector Installation<a class="headerlink" href="#python-connector-installation" title="Permalink to this headline">¶</a></h2>
+<p>Download the wheel from your platform, from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a> and pip install.</p>
 <p>Using virtual environments you can isolate Python/PyRFC projects, working without administrator privileges.</p>
-<div class="section" id="id2">
-<h3>Windows<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Windows<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ul id="install-python-win">
-<li><p>If not already installed, install the Python first: <a class="reference external" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a></p>
+<li><p class="first">If not already installed, install the Python first: <a class="reference external" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a></p>
 <p>Add Python and Scripts directories to <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable, e.g.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set PATH=c:\Python37;c:\Python37\Scripts;%PATH%
 </pre></div>
 </div>
 </li>
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p></li>
-<li><p>Install the Python connector</p>
-<p>Clone the repository, change to the <code class="docutils literal notranslate"><span class="pre">pyrfc\dist</span></code> directory and install the adequate <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> wheel,
-or just fetch and install the adequate wheel from github:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p>
+</li>
+<li><p class="first">Install the Python connector from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-win_amd64.whl
 
-pip install pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 </pre></div>
 </div>
 <p>Please look up the correct wheel name, depending on your platform and Python version.</p>
 </li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p></li>
+<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p>
+</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>Linux<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Linux<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul id="install-python-linux">
-<li><p>Install Python 3</p></li>
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p></li>
-<li><p>Virtual environment (optional)</p>
-<p>You may now create an <a class="reference internal" href="#install-virtualenv"><span class="std std-ref">virtual environment</span></a>
-and activate it.</p>
+<li><p class="first">Install Python 3</p>
 </li>
-<li><p>Install the Python connector:</p>
-<p>Clone the repository, change to the <code class="docutils literal notranslate"><span class="pre">pyrfc\dist</span></code> directory and install the adequate <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> wheel,
-or just fetch and install the adequate wheel from github:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
+<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p>
+</li>
+<li><p class="first">Install the Python connector from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-linux_x86_64.whl
 
 pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
 </pre></div>
 </div>
 <p>Please look up the correct wheel name, depending on your platform and Python version.</p>
 </li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p></li>
+<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p>
+</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>macOS<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p id="install-python-macos">The macOS system version of Python is usually the older one and using wirtual environments, like <a class="reference external" href="https://github.com/pyenv/pyenv">pyenv</a> for example, is recommended:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pyenv install <span class="m">3</span>.7.2
-pyenv virtualenv <span class="m">3</span>.7.2 py372
+<div class="section" id="id7">
+<h3>macOS<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p id="install-python-macos">The macOS system version of Python is usually the older one and using wirtual environments,
+like <a class="reference external" href="https://github.com/pyenv/pyenv">pyenv</a> for example, is recommended:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pyenv install <span class="m">3</span>.8.0
+pyenv virtualenv <span class="m">3</span>.8.0 py380
 </pre></div>
 </div>
 <p>Install the Python connector the same way like for Linux.</p>
 </div>
-</div>
-<div class="section" id="virtual-environments">
-<span id="install-virtualenv"></span><h2>Virtual environments<a class="headerlink" href="#virtual-environments" title="Permalink to this headline">¶</a></h2>
-<p>We recommend using a <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtual environment</a> for the installation. This
-allows you to isolate the Python connector installation from your system wide
-Python installation.</p>
-<p>We will now show the example usage for a Windows user that wants to create
-a virtual environment in <code class="docutils literal notranslate"><span class="pre">C:\PythonVE\py37-pyrfc</span></code>.</p>
-<ol class="arabic simple">
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> on your system.</p></li>
-</ol>
-<blockquote>
-<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\&gt;pip virtualenv
-</pre></div>
-</div>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><p>Open a command prompt and change to a directory where you want to create a virtual
-environment and create a virtual environment.</p></li>
-</ol>
-<blockquote>
-<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\&gt;cd PythonVE
-C:\PythonVE\&gt;virtualenv --distribute --no-site-packages py37-sapwnrfc2
-</pre></div>
-</div>
-<p>(Since <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> version 1.7, the <code class="docutils literal notranslate"><span class="pre">--no-site-packages</span></code> option is the
-default and can be omitted.)</p>
-</div></blockquote>
-<ol class="arabic simple" start="3">
-<li><p>Activate the environment via</p></li>
-</ol>
-<blockquote>
-<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\PythonVE\&gt;cd py37-pyrfc
-C:\PythonVE\py37-pyrfc\&gt;Scripts\activate.bat
-(py37-pyrfc) C:\PythonVE\py37-pyrfc\&gt;
-</pre></div>
-</div>
-<p>(On Linux use <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">bin/activate</span></code>.)</p>
-</div></blockquote>
-<ol class="arabic simple" start="4">
-<li><p>After working on your project, you leave the virtual environment with</p></li>
-</ol>
-<blockquote>
-<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(py37-pyrfc) C:\PythonVE\py37-pyrfc\&gt;deactivate
-C:\PythonVE\py37-pyrfc\&gt;
-</pre></div>
-</div>
-</div></blockquote>
 </div>
 <div class="section" id="problems">
 <span id="install-problems"></span><h2>Problems<a class="headerlink" href="#problems" title="Permalink to this headline">¶</a></h2>
@@ -289,13 +218,13 @@ you can communicate this proxy to your shell via:</p>
 <div class="section" id="sap-nw-rfc-library-installation">
 <h3>SAP NW RFC Library Installation<a class="headerlink" href="#sap-nw-rfc-library-installation" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
-<li><p><code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">The</span> <span class="pre">specified</span> <span class="pre">module</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">found.</span></code></p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">The</span> <span class="pre">specified</span> <span class="pre">module</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">found.</span></code></p>
 <p>(Windows)
 This error indicates that the Python connector was not able to find the
 C connector on your system. Please check, if the <code class="docutils literal notranslate"><span class="pre">lib</span></code> directory of the
 C connector is in your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable.</p>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">%1</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">Win32</span> <span class="pre">application.</span></code></p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">DLL</span> <span class="pre">load</span> <span class="pre">failed:</span> <span class="pre">%1</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">Win32</span> <span class="pre">application.</span></code></p>
 <p>(Windows)
 This error occurs when SAP NW RFC Library 64bit version is installed on a system with 32bit version Python.</p>
 </li>
@@ -304,21 +233,21 @@ This error occurs when SAP NW RFC Library 64bit version is installed on a system
 <div class="section" id="environment-variables">
 <h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="install-problems-envvar-win">
-<span id="id5"></span><h4>Windows<a class="headerlink" href="#install-problems-envvar-win" title="Permalink to this headline">¶</a></h4>
+<span id="id8"></span><h4>Windows<a class="headerlink" href="#install-problems-envvar-win" title="Permalink to this headline">¶</a></h4>
 <p>The environment variable may be set within a command prompt via the <code class="docutils literal notranslate"><span class="pre">set</span></code>
 command, e.g.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">PATH=%PATH%;C:\nwrfcsdk\lib</span></code> (extend PATH with the C connector lib)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">HTTPS_PROXY=proxy:8080</span></code> (setting an proxy for HTTPS communication)</p></li>
+<li><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">PATH=%PATH%;C:\nwrfcsdk\lib</span></code> (extend PATH with the C connector lib)</li>
+<li><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">HTTPS_PROXY=proxy:8080</span></code> (setting an proxy for HTTPS communication)</li>
 </ul>
 <p>When the command prompt is closed, the environment variable is reset. To achieve
 a persistent change of the environment variable, do the following (Windows 7):</p>
 <ol class="arabic simple">
-<li><p>Open the Start Menu and type <code class="docutils literal notranslate"><span class="pre">environment</span></code> into the search box.</p></li>
-<li><p>A window opens in which the user variables are displayed in the upper part
+<li>Open the Start Menu and type <code class="docutils literal notranslate"><span class="pre">environment</span></code> into the search box.</li>
+<li>A window opens in which the user variables are displayed in the upper part
 and the system variables in the lower part. You may select and edit
-the desired variable.</p></li>
-<li><p>The modified variables are used when a <em>new</em> command prompt is opened.</p></li>
+the desired variable.</li>
+<li>The modified variables are used when a <em>new</em> command prompt is opened.</li>
 </ol>
 </div>
 </div>
@@ -337,7 +266,6 @@ the desired variable.</p></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#sap-nw-rfc-sdk-installation">SAP NW RFC SDK Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#python-connector-installation">Python Connector Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#virtual-environments">Virtual environments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems">Problems</a></li>
 </ul>
 </li>
@@ -349,7 +277,7 @@ the desired variable.</p></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
@@ -360,6 +288,8 @@ the desired variable.</p></li>
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
             </form>
           </div>
         </div>
@@ -389,8 +319,8 @@ the desired variable.</p></li>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-10-25 13:21.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Last updated on 2019-11-04 14:14.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
         </div>
         <div class="clearer"></div>

@@ -1,10 +1,12 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <title>Security &#8212; pyrfc 1.9.99 documentation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Security &#8212; pyrfc 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +22,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 1.9.99 documentation</a></div>
+          href="index.html">pyrfc 2.0.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="server.html" title="Server scenario"
              accesskey="P">previous</a> |
@@ -45,24 +47,23 @@
 <p>Plain RFC connections are mainly used for prototyping, while in production
 secure connections are required. For more information on RFC security see:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.sap.com/corporate/en/company/security.html">Security on SAP Service Marketplace</a></p></li>
-<li><p><a class="reference external" href="http://wiki.scn.sap.com/wiki/display/Security/Best+Practice+-+How+to+analyze+and+secure+RFC+connections">RFC Security Best Practices on SAP SCN</a></p></li>
-<li><p><a class="reference external" href="http://help.sap.com/saphelp_nw70ehp1/helpdata/en/0a/0a2e0fef6211d3a6510000e835363f/frameset.htm">Secure Network Communication (SNC) - SAP Help</a></p></li>
+<li><a class="reference external" href="https://www.sap.com/corporate/en/company/security.html">Security on SAP Service Marketplace</a></li>
+<li><a class="reference external" href="http://wiki.scn.sap.com/wiki/display/Security/Best+Practice+-+How+to+analyze+and+secure+RFC+connections">RFC Security Best Practices on SAP SCN</a></li>
+<li><a class="reference external" href="http://help.sap.com/saphelp_nw70ehp1/helpdata/en/0a/0a2e0fef6211d3a6510000e835363f/frameset.htm">Secure Network Communication (SNC) - SAP Help</a></li>
 </ul>
 <p>SAP NW RFC Library supports plain and secure connection with following authentication methods:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="plain_auth">Plain with user / password</a></p></li>
-<li><p>SNC</p>
-<ul>
-<li><p><a class="reference external" href="secure-auth-pse">with User PSE</a></p></li>
-<li><p><a class="reference external" href="secure-auth-x509">with X509</a></p></li>
+<li><a class="reference external" href="plain_auth">Plain with user / password</a></li>
+<li>SNC<ul>
+<li><a class="reference external" href="secure-auth-pse">with User PSE</a></li>
+<li><a class="reference external" href="secure-auth-x509">with X509</a></li>
 </ul>
 </li>
 </ul>
 <p>NW ABAP servers support in addition:</p>
 <ul class="simple">
-<li><p>SAP logon tickets</p></li>
-<li><p>Security Assertion Markup Language (SAML)</p></li>
+<li>SAP logon tickets</li>
+<li>Security Assertion Markup Language (SAML)</li>
 </ul>
 <p>Assuming you are familiar with abovementioned concepts and have ABAP backend system
 configured for SNC communication, here you may find connection strings examples,
@@ -95,13 +96,13 @@ is used for opening the SNC connection and the same user is used for the authent
 (logon) in NW ABAP backend. Generally not recomended, see <a class="reference external" href="https://launchpad.support.sap.com/#/notes/1028503">SAP Note 1028503 - SNC-secured RFC connection: Logon ticket is ignored</a></p>
 <p><strong>Prerequisites</strong></p>
 <ul class="simple">
-<li><p>SNC name must be configured for the ABAP user in NW ABAP system, using transaction SU01</p></li>
+<li>SNC name must be configured for the ABAP user in NW ABAP system, using transaction SU01</li>
 </ul>
 <div class="figure align-center">
 <img alt="_images/SU01-SNC.png" src="_images/SU01-SNC.png" />
 </div>
 <ul class="simple">
-<li><p>SAP Single Sign On must be configured on a client and the user must be logged in on a client.</p></li>
+<li>SAP Single Sign On must be configured on a client and the user must be logged in on a client.</li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ABAP_SYSTEM</span> <span class="o">=</span> <span class="p">{</span>
      <span class="s1">&#39;snc_partnername&#39;</span><span class="p">:</span> <span class="s1">&#39;p:CN=I64, O=SAP-AG, C=DE&#39;</span><span class="p">,</span>
@@ -129,14 +130,14 @@ not have to be provided as a parameter for opening SNC connection.</p>
 X509 certificate to NW ABAP backend system, for authentication and logon.</p>
 <p><strong>Prerequisites</strong></p>
 <ul class="simple">
-<li><p>The user does not have to be logged into the client system, neither the Single
-Sign On must be configured on a client</p></li>
-<li><p>The trusted relationship must be established between the NW ABAP backend and
-the client system.</p></li>
-<li><p>The client system must be registered in the NW ABAP backend Access Control
-List (ACL), using transaction SNC0</p></li>
-<li><p>Keystores are generated on a client system, using SAP cryptography tool <em>SAPGENPSE</em> and
-the environment variable SECUDIR points to the folder with generated keystores</p></li>
+<li>The user does not have to be logged into the client system, neither the Single
+Sign On must be configured on a client</li>
+<li>The trusted relationship must be established between the NW ABAP backend and
+the client system.</li>
+<li>The client system must be registered in the NW ABAP backend Access Control
+List (ACL), using transaction SNC0</li>
+<li>Keystores are generated on a client system, using SAP cryptography tool <em>SAPGENPSE</em> and
+the environment variable SECUDIR points to the folder with generated keystores</li>
 </ul>
 <div class="figure align-center">
 <img alt="_images/SNC0-1.png" src="_images/SNC0-1.png" />
@@ -145,7 +146,7 @@ the environment variable SECUDIR points to the folder with generated keystores</
 <img alt="_images/SNC0-2.png" src="_images/SNC0-2.png" />
 </div>
 <ul class="simple">
-<li><p>User X509 certificate must be mapped to ABAP NW backend user, using transaction EXTID_DN</p></li>
+<li>User X509 certificate must be mapped to ABAP NW backend user, using transaction EXTID_DN</li>
 </ul>
 <div class="figure align-center">
 <img alt="_images/EXTID_DN-1.png" src="_images/EXTID_DN-1.png" />
@@ -197,7 +198,7 @@ the environment variable SECUDIR points to the folder with generated keystores</
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
@@ -208,6 +209,8 @@ the environment variable SECUDIR points to the folder with generated keystores</
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
             </form>
           </div>
         </div>
@@ -237,8 +240,8 @@ the environment variable SECUDIR points to the folder with generated keystores</
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-10-25 13:21.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Last updated on 2019-11-04 14:14.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
         </div>
         <div class="clearer"></div>
