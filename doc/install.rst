@@ -5,11 +5,10 @@ Installation
 ============
 
 If `SAP NetWeaver RFC SDK <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_ and Python
-are already installed on your system, you can pip install the :mod:`pyrfc` wheel from the dist
-folder, or clone this repository and build :mod:`pyrfc` from the source code, following :ref:`build`.
+are already installed on your system, you can pip install the :mod:`pyrfc` wheel from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_,
+or clone this repository and build :mod:`pyrfc` from the source code, following :ref:`build`.
 
-You may use Python 3 (Python 2 by the end of 2019) and the latest SAP NW RFC SDK
-release (fully backwards compatible).
+Use the Python 3 and the latest pyrfc and SAP NW RFC SDK release (fully backwards compatible).
 
 .. _install-c-connector:
 
@@ -119,6 +118,8 @@ For pyrfc:
 Python Connector Installation
 =============================
 
+Download the wheel from your platform, from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_ and pip install.
+
 Using virtual environments you can isolate Python/PyRFC projects, working without administrator privileges.
 
 Windows
@@ -136,13 +137,11 @@ Windows
 
 * Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
 
-* Install the Python connector
-
-  Download the adequate wheel from the latest release and pip install:
+* Install the Python connector from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_
 
   .. code-block:: sh
 
-     wget https://github.com/SAP/PyRFC/releases/download/1.9.99/pyrfc-1.9.99-cp38-cp38-macosx_10_15_x86_64.whl
+     wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-win_amd64.whl
 
      pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 
@@ -159,19 +158,11 @@ Linux
 
 * Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
 
-* Virtual environment (optional)
-
-  You may now create an :ref:`virtual environment <install-virtualenv>`
-  and activate it.
-
-* Install the Python connector:
-
-  Clone the repository, change to the ``pyrfc\dist`` directory and install the adequate :mod:`pyrfc` wheel,
-  or just fetch and install the adequate wheel from github:
+* Install the Python connector from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_
 
   .. code-block:: sh
 
-     wget https://github.com/SAP/PyRFC/blob/master/dist/pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
+     wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-linux_x86_64.whl
 
      pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
 
@@ -184,62 +175,15 @@ macOS
 
 .. _`install-python-macOS`:
 
-The macOS system version of Python is usually the older one and using wirtual environments, like `pyenv <https://github.com/pyenv/pyenv>`_ for example, is recommended:
+The macOS system version of Python is usually the older one and using wirtual environments,
+like `pyenv <https://github.com/pyenv/pyenv>`_ for example, is recommended:
 
 .. code-block:: sh
 
-   pyenv install 3.7.2
-   pyenv virtualenv 3.7.2 py372
+   pyenv install 3.8.0
+   pyenv virtualenv 3.8.0 py380
 
 Install the Python connector the same way like for Linux.
-
-.. _install-virtualenv:
-
-Virtual environments
-====================
-
-We recommend using a `virtual environment`_ for the installation. This
-allows you to isolate the Python connector installation from your system wide
-Python installation.
-
-.. _virtual environment: http://pypi.python.org/pypi/virtualenv
-
-We will now show the example usage for a Windows user that wants to create
-a virtual environment in ``C:\PythonVE\py37-pyrfc``.
-
-1. Install ``virtualenv`` on your system.
-
-  .. code-block:: none
-
-     C:\>pip virtualenv
-
-2. Open a command prompt and change to a directory where you want to create a virtual
-   environment and create a virtual environment.
-
-  .. code-block:: none
-
-     C:\>cd PythonVE
-     C:\PythonVE\>virtualenv --distribute --no-site-packages py37-sapwnrfc2
-
-  (Since ``virtualenv`` version 1.7, the ``--no-site-packages`` option is the
-  default and can be omitted.)
-
-3. Activate the environment via
-
-  .. code-block:: none
-
-     C:\PythonVE\>cd py37-pyrfc
-     C:\PythonVE\py37-pyrfc\>Scripts\activate.bat
-     (py37-pyrfc) C:\PythonVE\py37-pyrfc\>
-
-  (On Linux use ``source bin/activate``.)
-
-4. After working on your project, you leave the virtual environment with
-
-  .. code-block:: none
-
-     (py37-pyrfc) C:\PythonVE\py37-pyrfc\>deactivate
-     C:\PythonVE\py37-pyrfc\>
 
 .. _install-problems:
 
