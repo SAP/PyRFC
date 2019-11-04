@@ -6,7 +6,9 @@ Change log
 
 - Documentation
 - macOS rpath fix/show scripts
-- Tables and structure parameters type check
+- Tables and structure parameters dict and list type check
+- Type checks, unit tests
+- sitecustomize removed, closes 136
 
 1.9.99 (2019-10-25)
 -------------------

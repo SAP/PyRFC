@@ -1677,8 +1677,9 @@ cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines)
                 fillStructureField(typeDesc, lineHandle, name, value)
         else:
             fillStructureField(typeDesc, lineHandle, '', line)
+        i += 1
         # https://stackoverflow.com/questions/33626623/the-most-efficient-way-to-remove-first-n-elements-in-a-list
-        i += 1 # del lines[:1]
+        # del lines[:1]
 
 cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, value, RFC_TYPE_DESC_HANDLE typeDesc):
     cdef RFC_RC rc
@@ -1771,7 +1772,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             else:
                 rc = RFC_OK
         elif typ == RFCTYPE_TIME:
-            if (value): # not None or empty
+            if value: # not None or empty
                 format_ok = True
                 if type(value) is datetime.time:
                     cValue = fillString('{:02d}{:02d}{:02d}'.format(value.hour, value.minute, value.second))
