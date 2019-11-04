@@ -378,12 +378,12 @@ def test_date_time():
             if counter < 13:
                 assert e.args[0] == "date value required, received"
                 assert e.args[1] == dt["RFCDATE"]
-                assert e.args[3] == str(type(dt["RFCDATE"]))
+                assert e.args[3] == type(dt["RFCDATE"])
                 assert e.args[4] == "RFCDATE"
             else:
                 assert e.args[0] == "time value required, received"
                 assert e.args[1] == dt["RFCTIME"]
-                assert e.args[3] == str(type(dt["RFCTIME"]))
+                assert e.args[3] == type(dt["RFCTIME"])
                 assert e.args[4] == "RFCTIME"
             assert e.args[5] == "IMPORTSTRUCT"
 
@@ -468,10 +468,7 @@ def test_error_int_rejects_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'str'>"
-        else:
-            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[3] == str
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="IMPORTSTRUCT"
     try:
@@ -481,10 +478,7 @@ def test_error_int_rejects_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'str'>"
-        else:
-            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[3] == str
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="RFCTABLE"
 
@@ -496,10 +490,7 @@ def test_error_int_rejects_float():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'float'>"
-        else:
-            assert ex.args[3] == "<type 'float'>"
+        assert ex.args[3] == float
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="IMPORTSTRUCT"
 
@@ -509,10 +500,7 @@ def test_error_int_rejects_float():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'float'>"
-        else:
-            assert ex.args[3] == "<type 'float'>"
+        assert ex.args[3] == float
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="RFCTABLE"
 
@@ -525,10 +513,7 @@ def test_error_string_rejects_None():
         assert type(ex) is TypeError
         assert ex.args[0] =="an string is required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'NoneType'>"
-        else:
-            assert ex.args[3] == "<type 'NoneType'>"
+        assert ex.args[3] == type(None)
         assert ex.args[4] =="RFCCHAR4"
         assert ex.args[5] =="IMPORTSTRUCT"
 
@@ -539,10 +524,7 @@ def test_error_string_rejects_None():
         assert type(ex) is TypeError
         assert ex.args[0] =="an string is required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'NoneType'>"
-        else:
-            assert ex.args[3] == "<type 'NoneType'>"
+        assert ex.args[3] == type(None)
         assert ex.args[4] =="RFCCHAR4"
         assert ex.args[5] =="RFCTABLE"
 
@@ -555,10 +537,7 @@ def test_error_string_rejects_int():
         assert type(ex) is TypeError
         assert ex.args[0] =="an string is required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'int'>"
-        else:
-            assert ex.args[3] == "<type 'int'>"
+        assert ex.args[3] == int
         assert ex.args[4] =="RFCCHAR4"
         assert ex.args[5] =="IMPORTSTRUCT"
     try:
@@ -567,10 +546,7 @@ def test_error_string_rejects_int():
         assert type(ex) is TypeError
         assert ex.args[0] =="an string is required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'int'>"
-        else:
-            assert ex.args[3] == "<type 'int'>"
+        assert ex.args[3] == int
         assert ex.args[4] =="RFCCHAR4"
         assert ex.args[5] =="RFCTABLE"
 
@@ -583,10 +559,7 @@ def test_float_rejects_not_a_number_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a decimal value required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCFLOAT"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'str'>"
-        else:
-            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[3] == str
         assert ex.args[4] =="RFCFLOAT"
         assert ex.args[5] =="IMPORTSTRUCT"
 
@@ -602,12 +575,39 @@ def test_bcd_rejects_not_a_number_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a decimal value required, received"
         assert ex.args[1] == IS_INPUT["ZDEC"]
-        if sys.version > "3.0":
-            assert ex.args[3] == "<class 'str'>"
-        else:
-            assert ex.args[3] == "<type 'str'>"
+        assert ex.args[3] == str
         assert ex.args[4] =="ZDEC"
         assert ex.args[5] =="IS_INPUT"
+
+def test_numc_rejects_non_string():
+    try:
+        IS_INPUT = {"ZNUMC": 1}
+        output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+            "ES_OUTPUT"
+        ]
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="a numeric string is required, received"
+        assert ex.args[1] == IS_INPUT["ZNUMC"]
+        assert ex.args[3] == int
+        assert ex.args[4] =="ZNUMC"
+        assert ex.args[5] =="IS_INPUT"
+
+
+def test_numc_rejects_non_numeric_string():
+    try:
+        IS_INPUT = {"ZNUMC": "a1"}
+        output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+            "ES_OUTPUT"
+        ]
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="a numeric string is required, received"
+        assert ex.args[1] == IS_INPUT["ZNUMC"]
+        assert ex.args[3] == str
+        assert ex.args[4] =="ZNUMC"
+        assert ex.args[5] =="IS_INPUT"
+
 
 client.close()
 

@@ -1715,40 +1715,42 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             free(bValue)
         elif typ == RFCTYPE_CHAR:
             if type(value) is not str and type(value) is not unicode:
-                raise TypeError('an string is required, received', value, 'of type', str(type(value)))
+                raise TypeError('an string is required, received', value, 'of type', type(value))
             cValue = fillString(value)
             rc = RfcSetChars(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_STRING:
             if type(value) is not str and type(value) is not unicode:
-                raise TypeError('an string is required, received', value, 'of type', str(type(value)))
+                raise TypeError('an string is required, received', value, 'of type', type(value))
             cValue = fillString(value)
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_NUM:
             try:
-                Decimal(value)
+                if value.isdigit():
+                    cValue = fillString(value)
+                    rc = RfcSetNum(container, cName, cValue, strlenU(cValue), &errorInfo)
+                    free(cValue)
+                else:
+                    raise
             except:
-                raise TypeError('a decimal value is required, received', value, 'of type', str(type(value)))
-            cValue = fillString(value)
-            rc = RfcSetNum(container, cName, cValue, strlenU(cValue), &errorInfo)
-            free(cValue)
+                raise TypeError('a numeric string is required, received', value, 'of type', type(value))
         elif typ == RFCTYPE_BCD or typ == RFCTYPE_FLOAT or typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
             # cast floats and decimals to strings, prevents decimal->float rounding errors
             try:
                 Decimal(value)
             except:
-                raise TypeError('a decimal value required, received', value, 'of type', str(type(value)))
+                raise TypeError('a decimal value required, received', value, 'of type', type(value))
             cValue = fillString(str(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):
             if type(value) is not int:
-                raise TypeError('an integer required, received', value, 'of type', str(type(value)))
+                raise TypeError('an integer required, received', value, 'of type', type(value))
             rc = RfcSetInt(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_INT8:
             if type(value) is not int:
-                raise TypeError('an integer required, received', value, 'of type', str(type(value)))
+                raise TypeError('an integer required, received', value, 'of type', type(value))
             rc = RfcSetInt8(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_DATE:
             if value:
@@ -1766,7 +1768,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                     except:
                         format_ok = False
                 if not format_ok:
-                    raise TypeError('date value required, received', value, 'of type', str(type(value)))
+                    raise TypeError('date value required, received', value, 'of type', type(value))
                 rc = RfcSetDate(container, cName, cValue, &errorInfo)
                 free(cValue)
             else:
@@ -1788,7 +1790,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                         format_ok = False
 
                 if not format_ok:
-                    raise TypeError('time value required, received', value, 'of type', str(type(value)))
+                    raise TypeError('time value required, received', value, 'of type', type(value))
                 rc = RfcSetTime(container, cName, cValue, &errorInfo)
                 free(cValue)
             else:
