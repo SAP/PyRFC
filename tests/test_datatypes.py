@@ -608,6 +608,34 @@ def test_numc_rejects_non_numeric_string():
         assert ex.args[4] =="ZNUMC"
         assert ex.args[5] =="IS_INPUT"
 
+def test_numc_rejects_empty_string():
+    try:
+        IS_INPUT = {"ZNUMC": ""}
+        output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+            "ES_OUTPUT"
+        ]
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="a numeric string is required, received"
+        assert ex.args[1] == IS_INPUT["ZNUMC"]
+        assert ex.args[3] == str
+        assert ex.args[4] =="ZNUMC"
+        assert ex.args[5] =="IS_INPUT"
+
+def test_numc_rejects_space_string():
+    try:
+        IS_INPUT = {"ZNUMC": " "}
+        output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+            "ES_OUTPUT"
+        ]
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="a numeric string is required, received"
+        assert ex.args[1] == IS_INPUT["ZNUMC"]
+        assert ex.args[3] == str
+        assert ex.args[4] =="ZNUMC"
+        assert ex.args[5] =="IS_INPUT"
+
 
 client.close()
 
