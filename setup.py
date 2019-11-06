@@ -103,12 +103,7 @@ elif sys.platform.startswith("win"):
 elif sys.platform.startswith("darwin"):
     subprocess.call("./ci/utils/nwrfcsdk-version-darwin.sh", shell=True)
     MACOS_VERSION_MIN = "10.10"
-    # unicode paths fix
-    # https://apple.stackexchange.com/questions/337940/why-is-usr-include-missing-i-have-xcode-and-command-line-tools-installed-moja
-    # https://github.com/neovim/neovim/issues/9050#issuecomment-424417456
-    # $ MACOS_UNICODE_INC=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-    # $ sudo ln -s $MACOS_UNICODE_INC/uchar.h $SAPNWRFC_HOME/include
-    # $ sudo ln -s $MACOS_UNICODE_INC $SAPNWRFC_HOME/include/unicode
+
     LIBS = ["sapnwrfc", "sapucum"]
     MACROS = [
         ("NDEBUG", None),

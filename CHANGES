@@ -5,6 +5,7 @@ Change log
 ------------------
 - RFCTYPE_NUM inbound type check, close #139
 - Windows compiler settings
+- macOS installation documentation
 
 
 2.0.0 (2019-11-04)

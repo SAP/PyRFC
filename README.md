@@ -6,18 +6,18 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Features
 
-* Stateless and stateful connections (multiple function calls in the same ABAP session (same context))
-* Sequential and parallel calls, using one or more clients
-* Automatic conversion between Python and ABAP datatypes
-* Extensive unit tests
+- Stateless and stateful connections (multiple function calls in the same ABAP session (same context))
+- Sequential and parallel calls, using one or more clients
+- Automatic conversion between Python and ABAP datatypes
+- Extensive unit tests
 
 ## Supported platforms
 
-* Python 3, Python 2 [until 2020](https://pythonclock.org/)
+- Python 3, Python 2 [until 2020](https://pythonclock.org/)
 
-* The _pyrfc_ connector can be [built from source](http://sap.github.io/PyRFC/build.html) on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
+- The _pyrfc_ connector can be [built from source](http://sap.github.io/PyRFC/build.html) on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
 
-* Pre-built _pyrfc_ wheels are provided in respective [releases](https://github.com/SAP/PyRFC/releases), for Python 3 and Python 2 (until 2020), for Windows 10, Ubuntu 16.04 and macOS 10.14 (experimental).
+- Pre-built _pyrfc_ wheels are provided in respective [releases](https://github.com/SAP/PyRFC/releases), for Python 3 and Python 2 (until 2020), for Windows 10, Ubuntu 16.04 and macOS 10.14 (experimental).
 
 ## Prerequisites
 
@@ -35,13 +35,15 @@ On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributabl
 
 ### macOS
 
-* The macOS firewall stealth mode must be disabled ([Can't ping a machine - why?](https://discussions.apple.com/thread/2554739)):
+- The macOS firewall stealth mode must be disabled ([Can't ping a machine - why?](https://discussions.apple.com/thread/2554739)):
 
 ```shell
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 ```
 
-* Remote paths must be set in SAP NWRFC SDK for macOS: [node-rfc/#58](https://github.com/SAP/node-rfc/issues/58#issuecomment-446544151)
+- Remote paths must be set in SAP NWRFC SDK for macOS [documentation](http://sap.github.io/PyRFC/install.html#macos)
+
+- `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953) must be copied to SAP NW RFC SDK include directory [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 ## Installation
 
@@ -136,9 +138,9 @@ complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk)
 
 ## Known Issues
 
-* Python 2 will not be maintained past 2020
+- Python 2 will not be maintained past 2020
 
-* Unicode path fix required for [build from source](http://sap.github.io/PyRFC/build.html) on macOS
+- Unicode path fix required for [build from source](http://sap.github.io/PyRFC/build.html) on macOS
 
 ## How to obtain support
 
