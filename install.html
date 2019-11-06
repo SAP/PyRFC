@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Installation &#8212; pyrfc 2.0.0 documentation</title>
+    <title>Installation &#8212; pyrfc 2.0.1 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.0.0 documentation</a></div>
+          href="index.html">pyrfc 2.0.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |
@@ -125,6 +125,8 @@ must be disabled:</p>
 <li><p>Set SAPNWRFC_HOME environment variable to that location: <code class="docutils literal notranslate"><span class="pre">SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk</span></code></p></li>
 <li><p>Unpack the SAP NW RFC SDK archive to it, e.g. <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> shall exist.</p></li>
 <li><p>Set the remote paths in SAP NW RFC SDK by running <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/ci/utils/paths_fix.sh">paths_fix.sh</a> script.</p></li>
+<li><p>Unzip the <cite>unchar.zip</cite> file attached to <a class="reference external" href="https://launchpad.support.sap.com/#/notes/2573953">SAP OSS Note 2573953</a>
+and copy the <cite>uchar.h</cite> file to SAP NW RFC SDK include directory</p></li>
 </ol>
 <p>This location is fixed to the default <code class="docutils literal notranslate"><span class="pre">/usr/local/sap/nwrfcsdk/lib</span></code> rpath, embedded into node-rfc package published on npm.</p>
 <p>After moving SAP NW RFC SDK to another location on your system, the rpaths must be adjusted in SAP NW RFC SDK and in pyrfc.so libraries.</p>
@@ -260,7 +262,6 @@ the desired variable.</p></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Security</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
@@ -307,7 +308,7 @@ the desired variable.</p></li>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-11-05 13:10.
+      Last updated on 2019-11-06 12:10.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
         </div>

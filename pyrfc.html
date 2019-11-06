@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>pyrfc &#8212; pyrfc 2.0.0 documentation</title>
+    <title>pyrfc &#8212; pyrfc 2.0.1 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.0.0 documentation</a></div>
+          href="index.html">pyrfc 2.0.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="bibliography.html" title="Bibliography"
              accesskey="P">previous</a> |
@@ -89,6 +89,11 @@ defined via environment variable SNC_LIB.)</p></li>
 thereof if the connection attempt fails.</p>
 </dd>
 </dl>
+<dl class="attribute">
+<dt id="pyrfc.Connection.options">
+<code class="sig-name descname">options</code><a class="headerlink" href="#pyrfc.Connection.options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pyrfc.Connection.call">
 <code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">func_name</em>, <em class="sig-param">options</em>, <em class="sig-param">params</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.call" title="Permalink to this definition">¶</a></dt>
@@ -401,104 +406,6 @@ was found for the</p>
 </dd></dl>
 
 </div>
-<div class="section" id="server">
-<span id="apiserv"></span><h2>Server<a class="headerlink" href="#server" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="pyrfc.Server">
-<em class="property">class </em><code class="sig-prename descclassname">pyrfc.</code><code class="sig-name descname">Server</code><a class="headerlink" href="#pyrfc.Server" title="Permalink to this definition">¶</a></dt>
-<dd><p>An SAP server</p>
-<p>An instance of <a class="reference internal" href="#pyrfc.Server" title="pyrfc.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> allows for installing
-Python callback functions and serve requests from SAP systems.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<em>dict</em><em> or </em><em>None</em><em> (</em><em>default</em><em>)</em>) – <p>Configuration of the instance. Allowed keys are:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">rstrip</span></code></dt><dd><p>right strips strings passed to Python callback
-functions. (default is True)</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">debug</span></code></dt><dd><p>For testing/debugging operations. If True, the server
-behaves more permissive, e.g. allows incoming calls without a
-valid connection handle. (default is False)</p>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>params</strong> (<em>Keyword parameters</em>) – Parameters for registering the server.
-The parameters may contain the following keywords:
-<code class="docutils literal notranslate"><span class="pre">GWHOST</span></code>, <code class="docutils literal notranslate"><span class="pre">GWSERV</span></code>, <code class="docutils literal notranslate"><span class="pre">PROGRAM_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">TRACE</span></code>,
-and <code class="docutils literal notranslate"><span class="pre">SAPROUTER</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RFCError</span></code></a> or a subclass
-thereof if the connection attempt fails.</p>
-</dd>
-</dl>
-<dl class="attribute">
-<dt id="pyrfc.Server.rstrip">
-<code class="sig-name descname">rstrip</code><a class="headerlink" href="#pyrfc.Server.rstrip" title="Permalink to this definition">¶</a></dt>
-<dd><p>If True, strings passed to the callback functions are right stripped.
-For details see <a class="reference internal" href="server.html#server-config-rstrip"><span class="std std-ref">rstrip</span></a>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pyrfc.Server.debug">
-<code class="sig-name descname">debug</code><a class="headerlink" href="#pyrfc.Server.debug" title="Permalink to this definition">¶</a></dt>
-<dd><p>If True, the server behaves more permissive, e.g. allows incoming calls without a valid connection handle.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyrfc.Server.close">
-<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Explicitly close the registration.</p>
-<p>Note that this is usually not necessary as the registration will be closed
-automatically upon object destruction. However, if the the object destruction
-is delayed by the garbage collection, problems may occur when too many
-servers are registered.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyrfc.Server.install_function">
-<code class="sig-name descname">install_function</code><span class="sig-paren">(</span><em class="sig-param">func_name</em>, <em class="sig-param">callback</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.install_function" title="Permalink to this definition">¶</a></dt>
-<dd><p>Installs a function in the server.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>func_desc</strong> – A function description object of
-<a class="reference internal" href="#pyrfc.FunctionDescription" title="pyrfc.FunctionDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">FunctionDescription</span></code></a></p></li>
-<li><p><strong>callback</strong> – A callback function that implements the logic.
-The function must accept a <code class="docutils literal notranslate"><span class="pre">request_context</span></code> parameter and
-all IMPORT, CHANGING, and TABLE parameters of the given
-<code class="docutils literal notranslate"><span class="pre">func_desc</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code> if a function with the name given is already
-installed.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pyrfc.Server.serve">
-<code class="sig-name descname">serve</code><span class="sig-paren">(</span><em class="sig-param">timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.serve" title="Permalink to this definition">¶</a></dt>
-<dd><p>Serves for a given timeout.
-Note: internally this function installs a generic server function
-and registers the server at the gateway (if required).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>timeout</strong> – Number of seconds to serve or None (default) for no timeout.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pyrfc.RFCError" title="pyrfc.RFCError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RFCError</span></code></a> or a subclass
-thereof if the installation or the registration attempt fails.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="functiondescription">
 <span id="apifuncdesc"></span><h2>FunctionDescription<a class="headerlink" href="#functiondescription" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
@@ -770,7 +677,6 @@ error representations.</p>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Security</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
@@ -779,7 +685,6 @@ error representations.</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#connection">Connection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#server">Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#functiondescription">FunctionDescription</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#typedescription">TypeDescription</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#errors">Errors</a></li>
@@ -824,7 +729,7 @@ error representations.</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-11-05 13:10.
+      Last updated on 2019-11-06 12:10.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
         </div>

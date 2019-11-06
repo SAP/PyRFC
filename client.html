@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Client scenario &#8212; pyrfc 2.0.0 documentation</title>
+    <title>Client scenario &#8212; pyrfc 2.0.1 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -14,17 +14,17 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Server scenario" href="server.html" />
+    <link rel="next" title="Security" href="authentication.html" />
     <link rel="prev" title="Installation" href="install.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.0.0 documentation</a></div>
+          href="index.html">pyrfc 2.0.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="install.html" title="Installation"
              accesskey="P">previous</a> |
-          <a href="server.html" title="Server scenario"
+          <a href="authentication.html" title="Security"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -219,9 +219,6 @@ important values are:</p>
 </dd>
 </dl>
 </li>
-<li><p>Later, in the <a class="reference internal" href="server.html#server"><span class="std std-ref">Server scenario</span></a> usage, the classes <a class="reference internal" href="pyrfc.html#pyrfc.FunctionDescription" title="pyrfc.FunctionDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">FunctionDescription</span></code></a>
-and <a class="reference internal" href="pyrfc.html#pyrfc.TypeDescription" title="pyrfc.TypeDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeDescription</span></code></a> will be used again when installing a function
-on a Python server.</p></li>
 </ol>
 </div>
 <div class="section" id="errors">
@@ -324,6 +321,12 @@ in various ways by passing a <code class="docutils literal notranslate"><span cl
 </pre></div>
 </div>
 <p>The following keywords for the config dictionary are possible:</p>
+<div class="section" id="dtime">
+<h3><code class="xref py py-attr docutils literal notranslate"><span class="pre">dtime</span></code><a class="headerlink" href="#dtime" title="Permalink to this headline">¶</a></h3>
+<p>If set, ABAP DATE and TIME types are returned as Python datetime, otherwise as strings.
+From Python to ABAP, both strins and datetimes can be sent, regardless of this setting.</p>
+<p><em>Default: False</em></p>
+</div>
 <div class="section" id="rstrip">
 <span id="client-connectionconfig-rstrip"></span><h3><code class="xref py py-attr docutils literal notranslate"><span class="pre">rstrip</span></code><a class="headerlink" href="#rstrip" title="Permalink to this headline">¶</a></h3>
 <p>ABAP allows two different ways to store strings: A fixed length string type C
@@ -543,7 +546,6 @@ the shorter term (“FM”) throughout the text.</p>
 <li class="toctree-l2"><a class="reference internal" href="#technical-details">Technical details</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Security</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
@@ -574,7 +576,7 @@ the shorter term (“FM”) throughout the text.</p>
           <div role="navigation" aria-label="related navigaton">
             <a href="install.html" title="Installation"
               >previous</a> |
-            <a href="server.html" title="Server scenario"
+            <a href="authentication.html" title="Security"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>
@@ -590,7 +592,7 @@ the shorter term (“FM”) throughout the text.</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-11-05 13:10.
+      Last updated on 2019-11-06 12:10.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
         </div>
