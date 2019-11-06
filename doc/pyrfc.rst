@@ -27,8 +27,7 @@ Connection
 
 .. autoclass:: Connection
 
-   .. autoattribute:: options.rstrip
-   .. autoattribute:: options.return_import_params
+   .. autoattribute:: options
    .. automethod:: call(func_name, options, params)
    .. automethod:: close()
    .. automethod:: confirm_unit(unit)
@@ -40,19 +39,6 @@ Connection
    .. automethod:: initialize_unit([background=True])
    .. automethod:: ping()
    .. automethod:: reset_server_context()
-
-.. _apiserv:
-
-======
-Server
-======
-.. autoclass:: Server
-
-   .. autoattribute:: rstrip
-   .. autoattribute:: debug
-   .. automethod:: close()
-   .. automethod:: install_function(func_name, callback)
-   .. automethod:: serve(timeout)
 
 .. _apifuncdesc:
 

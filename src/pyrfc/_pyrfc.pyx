@@ -148,6 +148,18 @@ cdef class Connection:
 
     property options:
         def __get__(self):
+            """
+            Configuration of the instance. Allowed keys are:
+
+           ``dtime``
+             returns datetime types (accepts strings and datetimes), default is False
+           ``rstrip``
+             right strips strings returned from RFC call (default is True)
+           ``return_import_params``
+             importing parameters are returned by the RFC call (default is False)
+            """
+    :type config: dict or None (default)
+            """
             return self.__config
 
     def __init__(self, config={}, **params):

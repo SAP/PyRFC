@@ -193,10 +193,6 @@ Once again some remarks:
      ``nuc_length`` (in case of fixed length strings or numeric strings), and
      ``decimals`` (in case of decimal types -- ``RFCTYPE_BCD``).
 
-3. Later, in the :ref:`server` usage, the classes :class:`FunctionDescription`
-   and :class:`TypeDescription` will be used again when installing a function
-   on a Python server.
-
 .. _client-errors:
 
 Errors
@@ -313,6 +309,13 @@ in various ways by passing a ``config`` parameter.
 >>> conn = Connection(config = {'keyword': value, ...}, **params)
 
 The following keywords for the config dictionary are possible:
+
+:attr:`~Connection.options.dtime`
+------------------------------------------------
+If set, ABAP DATE and TIME types are returned as Python datetime, otherwise as strings.
+From Python to ABAP, both strins and datetimes can be sent, regardless of this setting.
+
+*Default: False*
 
 .. _client-connectionconfig-rstrip:
 
