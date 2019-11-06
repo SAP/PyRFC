@@ -29,8 +29,9 @@ __pycache__
 *.swp
 *.cpp
 *.html
-*.code-workspace
+*.inv
 pyrfc.cfg
 setuptools*.egg
 .pytest_cache
 .vscode/ipch
+_sources
