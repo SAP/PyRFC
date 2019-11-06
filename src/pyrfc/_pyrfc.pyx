@@ -1299,7 +1299,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             fillTable(typeDesc, table, value)
         elif typ == RFCTYPE_BYTE:
             bValue = fillBytes(value)
-            rc = RfcSetBytes(container, cName, bValue, len(value), &errorInfo)
+            rc = RfcSetBytes(container, cName, bValue, int(len(value)), &errorInfo)
             free(bValue)
         elif typ == RFCTYPE_XSTRING:
             bValue = fillBytes(value)
