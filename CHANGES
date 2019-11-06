@@ -1,12 +1,12 @@
 Change log
 ==========
 
-2.1.0 (XXXX-XX-XX)
+2.1.0 (2019-11-12)
 ------------------
 - RFCTYPE_NUM inbound type check, close #139
 - Windows compiler settings
 - macOS installation documentation
-
+- README
 
 2.0.0 (2019-11-04)
 ------------------
