@@ -41,9 +41,9 @@ On Windows platforms the Microsoft Visual C++ 2005 Service Pack 1 Redistributabl
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 ```
 
-- Remote paths must be set in SAP NWRFC SDK for macOS [documentation](http://sap.github.io/PyRFC/install.html#macos)
+- Remote paths must be set in SAP NWRFC SDK for macOS: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
-- `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953) must be copied to SAP NW RFC SDK include directory [documentation](http://sap.github.io/PyRFC/install.html#macos)
+- `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953) must be copied to SAP NW RFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 ## Installation
 
