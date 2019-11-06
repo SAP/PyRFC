@@ -30,7 +30,7 @@ def _read(name):
     with open(os.path.join(HERE, name), "rb", "utf-8") as f:
         return f.read()
 
-
+# https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
     subprocess.call("./ci/utils/nwrfcsdk-version-linux.sh", shell=True)
     LIBS = ["sapnwrfc", "sapucum"]
@@ -59,26 +59,46 @@ if sys.platform.startswith("linux"):
     ]
     LINK_ARGS = ["-L{}/lib".format(SAPNWRFC_HOME)]
 elif sys.platform.startswith("win"):
+    # https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options-listed-alphabetically
     subprocess.call("ci\\utils\\nwrfcsdk-version.bat", shell=True)
     LIBS = ["sapnwrfc", "libsapucum"]
+
     MACROS = [
-        ("_LARGEFILE_SOURCE", None),
-        ("SAPwithUNICODE", None),
-        ("_CONSOLE", None),
-        ("WIN32", None),
         ("SAPonNT", None),
-        ("SAP_PLATFORM_MAKENAME", "ntintel"),
+        ("_CRT_NON_CONFORMING_SWPRINTFS", None),
+        ("_CRT_SECURE_NO_DEPRECATES", None),
+        ("_CRT_NONSTDC_NO_DEPRECATE", None),
+        ("_AFXDLL", None),
+        ("WIN32", None),
+        ("_WIN32_WINNT", "0x0502"),
+        ("WIN64", None),
+        ("_AMD64_", None),
+        ("NDEBUG", None),
+        ("SAPwithUNICODE", None),
         ("UNICODE", None),
         ("_UNICODE", None),
+        ("SAPwithTHREADS", None),
+        ("_ATL_ALLOW_CHAR_UNSIGNED", None),
+
+        ("_LARGEFILE_SOURCE", None),
+        ("_CONSOLE", None),
+        ("SAP_PLATFORM_MAKENAME", "ntintel"),
     ]
+
     COMPILE_ARGS = [
         "-I{}\\include".format(SAPNWRFC_HOME),
         "-I{}\\Include".format(PYTHONSOURCE),
         "-I{}\\Include\\PC".format(PYTHONSOURCE),
+        "-EHs", "-Gy", "-J", "-MD", "-nologo", "-W3", "-Z7",
+        "-GL", "-O2", "-Oy-", "/we4552", "/we4700", "/we4789"
     ]
+
     LINK_ARGS = [
         "-LIBPATH:{}\\lib".format(SAPNWRFC_HOME),
         "-LIBPATH:{}\\PCbuild".format(PYTHONSOURCE),
+        "-NXCOMPAT", "-STACK:0x2000000", "-SWAPRUN:NET", "-DEBUG",
+        "-OPT:REF", "-DEBUGTYPE:CV,FIXUP", "-MACHINE:amd64", "-nologo",
+        "-LTCG"
     ]
 elif sys.platform.startswith("darwin"):
     subprocess.call("./ci/utils/nwrfcsdk-version-darwin.sh", shell=True)

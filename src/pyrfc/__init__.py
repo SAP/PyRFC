@@ -41,10 +41,9 @@ from pyrfc._pyrfc import (
     get_nwrfclib_version,
     Connection,
     TypeDescription,
-    FunctionDescription,
-    Server,
+    FunctionDescription
 )
 
 __author__ = """"Srdjan Boskovic"""
 __email__ = "srdjan.boskovic@sap.com"
-__version__ = "2.0.0"
+__version__ = "2.0.1"
