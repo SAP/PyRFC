@@ -4,6 +4,7 @@ Change log
 2.1.0 (XXXX-XX-XX)
 ------------------
 - RFCTYPE_NUM inbound type check, close #139
+- Windows compiler settings
 
 
 2.0.0 (2019-11-04)
