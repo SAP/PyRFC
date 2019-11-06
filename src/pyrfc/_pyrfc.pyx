@@ -95,8 +95,6 @@ cdef class Connection:
 
     :param config: Configuration of the instance. Allowed keys are:
 
-           ``dtime``
-             returns datetime types (accepts strings and datetimes), default is False
            ``rstrip``
              right strips strings returned from RFC call (default is True)
            ``return_import_params``
@@ -148,18 +146,6 @@ cdef class Connection:
 
     property options:
         def __get__(self):
-            """
-            Configuration of the instance. Allowed keys are:
-
-           ``dtime``
-             returns datetime types (accepts strings and datetimes), default is False
-           ``rstrip``
-             right strips strings returned from RFC call (default is True)
-           ``return_import_params``
-             importing parameters are returned by the RFC call (default is False)
-            """
-    :type config: dict or None (default)
-            """
             return self.__config
 
     def __init__(self, config={}, **params):
@@ -1130,100 +1116,6 @@ class FunctionDescription(object):
         return "<FunctionDescription '{}' with {} params>".format(
             self.name, len(self.parameters)
         )
-
-
-cdef RFC_TYPE_DESC_HANDLE fillTypeDescription(type_desc):
-    """
-    :param type_desc: object of class TypeDescription
-    :return: Handle of RFC_TYPE_DESC_HANDLE
-    """
-    cdef RFC_RC = RFC_OK
-    cdef RFC_ERROR_INFO errorInfo
-    cdef RFC_TYPE_DESC_HANDLE typeDesc
-    cdef RFC_FIELD_DESC fieldDesc
-    cdef SAP_UC* sapuc
-
-    # Set name, nuc_length, and uc_length
-    sapuc = fillString(type_desc.name)
-    typeDesc = RfcCreateTypeDesc(sapuc, &errorInfo)
-    free(sapuc)
-    if typeDesc == NULL:
-        raise wrapError(&errorInfo)
-    rc = RfcSetTypeLength(typeDesc, type_desc.nuc_length, type_desc.uc_length, &errorInfo)
-    if rc != RFC_OK:
-        RfcDestroyTypeDesc(typeDesc, NULL)
-        raise wrapError(&errorInfo)
-
-    for field_desc in type_desc.fields:
-        # Set name
-        sapuc = fillString(field_desc['name'])
-        strncpyU(fieldDesc.name, sapuc, len(field_desc['name']) + 1)
-        free(sapuc)
-        fieldDesc.type = _type2rfc[field_desc['field_type']] # set type
-        fieldDesc.nucLength = field_desc['nuc_length']
-        fieldDesc.nucOffset = field_desc['nuc_offset']
-        fieldDesc.ucLength = field_desc['uc_length']
-        fieldDesc.ucOffset = field_desc['uc_offset']
-        fieldDesc.decimals = field_desc['decimals']
-        if field_desc['type_description'] is not None:
-            fieldDesc.typeDescHandle = fillTypeDescription(field_desc['type_description'])
-        else:
-            fieldDesc.typeDescHandle = NULL
-        fieldDesc.extendedDescription = NULL
-        rc = RfcAddTypeField(typeDesc, &fieldDesc, &errorInfo)
-        if rc != RFC_OK:
-            RfcDestroyTypeDesc(typeDesc, NULL)
-            raise wrapError(&errorInfo)
-
-    return typeDesc
-
-cdef RFC_FUNCTION_DESC_HANDLE fillFunctionDescription(func_desc):
-    """
-    :param func_desc: object of class FunctionDescription
-    :return: Handle of RFC_FUNCTION_DESC_HANDLE
-    """
-    cdef RFC_RC = RFC_OK
-    cdef RFC_ERROR_INFO errorInfo
-    cdef RFC_FUNCTION_DESC_HANDLE funcDesc
-    cdef RFC_PARAMETER_DESC paramDesc
-    cdef SAP_UC* sapuc
-
-    # Set name
-    sapuc = fillString(func_desc.name)
-    funcDesc = RfcCreateFunctionDesc(sapuc, &errorInfo)
-    free(sapuc)
-    if funcDesc == NULL:
-        raise wrapError(&errorInfo)
-
-    for param_desc in func_desc.parameters:
-        sapuc = fillString(param_desc['name'])
-        strncpyU(paramDesc.name, sapuc, len(param_desc['name']) + 1)
-        free(sapuc)
-        paramDesc.type = _type2rfc[param_desc['parameter_type']] # set type
-        paramDesc.direction = _direction2rfc[param_desc['direction']]
-        paramDesc.nucLength = param_desc['nuc_length']
-        paramDesc.ucLength = param_desc['uc_length']
-        paramDesc.decimals = param_desc['decimals']
-        # defaultValue
-        sapuc = fillString(param_desc['default_value'])
-        strncpyU(paramDesc.defaultValue, sapuc, len(param_desc['default_value']) + 1)
-        free(sapuc)
-        # parameterText
-        sapuc = fillString(param_desc['parameter_text'])
-        strncpyU(paramDesc.parameterText, sapuc, len(param_desc['parameter_text']) + 1)
-        free(sapuc)
-        paramDesc.optional = <bint> param_desc['optional']
-        if param_desc['type_description'] is not None:
-            paramDesc.typeDescHandle = fillTypeDescription(param_desc['type_description'])
-        else:
-            paramDesc.typeDescHandle = NULL
-        paramDesc.extendedDescription = NULL
-        rc = RfcAddParameter(funcDesc, &paramDesc, &errorInfo)
-        if rc != RFC_OK:
-            RfcDestroyFunctionDesc(funcDesc, NULL)
-            raise wrapError(&errorInfo)
-
-    return funcDesc
 
 cdef RFC_UNIT_IDENTIFIER fillUnitIdentifier(unit) except *:
     cdef RFC_UNIT_IDENTIFIER uIdentifier
