@@ -30,6 +30,7 @@ def _read(name):
     with open(os.path.join(HERE, name), "rb", "utf-8") as f:
         return f.read()
 
+
 # https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
     subprocess.call("./ci/utils/nwrfcsdk-version-linux.sh", shell=True)
@@ -37,6 +38,7 @@ if sys.platform.startswith("linux"):
     MACROS = [
         ("NDEBUG", None),
         ("_LARGEFILE_SOURCE", None),
+        ("_CONSOLE", None),
         ("_FILE_OFFSET_BITS", 64),
         ("SAPonUNIX", None),
         ("SAPwithUNICODE", None),
@@ -79,7 +81,6 @@ elif sys.platform.startswith("win"):
         ("_UNICODE", None),
         ("SAPwithTHREADS", None),
         ("_ATL_ALLOW_CHAR_UNSIGNED", None),
-
         ("_LARGEFILE_SOURCE", None),
         ("_CONSOLE", None),
         ("SAP_PLATFORM_MAKENAME", "ntintel"),
@@ -89,16 +90,33 @@ elif sys.platform.startswith("win"):
         "-I{}\\include".format(SAPNWRFC_HOME),
         "-I{}\\Include".format(PYTHONSOURCE),
         "-I{}\\Include\\PC".format(PYTHONSOURCE),
-        "-EHs", "-Gy", "-J", "-MD", "-nologo", "-W3", "-Z7",
-        "-GL", "-O2", "-Oy-", "/we4552", "/we4700", "/we4789"
+        "-EHs",
+        "-Gy",
+        "-J",
+        "-MD",
+        "-nologo",
+        "-W3",
+        "-Z7",
+        "-GL",
+        "-O2",
+        "-Oy-",
+        "/we4552",
+        "/we4700",
+        "/we4789",
     ]
 
     LINK_ARGS = [
         "-LIBPATH:{}\\lib".format(SAPNWRFC_HOME),
         "-LIBPATH:{}\\PCbuild".format(PYTHONSOURCE),
-        "-NXCOMPAT", "-STACK:0x2000000", "-SWAPRUN:NET", "-DEBUG",
-        "-OPT:REF", "-DEBUGTYPE:CV,FIXUP", "-MACHINE:amd64", "-nologo",
-        "-LTCG"
+        "-NXCOMPAT",
+        "-STACK:0x2000000",
+        "-SWAPRUN:NET",
+        "-DEBUG",
+        "-OPT:REF",
+        "-DEBUGTYPE:CV,FIXUP",
+        "-MACHINE:amd64",
+        "-nologo",
+        "-LTCG",
     ]
 elif sys.platform.startswith("darwin"):
     subprocess.call("./ci/utils/nwrfcsdk-version-darwin.sh", shell=True)
@@ -108,6 +126,7 @@ elif sys.platform.startswith("darwin"):
     MACROS = [
         ("NDEBUG", None),
         ("_LARGEFILE_SOURCE", None),
+        ("_CONSOLE", None),
         ("_FILE_OFFSET_BITS", 64),
         ("SAPonUNIX", None),
         ("SAPwithUNICODE", None),
