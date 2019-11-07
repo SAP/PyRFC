@@ -110,9 +110,9 @@ For pyrfc:
 
      .. code-block:: sh
 
-        $ unzip unzip pyrfc-1.9.94-cp37-cp37m-macosx_10_14_x86_64.whl
+        $ unzip unzip pyrfc-2.0.1-cp38-cp38-macosx_10_15_x86_64.whl
         $ cd pyrfc
-        $ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib /usr/new-path/lib s_pyrfc.cpython-37m-darwin.so
+        $ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib <new path> _pyrfc.cpython-38-darwin.so
 
 
 .. _install-python-connector:
