@@ -19,6 +19,7 @@ import signal
 import time
 import datetime
 import collections
+import locale
 from decimal import Decimal
 from csapnwrfc cimport *
 
@@ -1232,12 +1233,23 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             except:
                 raise TypeError('a numeric string is required, received', value, 'of type', type(value))
         elif typ == RFCTYPE_BCD or typ == RFCTYPE_FLOAT or typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
-            # cast floats and decimals to strings, prevents decimal->float rounding errors
+            # cast to string prevents rounding errors in NWRFC SDK
             try:
-                Decimal(value)
+                if type(value) is float or type(value) is Decimal:
+                    # locale correct float representation
+                    svalue = locale.str(value)
+                else:
+                    # string passed from application should be locale correct, do nothing
+                    svalue = value
+                    # decimal separator must be "." for the Decimal parsing check
+                    locale_radix = locale.nl_langinfo(locale.RADIXCHAR)
+                    if locale_radix != ".":
+                        Decimal(value.replace(locale_radix, '.'))
+                    else:
+                        Decimal(value)
+                cValue = fillString(svalue)
             except:
                 raise TypeError('a decimal value required, received', value, 'of type', type(value))
-            cValue = fillString(str(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ in (RFCTYPE_INT, RFCTYPE_INT1, RFCTYPE_INT2):

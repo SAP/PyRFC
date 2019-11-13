@@ -1,7 +1,11 @@
 Change log
 ==========
 
-2.0.1 (2019-11-12)
+2.0.2 (2019-11-12)
+------------------
+- Float and decimal handling for locales with radix different from ".", closes #142
+
+2.0.1 (2019-11-05)
 ------------------
 - RFCTYPE_NUM inbound type check, close #139
 - Windows compiler settings

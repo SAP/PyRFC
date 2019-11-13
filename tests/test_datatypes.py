@@ -19,6 +19,7 @@ import sys
 import datetime
 import unittest
 from decimal import Decimal
+import locale
 
 import pytest
 from pyrfc import *
@@ -275,6 +276,45 @@ def test_bcd_floats_accept_strings():
     assert type(output["ZQUAN_SIGN"]) is Decimal
     assert IS_INPUT["ZQUAN_SIGN"] == str(output["ZQUAN_SIGN"])
 
+'''def test_bcd_floats_accept_strings_radix_comma():
+    locale.setlocale(locale.LC_ALL, "de_DE")
+    IS_INPUT = {
+        # Float
+        "ZFLTP": "0.123456789",
+        # Decimal
+        "ZDEC": "12345.67",
+        "ZDECF16_MIN": "12345.67",
+        "ZDECF34_MIN": "12345.67",
+        # Currency, Quantity
+        "ZCURR": "1234.56",
+        "ZQUAN": "12.3456",
+        "ZQUAN_SIGN": "-12.345",
+    }
+
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
+    assert type(output["ZFLTP"]) is float
+    assert float(IS_INPUT["ZFLTP"]) == output["ZFLTP"]
+
+    assert type(output["ZDEC"]) is Decimal
+    assert IS_INPUT["ZDEC"] == str(output["ZDEC"])
+
+    assert type(output["ZDECF16_MIN"]) is Decimal
+    assert IS_INPUT["ZDECF16_MIN"] == str(output["ZDECF16_MIN"])
+
+    assert type(output["ZDECF34_MIN"]) is Decimal
+    assert IS_INPUT["ZDECF34_MIN"] == str(output["ZDECF34_MIN"])
+
+    assert type(output["ZCURR"]) is Decimal
+    assert IS_INPUT["ZCURR"] == str(output["ZCURR"])
+
+    assert type(output["ZQUAN"]) is Decimal
+    assert IS_INPUT["ZQUAN"] == str(output["ZQUAN"])
+
+    assert type(output["ZQUAN_SIGN"]) is Decimal
+    assert IS_INPUT["ZQUAN_SIGN"] == str(output["ZQUAN_SIGN"])
+'''
 
 def test_bcd_floats_accept_decimals():
     IS_INPUT = {
@@ -468,7 +508,7 @@ def test_error_int_rejects_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        assert ex.args[3] == str
+        assert ex.args[3] is str
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="IMPORTSTRUCT"
     try:
@@ -478,7 +518,7 @@ def test_error_int_rejects_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        assert ex.args[3] == str
+        assert ex.args[3] is str
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="RFCTABLE"
 
@@ -490,7 +530,7 @@ def test_error_int_rejects_float():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        assert ex.args[3] == float
+        assert ex.args[3] is float
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="IMPORTSTRUCT"
 
@@ -500,7 +540,7 @@ def test_error_int_rejects_float():
         assert type(ex) is TypeError
         assert ex.args[0] =="an integer required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCINT1"]
-        assert ex.args[3] == float
+        assert ex.args[3] is float
         assert ex.args[4] =="RFCINT1"
         assert ex.args[5] =="RFCTABLE"
 
@@ -537,7 +577,7 @@ def test_error_string_rejects_int():
         assert type(ex) is TypeError
         assert ex.args[0] =="an string is required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-        assert ex.args[3] == int
+        assert ex.args[3] is int
         assert ex.args[4] =="RFCCHAR4"
         assert ex.args[5] =="IMPORTSTRUCT"
     try:
@@ -546,7 +586,7 @@ def test_error_string_rejects_int():
         assert type(ex) is TypeError
         assert ex.args[0] =="an string is required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-        assert ex.args[3] == int
+        assert ex.args[3] is int
         assert ex.args[4] =="RFCCHAR4"
         assert ex.args[5] =="RFCTABLE"
 
@@ -559,10 +599,57 @@ def test_float_rejects_not_a_number_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a decimal value required, received"
         assert ex.args[1] == IMPORTSTRUCT["RFCFLOAT"]
-        assert ex.args[3] == str
+        assert ex.args[3] is str
         assert ex.args[4] =="RFCFLOAT"
         assert ex.args[5] =="IMPORTSTRUCT"
 
+def test_float_rejects_array():
+    IMPORTSTRUCT = {"RFCFLOAT": []}
+    try:
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="a decimal value required, received"
+        assert ex.args[1] == []
+        assert ex.args[3] is list
+        assert ex.args[4] =="RFCFLOAT"
+        assert ex.args[5] =="IMPORTSTRUCT"
+
+def test_float_rejects_comma_for_point_locale():
+    IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
+    try:
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args[0] =="a decimal value required, received"
+        assert ex.args[1] == '1,2'
+        assert ex.args[3] is str
+        assert ex.args[4] =="RFCFLOAT"
+        assert ex.args[5] =="IMPORTSTRUCT"
+
+def test_float_accepts_point_for_point_locale():
+    IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
+    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
+    assert output["RFCFLOAT"] == 1.2
+
+def test_float_rejects_point_for_comma_locale():
+    locale.setlocale(locale.LC_ALL, "de_DE")
+    IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
+    try:
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+    except Exception as ex:
+        assert type(ex) is ExternalRuntimeError
+        assert ex.code == 22
+        assert ex.key == "RFC_CONVERSION_FAILURE"
+        assert ex.message == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
+    locale.setlocale(locale.LC_ALL, "en_US")
+
+def test_float_accepts_comma_for_comma_locale():
+    locale.setlocale(locale.LC_ALL, "de_DE")
+    IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
+    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
+    assert output["RFCFLOAT"] == 1.2
+    locale.setlocale(locale.LC_ALL, "en_US")
 
 def test_bcd_rejects_not_a_number_string():
 
@@ -575,7 +662,7 @@ def test_bcd_rejects_not_a_number_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a decimal value required, received"
         assert ex.args[1] == IS_INPUT["ZDEC"]
-        assert ex.args[3] == str
+        assert ex.args[3] is str
         assert ex.args[4] =="ZDEC"
         assert ex.args[5] =="IS_INPUT"
 
@@ -589,7 +676,7 @@ def test_numc_rejects_non_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a numeric string is required, received"
         assert ex.args[1] == IS_INPUT["ZNUMC"]
-        assert ex.args[3] == int
+        assert ex.args[3] is int
         assert ex.args[4] =="ZNUMC"
         assert ex.args[5] =="IS_INPUT"
 
@@ -604,7 +691,7 @@ def test_numc_rejects_non_numeric_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a numeric string is required, received"
         assert ex.args[1] == IS_INPUT["ZNUMC"]
-        assert ex.args[3] == str
+        assert ex.args[3] is str
         assert ex.args[4] =="ZNUMC"
         assert ex.args[5] =="IS_INPUT"
 
@@ -618,7 +705,7 @@ def test_numc_rejects_empty_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a numeric string is required, received"
         assert ex.args[1] == IS_INPUT["ZNUMC"]
-        assert ex.args[3] == str
+        assert ex.args[3] is str
         assert ex.args[4] =="ZNUMC"
         assert ex.args[5] =="IS_INPUT"
 
@@ -632,7 +719,7 @@ def test_numc_rejects_space_string():
         assert type(ex) is TypeError
         assert ex.args[0] =="a numeric string is required, received"
         assert ex.args[1] == IS_INPUT["ZNUMC"]
-        assert ex.args[3] == str
+        assert ex.args[3] is str
         assert ex.args[4] =="ZNUMC"
         assert ex.args[5] =="IS_INPUT"
 
