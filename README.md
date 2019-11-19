@@ -146,7 +146,7 @@ complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk)
 
 If you encounter an issue or have a feature request, you can create a [ticket](https://github.com/SAP/PyRFC/issues).
 
-Check out the SCN Forum (search for "pyrfc") and stackoverflow (use the tag "pyrfc"), to discuss code-related problems and questions.
+Check out the SCN Forum (search for "pyrfc") and stackoverflow (use the tag [pyrfc](https://stackoverflow.com/questions/tagged/pyrfc)), to discuss code-related problems and questions.
 
 ## License
 
