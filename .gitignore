@@ -33,5 +33,5 @@ __pycache__
 pyrfc.cfg
 setuptools*.egg
 .pytest_cache
-.vscode/ipch
+.vscode
 _sources
