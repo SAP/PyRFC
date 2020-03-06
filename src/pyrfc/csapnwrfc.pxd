@@ -12,11 +12,9 @@
 # either express or implied. See the License for the specific.
 # language governing permissions and limitations under the License.
 
-cdef extern from "sapucx.h":
+cdef extern from "sapnwrfc.h":
     ctypedef unsigned short SAP_UC
     ctypedef unsigned short SAP_CHAR
-
-cdef extern from "sapuc.h":
     ctypedef unsigned short SAP_USHORT
     ctypedef SAP_USHORT SAP_UTF16
     # size_t strlenU(SAP_UC*)
