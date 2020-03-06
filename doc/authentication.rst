@@ -7,18 +7,18 @@ Security
 Plain RFC connections are mainly used for prototyping, while in production
 secure connections are required. For more information on RFC security see:
 
-* `Security on SAP Service Marketplace <https://www.sap.com/corporate/en/company/security.html>`_
+* `Security on SAP Service Marketplace <https://service.sap.com/security>`_
 * `RFC Security Best Practices on SAP SCN <http://wiki.scn.sap.com/wiki/display/Security/Best+Practice+-+How+to+analyze+and+secure+RFC+connections>`_
-* `Secure Network Communication (SNC) - SAP Help <http://help.sap.com/saphelp_nw70ehp1/helpdata/en/0a/0a2e0fef6211d3a6510000e835363f/frameset.htm>`_
+* `Securing RFC Connections on ABAP Connectivity Wiki <https://wiki.scn.sap.com/wiki/display/ABAPConn/ABAP+Connectivity+Home>`_
 
 SAP NW RFC Library supports plain and secure connection with following authentication methods:
 
-* `Plain with user / password <plain_auth>`_
+* `Plain with user / password <#plain-auth>`_
 
 * SNC
 
-  * `with User PSE <secure-auth-pse>`_
-  * `with X509 <secure-auth-x509>`_
+  * `with User PSE <#snc-with-user-pse>`_
+  * `with X509 <#snc-with-x509>`_
 
 NW ABAP servers support in addition:
 
@@ -56,7 +56,7 @@ The simplest and least secure form of the user authentication.
 
    c = get_connection(ABAP_SYSTEM) # plain
 
-.. _secure-auth-user-pse:
+.. _snc-with-user-pse:
 
 SNC with User PSE
 -----------------
@@ -95,7 +95,7 @@ In this example the SNC_LIB key contains the path to security library
 SNC_LIB can be set as the environment variable, in which case it does 
 not have to be provided as a parameter for opening SNC connection.
 
-.. _secure-auth-x509:
+.. _snc-with-x50:
 
 SNC with X509
 -------------
