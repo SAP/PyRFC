@@ -27,7 +27,6 @@ cdef extern from "sapnwrfc.h":
     void memsetR(void*, unsigned short, size_t)
     # size_t sizeofR(par)
 
-cdef extern from "sapnwrfc.h":
     ctypedef unsigned char SAP_RAW
     ctypedef SAP_RAW RFC_BYTE
     ctypedef SAP_UC RFC_CHAR
