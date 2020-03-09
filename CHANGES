@@ -1,7 +1,7 @@
 Change log
 ==========
 
-2.0.2 (2019-11-12)
+2.0.2 (2020-03-09)
 ------------------
 - Float and decimal handling for locales with radix different from ".", closes #142
 - sapuc.h and sapucx.h replaced by sapucrfc.h as of SAP NWRFCSDK 7.5 PL6, closes #161
