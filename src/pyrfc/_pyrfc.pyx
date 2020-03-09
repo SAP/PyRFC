@@ -180,12 +180,23 @@ cdef class Connection:
         self.active_unit = False
         self._open()
 
+    def free(self):
+        """ Explicitly free connection parameters and close the connection.
+
+            Note that this is usually required because the object destruction
+            can be delayed by the garbage collection and problems may occur
+            when too many connections are opened.
+        """ 
+        self.__del__()
+
     def __del__(self):
-        for i in range(self.paramCount):
-            free(<SAP_UC*> self.connectionParams[i].name)
-            free(<SAP_UC*> self.connectionParams[i].value)
-        free(self.connectionParams)
-        self._close()
+        if self.paramCount > 0: 
+            for i in range(self.paramCount):
+                free(<SAP_UC*> self.connectionParams[i].name)
+                free(<SAP_UC*> self.connectionParams[i].value)
+            free(self.connectionParams)
+            self.paramCount = 0
+            self._close()
 
     def __enter__(self):
         return self
@@ -201,13 +212,6 @@ cdef class Connection:
         self._reopen()
 
     def close(self):
-        """ Explicitly close the connection.
-
-            Note that this is usually not necessary as the connection will be closed
-            automatically upon object destruction. However, if the the object destruction
-            is delayed by the garbage collection, problems may occur when too many
-            connections are opened.
-        """
         self._close()
 
     def __bool__(self):
