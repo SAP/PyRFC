@@ -33,9 +33,7 @@ class TestConnection:
             assert "minor" in version
             assert "patchLevel" in version
             assert pyrfc.__version__ == VERSION
-        assert all(
-            k in self.conn.options for k in ("dtime", "return_import_params", "rstrip")
-        )
+        assert all(k in self.conn.options for k in ("dtime", "return_import_params", "rstrip"))
 
     def test_connection_info(self):
         connection_info = self.conn.get_connection_attributes()
@@ -115,9 +113,7 @@ class TestConnection:
         result = self.conn.call("STFC_CONNECTION", REQUTEXT=hello)
         assert "REQTEXT" not in result
         # return import params
-        conn = pyrfc.Connection(
-            config={"return_import_params": True}, **config_sections["coevi51"]
-        )
+        conn = pyrfc.Connection(config={"return_import_params": True}, **config_sections["coevi51"])
         result = conn.call("STFC_CONNECTION", REQUTEXT=hello.rstrip())
         assert hello.rstrip() == result["REQUTEXT"]
         conn.close()
@@ -132,7 +128,10 @@ class TestConnection:
             error = get_error(ex)
             assert error["code"] == 13
             assert error["key"] == "RFC_INVALID_HANDLE"
-            assert error["message"][0] == "An invalid handle was passed to the API call"
+            assert (
+                error["message"][0]
+                == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
+            )
 
     def test_RFM_name_string(self):
         result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
@@ -173,9 +172,7 @@ class TestConnection:
             row = IMPORTSTRUCT
             row["RFCINT1"] = i
             IMPORTTABLE.append(row)
-        result = self.conn.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
-        )
+        result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE)
         # ECHOSTRUCT match IMPORTSTRUCT
         for k in IMPORTSTRUCT:
             assert result["ECHOSTRUCT"][k] == IMPORTSTRUCT[k]
@@ -248,9 +245,7 @@ class TestConnection:
         # STFC_CHANGING example with CHANGING parameters
         start_value = 33
         counter = 88
-        result = self.conn.call(
-            "STFC_CHANGING", START_VALUE=start_value, COUNTER=counter
-        )
+        result = self.conn.call("STFC_CHANGING", START_VALUE=start_value, COUNTER=counter)
         assert result["COUNTER"] == counter + 1
         assert result["RESULT"] == start_value + counter
 
