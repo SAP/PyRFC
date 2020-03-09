@@ -53,6 +53,8 @@ if sys.platform.startswith("linux"):
         "-fno-strict-aliasing",
         "-Wall",
         "-Wno-uninitialized",
+        "-Wno-deprecated-declarations",
+        "-Wno-unused-function",
         "-Wcast-align",
         "-fPIC",
         "-pthread",
@@ -149,6 +151,9 @@ elif sys.platform.startswith("darwin"):
         "-std=c++11",
         "-mmacosx-version-min={}".format(MACOS_VERSION_MIN),
         "-I{}/include".format(SAPNWRFC_HOME),
+        "-Wno-cast-align",
+        "-Wno-deprecated-declarations",
+        "-Wno-unused-function",
     ]
     LINK_ARGS = [
         "-L{}/lib".format(SAPNWRFC_HOME),
@@ -209,8 +214,6 @@ setup(
     setup_requires=["setuptools-git", "Cython", "Sphinx"],
     cmdclass={"build_ext": Cython.Distutils.build_ext},
     # ext_modules=[PYRFC_EXT],
-    ext_modules=cythonize(
-        PYRFC_EXT, compiler_directives={"language_level": "2"}, annotate=True
-    ),
+    ext_modules=cythonize(PYRFC_EXT, compiler_directives={"language_level": "2"}, annotate=True),
     test_suite="pyrfc",
 )
