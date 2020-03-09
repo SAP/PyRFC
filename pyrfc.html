@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>pyrfc &#8212; pyrfc 2.0.1 documentation</title>
+    <title>pyrfc &#8212; pyrfc 2.0.2 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.0.1 documentation</a></div>
+          href="index.html">pyrfc 2.0.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="bibliography.html" title="Bibliography"
              accesskey="P">previous</a> |
@@ -58,8 +58,6 @@ automatically attempt to open a connection the SAP backend.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<em>dict</em><em> or </em><em>None</em><em> (</em><em>default</em><em>)</em>) – <p>Configuration of the instance. Allowed keys are:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">dtime</span></code></dt><dd><p>returns datetime types (accepts strings and datetimes), default is False</p>
-</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">rstrip</span></code></dt><dd><p>right strips strings returned from RFC call (default is True)</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">return_import_params</span></code></dt><dd><p>importing parameters are returned by the RFC call (default is False)</p>
@@ -123,10 +121,9 @@ thereof if the RFC call fails.</p>
 <dt id="pyrfc.Connection.close">
 <code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Explicitly close the connection.</p>
-<p>Note that this is usually not necessary as the connection will be closed
-automatically upon object destruction. However, if the the object destruction
-is delayed by the garbage collection, problems may occur when too many
-connections are opened.</p>
+<p>Note that this is usually required necause the object destruction
+can be delayed by the garbage collection and problems may occur
+when too many connections are opened.</p>
 </dd></dl>
 
 <dl class="method">
@@ -729,8 +726,8 @@ error representations.</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-11-06 12:10.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Last updated on 2020-03-09 12:08.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
         </div>
         <div class="clearer"></div>

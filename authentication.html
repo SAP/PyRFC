@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Security &#8212; pyrfc 2.0.1 documentation</title>
+    <title>Security &#8212; pyrfc 2.0.2 documentation</title>
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.0.1 documentation</a></div>
+          href="index.html">pyrfc 2.0.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="client.html" title="Client scenario"
              accesskey="P">previous</a> |
@@ -45,17 +45,17 @@
 <p>Plain RFC connections are mainly used for prototyping, while in production
 secure connections are required. For more information on RFC security see:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.sap.com/corporate/en/company/security.html">Security on SAP Service Marketplace</a></p></li>
+<li><p><a class="reference external" href="https://service.sap.com/security">Security on SAP Service Marketplace</a></p></li>
 <li><p><a class="reference external" href="http://wiki.scn.sap.com/wiki/display/Security/Best+Practice+-+How+to+analyze+and+secure+RFC+connections">RFC Security Best Practices on SAP SCN</a></p></li>
-<li><p><a class="reference external" href="http://help.sap.com/saphelp_nw70ehp1/helpdata/en/0a/0a2e0fef6211d3a6510000e835363f/frameset.htm">Secure Network Communication (SNC) - SAP Help</a></p></li>
+<li><p><a class="reference external" href="https://wiki.scn.sap.com/wiki/display/ABAPConn/ABAP+Connectivity+Home">Securing RFC Connections on ABAP Connectivity Wiki</a></p></li>
 </ul>
 <p>SAP NW RFC Library supports plain and secure connection with following authentication methods:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="plain_auth">Plain with user / password</a></p></li>
+<li><p><a class="reference external" href="#plain-auth">Plain with user / password</a></p></li>
 <li><p>SNC</p>
 <ul>
-<li><p><a class="reference external" href="secure-auth-pse">with User PSE</a></p></li>
-<li><p><a class="reference external" href="secure-auth-x509">with X509</a></p></li>
+<li><p><a class="reference external" href="#snc-with-user-pse">with User PSE</a></p></li>
+<li><p><a class="reference external" href="#snc-with-x509">with X509</a></p></li>
 </ul>
 </li>
 </ul>
@@ -89,7 +89,7 @@ for testing plain and secure RFC connections, with various authentication method
 </div>
 </div>
 <div class="section" id="snc-with-user-pse">
-<span id="secure-auth-user-pse"></span><h3>SNC with User PSE<a class="headerlink" href="#snc-with-user-pse" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>SNC with User PSE<a class="headerlink" href="#snc-with-user-pse" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="http://help.sap.com/saphelp_nw73/helpdata/en/4c/61a6c6364012f3e10000000a15822b/content.htm?frameset=/en/4c/6269c8c72271d0e10000000a15822b/frameset.htm">User PSE</a>
 is used for opening the SNC connection and the same user is used for the authentication
 (logon) in NW ABAP backend. Generally not recomended, see <a class="reference external" href="https://launchpad.support.sap.com/#/notes/1028503">SAP Note 1028503 - SNC-secured RFC connection: Logon ticket is ignored</a></p>
@@ -124,7 +124,7 @@ SNC_LIB can be set as the environment variable, in which case it does
 not have to be provided as a parameter for opening SNC connection.</p>
 </div>
 <div class="section" id="snc-with-x509">
-<span id="secure-auth-x509"></span><h3>SNC with X509<a class="headerlink" href="#snc-with-x509" title="Permalink to this headline">¶</a></h3>
+<span id="snc-with-x50"></span><h3>SNC with X509<a class="headerlink" href="#snc-with-x509" title="Permalink to this headline">¶</a></h3>
 <p>The client system PSE is used for opening SNC connection and forwarding user
 X509 certificate to NW ABAP backend system, for authentication and logon.</p>
 <p><strong>Prerequisites</strong></p>
@@ -236,8 +236,8 @@ the environment variable SECUDIR points to the folder with generated keystores</
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2019-11-06 12:10.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Last updated on 2020-03-09 12:08.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
         </div>
         <div class="clearer"></div>
