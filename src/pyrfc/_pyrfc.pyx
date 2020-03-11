@@ -1121,6 +1121,505 @@ class FunctionDescription(object):
         return "<FunctionDescription '{}' with {} params>".format(
             self.name, len(self.parameters)
         )
+################################################################################
+# SERVER FUNCTIONALITY
+################################################################################
+
+# global information about served functions / callbacks
+# "function_name": {"func_desc": FunctionDescription object,
+#                   "callback": Python function,
+#                   "server": Server object)
+server_functions = {}
+
+# cf. iDocServer.c
+# PXD remarks. Problem with definitions of "function types"
+# ctypedef RFC_RC RFC_SERVER_FUNCTION(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
+# ctypedef RFC_RC RFC_FUNC_DESC_CALLBACK(SAP_UC *functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle)
+
+def _server_log(origin, log_message):
+    print u"[{timestamp} UTC] {origin} '{msg}'".format(
+        timestamp = datetime.datetime.utcnow(),
+        origin = origin,
+        msg = log_message
+    )
+
+cdef RFC_RC repositoryLookup(SAP_UC* functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle):
+    cdef RFC_CONNECTION_PARAMETER loginParams[1]
+    cdef RFC_CONNECTION_HANDLE repoCon
+    cdef RFC_ERROR_INFO errorInfo
+
+    function_name = wrapString(functionName)
+    if function_name not in server_functions:
+        _server_log("repositoryLookup", "No metadata available for function '{}'.".format(function_name))
+        return RFC_NOT_FOUND
+    _server_log("repositoryLookup", "Metadata retrieved successfull for function '{}'.".format(function_name))
+
+    # Fill data
+    func_desc = server_functions[function_name]["func_desc"]
+    # Update handle
+    funcDescHandle[0] = fillFunctionDescription(func_desc)
+    return RFC_OK
+
+cdef RFC_RC genericRequestHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo):
+    cdef RFC_RC rc
+    cdef RFC_ERROR_INFO errorInfo
+    cdef RFC_ATTRIBUTES attributes
+    cdef RFC_FUNCTION_DESC_HANDLE funcDesc
+    cdef RFC_ABAP_NAME funcName
+
+    funcDesc = RfcDescribeFunction(funcHandle, NULL)
+    RfcGetFunctionName(funcDesc, funcName, NULL)
+
+    func_name = wrapString(funcName)
+    if func_name not in server_functions:
+        _server_log("genericRequestHandler", "No metadata available for function '{}'.".format(function_name))
+        return RFC_NOT_FOUND
+
+    func_data = server_functions[func_name]
+    callback = func_data['callback']
+    server = func_data['server']
+    func_desc = func_data['func_desc']
+
+    try:
+        # Log something about the caller
+        rc = RfcGetConnectionAttributes(rfcHandle, &attributes, &errorInfo)
+        if rc != RFC_OK:
+            _server_log("genericRequestHandler", "Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).".format(func_name=func_name, rc=rc))
+            if not server.debug:
+                raise ExternalRuntimeError(message="Invalid connection handle.")
+            conn_attr = {}
+        else:
+            conn_attr = wrapConnectionAttributes(attributes)
+            _server_log("genericRequestHandler", "User '{user}' from system '{sysId}', client '{client}', host '{partnerHost}' invokes '{func_name}'".format(func_name=func_name, **conn_attr))
+
+        # Context of the request. Might later be extended by activeParameter information.
+        request_context = {
+            'connection_attributes': conn_attr
+        }
+        # Filter out variables that are of direction u'RFC_EXPORT'
+        # (these will be set by the callback function)
+        func_handle_variables = wrapResult(funcDesc, funcHandle, RFC_EXPORT, server.rstrip)
+        # Invoke callback function
+
+        result = callback(request_context, **func_handle_variables)
+    # Server exception handling: cf. Schmidt and Li (2009b, p. 7)
+    except ABAPApplicationError as e: # ABAP_EXCEPTION in implementing function
+        # Parameter: key ( optional: msg_type, msg_class, msg_number, msg_v1-v4)
+        # ret RFC_ABAP_EXCEPTION
+        fillError(e, serverErrorInfo)
+        serverErrorInfo.code = RFC_ABAP_EXCEPTION # Overwrite code, if set.
+        _server_log("genericRequestHandler", "Request for '{}' raises ABAPApplicationError {} - code set to RFC_ABAP_EXCEPTION.".format(func_name, e))
+        return RFC_ABAP_EXCEPTION
+    except ABAPRuntimeError as e: # RFC_ABAP_MESSAGE
+        # msg_type, msg_class, msg_number, msg_v1-v4
+        # ret RFC_ABAP_MESSAGE
+        fillError(e, serverErrorInfo)
+        serverErrorInfo.code = RFC_ABAP_MESSAGE # Overwrite code, if set.
+        _server_log("genericRequestHandler", "Request for '{}' raises ABAPRuntimeError {} - code set to RFC_ABAP_MESSAGE.".format(func_name, e))
+        return RFC_ABAP_MESSAGE
+    except ExternalRuntimeError as e: # System failure
+        # Parameter: message
+        # ret RFC_EXTERNAL_FAILURE
+        fillError(e, serverErrorInfo)
+        serverErrorInfo.code = RFC_EXTERNAL_FAILURE # Overwrite code, if set.
+        _server_log("genericRequestHandler", "Request for '{}' raises ExternalRuntimeError {} - code set to RFC_EXTERNAL_FAILURE.".format(func_name, e))
+        return RFC_EXTERNAL_FAILURE
+    except:
+        exctype, value = sys.exc_info()[:2]
+        _server_log("genericRequestHandler",
+            "Request for '{}' raises an invalid exception:\n Exception: {}\n Values: {}\n"
+            "Callback functions may only raise ABAPApplicationError, ABAPRuntimeError, or ExternalRuntimeError.\n"
+            "The values of the request were:\n"
+            "params: {}\nrequest_context: {}".format(
+                func_name, exctype, value, func_handle_variables, request_context
+            )
+        )
+        new_error = ExternalRuntimeError(
+            message="Invalid exception raised by callback function.",
+            code=RFC_EXTERNAL_FAILURE
+        )
+        fillError(new_error, serverErrorInfo)
+        return RFC_EXTERNAL_FAILURE
+
+    for name, value in result.iteritems():
+        fillFunctionParameter(funcDesc, funcHandle, name, value)
+    return RFC_OK
+
+cdef class Server:
+    """ An SAP server
+
+    An instance of :class:`~pyrfc.Server` allows for installing
+    Python callback functions and serve requests from SAP systems.
+
+    :param config: Configuration of the instance. Allowed keys are:
+
+           ``rstrip``
+             right strips strings passed to Python callback
+             functions. (default is True)
+           ``debug``
+             For testing/debugging operations. If True, the server
+             behaves more permissive, e.g. allows incoming calls without a
+             valid connection handle. (default is False)
+
+    :type config: dict or None (default)
+    :param params: Parameters for registering the server.
+                   The parameters may contain the following keywords:
+                   ``GWHOST``, ``GWSERV``, ``PROGRAM_ID``, ``TRACE``,
+                   and ``SAPROUTER``.
+    :type params: Keyword parameters
+
+    :raises: :exc:`~pyrfc.RFCError` or a subclass
+             thereof if the connection attempt fails.
+    """
+    cdef RFC_CONNECTION_HANDLE _handle
+    cdef unsigned paramCount
+    cdef public bint rstrip
+    cdef public bint debug
+    cdef RFC_CONNECTION_PARAMETER *connectionParams
+    cdef bint alive
+    cdef bint installed
+
+    cdef RFC_CONNECTION_HANDLE _get_c_handle(self):
+        return <RFC_CONNECTION_HANDLE> self._handle
+
+    def __init__(self, config={}, **params):
+        cdef RFC_ERROR_INFO errorInfo
+
+        # config parsing
+        self.rstrip = config.get('rstrip', True)
+        self.debug = config.get('debug', False)
+
+        self.paramCount = len(params)
+        self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
+        cdef int i = 0
+        for name, value in params.iteritems():
+            self.connectionParams[i].name = fillString(name)
+            self.connectionParams[i].value = fillString(value)
+            i += 1
+        self.alive = False
+        self.installed = False
+        #self._register()
+
+    def __del__(self):
+        for i in range(self.paramCount):
+            free(<SAP_UC*> self.connectionParams[i].name)
+            free(<SAP_UC*> self.connectionParams[i].value)
+        free(self.connectionParams)
+        self._close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self._close() # Although the _close() method is also called in the destructor, the
+        # explicit call assures the immediate closing to the connection.
+
+    def close(self):
+        """ Explicitly close the registration.
+
+        Note that this is usually not necessary as the registration will be closed
+        automatically upon object destruction. However, if the the object destruction
+        is delayed by the garbage collection, problems may occur when too many
+        servers are registered.
+        """
+        self._close()
+
+    def __bool__(self):
+        return self.alive
+
+    cdef _register(self):
+        cdef RFC_ERROR_INFO errorInfo
+
+        with nogil:
+            self._handle = RfcRegisterServer(self.connectionParams, self.paramCount, &errorInfo)
+        if not self._handle:
+            self._error(&errorInfo)
+        self.alive = True
+        _server_log("Server", "Registered server.")
+
+    def _close(self):
+        """ Close the connection (private function)
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+                 thereof if the connection cannot be closed cleanly.
+        """
+        cdef RFC_RC rc
+        cdef RFC_ERROR_INFO errorInfo
+
+        # Remove all installed server functions
+        for name, server_data in server_functions.iteritems():
+            if server_data["server"] == self:
+                del server_functions[name]
+
+        if self.alive:
+            rc = RfcCloseConnection(self._handle, &errorInfo)
+            self.alive = False
+            if rc != RFC_OK:
+                self._error(&errorInfo)
+
+    cdef _error(self, RFC_ERROR_INFO* errorInfo):
+        """
+        Error treatment of a connection.
+
+        :param errorInfo: the errorInfo data given in a RFC that returned an RC > 0.
+        :return: nothing, raises an error
+        """
+        # TODO: Error treatment server
+        # Set alive=false if the error is in a certain group
+        # Before, the alive=false setting depended on the error code. However, the group seems more robust here.
+        # (errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_MESSAGE, RFC_ABAP_RUNTIME_FAILURE, RFC_INVALID_HANDLE, RFC_NOT_FOUND, RFC_INVALID_PARAMETER):
+        #if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
+        #    self.alive = False
+
+        raise wrapError(errorInfo)
+
+    def install_function(self, func_desc, callback):
+        """
+        Installs a function in the server.
+
+        :param func_desc: A function description object of
+            :class:`~pyrfc.FunctionDescription`
+        :param callback: A callback function that implements the logic.
+            The function must accept a ``request_context`` parameter and
+            all IMPORT, CHANGING, and TABLE parameters of the given
+            ``func_desc``.
+        :raises: :exc:`TypeError` if a function with the name given is already
+            installed.
+        """
+        name = func_desc.name
+        if name in server_functions:
+            raise TypeError("Function name already defined.")
+        server_functions[name] = {
+            "func_desc": func_desc,
+            "callback": callback,
+            "server": self
+        }
+
+    def serve(self, timeout=None):
+        """
+        Serves for a given timeout.
+        Note: internally this function installs a generic server function
+        and registers the server at the gateway (if required).
+
+        :param timeout: Number of seconds to serve or None (default) for no timeout.
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+            thereof if the installation or the registration attempt fails.
+        """
+        cdef RFC_RC rc = RFC_OK
+        cdef RFC_ERROR_INFO errorInfo
+
+        if not self.installed:
+            # The following line produces a warning during C compilation,
+            # refering to repositoryLookup signature.
+            # rc = RfcInstallGenericServerFunction(<void*> genericRequestHandler, <void*> repositoryLookup, &errorInfo)
+            if rc != RFC_OK:
+                self._error(&errorInfo)
+            self.installed = True
+
+        if not self.alive:
+            self._register()
+
+        is_serving = True
+        if timeout is not None:
+            start_time = datetime.datetime.utcnow()
+
+        try:
+            while is_serving:
+
+                rc = RfcListenAndDispatch(self._handle, 3, &errorInfo)
+                #print ".",  # Add print statement? Allows keyboard interrupts to raise Exception
+
+                if rc in (RFC_OK, RFC_RETRY):
+                    pass
+                elif rc == RFC_ABAP_EXCEPTION: # Implementing function raised ABAPApplicationError
+                    pass
+                elif rc == RFC_NOT_FOUND: # Unknown function module
+                    self.alive = False
+                elif rc == RFC_EXTERNAL_FAILURE: # SYSTEM_FAILURE sent to backend
+                    self.alive = False
+                elif rc == RFC_ABAP_MESSAGE: # ABAP Message has been sent to backend
+                    self.alive = False
+                elif rc in (RFC_CLOSED, RFC_COMMUNICATION_FAILURE): # Connection broke down during transmission of return values
+                    self.alive = False
+
+                #tmp = str(signal.getsignal(signal.SIGINT))
+                #print "... {}".format(signal.getsignal(signal.SIGINT))
+                #sys.stdout.write(".") # to see Keyboard interrupt
+                #time.sleep(0.001) # sleep a millisecond to see Keyboard interrupts.
+
+                #time.sleep(0.5)
+
+                if not self.alive:
+                    self._register()
+
+                now_time = datetime.datetime.utcnow()
+                if timeout is not None:
+                    if (now_time-start_time).seconds > timeout:
+                        is_serving = False
+                        _server_log("Server", "timeout reached ({} sec)".format(timeout))
+
+        # HERE I GO - Test it with a datetime call... maybe that would
+        # catch the CTRL+C
+        except KeyboardInterrupt:
+            _server_log("Server", "Shutting down...")
+            self.close()
+            return
+
+
+cdef class _Testing:
+    """For testing purposes only."""
+    def __init__(self):
+        pass
+
+    def fill_and_wrap_function_description(self, func_desc):
+        """ fill/wrap test for function description
+
+        Takes a Python object of class FunctionDescription,
+        fills it to a c-lib FuncDescHandle and finally wraps this
+        again and returns another instance of FunctionDescription.
+
+        :param func_desc: instance of class FunctionDescription
+        :return: instance of class FunctionDescription
+        """
+        return wrapFunctionDescription(fillFunctionDescription(func_desc))
+
+    def get_srv_func_desc(self, func_name):
+        """ retrieves a FunctionDescription from the local repository. Returns rc code on repositoryLookup error."""
+        cdef RFC_RC rc
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_ATTRIBUTES rfcAttributes
+        cdef RFC_FUNCTION_DESC_HANDLE funcDesc
+
+        funcName = fillString(func_name)
+        # Get the function description handle
+        rc = repositoryLookup(funcName, rfcAttributes, &funcDesc)
+        free(funcName)
+
+        if rc != RFC_OK:
+            return rc
+        return wrapFunctionDescription(funcDesc)
+
+    def invoke_srv_function(self, func_name, **params):
+        """ invokes a function in the local repository. Returns rc code on repositoryLookup error."""
+        cdef RFC_RC rc
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_ATTRIBUTES rfcAttributes
+        cdef RFC_FUNCTION_DESC_HANDLE funcDesc
+
+        funcName = fillString(func_name)
+        # Get the function description handle
+        rc = repositoryLookup(funcName, rfcAttributes, &funcDesc)
+        free(funcName)
+        if rc != RFC_OK:
+            return rc
+
+        cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
+        if not funcCont:
+            raise wrapError(&errorInfo)
+        try: # now we have a function module
+            for name, value in params.iteritems():
+                fillFunctionParameter(funcDesc, funcCont, name, value)
+
+            rc = genericRequestHandler(NULL, funcCont, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, True)
+        finally:
+            RfcDestroyFunction(funcCont, NULL)
+
+
+cdef RFC_TYPE_DESC_HANDLE fillTypeDescription(type_desc):
+    """
+    :param type_desc: object of class TypeDescription
+    :return: Handle of RFC_TYPE_DESC_HANDLE
+    """
+    cdef RFC_RC = RFC_OK
+    cdef RFC_ERROR_INFO errorInfo
+    cdef RFC_TYPE_DESC_HANDLE typeDesc
+    cdef RFC_FIELD_DESC fieldDesc
+    cdef SAP_UC* sapuc
+
+    # Set name, nuc_length, and uc_length
+    sapuc = fillString(type_desc.name)
+    typeDesc = RfcCreateTypeDesc(sapuc, &errorInfo)
+    free(sapuc)
+    if typeDesc == NULL:
+        raise wrapError(&errorInfo)
+    rc = RfcSetTypeLength(typeDesc, type_desc.nuc_length, type_desc.uc_length, &errorInfo)
+    if rc != RFC_OK:
+        RfcDestroyTypeDesc(typeDesc, NULL)
+        raise wrapError(&errorInfo)
+
+    for field_desc in type_desc.fields:
+        # Set name
+        sapuc = fillString(field_desc['name'])
+        strncpyU(fieldDesc.name, sapuc, len(field_desc['name']) + 1)
+        free(sapuc)
+        fieldDesc.type = _type2rfc[field_desc['field_type']] # set type
+        fieldDesc.nucLength = field_desc['nuc_length']
+        fieldDesc.nucOffset = field_desc['nuc_offset']
+        fieldDesc.ucLength = field_desc['uc_length']
+        fieldDesc.ucOffset = field_desc['uc_offset']
+        fieldDesc.decimals = field_desc['decimals']
+        if field_desc['type_description'] is not None:
+            fieldDesc.typeDescHandle = fillTypeDescription(field_desc['type_description'])
+        else:
+            fieldDesc.typeDescHandle = NULL
+        fieldDesc.extendedDescription = NULL
+        rc = RfcAddTypeField(typeDesc, &fieldDesc, &errorInfo)
+        if rc != RFC_OK:
+            RfcDestroyTypeDesc(typeDesc, NULL)
+            raise wrapError(&errorInfo)
+
+    return typeDesc
+
+cdef RFC_FUNCTION_DESC_HANDLE fillFunctionDescription(func_desc):
+    """
+    :param func_desc: object of class FunctionDescription
+    :return: Handle of RFC_FUNCTION_DESC_HANDLE
+    """
+    cdef RFC_RC = RFC_OK
+    cdef RFC_ERROR_INFO errorInfo
+    cdef RFC_FUNCTION_DESC_HANDLE funcDesc
+    cdef RFC_PARAMETER_DESC paramDesc
+    cdef SAP_UC* sapuc
+
+    # Set name
+    sapuc = fillString(func_desc.name)
+    funcDesc = RfcCreateFunctionDesc(sapuc, &errorInfo)
+    free(sapuc)
+    if funcDesc == NULL:
+        raise wrapError(&errorInfo)
+
+    for param_desc in func_desc.parameters:
+        sapuc = fillString(param_desc['name'])
+        strncpyU(paramDesc.name, sapuc, len(param_desc['name']) + 1)
+        free(sapuc)
+        paramDesc.type = _type2rfc[param_desc['parameter_type']] # set type
+        paramDesc.direction = _direction2rfc[param_desc['direction']]
+        paramDesc.nucLength = param_desc['nuc_length']
+        paramDesc.ucLength = param_desc['uc_length']
+        paramDesc.decimals = param_desc['decimals']
+        # defaultValue
+        sapuc = fillString(param_desc['default_value'])
+        strncpyU(paramDesc.defaultValue, sapuc, len(param_desc['default_value']) + 1)
+        free(sapuc)
+        # parameterText
+        sapuc = fillString(param_desc['parameter_text'])
+        strncpyU(paramDesc.parameterText, sapuc, len(param_desc['parameter_text']) + 1)
+        free(sapuc)
+        paramDesc.optional = <bint> param_desc['optional']
+        if param_desc['type_description'] is not None:
+            paramDesc.typeDescHandle = fillTypeDescription(param_desc['type_description'])
+        else:
+            paramDesc.typeDescHandle = NULL
+        paramDesc.extendedDescription = NULL
+        rc = RfcAddParameter(funcDesc, &paramDesc, &errorInfo)
+        if rc != RFC_OK:
+            RfcDestroyFunctionDesc(funcDesc, NULL)
+            raise wrapError(&errorInfo)
+
+    return funcDesc
 
 cdef RFC_UNIT_IDENTIFIER fillUnitIdentifier(unit) except *:
     cdef RFC_UNIT_IDENTIFIER uIdentifier

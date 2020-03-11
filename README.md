@@ -13,17 +13,17 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Supported platforms
 
-- Python 3, Python 2 [until 2020](https://pythonclock.org/)
+- Python 3, on Python 2 only critical fixes
 
 - The _pyrfc_ connector can be [built from source](http://sap.github.io/PyRFC/build.html) on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
 
-- Pre-built _pyrfc_ wheels are provided in respective [releases](https://github.com/SAP/PyRFC/releases), for Python 3 and Python 2 (until 2020), for Windows 10, Ubuntu 16.04 and macOS 10.14 (experimental).
+- Pre-built _pyrfc_ wheels are provided in respective [releases](https://github.com/SAP/PyRFC/releases), for Python 3 and Python 2 (until 2020), for Windows 10, Ubuntu 16.04 and macOS 10.14.
 
 ## Prerequisites
 
 ### All platforms
 
-- SAP NW RFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and locally installed ([installation instructions](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation)). More information on [SAP NW RFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html). Using the latest version is reccomended as SAP NW RFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
+- SAP NW RFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation). More information on [SAP NW RFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html). Using the latest version is reccomended as SAP NW RFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
 
 - Build from source on macOS and older Linux systems, may require `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NW RFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
@@ -51,14 +51,16 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
 ## Installation
 
-After the SAP NW RFC SDK [installed](#prerequisites) on your system, download the adequate wheel from the [latest release](https://github.com/SAP/PyRFC/releases/latest) and run pip install:
-
-For PyRFC release 1.9.99, for Python 3.7 on Darwin, run for example:
+:exclamation: in preparation :exclamation: Local build from source on your system, triggered by PyPI package install. Check prerequisites above:
 
 ```shell
-wget https://github.com/SAP/PyRFC/releases/download/1.9.99/pyrfc-1.9.99-cp38-cp38-macosx_10_15_x86_64.whl
+pip install pyrfc
+```
 
-pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
+Pre-built wheel installation, without local build from source. Check prerequisites above and choose the wheel adequate for your platform:
+
+```shell
+pip install https://github.com/SAP/PyRFC/releases/download/2.0.2/pyrfc-2.0.2-cp38-cp38-macosx_10_15_x86_64.whl
 ```
 
 Alternatively, or if the _pyrfc_ package for your platform not provided, [build the package from source](http://sap.github.io/PyRFC/build.html) on your system and pip install:
@@ -67,7 +69,7 @@ Alternatively, or if the _pyrfc_ package for your platform not provided, [build 
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
 python setup.py bdist_wheel
-pip install dist/pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
+pip install dist/pyrfc-2.0.3-cp38-cp38-macosx_10_15_x86_64.whl
 # set ABAP system parameters in test/pyrfc.cfg
 pytest -vv
 ```

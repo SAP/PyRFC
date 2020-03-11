@@ -3,8 +3,7 @@ import os
 import sys
 import subprocess
 from codecs import open
-from setuptools import setup, find_packages
-from setuptools.extension import Extension
+from setuptools import setup, find_packages, Extension
 
 import Cython.Distutils
 from Cython.Build import cythonize
@@ -168,7 +167,8 @@ else:
 # https://docs.python.org/2/distutils/apiref.html
 PYRFC_EXT = Extension(
     language="c++",
-    name="%s._%s" % (NAME, NAME),
+    # https://stackoverflow.com/questions/8024805/cython-compiled-c-extension-importerror-dynamic-module-does-not-define-init-fu
+    name="%s.%s" % (NAME, NAME),
     sources=["src/%s/_%s.pyx" % (NAME, NAME)],
     libraries=LIBS,
     define_macros=MACROS,
@@ -180,9 +180,10 @@ PYRFC_EXT = Extension(
 setup(
     name=NAME,
     version=_read("VERSION").strip(),
-    description="Python bindings for SAP NetWeaver RFC Library (libsapnwrfc)",
+    description="Python bindings for SAP NetWeaver RFC Library",
     long_description=_read("README.md"),
     long_description_content_type="text/markdown",
+    download_url="https://github.com/SAP/PyRFC/tarball/master",
     classifiers=[  # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
@@ -197,23 +198,19 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    keywords="%s sap" % NAME,
+    keywords="%s sap rfc nwrfcsdk" % NAME,
     author="Srdjan Boskovic",
     author_email="srdjan.boskovic@sap.com",
     url="https://github.com/SAP/pyrfc",
     license="OSI Approved :: Apache Software License",
-    packages=find_packages("src"),
+    packages=find_packages(where="src", exclude=("material",)),
     package_dir={"": "src"},
-    package_data={
-        # If any package contains *.py files, include them:
-        "": ["*.py"]
-    },
+    # include_package_data=True,
     # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
     zip_safe=False,
     install_requires=["setuptools"],
     setup_requires=["setuptools-git", "Cython", "Sphinx"],
     cmdclass={"build_ext": Cython.Distutils.build_ext},
-    # ext_modules=[PYRFC_EXT],
-    ext_modules=cythonize(PYRFC_EXT, compiler_directives={"language_level": "2"}, annotate=True),
+    ext_modules=cythonize(PYRFC_EXT, annotate=True),
     test_suite="pyrfc",
 )

@@ -15,6 +15,8 @@
 # import from internal modules that they could be directly imported from
 # the pyrfc package
 
+# todo: remove after Python 2 support dropped
+from __future__ import absolute_import
 
 # Set DLL path, due to https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
 import os
@@ -25,7 +27,7 @@ if os.name == "nt":
     except Exception:
         pass
 
-from pyrfc._exception import (
+from ._exception import (
     RFCError,
     RFCLibError,
     CommunicationError,
@@ -37,7 +39,7 @@ from pyrfc._exception import (
     ExternalRuntimeError,
 )
 
-from pyrfc._pyrfc import (
+from .pyrfc import (
     get_nwrfclib_version,
     Connection,
     TypeDescription,
@@ -46,4 +48,4 @@ from pyrfc._pyrfc import (
 
 __author__ = """"Srdjan Boskovic"""
 __email__ = "srdjan.boskovic@sap.com"
-__version__ = "2.0.2"
+__version__ = "2.0.3"

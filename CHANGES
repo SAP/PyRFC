@@ -1,6 +1,10 @@
 Change log
 ==========
 
+2.0.3 (2020-03-XX)
+------------------
+- PyPI package
+
 2.0.2 (2020-03-09)
 ------------------
 - Float and decimal handling for locales with radix different from ".", closes #142
