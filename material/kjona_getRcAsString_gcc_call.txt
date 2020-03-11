@@ -1,4 +1,0 @@
-g++ -I/usr/sap/nwrfcsdk/include -L/usr/sap/nwrfcsdk/lib -DNDEBUG -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -DSAPonUNIX -DSAPwithUNICODE -D__NO_MATH_INLINES -DSAPwithTHREADS -DSAPonLIN -E kjona_getRcAsString.c > kjona_getRcAsString.ii
-/usr/bin/perl u16lit.pl kjona_getRcAsString.ii
-g++ -I/usr/sap/nwrfcsdk/include -L/usr/sap/nwrfcsdk/lib -O2 -minline-all-stringops -g -fno-strict-aliasing -fno-omit-frame-pointer -m64 -fexceptions -funsigned-char -Wall -Wno-uninitialized -Wno-long-long -Wcast-align -pthread -fPIC -c kjona_getRcAsString.i
-g++ -I/usr/sap/nwrfcsdk/include -L/usr/sap/nwrfcsdk/lib -O2 -minline-all-stringops -g -fno-strict-aliasing -fno-omit-frame-pointer -m64 -fexceptions -funsigned-char -Wall -Wno-uninitialized -Wno-long-long -Wcast-align -pthread -fPIC -o kjona_getRcAsString kjona_getRcAsString.o -l sapnwrfc -l sapucum
