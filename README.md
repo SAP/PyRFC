@@ -21,7 +21,9 @@ Stats: https://pypistats.org/packages/pynwrfc
 
 - Python 3, on Python 2 only critical fixes
 
-- Pre-built wheels are provided for Windows 10 and macOS 10.15 and Linux platforms are supported by build from source installation only (see **[Installation](#Installation)** section below).
+- Pre-built wheels are provided for Windows 10 and macOS 10.15
+
+- Linux platforms are supported by build from source installation only (see **[Installation](#Installation)** section below). Portable Linux wheels must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted.
 
 - Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/) are not supported, neither issues related to portable Linux wheels
 

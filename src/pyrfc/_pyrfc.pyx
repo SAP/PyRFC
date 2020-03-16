@@ -21,9 +21,9 @@ import datetime
 import collections
 import locale
 from decimal import Decimal
-from csapnwrfc cimport *
+from . csapnwrfc cimport *
 
-from _exception import *
+from . _exception import *
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
@@ -1137,10 +1137,10 @@ server_functions = {}
 # ctypedef RFC_RC RFC_FUNC_DESC_CALLBACK(SAP_UC *functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle)
 
 def _server_log(origin, log_message):
-    print u"[{timestamp} UTC] {origin} '{msg}'".format(
+    print (u"[{timestamp} UTC] {origin} '{msg}'".format(
         timestamp = datetime.datetime.utcnow(),
         origin = origin,
-        msg = log_message
+        msg = log_message)
     )
 
 cdef RFC_RC repositoryLookup(SAP_UC* functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle):
@@ -1466,66 +1466,66 @@ cdef class Server:
             return
 
 
-cdef class _Testing:
-    """For testing purposes only."""
-    def __init__(self):
-        pass
-
-    def fill_and_wrap_function_description(self, func_desc):
-        """ fill/wrap test for function description
-
-        Takes a Python object of class FunctionDescription,
-        fills it to a c-lib FuncDescHandle and finally wraps this
-        again and returns another instance of FunctionDescription.
-
-        :param func_desc: instance of class FunctionDescription
-        :return: instance of class FunctionDescription
-        """
-        return wrapFunctionDescription(fillFunctionDescription(func_desc))
-
-    def get_srv_func_desc(self, func_name):
-        """ retrieves a FunctionDescription from the local repository. Returns rc code on repositoryLookup error."""
-        cdef RFC_RC rc
-        cdef RFC_ERROR_INFO errorInfo
-        cdef RFC_ATTRIBUTES rfcAttributes
-        cdef RFC_FUNCTION_DESC_HANDLE funcDesc
-
-        funcName = fillString(func_name)
-        # Get the function description handle
-        rc = repositoryLookup(funcName, rfcAttributes, &funcDesc)
-        free(funcName)
-
-        if rc != RFC_OK:
-            return rc
-        return wrapFunctionDescription(funcDesc)
-
-    def invoke_srv_function(self, func_name, **params):
-        """ invokes a function in the local repository. Returns rc code on repositoryLookup error."""
-        cdef RFC_RC rc
-        cdef RFC_ERROR_INFO errorInfo
-        cdef RFC_ATTRIBUTES rfcAttributes
-        cdef RFC_FUNCTION_DESC_HANDLE funcDesc
-
-        funcName = fillString(func_name)
-        # Get the function description handle
-        rc = repositoryLookup(funcName, rfcAttributes, &funcDesc)
-        free(funcName)
-        if rc != RFC_OK:
-            return rc
-
-        cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
-        if not funcCont:
-            raise wrapError(&errorInfo)
-        try: # now we have a function module
-            for name, value in params.iteritems():
-                fillFunctionParameter(funcDesc, funcCont, name, value)
-
-            rc = genericRequestHandler(NULL, funcCont, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, True)
-        finally:
-            RfcDestroyFunction(funcCont, NULL)
+#cdef class _Testing:
+#    """For testing purposes only."""
+#    def __init__(self):
+#        pass
+#
+#    def fill_and_wrap_function_description(self, func_desc):
+#        """ fill/wrap test for function description
+#
+#        Takes a Python object of class FunctionDescription,
+#        fills it to a c-lib FuncDescHandle and finally wraps this
+#        again and returns another instance of FunctionDescription.
+#
+#        :param func_desc: instance of class FunctionDescription
+#        :return: instance of class FunctionDescription
+#        """
+#        return wrapFunctionDescription(fillFunctionDescription(func_desc))
+#
+#    def get_srv_func_desc(self, func_name):
+#        """ retrieves a FunctionDescription from the local repository. Returns rc code on repositoryLookup error."""
+#        cdef RFC_RC rc
+#        cdef RFC_ERROR_INFO errorInfo
+#        cdef RFC_ATTRIBUTES rfcAttributes
+#        cdef RFC_FUNCTION_DESC_HANDLE funcDesc
+#
+#        funcName = fillString(func_name)
+#        # Get the function description handle
+#        rc = repositoryLookup(funcName, rfcAttributes, &funcDesc)
+#        free(funcName)
+#
+#        if rc != RFC_OK:
+#            return rc
+#        return wrapFunctionDescription(funcDesc)
+#
+#    def invoke_srv_function(self, func_name, **params):
+#        """ invokes a function in the local repository. Returns rc code on repositoryLookup error."""
+#        cdef RFC_RC rc
+#        cdef RFC_ERROR_INFO errorInfo
+#        cdef RFC_ATTRIBUTES rfcAttributes
+#        cdef RFC_FUNCTION_DESC_HANDLE funcDesc
+#
+#        funcName = fillString(func_name)
+#        # Get the function description handle
+#        rc = repositoryLookup(funcName, rfcAttributes, &funcDesc)
+#        free(funcName)
+#        if rc != RFC_OK:
+#            return rc
+#
+#        cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
+#        if not funcCont:
+#            raise wrapError(&errorInfo)
+#        try: # now we have a function module
+#            for name, value in params.iteritems():
+#                fillFunctionParameter(funcDesc, funcCont, name, value)
+#
+#            rc = genericRequestHandler(NULL, funcCont, &errorInfo)
+#            if rc != RFC_OK:
+#                raise wrapError(&errorInfo)
+#            return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, True)
+#        finally:
+#            RfcDestroyFunction(funcCont, NULL)
 
 
 cdef RFC_TYPE_DESC_HANDLE fillTypeDescription(type_desc):
@@ -1745,7 +1745,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                     # string passed from application should be locale correct, do nothing
                     svalue = value
                     # decimal separator must be "." for the Decimal parsing check
-                    locale_radix = locale.nl_langinfo(locale.RADIXCHAR)
+                    locale_radix = locale.localeconv()['decimal_point']
                     if locale_radix != ".":
                         Decimal(value.replace(locale_radix, '.'))
                     else:
@@ -1885,7 +1885,7 @@ cdef SAP_UC* fillString(pyuc) except NULL:
     cdef unsigned ucbytes_len = int(len(ucbytes))
     cdef unsigned sapuc_size = ucbytes_len + 1
     cdef SAP_UC* sapuc = mallocU(sapuc_size)
-    sapuc[0] = '\0'
+    sapuc[0] = 0
     cdef unsigned result_len = 0
     rc = RfcUTF8ToSAPUC(ucbytes, ucbytes_len, sapuc, &sapuc_size, &result_len, &errorInfo)
     if rc != RFC_OK:
@@ -2152,7 +2152,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         rc = RfcGetStringLength(container, cName, &strLen, &errorInfo)
         try:
             byteValue = <SAP_RAW*> malloc(strLen+1)
-            byteValue[strLen] = '\0'
+            byteValue[strLen] = 0
             rc = RfcGetXString(container, cName, byteValue, strLen, &resultLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
@@ -2285,7 +2285,7 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
         return ''
     cdef unsigned utf8_size = uclen * 3 + 1
     cdef char *utf8 = <char*> malloc(utf8_size)
-    utf8[0] = '\0'
+    utf8[0] = 0
     cdef unsigned result_len = 0
     rc = RfcSAPUCToUTF8(uc, uclen, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
     if rc != RFC_OK:
