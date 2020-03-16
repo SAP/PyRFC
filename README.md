@@ -6,9 +6,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 ![PyPI - Wheel](https://img.shields.io/pypi/wheel/pynwrfc)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/pynwrfc)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pynwrfc)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/pynwrfc)
-
-Stats: https://pypistats.org/packages/pynwrfc
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/pynwrfc)](https://pypistats.org/packages/pynwrfc)
 
 ## Features
 
