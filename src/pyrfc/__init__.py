@@ -15,9 +15,6 @@
 # import from internal modules that they could be directly imported from
 # the pyrfc package
 
-# todo: remove after Python 2 support dropped
-from __future__ import absolute_import
-
 # Set DLL path, due to https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
 import os
 

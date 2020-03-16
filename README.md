@@ -1,8 +1,14 @@
 # SAP NW RFC SDK Client for Python
 
-[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-
 Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/products/connectors/nwrfcsdk.html) client bindings for Python.
+
+[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/pynwrfc)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/pynwrfc)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pynwrfc)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/pynwrfc)
+
+Stats: https://pypistats.org/packages/pynwrfc
 
 ## Features
 
@@ -15,9 +21,11 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - Python 3, on Python 2 only critical fixes
 
-- The _pyrfc_ connector can be [built from source](http://sap.github.io/PyRFC/build.html) on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
+- Pre-built wheels are provided for Windows 10 and macOS 10.15 and Linux platforms are supported by build from source installation only (see **[Installation](#Installation)** section below).
 
-- Pre-built _pyrfc_ wheels are provided in respective [releases](https://github.com/SAP/PyRFC/releases), for Python 3 and Python 2 (until 2020), for Windows 10, Ubuntu 16.04 and macOS 10.14.
+- Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/) are not supported, neither issues related to portable Linux wheels
+
+- [Build from source](http://sap.github.io/PyRFC/build.html) is supported on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
 
 ## Prerequisites
 
@@ -51,25 +59,25 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
 ## Installation
 
-:exclamation: in preparation :exclamation: Local build from source on your system, triggered by PyPI package install. Check prerequisites above:
+**Binary wheel** installed if found on PyPI, fallback to build from source otherwise:
 
 ```shell
-pip install pyrfc
+pip install pynwrfc
 ```
 
-Pre-built wheel installation, without local build from source. Check prerequisites above and choose the wheel adequate for your platform:
+**Build from source**
 
 ```shell
-pip install https://github.com/SAP/PyRFC/releases/download/2.0.2/pyrfc-2.0.2-cp38-cp38-macosx_10_15_x86_64.whl
+pip install pynwrfc --no-binary :all:
 ```
 
-Alternatively, or if the _pyrfc_ package for your platform not provided, [build the package from source](http://sap.github.io/PyRFC/build.html) on your system and pip install:
+or
 
 ```shell
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
 python setup.py bdist_wheel
-pip install dist/pyrfc-2.0.3-cp38-cp38-macosx_10_15_x86_64.whl
+pip install --find-links=dist pyrf
 # set ABAP system parameters in test/pyrfc.cfg
 pytest -vv
 ```

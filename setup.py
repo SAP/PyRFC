@@ -5,10 +5,15 @@ import subprocess
 from codecs import open
 from setuptools import setup, find_packages, Extension
 
-import Cython.Distutils
-from Cython.Build import cythonize
+# Check prerequisites: Cython
+try:
+    import Cython.Distutils
+    from Cython.Build import cythonize
+except ImportError:
+    sys.exit("Cython not installed.")
 
-# SAP NW RFC SDK dependency
+
+# Check prerequisites: SAP NW RFC SDK
 SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
 if not SAPNWRFC_HOME:
     sys.exit(
@@ -22,13 +27,12 @@ if not PYTHONSOURCE:
     # sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
 
 NAME = "pyrfc"
+PYPIPACKAGE = "pynwrfc"
 HERE = os.path.abspath(os.path.dirname(__file__))
-
-
-def _read(name):
-    with open(os.path.join(HERE, name), "rb", "utf-8") as f:
-        return f.read()
-
+with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
+    VERSION = version_file.read().strip()
+with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
+    LONG_DESCRIPTION = readme_file.read().strip()
 
 # https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
@@ -178,32 +182,31 @@ PYRFC_EXT = Extension(
 
 # cf. http://docs.python.org/distutils/setupscript.html#additional-meta-data
 setup(
-    name=NAME,
-    version=_read("VERSION").strip(),
-    description="Python bindings for SAP NetWeaver RFC Library",
-    long_description=_read("README.md"),
+    name=PYPIPACKAGE,
+    version=VERSION,
+    description=("Python bindings for SAP NetWeaver RFC Library"),
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     download_url="https://github.com/SAP/PyRFC/tarball/master",
     classifiers=[  # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Natural Language :: English",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Programming Language :: Cython",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
-        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    keywords="%s sap rfc nwrfcsdk" % NAME,
-    author="Srdjan Boskovic",
-    author_email="srdjan.boskovic@sap.com",
+    keywords="%s %s pyrfc sap rfc nwrfc sapnwrfc" % (NAME, PYPIPACKAGE),
+    author="SAP SE",
     url="https://github.com/SAP/pyrfc",
     license="OSI Approved :: Apache Software License",
-    packages=find_packages(where="src", exclude=("material",)),
+    maintainer="Srdjan Boskovic",
+    maintainer_email="srdjan.boskovic@sap.com",
+    packages=find_packages(where="src", exclude=("../material", "../examples/**.*",)),
     package_dir={"": "src"},
     # include_package_data=True,
     # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
@@ -211,6 +214,6 @@ setup(
     install_requires=["setuptools"],
     setup_requires=["setuptools-git", "Cython", "Sphinx"],
     cmdclass={"build_ext": Cython.Distutils.build_ext},
-    ext_modules=cythonize(PYRFC_EXT, annotate=True),
+    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3"),
     test_suite="pyrfc",
 )

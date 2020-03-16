@@ -1,1 +1,5 @@
+recursive-exclude doc *
+recursive-exclude examples *
 recursive-exclude material *
+recursive-exclude tests *
+exclude PyRFC.code-workspace

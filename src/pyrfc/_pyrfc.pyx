@@ -23,7 +23,7 @@ import locale
 from decimal import Decimal
 from csapnwrfc cimport *
 
-from pyrfc._exception import *
+from _exception import *
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
