@@ -77,7 +77,7 @@ or
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
 python setup.py bdist_wheel
-pip install --find-links=dist pyrf
+pip install --upgrade --no-index --find-links=dist pynwrfc
 # set ABAP system parameters in test/pyrfc.cfg
 pytest -vv
 ```
