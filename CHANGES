@@ -1,6 +1,12 @@
 Change log
 ==========
 
+2.0.4 (2020-03-17)
+------------------
+- locale method fix for Python 3.8.2 on Windows
+- NWRFCSDK include path fix for Linux
+- README
+
 2.0.3 (2020-03-16)
 ------------------
 - PyPI package pynwrfc

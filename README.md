@@ -1,11 +1,9 @@
-# SAP NW RFC SDK Client for Python
-
 Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/products/connectors/nwrfcsdk.html) client bindings for Python.
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![PyPI - Wheel](https://img.shields.io/pypi/wheel/pynwrfc)
-![PyPI - Implementation](https://img.shields.io/pypi/implementation/pynwrfc)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pynwrfc)
+[![PyPI - Wheel](https://img.shields.io/pypi/wheel/pynwrfc)](https://pypi.org/project/pynwrfc/)
+[![PyPI - Implementation](https://img.shields.io/pypi/implementation/pynwrfc)](https://pypi.org/project/pynwrfc/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pynwrfc)](https://pypi.org/project/pynwrfc/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pynwrfc)](https://pypistats.org/packages/pynwrfc)
 
 ## Features
@@ -21,9 +19,11 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - Pre-built wheels are provided for Windows 10 and macOS 10.15
 
-- Linux platforms are supported by build from source installation only (see **[Installation](#Installation)** section below). Portable Linux wheels must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted.
+- Linux platforms are supported by build from source installation only (see **[Installation](#Installation)** section below).
 
 - Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/) are not supported, neither issues related to portable Linux wheels
+
+- Pre-built portable Linux wheels must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
 - [Build from source](http://sap.github.io/PyRFC/build.html) is supported on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
 
@@ -37,7 +37,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ### Windows
 
-- Visual C++ Redistributable is required for runtime. The version is given in [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
+- [Visual C++ Redistributable](https://www.microsoft.com/en-US/download/details.aspx?id=40784) is required for runtime. The version is given in [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
 
 - Build toolchain for Python 3 requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version reccomended
 

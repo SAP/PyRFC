@@ -62,7 +62,7 @@ if sys.platform.startswith("linux"):
         "-fPIC",
         "-pthread",
         "-minline-all-stringops",
-        "-I{}\\include".format(SAPNWRFC_HOME),
+        "-I{}/include".format(SAPNWRFC_HOME),
     ]
     LINK_ARGS = ["-L{}/lib".format(SAPNWRFC_HOME)]
 elif sys.platform.startswith("win"):

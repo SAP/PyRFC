@@ -129,6 +129,19 @@ def test_string_unicode():
     result = client.call("STFC_CONNECTION", REQUTEXT=hello)["ECHOTEXT"]
     assert result == hello
 
+    unicode_test = [
+        "string",
+        "四周远处都能望见",
+        "\U0001F4AA",
+        "\u0001\uf4aa",
+        "a\xac\u1234\u20ac\U0001F4AA",
+    ]
+
+    for s in unicode_test:
+        is_input = {"ZSHLP_MAT1": s}
+        result = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=is_input)["ES_OUTPUT"]
+        assert is_input["ZSHLP_MAT1"] == result["ZSHLP_MAT1"]
+
 
 def test_date_output():
     lm = client.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
@@ -622,7 +635,7 @@ def test_float_accepts_point_for_point_locale():
 
 
 def test_float_rejects_point_for_comma_locale():
-    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
+    locale.setlocale(locale.LC_ALL, "de_DE")
     IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
     try:
         output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
@@ -638,7 +651,7 @@ def test_float_rejects_point_for_comma_locale():
 
 
 def test_float_accepts_comma_for_comma_locale():
-    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
+    locale.setlocale(locale.LC_ALL, "de_DE")
     IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
     output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
     assert output["RFCFLOAT"] == 1.2
