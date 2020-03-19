@@ -2,7 +2,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/pynwrfc)](https://pypi.org/project/pynwrfc/)
-[![PyPI - Implementation](https://img.shields.io/pypi/implementation/pynwrfc)](https://pypi.org/project/pynwrfc/)
+[![PyPI - Version](https://img.shields.io/pypi/v/pynwrfc)](https://pypi.org/project/pynwrfc/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pynwrfc)](https://pypi.org/project/pynwrfc/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pynwrfc)](https://pypistats.org/packages/pynwrfc)
 
