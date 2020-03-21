@@ -25,15 +25,15 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - Pre-built portable Linux wheels must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
-- [Build from source](http://sap.github.io/PyRFC/build.html) is supported on all [platforms supported by SAP NW RFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
+- [Build from source](http://sap.github.io/PyRFC/build.html) is supported on all [platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
 
 ## Prerequisites
 
 ### All platforms
 
-- SAP NW RFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation). More information on [SAP NW RFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html). Using the latest version is reccomended as SAP NW RFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
+- SAP NWRFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation). More information on [SAP NWRFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html). Using the latest version is reccomended as SAP NWRFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
 
-- Build from source on macOS and older Linux systems, may require `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NW RFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
+- Build from source on macOS and older Linux systems, may require `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NWRFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 ### Windows
 
@@ -55,7 +55,7 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
 - Remote paths must be set in SAP NWRFC SDK for macOS: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
-- Build from source requires `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NW RFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
+- Build from source requires `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NWRFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 ## Installation
 
@@ -85,7 +85,7 @@ pytest -vv
 Set PYRFC_BUILD_CYTHON env variable to build from Cython source, overriding the default build from already cythonized source.
 
 See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
-complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
+complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## Getting started
 
@@ -150,7 +150,7 @@ True
 ```
 
 See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
-complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
+complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## How to obtain support
 

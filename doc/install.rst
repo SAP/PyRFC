@@ -8,16 +8,16 @@ If `SAP NetWeaver RFC SDK <https://support.sap.com/en/product/connectors/nwrfcsd
 are already installed on your system, you can pip install the :mod:`pyrfc` wheel from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_,
 or clone this repository and build :mod:`pyrfc` from the source code, following :ref:`build`.
 
-Use the Python 3 and the latest pyrfc and SAP NW RFC SDK release (fully backwards compatible).
+Use the Python 3 and the latest pyrfc and SAP NWRFC SDK release (fully backwards compatible).
 
 .. _install-c-connector:
 
-SAP NW RFC SDK Installation
+SAP NWRFC SDK Installation
 ===========================
 
-If SAP NW RFC SDK is already installed on your system, you may verify the installation by running the ``rfcexec`` utility, without any parameter.
+If SAP NWRFC SDK is already installed on your system, you may verify the installation by running the ``rfcexec`` utility, without any parameter.
 
-The error message like below indicates that SAP NW RFC SDK installation is technically correct, expecting more input parameters.
+The error message like below indicates that SAP NWRFC SDK installation is technically correct, expecting more input parameters.
 Different error message may be caused by missing Windows C++ binary for example, or another installation inconsistency:
 
      .. code-block:: sh
@@ -31,10 +31,10 @@ Different error message may be caused by missing Windows C++ binary for example,
         The options "-t" (trace), "-f" and "-s" are optional.
 
 
-Information on where to download the SAP NW RFC SDK you may find `here <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_ .
+Information on where to download the SAP NWRFC SDK you may find `here <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_ .
 
-The PyRFC connector relies on *SAP NW RFC SDK* and must be able to find the library
-files at runtime. Therefore, you might either install the *SAP NW RFC SDK*
+The PyRFC connector relies on *SAP NWRFC SDK* and must be able to find the library
+files at runtime. Therefore, you might either install the *SAP NWRFC SDK*
 in the standard library paths of your system or install it in any location and tell the
 Python connector where to look.
 
@@ -43,9 +43,9 @@ Here are configuration examples for Windows, Linux and macOS operating systems.
 Windows
 -------
 
-1. Create the SAP NW RFC SDK home directory, e.g. ``c:\nwrfcsdk``
+1. Create the SAP NWRFC SDK home directory, e.g. ``c:\nwrfcsdk``
 2. Set the SAPNWRFC_HOME env variable: ``SAPNWRFC_HOME=c:\nwrfcsdk``
-3. Unpack the SAP NW RFC SDK archive to it, e.g. ``c:\nwrfcsdk\lib`` shall exist.
+3. Unpack the SAP NWRFC SDK archive to it, e.g. ``c:\nwrfcsdk\lib`` shall exist.
 4. Include the ``lib`` directory to the library search path on Windows, i.e.
    :ref:`extend<install-problems-envvar-win>` the ``PATH`` environment variable.
 
@@ -54,9 +54,9 @@ Add ``c:\nwrfcsdk\lib`` to PATH.
 Linux
 -----
 
-1. Create the SAP NW RFC SDK home directory, e.g. ``/usr/local/sap/nwrfcsdk``
+1. Create the SAP NWRFC SDK home directory, e.g. ``/usr/local/sap/nwrfcsdk``
 2. Set the SAPNWRFC_HOME env variable: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
-3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
+3. Unpack the SAP NWRFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
 4. Include the ``lib`` directory in the library search path:
 
    * As ``root``, create a file ``/etc/ld.so.conf.d/nwrfcsdk.conf`` and
@@ -93,18 +93,18 @@ must be disabled:
 
     sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
-1. Create the SAP NW RFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
+1. Create the SAP NWRFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
 2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
-3. Unpack the SAP NW RFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
-4. Set the remote paths in SAP NW RFC SDK by running `paths_fix.sh <https://github.com/SAP/PyRFC/blob/master/ci/utils/paths_fix.sh>`_ script.
-5. Unzip the `unchar.zip` file attached to `SAP OSS Note 2573953 <https://launchpad.support.sap.com/#/notes/2573953>`_
-   and copy the `uchar.h` file to SAP NW RFC SDK include directory
+3. Unpack the SAP NWRFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
+4. Set the remote paths in SAP NWRFC SDK by running `paths_fix.sh <https://github.com/SAP/PyRFC/blob/master/ci/utils/paths_fix.sh>`_ script.
+5. Unzip the `uchar.zip` file attached to `SAP OSS Note 2573953 <https://launchpad.support.sap.com/#/notes/2573953>`_
+   and copy the `uchar.h` file to SAP NWRFC SDK include directory
 
 This location is fixed to the default ``/usr/local/sap/nwrfcsdk/lib`` rpath, embedded into node-rfc package published on npm.
 
-After moving SAP NW RFC SDK to another location on your system, the rpaths must be adjusted in SAP NW RFC SDK and in pyrfc.so libraries.
+After moving SAP NWRFC SDK to another location on your system, the rpaths must be adjusted in SAP NWRFC SDK and in pyrfc.so libraries.
 
-For SAP NW RFC SDK, set the SAPNWRFC_HOME env variable to new SAP NW RFC SDK root directory and re-run the above script.
+For SAP NWRFC SDK, set the SAPNWRFC_HOME env variable to new SAP NWRFC SDK root directory and re-run the above script.
 
 For pyrfc:
 

@@ -49,17 +49,13 @@ Windows platform
 macOS platform
 --------------
 
-
-* Install Xcode command line tools with C++ development headers and fix the unicode include path:
+* Install Xcode command line tools with C++ development headers and check if `uchar.h` copied to $SAPNWRFC_HOME/include
 
   .. code-block:: sh
 
     xcode-select --install
     sudo installer -pkg macOS_SDK_headers_for_macOS_10.14.pkg -target /
 
-    MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-    sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-    sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/
 
 Building the code
 =================
