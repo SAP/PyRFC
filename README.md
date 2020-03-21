@@ -82,6 +82,8 @@ pip install --upgrade --no-index --find-links=dist pynwrfc
 pytest -vv
 ```
 
+Set PYRFC_BUILD_CYTHON env variable to build from Cython source, overriding the default build from already cythonized source.
+
 See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
@@ -149,12 +151,6 @@ True
 
 See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NW RFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
-
-## Known Issues
-
-- Python 2 will not be maintained past 2020
-
-- Unicode path fix required for [build from source](http://sap.github.io/PyRFC/build.html) on macOS
 
 ## How to obtain support
 

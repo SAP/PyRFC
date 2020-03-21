@@ -1,4 +1,4 @@
-declare -a PYTHONS=("369" "375" "380")
+declare -a PYTHONS=("380" "375" "369")
 
 for PYTHON_VERSION in "${PYTHONS[@]}"
 do

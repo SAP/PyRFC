@@ -5,28 +5,27 @@ import subprocess
 from codecs import open
 from setuptools import setup, find_packages, Extension
 
-# Check prerequisites: Cython
-try:
-    import Cython.Distutils
-    from Cython.Build import cythonize
-except ImportError:
-    sys.exit("Cython not installed.")
+BUILD_CYTHON = os.getenv("PYRFC_BUILD_CYTHON", False)
+if BUILD_CYTHON:
+    try:
+        from Cython.Distutils import build_ext
+        from Cython.Build import cythonize
+    except ImportError:
+        sys.exit("Cython not installed.")
+    SOURCE_EXT = "pyx"
+    CMDCLASS = {"build_ext": build_ext}
+else:
+    SOURCE_EXT = "cpp"
+    CMDCLASS = {}
 
-
-# Check prerequisites: SAP NW RFC SDK
+# Check if SAP NWRFC SDK configured
 SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
 if not SAPNWRFC_HOME:
     sys.exit(
-        "Environment variable SAPNWRFC_HOME not set. Please specify this variable with the root directory of the SAP NW RFC Library."
+        "Environment variable SAPNWRFC_HOME not set.\nPlease specify this variable with the root directory of the SAP NWRFC Library."
     )
 
-# Python sources
-PYTHONSOURCE = os.environ.get("PYTHONSOURCE")
-if not PYTHONSOURCE:
-    PYTHONSOURCE = inspect.getfile(inspect).split("/inspect.py")[0]
-    # sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
-
-NAME = "pyrfc"
+MODULE_NAME = "pyrfc"
 PYPIPACKAGE = "pynwrfc"
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
@@ -67,6 +66,13 @@ if sys.platform.startswith("linux"):
     LINK_ARGS = ["-L{}/lib".format(SAPNWRFC_HOME)]
 elif sys.platform.startswith("win"):
     # https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options-listed-alphabetically
+
+    # Python sources
+    PYTHONSOURCE = os.environ.get("PYTHONSOURCE")
+    if not PYTHONSOURCE:
+        PYTHONSOURCE = inspect.getfile(inspect).split("/inspect.py")[0]
+        # sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
+
     subprocess.call("ci\\utils\\nwrfcsdk-version.bat", shell=True)
     LIBS = ["sapnwrfc", "libsapucum"]
 
@@ -172,12 +178,12 @@ else:
 PYRFC_EXT = Extension(
     language="c++",
     # https://stackoverflow.com/questions/8024805/cython-compiled-c-extension-importerror-dynamic-module-does-not-define-init-fu
-    name="%s.%s" % (NAME, NAME),
-    sources=["src/%s/_%s.pyx" % (NAME, NAME)],
-    libraries=LIBS,
+    name="%s.%s" % (MODULE_NAME, MODULE_NAME),
+    sources=["src/%s/_%s.%s" % (MODULE_NAME, MODULE_NAME, SOURCE_EXT)],
     define_macros=MACROS,
     extra_compile_args=COMPILE_ARGS,
     extra_link_args=LINK_ARGS,
+    libraries=LIBS,
 )
 
 # cf. http://docs.python.org/distutils/setupscript.html#additional-meta-data
@@ -200,20 +206,22 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    keywords="%s %s pyrfc sap rfc nwrfc sapnwrfc" % (NAME, PYPIPACKAGE),
+    keywords="%s %s pyrfc sap rfc nwrfc sapnwrfc" % (MODULE_NAME, PYPIPACKAGE),
     author="SAP SE",
     url="https://github.com/SAP/pyrfc",
     license="OSI Approved :: Apache Software License",
     maintainer="Srdjan Boskovic",
     maintainer_email="srdjan.boskovic@sap.com",
-    packages=find_packages(where="src", exclude=("../material", "../examples/**.*",)),
+    packages=find_packages(where="src"),
     package_dir={"": "src"},
     # include_package_data=True,
     # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
     zip_safe=False,
     install_requires=["setuptools"],
     setup_requires=["setuptools-git", "Cython", "Sphinx"],
-    cmdclass={"build_ext": Cython.Distutils.build_ext},
-    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3"),
-    test_suite="pyrfc",
+    cmdclass=CMDCLASS,
+    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3")
+    if BUILD_CYTHON
+    else [PYRFC_EXT],
+    test_suite=MODULE_NAME,
 )
