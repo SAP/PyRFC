@@ -31,7 +31,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ### All platforms
 
-- SAP NWRFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation). More information on [SAP NWRFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html). Using the latest version is reccomended as SAP NWRFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
+- SAP NWRFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation). More information on [SAP NWRFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html). Using the latest version is recommended as SAP NWRFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
 
 - Build from source on macOS and older Linux systems, may require `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NWRFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
@@ -39,7 +39,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - [Visual C++ Redistributable](https://www.microsoft.com/en-US/download/details.aspx?id=40784) is required for runtime. The version is given in [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
 
-- Build toolchain for Python 3 requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version reccomended
+- Build toolchain for Python 3 requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version recommended
 
 - Build toolchain for Python 2 requires [Microsoft Visual C++ 9.0](http://aka.ms/vcpython27)
 
@@ -83,9 +83,6 @@ pytest -vv
 ```
 
 Set PYRFC_BUILD_CYTHON env variable to build from Cython source, overriding the default build from already cythonized source.
-
-See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
-complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## Getting started
 
@@ -149,7 +146,7 @@ Connecting ... 10.0.0.1
 True
 ```
 
-See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
+See also the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## How to obtain support
