@@ -38,6 +38,7 @@ class TestConnection:
     def test_connection_info(self):
         connection_info = self.conn.get_connection_attributes()
         info_keys = (
+            "dest",
             "host",
             "partnerHost",
             "sysNumber",
@@ -57,7 +58,9 @@ class TestConnection:
             "kernelRel",
             "cpicConvId",
             "progName",
-            "partnerBytesPerChar"
+            "partnerBytesPerChar",
+            "partnerIP",
+            "partnerIPv6"
             # 'reserved'
         )
         assert all(k in connection_info for k in info_keys)

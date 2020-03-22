@@ -188,7 +188,9 @@ cdef extern from "sapnwrfc.h":
         SAP_UC progName[128+1]
         SAP_UC partnerBytesPerChar[1+1]
         SAP_UC partnerSystemCodepage[4 + 1]
-        SAP_UC reserved[79]
+        SAP_UC partnerIP[15 + 1]
+        SAP_UC partnerIPv6[45 + 1]
+        SAP_UC reserved[17]
 
     ctypedef struct RFC_UNIT_ATTRIBUTES:
         short kernelTrace
