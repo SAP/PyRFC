@@ -67,6 +67,7 @@ cdef extern from "sapnwrfc.h":
         RFCTYPE_STRUCTURE
         RFCTYPE_STRING
         RFCTYPE_XSTRING
+        RFCTYPE_UTCLONG
 
     ctypedef enum RFC_RC:
         RFC_OK

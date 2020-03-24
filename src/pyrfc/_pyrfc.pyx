@@ -43,6 +43,7 @@ _type2rfc = {
     'RFCTYPE_INT2': RFCTYPE_INT2,
     'RFCTYPE_INT1': RFCTYPE_INT1,
     'RFCTYPE_INT8': RFCTYPE_INT8,
+    'RFCTYPE_UTCLONG': RFCTYPE_UTCLONG,
     'RFCTYPE_STRUCTURE': RFCTYPE_STRUCTURE,
     'RFCTYPE_STRING': RFCTYPE_STRING,
     'RFCTYPE_XSTRING': RFCTYPE_XSTRING
@@ -1763,6 +1764,12 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             if type(value) is not int:
                 raise TypeError('an integer required, received', value, 'of type', type(value))
             rc = RfcSetInt8(container, cName, value, &errorInfo)
+        elif typ == RFCTYPE_UTCLONG:
+            if type(value) is not str:
+                raise TypeError('an string is required, received', value, 'of type', type(value))
+            cValue = fillString(value)
+            rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
+            free(cValue)
         elif typ == RFCTYPE_DATE:
             if value:
                 format_ok = True
@@ -1898,7 +1905,7 @@ cdef SAP_UC* fillString(pyuc) except NULL:
 # wrapper functions take C values and returns Python values
 
 cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes, rstrip=True):
-    attrs = {
+    return {
           'dest': wrapString(attributes.dest, 64, rstrip)                                     # RFC destination
         , 'host': wrapString(attributes.host, 100, rstrip)                                    # Own host name
         , 'partnerHost': wrapString(attributes.partnerHost, 100, rstrip)                      # Partner host name
@@ -2232,6 +2239,19 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
         return int8Value
+    elif typ == RFCTYPE_UTCLONG:
+        rc = RfcGetStringLength(container, cName, &strLen, &errorInfo)
+        try:
+            stringValue = mallocU(strLen+1)
+            # textual representation from NWRFC SDK because clients' systems unlikely support nanoseconds
+            rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            utcValue = wrapString(stringValue, resultLen)
+            # replace the "," separator with "."
+            return utcValue[:19]+'.'+utcValue[20:] 
+        finally:
+            free(stringValue)
     elif typ == RFCTYPE_DATE:
         rc = RfcGetDate(container, cName, dateValue, &errorInfo)
         if rc != RFC_OK:

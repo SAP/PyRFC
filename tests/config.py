@@ -40,6 +40,11 @@ RFC_MATH = {
     },
     "DATE": {"MIN": "00010101", "MAX": "99991231"},
     "TIME": {"MIN": "000000", "MAX": "235959"},
+    "UTCLONG": {
+        "MIN": "0001-01-01T00:00:00.0000000",
+        "MAX": "9999-12-31T23:59:59.9999999",
+        "INITIAL": "0000-00-00T00:00:00.0000000",
+    },
 }
 
 
@@ -80,4 +85,3 @@ UNICODE1 = u"四周远处都"
 BYTEARRAY_TEST = bytearray.fromhex("01414243444549500051fdfeff")
 BYTES_TEST = bytes(BYTEARRAY_TEST)
 PARAMS = CONNECTION_INFO
-
