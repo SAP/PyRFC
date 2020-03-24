@@ -1898,7 +1898,7 @@ cdef SAP_UC* fillString(pyuc) except NULL:
 # wrapper functions take C values and returns Python values
 
 cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes, rstrip=True):
-    return {
+    attrs = {
           'dest': wrapString(attributes.dest, 64, rstrip)                                     # RFC destination
         , 'host': wrapString(attributes.host, 100, rstrip)                                    # Own host name
         , 'partnerHost': wrapString(attributes.partnerHost, 100, rstrip)                      # Partner host name
@@ -1920,8 +1920,9 @@ cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes, rstrip=True):
         , 'cpicConvId': wrapString(attributes.cpicConvId, 8, rstrip)                          # CPI-C Conversation ID
         , 'progName': wrapString(attributes.progName, 128, rstrip)                            # Name of the calling APAB program (report, module pool)
         , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, rstrip)        # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
-        , 'partnerIP': wrapString(attributes.partnerIP, 15, rstrip)                           #  Partner system code page
-        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, rstrip)                       #  Partner system code pag
+        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, rstrip)    # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
+        , 'partnerIP': wrapString(attributes.partnerIP, 15, rstrip)                           # Partner system code page
+        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, rstrip)                       # Partner system code page IPv6
         # , 'reserved': wrapString(attributes.reserved, 17, rstrip)                           # Reserved for later use
  }
 
