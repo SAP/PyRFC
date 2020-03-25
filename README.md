@@ -22,9 +22,11 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - Linux supported by build from source installation only
 
-- Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/) - are not supported, neither issues related to portable Linux wheels
+- Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/)
 
-      	- :exclamation: be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
+  - are not supported, neither issues related to portable Linux wheels
+
+  - :exclamation: be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
 - [Platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) can be supported by [build from source](http://sap.github.io/PyRFC/build.html)
 
