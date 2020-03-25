@@ -26,7 +26,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
   - are not supported, neither issues related to portable Linux wheels
 
-  - :exclamation: be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
+  - :exclamation: must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
 - [Platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) can be supported by [build from source](http://sap.github.io/PyRFC/build.html)
 
