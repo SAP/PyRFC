@@ -39,6 +39,7 @@ from ._exception import (
 from .pyrfc import (
     get_nwrfclib_version,
     Connection,
+    Throughput,
     TypeDescription,
     FunctionDescription,
 )

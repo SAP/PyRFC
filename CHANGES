@@ -1,10 +1,12 @@
 Change log
 ==========
 
-2.0.5 (2020-xx-xx)
+2.0.5 (2020-03-25)
 ------------------
-- Build from C and Cython sources
-- Documentation
+- Build from C sources as default, Cython build optional
+- Connection attributes added, as of SAP NWRFC SDK 7.50 PL3
+- Throughput monitoring: number of calls, bytes sent/received, application/total time, as of SAP NWRFC SDK 7.50 PL3
+- UTCLONG ABAP datatype support, as of SAP NWRFC SDK 7.50 PL4
 
 2.0.4 (2020-03-17)
 ------------------

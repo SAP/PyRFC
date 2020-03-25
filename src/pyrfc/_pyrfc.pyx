@@ -21,8 +21,8 @@ import datetime
 import collections
 import locale
 from decimal import Decimal
+from cpython cimport array
 from . csapnwrfc cimport *
-
 from . _exception import *
 
 # inverts the enumeration of RFC_DIRECTION
@@ -69,7 +69,6 @@ _MASK_RSTRIP = 0x04
 # other threads may be blocked meanwhile. To avoid this, some statements
 # calling NW RFC Lib functions are executed within a "with nogil:" block,
 # thereby releasing the Python global interpreter lock (GIL).
-
 
 ################################################################################
 # NW RFC LIB FUNCTIONALITY
@@ -187,11 +186,11 @@ cdef class Connection:
             Note that this is usually required because the object destruction
             can be delayed by the garbage collection and problems may occur
             when too many connections are opened.
-        """ 
+        """
         self.__del__()
 
     def __del__(self):
-        if self.paramCount > 0: 
+        if self.paramCount > 0:
             for i in range(self.paramCount):
                 free(<SAP_UC*> self.connectionParams[i].name)
                 free(<SAP_UC*> self.connectionParams[i].value)
@@ -2249,7 +2248,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
                 raise wrapError(&errorInfo)
             utcValue = wrapString(stringValue, resultLen)
             # replace the "," separator with "."
-            return utcValue[:19]+'.'+utcValue[20:] 
+            return utcValue[:19]+'.'+utcValue[20:]
         finally:
             free(stringValue)
     elif typ == RFCTYPE_DATE:
@@ -2320,3 +2319,140 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
             return utf8.decode('UTF-8')
     finally:
         free(utf8)
+
+################################################################################
+# THROUGHPUT FUNCTIONS                                                         #
+################################################################################
+
+cdef class Throughput:
+    _registry = []
+
+    cdef RFC_THROUGHPUT_HANDLE _throughput_handle
+    cpdef _connections
+
+    def __init__(self, connections = []):
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC rc
+        self._throughput_handle = NULL
+        self._connections = set()
+        self._throughput_handle = RfcCreateThroughput(&errorInfo)
+        if errorInfo.code != RFC_OK:
+            raise wrapError(&errorInfo)
+        Throughput._registry.append(self)
+        if not isinstance(connections, list):
+            connections = [connections]
+        for conn in connections:
+            if not isinstance(conn, Connection):
+                raise TypeError('Connection object required, received', conn, 'of type', type(conn))
+            self.setOnConnection(conn)
+
+    property connections:
+        def __get__(self):
+            return self._connections
+
+    property _handle:
+        def __get__(self):
+            return <unsigned long>self._throughput_handle
+
+    def setOnConnection(self, Connection connection):
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC rc = RfcSetThroughputOnConnection(connection._handle, self._throughput_handle, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        self._connections.add(connection)
+
+    @staticmethod
+    def getFromConnection(Connection connection):
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_THROUGHPUT_HANDLE throughput = RfcGetThroughputFromConnection(connection._handle, &errorInfo)
+        if errorInfo.code != RFC_OK:
+            raise wrapError(&errorInfo)
+        for t in Throughput._registry:
+            if t._handle == <unsigned long>throughput:
+                return t
+        return None
+
+    def removeFromConnection(self, Connection connection):
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC rc = RfcRemoveThroughputFromConnection(connection._handle, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        self._connections.remove(connection)
+
+    def reset(self):
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC rc = RfcResetThroughput(self._throughput_handle, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+
+    cdef _destroy(self):
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC
+        self._registry.clear()
+        self._connections = None
+        if self._throughput_handle != NULL:
+            rc = RfcDestroyThroughput(self._throughput_handle, &errorInfo)
+            self._throughput_handle = NULL
+
+    def __del__(self):
+        self.destroy()
+
+    def __exit__(self, type, value, traceback):
+        self._destroy()
+
+    def __enter__(self):
+        return self
+
+    property stats:
+        def __get__(self):
+            cdef RFC_ERROR_INFO errorInfo
+            cdef RFC_RC rc
+            cdef SAP_ULLONG numberOfCalls
+            cdef SAP_ULLONG sentBytes
+            cdef SAP_ULLONG receivedBytes
+            cdef SAP_ULLONG applicationTime
+            cdef SAP_ULLONG totalTime
+            cdef SAP_ULLONG serializationTime
+            cdef SAP_ULLONG deserializationTime
+
+            _stats = {}
+
+            if self._throughput_handle == NULL:
+                raise RFCError('No connections assigned')
+
+            rc = RfcGetNumberOfCalls (self._throughput_handle, &numberOfCalls, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            _stats['numberOfCalls'] = numberOfCalls
+
+            rc = RfcGetSentBytes (self._throughput_handle, &sentBytes, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            _stats['sentBytes'] = sentBytes
+
+            rc = RfcGetReceivedBytes (self._throughput_handle, &receivedBytes, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            _stats['receivedBytes'] = receivedBytes
+
+            rc = RfcGetApplicationTime (self._throughput_handle, &applicationTime, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            _stats['applicationTime'] = applicationTime
+
+            rc = RfcGetTotalTime (self._throughput_handle, &totalTime, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            _stats['totalTime'] = totalTime
+
+            rc = RfcGetSerializationTime (self._throughput_handle, &serializationTime, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            _stats['serializationTime'] = serializationTime
+
+            rc = RfcGetDeserializationTime (self._throughput_handle, &deserializationTime, &errorInfo)
+            if rc != RFC_OK:
+                raise wrapError(&errorInfo)
+            _stats['deserializationTime'] = deserializationTime
+
+            return _stats

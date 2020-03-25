@@ -17,6 +17,7 @@ cdef extern from "sapnwrfc.h":
     ctypedef unsigned short SAP_CHAR
     ctypedef unsigned short SAP_USHORT
     ctypedef SAP_USHORT SAP_UTF16
+    ctypedef unsigned long long SAP_ULLONG
     # size_t strlenU(SAP_UC*)
     unsigned strlenU(SAP_UC*)
     SAP_CHAR *mallocU(size_t)
@@ -124,6 +125,7 @@ cdef extern from "sapnwrfc.h":
     ctypedef void* RFC_TRANSACTION_HANDLE
     ctypedef void* RFC_UNIT_HANDLE
     ctypedef void* RFC_METADATA_QUERY_RESULT_HANDLE
+    ctypedef void* RFC_THROUGHPUT_HANDLE
 
     ctypedef struct RFC_CONNECTION_PARAMETER:
         SAP_UC* name
@@ -320,3 +322,16 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcDestroyUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetUnitState(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER* identifier, RFC_UNIT_STATE* state, RFC_ERROR_INFO* errorInfo)
 
+    RFC_THROUGHPUT_HANDLE RfcCreateThroughput(RFC_ERROR_INFO* errorInfo)	
+    RFC_RC RfcDestroyThroughput (RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcSetThroughputOnConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcRemoveThroughputFromConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_THROUGHPUT_HANDLE RfcGetThroughputFromConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcResetThroughput (RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetNumberOfCalls (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *numberOfCalls, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetTotalTime (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *totalTime, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetSerializationTime (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *serializationTime, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetDeserializationTime (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *deserializationTime, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetApplicationTime (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *applicationTime, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetSentBytes (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *sentBytes, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetReceivedBytes (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *receivedBytes, RFC_ERROR_INFO *errorInfo)
