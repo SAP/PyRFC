@@ -2239,7 +2239,8 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             raise wrapError(&errorInfo)
         return int8Value
     elif typ == RFCTYPE_UTCLONG:
-        rc = RfcGetStringLength(container, cName, &strLen, &errorInfo)
+        # rc = RfcGetStringLength(container, cName, &strLen, &errorInfo)
+        strLen = 27 # is fixed
         try:
             stringValue = mallocU(strLen+1)
             # textual representation from NWRFC SDK because clients' systems unlikely support nanoseconds

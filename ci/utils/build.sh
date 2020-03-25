@@ -6,10 +6,10 @@ do
     rm -rf tests/stfc-mrfc/__pycache__
     echo py$PYTHON_VERSION
     pyenv activate py$PYTHON_VERSION
-    python setup.py bdist_wheel
+    PYRFC_BUILD_CYTHON=yes python setup.py bdist_wheel
     pip install --upgrade --force --find-links=dist pynwrfc
     [[ $1 != skip ]] && pytest -vv
 done
-python setup.py sdist
+[[ $1 == sdist ]] && python setup.py sdist
 
 
