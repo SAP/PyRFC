@@ -8,36 +8,42 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Features
 
-- Stateless and stateful connections (multiple function calls in the same ABAP session (same context))
+- Stateless and stateful connections (multiple function calls in the same ABAP session / same context)
 - Sequential and parallel calls, using one or more clients
 - Automatic conversion between Python and ABAP datatypes
+- :new: Throughput monitoring
 - Extensive unit tests
 
 ## Supported platforms
 
-- Python 3, on Python 2 only critical fixes
+- Python 3
 
-- Pre-built wheels are provided for Windows 10 and macOS 10.15
+- Windows 10 and macOS 10.15 supported by pre-built wheels and build from source installation
 
-- Linux platforms are supported by build from source installation only (see **[Installation](#Installation)** section below).
+- Linux supported by build from source installation only
 
-- Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/) are not supported, neither issues related to portable Linux wheels
+- Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/)
 
-- Pre-built portable Linux wheels must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
+  - are not supported, neither issues related to portable Linux wheels
 
-- [Build from source](http://sap.github.io/PyRFC/build.html) is supported on all [platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790).
+  - :exclamation: must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
+
+- [Platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) can be supported by [build from source](http://sap.github.io/PyRFC/build.html)
 
 ## Prerequisites
 
 ### All platforms
 
-- SAP NWRFC SDK C++ binaries must be downloaded (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation). More information on [SAP NWRFC SDK section on SAP Support Portal](https://support.sap.com/en/product/connectors/nwrfcsdk.html). Using the latest version is recommended as SAP NWRFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
+- SAP NWRFC SDK 7.50 PL3 or later must be [downloaded](https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=DISPHIER&HEADER=Y&FUNCTIONBAR=N&EVENT=TREE&NE=NAVIGATE&ENR=01200314690100002214&V=MAINT) (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation)
+
+  - Using the latest version is recommended as SAP NWRFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
+  - SAP NWRFC SDK [overview](https://support.sap.com/en/product/connectors/nwrfcsdk.html) and [release notes](https://launchpad.support.sap.com/#/softwarecenter/object/0020000000340702020)
 
 - Build from source on macOS and older Linux systems, may require `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NWRFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 ### Windows
 
-- [Visual C++ Redistributable](https://www.microsoft.com/en-US/download/details.aspx?id=40784) is required for runtime. The version is given in [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
+- [Visual C++ Redistributable Package for Visual Studio 2013](https://www.microsoft.com/en-US/download/details.aspx?id=40784) is required for runtime, see [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
 
 - Build toolchain for Python 3 requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version recommended
 
@@ -59,6 +65,8 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
 ## Installation
 
+`PYRFC_BUILD_CYTHON` environment variable can be set to trigger Cython based build, overriding the default C based build from already cythonized CPP source.
+
 **Binary wheel** installed if found on PyPI, fallback to build from source otherwise:
 
 ```shell
@@ -69,6 +77,8 @@ pip install pynwrfc
 
 ```shell
 pip install pynwrfc --no-binary :all:
+# or
+PYRFC_BUILD_CYTHON=yes pip install pynwrfc --no-binary :all:
 ```
 
 or
@@ -82,7 +92,8 @@ pip install --upgrade --no-index --find-links=dist pynwrfc
 pytest -vv
 ```
 
-Set PYRFC_BUILD_CYTHON env variable to build from Cython source, overriding the default build from already cythonized source.
+See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
+complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## Getting started
 
@@ -93,8 +104,8 @@ Set PYRFC_BUILD_CYTHON env variable to build from Cython source, overriding the 
 In order to call remote enabled ABAP function module (ABAP RFM), first a connection must be opened.
 
 ```python
->>> from pyrfc import Connection
->>> conn = Connection(ashost='10.0.0.1', sysnr='00', client='100', user='me', passwd='secret')
+from pyrfc import Connection
+conn = Connection(ashost='10.0.0.1', sysnr='00', client='100', user='me', passwd='secret')
 ```
 
 Connection parameters are documented in **sapnwrfc.ini** file, located in the SAP NWRFC SDK `demo` folder.
@@ -104,45 +115,60 @@ Connection parameters are documented in **sapnwrfc.ini** file, located in the SA
 Using an open connection, remote function modules (RFM) can be invoked. More info in [pyrfc documentation](http://sap.github.io/PyRFC/client.html#client-scenariol).
 
 ```python
->>> result = conn.call('STFC_CONNECTION', REQUTEXT=u'Hello SAP!')
->>> print result
+# ABAP variables are mapped to Python variables
+result = conn.call('STFC_CONNECTION', REQUTEXT=u'Hello SAP!')
+print (result)
 {u'ECHOTEXT': u'Hello SAP!',
  u'RESPTEXT': u'SAP R/3 Rel. 702   Sysid: ABC   Date: 20121001   Time: 134524   Logon_Data: 100/ME/E'}
+
+# ABAP structures are mapped to Python dictionaries
+IMPORTSTRUCT = { "RFCFLOAT": 1.23456789, "RFCCHAR1": "A" }
+
+# ABAP tables are mapped to Python lists, of dictionaries representing ABAP tables' rows
+IMPORTTABLE = []
+
+result = conn.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE)
+
+print result["ECHOSTRUCT"]
+{ "RFCFLOAT": 1.23456789, "RFCCHAR1": "A" ...}
+
+print result["RFCTABLE"]
+[{ "RFCFLOAT": 1.23456789, "RFCCHAR1": "A" ...}]
 ```
 
 Finally, the connection is closed automatically when the instance is deleted by the garbage collector. As this may take some time, we may either call the close() method explicitly or use the connection as a context manager:
 
 ```python
->>> with Connection(user='me', ...) as conn:
-        conn.call(...)
-    # connection automatically closed here
+with Connection(user='me', ...) as conn:
+    conn.call(...)
+# connection automatically closed here
 ```
 
 Alternatively, connection parameters can be provided as a dictionary:
 
 ```python
->>> def get_connection(conn_params):
-...     """Get connection"""
-...     print 'Connecting ...', conn_params['ashost']
-...     return Connection(**conn_param)
+def get_connection(conn_params):
+    """Get connection"""
+    print 'Connecting ...', conn_params['ashost']
+    return Connection(**conn_param)
 
->>> from pyrfc import Connection
+from pyrfc import Connection
 
->>> abap_system = {
-...    'user'      : 'me',
-...    'passwd'    : 'secret',
-...    'ashost'    : '10.0.0.1',
-...    'saprouter' : '/H/111.22.33.44/S/3299/W/e5ngxs/H/555.66.777.888/H/',
-...    'sysnr'     : '00',
-...    'client'    : '100',
-...    'trace' : '3', #optional, in case you want to trace
-...    'lang'      : 'EN'
-... }
+abap_system = {
+    'user'      : 'me',
+    'passwd'    : 'secret',
+    'ashost'    : '10.0.0.1',
+    'saprouter' : '/H/111.22.33.44/S/3299/W/e5ngxs/H/555.66.777.888/H/',
+    'sysnr'     : '00',
+    'client'    : '100',
+    'trace'     : '3', #optional, in case you want to trace
+    'lang'      : 'EN'
+}
 
->>> conn = get_connection(abap_system)
+conn = get_connection(**abap_system)
 Connecting ... 10.0.0.1
 
->>>conn.alive
+conn.alive
 True
 ```
 

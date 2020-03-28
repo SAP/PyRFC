@@ -39,10 +39,11 @@ from ._exception import (
 from .pyrfc import (
     get_nwrfclib_version,
     Connection,
+    Throughput,
     TypeDescription,
     FunctionDescription,
 )
 
 __author__ = """"Srdjan Boskovic"""
 __email__ = "srdjan.boskovic@sap.com"
-__version__ = "2.0.4"
+__version__ = "2.0.5"

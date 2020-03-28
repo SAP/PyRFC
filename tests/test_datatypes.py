@@ -36,6 +36,8 @@ from tests.config import (
     BYTES_TEST,
 )
 
+from tests.abap_system import connection_info
+
 locale.setlocale(locale.LC_ALL)
 
 client = Connection(**CONNECTION_INFO)
@@ -647,7 +649,7 @@ def test_float_rejects_point_for_comma_locale():
             ex.message
             == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
         )
-    locale.setlocale(locale.LC_ALL)
+    locale.resetlocale(locale.LC_ALL)
 
 
 def test_float_accepts_comma_for_comma_locale():
@@ -655,7 +657,7 @@ def test_float_accepts_comma_for_comma_locale():
     IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
     output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
     assert output["RFCFLOAT"] == 1.2
-    locale.setlocale(locale.LC_ALL)
+    locale.resetlocale(locale.LC_ALL)
 
 
 def test_bcd_rejects_not_a_number_string():
@@ -724,7 +726,48 @@ def test_numc_rejects_space_string():
         assert ex.args[5] == "IS_INPUT"
 
 
-client.close()
+def test_utclong_accepts_min_max_initial():
+    UTCLONG = RFC_MATH["UTCLONG"]
+    conn = Connection(**connection_info("QM7"))
+
+    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["MIN"])
+    assert res["EV_UTCLONG"] == UTCLONG["MIN"]
+
+    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["MAX"])
+    assert res["EV_UTCLONG"] == UTCLONG["MAX"]
+
+    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["INITIAL"])
+    assert res["EV_UTCLONG"] == UTCLONG["INITIAL"]
+
+    conn.close()
+
+
+def test_utclong_rejects_non_string_or_invalid_format():
+    UTCLONG = RFC_MATH["UTCLONG"]
+    conn = Connection(**connection_info("QM7"))
+    try:
+        res = conn.call("ZDATATYPES", IV_UTCLONG=1)
+    except Exception as ex:
+        assert type(ex) is TypeError
+        assert ex.args == ("an string is required, received", 1, "of type", type(1), "IV_UTCLONG")
+
+    try:
+        res = conn.call("ZDATATYPES", IV_UTCLONG="1")
+    except Exception as ex:
+        assert type(ex) is ExternalRuntimeError
+        assert ex.code == 22
+        assert ex.key == "RFC_CONVERSION_FAILURE"
+        assert ex.message == "Cannot convert 1 to RFCTYPE_UTCLONG : illegal format"
+
+    conn.close()
+    #
+    # TypeError:
+
+    # res = conn.call("ZDATATYPES", IV_UTCLONG="1")
+    # pyrfc._exception.ExternalRuntimeError: RFC_CONVERSION_FAILURE (rc=22): key=RFC_CONVERSION_FAILURE, message=Cannot convert 1 to RFCTYPE_UTCLONG : illegal format [MSG: class=, type=, number=, v1-4:=;;
+
+    conn.close()
+
 
 if __name__ == "__main__":
     unittest.main()
