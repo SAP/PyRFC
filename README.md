@@ -92,7 +92,7 @@ pip install --upgrade --no-index --find-links=dist pynwrfc
 pytest -vv
 ```
 
-See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
+See also the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## Getting started
