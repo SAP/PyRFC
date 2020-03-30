@@ -36,7 +36,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - SAP NWRFC SDK 7.50 PL3 or later must be [downloaded](https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=DISPHIER&HEADER=Y&FUNCTIONBAR=N&EVENT=TREE&NE=NAVIGATE&ENR=01200314690100002214&V=MAINT) (SAP partner or customer account required) and [locally installed](http://sap.github.io/node-rfc/install.html#sap-nw-rfc-library-installation)
 
-  - Using the latest version is reccomended as SAP NWRFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
+  - Using the latest version is recommended as SAP NWRFC SDK is fully backwards compatible, supporting all NetWeaver systems, from today S4, down to R/3 release 4.6C.
   - SAP NWRFC SDK [overview](https://support.sap.com/en/product/connectors/nwrfcsdk.html) and [release notes](https://launchpad.support.sap.com/#/softwarecenter/object/0020000000340702020)
 
 - Build from source on macOS and older Linux systems, may require `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NWRFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
@@ -45,7 +45,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - [Visual C++ Redistributable Package for Visual Studio 2013](https://www.microsoft.com/en-US/download/details.aspx?id=40784) is required for runtime, see [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
 
-- Build toolchain for Python 3 requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version reccomended
+- Build toolchain for Python 3 requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version recommended
 
 - Build toolchain for Python 2 requires [Microsoft Visual C++ 9.0](http://aka.ms/vcpython27)
 
@@ -92,7 +92,7 @@ pip install --upgrade --no-index --find-links=dist pynwrfc
 pytest -vv
 ```
 
-See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
+See also the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## Getting started
@@ -172,7 +172,7 @@ conn.alive
 True
 ```
 
-See also the the [pyrfc documentation](http://sap.github.io/PyRFC),
+See also the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
 
 ## How to obtain support
