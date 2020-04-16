@@ -55,7 +55,6 @@ class TestConnection:
             error = get_error(ex)
             assert error["code"] == 4
             assert error["message"][0] == u"Function not supported"
-            self.conn.call("RFC_PING")
 
     def test_RFC_RAISE_ERROR_AbapApplicationError_E1(self):
         # Comment: cf. result_print of the error_test.py
@@ -70,8 +69,6 @@ class TestConnection:
             assert error["msg_class"] == u"SR"
             assert error["msg_type"] == "E"
             assert error["msg_number"] == "006"
-            # Assures that the connection handle is correctly synchronized
-            self.conn.call("RFC_PING")
 
     def test_RFC_RAISE_ERROR_AbapApplicationError_E2(self):
         # '2_E': 'ABAPApplicationError-5-RAISE_EXCEPTION- Number:000-True',
@@ -83,7 +80,6 @@ class TestConnection:
             assert error["code"] == 5
             assert error["key"] == "RAISE_EXCEPTION"
             assert error["msg_number"] == "000"
-            self.conn.call("RFC_PING")
 
     def test_RFC_RAISE_ERROR_AbapRuntimeError_E3(self):
         # '3_E': 'ABAPRuntimeError-3-COMPUTE_INT_ZERODIVIDE-Division by 0 (type I)-True''] ==
@@ -94,7 +90,6 @@ class TestConnection:
             error = get_error(ex)
             assert error["code"] == 3
             assert error["key"] == "COMPUTE_INT_ZERODIVIDE"
-            self.conn.call("RFC_PING")
 
     def test_RFC_RAISE_ERROR_AbapRuntimeError_A(self):
         # cf. ExceptionTest.c (l. 112ff)
@@ -107,7 +102,6 @@ class TestConnection:
             assert error["msg_type"] == "A"
             assert error["msg_number"] == "006"
             assert error["msg_v1"] == "Method = 0"
-            self.conn.call("RFC_PING")
 
     def test_RFC_RAISE_ERROR_AbapRuntimeError_X(self):
         # cf. ExceptionTest.c (l. 137ff)
@@ -121,7 +115,6 @@ class TestConnection:
             assert error["msg_type"] == "X"
             assert error["msg_number"] == "341"
             assert error["msg_v1"] == "MESSAGE_TYPE_X"
-            self.conn.call("RFC_PING")
 
     def test_RFC_RAISE_ERROR_AbapRuntimeError_E36(self):
         # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] ==
@@ -131,7 +124,6 @@ class TestConnection:
             error = get_error(ex)
             assert error["code"] == 4
             assert u"Division by 0" in error["message"][0]
-            self.conn.call("RFC_PING")
 
     def test_RFC_RAISE_ERROR_AbapRuntimeError_E51(self):
         # '51_E': 'ABAPRuntimeError-3-BLOCKED_COMMIT-A database commit was blocked by the application.-True''] ==
@@ -141,7 +133,6 @@ class TestConnection:
             error = get_error(ex)
             assert error["code"] == 3
             assert error["key"] == "BLOCKED_COMMIT"
-            self.conn.call("RFC_PING")
 
     """ todo Windows test crashes!
     def test_RFC_RAISE_ERROR_ExternalRuntimeError(self):
@@ -155,7 +146,6 @@ class TestConnection:
             #error = get_error(ex)
             #assert error['code'] == 17
             #assert error['key'] == 'RFC_NOT_FOUND'
-            #self.conn.call('RFC_PING')
     """
     # def test_RFC_RAISE_ERROR_CommunicationError(self):
     # Comment: cf. result_print of the error_test.py
@@ -170,7 +160,6 @@ class TestConnection:
     ##    error = get_error(ex)
     ##    assert error['code'] == 1
     ##    assert error['key'] == 'RFC_COMMUNICATION_FAILURE'
-    # self.conn.call('RFC_PING')
 
 
 if __name__ == "__main__":

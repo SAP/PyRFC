@@ -150,7 +150,6 @@ elif sys.platform.startswith("darwin"):
         "-fexceptions",
         "-funsigned-char",
         "-fno-strict-aliasing",
-        "-Wall",
         "-Wno-uninitialized",
         "-Wcast-align",
         "-fPIC",
