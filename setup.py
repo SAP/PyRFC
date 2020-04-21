@@ -5,7 +5,17 @@ import subprocess
 from codecs import open
 from setuptools import setup, find_packages, Extension
 
-BUILD_CYTHON = os.getenv("PYRFC_BUILD_CYTHON", False)
+MODULE_NAME = "pyrfc"
+PYPIPACKAGE = "pynwrfc"
+HERE = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
+    VERSION = version_file.read().strip()
+with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
+    LONG_DESCRIPTION = readme_file.read().strip()
+
+CPP = os.path.join(HERE, "src/pyrfc/_pyrfc.cpp")
+BUILD_CYTHON = os.getenv("PYRFC_BUILD_CYTHON", False) or not os.path.isfile(CPP)
+
 if BUILD_CYTHON:
     try:
         from Cython.Distutils import build_ext
@@ -25,13 +35,6 @@ if not SAPNWRFC_HOME:
         "Environment variable SAPNWRFC_HOME not set.\nPlease specify this variable with the root directory of the SAP NWRFC Library."
     )
 
-MODULE_NAME = "pyrfc"
-PYPIPACKAGE = "pynwrfc"
-HERE = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
-    VERSION = version_file.read().strip()
-with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
-    LONG_DESCRIPTION = readme_file.read().strip()
 
 # https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
