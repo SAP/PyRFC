@@ -5928,7 +5928,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10Connection_28call(struct __pyx_obj_5py
  *             with nogil:
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)             # <<<<<<<<<<<<<<
  *             if rc != RFC_OK:
- *                 if (errorInfo.code == RFC_COMMUNICATION_FAILURE or
+ *                 if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or
  */
           __pyx_v_rc = RfcInvoke(__pyx_v_self->_handle, __pyx_v_funcCont, (&__pyx_v_errorInfo));
         }
@@ -5956,7 +5956,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10Connection_28call(struct __pyx_obj_5py
  *             with nogil:
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
- *                 if (errorInfo.code == RFC_COMMUNICATION_FAILURE or
+ *                 if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or
  *                    errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or
  */
     __pyx_t_1 = ((__pyx_v_rc != RFC_OK) != 0);
@@ -5965,17 +5965,16 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10Connection_28call(struct __pyx_obj_5py
       /* "src/pyrfc/_pyrfc.pyx":423
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
  *             if rc != RFC_OK:
- *                 if (errorInfo.code == RFC_COMMUNICATION_FAILURE or             # <<<<<<<<<<<<<<
+ *                 if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or             # <<<<<<<<<<<<<<
  *                    errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or
  *                    errorInfo.code == RFC_ABAP_MESSAGE            or
  */
       switch (__pyx_v_errorInfo.code) {
-        case RFC_COMMUNICATION_FAILURE:
         case RFC_ABAP_RUNTIME_FAILURE:
 
         /* "src/pyrfc/_pyrfc.pyx":424
  *             if rc != RFC_OK:
- *                 if (errorInfo.code == RFC_COMMUNICATION_FAILURE or
+ *                 if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or
  *                    errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or             # <<<<<<<<<<<<<<
  *                    errorInfo.code == RFC_ABAP_MESSAGE            or
  *                    errorInfo.code == RFC_EXTERNAL_FAILURE):
@@ -5983,7 +5982,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10Connection_28call(struct __pyx_obj_5py
         case RFC_ABAP_MESSAGE:
 
         /* "src/pyrfc/_pyrfc.pyx":425
- *                 if (errorInfo.code == RFC_COMMUNICATION_FAILURE or
+ *                 if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or
  *                    errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or
  *                    errorInfo.code == RFC_ABAP_MESSAGE            or             # <<<<<<<<<<<<<<
  *                    errorInfo.code == RFC_EXTERNAL_FAILURE):
@@ -6040,7 +6039,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10Connection_28call(struct __pyx_obj_5py
         /* "src/pyrfc/_pyrfc.pyx":423
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
  *             if rc != RFC_OK:
- *                 if (errorInfo.code == RFC_COMMUNICATION_FAILURE or             # <<<<<<<<<<<<<<
+ *                 if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or             # <<<<<<<<<<<<<<
  *                    errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or
  *                    errorInfo.code == RFC_ABAP_MESSAGE            or
  */
@@ -6063,7 +6062,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10Connection_28call(struct __pyx_obj_5py
  *             with nogil:
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
- *                 if (errorInfo.code == RFC_COMMUNICATION_FAILURE or
+ *                 if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or
  *                    errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or
  */
     }
@@ -32599,8 +32598,8 @@ static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
     "SAP_UTF16",
     "Server",
     "Throughput",
-    "__pyx_ctuple_207a1__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc",
-    "__pyx_ctuple_207a1__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc_struct",
+    "__pyx_ctuple_25976__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc",
+    "__pyx_ctuple_25976__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc_struct",
     "__pyx_ctuple_Py_ssize_t",
     "__pyx_ctuple_Py_ssize_t_struct",
     "__pyx_ctuple_RFC_BYTE",

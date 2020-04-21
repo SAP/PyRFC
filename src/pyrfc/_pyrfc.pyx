@@ -420,7 +420,7 @@ cdef class Connection:
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
             if rc != RFC_OK:
-                if (errorInfo.code == RFC_COMMUNICATION_FAILURE or
+                if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or
                    errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or
                    errorInfo.code == RFC_ABAP_MESSAGE            or
                    errorInfo.code == RFC_EXTERNAL_FAILURE):
@@ -428,6 +428,7 @@ cdef class Connection:
                     self._handle = RfcOpenConnection(self.connectionParams, self.paramCount, &openErrorInfo)
                     self.alive = (openErrorInfo.code == RFC_OK)
                     if not self.alive:
+                        # Communication error returned as error
                         errorInfo = openErrorInfo
                 self._error(&errorInfo)
             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
