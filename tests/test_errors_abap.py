@@ -29,6 +29,7 @@ class TestConnection:
         try:
             result = self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
         except pyrfc.ABAPRuntimeError as ex:
+            assert self.conn.alive == True
             assert ex.code == 4
             assert ex.key == "Function not supported"
             assert ex.message == "Function not supported"
@@ -41,6 +42,7 @@ class TestConnection:
         try:
             self.conn.call("STFC_SAPGUI")
         except (pyrfc.ABAPRuntimeError) as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 3
             assert error["key"] == "DYNPRO_SEND_IN_BACKGROUND"
@@ -52,6 +54,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="0", MESSAGETYPE="E")
         except (pyrfc.ABAPRuntimeError) as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
             assert error["message"][0] == u"Function not supported"
@@ -63,6 +66,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="1", MESSAGETYPE="E")
         except pyrfc.ABAPApplicationError as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 5
             assert error["key"] == "RAISE_EXCEPTION"
@@ -76,6 +80,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="2", MESSAGETYPE="E")
         except pyrfc.ABAPApplicationError as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 5
             assert error["key"] == "RAISE_EXCEPTION"
@@ -87,6 +92,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="3", MESSAGETYPE="E")
         except (pyrfc.ABAPRuntimeError) as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 3
             assert error["key"] == "COMPUTE_INT_ZERODIVIDE"
@@ -96,6 +102,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
         except (pyrfc.ABAPRuntimeError) as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
             assert error["msg_class"] == "SR"
@@ -108,6 +115,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="X")
         except (pyrfc.ABAPRuntimeError) as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
             assert error["key"] == "MESSAGE_TYPE_X"
@@ -121,6 +129,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="36", MESSAGETYPE="E")
         except (pyrfc.ABAPRuntimeError) as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
             assert u"Division by 0" in error["message"][0]
@@ -130,6 +139,7 @@ class TestConnection:
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="51", MESSAGETYPE="E")
         except (pyrfc.ABAPRuntimeError) as ex:
+            assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 3
             assert error["key"] == "BLOCKED_COMMIT"
