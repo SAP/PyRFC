@@ -1940,7 +1940,7 @@ cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes, rstrip=True):
         , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, rstrip)    # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
         , 'partnerIP': wrapString(attributes.partnerIP, 15, rstrip)                           # Partner system code page
         , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, rstrip)                       # Partner system code page IPv6
-        # , 'reserved': wrapString(attributes.reserved, 17, rstrip)                           # Reserved for later use
+        , 'reserved': wrapString(attributes.reserved, 17, rstrip)                             # Reserved for later use
  }
 
 
@@ -2321,6 +2321,7 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
     utf8[0] = 0
     cdef unsigned result_len = 0
     rc = RfcSAPUCToUTF8(uc, uclen, <RFC_BYTE*> utf8, &utf8_size, &result_len, &errorInfo)
+    print(uc[0], uc[1], uc[2], uc[3], uc[4], "chars", uclen, "bytes", utf8_size, "rlen", result_len, "utf8", utf8)
     if rc != RFC_OK:
         # raise wrapError(&errorInfo)
         raise RFCError('wrapString uclen: %u utf8_size: %u' % (uclen, utf8_size))

@@ -1,4 +1,6 @@
-Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/products/connectors/nwrfcsdk.html) client bindings for Python.
+:heavy_exclamation_mark: Don't upgrade SAP NWRFC SDK on Darwin, see [#143](https://github.com/SAP/node-rfc/issues/143).
+
+Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) client bindings for Python.
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/pynwrfc)](https://pypi.org/project/pynwrfc/)
@@ -12,7 +14,6 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - Sequential and parallel calls, using one or more clients
 - Automatic conversion between Python and ABAP datatypes
 - :new: Throughput monitoring
-- Extensive unit tests
 
 ## Supported platforms
 
@@ -62,6 +63,16 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 - Remote paths must be set in SAP NWRFC SDK for macOS: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 - Build from source requires `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NWRFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
+
+## SPJ articles
+
+Highly recommended reading about RFC communication and SAP NW RFC Library, published in the SAP Professional Journal (SPJ)
+
+- [Part I RFC Client Programming](https://wiki.scn.sap.com/wiki/x/zz27Gg)
+
+- [Part II RFC Server Programming](https://wiki.scn.sap.com/wiki/x/9z27Gg)
+
+- [Part III Advanced Topics](https://wiki.scn.sap.com/wiki/x/FD67Gg)
 
 ## Installation
 
