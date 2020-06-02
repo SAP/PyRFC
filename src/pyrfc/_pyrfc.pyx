@@ -25,6 +25,8 @@ from cpython cimport array
 from . csapnwrfc cimport *
 from . _exception import *
 
+__VERSION__ = "2.0.5"
+
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
                   'RFC_CHANGING': RFC_CHANGING, 'RFC_TABLES': RFC_TABLES}
@@ -143,7 +145,7 @@ cdef class Connection:
             cdef unsigned minor = 0
             cdef unsigned patchlevel = 0
             RfcGetVersion(&major, &minor, &patchlevel)
-            return {'major': major, 'minor': minor, 'patchLevel': patchlevel}
+            return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': sys.platform}
 
     property options:
         def __get__(self):

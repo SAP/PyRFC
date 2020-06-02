@@ -6,6 +6,7 @@ Change log
 - Reopen connection after fatal errors
 - Build from PYX source if C source not found
 - Remove console echo of fist 5 bytes of ABAP strings
+- Platform and pyrfc version added to version
 
 2.0.5 (2020-03-25)
 ------------------

@@ -42,8 +42,9 @@ from .pyrfc import (
     Throughput,
     TypeDescription,
     FunctionDescription,
+    __VERSION__,
 )
 
 __author__ = """"Srdjan Boskovic"""
 __email__ = "srdjan.boskovic@sap.com"
-__version__ = "2.0.5"
+__version__ = __VERSION__
