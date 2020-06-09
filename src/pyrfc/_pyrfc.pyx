@@ -255,8 +255,8 @@ cdef class Connection:
         # Set alive=false if the error is in a certain group
         # Before, the alive=false setting depended on the error code. However, the group seems more robust here.
         # (errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_MESSAGE, RFC_ABAP_RUNTIME_FAILURE, RFC_INVALID_HANDLE, RFC_NOT_FOUND, RFC_INVALID_PARAMETER):
-        if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
-            self.alive = False
+        #if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
+        #    self.alive = False
 
         raise wrapError(errorInfo)
 
@@ -397,7 +397,7 @@ cdef class Connection:
                 raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
         cdef SAP_UC *funcName = fillString(func_name)
         if not self.alive:
-            self._open()
+            raise RFCError("Remote function module %s invocation rejected because the connection is closed" % func_name)
         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
         free(funcName)
         if not funcDesc:
@@ -422,10 +422,9 @@ cdef class Connection:
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
             if rc != RFC_OK:
-                if ( # errorInfo.code == RFC_COMMUNICATION_FAILURE or
-                   errorInfo.code == RFC_ABAP_RUNTIME_FAILURE    or
-                   errorInfo.code == RFC_ABAP_MESSAGE            or
-                   errorInfo.code == RFC_EXTERNAL_FAILURE):
+                if (errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE)):
+                # error groups seen to be more robust here
+                # if (errorInfo.code in(RFC_COMMUNICATION_FAILURE, RFC_ABAP_RUNTIME_FAILURE, RFC_ABAP_MESSAGE, RFC_EXTERNAL_FAILURE):
                     # Connection closed, reopen
                     self._handle = RfcOpenConnection(self.connectionParams, self.paramCount, &openErrorInfo)
                     self.alive = (openErrorInfo.code == RFC_OK)

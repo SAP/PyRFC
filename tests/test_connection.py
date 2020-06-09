@@ -90,6 +90,20 @@ class TestConnection:
         self.conn.reopen()
         assert self.conn.alive
 
+    def test_call_over_closed_connection(self):
+        conn = pyrfc.Connection(config={"rstrip": False}, **config_sections["coevi51"])
+        conn.close()
+        assert conn.alive == False
+        hello = u"Hällo SAP!"
+        try:
+            result = conn.call("STFC_CONNECTION", REQUTEXT=hello)
+        except pyrfc.RFCError as ex:
+            print(ex.args)
+            assert (
+                ex.args[0]
+                == "Remote function module STFC_CONNECTION invocation rejected because the connection is closed"
+            )
+
     def test_config_parameter(self):
         # rstrip test
         conn = pyrfc.Connection(config={"rstrip": False}, **config_sections["coevi51"])
@@ -134,6 +148,7 @@ class TestConnection:
             assert (
                 error["message"][0]
                 == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
+                or error["message"][0] == "An invalid handle was passed to the API call"
             )
 
     def test_RFM_name_string(self):
