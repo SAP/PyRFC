@@ -1751,17 +1751,16 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             # cast to string prevents rounding errors in NWRFC SDK
             try:
                 if type(value) is float or type(value) is Decimal:
-                    # locale correct float representation
-                    svalue = locale.str(value)
+                    svalue = str(value)
                 else:
                     # string passed from application should be locale correct, do nothing
                     svalue = value
-                    # decimal separator must be "." for the Decimal parsing check
-                    locale_radix = locale.localeconv()['decimal_point']
-                    if locale_radix != ".":
-                        Decimal(value.replace(locale_radix, '.'))
-                    else:
-                        Decimal(value)
+                # decimal separator must be "." for the Decimal parsing check
+                locale_radix = locale.localeconv()['decimal_point']
+                if locale_radix != ".":
+                    Decimal(svalue.replace(locale_radix, '.'))
+                else:
+                    Decimal(svalue)
                 cValue = fillString(svalue)
             except:
                 raise TypeError('a decimal value required, received', value, 'of type', type(value))
