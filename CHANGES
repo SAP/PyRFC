@@ -1,7 +1,7 @@
 Change log
 ==========
 
-2.0.6 (2020-04-XX)
+2.0.6 (2020-06-09)
 ------------------
 - Reopen connection after fatal errors
 - Error raised instead of silent reopen, in case of RFM invocation over closed connection

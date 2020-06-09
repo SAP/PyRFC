@@ -25,7 +25,7 @@ from cpython cimport array
 from . csapnwrfc cimport *
 from . _exception import *
 
-__VERSION__ = "2.0.5"
+__VERSION__ = "2.0.6"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
