@@ -1276,7 +1276,7 @@ cdef class Server:
     :type config: dict or None (default)
     :param params: Parameters for registering the server.
                    The parameters may contain the following keywords:
-                   ``GWHOST``, ``GWSERV``, ``PROGRAM_ID``, ``TRACE``,
+                   ``GWHOST`, ``GWSERV``, ``PROGRAM_ID``, ``TRACE``,
                    and ``SAPROUTER``.
     :type params: Keyword parameters
 
@@ -1406,6 +1406,7 @@ cdef class Server:
             "callback": callback,
             "server": self
         }
+        _server_log("Server installed", name)
 
     def serve(self, timeout=None):
         """
@@ -1440,7 +1441,7 @@ cdef class Server:
 
                 rc = RfcListenAndDispatch(self._handle, 3, &errorInfo)
                 #print ".",  # Add print statement? Allows keyboard interrupts to raise Exception
-
+                _server_log("Server rc", rc)
                 if rc in (RFC_OK, RFC_RETRY):
                     pass
                 elif rc == RFC_ABAP_EXCEPTION: # Implementing function raised ABAPApplicationError

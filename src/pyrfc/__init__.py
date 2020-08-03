@@ -42,6 +42,7 @@ from .pyrfc import (
     Throughput,
     TypeDescription,
     FunctionDescription,
+    Server,
     __VERSION__,
 )
 
