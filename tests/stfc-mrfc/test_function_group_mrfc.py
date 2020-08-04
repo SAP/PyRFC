@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # -*- coding: utf-8 -*-
 
 # Note: Some test cases for the exception testing are taken from the c-connector test cases
@@ -56,7 +61,6 @@ class TestMRFC:
        # RFC_PING_AND_WAIT Aufruf und Warten
         pass
     """
-
 
     """
     @unittest.skip("not remote-enabled")

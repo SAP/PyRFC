@@ -7,6 +7,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 [![PyPI - Version](https://img.shields.io/pypi/v/pynwrfc)](https://pypi.org/project/pynwrfc/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pynwrfc)](https://pypi.org/project/pynwrfc/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pynwrfc)](https://pypistats.org/packages/pynwrfc)
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP/PyRFC)](https://api.reuse.software/info/github.com/SAP/PyRFC)
 
 ## Features
 
@@ -192,6 +193,7 @@ If you encounter an issue or have a feature request, you can create a [ticket](h
 
 Check out the [SAP Community](https://community.sap.com/) (search for "pyrfc") and stackoverflow (use the tag [pyrfc](https://stackoverflow.com/questions/tagged/pyrfc)), to discuss code-related problems and questions.
 
-## License
+## **Contributing**
 
-Copyright (c) 2013 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
+We appreciate contributions from the community to **PyRFC**!
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details on our philosophy around extending this module.

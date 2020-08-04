@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 ###########################
 # test_engine.py setup
 user_engine = user

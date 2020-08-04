@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # -*- coding: utf-8 -*-
 
 import datetime
@@ -104,8 +109,6 @@ class TestSTFC:
         # STFC_START_CONNECT_REG_SERVER RFC-Test:  CONNECTION Test
         pass
     """
-
-
 
     # STFC_STRUCTURE Inhomogene Struktur
     imp = dict(

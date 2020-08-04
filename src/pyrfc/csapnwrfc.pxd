@@ -1,16 +1,6 @@
-# Copyright 2013 SAP AG.
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http: //www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an.
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-# either express or implied. See the License for the specific.
-# language governing permissions and limitations under the License.
+# SPDX-License-Identifier: Apache-2.0
 
 cdef extern from "sapnwrfc.h":
     ctypedef unsigned short SAP_UC
@@ -322,7 +312,7 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcDestroyUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetUnitState(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER* identifier, RFC_UNIT_STATE* state, RFC_ERROR_INFO* errorInfo)
 
-    RFC_THROUGHPUT_HANDLE RfcCreateThroughput(RFC_ERROR_INFO* errorInfo)	
+    RFC_THROUGHPUT_HANDLE RfcCreateThroughput(RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcDestroyThroughput (RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcSetThroughputOnConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcRemoveThroughputFromConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo)

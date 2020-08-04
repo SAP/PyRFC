@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # -*- coding: utf-8 -*-
 
 import datetime
@@ -48,9 +53,7 @@ class TestConnection:
     def test_error_when_all_requested(self):
         PLNTY = "A"
         PLNNR = "00100000"
-        result = self.conn.call(
-            "EAM_TASKLIST_GET_DETAIL", IV_PLNTY=PLNTY, IV_PLNNR=PLNNR
-        )
+        result = self.conn.call("EAM_TASKLIST_GET_DETAIL", IV_PLNTY=PLNTY, IV_PLNNR=PLNNR)
         assert len(result["ET_RETURN"]) == 1
         assert result["ET_RETURN"][0] == {
             "TYPE": "E",
