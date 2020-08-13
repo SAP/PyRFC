@@ -24,12 +24,14 @@ Disclaimer: The code in this project may include calls to APIs (“API Calls”)
  you any rights to use or access any SAP External Product, or provide any third
  parties the right to use of access any SAP External Product, through API Calls.
 
-Files: setup.py src/*.pyx src/*.pxd src/*.py tests/*.py tests/pyrfc.cfg pytest.ini examples/*.py
+# Source code, documentation, tests, examples
+Files: setup.py src/**y doc/** tests/** examples/**
 Copyright: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 License: Apache-2.0
 
-Files: src/*.cpp src/*.html doc/* ci/* *.md *.json .gitignore .editorconfig .prettierignore CHANGES src/pyrfc/_pyrfc.cpp sapnwrfc.ini sapnwrfc.cfg MANIFEST.in VERSION
+# Compiled sources, metadata, configuration
+Files: ci/* *.md *.json .gitignore .editorconfig .prettierignore CHANGES pytest.ini sapnwrfc.ini sapnwrfc.cfg MANIFEST.in VERSION
 Copyright: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
-License: CC0-1.0
+License: Apache-2.0
 
 
