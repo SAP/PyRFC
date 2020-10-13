@@ -5,7 +5,63 @@
     "distutils": {
         "define_macros": [
             [
+                "SAPonNT",
+                null
+            ],
+            [
+                "_CRT_NON_CONFORMING_SWPRINTFS",
+                null
+            ],
+            [
+                "_CRT_SECURE_NO_DEPRECATES",
+                null
+            ],
+            [
+                "_CRT_NONSTDC_NO_DEPRECATE",
+                null
+            ],
+            [
+                "_AFXDLL",
+                null
+            ],
+            [
+                "WIN32",
+                null
+            ],
+            [
+                "_WIN32_WINNT",
+                "0x0502"
+            ],
+            [
+                "WIN64",
+                null
+            ],
+            [
+                "_AMD64_",
+                null
+            ],
+            [
                 "NDEBUG",
+                null
+            ],
+            [
+                "SAPwithUNICODE",
+                null
+            ],
+            [
+                "UNICODE",
+                null
+            ],
+            [
+                "_UNICODE",
+                null
+            ],
+            [
+                "SAPwithTHREADS",
+                null
+            ],
+            [
+                "_ATL_ALLOW_CHAR_UNSIGNED",
                 null
             ],
             [
@@ -17,56 +73,46 @@
                 null
             ],
             [
-                "_FILE_OFFSET_BITS",
-                64
-            ],
-            [
-                "SAPonUNIX",
-                null
-            ],
-            [
-                "SAPwithUNICODE",
-                null
-            ],
-            [
-                "SAPwithTHREADS",
-                null
-            ],
-            [
-                "SAPonDARW",
-                null
+                "SAP_PLATFORM_MAKENAME",
+                "ntintel"
             ]
         ],
         "depends": [],
         "extra_compile_args": [
-            "-Wall",
-            "-O2",
-            "-fexceptions",
-            "-funsigned-char",
-            "-fno-strict-aliasing",
-            "-Wno-uninitialized",
-            "-Wcast-align",
-            "-fPIC",
-            "-pthread",
-            "-minline-all-stringops",
-            "-isystem",
-            "-std=c++11",
-            "-mmacosx-version-min=10.10",
-            "-I/usr/local/sap/nwrfcsdk/include",
-            "-Wno-cast-align",
-            "-Wno-deprecated-declarations",
-            "-Wno-unused-function"
+            "-IC:\\Tools\\nwrfcsdk-pl7\\include",
+            "-IC:\\Tools\\Pythons\\3.9.0\\lib\\inspect.py\\Include",
+            "-IC:\\Tools\\Pythons\\3.9.0\\lib\\inspect.py\\Include\\PC",
+            "/EHs",
+            "/Gy",
+            "/J",
+            "/MD",
+            "/nologo",
+            "/W3",
+            "/Z7",
+            "/GL",
+            "/O2",
+            "/Oy-",
+            "/we4552",
+            "/we4700",
+            "/we4789"
         ],
         "extra_link_args": [
-            "-L/usr/local/sap/nwrfcsdk/lib",
-            "-stdlib=libc++",
-            "-mmacosx-version-min=10.10",
-            "-Wl,-rpath,/usr/local/sap/nwrfcsdk/lib"
+            "-LIBPATH:C:\\Tools\\nwrfcsdk-pl7\\lib",
+            "-LIBPATH:C:\\Tools\\Pythons\\3.9.0\\lib\\inspect.py\\PCbuild",
+            "/NXCOMPAT",
+            "/STACK:0x2000000",
+            "/SWAPRUN:NET",
+            "/DEBUG",
+            "/OPT:REF",
+            "/DEBUGTYPE:CV,FIXUP",
+            "/MACHINE:amd64",
+            "/nologo",
+            "/LTCG"
         ],
         "language": "c++",
         "libraries": [
             "sapnwrfc",
-            "sapucum"
+            "libsapucum"
         ],
         "name": "pyrfc.pyrfc",
         "sources": [
@@ -908,7 +954,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "src/pyrfc/_pyrfc.pyx",
+  "src\\pyrfc\\_pyrfc.pyx",
   "stringsource",
   "array.pxd",
   "type.pxd",
@@ -2390,7 +2436,7 @@ static const char __pyx_k_ExternalRuntimeError[] = "ExternalRuntimeError";
 static const char __pyx_k_RFC_UNIT_ROLLED_BACK[] = "RFC_UNIT_ROLLED_BACK";
 static const char __pyx_k_get_nwrfclib_version[] = "get_nwrfclib_version";
 static const char __pyx_k_return_import_params[] = "return_import_params";
-static const char __pyx_k_src_pyrfc__pyrfc_pyx[] = "src/pyrfc/_pyrfc.pyx";
+static const char __pyx_k_src_pyrfc__pyrfc_pyx[] = "src\\pyrfc\\_pyrfc.pyx";
 static const char __pyx_k_connection_attributes[] = "connection_attributes";
 static const char __pyx_k_genericRequestHandler[] = "genericRequestHandler";
 static const char __pyx_k_partnerSystemCodepage[] = "partnerSystemCodepage";
@@ -34891,8 +34937,8 @@ static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
     "Server",
     "Server1",
     "Throughput",
-    "__pyx_ctuple_75659__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc",
-    "__pyx_ctuple_75659__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc_struct",
+    "__pyx_ctuple_945ec__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc",
+    "__pyx_ctuple_945ec__unsigned__space_int__and_unsigned__space_int__and_unsigned__space_int__etc_struct",
     "__pyx_ctuple_Py_ssize_t",
     "__pyx_ctuple_Py_ssize_t_struct",
     "__pyx_ctuple_RFC_BYTE",

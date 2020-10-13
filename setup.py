@@ -138,7 +138,7 @@ elif sys.platform.startswith("win"):
     ]
 elif sys.platform.startswith("darwin"):
     subprocess.call("./ci/utils/nwrfcsdk-version-darwin.sh", shell=True)
-    MACOS_VERSION_MIN = "10.10"
+    MACOS_VERSION_MIN = "10.15"
 
     LIBS = ["sapnwrfc", "sapucum"]
     MACROS = [
