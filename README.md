@@ -1,5 +1,3 @@
-:heavy_exclamation_mark: Don't upgrade SAP NWRFC SDK on Darwin, see [#179](https://github.com/SAP/PyRFC/issues/179).
-
 Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) client bindings for Python.
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -64,8 +62,6 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 ```
 
 - Remote paths must be set in SAP NWRFC SDK for macOS: [documentation](http://sap.github.io/PyRFC/install.html#macos)
-
-- Build from source requires `uchar.h` file, attached to [SAP OSS Note 2573953](https://launchpad.support.sap.com/#/notes/2573953), to be copied to SAP NWRFC SDK include directory: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 ## SPJ articles
 
