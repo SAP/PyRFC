@@ -1,6 +1,6 @@
 .DS_Store
 .idea
-/*.iml
+*.iml
 .vscode
 *.code-workspace
 
@@ -34,3 +34,4 @@ setuptools*.egg
 .python-version
 
 material
+ci/test

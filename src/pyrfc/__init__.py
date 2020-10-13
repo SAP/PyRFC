@@ -33,6 +33,7 @@ from .pyrfc import (
     TypeDescription,
     FunctionDescription,
     Server,
+    ConnectionParameters,
     __VERSION__,
 )
 

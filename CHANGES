@@ -1,6 +1,12 @@
 Change log
 ==========
 
+2.1.0 (2020-10-13)
+------------------
+- Python 3.9 support
+- SAP NWRFC SDK PL7 unicode fix (closes #196, #197)
+- sapnwrfc.ini support, check SAP NWRFC SDK demo/sapnwrfc.ini for more details
+
 2.0.6 (2020-06-09)
 ------------------
 - Reopen connection after fatal errors

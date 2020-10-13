@@ -211,6 +211,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     keywords="%s %s pyrfc sap rfc nwrfc sapnwrfc" % (MODULE_NAME, PYPIPACKAGE),
     author="SAP SE",

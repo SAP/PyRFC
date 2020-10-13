@@ -15,7 +15,7 @@ from cpython cimport array
 from . csapnwrfc cimport *
 from . _exception import *
 
-__VERSION__ = "2.0.6"
+__VERSION__ = "2.1.0"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
@@ -159,7 +159,7 @@ cdef class Connection:
             self.__bconfig |= _MASK_RSTRIP
 
         self.paramCount = int(len(params))
-        if self.paramCount < 3:
+        if self.paramCount < 1:
             raise RFCError("Connection parameters missing")
         self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
         cdef int i = 0
@@ -1247,32 +1247,110 @@ cdef RFC_RC genericRequestHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_
         fillFunctionParameter(funcDesc, funcHandle, name, value)
     return RFC_OK
 
+cdef class ConnectionParameters:
+    cdef unsigned paramCount
+    cdef RFC_CONNECTION_PARAMETER *connectionParams
+    cdef RFC_CONNECTION_HANDLE connection_handle
+
+    def __init__(self, **params):
+        self.connection_handle = NULL
+        self.paramCount = len(params)
+        self.connectionParams = <RFC_CONNECTION_PARAMETER*> malloc(self.paramCount * sizeof(RFC_CONNECTION_PARAMETER))
+        cdef int i = 0
+        for name, value in params.iteritems():
+            self.connectionParams[i].name = fillString(name)
+            self.connectionParams[i].value = fillString(value)
+            i += 1
+
+    def __del__(self):
+        cdef RFC_ERROR_INFO errorInfo
+        for i in range(self.paramCount):
+            free(<SAP_UC*> self.connectionParams[i].name)
+            free(<SAP_UC*> self.connectionParams[i].value)
+        free(self.connectionParams)
+        if self.connection_handle != NULL:
+            RfcCloseConnection(self.connection_handle, &errorInfo)
+
+
+    def get_handle(self):
+        cdef RFC_ERROR_INFO errorInfo
+        with nogil:
+            self.connection_handle = RfcOpenConnection(self.connectionParams, self.paramCount, &errorInfo)
+        if errorInfo.code != RFC_OK:
+            self.connection_handle = NULL
+            raise wrapError(&errorInfo)
+        else:
+            return <unsigned long>self.connection_handle
+
 cdef class Server:
     """ An SAP server
 
     An instance of :class:`~pyrfc.Server` allows for installing
     Python callback functions and serve requests from SAP systems.
 
+    :param server_params: Parameters for registering Python server.
+                          The parameters may contain the following keywords:
+                          ``GWHOST`, ``GWSERV``, ``PROGRAM_ID``, ``TRACE``,
+                          and ``SAPROUTER``.
+
+    :type server_params: dict
+
+    :param client_params: Parameters for Python client connection.
+                          The parameters may contain the following keywords:
+                          ``GWHOST`, ``GWSERV``, ``PROGRAM_ID``, ``TRACE``,
+                          and ``SAPROUTER``.
+
+    :type server_params: dict
+
     :param config: Configuration of the instance. Allowed keys are:
 
-           ``rstrip``
-             right strips strings passed to Python callback
-             functions. (default is True)
            ``debug``
              For testing/debugging operations. If True, the server
              behaves more permissive, e.g. allows incoming calls without a
              valid connection handle. (default is False)
 
     :type config: dict or None (default)
-    :param params: Parameters for registering the server.
-                   The parameters may contain the following keywords:
-                   ``GWHOST`, ``GWSERV``, ``PROGRAM_ID``, ``TRACE``,
-                   and ``SAPROUTER``.
-    :type params: Keyword parameters
 
     :raises: :exc:`~pyrfc.RFCError` or a subclass
              thereof if the connection attempt fails.
     """
+    cdef ConnectionParameters client_connection
+    cdef ConnectionParameters server_connection
+    cdef RFC_CONNECTION_HANDLE _client_connection_handle
+    cdef RFC_CONNECTION_HANDLE _server_connection_handle
+    cdef public bint debug
+
+    def __init__(self, server_params, client_params, config={}):
+        cdef RFC_ERROR_INFO errorInfo
+
+        # config parsing
+        self.debug = config.get('debug', False)
+
+        self.server_connection = ConnectionParameters(**server_params)
+        self.client_connection = ConnectionParameters(**client_params)
+
+        cdef unsigned long handle = self.client_connection.get_handle()
+
+        self._client_connection_handle = <RFC_CONNECTION_HANDLE>handle
+
+    cdef _error(self, RFC_ERROR_INFO* errorInfo):
+        """
+        Error treatment of a connection.
+
+        :param errorInfo: the errorInfo data given in a RFC that returned an RC > 0.
+        :return: nothing, raises an error
+        """
+        # TODO: Error treatment server
+        # Set alive=false if the error is in a certain group
+        # Before, the alive=false setting depended on the error code. However, the group seems more robust here.
+        # (errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_MESSAGE, RFC_ABAP_RUNTIME_FAILURE, RFC_INVALID_HANDLE, RFC_NOT_FOUND, RFC_INVALID_PARAMETER):
+        #if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
+        #    self.alive = False
+
+        raise wrapError(errorInfo)
+
+cdef class Server1:
+
     cdef RFC_CONNECTION_HANDLE _handle
     cdef unsigned paramCount
     cdef public bint rstrip
@@ -1905,33 +1983,33 @@ cdef SAP_UC* fillString(pyuc) except NULL:
 ################################################################################
 # wrapper functions take C values and returns Python values
 
-cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes, rstrip=True):
+cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes):
     return {
-          'dest': wrapString(attributes.dest, 64, rstrip)                                     # RFC destination
-        , 'host': wrapString(attributes.host, 100, rstrip)                                    # Own host name
-        , 'partnerHost': wrapString(attributes.partnerHost, 100, rstrip)                      # Partner host name
-        , 'sysNumber': wrapString(attributes.sysNumber, 2, rstrip)                            # R/3 system number
-        , 'sysId': wrapString(attributes.sysId, 8, rstrip)                                    # R/3 system ID
-        , 'client': wrapString(attributes.client, 3, rstrip)                                  # Client ("Mandant")
-        , 'user': wrapString(attributes.user, 12, rstrip)                                     # User
-        , 'language': wrapString(attributes.language, 2, rstrip)                              # Language
-        , 'trace': wrapString(attributes.trace, 1, rstrip)                                    # Trace level (0-3)
-        , 'isoLanguage': wrapString(attributes.isoLanguage, 2, rstrip)                        # 2-byte ISO-Language
-        , 'codepage': wrapString(attributes.codepage, 4, rstrip)                              # Own code page
-        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4, rstrip)                # Partner code page
-        , 'rfcRole': wrapString(attributes.rfcRole, 1, rstrip)                                # C/S: RFC Client / RFC Server
-        , 'type': wrapString(attributes.type, 1)                                              # 2/3/E/R: R/2,R/3,Ext,Reg.Ext
-        , 'partnerType': wrapString(attributes.partnerType, 1)                                # 2/3/E/R: R/2,R/3,Ext,Reg.Ext
-        , 'rel': wrapString(attributes.rel, 4, rstrip)                                        # My system release
-        , 'partnerRel': wrapString(attributes.partnerRel, 4, rstrip)                          # Partner system release
-        , 'kernelRel': wrapString(attributes.kernelRel, 4, rstrip)                            # Partner kernel release
-        , 'cpicConvId': wrapString(attributes.cpicConvId, 8, rstrip)                          # CPI-C Conversation ID
-        , 'progName': wrapString(attributes.progName, 128, rstrip)                            # Name of the calling APAB program (report, module pool)
-        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, rstrip)        # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
-        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, rstrip)    # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
-        , 'partnerIP': wrapString(attributes.partnerIP, 15, rstrip)                           # Partner system code page
-        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, rstrip)                       # Partner system code page IPv6
-        , 'reserved': wrapString(attributes.reserved, 17, rstrip)                             # Reserved for later use
+          'dest': wrapString(attributes.dest, 64, True).rstrip('\0')                        # RFC destination
+        , 'host': wrapString(attributes.host, 100, True).rstrip('\0')                                    # Own host name
+        , 'partnerHost': wrapString(attributes.partnerHost, 100, True).rstrip('\0')                      # Partner host name
+        , 'sysNumber': wrapString(attributes.sysNumber, 2, True).rstrip('\0')                            # R/3 system number
+        , 'sysId': wrapString(attributes.sysId, 8, True).rstrip('\0')                                    # R/3 system ID
+        , 'client': wrapString(attributes.client, 3, True).rstrip('\0')                                  # Client ("Mandant")
+        , 'user': wrapString(attributes.user, 12, True).rstrip('\0')                                     # User
+        , 'language': wrapString(attributes.language, 2, True).rstrip('\0')                              # Language
+        , 'trace': wrapString(attributes.trace, 1, True).rstrip('\0')                                    # Trace level (0-3)
+        , 'isoLanguage': wrapString(attributes.isoLanguage, 2, True).rstrip('\0')                        # 2-byte ISO-Language
+        , 'codepage': wrapString(attributes.codepage, 4, True).rstrip('\0')                              # Own code page
+        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4, True).rstrip('\0')                # Partner code page
+        , 'rfcRole': wrapString(attributes.rfcRole, 1, True).rstrip('\0')                                # C/S: RFC Client / RFC Server
+        , 'type': wrapString(attributes.type, 1).rstrip('\0')                                            # 2/3/E/R: R/2,R/3,Ext,Reg.Ext
+        , 'partnerType': wrapString(attributes.partnerType, 1, True).rstrip('\0')                              # 2/3/E/R: R/2,R/3,Ext,Reg.Ext
+        , 'rel': wrapString(attributes.rel, 4, True).rstrip('\0')                                        # My system release
+        , 'partnerRel': wrapString(attributes.partnerRel, 4, True).rstrip('\0')                          # Partner system release
+        , 'kernelRel': wrapString(attributes.kernelRel, 4, True).rstrip('\0')                            # Partner kernel release
+        , 'cpicConvId': wrapString(attributes.cpicConvId, 8, True).rstrip('\0')                          # CPI-C Conversation ID
+        , 'progName': wrapString(attributes.progName, 128, True).rstrip('\0')                            # Name of the calling APAB program (report, module pool)
+        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, True).rstrip('\0')        # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
+        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, True).rstrip('\0')    # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
+        , 'partnerIP': wrapString(attributes.partnerIP, 15, True).rstrip('\0')                           # Partner system code page
+        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, True).rstrip('\0')                       # Partner system code page IPv6
+        , 'reserved': wrapString(attributes.reserved, 17, True).rstrip('\0')                             # Reserved for later use
  }
 
 
@@ -2317,9 +2395,9 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
         raise RFCError('wrapString uclen: %u utf8_size: %u' % (uclen, utf8_size))
     try:
         if rstrip:
-            return utf8.rstrip().decode('UTF-8')
+            return utf8[:result_len].rstrip().decode('UTF-8')
         else:
-            return utf8.decode('UTF-8')
+            return utf8[:result_len].decode('UTF-8')
     finally:
         free(utf8)
 
