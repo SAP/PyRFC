@@ -20,9 +20,11 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - Python 3
 
-- Windows 10 and macOS 10.15 supported by pre-built wheels and build from source installation
+- Windows 10 and macOS >= 10.15 supported by pre-built wheels and build from source installation
 
-- Linux supported by build from source installation only
+- Linux wheels are supported by build from source installation only
+
+- Prebuilt Centos wheels are attached to the [latest release on GitHub](https://github.com/SAP/PyRFC/releases/latest)
 
 - Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/)
 
