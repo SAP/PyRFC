@@ -8,6 +8,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pynwrfc)](https://pypi.org/project/pynwrfc/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pynwrfc)](https://pypistats.org/packages/pynwrfc)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/PyRFC)](https://api.reuse.software/info/github.com/SAP/PyRFC)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4349/badge)](https://bestpractices.coreinfrastructure.org/projects/4349)
 
 ## Features
 
