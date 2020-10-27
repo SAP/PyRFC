@@ -1,6 +1,11 @@
 Change log
 ==========
 
+2.3.0 (2020-10-28)
+------------------
+
+- set_ini_file_directory method added at addon level, to set the sapnwrfc.ini file directory
+
 2.1.0 (2020-10-13)
 ------------------
 - Python 3.9 support

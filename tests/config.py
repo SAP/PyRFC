@@ -6,18 +6,11 @@
 
 import datetime
 
-try:
-    from configparser import ConfigParser
+from configparser import ConfigParser
 
-    COPA = ConfigParser()
-    fc = open("tests/pyrfc.cfg", "r")
-    COPA.read_file(fc)
-except ImportError as ex:
-    from configparser import config_parser
-
-    COPA = config_parser()
-    COPA.read_file("tests/pyrfc.cfg")
-
+COPA = ConfigParser()
+fc = open("tests/pyrfc.cfg", "r")
+COPA.read_file(fc)
 
 # Numeric types
 #
@@ -89,3 +82,8 @@ UNICODE1 = u"四周远处都"
 BYTEARRAY_TEST = bytearray.fromhex("01414243444549500051fdfeff")
 BYTES_TEST = bytes(BYTEARRAY_TEST)
 PARAMS = CONNECTION_INFO
+PARAMSDEST = {"dest": "MME"}
+
+from pyrfc import set_ini_file_directory
+
+set_ini_file_directory("tests")

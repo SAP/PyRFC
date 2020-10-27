@@ -10,12 +10,13 @@ import time
 import datetime
 import collections
 import locale
+import os.path
 from decimal import Decimal
 from cpython cimport array
 from . csapnwrfc cimport *
 from . _exception import *
 
-__VERSION__ = "2.1.0"
+__VERSION__ = "2.3.0"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
@@ -75,6 +76,26 @@ def get_nwrfclib_version():
     cdef unsigned patchlevel = 0
     RfcGetVersion(&major, &minor, &patchlevel)
     return (major, minor, patchlevel)
+
+def set_ini_file_directory(path_name):
+    """Sets the directory in which to search for the sapnwrfc.ini file
+
+    :param path_name: Directory in which to search for the sapnwrfc.ini file.
+    :type path_name: string
+
+    :return: nothing, raises an error
+    """
+    if not isinstance(path_name, str):
+        raise TypeError('sapnwrfc.ini path is not a string:', path_name)
+    cdef RFC_ERROR_INFO errorInfo
+    cdef SAP_UC pathName [512]
+    if not os.path.isfile(os.path.join(path_name, "sapnwrfc.ini")):
+        raise TypeError('sapnwrfc.ini not found in:', path_name)
+    pathName = fillString(path_name)
+    cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
+    if rc != RFC_OK:
+        raise wrapError(&errorInfo)
+
 
 ################################################################################
 # CLIENT FUNCTIONALITY
@@ -382,9 +403,8 @@ cdef class Connection:
         cdef RFC_ERROR_INFO openErrorInfo
         cdef unsigned paramCount
         cdef SAP_UC *cName
-        if type(func_name) is not str:
-            if type(func_name) is not unicode:
-                raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
+        if not isinstance(func_name, str):
+            raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
         cdef SAP_UC *funcName = fillString(func_name)
         if not self.alive:
             raise RFCError("Remote function module %s invocation rejected because the connection is closed" % func_name)
@@ -1795,13 +1815,13 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             rc = RfcSetXString(container, cName, bValue, int(len(value)), &errorInfo)
             free(bValue)
         elif typ == RFCTYPE_CHAR:
-            if type(value) is not str and type(value) is not unicode:
+            if not isinstance(value, str):
                 raise TypeError('an string is required, received', value, 'of type', type(value))
             cValue = fillString(value)
             rc = RfcSetChars(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
         elif typ == RFCTYPE_STRING:
-            if type(value) is not str and type(value) is not unicode:
+            if not isinstance(value, str):
                 raise TypeError('an string is required, received', value, 'of type', type(value))
             cValue = fillString(value)
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
@@ -1844,7 +1864,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                 raise TypeError('an integer required, received', value, 'of type', type(value))
             rc = RfcSetInt8(container, cName, value, &errorInfo)
         elif typ == RFCTYPE_UTCLONG:
-            if type(value) is not str:
+            if not isinstance(value, str):
                 raise TypeError('an string is required, received', value, 'of type', type(value))
             cValue = fillString(value)
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)

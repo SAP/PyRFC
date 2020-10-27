@@ -15,6 +15,7 @@ from decimal import Decimal
 
 from tests.config import (
     PARAMS as params,
+    PARAMSDEST as paramsdest,
     CONFIG_SECTIONS as config_sections,
     get_error,
     UNICODETEST,
@@ -23,7 +24,7 @@ from tests.config import (
 
 class TestConnection:
     def setup_method(self, test_method):
-        self.conn = pyrfc.Connection(**params)
+        self.conn = pyrfc.Connection(**paramsdest)
         assert self.conn.alive
 
     def teardown_method(self, test_method):

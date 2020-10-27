@@ -28,6 +28,7 @@ from ._exception import (
 
 from .pyrfc import (
     get_nwrfclib_version,
+    set_ini_file_directory,
     Connection,
     Throughput,
     TypeDescription,
