@@ -116,6 +116,9 @@ cdef extern from "sapnwrfc.h":
     ctypedef void* RFC_UNIT_HANDLE
     ctypedef void* RFC_METADATA_QUERY_RESULT_HANDLE
     ctypedef void* RFC_THROUGHPUT_HANDLE
+    ctypedef (RFC_RC)RFC_SERVER_FUNCTION(RFC_CONNECTION_HANDLE, RFC_FUNCTION_HANDLE, RFC_ERROR_INFO *) with gil
+    ctypedef (RFC_RC)RFC_FUNC_DESC_CALLBACK(SAP_UC *, RFC_ATTRIBUTES, RFC_FUNCTION_DESC_HANDLE *) with gil
+    ctypedef void* RFC_SERVER_HANDLE
 
     ctypedef struct RFC_CONNECTION_PARAMETER:
         SAP_UC* name
@@ -212,8 +215,7 @@ cdef extern from "sapnwrfc.h":
 
     RFC_RC RfcIsConnectionHandleValid (RFC_CONNECTION_HANDLE rfcHandle, RFC_INT * isValid, RFC_ERROR_INFO * errorInfo)	nogil
     RFC_CONNECTION_HANDLE RfcOpenConnection(RFC_CONNECTION_PARAMETER* connectionParams, unsigned paramCount, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_CONNECTION_HANDLE RfcRegisterServer(RFC_CONNECTION_PARAMETER* connectionParams, unsigned paramCount, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcCloseConnection(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcCloseConnection(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo) nogil
     RFC_RC RfcResetServerContext(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcPing(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcListenAndDispatch (RFC_CONNECTION_HANDLE rfcHandle, int timeout, RFC_ERROR_INFO* errorInfo)
@@ -253,7 +255,12 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcSetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TIME time, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcGetStructure(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_STRUCTURE_HANDLE* structHandle, RFC_ERROR_INFO* errorInfo)
 
-    RFC_RC RfcInstallGenericServerFunction(void* serverFunction, void* funcDescProvider, RFC_ERROR_INFO* errorInfo)
+
+    RFC_CONNECTION_HANDLE RfcCreateServer(RFC_CONNECTION_PARAMETER* connectionParams, unsigned paramCount, RFC_ERROR_INFO* errorInfo) nogil
+    RFC_RC RfcLaunchServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcInstallGenericServerFunction(RFC_SERVER_FUNCTION serverFunction, RFC_FUNC_DESC_CALLBACK funcDescProvider, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcShutdownServer(RFC_SERVER_HANDLE serverHandle, unsigned timeout, RFC_ERROR_INFO * errorInfo) nogil
+    RFC_RC RfcDestroyServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO* errorInfo) nogil
 
     RFC_FUNCTION_DESC_HANDLE RfcDescribeFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
 
