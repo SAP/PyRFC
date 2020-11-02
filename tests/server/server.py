@@ -1,3 +1,4 @@
+import os
 from pyrfc import Server, set_ini_file_directory
 
 def my_stfc_connection(request_context=None, REQUTEXT=""):
@@ -15,7 +16,8 @@ def my_auth_check(func_name=False, request_context = {}):
     print("request_context", request_context)
     return 0
 
-set_ini_file_directory("/Users/d037732/src/NG-APPS/PyRFC/tests/server")
+dir_path = os.path.dirname(os.path.realpath(__file__))
+set_ini_file_directory(dir_path)
 
 server = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False})
 # server = Server({"dest": "gateway"}, {"dest": "MME"}, {"auth_check": my_auth_check, "server_log": True})
