@@ -7,24 +7,29 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import os
 
 from pyrfc import Server, set_ini_file_directory, ABAPApplicationError
 
 from tests.config import get_error
 
+
 def my_stfc_connection(request_context=None, REQUTEXT=""):
-    print("stfc invoked");
-    print("request_context", request_context);
-    print(f"REQUTEXT: {REQUTEXT}");
+    print("stfc invoked")
+    print("request_context", request_context)
+    print(f"REQUTEXT: {REQUTEXT}")
 
     return {
         "ECHOTEXT": REQUTEXT,
         "RESPTEXT": "Python server here"
     }
 
-set_ini_file_directory("/Users/d037732/src/NG-APPS/PyRFC/tests/server")
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+set_ini_file_directory(dir_path)
 
 server = Server({"dest": "gateway"}, {"dest": "MME"})
+
 
 class TestServer:
     def teardown_method(self, test_method):
@@ -47,5 +52,5 @@ class TestServer:
             assert ex.args[0] == "Server function 'STFC_CONNECTION' already installed."
 
     def test_stfc_connection(self):
-        server.serve(20)
+        server.serve()
 

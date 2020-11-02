@@ -24,7 +24,7 @@ from . _exception import *
 __VERSION__ = "2.3.0"
 
 # inverts the enumeration of RFC_DIRECTION
-_direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
+direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
                   'RFC_CHANGING': RFC_CHANGING, 'RFC_TABLES': RFC_TABLES}
 
 # inverts the enum of RFCTYPE
@@ -1251,6 +1251,7 @@ cdef class ServerConnection:
         self._connection._free()
 
 cdef RFC_RC metadataLookup(const SAP_UC* functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle) with gil:
+    global server_functions
     function_name = wrapString(functionName)
     if function_name not in server_functions:
         _server_log("metadataLookup", f"No metadata found for function '{function_name}'.")
@@ -1267,6 +1268,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     cdef RFC_ATTRIBUTES attributes
     cdef RFC_FUNCTION_DESC_HANDLE funcDesc
     cdef RFC_ABAP_NAME funcName
+    global server_functions
 
     funcDesc = RfcDescribeFunction(funcHandle, NULL)
     RfcGetFunctionName(funcDesc, funcName, NULL)
@@ -1357,6 +1359,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     return RFC_OK
 
 class BasicServer(BaseHTTPRequestHandler):
+    # TODO: management-console
     def _set_response(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
@@ -1432,6 +1435,7 @@ cdef class Server:
         :raises: :exc:`TypeError` if a function with the name given is already
             installed.
         """
+        global server_functions
         if func_name in server_functions:
             raise TypeError(f"Server function '{func_name}' already installed.")
 
@@ -1461,6 +1465,8 @@ cdef class Server:
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:
+            pass # self._close()
+        finally:
             httpd.server_close()
 
 
@@ -1478,7 +1484,6 @@ cdef class Server:
 
         self._serve_http()
 
-        self.close()
         return rc
 
     def close(self):
@@ -1495,10 +1500,16 @@ cdef class Server:
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the connection cannot be closed cleanly.
         """
+        # Shutdown server
+        if self._server_connection:
+            self._server_connection.close()
         # Remove all installed server functions
-        for name, server_data in server_functions.iteritems():
-            if server_data["server"] == self:
-                del server_functions[name]
+        after_remove = {}
+        global server_functions
+        for func_name, func_data in erver_functions.items():
+            if func_data["server"] != self:
+                after_remove[func_name] = func_data
+        server_functions = after_remove
 
     cdef _error(self, RFC_ERROR_INFO* errorInfo):
         """
