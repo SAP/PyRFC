@@ -17,6 +17,7 @@ from libc.stdint cimport uintptr_t
 # https://stackoverflow.com/questions/32371919/pointers-and-storing-unsafe-c-derivative-of-temporary-python-reference
 #from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
 from cpython cimport array
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from . csapnwrfc cimport *
 from . _exception import *
 
@@ -1355,6 +1356,17 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         fillFunctionParameter(funcDesc, funcHandle, name, value)
     return RFC_OK
 
+class BasicServer(BaseHTTPRequestHandler):
+    def _set_response(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+
+    def do_GET(self):
+        #_server_log("HTTP GET", f"path: {self.path}\nheaders:\n{self.headers}\n")
+        self._set_response()
+        self.wfile.write("Press CTRL-C to end".encode("utf-8"))
+
 
 cdef class Server:
     """ An SAP server
@@ -1401,6 +1413,7 @@ cdef class Server:
         self.rstrip = config.get('rstrip', True)
         server_context["server_log"] = config.get("server_log", False)
         server_context["auth_check"] = config.get("auth_check", default_auth_check)
+        server_context["port"] = config.get("port", 8080)
 
         self._client_connection = Connection(**client_params)
         self._server_connection = ServerConnection(**server_params)
@@ -1441,6 +1454,16 @@ cdef class Server:
         _server_log("Server function installed", func_name)
         _server_log("Server function installed", server_functions[func_name])
 
+    def _serve_http(self, server_class=HTTPServer, handler_class=BasicServer):
+        server_address = ('', server_context["port"])
+        httpd = server_class(server_address, handler_class)
+        _server_log("HTTP Server", "started, press CTRC-C to end ...")
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            httpd.server_close()
+
+
     def serve(self, timeout=None):
         cdef RFC_ERROR_INFO errorInfo
 
@@ -1451,28 +1474,11 @@ cdef class Server:
         rc = RfcLaunchServer(self._server_connection._handle, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
+        _server_log("Server", "launched")
 
-        _server_log("Server launched", f"timeout: {timeout}")
+        self._serve_http()
 
-        if timeout is not None:
-            start_time = datetime.datetime.utcnow()
-
-        is_serving = True
-
-        input("Press Enter to continue...\n")
-        """
-        try:
-            while is_serving:
-                now_time = datetime.datetime.utcnow()
-
-                if timeout is not None:
-                    if (now_time-start_time).seconds > timeout:
-                        is_serving = False
-                        _server_log("Server", f"timeout reached ({timeout} sec)")
-        except KeyboardInterrupt:
-            self.close()
-        """
-        _server_log("Server", "Shutting down...")
+        self.close()
         return rc
 
     def close(self):
@@ -1509,6 +1515,11 @@ cdef class Server:
         #    self.alive = False
 
         raise wrapError(errorInfo)
+
+
+
+
+
 
 cdef RFC_TYPE_DESC_HANDLE fillTypeDescription(type_desc):
     """

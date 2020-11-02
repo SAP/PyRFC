@@ -17,7 +17,7 @@ def my_auth_check(func_name=False, request_context = {}):
 
 set_ini_file_directory("/Users/d037732/src/NG-APPS/PyRFC/tests/server")
 
-server = Server({"dest": "gateway"}, {"dest": "MME"})
+server = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False})
 # server = Server({"dest": "gateway"}, {"dest": "MME"}, {"auth_check": my_auth_check, "server_log": True})
 
 server.add_function("STFC_CONNECTION", my_stfc_connection )
