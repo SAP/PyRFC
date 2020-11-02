@@ -1,6 +1,6 @@
 # PyRFC
 
-Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) client bindings for Python.
+Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) bindings for Python.
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/pynwrfc)](https://pypi.org/project/pynwrfc/)
@@ -12,10 +12,10 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Features
 
+- Client, Throughput and Server :new: bindings
+- Automatic conversion between Python and ABAP datatypes
 - Stateless and stateful connections (multiple function calls in the same ABAP session / same context)
 - Sequential and parallel calls, using one or more clients
-- Automatic conversion between Python and ABAP datatypes
-- :new: Throughput monitoring
 
 ## Supported platforms
 
