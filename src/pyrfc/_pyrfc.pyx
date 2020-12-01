@@ -2331,7 +2331,7 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
         uclen = strlenU(uc)
     if uclen == 0:
         return ''
-    cdef unsigned utf8_size = uclen * 3 + 1
+    cdef unsigned utf8_size = uclen * 5 + 1
     cdef char *utf8 = <char*> malloc(utf8_size)
     utf8[0] = 0
     cdef unsigned result_len = 0
@@ -2340,6 +2340,7 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
         # raise wrapError(&errorInfo)
         raise RFCError('wrapString uclen: %u utf8_size: %u' % (uclen, utf8_size))
     try:
+        utf8[result_len] = 0
         if rstrip:
             return utf8[:result_len].rstrip().decode('UTF-8')
         else:
