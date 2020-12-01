@@ -24,5 +24,5 @@ server = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log
 
 server.add_function("STFC_CONNECTION", my_stfc_connection )
 
-server.serve(20)
+server.serve()
 

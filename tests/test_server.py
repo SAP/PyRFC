@@ -52,5 +52,6 @@ class TestServer:
             assert ex.args[0] == "Server function 'STFC_CONNECTION' already installed."
 
     def test_stfc_connection(self):
+        print("\nPress CTRL-C to skip server test...")
         server.serve()
 
