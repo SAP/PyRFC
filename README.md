@@ -12,7 +12,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Features
 
-- Client, Throughput and Server :new: bindings
+- Client, Throughput and Server bindings
 - Automatic conversion between Python and ABAP datatypes
 - Stateless and stateful connections (multiple function calls in the same ABAP session / same context)
 - Sequential and parallel calls, using one or more clients
