@@ -2,41 +2,28 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from pyrfc import Server, Connection
+import os
 
-from configparser import ConfigParser
-import signal
-import sys
+from pyrfc import Server, set_ini_file_directory
 
 
-config = ConfigParser()
-config.read("sapnwrfc.cfg")
+def my_stfc_connection(request_context=None, REQUTEXT=""):
+    print("stfc invoked")
+    print("request_context", request_context)
+    print(f"REQUTEXT: {REQUTEXT}")
 
-# Callback function
-def my_stfc_connection(request_context, REQUTEXT=""):
     return {
         "ECHOTEXT": REQUTEXT,
-        "RESPTEXT": u"Python server here. Connection attributes are: "
-        u"User '{user}' from system '{sysId}', client '{client}', "
-        u"host '{partnerHost}'".format(**request_context["connection_attributes"]),
+        "RESPTEXT": "Python server here"
     }
 
 
-# Open a connection for retrieving the metadata of 'STFC_CONNECTION'
-params_connection = config._sections["connection"]
-print(params_connection)
+dir_path = os.path.dirname(os.path.realpath(__file__))
+set_ini_file_directory(dir_path)
 
-conn = Connection(**params_connection)
+server = Server({"dest": "gateway"}, {"dest": "MME"})
 
+server.add_function("STFC_CONNECTION", my_stfc_connection)
 
-func_desc_stfc_connection = conn.get_function_description("STFC_CONNECTION")
-print(func_desc_stfc_connection)
-
-# Instantiate server with gateway information for registering, and
-# install a function.
-params_gateway = config._sections["gateway"]
-server = Server(**params_gateway)
-server.install_function(func_desc_stfc_connection, my_stfc_connection)
-print("--- Server registration and serving ---")
+print("\nPress CTRL-C to skip server test...")
 server.serve(20)
-

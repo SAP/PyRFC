@@ -24,7 +24,7 @@ from . _exception import *
 __VERSION__ = "2.3.0"
 
 # inverts the enumeration of RFC_DIRECTION
-direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
+_direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
                   'RFC_CHANGING': RFC_CHANGING, 'RFC_TABLES': RFC_TABLES}
 
 # inverts the enum of RFCTYPE

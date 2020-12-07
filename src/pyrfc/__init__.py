@@ -6,6 +6,7 @@
 # the pyrfc package
 
 # Set DLL path, due to https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
+
 import os
 
 if os.name == "nt":
@@ -38,6 +39,6 @@ from .pyrfc import (
     __VERSION__,
 )
 
-__author__ = """"Srdjan Boskovic"""
-__email__ = "srdjan.boskovic@sap.com"
-__version__ = __VERSION__
+__author__: str = """"Srdjan Boskovic"""
+__email__: str = "srdjan.boskovic@sap.com"
+__version__: str = __VERSION__
