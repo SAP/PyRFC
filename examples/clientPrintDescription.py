@@ -6,7 +6,13 @@
 from configparser import ConfigParser
 import sys
 
-from pyrfc import Connection, ABAPApplicationError, ABAPRuntimeError, LogonError, CommunicationError
+from pyrfc import (
+    Connection,
+    ABAPApplicationError,
+    ABAPRuntimeError,
+    LogonError,
+    CommunicationError,
+)
 
 
 def parameter_key_function(parameter):
@@ -78,9 +84,7 @@ def main(function_name):
                     for key, width in zip(field_keys, field_widths):
                         sys.stdout.write("{0}".format(field_description[key]).ljust(width) + " ")
                     sys.stdout.write("\n")
-                sys.stdout.write(
-                    " " * 4 + "-----------( Structure of {0.name} )-----------\n".format(type_desc)
-                )
+                sys.stdout.write(" " * 4 + "-----------( Structure of {0.name} )-----------\n".format(type_desc))
             sys.stdout.write("-" * sum(parameter_widths) + "\n")
         connection.close()
 

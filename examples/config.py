@@ -21,7 +21,7 @@ PARAMS = CONFIG_SECTIONS["coevi51"]
 def get_error(ex):
     error = {}
     ex_type_full = str(type(ex))
-    error["type"] = ex_type_full[ex_type_full.rfind(".") + 1 : ex_type_full.rfind("'")]
+    # error["type"] = ex_type_full[ex_type_full.rfind(".") + 1 : ex_type_full.rfind("'")]
     error["code"] = ex.code if hasattr(ex, "code") else "<None>"
     error["key"] = ex.key if hasattr(ex, "key") else "<None>"
     error["message"] = ex.message.split("\n")

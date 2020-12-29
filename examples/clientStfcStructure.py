@@ -3,15 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pyrfc import Connection
-
 from pprint import pprint
+from configparser import ConfigParser
+
 import datetime
-
-try:
-    from ConfigParser import ConfigParser
-except ModuleNotFoundError as e:
-    from configparser import ConfigParser
-
 import sys
 
 imp = dict(
@@ -33,10 +28,14 @@ imp = dict(
 def main():
     config = ConfigParser()
     config.read("sapnwrfc.cfg")
-    params_connection = config._sections["connection"]
+    params_connection = config._sections[
+        "connection"
+    ]
 
     conn = Connection(**params_connection)
-    result = conn.call("STFC_STRUCTURE", IMPORTSTRUCT=imp)
+    result = conn.call(
+        "STFC_STRUCTURE", IMPORTSTRUCT=imp
+    )
     pprint(result)
 
 

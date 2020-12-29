@@ -17,6 +17,5 @@ conf_vars = sysconfig.parse_config_h(open(h_file))
 for k in "Py_DEBUG", "WITH_PYMALLOC", "Py_UNICODE_SIZE":
     try:
         print(k + ": " + repr(conf_vars[k]))
-    except:
+    except Exception as ex:
         print("Error getting %s" % k)
-
