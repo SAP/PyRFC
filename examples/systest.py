@@ -8,7 +8,7 @@ print("From sysconfig:")
 for k in "Py_DEBUG", "WITH_PYMALLOC", "Py_UNICODE_SIZE":
     try:
         print(k + ": " + repr(sysconfig.get_config_var(k)))
-    except:
+    except Exception as ex:
         print("Error getting %s" % k)
 
 print("From headers:")
