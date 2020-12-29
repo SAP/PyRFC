@@ -10,7 +10,7 @@ from codecs import open
 from setuptools import setup, find_packages, Extension
 
 MODULE_NAME = "pyrfc"
-PYPIPACKAGE = "pynwrfc"
+PYPIPACKAGE = "pyrfc"
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
     VERSION = version_file.read().strip()
@@ -227,8 +227,6 @@ setup(
     install_requires=["setuptools"],
     setup_requires=["setuptools-git", "Cython", "Sphinx"],
     cmdclass=CMDCLASS,
-    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3")
-    if BUILD_CYTHON
-    else [PYRFC_EXT],
+    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3") if BUILD_CYTHON else [PYRFC_EXT],
     test_suite=MODULE_NAME,
 )
