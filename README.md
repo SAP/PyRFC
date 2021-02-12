@@ -80,15 +80,13 @@ Highly recommended reading about RFC communication and SAP NW RFC Library, publi
 
 ## Installation
 
-`PYRFC_BUILD_CYTHON` environment variable can be set to trigger Cython based build, overriding the default C based build from already cythonized CPP source.
-
-**Binary wheel** installed if found on PyPI, fallback to build from source otherwise:
-
 ```shell
 pip install pynwrfc
 ```
 
-**Build from source**
+Cython is required on Linux platforms, for the the default build from source installation method.
+
+Build from source can be also requested on Windows and Darwin platforms:
 
 ```shell
 pip install pynwrfc --no-binary :all:
@@ -96,15 +94,13 @@ pip install pynwrfc --no-binary :all:
 PYRFC_BUILD_CYTHON=yes pip install pynwrfc --no-binary :all:
 ```
 
-or
+Alternative build from source installation:
 
 ```shell
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
 python setup.py bdist_wheel
 pip install --upgrade --no-index --find-links=dist pynwrfc
-# set ABAP system parameters in test/pyrfc.cfg
-pytest -vv
 ```
 
 See also the [pyrfc documentation](http://sap.github.io/PyRFC),

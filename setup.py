@@ -10,27 +10,23 @@ from codecs import open
 from setuptools import setup, find_packages, Extension
 
 MODULE_NAME = "pyrfc"
-PYPIPACKAGE = "pyrfc"
+PYPIPACKAGE = "pynwrfc"
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
     VERSION = version_file.read().strip()
 with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
     LONG_DESCRIPTION = readme_file.read().strip()
 
-CPP = os.path.join(HERE, "src/pyrfc/_pyrfc.cpp")
-BUILD_CYTHON = os.getenv("PYRFC_BUILD_CYTHON", False) or not os.path.isfile(CPP)
+BUILD_CYTHON = sys.platform.startswith("linux") or bool(os.getenv("PYRFC_BUILD_CYTHON"))
+CMDCLASS = {}
 
 if BUILD_CYTHON:
     try:
         from Cython.Distutils import build_ext
         from Cython.Build import cythonize
     except ImportError:
-        sys.exit("Cython not installed.")
-    SOURCE_EXT = "pyx"
+        sys.exit("Cython not installed: https://cython.readthedocs.io/en/latest/src/quickstart/install.html")
     CMDCLASS = {"build_ext": build_ext}
-else:
-    SOURCE_EXT = "cpp"
-    CMDCLASS = {}
 
 # Check if SAP NWRFC SDK configured
 SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
@@ -184,8 +180,8 @@ else:
 PYRFC_EXT = Extension(
     language="c++",
     # https://stackoverflow.com/questions/8024805/cython-compiled-c-extension-importerror-dynamic-module-does-not-define-init-fu
-    name="%s.%s" % (MODULE_NAME, MODULE_NAME),
-    sources=["src/%s/_%s.%s" % (MODULE_NAME, MODULE_NAME, SOURCE_EXT)],
+    name=f"{MODULE_NAME}.{MODULE_NAME}",
+    sources=[f"src/{MODULE_NAME}/_{MODULE_NAME}.pyx"],
     define_macros=MACROS,
     extra_compile_args=COMPILE_ARGS,
     extra_link_args=LINK_ARGS,
@@ -196,7 +192,7 @@ PYRFC_EXT = Extension(
 setup(
     name=PYPIPACKAGE,
     version=VERSION,
-    description=("Python bindings for SAP NetWeaver RFC Library"),
+    description=("Python bindings for SAP NetWeaver RFC SDK"),
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     download_url="https://github.com/SAP/PyRFC/tarball/master",
@@ -213,19 +209,18 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    keywords="%s %s pyrfc sap rfc nwrfc sapnwrfc" % (MODULE_NAME, PYPIPACKAGE),
+    keywords=f"{MODULE_NAME} {PYPIPACKAGE} pyrfc sap rfc nwrfc sapnwrfc",
     author="SAP SE",
     url="https://github.com/SAP/pyrfc",
     license="OSI Approved :: Apache Software License",
     maintainer="Srdjan Boskovic",
     maintainer_email="srdjan.boskovic@sap.com",
-    packages=find_packages(where="src"),
+    packages=find_packages(where="src", exclude=["*.cpp", "*.pxd", "*.html"]),
     package_dir={"": "src"},
-    # include_package_data=True,
     # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
     zip_safe=False,
     install_requires=["setuptools"],
-    setup_requires=["setuptools-git", "Cython", "Sphinx"],
+    setup_requires=["setuptools-git"],
     cmdclass=CMDCLASS,
     ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3") if BUILD_CYTHON else [PYRFC_EXT],
     test_suite=MODULE_NAME,
