@@ -1,10 +1,8 @@
 # PyRFC
 
-
-
 :heavy_exclamation_mark: Upgrade to SAP NWRFC SDK PL8 before using PyRFC 2.4.0 or newer
 
-:heavy_exclamation_mark: Package name is changed, use `pip install pyrfc` instead of `pip install pynwrfc`. The 2.4.0 is the last release available in `pynwrfc` package well.
+:heavy_exclamation_mark: Package name is changed, use `pip install pyrfc` instead of `pip install pynwrfc`. The 2.4.0 is the last release packaged into `pyrfc` and `pynwrfc`.
 
 Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) bindings for Python.
 
