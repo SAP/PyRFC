@@ -1,10 +1,23 @@
+from typing import Any, Optional, Dict, TypedDict
 
-from typing import Any, Optional, Dict
-def get_nwrfclib_version(): tuple
-def set_ini_file_directory(path_name: str): None
+class NWRFCSDKVersion(TypedDict):
+    major: int
+    minor: int
+    patchLevel: int
+    platform: str
 
-class Connection():
-    version: {major: int, minor: int, patchLevel: int}
-    def __init__(self, config: Optional[Dict] = {}, *params: Any) -> None: ...
+class ClientOptions(TypedDict):
+    dtime: bool = False
+    return_import_params: bool = False
+    rstrip: bool = True
+
+def get_nwrfclib_version() -> NWRFCSDKVersion: ...
+def set_ini_file_directory(path_name: str) -> None: ...
+
+class Connection:
+    version: NWRFCSDKVersion
+    def __init__(
+        self, config: ClientOptions = {"dtime": False, "return_import_params": False, "rstrip": True}, **kwargs: str
+    ) -> None: ...
 
 __VERSION__: str

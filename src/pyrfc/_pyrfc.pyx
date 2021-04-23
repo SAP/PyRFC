@@ -5,12 +5,12 @@
 """ The _pyrfc C-extension module """
 
 import sys
-import signal
 import time
 import datetime
 import collections
 import locale
 import os.path
+import pickle
 from decimal import Decimal
 from libc.stdlib cimport malloc, free
 from libc.stdint cimport uintptr_t
@@ -21,7 +21,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from . csapnwrfc cimport *
 from . _exception import *
 
-__VERSION__ = "2.3.0"
+__VERSION__ = "2.4.0"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
@@ -72,6 +72,12 @@ _MASK_RSTRIP = 0x04
 # NW RFC LIB FUNCTIONALITY
 ################################################################################
 
+def py_to_string(obj):
+    return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+
+def string_to_py(objstr):
+    return pickle.loads(objstr)
+
 def get_nwrfclib_version():
     """Get SAP NW RFC Lib version
     :returns: tuple of major, minor and patch level
@@ -80,7 +86,7 @@ def get_nwrfclib_version():
     cdef unsigned minor = 0
     cdef unsigned patchlevel = 0
     RfcGetVersion(&major, &minor, &patchlevel)
-    return (major, minor, patchlevel)
+    return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': sys.platform}
 
 def set_ini_file_directory(path_name):
     """Sets the directory in which to search for the sapnwrfc.ini file
@@ -2319,9 +2325,9 @@ cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=False):
     utf8[result_len] = 0
     try:
         if rstrip:
-            return utf8[:result_len].rstrip().decode('UTF-8')
+            return utf8[:result_len].rstrip().decode('utf-8')
         else:
-            return utf8[:result_len].decode('UTF-8')
+            return utf8[:result_len].decode('utf-8')
     finally:
         free(utf8)
 
@@ -2357,7 +2363,7 @@ cdef class Throughput:
     _registry = []
 
     cdef RFC_THROUGHPUT_HANDLE _throughput_handle
-    cpdef _connections
+    cdef _connections
 
     def __init__(self, connections = []):
         cdef RFC_ERROR_INFO errorInfo

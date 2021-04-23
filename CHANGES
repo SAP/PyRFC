@@ -1,6 +1,14 @@
 Change log
 ==========
 
+2.4.0 (2021-XX-XX)
+------------------
+
+- Source code formatting of `examples` 5171ee5
+- Package rename to pyrfc 47143f5
+- get_nwrfclib_version at package and Connection level
+- Build from source is now the default installation method on Linux. Cython is required, cpp sources not packaged any more.
+
 2.3.0 (2020-12-02)
 ------------------
 

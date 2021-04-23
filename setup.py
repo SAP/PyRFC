@@ -10,7 +10,7 @@ from codecs import open
 from setuptools import setup, find_packages, Extension
 
 MODULE_NAME = "pyrfc"
-PYPIPACKAGE = "pynwrfc"
+PYPIPACKAGE = "pyrfc"
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
     VERSION = version_file.read().strip()

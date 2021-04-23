@@ -29,6 +29,8 @@ from ._exception import (
 
 from .pyrfc import (
     get_nwrfclib_version,
+    py_to_string,
+    string_to_py,
     set_ini_file_directory,
     Connection,
     Throughput,
@@ -39,6 +41,6 @@ from .pyrfc import (
     __VERSION__,
 )
 
-__author__: str = """"Srdjan Boskovic"""
+__author__: str = """"SAP SE"""
 __email__: str = "srdjan.boskovic@sap.com"
 __version__: str = __VERSION__
