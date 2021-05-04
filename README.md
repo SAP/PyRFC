@@ -85,7 +85,7 @@ Highly recommended reading about RFC communication and SAP NW RFC Library, publi
 ## Download and installation
 
 ```shell
-pip install pynwrfc
+pip install pyrfc
 ```
 
 Cython is required on Linux platforms, for the the default build from source installation method.
@@ -93,9 +93,9 @@ Cython is required on Linux platforms, for the the default build from source ins
 Build from source can be also requested on Windows and Darwin platforms:
 
 ```shell
-pip install pynwrfc --no-binary :all:
+pip install pyrfc --no-binary :all:
 # or
-PYRFC_BUILD_CYTHON=yes pip install pynwrfc --no-binary :all:
+PYRFC_BUILD_CYTHON=yes pip install pyrfc --no-binary :all:
 ```
 
 Alternative build from source installation:
@@ -104,7 +104,7 @@ Alternative build from source installation:
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
 python setup.py bdist_wheel
-pip install --upgrade --no-index --find-links=dist pynwrfc
+pip install --upgrade --no-index --find-links=dist pyrfc
 ```
 
 See also the [pyrfc documentation](http://sap.github.io/PyRFC),
