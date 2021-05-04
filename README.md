@@ -39,7 +39,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - [Platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) can be supported by [build from source](http://sap.github.io/PyRFC/build.html)
 
-## Prerequisites
+## Requirements
 
 ### All platforms
 
@@ -82,7 +82,7 @@ Highly recommended reading about RFC communication and SAP NW RFC Library, publi
 
 - [Part III Advanced Topics](https://wiki.scn.sap.com/wiki/x/FD67Gg)
 
-## Installation
+## Download and installation
 
 ```shell
 pip install pynwrfc
@@ -200,3 +200,7 @@ Check out the [SAP Community](https://community.sap.com/) (search for "pyrfc") a
 
 We appreciate contributions from the community to **PyRFC**!
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more details on our philosophy around extending this module.
+
+## License
+
+Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE file](LICENSES/Apache-2.0.txt).
