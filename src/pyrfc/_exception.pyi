@@ -14,13 +14,37 @@ class RFCLibError(RFCError):
     msg_v2: Any = ...
     msg_v3: Any = ...
     msg_v4: Any = ...
-    def __init__(self, message: Optional[Any] = ..., code: Optional[Any] = ..., key: Optional[Any] = ..., msg_class: Optional[Any] = ..., msg_type: Optional[Any] = ..., msg_number: Optional[Any] = ..., msg_v1: Optional[Any] = ..., msg_v2: Optional[Any] = ..., msg_v3: Optional[Any] = ..., msg_v4: Optional[Any] = ...) -> None: ...
+    def __init__(
+        self,
+        message: Optional[Any] = ...,
+        code: Optional[Any] = ...,
+        key: Optional[Any] = ...,
+        msg_class: Optional[Any] = ...,
+        msg_type: Optional[Any] = ...,
+        msg_number: Optional[Any] = ...,
+        msg_v1: Optional[Any] = ...,
+        msg_v2: Optional[Any] = ...,
+        msg_v3: Optional[Any] = ...,
+        msg_v4: Optional[Any] = ...,
+    ) -> None: ...
 
 class ABAPApplicationError(RFCLibError): ...
 class ABAPRuntimeError(RFCLibError): ...
 
 class LogonError(RFCLibError):
-    def __init__(self, message: Optional[Any] = ..., code: int = ..., key: str = ..., msg_class: Optional[Any] = ..., msg_type: Optional[Any] = ..., msg_number: Optional[Any] = ..., msg_v1: Optional[Any] = ..., msg_v2: Optional[Any] = ..., msg_v3: Optional[Any] = ..., msg_v4: Optional[Any] = ...) -> None: ...
+    def __init__(
+        self,
+        message: Optional[Any] = ...,
+        code: int = ...,
+        key: str = ...,
+        msg_class: Optional[Any] = ...,
+        msg_type: Optional[Any] = ...,
+        msg_number: Optional[Any] = ...,
+        msg_v1: Optional[Any] = ...,
+        msg_v2: Optional[Any] = ...,
+        msg_v3: Optional[Any] = ...,
+        msg_v4: Optional[Any] = ...,
+    ) -> None: ...
 
 class CommunicationError(RFCLibError): ...
 class ExternalRuntimeError(RFCLibError): ...

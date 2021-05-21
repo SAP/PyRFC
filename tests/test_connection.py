@@ -152,8 +152,7 @@ class TestConnection:
             assert error["code"] == 13
             assert error["key"] == "RFC_INVALID_HANDLE"
             assert (
-                error["message"][0]
-                == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
+                error["message"][0] == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
                 or error["message"][0] == "An invalid handle was passed to the API call"
             )
 

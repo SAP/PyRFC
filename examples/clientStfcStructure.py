@@ -28,14 +28,10 @@ imp = dict(
 def main():
     config = ConfigParser()
     config.read("sapnwrfc.cfg")
-    params_connection = config._sections[
-        "connection"
-    ]
+    params_connection = config._sections["connection"]
 
     conn = Connection(**params_connection)
-    result = conn.call(
-        "STFC_STRUCTURE", IMPORTSTRUCT=imp
-    )
+    result = conn.call("STFC_STRUCTURE", IMPORTSTRUCT=imp)
     pprint(result)
 
 

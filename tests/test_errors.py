@@ -9,15 +9,21 @@
 import datetime
 import socket
 import unittest
-import pyrfc
+from pyrfc import (
+    Connection,
+    RFCError,
+    LogonError,
+    ABAPApplicationError,
+    ExternalRuntimeError,
+)
 
 from decimal import Decimal
 from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
 
 
-class TestConnection:
+class TestErrors:
     def setup_method(self, test_method):
-        self.conn = pyrfc.Connection(**params)
+        self.conn = Connection(**params)
         assert self.conn.alive
 
     def teardown_method(self, test_method):
@@ -26,8 +32,8 @@ class TestConnection:
 
     def test_no_connection_params(self):
         try:
-            pyrfc.Connection()
-        except pyrfc.RFCError as ex:
+            Connection()
+        except RFCError as ex:
             assert ex.args[0] == "Connection parameters missing"
 
     # todo: test correct status after error -> or to the error tests?
@@ -37,8 +43,8 @@ class TestConnection:
             if p in incomplete_params:
                 del incomplete_params[p]
         try:
-            pyrfc.Connection(**incomplete_params)
-        except pyrfc.RFCError as ex:
+            Connection(**incomplete_params)
+        except RFCError as ex:
             error = get_error(ex)
         assert error["code"] == 20
         assert error["key"] == "RFC_INVALID_PARAMETER"
@@ -52,8 +58,8 @@ class TestConnection:
         denied_params = params.copy()
         denied_params["user"] = "BLAFASEL"
         try:
-            pyrfc.Connection(**denied_params)
-        except pyrfc.LogonError as ex:
+            Connection(**denied_params)
+        except LogonError as ex:
             error = get_error(ex)
 
         assert error["code"] == 2
@@ -64,13 +70,13 @@ class TestConnection:
         try:
             self.conn.call()
         except Exception as ex:
-            assert type(ex) is TypeError
+            assert isinstance(ex, TypeError) is True
             assert ex.args[0] == "call() takes at least 1 positional argument (0 given)"
 
     def test_call_non_existing_RFM(self):
         try:
             self.conn.call("undefined")
-        except pyrfc.ABAPApplicationError as ex:
+        except ABAPApplicationError as ex:
             error = get_error(ex)
         assert error["code"] == 5
         assert error["key"] == "FU_NOT_FOUND"
@@ -79,7 +85,7 @@ class TestConnection:
     def test_call_non_string_RFM_name(self):
         try:
             self.conn.call(1)
-        except pyrfc.RFCError as ex:
+        except RFCError as ex:
             assert ex.args == (
                 "Remote function module name must be unicode string, received:",
                 1,
@@ -89,7 +95,7 @@ class TestConnection:
     def test_call_non_existing_RFM_parameter(self):
         try:
             self.conn.call("STFC_CONNECTION", undefined=0)
-        except pyrfc.ExternalRuntimeError as ex:
+        except ExternalRuntimeError as ex:
             error = get_error(ex)
         assert error["code"] == 20
         assert error["key"] == "RFC_INVALID_PARAMETER"
@@ -99,7 +105,7 @@ class TestConnection:
         IMPORTSTRUCT = {"XRFCCHAR1": "A", "RFCCHAR2": "BC", "RFCCHAR4": "DEFG"}
         try:
             result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
-        except pyrfc.ExternalRuntimeError as ex:
+        except ExternalRuntimeError as ex:
             assert ex.code == 20
             assert ex.key == "RFC_INVALID_PARAMETER"
             assert ex.message == "field 'XRFCCHAR1' not found"
@@ -108,7 +114,7 @@ class TestConnection:
         IMPORTSTRUCT = {"XRFCCHAR1": "A", "RFCCHAR2": "BC", "RFCCHAR4": "DEFG"}
         try:
             result = self.conn.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
-        except pyrfc.ExternalRuntimeError as ex:
+        except ExternalRuntimeError as ex:
             assert ex.code == 20
             assert ex.key == "RFC_INVALID_PARAMETER"
             assert ex.message == "field 'XRFCCHAR1' not found"

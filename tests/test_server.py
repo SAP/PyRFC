@@ -8,7 +8,7 @@
 
 import unittest
 import os
-
+import pytest
 from pyrfc import Server, set_ini_file_directory, ABAPApplicationError
 
 from tests.config import get_error
@@ -19,10 +19,7 @@ def my_stfc_connection(request_context=None, REQUTEXT=""):
     print("request_context", request_context)
     print(f"REQUTEXT: {REQUTEXT}")
 
-    return {
-        "ECHOTEXT": REQUTEXT,
-        "RESPTEXT": "Python server here"
-    }
+    return {"ECHOTEXT": REQUTEXT, "RESPTEXT": "Python server here"}
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -51,7 +48,7 @@ class TestServer:
         except TypeError as ex:
             assert ex.args[0] == "Server function 'STFC_CONNECTION' already installed."
 
+    @pytest.mark.skip(reason="only manual test for the time being")
     def test_stfc_connection(self):
         print("\nPress CTRL-C to skip server test...")
         server.serve()
-

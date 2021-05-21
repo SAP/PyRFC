@@ -17,7 +17,13 @@ def set_ini_file_directory(path_name: str) -> None: ...
 class Connection:
     version: NWRFCSDKVersion
     def __init__(
-        self, config: ClientOptions = {"dtime": False, "return_import_params": False, "rstrip": True}, **kwargs: str
+        self,
+        config: ClientOptions = {
+            "dtime": False,
+            "return_import_params": False,
+            "rstrip": True,
+        },
+        **kwargs: str
     ) -> None: ...
 
 __VERSION__: str

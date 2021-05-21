@@ -21,7 +21,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from . csapnwrfc cimport *
 from . _exception import *
 
-__VERSION__ = "2.4.0"
+__VERSION__ = "2.4.1"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
@@ -104,6 +104,29 @@ def set_ini_file_directory(path_name):
         raise TypeError('sapnwrfc.ini not found in:', path_name)
     pathName = fillString(path_name)
     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
+    if rc != RFC_OK:
+        raise wrapError(&errorInfo)
+
+def set_cryptolib_path(path_name):
+    """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
+
+       The parameter path_name needs also to contain the name of the library.
+       This function has the same effect as the sapnwrfc.ini parameter TLS_SAPCRYPTOLIB.
+       This API cannot reset a new path to the library during runtime. Once set, the path is definitive.
+
+    :param path_name: Absolute path to crypto library
+    :type path_name: string
+
+    :return: nothing, raises an error
+    """
+    if not isinstance(path_name, str):
+        raise TypeError('sapnwrfc.ini path is not a string:', path_name)
+    cdef RFC_ERROR_INFO errorInfo
+    cdef SAP_UC pathName [512]
+    if not os.path.isfile(path_name):
+        raise TypeError('Crypto library not found:', path_name)
+    pathName = fillString(path_name)
+    cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
 

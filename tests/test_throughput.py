@@ -5,7 +5,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pyrfc import *
+from pyrfc import Connection, Throughput
 
 from tests.config import (
     PARAMS as params,
@@ -37,14 +37,14 @@ class TestThroughput:
         assert len(throughput.connections) == 0
 
     def test_create_with_single_connection(self):
-        conn = pyrfc.Connection(**params)
+        conn = Connection(**params)
         throughput = Throughput(conn)
         assert len(throughput.connections) == 1
         conn.close()
 
     def test_create_with_multiple_connection(self):
-        c1 = pyrfc.Connection(**params)
-        c2 = pyrfc.Connection(**params)
+        c1 = Connection(**params)
+        c2 = Connection(**params)
         throughput = Throughput([c1, c2])
         assert len(throughput.connections) == 2
         throughput = Throughput([c1, c1])
@@ -53,8 +53,8 @@ class TestThroughput:
         c2.close()
 
     def test_remove_from_connection(self):
-        c1 = pyrfc.Connection(**params)
-        c2 = pyrfc.Connection(**params)
+        c1 = Connection(**params)
+        c2 = Connection(**params)
         throughput = Throughput([c1, c2])
         assert len(throughput.connections) == 2
         throughput.removeFromConnection(c2)
@@ -64,18 +64,28 @@ class TestThroughput:
         c2.close()
 
     def test_create_with_invalid_connection(self):
-        conn = pyrfc.Connection(**params)
+        conn = Connection(**params)
         try:
             throughput = Throughput(1)
         except Exception as ex:
-            assert type(ex) is TypeError
-            assert ex.args == ("Connection object required, received", 1, "of type", type(1))
+            assert isinstance(ex, TypeError) is True
+            assert ex.args == (
+                "Connection object required, received",
+                1,
+                "of type",
+                type(1),
+            )
 
         try:
             throughput = Throughput([conn, 1])
         except Exception as ex:
-            assert type(ex) is TypeError
-            assert ex.args == ("Connection object required, received", 1, "of type", type(1))
+            assert isinstance(ex, TypeError) is True
+            assert ex.args == (
+                "Connection object required, received",
+                1,
+                "of type",
+                type(1),
+            )
         conn.close()
 
     def test_get_from_connection(self):
@@ -92,7 +102,7 @@ class TestThroughput:
         c2.close()
 
     def test_throutput_single_connection(self):
-        conn = pyrfc.Connection(**params)
+        conn = Connection(**params)
         assert conn.alive
 
         throughput = Throughput()

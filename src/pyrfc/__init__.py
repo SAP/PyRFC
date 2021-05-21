@@ -32,6 +32,7 @@ from .pyrfc import (
     py_to_string,
     string_to_py,
     set_ini_file_directory,
+    set_cryptolib_path,
     Connection,
     Throughput,
     TypeDescription,

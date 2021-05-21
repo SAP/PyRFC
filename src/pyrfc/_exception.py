@@ -7,7 +7,7 @@
 
 
 class RFCError(Exception):
-    """ Exception base class
+    """Exception base class
 
     Indicates that there was an error in the Python connector.
     """
@@ -16,7 +16,7 @@ class RFCError(Exception):
 
 
 class RFCLibError(RFCError):
-    """ RFC library error
+    """RFC library error
 
     Base class for exceptions raised by the local underlying C connector (sapnwrfc.c).
     """
@@ -98,7 +98,7 @@ class RFCLibError(RFCError):
 
 
 class ABAPApplicationError(RFCLibError):
-    """ ABAP application error
+    """ABAP application error
 
     This exception is raised if a RFC call returns an RC code greater than 0
     and the error object has an RFC_ERROR_GROUP value of
@@ -109,7 +109,7 @@ class ABAPApplicationError(RFCLibError):
 
 
 class ABAPRuntimeError(RFCLibError):
-    """ ABAP runtime error
+    """ABAP runtime error
 
     This exception is raised if a RFC call returns an RC code greater than 0
     and the error object has an RFC_ERROR_GROUP value of
@@ -120,7 +120,7 @@ class ABAPRuntimeError(RFCLibError):
 
 
 class LogonError(RFCLibError):
-    """ Logon error
+    """Logon error
 
     This exception is raised if a RFC call returns an RC code greater than 0
     and the error object has an RFC_ERROR_GROUP value of
@@ -142,12 +142,21 @@ class LogonError(RFCLibError):
     ):
         # Setting default values allows for raising an error with one parameter.
         super(LogonError, self).__init__(
-            message, code, key, msg_class, msg_type, msg_number, msg_v1, msg_v2, msg_v3, msg_v4,
+            message,
+            code,
+            key,
+            msg_class,
+            msg_type,
+            msg_number,
+            msg_v1,
+            msg_v2,
+            msg_v3,
+            msg_v4,
         )
 
 
 class CommunicationError(RFCLibError):
-    """ Communication error
+    """Communication error
 
     This exception is raised if a RFC call returns an RC code greater than 0
     and the error object has an RFC_ERROR_GROUP value of
@@ -158,7 +167,7 @@ class CommunicationError(RFCLibError):
 
 
 class ExternalRuntimeError(RFCLibError):
-    """ External runtime error
+    """External runtime error
 
     This exception is raised if a RFC call returns an RC code greater than 0
     and the error object has an RFC_ERROR_GROUP value of
@@ -169,7 +178,7 @@ class ExternalRuntimeError(RFCLibError):
 
 
 class ExternalApplicationError(RFCLibError):
-    """ External application error
+    """External application error
 
     This exception is raised if a RFC call returns an RC code greater than 0
     and the error object has an RFC_ERROR_GROUP value of
@@ -180,7 +189,7 @@ class ExternalApplicationError(RFCLibError):
 
 
 class ExternalAuthorizationError(RFCLibError):
-    """ External authorization error
+    """External authorization error
 
     This exception is raised if a RFC call returns an RC code greater than 0
     and the error object has an RFC_ERROR_GROUP value of
@@ -191,7 +200,7 @@ class ExternalAuthorizationError(RFCLibError):
 
 
 class RFCTypeError(RFCLibError):
-    """ Type concersion error
+    """Type concersion error
 
     This exception is raised when invalid data type detected in RFC input (fill) conversion
     and the error object has an RFC_ERROR_GROUP value of
@@ -199,4 +208,3 @@ class RFCTypeError(RFCLibError):
     """
 
     pass
-

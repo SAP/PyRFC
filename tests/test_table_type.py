@@ -7,7 +7,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import pyrfc
+from pyrfc import Connection
 
 from tests.config import PARAMS as params
 
@@ -18,7 +18,7 @@ class TestTT:
     """
 
     def setup_method(self, test_method):
-        self.conn = pyrfc.Connection(**params)
+        self.conn = Connection(**params)
         assert self.conn.alive
 
     def teardown_method(self, test_method):

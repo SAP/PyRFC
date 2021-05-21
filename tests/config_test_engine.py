@@ -24,4 +24,3 @@ config_engine = {
     "connection.sysnr": sysnr,
     "connection.lang": "de",  # TODO: Should this be here?
 }
-

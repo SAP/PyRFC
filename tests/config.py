@@ -3,10 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # -*- coding: utf-8 -*
-
+import platform
 import datetime
-
 from configparser import ConfigParser
+from pyrfc import set_ini_file_directory
 
 COPA = ConfigParser()
 fc = open("tests/pyrfc.cfg", "r")
@@ -84,6 +84,19 @@ BYTES_TEST = bytes(BYTEARRAY_TEST)
 PARAMS = CONNECTION_INFO
 PARAMSDEST = {"dest": "MME"}
 
-from pyrfc import set_ini_file_directory
 
 set_ini_file_directory("tests")
+
+PLATFORM = platform.system().lower()
+CryptoLibPath = {
+    "darwin": "/Applications/Secure Login Client.app/Contents/MacOS/lib/libsapcrypto.dylib",
+    "linux": "/usr/local/sap/cryptolib/libsapcrypto.so",
+    "win32": "C:\\Tools\\cryptolib\\sapcrypto.dll"
+    # "C:\\Program Files\\SAP\\FrontEnd\\SecureLogin\\libsapcrypto.dll"
+}[PLATFORM]
+
+ClientPSEPath = {
+    "darwin": "/Users/d037732/dotfiles/sec/rfctest.pse",
+    "linux": "/home/www-admin/sec/rfctest.pse",
+    "win32": "C:\\Tools\\sec\\rfctest.pse",
+}[PLATFORM]

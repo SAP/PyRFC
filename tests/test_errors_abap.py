@@ -6,18 +6,15 @@
 
 # -*- coding: utf-8 -*-
 
-import datetime
-import socket
 import unittest
-import pyrfc
+from pyrfc import Connection, RFCError, ABAPRuntimeError, ABAPApplicationError
 
-from decimal import Decimal
-from tests.config import PARAMS as params, CONFIG_SECTIONS as config_sections, get_error
+from tests.config import PARAMS as params, get_error
 
 
-class TestConnection:
+class TestErrorsABAP:
     def setup_method(self, test_method):
-        self.conn = pyrfc.Connection(**params)
+        self.conn = Connection(**params)
         assert self.conn.alive
 
     def teardown_method(self, test_method):
@@ -26,14 +23,14 @@ class TestConnection:
 
     def test_no_connection_params(self):
         try:
-            pyrfc.Connection()
-        except pyrfc.RFCError as ex:
+            Connection()
+        except RFCError as ex:
             assert ex.args[0] == "Connection parameters missing"
 
     def test_RFC_RAISE_ERROR(self):
         try:
             result = self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
-        except pyrfc.ABAPRuntimeError as ex:
+        except ABAPRuntimeError as ex:
             assert self.conn.alive == True
             assert ex.code == 4
             assert ex.key == "Function not supported"
@@ -46,7 +43,7 @@ class TestConnection:
         # STFC_SAPGUI RFC-TEST:   RFC with SAPGUI
         try:
             self.conn.call("STFC_SAPGUI")
-        except (pyrfc.ABAPRuntimeError) as ex:
+        except (ABAPRuntimeError) as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 3
@@ -58,7 +55,7 @@ class TestConnection:
         # cf. ExceptionTest.c (l. 92ff)
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="0", MESSAGETYPE="E")
-        except (pyrfc.ABAPRuntimeError) as ex:
+        except (ABAPRuntimeError) as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
@@ -70,7 +67,7 @@ class TestConnection:
         # cf. ExceptionTest.c (l. 75ff)
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="1", MESSAGETYPE="E")
-        except pyrfc.ABAPApplicationError as ex:
+        except ABAPApplicationError as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 5
@@ -84,7 +81,7 @@ class TestConnection:
         # cf. ExceptionTest.c (l. 65ff)
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="2", MESSAGETYPE="E")
-        except pyrfc.ABAPApplicationError as ex:
+        except ABAPApplicationError as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 5
@@ -96,7 +93,7 @@ class TestConnection:
         # cf. ExceptionTest.c (l. 164ff)
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="3", MESSAGETYPE="E")
-        except (pyrfc.ABAPRuntimeError) as ex:
+        except (ABAPRuntimeError) as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 3
@@ -106,7 +103,7 @@ class TestConnection:
         # cf. ExceptionTest.c (l. 112ff)
         try:
             self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
-        except (pyrfc.ABAPRuntimeError) as ex:
+        except (ABAPRuntimeError) as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
@@ -119,7 +116,7 @@ class TestConnection:
         # cf. ExceptionTest.c (l. 137ff)
         try:
             self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="X")
-        except (pyrfc.ABAPRuntimeError) as ex:
+        except (ABAPRuntimeError) as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
@@ -133,7 +130,7 @@ class TestConnection:
         # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] ==
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="36", MESSAGETYPE="E")
-        except (pyrfc.ABAPRuntimeError) as ex:
+        except (ABAPRuntimeError) as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 4
@@ -143,7 +140,7 @@ class TestConnection:
         # '51_E': 'ABAPRuntimeError-3-BLOCKED_COMMIT-A database commit was blocked by the application.-True''] ==
         try:
             self.conn.call("RFC_RAISE_ERROR", METHOD="51", MESSAGETYPE="E")
-        except (pyrfc.ABAPRuntimeError) as ex:
+        except (ABAPRuntimeError) as ex:
             assert self.conn.alive == True
             error = get_error(ex)
             assert error["code"] == 3
@@ -167,7 +164,7 @@ class TestConnection:
     # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message (CM_NO_DATA_RECEIVED)-True',
     # try:
     ##    self.conn.call('RFC_RAISE_ERROR', METHOD='32', MESSAGETYPE='E')
-    # except (pyrfc.ABAPRuntimeError) as ex:
+    # except (ABAPRuntimeError) as ex:
     #    error = get_error(ex)
     #    assert error['code'] == 4
     #    assert error['key'] == 'ON:N'

@@ -12,7 +12,7 @@
 # Some of them are used as well.
 
 import unittest
-import pyrfc
+from pyrfc import Connection
 
 from tests.config import PARAMS as params, get_error
 
@@ -23,7 +23,7 @@ class TestMRFC:
     """
 
     def setup_method(self, test_method):
-        self.conn = pyrfc.Connection(**params)
+        self.conn = Connection(**params)
         assert self.conn.alive
 
     def test_info(self):

@@ -94,7 +94,9 @@ def main():
                         queue_names=[queue],
                     )
                 else:
-                    connection.fill_and_submit_unit(unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)])
+                    connection.fill_and_submit_unit(
+                        unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)]
+                    )
                 print(" - Unit filled and submitted.")
                 connection.confirm_unit(unit)
                 print(" - Unit confirmed and destroyed.")

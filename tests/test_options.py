@@ -9,7 +9,7 @@
 import datetime
 import socket
 import unittest
-import pyrfc
+from pyrfc import Connection
 
 from decimal import Decimal
 
@@ -21,9 +21,9 @@ from tests.config import (
 )
 
 
-class TestConnection:
+class TestOptions:
     def setup_method(self, test_method):
-        self.conn = pyrfc.Connection(**params)
+        self.conn = Connection(**params)
         assert self.conn.alive
 
     def teardown_method(self, test_method):
@@ -90,7 +90,7 @@ class TestConnection:
         #COUNTER     1
         # ABAP:
         for i in range(101):
-            conn2 = pyrfc.Connection(**params)
+            conn2 = Connection(**params)
             # conn2.close() # Use explicit close() here. If ommitted, the server may block an open connection attempt
                           # _and refuse further connections_, resulting in RFC_INVALID_HANDLE errors for the other
                           # test!
