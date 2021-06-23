@@ -1535,7 +1535,7 @@ cdef class Server:
         # Remove all installed server functions
         after_remove = {}
         global server_functions
-        for func_name, func_data in erver_functions.items():
+        for func_name, func_data in server_functions.items():
             if func_data["server"] != self:
                 after_remove[func_name] = func_data
         server_functions = after_remove
