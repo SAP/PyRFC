@@ -4,12 +4,12 @@
 
 """ The _pyrfc C-extension module """
 
-import sys
-import time
-import datetime
-import collections
-import locale
-import os.path
+from sys import platform, exc_info
+from threading import Thread
+from datetime import date, time, datetime
+from collections import Iterable
+from locale import localeconv
+from os.path import isfile, join
 import pickle
 from decimal import Decimal
 from libc.stdlib cimport malloc, free
@@ -86,7 +86,7 @@ def get_nwrfclib_version():
     cdef unsigned minor = 0
     cdef unsigned patchlevel = 0
     RfcGetVersion(&major, &minor, &patchlevel)
-    return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': sys.platform}
+    return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': platform}
 
 def set_ini_file_directory(path_name):
     """Sets the directory in which to search for the sapnwrfc.ini file
@@ -100,7 +100,7 @@ def set_ini_file_directory(path_name):
         raise TypeError('sapnwrfc.ini path is not a string:', path_name)
     cdef RFC_ERROR_INFO errorInfo
     cdef SAP_UC pathName [512]
-    if not os.path.isfile(os.path.join(path_name, "sapnwrfc.ini")):
+    if not isfile(join(path_name, "sapnwrfc.ini")):
         raise TypeError('sapnwrfc.ini not found in:', path_name)
     pathName = fillString(path_name)
     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
@@ -123,7 +123,7 @@ def set_cryptolib_path(path_name):
         raise TypeError('sapnwrfc.ini path is not a string:', path_name)
     cdef RFC_ERROR_INFO errorInfo
     cdef SAP_UC pathName [512]
-    if not os.path.isfile(path_name):
+    if not isfile(path_name):
         raise TypeError('Crypto library not found:', path_name)
     pathName = fillString(path_name)
     cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)
@@ -217,7 +217,7 @@ cdef class Connection:
             cdef unsigned minor = 0
             cdef unsigned patchlevel = 0
             RfcGetVersion(&major, &minor, &patchlevel)
-            return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': sys.platform}
+            return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': platform}
 
     property options:
         def __get__(self):
@@ -288,6 +288,9 @@ cdef class Connection:
     def close(self):
         self._close()
 
+    def cancel(self):
+        self._cancel()
+
     def __bool__(self):
         return self.alive
 
@@ -312,6 +315,20 @@ cdef class Connection:
         cdef RFC_ERROR_INFO errorInfo
         if self._handle != NULL:
             rc = RfcCloseConnection(self._handle, &errorInfo)
+            self._handle = NULL
+            if rc != RFC_OK:
+                self._error(&errorInfo)
+
+    def _cancel(self):
+        """ Cancels the ongoing RFC call (private function)
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+                 thereof if the connection cannot be cancelled cleanly.
+        """
+        cdef RFC_RC rc
+        cdef RFC_ERROR_INFO errorInfo
+        if self._handle != NULL:
+            rc = RfcCancel(self._handle, &errorInfo)
             self._handle = NULL
             if rc != RFC_OK:
                 self._error(&errorInfo)
@@ -942,7 +959,7 @@ cdef class Connection:
 
         if not isinstance(unit, dict) or 'id' not in unit or 'background' not in unit:
             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")
-        if not isinstance(calls, collections.Iterable):
+        if not isinstance(calls, Iterable):
             raise TypeError("Parameter 'calls' must be iterable.")
         if len(calls)==0:
             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
@@ -1220,7 +1237,7 @@ server_context = {}
 
 def _server_log(origin, log_message):
     if server_context["server_log"]:
-        print (f"[{datetime.datetime.utcnow()} UTC] {origin} '{log_message}'")
+        print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
 
 cdef class ServerConnection:
     cdef ConnectionParameters _connection
@@ -1367,7 +1384,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         _server_log("genericHandler", "Request for '{}' raises ExternalRuntimeError {} - code set to RFC_EXTERNAL_FAILURE.".format(func_name, e))
         return RFC_EXTERNAL_FAILURE
     except:
-        exctype, value = sys.exc_info()[:2]
+        exctype, value = exc_info()[:2]
         _server_log("genericHandler",
             "Request for '{}' raises an invalid exception:\n Exception: {}\n Values: {}\n"
             "Callback functions may only raise ABAPApplicationError, ABAPRuntimeError, or ExternalRuntimeError.\n"
@@ -1777,7 +1794,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                     # string passed from application should be locale correct, do nothing
                     svalue = value
                 # decimal separator must be "." for the Decimal parsing check
-                locale_radix = locale.localeconv()['decimal_point']
+                locale_radix = localeconv()['decimal_point']
                 if locale_radix != ".":
                     Decimal(svalue.replace(locale_radix, '.'))
                 else:
@@ -1804,7 +1821,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
         elif typ == RFCTYPE_DATE:
             if value:
                 format_ok = True
-                if type(value) is datetime.date:
+                if type(value) is date:
                     cValue = fillString('{:04d}{:02d}{:02d}'.format(value.year, value.month, value.day))
                 else:
                     try:
@@ -1812,7 +1829,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                             format_ok = False
                         else:
                             if len(value.rstrip()) > 0:
-                                datetime.date(int(value[:4]), int(value[4:6]), int(value[6:8]))
+                                date(int(value[:4]), int(value[4:6]), int(value[6:8]))
                             cValue = fillString(value)
                     except:
                         format_ok = False
@@ -1825,7 +1842,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
         elif typ == RFCTYPE_TIME:
             if value:
                 format_ok = True
-                if type(value) is datetime.time:
+                if type(value) is time:
                     cValue = fillString('{:02d}{:02d}{:02d}'.format(value.hour, value.minute, value.second))
                 else:
                     try:
@@ -1833,7 +1850,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                             format_ok = False
                         else:
                             if len(value.rstrip()) > 0:
-                                datetime.time(int(value[:2]), int(value[2:4]), int(value[4:6]))
+                                time(int(value[:2]), int(value[2:4]), int(value[4:6]))
                             cValue = fillString(value)
                     except:
                         format_ok = False
@@ -2293,7 +2310,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         if config & _MASK_DTIME:
             if (value == '00000000') or not value:
                 return None
-            return datetime.datetime.strptime(value, '%Y%m%d').date()
+            return datetime.strptime(value, '%Y%m%d').date()
         # return date string or ''
         if (value == '00000000') or not value:
               return ''
@@ -2307,7 +2324,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         if config & _MASK_DTIME:
             if not value:
                 return None
-            return datetime.datetime.strptime(value, '%H%M%S').time()
+            return datetime.strptime(value, '%H%M%S').time()
         # return time string or ''
         if not value:
             return ''

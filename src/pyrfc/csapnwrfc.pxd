@@ -216,8 +216,9 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcIsConnectionHandleValid (RFC_CONNECTION_HANDLE rfcHandle, RFC_INT * isValid, RFC_ERROR_INFO * errorInfo)	nogil
     RFC_CONNECTION_HANDLE RfcOpenConnection(RFC_CONNECTION_PARAMETER* connectionParams, unsigned paramCount, RFC_ERROR_INFO* errorInfo) nogil
     RFC_RC RfcCloseConnection(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo) nogil
+    RFC_RC RfcCancel(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo) nogil
     RFC_RC RfcResetServerContext(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcPing(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcPing(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo) nogil
     RFC_RC RfcListenAndDispatch (RFC_CONNECTION_HANDLE rfcHandle, int timeout, RFC_ERROR_INFO* errorInfo)
     RFC_FUNCTION_DESC_HANDLE RfcGetFunctionDesc(RFC_CONNECTION_HANDLE rfcHandle, SAP_UC* funcName, RFC_ERROR_INFO* errorInfo)
     RFC_FUNCTION_HANDLE RfcCreateFunction(RFC_FUNCTION_DESC_HANDLE funcDescHandle, RFC_ERROR_INFO* errorInfo)
