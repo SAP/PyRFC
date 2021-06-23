@@ -21,7 +21,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from . csapnwrfc cimport *
 from . _exception import *
 
-__VERSION__ = "2.4.1"
+__VERSION__ = "2.4.2"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,

@@ -2157,7 +2157,7 @@ static const char __pyx_k_type[] = "type";
 static const char __pyx_k_unit[] = "unit";
 static const char __pyx_k_user[] = "user";
 static const char __pyx_k_year[] = "year";
-static const char __pyx_k_2_4_1[] = "2.4.1";
+static const char __pyx_k_2_4_2[] = "2.4.2";
 static const char __pyx_k_H_M_S[] = "%H%M%S";
 static const char __pyx_k_UTF_8[] = "UTF-8";
 static const char __pyx_k_Y_m_d[] = "%Y%m%d";
@@ -2515,7 +2515,7 @@ static const char __pyx_k_Invalid_exception_raised_by_call_2[] = "Invalid except
 static PyObject *__pyx_kp_s_00000000;
 static PyObject *__pyx_kp_s_02d_02d_02d;
 static PyObject *__pyx_kp_s_04d_02d_02d;
-static PyObject *__pyx_kp_s_2_4_1;
+static PyObject *__pyx_kp_s_2_4_2;
 static PyObject *__pyx_n_s_ABAPApplicationError;
 static PyObject *__pyx_n_s_ABAPRuntimeError;
 static PyObject *__pyx_kp_s_A_function_description_This_cla;
@@ -37720,7 +37720,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_00000000, __pyx_k_00000000, sizeof(__pyx_k_00000000), 0, 0, 1, 0},
   {&__pyx_kp_s_02d_02d_02d, __pyx_k_02d_02d_02d, sizeof(__pyx_k_02d_02d_02d), 0, 0, 1, 0},
   {&__pyx_kp_s_04d_02d_02d, __pyx_k_04d_02d_02d, sizeof(__pyx_k_04d_02d_02d), 0, 0, 1, 0},
-  {&__pyx_kp_s_2_4_1, __pyx_k_2_4_1, sizeof(__pyx_k_2_4_1), 0, 0, 1, 0},
+  {&__pyx_kp_s_2_4_2, __pyx_k_2_4_2, sizeof(__pyx_k_2_4_2), 0, 0, 1, 0},
   {&__pyx_n_s_ABAPApplicationError, __pyx_k_ABAPApplicationError, sizeof(__pyx_k_ABAPApplicationError), 0, 0, 1, 1},
   {&__pyx_n_s_ABAPRuntimeError, __pyx_k_ABAPRuntimeError, sizeof(__pyx_k_ABAPRuntimeError), 0, 0, 1, 1},
   {&__pyx_kp_s_A_function_description_This_cla, __pyx_k_A_function_description_This_cla, sizeof(__pyx_k_A_function_description_This_cla), 0, 0, 1, 0},
@@ -39398,7 +39398,7 @@ if (!__Pyx_RefNanny) {
  * from . csapnwrfc cimport *
  * from . _exception import *             # <<<<<<<<<<<<<<
  * 
- * __VERSION__ = "2.4.1"
+ * __VERSION__ = "2.4.2"
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -39414,11 +39414,11 @@ if (!__Pyx_RefNanny) {
   /* "src/pyrfc/_pyrfc.pyx":24
  * from . _exception import *
  * 
- * __VERSION__ = "2.4.1"             # <<<<<<<<<<<<<<
+ * __VERSION__ = "2.4.2"             # <<<<<<<<<<<<<<
  * 
  * # inverts the enumeration of RFC_DIRECTION
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VERSION, __pyx_kp_s_2_4_1) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VERSION, __pyx_kp_s_2_4_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
 
   /* "src/pyrfc/_pyrfc.pyx":27
  * 
