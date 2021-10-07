@@ -222,7 +222,10 @@ setup(
     # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
     zip_safe=False,
     install_requires=["setuptools"],
-    setup_requires=["setuptools-git"],
+    setup_requires=[
+        "setuptools-git",
+        "cython; platform_system != 'Windows'"
+    ],
     cmdclass=CMDCLASS,
     ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3")
     if BUILD_CYTHON
