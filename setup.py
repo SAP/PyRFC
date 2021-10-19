@@ -25,9 +25,7 @@ if BUILD_CYTHON:
         from Cython.Distutils import build_ext
         from Cython.Build import cythonize
     except ImportError:
-        sys.exit(
-            "Cython not installed: https://cython.readthedocs.io/en/latest/src/quickstart/install.html"
-        )
+        sys.exit("Cython not installed: https://cython.readthedocs.io/en/latest/src/quickstart/install.html")
     CMDCLASS = {"build_ext": build_ext}
 
 # Check if SAP NWRFC SDK configured
@@ -210,6 +208,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
     keywords=f"{MODULE_NAME} {PYPIPACKAGE} pyrfc sap rfc nwrfc sapnwrfc",
     author="SAP SE",
@@ -224,8 +223,6 @@ setup(
     install_requires=["setuptools"],
     setup_requires=["setuptools-git"],
     cmdclass=CMDCLASS,
-    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3")
-    if BUILD_CYTHON
-    else [PYRFC_EXT],
+    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3") if BUILD_CYTHON else [PYRFC_EXT],
     test_suite=MODULE_NAME,
 )

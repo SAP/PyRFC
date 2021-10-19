@@ -7,7 +7,6 @@
 from sys import platform, exc_info
 from threading import Thread
 from datetime import date, time, datetime
-from collections import Iterable
 from locale import localeconv
 from os.path import isfile, join
 import pickle
@@ -20,6 +19,11 @@ from cpython cimport array
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from . csapnwrfc cimport *
 from . _exception import *
+
+try:
+    from collections.abc import Iterable
+except:
+    from collections import Iterable
 
 __VERSION__ = "2.4.2"
 
