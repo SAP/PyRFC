@@ -25,7 +25,7 @@ try:
 except:
     from collections import Iterable
 
-__VERSION__ = "2.4.2"
+__VERSION__ = "2.5.0"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
