@@ -91,7 +91,8 @@ PLATFORM = platform.system().lower()
 CryptoLibPath = {
     "darwin": "/Applications/Secure Login Client.app/Contents/MacOS/lib/libsapcrypto.dylib",
     "linux": "/usr/local/sap/cryptolib/libsapcrypto.so",
-    "win32": "C:\\Tools\\cryptolib\\sapcrypto.dll"
+    "win32": "C:\\Tools\\cryptolib\\sapcrypto.dll",
+    "windows": "C:\\Tools\\cryptolib\\sapcrypto.dll"
     # "C:\\Program Files\\SAP\\FrontEnd\\SecureLogin\\libsapcrypto.dll"
 }[PLATFORM]
 
@@ -99,4 +100,5 @@ ClientPSEPath = {
     "darwin": "/Users/d037732/dotfiles/sec/rfctest.pse",
     "linux": "/home/www-admin/sec/rfctest.pse",
     "win32": "C:\\Tools\\sec\\rfctest.pse",
+    "windows": "C:\\Tools\\sec\\rfctest.pse",
 }[PLATFORM]
