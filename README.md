@@ -1,9 +1,5 @@
 # PyRFC
 
-:heavy_exclamation_mark: Upgrade to SAP NWRFC SDK PL8 before using PyRFC 2.4.0 or newer
-
-:heavy_exclamation_mark: Package name is changed, use `pip install pyrfc` instead of `pip install pynwrfc`. The 2.4.0 is the last release packaged into `pyrfc` and `pynwrfc`.
-
 Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) bindings for Python.
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -35,7 +31,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
   - are not supported, neither issues related to portable Linux wheels
 
-  - :exclamation: must not be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
+  - *must not* be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
 - [Platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) can be supported by [build from source](http://sap.github.io/PyRFC/build.html)
 
@@ -58,7 +54,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - Build toolchain for Python 2 requires [Microsoft Visual C++ 9.0](http://aka.ms/vcpython27)
 
-:exclamation: Due to a [change introduced with Python 3.8 for Windows](https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew), PATH directories are no longer searched for DLL. The SAP NWRFC SDK lib path is no longer required on PATH, for Python >= 3.8.
+- Due to a [change introduced with Python 3.8 for Windows](https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew), PATH directories are no longer searched for DLL. The SAP NWRFC SDK lib path is no longer required on PATH, for Python >= 3.8.
 
 ### macOS
 
