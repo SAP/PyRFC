@@ -39,9 +39,8 @@ from .pyrfc import (
     FunctionDescription,
     Server,
     ConnectionParameters,
-    __VERSION__,
 )
 
-__author__: str = """"SAP SE"""
-__email__: str = "srdjan.boskovic@sap.com"
-__version__: str = __VERSION__
+__author__ = "SAP SE"
+__email__ = "srdjan.boskovic@sap.com"
+__version__ = "2.5.1"

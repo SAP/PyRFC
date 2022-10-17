@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+#cython: language_level=3
+
 """ The _pyrfc C-extension module """
 
 from sys import platform, exc_info
@@ -24,8 +26,6 @@ try:
     from collections.abc import Iterable
 except:
     from collections import Iterable
-
-__VERSION__ = "2.5.0"
 
 # inverts the enumeration of RFC_DIRECTION
 _direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,

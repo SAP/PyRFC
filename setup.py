@@ -146,6 +146,7 @@ elif sys.platform.startswith("darwin"):
         ("SAPwithUNICODE", None),
         ("SAPwithTHREADS", None),
         ("SAPonDARW", None),
+        ("char16_t", "uint16_t"),
     ]
     COMPILE_ARGS = [
         "-Wall",
@@ -165,6 +166,9 @@ elif sys.platform.startswith("darwin"):
         "-Wno-cast-align",
         "-Wno-deprecated-declarations",
         "-Wno-unused-function",
+        "-Wno-nullability-completeness",
+        "-Wno-expansion-to-defined",
+        "-Wno-unreachable-code-fallthrough",
     ]
     LINK_ARGS = [
         "-L{}/lib".format(SAPNWRFC_HOME),
@@ -221,11 +225,8 @@ setup(
     # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
     zip_safe=False,
     install_requires=["setuptools"],
-    setup_requires=[
-        "setuptools-git",
-        "cython; platform_system != 'Windows'"
-    ],
+    setup_requires=["setuptools-git", "cython; platform_system != 'Windows'"],
     cmdclass=CMDCLASS,
-    ext_modules=cythonize(PYRFC_EXT, annotate=True, language_level="3") if BUILD_CYTHON else [PYRFC_EXT],
+    ext_modules=cythonize(PYRFC_EXT, annotate=True) if BUILD_CYTHON else [PYRFC_EXT],
     test_suite=MODULE_NAME,
 )
