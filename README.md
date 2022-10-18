@@ -19,6 +19,8 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Supported platforms
 
+- Cloud platforms are not supported, see #205
+
 - Python 3
 
 - Windows 10 and macOS >= 10.15 supported by pre-built wheels and build from source installation
