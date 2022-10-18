@@ -25,7 +25,7 @@ Disclaimer: The code in this project may include calls to APIs (“API Calls”)
  parties the right to use of access any SAP External Product, through API Calls.
 
 # Source code, documentation, tests, examples
-Files: setup.py src/**y doc/** tests/** examples/**
+Files: setup.py pyproject.toml src/**y doc/** tests/** examples/**
 Copyright: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 License: Apache-2.0
 
