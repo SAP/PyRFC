@@ -7,7 +7,6 @@
 """ The _pyrfc C-extension module """
 
 from sys import platform, exc_info
-from threading import Thread
 from datetime import date, time, datetime
 from locale import localeconv
 from os.path import isfile, join
@@ -1508,16 +1507,7 @@ cdef class Server:
         _server_log("Server function installed", func_name)
         _server_log("Server function installed", server_functions[func_name])
 
-    def _serve_http(self, server_class=HTTPServer, handler_class=BasicServer):
-        server_address = ('', server_context["port"])
-        httpd = server_class(server_address, handler_class)
-        _server_log("HTTP Server", "started, press CTRC-C to end ...")
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            pass # self._close()
-        finally:
-            httpd.server_close()
+
 
 
     def serve(self, timeout=None):
@@ -1531,8 +1521,6 @@ cdef class Server:
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
         _server_log("Server", "launched")
-
-        self._serve_http()
 
         return rc
 
@@ -1725,15 +1713,12 @@ cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines)
         if not lineHandle:
             raise wrapError(&errorInfo)
         line = lines[i]
-        # line = lines[0]
         if type(line) is dict:
             for name, value in line.iteritems():
                 fillStructureField(typeDesc, lineHandle, name, value)
         else:
             fillStructureField(typeDesc, lineHandle, '', line)
         i += 1
-        # https://stackoverflow.com/questions/33626623/the-most-efficient-way-to-remove-first-n-elements-in-a-list
-        # del lines[:1]
 
 cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, value, RFC_TYPE_DESC_HANDLE typeDesc):
     cdef RFC_RC rc
