@@ -5,7 +5,6 @@
 import inspect
 import os
 import sys
-import subprocess
 from codecs import open
 from setuptools import setup, find_packages, Extension
 
@@ -38,7 +37,7 @@ if not SAPNWRFC_HOME:
 
 # https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
-    subprocess.call("./ci/utils/nwrfcsdk-version-linux.sh", shell=True)
+    os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.dylib | grep "Patch Level"')
     LIBS = ["sapnwrfc", "sapucum"]
     MACROS = [
         ("NDEBUG", None),
@@ -76,7 +75,7 @@ elif sys.platform.startswith("win"):
         PYTHONSOURCE = inspect.getfile(inspect).split("/inspect.py")[0]
         # sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
 
-    subprocess.call("ci\\utils\\nwrfcsdk-version.bat", shell=True)
+    os.system("findstr Patch %SAPNWRFC_HOME%\\lib\\sapnwrfc.dll")
     LIBS = ["sapnwrfc", "libsapucum"]
 
     MACROS = [
@@ -133,7 +132,7 @@ elif sys.platform.startswith("win"):
         "/LTCG",
     ]
 elif sys.platform.startswith("darwin"):
-    subprocess.call("./ci/utils/nwrfcsdk-version-darwin.sh", shell=True)
+    os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.dylib | grep "Patch Level"')
     MACOS_VERSION_MIN = "10.15"
 
     LIBS = ["sapnwrfc", "sapucum"]
@@ -146,7 +145,6 @@ elif sys.platform.startswith("darwin"):
         ("SAPwithUNICODE", None),
         ("SAPwithTHREADS", None),
         ("SAPonDARW", None),
-        ("char16_t", "uint16_t"),
     ]
     COMPILE_ARGS = [
         "-Wall",
@@ -208,11 +206,11 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Cython",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     keywords=f"{MODULE_NAME} {PYPIPACKAGE} pyrfc sap rfc nwrfc sapnwrfc",
     author="SAP SE",
