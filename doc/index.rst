@@ -33,15 +33,6 @@ API documentation
 
    pyrfc
 
-Change log
-==========
-
-.. toctree::
-   :maxdepth: 2
-
-   changelog
-
-
 Indices and tables
 ==================
 
