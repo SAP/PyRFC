@@ -1,4 +1,4 @@
-".DS_Store
+.DS_Store
 .buildinfo
 .eggs
 .vscode
@@ -13,3 +13,4 @@ _sources
 *.pyc"
 *.code-workspace
 *.trc
+sapnwrfc.ini
