@@ -37,7 +37,7 @@ if not SAPNWRFC_HOME:
 
 # https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
-    os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.dylib | grep "Patch Level"')
+    os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.so | grep "Patch Level"')
     LIBS = ["sapnwrfc", "sapucum"]
     MACROS = [
         ("NDEBUG", None),
