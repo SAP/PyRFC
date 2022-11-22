@@ -188,6 +188,34 @@ cdef extern from "sapnwrfc.h":
         SAP_UC partnerIPv6[45 + 1]
         SAP_UC reserved[17]
 
+    ctypedef enum RFC_PROTOCOL_TYPE:
+        RFC_UNKOWN
+        RFC_CLIENT
+        RFC_STARTED_SERVER
+        RFC_REGISTERED_SERVER
+        RFC_MULTI_COUNT_REGISTERED_SERVER
+        RFC_TCP_SOCKET_CLIENT
+        RFC_TCP_SOCKET_SERVER
+        RFC_WEBSOCKET_CLIENT
+        RFC_WEBSOCKET_SERVER
+        RFC_PROXY_WEBSOCKET_CLIENT
+
+    ctypedef enum RFC_SERVER_STATE:
+        RFC_SERVER_INITIAL
+        RFC_SERVER_STARTING
+        RFC_SERVER_RUNNING
+        RFC_SERVER_BROKEN
+        RFC_SERVER_STOPPING
+        RFC_SERVER_STOPPED
+
+    ctypedef struct RFC_SERVER_ATTRIBUTES:
+        SAP_UC* serverName
+        RFC_PROTOCOL_TYPE type
+        unsigned registrationCount
+        RFC_SERVER_STATE state
+        unsigned currentBusyCount
+        unsigned peakBusyCount
+
     ctypedef struct RFC_UNIT_ATTRIBUTES:
         short kernelTrace
         short satTrace
@@ -262,6 +290,8 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcInstallGenericServerFunction(RFC_SERVER_FUNCTION serverFunction, RFC_FUNC_DESC_CALLBACK funcDescProvider, RFC_ERROR_INFO* errorInfo)
     RFC_RC RfcShutdownServer(RFC_SERVER_HANDLE serverHandle, unsigned timeout, RFC_ERROR_INFO * errorInfo) nogil
     RFC_RC RfcDestroyServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO* errorInfo) nogil
+    RFC_RC RfcGetServerAttributes(RFC_SERVER_HANDLE serverHandle, RFC_SERVER_ATTRIBUTES * serverAttributes, RFC_ERROR_INFO * errorInfo) nogil
+    SAP_UC* RfcGetServerStateAsString(RFC_SERVER_STATE serverState)
 
     RFC_FUNCTION_DESC_HANDLE RfcDescribeFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
 

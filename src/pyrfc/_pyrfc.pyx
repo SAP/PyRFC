@@ -1508,8 +1508,6 @@ cdef class Server:
         _server_log("Server function installed", server_functions[func_name])
 
 
-
-
     def serve(self, timeout=None):
         cdef RFC_ERROR_INFO errorInfo
 
@@ -1532,6 +1530,34 @@ cdef class Server:
         servers are registered.
         """
         self._close()
+
+    def get_server_attributes(self):
+        return self._get_server_attributes()
+
+    cdef _get_server_attributes(self):
+        cdef RFC_RC rc
+        cdef RFC_SERVER_ATTRIBUTES attributes
+        cdef RFC_ERROR_INFO errorInfo
+
+        rc = RfcGetServerAttributes(self._server_connection._handle, &attributes, &errorInfo)
+        if rc != RFC_OK or errorInfo.code != RFC_OK:
+            raise wrapError(&errorInfo)
+        rfcServerState = wrapString(RfcGetServerStateAsString(attributes.state), -1, True)
+        return {
+            # This server's name as given when creating the server.
+            'serverName': wrapString(attributes.serverName, -1, True)
+            # This RFC server's type. Will be one of RFC_MULTI_COUNT_REGISTERED_SERVER or RFC_TCP_SOCKET_SERVER
+            , 'protocolType': "multi count" if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER else "tcp socket"                                    # Own host name
+            # The current number of active registrations (in case of a Registered Server)
+            # or the maximum number of parallel connections the server will accept (in case of a TCP Socket Server)
+            , 'registrationCount': attributes.registrationCount
+            # Used in state information in order to indicate the current state of an RFC Server.
+            , 'state': rfcServerState
+            # The number of requests currently being processed.
+            , 'currentBusyCount': attributes.currentBusyCount
+            # The maximum number of requests the server has been processing in parallel since it has been created
+            , 'peakBusyCount': attributes.peakBusyCount
+        }
 
     def _close(self):
         """ Close the connection (private function)
@@ -1968,7 +1994,7 @@ cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes):
         , 'partnerIP': wrapString(attributes.partnerIP, 15, True).rstrip('\0')                           # Partner system code page
         , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, True).rstrip('\0')                       # Partner system code page IPv6
         , 'reserved': wrapString(attributes.reserved, 17, True).rstrip('\0')                             # Reserved for later use
- }
+    }
 
 
 cdef wrapTypeDescription(RFC_TYPE_DESC_HANDLE typeDesc):
