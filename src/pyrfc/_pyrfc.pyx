@@ -10,6 +10,7 @@ from sys import platform, exc_info
 from datetime import date, time, datetime
 from locale import localeconv
 from os.path import isfile, join
+from threading import Thread
 import pickle
 from decimal import Decimal
 from libc.stdlib cimport malloc, free
@@ -141,7 +142,7 @@ cdef class ConnectionParameters:
     cdef unsigned _params_count
     cdef RFC_CONNECTION_PARAMETER *_params
 
-    def __init__(self, **params):
+    def __cinit__(self, **params):
         self._params_count = len(params)
         if self._params_count < 1:
             raise RFCError("Connection parameters missing")
@@ -203,7 +204,7 @@ cdef class Connection:
              thereof if the connection attempt fails.
     """
     cdef unsigned __bconfig
-    cdef public object __config
+    cdef public dict __config
     cdef bint active_transaction
     cdef bint active_unit
     cdef RFC_CONNECTION_HANDLE _handle
@@ -1421,7 +1422,7 @@ class BasicServer(BaseHTTPRequestHandler):
 
 
 cdef class Server:
-    """ An SAP server
+    """ An ABAP server
 
     An instance of :class:`~pyrfc.Server` allows for installing
     Python callback functions and serve requests from SAP systems.
@@ -1456,8 +1457,9 @@ cdef class Server:
     cdef public bint rstrip
     cdef Connection _client_connection
     cdef ServerConnection _server_connection
+    cdef object _server_thread
 
-    def __init__(self, server_params, client_params, config={}):
+    def __cinit__(self, server_params, client_params, config={}):
         cdef uintptr_t handle
 
         # config parsing
@@ -1469,6 +1471,7 @@ cdef class Server:
 
         self._client_connection = Connection(**client_params)
         self._server_connection = ServerConnection(**server_params)
+        self._server_thread=Thread(target=self.serve);
 
     def add_function(self, func_name, callback):
         """
@@ -1507,7 +1510,6 @@ cdef class Server:
         _server_log("Server function installed", func_name)
         _server_log("Server function installed", server_functions[func_name])
 
-
     def serve(self, timeout=None):
         cdef RFC_ERROR_INFO errorInfo
 
@@ -1522,6 +1524,13 @@ cdef class Server:
 
         return rc
 
+    def start(self, timeout=None):
+        self._server_thread.start()
+
+    def stop(self):
+        if self._server_thread.is_alive():
+            self._server_thread.join()
+
     def close(self):
         """ Explicitly close the registration.
         Note that this is usually not necessary as the registration will be closed
@@ -1529,12 +1538,10 @@ cdef class Server:
         is delayed by the garbage collection, problems may occur when too many
         servers are registered.
         """
+        self.stop()
         self._close()
 
     def get_server_attributes(self):
-        return self._get_server_attributes()
-
-    cdef _get_server_attributes(self):
         cdef RFC_RC rc
         cdef RFC_SERVER_ATTRIBUTES attributes
         cdef RFC_ERROR_INFO errorInfo
@@ -1590,10 +1597,6 @@ cdef class Server:
         #    self.alive = False
 
         raise wrapError(errorInfo)
-
-
-
-
 
 
 cdef RFC_TYPE_DESC_HANDLE fillTypeDescription(type_desc):
