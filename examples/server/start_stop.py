@@ -5,19 +5,23 @@ from pyrfc import Server, set_ini_file_directory
 
 
 def my_stfc_connection(request_context=None, REQUTEXT=""):
-    print("stfc invoked")
+    print("stfc connection invoked")
     print("request_context", request_context)
     print(f"REQUTEXT: {REQUTEXT}")
 
     return {"ECHOTEXT": REQUTEXT, "RESPTEXT": "Python server here"}
 
-
-def my_bapi_user(request_context=None, USERNAME=""):
-    print("bapi user invoked")
+def my_stfc_structure(request_context=None, IMPORTSTRUCT={}, RFCTABLE=[]):
+    print("stfc structure invoked")
     print("request_context", request_context)
-    print(f"USERNAME: {USERNAME}")
+    ECHOSTRUCT = IMPORTSTRUCT
+    if len(RFCTABLE) == 0: RFCTABLE = [ECHOSTRUCT]
+    RESPTEXT = f"Python server response: {ECHOSTRUCT['RFCINT1']}, table rows: {len(RFCTABLE)}"
+    print(f"ECHOSTRUCT: {ECHOSTRUCT}")
+    print(f"RFCTABLE: {RFCTABLE}")
+    print(f"RESPTEXT: {RESPTEXT}")
 
-    return {"USERNAME": USERNAME, "MESSAGE": "Python server here"}
+    return {"ECHOSTRUCT": ECHOSTRUCT, "RFCTABLE": RFCTABLE, "RESPTEXT": RESPTEXT}
 
 
 # server authorisation check
@@ -41,17 +45,19 @@ server1.add_function("STFC_CONNECTION", my_stfc_connection)
 # start 1st server
 server1.start()
 
+# get server attributes
+print("server1", server1.get_server_attributes())
+
 # create server for ABAP system XYZ
 server2 = Server({"dest": "gatewayqm7"}, {"dest": "QM7"}, {"port": 8081, "server_log": False})
 
 # expose python function my_bapi_user as ABAP function STFC_STRUCTURE, to be called by ABAP system
-server2.add_function("STFC_STRUCTURE", my_bapi_user)
+server2.add_function("STFC_STRUCTURE", my_stfc_structure)
 
 # start 2nd server
 server2.start()
 
 # get server attributes
-print("server1", server1.get_server_attributes())
 print("server2", server2.get_server_attributes())
 
 # stop server
@@ -59,7 +65,6 @@ input("Press Enter to stop servers...")
 
 server1.stop()
 print("Server 1 stoped")
-server1.stop()
 
 server2.stop()
 print("Server 2 stoped")
