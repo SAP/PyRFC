@@ -4,31 +4,31 @@ from threading import Thread
 
 # server functions
 
-
 def my_stfc_connection(request_context=None, REQUTEXT=""):
-    print("stfc invoked")
+    print("stfc connection invoked")
     print("request_context", request_context)
     print(f"REQUTEXT: {REQUTEXT}")
 
     return {"ECHOTEXT": REQUTEXT, "RESPTEXT": "Python server here"}
 
-
-def my_bapi_user(request_context=None, USERNAME=""):
-    print("bapi user invoked")
+def my_stfc_structure(request_context=None, IMPORTSTRUCT={}, RFCTABLE=[]):
+    print("stfc structure invoked")
     print("request_context", request_context)
-    print(f"USERNAME: {USERNAME}")
+    ECHOSTRUCT = IMPORTSTRUCT
+    if len(RFCTABLE) == 0: RFCTABLE = [ECHOSTRUCT]
+    RESPTEXT = f"Python server response: {ECHOSTRUCT['RFCINT1']}, table rows: {len(RFCTABLE)}"
+    print(f"ECHOSTRUCT: {ECHOSTRUCT}")
+    print(f"RFCTABLE: {RFCTABLE}")
+    print(f"RESPTEXT: {RESPTEXT}")
 
-    return {"USERNAME": USERNAME, "MESSAGE": "Python server here"}
-
+    return {"ECHOSTRUCT": ECHOSTRUCT, "RFCTABLE": RFCTABLE, "RESPTEXT": RESPTEXT}
 
 # server authorisation check
-
 
 def my_auth_check(func_name=False, request_context={}):
     print(f"authorization check for '{func_name}'")
     print("request_context", request_context)
     return 0
-
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 set_ini_file_directory(dir_path)
@@ -48,15 +48,14 @@ def server1_serve():
 
 def server2_serve():
     # create server for ABAP system XYZ
-    server = Server({"dest": "gateway"}, {"dest": "QM7"}, {"port": 8081, "server_log": False})
+    server = Server({"dest": "gatewayqm7"}, {"dest": "QM7"}, {"port": 8081, "server_log": False})
     print(server.get_server_attributes())
 
-    # expose python function my_bapi_user as ABAP function BAPI_USER_GET_DETAIL, to be called by ABAP system
-    server.add_function("BAPI_USER_GET_DETAIL", my_bapi_user)
+    # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
+    server.add_function("STFC_STRUCTURE", my_stfc_structure)
 
     # start server
     server.serve()
-
 
 # start servers
 

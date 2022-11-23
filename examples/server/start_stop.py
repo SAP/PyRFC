@@ -51,7 +51,7 @@ print("server1", server1.get_server_attributes())
 # create server for ABAP system XYZ
 server2 = Server({"dest": "gatewayqm7"}, {"dest": "QM7"}, {"port": 8081, "server_log": False})
 
-# expose python function my_bapi_user as ABAP function STFC_STRUCTURE, to be called by ABAP system
+# expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
 server2.add_function("STFC_STRUCTURE", my_stfc_structure)
 
 # start 2nd server
