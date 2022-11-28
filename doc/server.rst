@@ -74,7 +74,7 @@ and stopped by application:
    :lines: 70-72
 
 
-Example: `start_stop.py <https://github.com/SAP/PyRFC/blob/master/examples/server/serve.py>`_
+Example: `serve.py <https://github.com/SAP/PyRFC/blob/master/examples/server/serve.py>`_
 
 Source code of ABAP test reports, calling RFC function modules exposed by Python server:
 `z_stfc_connection_call.abap <https://github.com/SAP/PyRFC/blob/master/examples/server/z_stfc_connection_call.abap>`_ and
