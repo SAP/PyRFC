@@ -25,8 +25,8 @@ NW ABAP servers support in addition:
 * SAP logon tickets
 * Security Assertion Markup Language (SAML)
 
-Assuming you are familiar with abovementioned concepts and have ABAP backend system 
-configured for SNC communication, here you may find connection strings examples, 
+Assuming you are familiar with abovementioned concepts and have ABAP backend system
+configured for SNC communication, here you may find connection strings examples,
 for testing plain and secure RFC connections, with various authentication methods.
 
 
@@ -69,7 +69,7 @@ is used for opening the SNC connection and the same user is used for the authent
 
 * SNC name must be configured for the ABAP user in NW ABAP system, using transaction SU01
 
-.. figure:: images/SU01-SNC.png
+.. figure:: _static/images/SU01-SNC.png
     :align: center
 
 * SAP Single Sign On must be configured on a client and the user must be logged in on a client.
@@ -91,8 +91,8 @@ is used for opening the SNC connection and the same user is used for the authent
    c = get_connection(ABAP_SYSTEM)
 
 In this example the SNC_LIB key contains the path to security library
-(SAP cryptographic library or 3rd party product). Alternatively, the 
-SNC_LIB can be set as the environment variable, in which case it does 
+(SAP cryptographic library or 3rd party product). Alternatively, the
+SNC_LIB can be set as the environment variable, in which case it does
 not have to be provided as a parameter for opening SNC connection.
 
 .. _snc-with-x50:
@@ -100,32 +100,32 @@ not have to be provided as a parameter for opening SNC connection.
 SNC with X509
 -------------
 
-The client system PSE is used for opening SNC connection and forwarding user 
+The client system PSE is used for opening SNC connection and forwarding user
 X509 certificate to NW ABAP backend system, for authentication and logon.
 
 **Prerequisites**
 
 * The user does not have to be logged into the client system, neither the Single
   Sign On must be configured on a client
-* The trusted relationship must be established between the NW ABAP backend and 
+* The trusted relationship must be established between the NW ABAP backend and
   the client system.
-* The client system must be registered in the NW ABAP backend Access Control 
+* The client system must be registered in the NW ABAP backend Access Control
   List (ACL), using transaction SNC0
-* Keystores are generated on a client system, using SAP cryptography tool *SAPGENPSE* and 
+* Keystores are generated on a client system, using SAP cryptography tool *SAPGENPSE* and
   the environment variable SECUDIR points to the folder with generated keystores
 
-.. figure:: images/SNC0-1.png
+.. figure:: _static/images/SNC0-1.png
     :align: center
 
-.. figure:: images/SNC0-2.png
+.. figure:: _static/images/SNC0-2.png
     :align: center
 
 * User X509 certificate must be mapped to ABAP NW backend user, using transaction EXTID_DN
 
-.. figure:: images/EXTID_DN-1.png
+.. figure:: _static/images/EXTID_DN-1.png
     :align: center
 
-.. figure:: images/EXTID_DN-2.png
+.. figure:: _static/images/EXTID_DN-2.png
     :align: center
 
 The same connection parameters as in a previous example, with X509 certificate added.

@@ -82,7 +82,7 @@ of the exception indicates where the problem occurred.
    e.g. for a given exception ``e``, the error code is available in ``e.code``.
    The class of the error depends on the group of the error.
 
-.. image:: images/exceptions.*
+.. image:: _static/images/exceptions.*
    :alt: Inheritance of errors: Exception->RFCError->RFCLibError->specific errors
    :align: center
    :scale: 90%
