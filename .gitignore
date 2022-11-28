@@ -23,6 +23,7 @@ __pycache__
 *.egg-info
 .*cache*/
 *venv*/
+_sources
 
 build/
 dist/

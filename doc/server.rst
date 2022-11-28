@@ -76,3 +76,6 @@ and stopped by application:
 
 Example: `start_stop.py <https://github.com/SAP/PyRFC/blob/master/examples/server/serve.py>`_
 
+Source code of ABAP test reports, calling RFC function modules exposed by Python server:
+`z_stfc_connection_call.abap <https://github.com/SAP/PyRFC/blob/master/examples/server/z_stfc_connection_call.abap>`_ and
+`z_stfc_structure_call.abap <https://github.com/SAP/PyRFC/blob/master/examples/server/z_stfc_structure_call.abap>`_

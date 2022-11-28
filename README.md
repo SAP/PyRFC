@@ -1,4 +1,4 @@
-# PyRFC
+<h1>PyRFC</h1>
 
 Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) bindings for Python.
 
@@ -9,6 +9,22 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrfc)](https://pypistats.org/packages/pyrfc)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/PyRFC)](https://api.reuse.software/info/github.com/SAP/PyRFC)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4349/badge)](https://bestpractices.coreinfrastructure.org/projects/4349)
+
+- [Features](#features)
+- [Supported platforms](#supported-platforms)
+- [Requirements](#requirements)
+  - [All platforms](#all-platforms)
+  - [Windows](#windows)
+  - [macOS](#macos)
+- [Download and installation](#download-and-installation)
+- [Getting started](#getting-started)
+  - [Call ABAP Function Module from Python](#call-abap-function-module-from-python)
+  - [Call Python function from ABAP](#call-python-function-from-abap)
+- [SPJ articles](#spj-articles)
+- [How to obtain support](#how-to-obtain-support)
+- [Contributing](#contributing)
+- [License](#license)
+
 
 ## Features
 
@@ -70,16 +86,6 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
 
 - When the node-rfc is started for the first time, the popups come-up for each NWRFC SDK library, to confirm it should be opened. If SDK is installed in admin folder, the node-rfc app shall be that first time started with admin privileges, eg. `sudo -E`
 
-## SPJ articles
-
-Highly recommended reading about RFC communication and SAP NW RFC Library, published in the SAP Professional Journal (SPJ)
-
-- [Part I RFC Client Programming](https://wiki.scn.sap.com/wiki/x/zz27Gg)
-
-- [Part II RFC Server Programming](https://wiki.scn.sap.com/wiki/x/9z27Gg)
-
-- [Part III Advanced Topics](https://wiki.scn.sap.com/wiki/x/FD67Gg)
-
 ## Download and installation
 
 ```shell
@@ -106,13 +112,13 @@ pip install --upgrade --no-index --find-links=dist pyrfc
 ```
 
 See also the [pyrfc documentation](http://sap.github.io/PyRFC),
-complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
+complementing *SAP NWRFC SDK* [documentation](https://support.sap.com/nwrfcsdk).
 
 ## Getting started
 
-**Note:** The package must be [installed](#installation) before use.
+**Note:** The package must be [installed](#download-and-installation) before use.
 
-### Open Connection
+### Call ABAP Function Module from Python
 
 In order to call remote enabled ABAP function module (ABAP RFM), first a connection must be opened.
 
@@ -121,9 +127,7 @@ from pyrfc import Connection
 conn = Connection(ashost='10.0.0.1', sysnr='00', client='100', user='me', passwd='secret')
 ```
 
-Connection parameters are documented in **sapnwrfc.ini** file, located in the SAP NWRFC SDK `demo` folder.
-
-### Call ABAP function modules
+Connection parameters are documented in **sapnwrfc.ini** file, located in the *SAP NWRFC SDK* `demo` folder.
 
 Using an open connection, remote function modules (RFM) can be invoked. More info in [pyrfc documentation](http://sap.github.io/PyRFC/client.html#client-scenariol).
 
@@ -185,8 +189,56 @@ conn.alive
 True
 ```
 
-See also the [pyrfc documentation](http://sap.github.io/PyRFC),
-complementing _SAP NWRFC SDK_ [documentation](https://support.sap.com/nwrfcsdk).
+See also pyrfc documentation for [Client Scenario](http://sap.github.io/PyRFC/client.html)
+
+### Call Python function from ABAP
+
+```python
+# create server for ABAP system ABC
+server = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False})
+
+# expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called from ABAP system
+server.add_function("STFC_CONNECTION", my_stfc_connection)
+
+# start server
+server.start()
+
+# get server attributes
+print("Server attributes", server.get_server_attributes())
+
+# stop server
+input("Press Enter to stop servers...")
+
+server.stop()
+print("Server stoped")
+```
+
+See also pyrfc documentation for [Server Scenario](http://sap.github.io/PyRFC/server.html) and server example [source code](https://github.com/SAP/PyRFC/blob/main/examples/server).
+
+## SPJ articles
+
+Highly recommended reading about RFC communication and SAP NW RFC Library, published in the SAP Professional Journal (SPJ)
+
+- [Part I RFC Client Programming](https://wiki.scn.sap.com/wiki/x/zz27Gg)
+
+- [Part II RFC Server Programming](https://wiki.scn.sap.com/wiki/x/9z27Gg)
+
+- [Part III Advanced Topics](https://wiki.scn.sap.com/wiki/x/FD67Gg)- [PyRFC](#pyrfc)
+  - [Features](#features)
+  - [Supported platforms](#supported-platforms)
+  - [Requirements](#requirements)
+    - [All platforms](#all-platforms)
+    - [Windows](#windows)
+    - [macOS](#macos)
+  - [Download and installation](#download-and-installation)
+  - [Getting started](#getting-started)
+    - [Call ABAP Function Module from Python](#call-abap-function-module-from-python)
+    - [Call Python function from ABAP](#call-python-function-from-abap)
+  - [SPJ articles](#spj-articles)
+  - [How to obtain support](#how-to-obtain-support)
+  - [**Contributing**](#contributing)
+  - [License](#license)
+
 
 ## How to obtain support
 
@@ -194,7 +246,7 @@ If you encounter an issue or have a feature request, you can create a [ticket](h
 
 Check out the [SAP Community](https://community.sap.com/) (search for "pyrfc") and stackoverflow (use the tag [pyrfc](https://stackoverflow.com/questions/tagged/pyrfc)), to discuss code-related problems and questions.
 
-## **Contributing**
+## Contributing
 
 We appreciate contributions from the community to **PyRFC**!
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more details on our philosophy around extending this module.
