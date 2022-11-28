@@ -1510,7 +1510,13 @@ cdef class Server:
         _server_log("Server function installed", func_name)
         _server_log("Server function installed", server_functions[func_name])
 
-    def serve(self, timeout=None):
+    def serve(self):
+        """
+        Starts the RFC server, waiting for incoming requests and processes them.
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+                 thereof if the server processing fails.
+        """
         cdef RFC_ERROR_INFO errorInfo
 
         cdef RFC_RC rc = RfcInstallGenericServerFunction(genericHandler, metadataLookup, &errorInfo)
@@ -1524,10 +1530,16 @@ cdef class Server:
 
         return rc
 
-    def start(self, timeout=None):
+    def start(self):
+        """
+        Start the RFC server in new thread, waiting for incoming requests and processes them.
+        """
         self._server_thread.start()
 
     def stop(self):
+        """
+        Stop the RFC server thread.
+        """
         if self._server_thread.is_alive():
             self._server_thread.join()
 

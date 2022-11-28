@@ -18,10 +18,10 @@ Linux platform
 
   .. code-block:: sh
 
-     pip install cython wheel pytest sphinx 
-   
+     pip install cython wheel pytest sphinx
+
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
-* To get any software from the Git source control system the Git 
+* To get any software from the Git source control system the Git
   client is required as well, use whatever your distribution has
 * The system must contain a ``gcc`` compiler as well as  development
   header and library files as provided by your distribution
@@ -30,16 +30,16 @@ Windows platform
 -----------------
 
 * :ref:`Install Python, pip<install-python-win>` and utilities:
-  
+
   .. code-block:: sh
 
-     pip install cython wheel pytest sphinx 
+     pip install cython wheel pytest sphinx
 
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
-* To get any software from the Git source control system the Git 
-  client is required as well. Download and install from 
-  http://code.google.com/p/msysgit/downloads/list?can=3. 
-  During installation specify that Git runs 
+* To get any software from the Git source control system the Git
+  client is required as well. Download and install from
+  http://code.google.com/p/msysgit/downloads/list?can=3.
+  During installation specify that Git runs
   out of the Bash shell as you may need that shell later on.
 * Download and install the compiler toolchain, tested on Windows platforms
 
@@ -86,9 +86,8 @@ Build the distribution
    python setup.py clean --all
    python setup.py bdist_wheel
 
-The result is found in the ``dist/`` directory. The process has to be done on all platforms 
-for which we provide wheels. 
-
+The result is found in the ``dist/`` directory. The process has to be done on all platforms
+for which we provide wheels.
 
 Windows platform
 ----------------
@@ -122,8 +121,6 @@ Check the ``pyrfc\dist`` folder for a new created wheel.
 macOS platform
 --------------
 
-
-
 .. code-block:: sh
 
     MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
@@ -135,8 +132,8 @@ Virtual Environments
 --------------------
 
 You may have buth 32bit and 64bit versions of Python installed on your
-system and use virtual environments. This is basically possible (e.g. installing 
-the 32bit version on 64 bit system in ``C:\Python27_32\``, but beware of modifying 
+system and use virtual environments. This is basically possible (e.g. installing
+the 32bit version on 64 bit system in ``C:\Python27_32\``, but beware of modifying
 the PATH variable.
 
 However, the PATH variable is modified when using a virtual environment, therefore
@@ -148,10 +145,10 @@ modify the ``Scripts/activate.bat`` file with:
    set PATH=C:\nwrfcsdk_x86\lib\;%PATH%
    set PATH=%VIRTUAL_ENV%\Scripts;%PATH%
 
-This assures that specific SAP NW RFC Library is used (e.g. 32bit in this example). 
+This assures that specific SAP NW RFC Library is used (e.g. 32bit in this example).
 This is not required for building the distribution, but rather for importing the Python connector.
 
-The build process remains the same, only before building the distribution, you need to 
+The build process remains the same, only before building the distribution, you need to
 activate the virtual environment and assure that library paths are correct in ``setup.py``.
 
 Python 3
@@ -182,8 +179,8 @@ The result is found in ``_build/html`` and for other options call ``make``.
 * If you get an error *'sphinx-build' is not recognized as an internal or external command, operable program or batch file* on calling ``make html``, install ``sphinx``
 * If you have DLL import errors (Windows), check the lib directory of the SAP NW RFC Library PATH env variable.
 
-The docu is hosted on GitHub Pages, a propietary solution where a git branch ``gh-pages`` is created 
-as an orphan and the output of the documentation build process (``_build/html``) is stored in that branch. 
+The docu is hosted on GitHub Pages, a propietary solution where a git branch ``gh-pages`` is created
+as an orphan and the output of the documentation build process (``_build/html``) is stored in that branch.
 GitHub then serves these files under a special ``/pages/`` url.
 
 To update GitHub Pages, copy everyhing under ``_build/html`` and overwrite the existing files in the ``gh-pages`` branch root.
@@ -192,7 +189,7 @@ To update GitHub Pages, copy everyhing under ``_build/html`` and overwrite the e
 
     cp -R _build/html ~/tmp
     git checkout gh-pages
-    rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv .buildinfo 
+    rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv .buildinfo
     cp -R ~/tmp/_build/html/. .
 
 

@@ -20,6 +20,7 @@ Documentation
    intro
    install
    client
+   server
    authentication
    build
    remarks
