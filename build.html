@@ -1,17 +1,20 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Building from source &#8212; pyrfc 2.0.2 documentation</title>
-    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Building from source &#8212; pyrfc 2.7.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Remarks" href="remarks.html" />
@@ -20,7 +23,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.0.2 documentation</a></div>
+          href="index.html">pyrfc 2.7.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="authentication.html" title="Security"
              accesskey="P">previous</a> |
@@ -40,15 +43,15 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="building-from-source">
-<span id="build"></span><h1>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this headline">¶</a></h1>
+  <section id="building-from-source">
+<span id="build"></span><h1>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this heading">¶</a></h1>
 <p>SAP NW RFC Library shall be installed as described in the <a class="reference internal" href="install.html#installation"><span class="std std-ref">Installation</span></a>. Instead of downloading and installing precompiled egg, you
 need to prepare the toolchain and clone the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> repository, so that you can build
 the distribution release code and documentation.</p>
-<div class="section" id="toolchain-preparation">
-<h2>Toolchain preparation<a class="headerlink" href="#toolchain-preparation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="linux-platform">
-<h3>Linux platform<a class="headerlink" href="#linux-platform" title="Permalink to this headline">¶</a></h3>
+<section id="toolchain-preparation">
+<h2>Toolchain preparation<a class="headerlink" href="#toolchain-preparation" title="Permalink to this heading">¶</a></h2>
+<section id="linux-platform">
+<h3>Linux platform<a class="headerlink" href="#linux-platform" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p><a class="reference internal" href="install.html#install-python-linux"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip install cython wheel pytest sphinx
@@ -61,9 +64,9 @@ client is required as well, use whatever your distribution has</p></li>
 <li><p>The system must contain a <code class="docutils literal notranslate"><span class="pre">gcc</span></code> compiler as well as  development
 header and library files as provided by your distribution</p></li>
 </ul>
-</div>
-<div class="section" id="windows-platform">
-<h3>Windows platform<a class="headerlink" href="#windows-platform" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="windows-platform">
+<h3>Windows platform<a class="headerlink" href="#windows-platform" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p><a class="reference internal" href="install.html#install-python-win"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip install cython wheel pytest sphinx
@@ -83,32 +86,28 @@ out of the Bash shell as you may need that shell later on.</p></li>
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="macos-platform">
-<h3>macOS platform<a class="headerlink" href="#macos-platform" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="macos-platform">
+<h3>macOS platform<a class="headerlink" href="#macos-platform" title="Permalink to this heading">¶</a></h3>
 <ul>
-<li><p>Install Xcode command line tools with C++ development headers and fix the unicode include path:</p>
+<li><p>Install Xcode command line tools with C++ development headers and check if <cite>uchar.h</cite> copied to $SAPNWRFC_HOME/include</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>xcode-select --install
 sudo installer -pkg macOS_SDK_headers_for_macOS_10.14.pkg -target /
-
-<span class="nv">MACOS_UNICODE_DIR</span><span class="o">=</span>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-sudo ln -s <span class="nv">$MACOS_UNICODE_DIR</span> <span class="nv">$SAPNWRFC_HOME</span>/include/unicode
-sudo cp <span class="nv">$MACOS_UNICODE_DIR</span>/uchar.h <span class="nv">$SAPNWRFC_HOME</span>/include/
 </pre></div>
 </div>
 </li>
 </ul>
-</div>
-</div>
-<div class="section" id="building-the-code">
-<h2>Building the code<a class="headerlink" href="#building-the-code" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="building-the-code">
+<h2>Building the code<a class="headerlink" href="#building-the-code" title="Permalink to this heading">¶</a></h2>
 <p>To build wheels for different Python versions, install these versions
 on your system and create a virtual environment for each of these versions,
 for example:</p>
 <p><code class="docutils literal notranslate"><span class="pre">virtualenv</span> <span class="pre">--python=&lt;PATH</span> <span class="pre">e.g.</span> <span class="pre">c:\Python27\python.exe</span> <span class="pre">OR</span> <span class="pre">/usr/bin/python2.7&gt;</span> <span class="pre">...</span></code></p>
 <p>Otherwise, follow the example below.</p>
-<div class="section" id="id1">
-<h3>Linux platform<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<section id="id1">
+<h3>Linux platform<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 <p>Clone the repository:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/SAP/PyRFC
 </pre></div>
@@ -121,9 +120,9 @@ python setup.py bdist_wheel
 </div>
 <p>The result is found in the <code class="docutils literal notranslate"><span class="pre">dist/</span></code> directory. The process has to be done on all platforms
 for which we provide wheels.</p>
-</div>
-<div class="section" id="id2">
-<h3>Windows platform<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id2">
+<h3>Windows platform<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>Open the <code class="docutils literal notranslate"><span class="pre">GIT</span> <span class="pre">Bash</span></code> shell and clone the repository.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/SAP/PyRFC
 </pre></div>
@@ -141,17 +140,17 @@ python setup.py bdist_wheel
 </pre></div>
 </div>
 <p>Check the <code class="docutils literal notranslate"><span class="pre">pyrfc\dist</span></code> folder for a new created wheel.</p>
-</div>
-<div class="section" id="id3">
-<h3>macOS platform<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id3">
+<h3>macOS platform<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">MACOS_UNICODE_DIR</span><span class="o">=</span>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
 sudo ln -s <span class="nv">$MACOS_UNICODE_DIR</span> <span class="nv">$SAPNWRFC_HOME</span>/include/unicode
 sudo cp <span class="nv">$MACOS_UNICODE_DIR</span>/uchar.h <span class="nv">$SAPNWRFC_HOME</span>/include/.
 </pre></div>
 </div>
-</div>
-<div class="section" id="virtual-environments">
-<h3>Virtual Environments<a class="headerlink" href="#virtual-environments" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="virtual-environments">
+<h3>Virtual Environments<a class="headerlink" href="#virtual-environments" title="Permalink to this heading">¶</a></h3>
 <p>You may have buth 32bit and 64bit versions of Python installed on your
 system and use virtual environments. This is basically possible (e.g. installing
 the 32bit version on 64 bit system in <code class="docutils literal notranslate"><span class="pre">C:\Python27_32\</span></code>, but beware of modifying
@@ -167,18 +166,18 @@ modify the <code class="docutils literal notranslate"><span class="pre">Scripts/
 This is not required for building the distribution, but rather for importing the Python connector.</p>
 <p>The build process remains the same, only before building the distribution, you need to
 activate the virtual environment and assure that library paths are correct in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
-</div>
-<div class="section" id="python-3">
-<h3>Python 3<a class="headerlink" href="#python-3" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="python-3">
+<h3>Python 3<a class="headerlink" href="#python-3" title="Permalink to this heading">¶</a></h3>
 <p>Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install python3-setuptools python3-dev python-configparser
 sudo pip3 install cython sphinx ipython pytest wheel
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="building-the-documentation">
-<h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="building-the-documentation">
+<h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this heading">¶</a></h2>
 <p>Ensure that the lib directory of the SAP NW RFC library is in your PATH environment.</p>
 <p>Change into the <code class="docutils literal notranslate"><span class="pre">doc</span></code> directory and type:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make clean
@@ -205,20 +204,23 @@ cp -R ~/tmp/_build/html/. .
 <p>An additional file .nojekyll is placed in <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> to disable the default GitHub processing which breaks sphinx style folders with leading underscores.</p>
 <p><code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> updates are a bit inconvenien, check if this answer helps <a class="reference external" href="http://stackoverflow.com/questions/4750520/git-branch-gh-pages">http://stackoverflow.com/questions/4750520/git-branch-gh-pages</a></p>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
         </div>
         <div class="sidebar">
+          
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Security</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Building from source</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#toolchain-preparation">Toolchain preparation</a></li>
@@ -232,9 +234,6 @@ cp -R ~/tmp/_build/html/. .
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
-</ul>
 
           <div role="search">
             <h3 style="margin-top: 1.5em;">Search</h3>
@@ -243,6 +242,7 @@ cp -R ~/tmp/_build/html/. .
                 <input type="submit" value="Go" />
             </form>
           </div>
+
         </div>
         <div class="clearer"></div>
       </div>
@@ -270,8 +270,8 @@ cp -R ~/tmp/_build/html/. .
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2020-03-09 12:08.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Last updated on 2022-11-28 12:19.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
         </div>
         <div class="clearer"></div>

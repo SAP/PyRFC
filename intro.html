@@ -1,17 +1,20 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Introduction &#8212; pyrfc 2.0.2 documentation</title>
-    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Introduction &#8212; pyrfc 2.7.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="install.html" />
@@ -20,7 +23,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.0.2 documentation</a></div>
+          href="index.html">pyrfc 2.7.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="index.html" title="PyRFC - The Python RFC Connector"
              accesskey="P">previous</a> |
@@ -40,8 +43,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="introduction">
-<span id="intro"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+  <section id="introduction">
+<span id="intro"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
 <p>The Python connector (a synonym for the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> package) wraps the existing <em>SAP NW RFC Library</em>,
 often colloquially called <em>SAP C connector</em> or <em>SAP NW RFC SDK</em>. To start using <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code>
 and similar connectors effectively, we highly recommend reading a series of insightful articles
@@ -54,8 +57,8 @@ and SAP systems with SAP NetWeaver RFC SDK</em>
 <p>The lecture of these articles and <a class="reference external" href="http://help.sap.com/saphelp_nw73ehp1/helpdata/en/48/a88c805134307de10000000a42189b/content.htm?frameset=/en/48/a994a77e28674be10000000a421937/frameset.htm">NW RFC SDK Guide (SAP Help)</a>
 are recommended as an introduction into RFC communication and programming, while <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> documentation is
 focused merely on technical aspects of <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> API.</p>
-<div class="section" id="example-usage">
-<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<section id="example-usage">
+<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">¶</a></h2>
 <p>In order to call remote enabled ABAP function module, we need to open a connection with
 valid logon credentials.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfc</span> <span class="kn">import</span> <span class="n">Connection</span>
@@ -64,7 +67,7 @@ valid logon credentials.</p>
 </div>
 <p>Using an open connection we can call remote enabled ABAP function modules from Python.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;STFC_CONNECTION&#39;</span><span class="p">,</span> <span class="n">REQUTEXT</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Hello SAP!&#39;</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">result</span>
+<span class="nb">print</span> <span class="n">result</span>
 <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;ECHOTEXT&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;Hello SAP!&#39;</span><span class="p">,</span>
  <span class="sa">u</span><span class="s1">&#39;RESPTEXT&#39;</span><span class="p">:</span> <span class="sa">u</span><span class="s1">&#39;SAP R/3 Rel. 702   Sysid: ABC   Date: 20121001   Time: 134524   Logon_Data: 100/ME/E&#39;</span><span class="p">}</span>
 </pre></div>
@@ -77,9 +80,9 @@ or use the connection as a context manager:</p>
 <span class="c1"># connection automatically closed here</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="functional-coverage">
-<h2>Functional coverage<a class="headerlink" href="#functional-coverage" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="functional-coverage">
+<h2>Functional coverage<a class="headerlink" href="#functional-coverage" title="Permalink to this heading">¶</a></h2>
 <p>The goal of the Python connector development was to provide a package for interacting with
 SAP ABAP systems on an intuitive and adequate abstract level. Not each and every available
 function provided by <em>SAP NW RFC Library</em> is therefore wrapped into Python, but classes and
@@ -93,11 +96,6 @@ but coverage can be extended if needed.</p>
 </ul>
 <p>The coverage is as follows:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 51%" />
-<col style="width: 25%" />
-<col style="width: 24%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>Client</p></th>
@@ -140,15 +138,17 @@ RFC</p></td>
 <li><p>Background RFC is currently not working.</p></li>
 </ol>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
         </div>
         <div class="sidebar">
+          
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
@@ -158,6 +158,7 @@ RFC</p></td>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server scenario</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Security</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html">Building from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remarks.html">Remarks</a></li>
@@ -165,9 +166,6 @@ RFC</p></td>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pyrfc.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code></a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 </ul>
 
           <div role="search">
@@ -177,6 +175,7 @@ RFC</p></td>
                 <input type="submit" value="Go" />
             </form>
           </div>
+
         </div>
         <div class="clearer"></div>
       </div>
@@ -204,8 +203,8 @@ RFC</p></td>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2020-03-09 12:08.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Last updated on 2022-11-28 12:19.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
         </div>
         <div class="clearer"></div>
