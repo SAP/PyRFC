@@ -37,6 +37,10 @@ instance by `unpacking`_ the dictionary, e.g.
 >>> conn = Connection(**params)
 
 
+Connection parameters are documented in ``sapnwrfc.ini`` file, located in
+the SAP NWRFC SDK `demo` folder. Check also section ``4.1.2 Using sapnwrfc.ini`` of
+`SAP NWRFC SDK 7.50 Programming Guide <https://support.sap.com/content/dam/support/en_us/library/ssp/products/connectors/nwrfcsdk/NW_RFC_750_ProgrammingGuide.pdf>`_
+
 .. _client-stfcstructure:
 
 Example `clientStfcStructure.py <https://github.com/SAP/PyRFC/blob/master/examples/clientStfcStructure.py>`_

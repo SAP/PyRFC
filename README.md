@@ -25,7 +25,6 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - [Contributing](#contributing)
 - [License](#license)
 
-
 ## Features
 
 - Client, Throughput and Server bindings
@@ -49,7 +48,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
   - are not supported, neither issues related to portable Linux wheels
 
-  - *must not* be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
+  - _must not_ be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
 - [Platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) can be supported by [build from source](http://sap.github.io/PyRFC/build.html)
 
@@ -112,7 +111,7 @@ pip install --upgrade --no-index --find-links=dist pyrfc
 ```
 
 See also the [pyrfc documentation](http://sap.github.io/PyRFC),
-complementing *SAP NWRFC SDK* [documentation](https://support.sap.com/nwrfcsdk).
+complementing _SAP NWRFC SDK_[documentation](https://support.sap.com/nwrfcsdk), especially [SAP NWRFC SDK 7.50 Programming Guide](https://support.sap.com/content/dam/support/en_us/library/ssp/products/connectors/nwrfcsdk/NW_RFC_750_ProgrammingGuide.pdf).
 
 ## Getting started
 
@@ -127,7 +126,7 @@ from pyrfc import Connection
 conn = Connection(ashost='10.0.0.1', sysnr='00', client='100', user='me', passwd='secret')
 ```
 
-Connection parameters are documented in **sapnwrfc.ini** file, located in the *SAP NWRFC SDK* `demo` folder.
+Connection parameters are documented in `sapnwrfc.ini` file, located in the _SAP NWRFC SDK_ `demo` folder. Check also section `4.1.2 Using sapnwrfc.ini` of [SAP NWRFC SDK 7.50 Programming Guide](https://support.sap.com/content/dam/support/en_us/library/ssp/products/connectors/nwrfcsdk/NW_RFC_750_ProgrammingGuide.pdf).
 
 Using an open connection, remote function modules (RFM) can be invoked. More info in [pyrfc documentation](http://sap.github.io/PyRFC/client.html#client-scenariol).
 
