@@ -365,3 +365,4 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcGetReceivedBytes (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *receivedBytes, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcSetIniPath (const SAP_UC *pathName, RFC_ERROR_INFO * errorInfo)
     RFC_RC RfcLoadCryptoLibrary (const SAP_UC *pathName, RFC_ERROR_INFO * errorInfo)
+    RFC_RC RfcReloadIniFile (RFC_ERROR_INFO * errorInfo)

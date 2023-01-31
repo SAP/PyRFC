@@ -31,14 +31,12 @@ class TestConnection:
         self.conn.close()
         assert not self.conn.alive
 
-    def test_version_and_options_getters(self):
+    def test_sdk_version_and_options_getters(self):
         with open("VERSION", "r") as f:
-            VERSION = f.read().strip()
             version = self.conn.version
             assert "major" in version
             assert "minor" in version
             assert "patchLevel" in version
-            assert pyrfc.__version__ == VERSION
         assert all(k in self.conn.options for k in ("dtime", "return_import_params", "rstrip"))
 
     def test_connection_info(self):

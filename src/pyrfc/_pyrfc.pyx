@@ -111,6 +111,24 @@ def set_ini_file_directory(path_name):
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
 
+def reload_ini_file():
+    """Reloads the contents of the sapnwrfc.ini file into memory.
+
+       Searches the directory given by RfcSetIniPath() (or the current working directory)
+       for the file sapnwrfc.ini and loads its contents into memory. Reloading the sapnwrfc.ini
+       file is only necessary after the file has been manually edited.
+       If you want to use a sapnwrfc.ini file in a different location, consider using RfcSetIniPath().
+
+       Note: If a file with the name sapnwrfc.ini does not exist in the given directory,
+       this is not considered an error! Default settings are used in this case.
+
+    :return: nothing, raises an error
+    """
+    cdef RFC_ERROR_INFO errorInfo
+    cdef RFC_RC rc = RfcReloadIniFile (&errorInfo)
+    if rc != RFC_OK:
+        raise wrapError(&errorInfo)
+
 def set_cryptolib_path(path_name):
     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
 
