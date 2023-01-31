@@ -129,6 +129,26 @@ def reload_ini_file():
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
 
+def language_iso_to_sap(lang_iso):
+    cdef SAP_UC *uclang_iso = fillString(lang_iso)
+    cdef SAP_UC uclang_sap[8]
+    cdef RFC_ERROR_INFO errorInfo
+    cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
+    if rc != RFC_OK:
+        raise wrapError(&errorInfo)
+    return wrapString(uclang_sap,1)
+
+def language_sap_to_iso(lang_sap):
+    cdef SAP_UC *uclang_sap = fillString(lang_sap)
+    cdef SAP_UC uclang_iso[16]
+    cdef RFC_ERROR_INFO errorInfo
+    cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
+    if rc != RFC_OK:
+        raise wrapError(&errorInfo)
+    return wrapString(uclang_iso,2)
+
+
+
 def set_cryptolib_path(path_name):
     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
 

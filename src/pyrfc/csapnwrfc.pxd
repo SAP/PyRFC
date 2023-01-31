@@ -366,3 +366,5 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcSetIniPath (const SAP_UC *pathName, RFC_ERROR_INFO * errorInfo)
     RFC_RC RfcLoadCryptoLibrary (const SAP_UC *pathName, RFC_ERROR_INFO * errorInfo)
     RFC_RC RfcReloadIniFile (RFC_ERROR_INFO * errorInfo)
+    RFC_RC RfcLanguageIsoToSap (const SAP_UC * laiso, SAP_UC * lang, RFC_ERROR_INFO * errorInfo)
+    RFC_RC RfcLanguageSapToIso (const SAP_UC * lang, SAP_UC * laiso, RFC_ERROR_INFO * errorInfo)

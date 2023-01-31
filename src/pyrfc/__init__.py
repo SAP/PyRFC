@@ -34,6 +34,8 @@ from .pyrfc import (
     reload_ini_file,
     set_ini_file_directory,
     set_cryptolib_path,
+    language_iso_to_sap,
+    language_sap_to_iso,
     Connection,
     Throughput,
     TypeDescription,
