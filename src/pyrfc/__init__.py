@@ -31,6 +31,7 @@ from .pyrfc import (
     get_nwrfclib_version,
     py_to_string,
     string_to_py,
+    reload_ini_file,
     set_ini_file_directory,
     set_cryptolib_path,
     Connection,
