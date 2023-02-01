@@ -46,4 +46,4 @@ from .pyrfc import (
 
 __author__ = "SAP SE"
 __email__ = "srdjan.boskovic@sap.com"
-__version__ = "2.7.0"
+__version__ = "2.7.1"

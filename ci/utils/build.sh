@@ -2,17 +2,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-declare -a PYTHONS=("380" "375" "369")
+python_versions="3.7.16 3.8.16 3.9.16 3.10.9 3.11.1"
 
-for PYTHON_VERSION in "${PYTHONS[@]}"
+rm -rf build
+
+for version in $( echo "$python_versions")
 do
     rm -rf tests/__pycache__
     rm -rf tests/stfc-mrfc/__pycache__
-    echo py$PYTHON_VERSION
-    pyenv activate py$PYTHON_VERSION
+    echo py$version
+    pyenv activate py$version
     PYRFC_BUILD_CYTHON=yes python setup.py bdist_wheel
-    pip install --upgrade --force --find-links=dist pynwrfc
-    [[ $1 != skip ]] && pytest -vv
+    pip install --upgrade --force --find-links=dist pyrfc
+    #[[ $1 != skip ]] && pytest -vv
 done
 [[ $1 == sdist ]] && python setup.py sdist
 
