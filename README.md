@@ -37,21 +37,16 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Supported platforms
 
-- [Platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) are supported by [build from source](http://sap.github.io/PyRFC/build.html) installation
+- All [platforms supported by SAP NWRFC SDK](https://launchpad.support.sap.com/#/notes/2573790) are supported by build from source installation ([build instructions](http://sap.github.io/PyRFC/build.html))
 
-- Windows 10 and Darwin (ARM and Intel) are supported by pre-built wheels and build from source installation
+- In addition, pre-built wheels are provided for Windows, Darwin and Ubuntu Linux, attached to PyRFC GitHub [release](https://github.com/SAP/PyRFC/releases/latest)
 
 - Linux wheels supported by build from source installation only
 
-  - Prebuilt Ubuntu wheels are attached to [GitHub release](https://github.com/SAP/PyRFC/releases/latest)
+- Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/)
+  - are not supported, neither issues related to portable Linux wheels
 
-  - Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/)
-
-    - are not supported, neither issues related to portable Linux wheels
-
-    - **must not** be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
-
-- Cloud platforms are not supported, see #205
+  - **must not** be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
 ## Requirements
 
