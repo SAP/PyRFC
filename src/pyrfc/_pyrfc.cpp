@@ -4026,14 +4026,23 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10language_iso_to_sap(CYTHON_UNUSED PyOb
  *     cdef SAP_UC uclang_sap[8]
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)             # <<<<<<<<<<<<<<
+ *     free(uclang_iso)
  *     if rc != RFC_OK:
- *         raise wrapError(&errorInfo)
  */
   __pyx_v_rc = RfcLanguageIsoToSap(__pyx_v_uclang_iso, __pyx_v_uclang_sap, (&__pyx_v_errorInfo));
 
   /* "src/pyrfc/_pyrfc.pyx":137
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
+ *     free(uclang_iso)             # <<<<<<<<<<<<<<
+ *     if rc != RFC_OK:
+ *         raise wrapError(&errorInfo)
+ */
+  free(__pyx_v_uclang_iso);
+
+  /* "src/pyrfc/_pyrfc.pyx":138
+ *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
+ *     free(uclang_iso)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_sap,1)
@@ -4041,29 +4050,29 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10language_iso_to_sap(CYTHON_UNUSED PyOb
   __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/_pyrfc.pyx":138
- *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
+    /* "src/pyrfc/_pyrfc.pyx":139
+ *     free(uclang_iso)
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
  *     return wrapString(uclang_sap,1)
  * 
  */
-    __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 138, __pyx_L1_error)
+    __PYX_ERR(0, 139, __pyx_L1_error)
 
-    /* "src/pyrfc/_pyrfc.pyx":137
- *     cdef RFC_ERROR_INFO errorInfo
+    /* "src/pyrfc/_pyrfc.pyx":138
  *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
+ *     free(uclang_iso)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_sap,1)
  */
   }
 
-  /* "src/pyrfc/_pyrfc.pyx":139
+  /* "src/pyrfc/_pyrfc.pyx":140
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_sap,1)             # <<<<<<<<<<<<<<
@@ -4073,7 +4082,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10language_iso_to_sap(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_4.__pyx_n = 1;
   __pyx_t_4.uclen = __pyx_int_1;
-  __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapString(__pyx_v_uclang_sap, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapString(__pyx_v_uclang_sap, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -4098,7 +4107,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_10language_iso_to_sap(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "src/pyrfc/_pyrfc.pyx":141
+/* "src/pyrfc/_pyrfc.pyx":142
  *     return wrapString(uclang_sap,1)
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
@@ -4136,28 +4145,37 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_12language_sap_to_iso(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("language_sap_to_iso", 0);
 
-  /* "src/pyrfc/_pyrfc.pyx":142
+  /* "src/pyrfc/_pyrfc.pyx":143
  * 
  * def language_sap_to_iso(lang_sap):
  *     cdef SAP_UC *uclang_sap = fillString(lang_sap)             # <<<<<<<<<<<<<<
  *     cdef SAP_UC uclang_iso[16]
  *     cdef RFC_ERROR_INFO errorInfo
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_5pyrfc_fillString(__pyx_v_lang_sap); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_5pyrfc_fillString(__pyx_v_lang_sap); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(0, 143, __pyx_L1_error)
   __pyx_v_uclang_sap = __pyx_t_1;
 
-  /* "src/pyrfc/_pyrfc.pyx":145
+  /* "src/pyrfc/_pyrfc.pyx":146
  *     cdef SAP_UC uclang_iso[16]
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)             # <<<<<<<<<<<<<<
+ *     free(uclang_sap)
  *     if rc != RFC_OK:
- *         raise wrapError(&errorInfo)
  */
   __pyx_v_rc = RfcLanguageSapToIso(__pyx_v_uclang_sap, __pyx_v_uclang_iso, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/_pyrfc.pyx":146
+  /* "src/pyrfc/_pyrfc.pyx":147
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
+ *     free(uclang_sap)             # <<<<<<<<<<<<<<
+ *     if rc != RFC_OK:
+ *         raise wrapError(&errorInfo)
+ */
+  free(__pyx_v_uclang_sap);
+
+  /* "src/pyrfc/_pyrfc.pyx":148
+ *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
+ *     free(uclang_sap)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_iso,2)
@@ -4165,45 +4183,45 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_12language_sap_to_iso(CYTHON_UNUSED PyOb
   __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/_pyrfc.pyx":147
- *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
+    /* "src/pyrfc/_pyrfc.pyx":149
+ *     free(uclang_sap)
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
  *     return wrapString(uclang_iso,2)
  * 
  */
-    __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 147, __pyx_L1_error)
+    __PYX_ERR(0, 149, __pyx_L1_error)
 
-    /* "src/pyrfc/_pyrfc.pyx":146
- *     cdef RFC_ERROR_INFO errorInfo
+    /* "src/pyrfc/_pyrfc.pyx":148
  *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
+ *     free(uclang_sap)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_iso,2)
  */
   }
 
-  /* "src/pyrfc/_pyrfc.pyx":148
+  /* "src/pyrfc/_pyrfc.pyx":150
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_iso,2)             # <<<<<<<<<<<<<<
  * 
- * 
+ * def set_cryptolib_path(path_name):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_4.__pyx_n = 1;
   __pyx_t_4.uclen = __pyx_int_2;
-  __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapString(__pyx_v_uclang_iso, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_5pyrfc_5pyrfc_wrapString(__pyx_v_uclang_iso, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/_pyrfc.pyx":141
+  /* "src/pyrfc/_pyrfc.pyx":142
  *     return wrapString(uclang_sap,1)
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
@@ -4223,7 +4241,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_12language_sap_to_iso(CYTHON_UNUSED PyOb
 }
 
 /* "src/pyrfc/_pyrfc.pyx":152
- * 
+ *     return wrapString(uclang_iso,2)
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
@@ -4416,7 +4434,7 @@ static PyObject *__pyx_pf_5pyrfc_5pyrfc_14set_cryptolib_path(CYTHON_UNUSED PyObj
   }
 
   /* "src/pyrfc/_pyrfc.pyx":152
- * 
+ *     return wrapString(uclang_iso,2)
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
@@ -38776,20 +38794,20 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__66);
   __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc__pyrfc_pyx, __pyx_n_s_language_iso_to_sap, 132, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 132, __pyx_L1_error)
 
-  /* "src/pyrfc/_pyrfc.pyx":141
+  /* "src/pyrfc/_pyrfc.pyx":142
  *     return wrapString(uclang_sap,1)
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
  *     cdef SAP_UC *uclang_sap = fillString(lang_sap)
  *     cdef SAP_UC uclang_iso[16]
  */
-  __pyx_tuple__68 = PyTuple_Pack(5, __pyx_n_s_lang_sap, __pyx_n_s_uclang_sap, __pyx_n_s_uclang_iso, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_tuple__68 = PyTuple_Pack(5, __pyx_n_s_lang_sap, __pyx_n_s_uclang_sap, __pyx_n_s_uclang_iso, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__68);
   __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc__pyrfc_pyx, __pyx_n_s_language_sap_to_iso, 141, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc__pyrfc_pyx, __pyx_n_s_language_sap_to_iso, 142, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 142, __pyx_L1_error)
 
   /* "src/pyrfc/_pyrfc.pyx":152
- * 
+ *     return wrapString(uclang_iso,2)
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
@@ -40030,20 +40048,20 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_language_iso_to_sap, __pyx_t_6) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "src/pyrfc/_pyrfc.pyx":141
+  /* "src/pyrfc/_pyrfc.pyx":142
  *     return wrapString(uclang_sap,1)
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
  *     cdef SAP_UC *uclang_sap = fillString(lang_sap)
  *     cdef SAP_UC uclang_iso[16]
  */
-  __pyx_t_6 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_5pyrfc_13language_sap_to_iso, NULL, __pyx_n_s_pyrfc_pyrfc); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_6 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_5pyrfc_13language_sap_to_iso, NULL, __pyx_n_s_pyrfc_pyrfc); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_language_sap_to_iso, __pyx_t_6) < 0) __PYX_ERR(0, 141, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_language_sap_to_iso, __pyx_t_6) < 0) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
   /* "src/pyrfc/_pyrfc.pyx":152
- * 
+ *     return wrapString(uclang_iso,2)
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.

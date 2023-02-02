@@ -41,6 +41,8 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - In addition, pre-built wheels are provided for Windows, Darwin and Ubuntu Linux, attached to PyRFC GitHub [release](https://github.com/SAP/PyRFC/releases/latest)
 
+- Docker containers: [SAP fundamental-tools/docker](https://github.com/SAP/fundamental-tools/tree/main/docker)
+
 - Linux wheels supported by build from source installation only
 
 - Pre-built [portable Linux wheels](https://www.python.org/dev/peps/pep-0513/)
