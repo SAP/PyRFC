@@ -11,16 +11,7 @@ import pyrfc
 
 from tests.config import PARAMS as params, PARAMSDEST as paramsdest, CONFIG_SECTIONS as config_sections, LANGUAGES
 
-
 class TestRfcSDK:
-    # def setup_method(self, test_method):
-    #     self.conn = pyrfc.Connection(**paramsdest)
-    #     assert self.conn.alive
-
-    # def teardown_method(self, test_method):
-    #     self.conn.close()
-    #     assert not self.conn.alive
-
     def test_version(self):
         with open("VERSION", "r") as f:
             VERSION = f.read().strip()

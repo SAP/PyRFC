@@ -212,21 +212,7 @@ Highly recommended reading about RFC communication and SAP NW RFC Library, publi
 
 - [Part II RFC Server Programming](https://wiki.scn.sap.com/wiki/x/9z27Gg)
 
-- [Part III Advanced Topics](https://wiki.scn.sap.com/wiki/x/FD67Gg)- [PyRFC](#pyrfc)
-  - [Features](#features)
-  - [Supported platforms](#supported-platforms)
-  - [Requirements](#requirements)
-    - [All platforms](#all-platforms)
-    - [Windows](#windows)
-    - [macOS](#macos)
-  - [Download and installation](#download-and-installation)
-  - [Getting started](#getting-started)
-    - [Call ABAP Function Module from Python](#call-abap-function-module-from-python)
-    - [Call Python function from ABAP](#call-python-function-from-abap)
-  - [SPJ articles](#spj-articles)
-  - [How to obtain support](#how-to-obtain-support)
-  - [**Contributing**](#contributing)
-  - [License](#license)
+- [Part III Advanced Topics](https://wiki.scn.sap.com/wiki/x/FD67Gg)
 
 ## How to obtain support
 
