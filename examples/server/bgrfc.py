@@ -40,13 +40,13 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 set_ini_file_directory(dir_path)
 
 
-def myCheckFunction(rfcHandle, identifier, cls=None):
-    print("myCheckFunction", rfcHandle, identifier)
+def myCheckFunction(rfcHandle, unit_identifier):
+    print("myCheckFunction", rfcHandle, unit_identifier)
     return 3
 
 
-def myCommitFunction(rfcHandle, identifier, cls=None):
-    print("myCommitFunction", rfcHandle, identifier)
+def myCommitFunction(rfcHandle, unit_identifier):
+    print("myCommitFunction", rfcHandle, unit_identifier)
     return 2
 
 
