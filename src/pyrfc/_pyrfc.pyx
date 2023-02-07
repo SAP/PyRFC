@@ -1458,6 +1458,24 @@ class BasicServer(BaseHTTPRequestHandler):
         self._set_response()
         self.wfile.write("Press CTRL-C to end".encode("utf-8"))
 
+RfcUnitStateText = {
+    RFC_UNIT_NOT_FOUND: "RFC_UNIT_NOT_FOUND",
+    # No information for this unit ID and unit type can be found in the target system. If you are sure, that target system, unit ID and unit type are correct, it means that your previous attempt did not even reach the target system. Send the unit again. However, if you get this status after the Confirm step has already been executed, it means that everything is ok. Don't re-execute in this case!
+
+    RFC_UNIT_IN_PROCESS: "RFC_UNIT_IN_PROCESS",
+    # Backend system is still in the process of persisting (or executing if type 'T') the payload data. Give it some more time and check the state again later. If this takes "too long", an admin should probably have a look at why there is no progress here.
+
+    RFC_UNIT_COMMITTED: "RFC_UNIT_COMMITTED",
+    # Data has been persisted (or executed if type 'T') ok on receiver side. Confirm event may now be triggered.
+
+    RFC_UNIT_ROLLED_BACK: "RFC_UNIT_ROLLED_BACK",
+    # An error of any type has occurred. Unit needs to be resent.
+
+    RFC_UNIT_CONFIRMED: "RFC_UNIT_CONFIRMED",
+    # Temporary state between the Confirm event and the time, when the status data will be erased for good. Nothing to be done. Just delete the payload and status information on your side.
+ }
+
+BgRfcHandlerFunction = ["check", "commit", "rollback", "confirm", "getState"]
 
 cdef class Server:
     """ An ABAP server
@@ -1497,6 +1515,9 @@ cdef class Server:
     cdef ServerConnection _server_connection
     cdef object _server_thread
 
+    __bgRfcFunction = {
+     }
+
     def __cinit__(self, server_params, client_params, config={}):
         cdef uintptr_t handle
 
@@ -1510,6 +1531,72 @@ cdef class Server:
         self._client_connection = Connection(**client_params)
         self._server_connection = ServerConnection(**server_params)
         self._server_thread=Thread(target=self.serve);
+
+    @staticmethod
+    def bgrfc_init(bgRfcFunction):
+        for name in bgRfcFunction:
+            if not name in BgRfcHandlerFunction:
+                raise TypeError(f"BgRfc callback function key not supported: '{name}'")
+            if not callable(bgRfcFunction[name]):
+                raise TypeError(f"BgRfc callback function referenced by '{name}' is not callable: '{bgRfcFunction[name]}'")
+            Server.__bgRfcFunction[name] = bgRfcFunction[name]
+        print(Server.__bgRfcFunction)
+
+    @staticmethod
+    cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
+        name = BgRfcHandlerFunction[0]
+        if name in Server.__bgRfcFunction:
+            #unit_identifier = wrapUnitIdentifier(identifier[0])
+            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+
+    @staticmethod
+    cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
+        name = BgRfcHandlerFunction[1]
+        if name in Server.__bgRfcFunction:
+            #unit_identifier = wrapUnitIdentifier(identifier[0])
+            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+
+    @staticmethod
+    cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
+        name = BgRfcHandlerFunction[2]
+        if name in Server.__bgRfcFunction:
+            #unit_identifier = wrapUnitIdentifier(identifier[0])
+            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+
+    @staticmethod
+    cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
+        name = BgRfcHandlerFunction[3]
+        if name in Server.__bgRfcFunction:
+            #unit_identifier = wrapUnitIdentifier(identifier[0])
+            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+
+    @staticmethod
+    cdef RFC_RC __onGetStateFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *unitState) with gil:
+        name = BgRfcHandlerFunction[4]
+        if name in Server.__bgRfcFunction:
+            #unit_identifier = wrapUnitIdentifier(identifier[0])
+            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier, RfcUnitStateText[unitState[0]])
+
+    def test(self):
+        self.install_bgrfc_handlers()
+        Server.__onCheckFunction(NULL, NULL)
+        Server.__onCommitFunction(NULL, NULL)
+        Server.__onRollbackFunction(NULL, NULL)
+        Server.__onConfirmFunction(NULL, NULL)
+        Server.__onGetStateFunction(NULL, NULL, NULL)
+
+    def install_bgrfc_handlers(self):
+        cdef const SAP_UC *sysId
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC rc = RfcInstallBgRfcHandlers (sysId, Server.__onCheckFunction, Server.__onCommitFunction, Server.__onRollbackFunction, Server.__onConfirmFunction, Server.__onGetStateFunction, &errorInfo)
+        if rc != RFC_OK or errorInfo.code != RFC_OK:
+            raise wrapError(&errorInfo)
+        return rc
 
     def add_function(self, func_name, callback):
         """
@@ -1746,7 +1833,7 @@ cdef RFC_UNIT_IDENTIFIER fillUnitIdentifier(unit) except *:
     cdef RFC_UNIT_IDENTIFIER uIdentifier
     cdef SAP_UC* sapuc
     uIdentifier.unitType = fillString(u"Q" if unit['queued'] else u"T")[0]
-    if len(unit['id'] != RFC_UNITID_LN):
+    if len(unit['id']) != RFC_UNITID_LN:
         raise RFCError("Invalid length of unit['id'] (should be {}, but found {}).".format(
             RFC_UNITID_LN, len(unit['id'])
         ))

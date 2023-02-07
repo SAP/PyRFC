@@ -33,7 +33,7 @@ cdef extern from "sapnwrfc.h":
     ctypedef RFC_CHAR RFC_PARAMETER_DEFVALUE[30+1]
     ctypedef RFC_CHAR RFC_PARAMETER_TEXT[79+1]
 
-    ctypedef SAP_UC* const_SAP_UC_ptr "const SAP_UC*"
+    ctypedef SAP_UC *const_SAP_UC_ptr "const SAP_UC*"
 
     enum:  RFC_TID_LN
     ctypedef SAP_UC RFC_TID[RFC_TID_LN+1]
@@ -105,24 +105,33 @@ cdef extern from "sapnwrfc.h":
         RFC_CHANGING = RFC_IMPORT | RFC_EXPORT
         RFC_TABLES   = 0x04 | RFC_CHANGING
 
-    ctypedef void* RFC_FUNCTION_DESC_HANDLE
-    ctypedef void* RFC_FUNCTION_HANDLE
-    ctypedef void* RFC_TYPE_DESC_HANDLE
-    ctypedef void* DATA_CONTAINER_HANDLE
+    ctypedef struct RFC_UNIT_IDENTIFIER:
+        SAP_UC unitType
+        RFC_UNITID unitID
+
+    ctypedef void *RFC_FUNCTION_DESC_HANDLE
+    ctypedef void *RFC_FUNCTION_HANDLE
+    ctypedef void *RFC_TYPE_DESC_HANDLE
+    ctypedef void *DATA_CONTAINER_HANDLE
     ctypedef DATA_CONTAINER_HANDLE RFC_STRUCTURE_HANDLE
     ctypedef DATA_CONTAINER_HANDLE RFC_TABLE_HANDLE
-    ctypedef void* RFC_CONNECTION_HANDLE
-    ctypedef void* RFC_TRANSACTION_HANDLE
-    ctypedef void* RFC_UNIT_HANDLE
-    ctypedef void* RFC_METADATA_QUERY_RESULT_HANDLE
-    ctypedef void* RFC_THROUGHPUT_HANDLE
+    ctypedef void *RFC_CONNECTION_HANDLE
+    ctypedef void *RFC_TRANSACTION_HANDLE
+    ctypedef void *RFC_UNIT_HANDLE
+    ctypedef void *RFC_METADATA_QUERY_RESULT_HANDLE
+    ctypedef void *RFC_THROUGHPUT_HANDLE
+    ctypedef void *RFC_SERVER_HANDLE
     ctypedef (RFC_RC)RFC_SERVER_FUNCTION(RFC_CONNECTION_HANDLE, RFC_FUNCTION_HANDLE, RFC_ERROR_INFO *) with gil
     ctypedef (RFC_RC)RFC_FUNC_DESC_CALLBACK(SAP_UC *, RFC_ATTRIBUTES, RFC_FUNCTION_DESC_HANDLE *) with gil
-    ctypedef void* RFC_SERVER_HANDLE
+    ctypedef (RFC_RC)RFC_ON_CHECK_UNIT(RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER*) with gil
+    ctypedef (RFC_RC)RFC_ON_COMMIT_UNIT(RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) with gil
+    ctypedef (RFC_RC)RFC_ON_ROLLBACK_UNIT(RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) with gil
+    ctypedef (RFC_RC)RFC_ON_CONFIRM_UNIT(RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) with gil
+    ctypedef (RFC_RC)RFC_ON_GET_UNIT_STATE(RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER*, RFC_UNIT_STATE*) with gil
 
     ctypedef struct RFC_CONNECTION_PARAMETER:
-        SAP_UC* name
-        SAP_UC* value
+        SAP_UC *name
+        SAP_UC *value
 
     ctypedef struct RFC_ERROR_INFO:
         RFC_RC code
@@ -148,7 +157,7 @@ cdef extern from "sapnwrfc.h":
         RFC_PARAMETER_DEFVALUE defaultValue
         RFC_PARAMETER_TEXT parameterText
         RFC_BYTE     optional
-        void* extendedDescription
+        void *extendedDescription
 
     ctypedef struct RFC_FIELD_DESC:
         RFC_ABAP_NAME   name
@@ -159,7 +168,7 @@ cdef extern from "sapnwrfc.h":
         unsigned        ucOffset
         unsigned        decimals
         RFC_TYPE_DESC_HANDLE typeDescHandle
-        void* extendedDescription
+        void *extendedDescription
 
     ctypedef struct RFC_ATTRIBUTES:
         SAP_UC dest[64+1]
@@ -209,7 +218,7 @@ cdef extern from "sapnwrfc.h":
         RFC_SERVER_STOPPED
 
     ctypedef struct RFC_SERVER_ATTRIBUTES:
-        SAP_UC* serverName
+        SAP_UC *serverName
         RFC_PROTOCOL_TYPE type
         unsigned registrationCount
         RFC_SERVER_STATE state
@@ -230,10 +239,6 @@ cdef extern from "sapnwrfc.h":
         RFC_DATE sendingDate
         RFC_TIME sendingTime
 
-    ctypedef struct RFC_UNIT_IDENTIFIER:
-        SAP_UC unitType
-        RFC_UNITID unitID
-
     ctypedef enum RFC_UNIT_STATE:
         RFC_UNIT_NOT_FOUND
         RFC_UNIT_IN_PROCESS
@@ -241,117 +246,117 @@ cdef extern from "sapnwrfc.h":
         RFC_UNIT_ROLLED_BACK
         RFC_UNIT_CONFIRMED
 
-    RFC_RC RfcIsConnectionHandleValid (RFC_CONNECTION_HANDLE rfcHandle, RFC_INT * isValid, RFC_ERROR_INFO * errorInfo)	nogil
-    RFC_CONNECTION_HANDLE RfcOpenConnection(RFC_CONNECTION_PARAMETER* connectionParams, unsigned paramCount, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcCloseConnection(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcCancel(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcResetServerContext(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcPing(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcListenAndDispatch (RFC_CONNECTION_HANDLE rfcHandle, int timeout, RFC_ERROR_INFO* errorInfo)
-    RFC_FUNCTION_DESC_HANDLE RfcGetFunctionDesc(RFC_CONNECTION_HANDLE rfcHandle, SAP_UC* funcName, RFC_ERROR_INFO* errorInfo)
-    RFC_FUNCTION_HANDLE RfcCreateFunction(RFC_FUNCTION_DESC_HANDLE funcDescHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcDestroyFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcInvoke(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcSetParameterActive(RFC_FUNCTION_HANDLE funcHandle, SAP_UC *paramName, int isActive, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcIsConnectionHandleValid (RFC_CONNECTION_HANDLE rfcHandle, RFC_INT *isValid, RFC_ERROR_INFO *errorInfo)	nogil
+    RFC_CONNECTION_HANDLE RfcOpenConnection(RFC_CONNECTION_PARAMETER *connectionParams, unsigned paramCount, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcCloseConnection(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcCancel(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcResetServerContext(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcPing(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcListenAndDispatch (RFC_CONNECTION_HANDLE rfcHandle, int timeout, RFC_ERROR_INFO *errorInfo)
+    RFC_FUNCTION_DESC_HANDLE RfcGetFunctionDesc(RFC_CONNECTION_HANDLE rfcHandle, SAP_UC *funcName, RFC_ERROR_INFO *errorInfo)
+    RFC_FUNCTION_HANDLE RfcCreateFunction(RFC_FUNCTION_DESC_HANDLE funcDescHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcDestroyFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcInvoke(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcSetParameterActive(RFC_FUNCTION_HANDLE funcHandle, SAP_UC *paramName, int isActive, RFC_ERROR_INFO *errorInfo)
 
-    SAP_UC* RfcGetVersion(unsigned* majorVersion, unsigned* minorVersion, unsigned* patchLevel)
+    SAP_UC *RfcGetVersion(unsigned *majorVersion, unsigned *minorVersion, unsigned *patchLevel)
 
-    SAP_UC* RfcGetRcAsString(RFC_RC rc)
-    SAP_UC* RfcGetTypeAsString(RFCTYPE type)
-    SAP_UC* RfcGetDirectionAsString(RFC_DIRECTION direction)
-    RFC_RC RfcGetChars(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_CHAR *charBuffer, unsigned bufferLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetNum(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_NUM *charBuffer, unsigned bufferLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetBytes(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_RAW *byteBuffer, unsigned bufferLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetXString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_RAW *byteBuffer, unsigned bufferLength, unsigned* xstringLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_UC* stringBuffer, unsigned bufferLength, unsigned* stringLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetFloat(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_FLOAT *value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetInt(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT  *value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetInt1(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT1  *value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetInt2(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT2  *value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetInt8(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT8  *value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetDate(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_DATE emptyDate, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TIME emptyTime, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetStringLength(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, unsigned* stringLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetChars(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_CHAR *charValue, unsigned valueLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetBytes(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_RAW *byteValue, unsigned valueLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetXString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_RAW *byteValue, unsigned valueLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetNum(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_UC *stringValue, unsigned valueLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, SAP_UC* stringValue, unsigned valueLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetFloat(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_FLOAT value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetInt(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetInt8(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_INT8 value, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetDate(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_DATE date, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TIME time, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetStructure(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_STRUCTURE_HANDLE* structHandle, RFC_ERROR_INFO* errorInfo)
+    SAP_UC *RfcGetRcAsString(RFC_RC rc)
+    SAP_UC *RfcGetTypeAsString(RFCTYPE type)
+    SAP_UC *RfcGetDirectionAsString(RFC_DIRECTION direction)
+    RFC_RC RfcGetChars(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_CHAR *charBuffer, unsigned bufferLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetNum(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_NUM *charBuffer, unsigned bufferLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetBytes(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_RAW *byteBuffer, unsigned bufferLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetXString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_RAW *byteBuffer, unsigned bufferLength, unsigned *xstringLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_UC *stringBuffer, unsigned bufferLength, unsigned *stringLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetFloat(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_FLOAT *value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetInt(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT *value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetInt1(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT1 *value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetInt2(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT2 *value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetInt8(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT8 *value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetDate(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_DATE emptyDate, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_TIME emptyTime, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetStringLength(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, unsigned *stringLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetChars(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_CHAR *charValue, unsigned valueLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetBytes(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_RAW *byteValue, unsigned valueLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetXString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_RAW *byteValue, unsigned valueLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetNum(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_UC *stringValue, unsigned valueLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_UC *stringValue, unsigned valueLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetFloat(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_FLOAT value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetInt(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetInt8(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT8 value, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetDate(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_DATE date, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetTime(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_TIME time, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetStructure(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_STRUCTURE_HANDLE *structHandle, RFC_ERROR_INFO *errorInfo)
 
+    RFC_CONNECTION_HANDLE RfcCreateServer(RFC_CONNECTION_PARAMETER *connectionParams, unsigned paramCount, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcLaunchServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcInstallGenericServerFunction(RFC_SERVER_FUNCTION serverFunction, RFC_FUNC_DESC_CALLBACK funcDescProvider, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcShutdownServer(RFC_SERVER_HANDLE serverHandle, unsigned timeout, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcDestroyServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcGetServerAttributes(RFC_SERVER_HANDLE serverHandle, RFC_SERVER_ATTRIBUTES  *serverAttributes, RFC_ERROR_INFO *errorInfo) nogil
+    SAP_UC *RfcGetServerStateAsString(RFC_SERVER_STATE serverState)
 
-    RFC_CONNECTION_HANDLE RfcCreateServer(RFC_CONNECTION_PARAMETER* connectionParams, unsigned paramCount, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcLaunchServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcInstallGenericServerFunction(RFC_SERVER_FUNCTION serverFunction, RFC_FUNC_DESC_CALLBACK funcDescProvider, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcShutdownServer(RFC_SERVER_HANDLE serverHandle, unsigned timeout, RFC_ERROR_INFO * errorInfo) nogil
-    RFC_RC RfcDestroyServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcGetServerAttributes(RFC_SERVER_HANDLE serverHandle, RFC_SERVER_ATTRIBUTES * serverAttributes, RFC_ERROR_INFO * errorInfo) nogil
-    SAP_UC* RfcGetServerStateAsString(RFC_SERVER_STATE serverState)
+    RFC_FUNCTION_DESC_HANDLE RfcDescribeFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO *errorInfo)
 
-    RFC_FUNCTION_DESC_HANDLE RfcDescribeFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
-
-    RFC_TYPE_DESC_HANDLE RfcCreateTypeDesc(SAP_UC *name, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcAddTypeField(RFC_TYPE_DESC_HANDLE typeHandle, RFC_FIELD_DESC *fieldDescr, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSetTypeLength(RFC_TYPE_DESC_HANDLE typeHandle, unsigned nucByteLength, unsigned ucByteLength, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetTypeName(RFC_TYPE_DESC_HANDLE typeHandle, RFC_ABAP_NAME bufferForName, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetFieldCount(RFC_TYPE_DESC_HANDLE typeHandle, unsigned* count, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetFieldDescByIndex(RFC_TYPE_DESC_HANDLE typeHandle, unsigned index, RFC_FIELD_DESC* fieldDescr, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetFieldDescByName(RFC_TYPE_DESC_HANDLE typeHandle, SAP_UC* name, RFC_FIELD_DESC* fieldDescr, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetTypeLength(RFC_TYPE_DESC_HANDLE typeHandle, unsigned* nucByteLength, unsigned* ucByteLength, RFC_ERROR_INFO* errorInfo)
+    RFC_TYPE_DESC_HANDLE RfcCreateTypeDesc(SAP_UC *name, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcAddTypeField(RFC_TYPE_DESC_HANDLE typeHandle, RFC_FIELD_DESC *fieldDescr, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSetTypeLength(RFC_TYPE_DESC_HANDLE typeHandle, unsigned nucByteLength, unsigned ucByteLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetTypeName(RFC_TYPE_DESC_HANDLE typeHandle, RFC_ABAP_NAME bufferForName, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetFieldCount(RFC_TYPE_DESC_HANDLE typeHandle, unsigned *count, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetFieldDescByIndex(RFC_TYPE_DESC_HANDLE typeHandle, unsigned index, RFC_FIELD_DESC *fieldDescr, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetFieldDescByName(RFC_TYPE_DESC_HANDLE typeHandle, SAP_UC *name, RFC_FIELD_DESC *fieldDescr, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetTypeLength(RFC_TYPE_DESC_HANDLE typeHandle, unsigned *nucByteLength, unsigned *ucByteLength, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDestroyTypeDesc(RFC_TYPE_DESC_HANDLE typeHandle, RFC_ERROR_INFO *errorInfo)
-    RFC_TYPE_DESC_HANDLE RfcGetTypeDesc(RFC_CONNECTION_HANDLE rfcHandle, SAP_UC* typeName, RFC_ERROR_INFO* errorInfo);
-    RFC_RC RfcRemoveTypeDesc(SAP_UC* repositoryID, SAP_UC* typeName, RFC_ERROR_INFO* errorInfo);
+    RFC_TYPE_DESC_HANDLE RfcGetTypeDesc(RFC_CONNECTION_HANDLE rfcHandle, SAP_UC *typeName, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcRemoveTypeDesc(SAP_UC *repositoryID, SAP_UC *typeName, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcMetadataBatchQuery(
         RFC_CONNECTION_HANDLE rfcHandle,
-        const SAP_UC** functionNames,
+        const SAP_UC **functionNames,
         unsigned functionCount,
-        const SAP_UC** typeNames,
+        const SAP_UC **typeNames,
         unsigned typeCount,
-        const SAP_UC** classNames,
+        const SAP_UC **classNames,
         unsigned classCount,
         RFC_METADATA_QUERY_RESULT_HANDLE handle,
-        RFC_ERROR_INFO* errorInfo)
+        RFC_ERROR_INFO *errorInfo)
 
-    RFC_FUNCTION_DESC_HANDLE RfcCreateFunctionDesc(SAP_UC* name, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetFunctionName(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_ABAP_NAME bufferForName, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcAddParameter(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_PARAMETER_DESC* paramDescr, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetParameterCount(RFC_FUNCTION_DESC_HANDLE funcDesc, unsigned* count, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetParameterDescByIndex(RFC_FUNCTION_DESC_HANDLE funcDesc, unsigned index, RFC_PARAMETER_DESC* paramDesc, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetParameterDescByName(RFC_FUNCTION_DESC_HANDLE funcDesc, SAP_UC* name, RFC_PARAMETER_DESC* paramDesc, RFC_ERROR_INFO* errorInfo)
+    RFC_FUNCTION_DESC_HANDLE RfcCreateFunctionDesc(SAP_UC *name, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetFunctionName(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_ABAP_NAME bufferForName, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcAddParameter(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_PARAMETER_DESC *paramDescr, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetParameterCount(RFC_FUNCTION_DESC_HANDLE funcDesc, unsigned *count, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetParameterDescByIndex(RFC_FUNCTION_DESC_HANDLE funcDesc, unsigned index, RFC_PARAMETER_DESC *paramDesc, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetParameterDescByName(RFC_FUNCTION_DESC_HANDLE funcDesc, SAP_UC *name, RFC_PARAMETER_DESC *paramDesc, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDestroyFunctionDesc(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcRemoveFunctionDesc(const_SAP_UC_ptr repositoryID, const_SAP_UC_ptr functionName, RFC_ERROR_INFO* errorInfo)
-    RFC_FUNCTION_DESC_HANDLE RfcGetCachedFunctionDesc(const_SAP_UC_ptr repositoryID, const_SAP_UC_ptr funcName, RFC_ERROR_INFO* errorInfo);
+    RFC_RC RfcRemoveFunctionDesc(const SAP_UC *repositoryID, const SAP_UC *functionName, RFC_ERROR_INFO *errorInfo)
+    RFC_FUNCTION_DESC_HANDLE RfcGetCachedFunctionDesc(const SAP_UC *repositoryID, const SAP_UC *funcName, RFC_ERROR_INFO *errorInfo);
 
-    RFC_RC RfcGetRowCount(RFC_TABLE_HANDLE tableHandle, unsigned* rowCount, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcMoveTo(RFC_TABLE_HANDLE tableHandle, unsigned index, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcDeleteCurrentRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetTable(DATA_CONTAINER_HANDLE dataHandle, SAP_UC* name, RFC_TABLE_HANDLE* tableHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_STRUCTURE_HANDLE RfcAppendNewRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcUTF8ToSAPUC(unsigned char *utf8, unsigned utf8Length,  SAP_UC *sapuc,  unsigned *sapucSize, unsigned *resultLength, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcSAPUCToUTF8(SAP_UC *sapuc,  unsigned sapucLength, RFC_BYTE *utf8, unsigned *utf8Size,  unsigned *resultLength, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcGetConnectionAttributes(RFC_CONNECTION_HANDLE rfcHandle, RFC_ATTRIBUTES *attr, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcGetRowCount(RFC_TABLE_HANDLE tableHandle, unsigned *rowCount, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcMoveTo(RFC_TABLE_HANDLE tableHandle, unsigned index, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcDeleteCurrentRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetTable(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_TABLE_HANDLE *tableHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_STRUCTURE_HANDLE RfcAppendNewRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcUTF8ToSAPUC(const unsigned char *utf8, unsigned utf8Length, SAP_UC *sapuc, unsigned *sapucSize, unsigned *resultLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSAPUCToUTF8(const SAP_UC *sapuc, unsigned sapucLength, RFC_BYTE *utf8, unsigned *utf8Size, unsigned *resultLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetConnectionAttributes(RFC_CONNECTION_HANDLE rfcHandle, RFC_ATTRIBUTES *attr, RFC_ERROR_INFO *errorInfo)
 
-    RFC_RC RfcGetTransactionID(RFC_CONNECTION_HANDLE rfcHandle, RFC_TID tid, RFC_ERROR_INFO* errorInfo)
-    RFC_TRANSACTION_HANDLE RfcCreateTransaction(RFC_CONNECTION_HANDLE rfcHandle, RFC_TID tid, SAP_UC* queueName, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcInvokeInTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSubmitTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcConfirmTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcDestroyTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetUnitID(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNITID uid, RFC_ERROR_INFO* errorInfo)
-    RFC_UNIT_HANDLE RfcCreateUnit(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNITID uid, const_SAP_UC_ptr* queueNames, unsigned queueNameCount, RFC_UNIT_ATTRIBUTES* unitAttr, RFC_UNIT_IDENTIFIER* identifier, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcInvokeInUnit(RFC_UNIT_HANDLE unitHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcSubmitUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO* errorInfo) nogil
-    RFC_RC RfcConfirmUnit(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER* identifier, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcDestroyUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcGetUnitState(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER* identifier, RFC_UNIT_STATE* state, RFC_ERROR_INFO* errorInfo)
+    RFC_RC RfcGetTransactionID(RFC_CONNECTION_HANDLE rfcHandle, RFC_TID tid, RFC_ERROR_INFO *errorInfo)
+    RFC_TRANSACTION_HANDLE RfcCreateTransaction(RFC_CONNECTION_HANDLE rfcHandle, RFC_TID tid, SAP_UC *queueName, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcInvokeInTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSubmitTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcConfirmTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcDestroyTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetUnitID(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNITID uid, RFC_ERROR_INFO *errorInfo)
+    RFC_UNIT_HANDLE RfcCreateUnit(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNITID uid, const SAP_UC *queueNames[], unsigned queueNameCount, RFC_UNIT_ATTRIBUTES *unitAttr, RFC_UNIT_IDENTIFIER *identifier, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcInvokeInUnit(RFC_UNIT_HANDLE unitHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSubmitUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcConfirmUnit(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER *identifier, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcDestroyUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetUnitState(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *state, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcInstallBgRfcHandlers(const SAP_UC *sysId, RFC_ON_CHECK_UNIT onCheckFunction, RFC_ON_COMMIT_UNIT onCommitFunction, RFC_ON_ROLLBACK_UNIT onRollbackFunction, RFC_ON_CONFIRM_UNIT onConfirmFunction, RFC_ON_GET_UNIT_STATE onGetStateFunction, RFC_ERROR_INFO *errorInfo) nogil
 
-    RFC_THROUGHPUT_HANDLE RfcCreateThroughput(RFC_ERROR_INFO* errorInfo)
-    RFC_RC RfcDestroyThroughput (RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO* errorInfo)
+    RFC_THROUGHPUT_HANDLE RfcCreateThroughput(RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcDestroyThroughput (RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcSetThroughputOnConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcRemoveThroughputFromConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo)
     RFC_THROUGHPUT_HANDLE RfcGetThroughputFromConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo)
@@ -363,8 +368,8 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcGetApplicationTime (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *applicationTime, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetSentBytes (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *sentBytes, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetReceivedBytes (RFC_THROUGHPUT_HANDLE throughput, SAP_ULLONG *receivedBytes, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcSetIniPath (const SAP_UC *pathName, RFC_ERROR_INFO * errorInfo)
-    RFC_RC RfcLoadCryptoLibrary (const SAP_UC *pathName, RFC_ERROR_INFO * errorInfo)
-    RFC_RC RfcReloadIniFile (RFC_ERROR_INFO * errorInfo)
-    RFC_RC RfcLanguageIsoToSap (const SAP_UC * laiso, SAP_UC * lang, RFC_ERROR_INFO * errorInfo)
-    RFC_RC RfcLanguageSapToIso (const SAP_UC * lang, SAP_UC * laiso, RFC_ERROR_INFO * errorInfo)
+    RFC_RC RfcSetIniPath (const SAP_UC *pathName, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcLoadCryptoLibrary (const SAP_UC *pathName, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcReloadIniFile (RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcLanguageIsoToSap (const SAP_UC *laiso, SAP_UC *lang, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcLanguageSapToIso (const SAP_UC *lang, SAP_UC *laiso, RFC_ERROR_INFO *errorInfo)
