@@ -41,18 +41,18 @@ set_ini_file_directory(dir_path)
 
 
 def myCheckFunction(rfcHandle, identifier, cls=None):
-    print("myCheckFunction", rfcHandle, identifier, cls)
+    print("myCheckFunction", rfcHandle, identifier)
     return 3
 
 
 def myCommitFunction(rfcHandle, identifier, cls=None):
-    print("myCommitFunction", rfcHandle, identifier, cls)
+    print("myCommitFunction", rfcHandle, identifier)
     return 2
 
 
 server1 = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False})
 
-Server.bgrfc_init({"check": myCheckFunction, "commit": myCommitFunction})
+server1.bgrfc_init("SID", {"check": myCheckFunction, "commit": myCommitFunction})
 
 server1.test()
 

@@ -1533,16 +1533,6 @@ cdef class Server:
         self._server_thread=Thread(target=self.serve);
 
     @staticmethod
-    def bgrfc_init(bgRfcFunction):
-        for name in bgRfcFunction:
-            if not name in BgRfcHandlerFunction:
-                raise TypeError(f"BgRfc callback function key not supported: '{name}'")
-            if not callable(bgRfcFunction[name]):
-                raise TypeError(f"BgRfc callback function referenced by '{name}' is not callable: '{bgRfcFunction[name]}'")
-            Server.__bgRfcFunction[name] = bgRfcFunction[name]
-        print(Server.__bgRfcFunction)
-
-    @staticmethod
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         name = BgRfcHandlerFunction[0]
         if name in Server.__bgRfcFunction:
@@ -1583,17 +1573,28 @@ cdef class Server:
             return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier, RfcUnitStateText[unitState[0]])
 
     def test(self):
-        self.install_bgrfc_handlers()
+        self.install_bgrfc_handlers("SID")
         Server.__onCheckFunction(NULL, NULL)
         Server.__onCommitFunction(NULL, NULL)
         Server.__onRollbackFunction(NULL, NULL)
         Server.__onConfirmFunction(NULL, NULL)
         Server.__onGetStateFunction(NULL, NULL, NULL)
 
-    def install_bgrfc_handlers(self):
-        cdef const SAP_UC *sysId
+    def bgrfc_init(self, sysId, bgRfcFunction):
+        for name in bgRfcFunction:
+            if not name in BgRfcHandlerFunction:
+                raise TypeError(f"BgRfc callback function key not supported: '{name}'")
+            if not callable(bgRfcFunction[name]):
+                raise TypeError(f"BgRfc callback function referenced by '{name}' is not callable: '{bgRfcFunction[name]}'")
+            Server.__bgRfcFunction[name] = bgRfcFunction[name]
+        self.install_bgrfc_handlers(sysId)
+        print(Server.__bgRfcFunction)
+
+    def install_bgrfc_handlers(self, sysId):
+        ucSysId = fillString(sysId)
         cdef RFC_ERROR_INFO errorInfo
-        cdef RFC_RC rc = RfcInstallBgRfcHandlers (sysId, Server.__onCheckFunction, Server.__onCommitFunction, Server.__onRollbackFunction, Server.__onConfirmFunction, Server.__onGetStateFunction, &errorInfo)
+        cdef RFC_RC rc = RfcInstallBgRfcHandlers (ucSysId, Server.__onCheckFunction, Server.__onCommitFunction, Server.__onRollbackFunction, Server.__onConfirmFunction, Server.__onGetStateFunction, &errorInfo)
+        free(ucSysId)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
         return rc
