@@ -389,27 +389,28 @@ def test_date_time():
     counter = 0
     for dt in DATETIME_TEST:
         counter += 1
-        try:
+        if counter < 7:
             result = client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             assert dt["RFCDATE"] == result["RFCDATE"]
             if dt["RFCTIME"] == "":
                 assert "000000" == result["RFCTIME"]
             else:
                 assert dt["RFCTIME"] == result["RFCTIME"]
-        except Exception as e:
-            assert type(e) is TypeError
-
+        else:
+            with pytest.raises(TypeError) as ex:
+                client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
+            error = ex.value
             if counter < 13:
-                assert e.args[0] == "date value required, received"
-                assert e.args[1] == dt["RFCDATE"]
-                assert e.args[3] == type(dt["RFCDATE"])
-                assert e.args[4] == "RFCDATE"
+                assert error.args[0] == "date value required, received"
+                assert error.args[1] == dt["RFCDATE"]
+                assert error.args[3] == type(dt["RFCDATE"])
+                assert error.args[4] == "RFCDATE"
             else:
-                assert e.args[0] == "time value required, received"
-                assert e.args[1] == dt["RFCTIME"]
-                assert e.args[3] == type(dt["RFCTIME"])
-                assert e.args[4] == "RFCTIME"
-            assert e.args[5] == "IMPORTSTRUCT"
+                assert error.args[0] == "time value required, received"
+                assert error.args[1] == dt["RFCTIME"]
+                assert error.args[3] == type(dt["RFCTIME"])
+                assert error.args[4] == "RFCTIME"
+            assert error.args[5] == "IMPORTSTRUCT"
 
 
 def test_date_accepts_string():

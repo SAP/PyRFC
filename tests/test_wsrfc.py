@@ -21,21 +21,19 @@ class TestWsrfc:
 
     def test_load_cryptolib_error(self):
         wrongPath = "_" + CryptoLibPath
-        try:
+        with pytest.raises(TypeError) as ex:
             assert set_cryptolib_path(wrongPath)
-        except Exception as ex:
-            assert isinstance(ex, TypeError) is True
-            assert ex.args[0] == "Crypto library not found:"
-            assert ex.args[1] == wrongPath
+        error = ex.value
+        assert error.args[0] == "Crypto library not found:"
+        assert error.args[1] == wrongPath
 
     def test_wsrfc_call_no_client_pse(self):
-        try:
+        with pytest.raises(ExternalRuntimeError) as ex:
             client = Connection(dest="WS_ALX_NOCC")
-        except Exception as ex:
-            assert isinstance(ex, ExternalRuntimeError) is True
-            assert ex.code == 20
-            assert ex.key == "RFC_INVALID_PARAMETER"
-            assert ex.message == "Unable to use TLS with client PSE missing"
+        error = ex.value
+        assert error.code == 20
+        assert error.key == "RFC_INVALID_PARAMETER"
+        assert error.message == "Unable to use TLS with client PSE missing"
 
     @pytest.mark.skip(reason="no automatic test")
     def test_wsrfc_call_basic_auth(self):
