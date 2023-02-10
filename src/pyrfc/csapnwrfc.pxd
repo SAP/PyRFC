@@ -246,7 +246,7 @@ cdef extern from "sapnwrfc.h":
         RFC_UNIT_ROLLED_BACK
         RFC_UNIT_CONFIRMED
 
-    RFC_RC RfcIsConnectionHandleValid (RFC_CONNECTION_HANDLE rfcHandle, RFC_INT *isValid, RFC_ERROR_INFO *errorInfo)	nogil
+    RFC_RC RfcIsConnectionHandleValid(RFC_CONNECTION_HANDLE rfcHandle, RFC_INT *isValid, RFC_ERROR_INFO *errorInfo) nogil
     RFC_CONNECTION_HANDLE RfcOpenConnection(RFC_CONNECTION_PARAMETER *connectionParams, unsigned paramCount, RFC_ERROR_INFO *errorInfo) nogil
     RFC_RC RfcCloseConnection(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil
     RFC_RC RfcCancel(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil

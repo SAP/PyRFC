@@ -1016,12 +1016,12 @@ cdef class Connection:
         unit_id = unit['id']
 
         if bg is True:
-            if len(unit_id)!=RFC_UNITID_LN:
-                raise TypeError("Length of parameter 'unit['id']' must be {} chars.".format(RFC_UNITID_LN))
+            if len(unit_id) != RFC_UNITID_LN:
+                raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_UNITID_LN} chars, found {len(unit_id)}.")
             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)
         elif bg is False:
-            if len(unit_id)!=RFC_TID_LN:
-                raise TypeError("Length of parameter 'unit['id']' must be {} chars.".format(RFC_TID_LN))
+            if len(unit_id) != RFC_TID_LN:
+                raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_TID_LN} chars, found {len(unit_id)}.")
             if attributes is not None:
                 raise RFCError("Argument 'attributes' not valid. (t/qRFC does not support attributes.)")
             if queue_names is None or isinstance(queue_names, list) and len(queue_names) == 0:
@@ -1124,10 +1124,10 @@ class TypeDescription(object):
     def __init__(self, name, nuc_length, uc_length):
         self.fields = []
         if len(name)<1 or len(name)>30:
-            raise TypeError("'name' (string) should be from 1-30 chars.")
+            raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
         for int_field in [nuc_length, uc_length]:
             if not isinstance(int_field, (int, long)):
-                raise TypeError("'{}' must be of type integer".format(int_field))
+                raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
         self.name = name
         self.nuc_length = nuc_length
         self.uc_length = uc_length
@@ -1156,12 +1156,12 @@ class TypeDescription(object):
         if len(name)<1:
             return None
         if len(name)>30:
-            raise TypeError("'name' (string) should be from 1-30 chars.")
+            raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
         if field_type not in _type2rfc:
-            raise TypeError("'field_type' (string) must be in [" + ", ".join(_type2rfc) + "]")
+            raise TypeError(f"field '{name}' 'field_type' (string) '{field_type}' must be in [" + ", ".join(_type2rfc) + "]")
         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
             if not isinstance(int_field, (int, long)):
-                raise TypeError("'{}' must be of type integer".format(int_field))
+                raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
         self.fields.append({
             'name': name,
             'field_type': field_type,
@@ -1174,9 +1174,7 @@ class TypeDescription(object):
         })
 
     def __repr__(self):
-        return "<TypeDescription '{}' with {} fields (n/uclength={}/{})>".format(
-            self.name, len(self.fields), self.nuc_length, self.uc_length
-        )
+        return f"<TypeDescription '{self.name}' with {len(self.fields)} fields (n/uclength={self.nuc_length}/{self.uc_length})>"
 
 class FunctionDescription(object):
     """ A function description
@@ -1232,15 +1230,15 @@ class FunctionDescription(object):
         :type type_description: object of class TypeDescription
         """
         if len(name)<1 or len(name)>30:
-            raise TypeError("'name' (string) should be from 1-30 chars.")
+            raise TypeError(f"field 'name' (string) {name} should be from 1-30 chars.")
         if parameter_type not in _type2rfc:
-            raise TypeError("'parameter_type' (string) must be in [" + ", ".join(_type2rfc) + "]")
+            raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in [" + ", ".join(_type2rfc) + "]")
         if direction not in _direction2rfc:
-            raise TypeError("'direction' (string) must be in [" + ", ".join(_direction2rfc) + "]")
+            raise TypeError(f"'direction' (string) must '{direction}' be in [" + ", ".join(_direction2rfc) + "]")
         if len(default_value)>30:
-            raise TypeError("'default_value' (string) must not exceed 30 chars.")
+            raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
         if len(parameter_text)>79:
-            raise TypeError("'parameter_text' (string) must not exceed 79 chars.")
+            raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")
         self.parameters.append({
             'name': name,
             'parameter_type': parameter_type,
@@ -1255,9 +1253,8 @@ class FunctionDescription(object):
         })
 
     def __repr__(self):
-        return "<FunctionDescription '{}' with {} params>".format(
-            self.name, len(self.parameters)
-        )
+        return f"<FunctionDescription '{self.name}' with {len(self.parameters)} params>"
+
 ################################################################################
 # SERVER FUNCTIONALITY
 ################################################################################
@@ -1374,7 +1371,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     try:
         rc = RfcGetConnectionAttributes(rfcHandle, &attributes, &errorInfo)
         if rc != RFC_OK:
-            _server_log("genericHandler", "Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).".format(func_name=func_name, rc=rc))
+            _server_log(f"genericHandler", "Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
             if not server.debug:
                 raise ExternalRuntimeError(message="Invalid connection handle.")
             conn_attr = {}
@@ -1392,7 +1389,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         rc = auth_function(func_name, request_context)
         if rc != RFC_OK:
             new_error = ExternalRuntimeError(
-                message=f"Invalid exception raised by callback function: rc",
+                message=f"Invalid exception raised by callback function: rc='{rc}'",
                 code=RFC_EXTERNAL_FAILURE
             )
             fillError(new_error, serverErrorInfo)
@@ -1409,31 +1406,29 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         # ret RFC_ABAP_EXCEPTION
         fillError(e, serverErrorInfo)
         serverErrorInfo.code = RFC_ABAP_EXCEPTION # Overwrite code, if set.
-        _server_log("genericHandler", "Request for '{}' raises ABAPApplicationError {} - code set to RFC_ABAP_EXCEPTION.".format(func_name, e))
+        _server_log("genericHandler", f"Request for '{func_name}' raises ABAPApplicationError {e} - code set to RFC_ABAP_EXCEPTION.")
         return RFC_ABAP_EXCEPTION
     except ABAPRuntimeError as e: # RFC_ABAP_MESSAGE
         # msg_type, msg_class, msg_number, msg_v1-v4
         # ret RFC_ABAP_MESSAGE
         fillError(e, serverErrorInfo)
         serverErrorInfo.code = RFC_ABAP_MESSAGE # Overwrite code, if set.
-        _server_log("genericHandler", "Request for '{}' raises ABAPRuntimeError {} - code set to RFC_ABAP_MESSAGE.".format(func_name, e))
+        _server_log("genericHandler", f"Request for '{func_name}' raises ABAPRuntimeError {e} - code set to RFC_ABAP_MESSAGE.")
         return RFC_ABAP_MESSAGE
     except ExternalRuntimeError as e: # System failure
         # Parameter: message
         # ret RFC_EXTERNAL_FAILURE
         fillError(e, serverErrorInfo)
         serverErrorInfo.code = RFC_EXTERNAL_FAILURE # Overwrite code, if set.
-        _server_log("genericHandler", "Request for '{}' raises ExternalRuntimeError {} - code set to RFC_EXTERNAL_FAILURE.".format(func_name, e))
+        _server_log("genericHandler", f"Request for '{func_name}' raises ExternalRuntimeError {e} - code set to RFC_EXTERNAL_FAILURE.")
         return RFC_EXTERNAL_FAILURE
     except:
         exctype, value = exc_info()[:2]
         _server_log("genericHandler",
-            "Request for '{}' raises an invalid exception:\n Exception: {}\n Values: {}\n"
+            f"Request for '{func_name}' raises an invalid exception:\n Exception: {exctype}\n Values: {value}\n"
             "Callback functions may only raise ABAPApplicationError, ABAPRuntimeError, or ExternalRuntimeError.\n"
             "The values of the request were:\n"
-            "params: {}\nrequest_context: {}".format(
-                func_name, exctype, value, func_handle_variables, request_context
-            )
+            f"params: {func_handle_variables}\nrequest_context: {request_context}"
         )
         new_error = ExternalRuntimeError(
             message="Invalid exception raised by callback function.",
@@ -1588,7 +1583,6 @@ cdef class Server:
                 raise TypeError(f"BgRfc callback function referenced by '{name}' is not callable: '{bgRfcFunction[name]}'")
             Server.__bgRfcFunction[name] = bgRfcFunction[name]
         self.install_bgrfc_handlers(sysId)
-        print(Server.__bgRfcFunction)
 
     def install_bgrfc_handlers(self, sysId):
         ucSysId = fillString(sysId)
@@ -1835,9 +1829,7 @@ cdef RFC_UNIT_IDENTIFIER fillUnitIdentifier(unit) except *:
     cdef SAP_UC* sapuc
     uIdentifier.unitType = fillString(u"Q" if unit['queued'] else u"T")[0]
     if len(unit['id']) != RFC_UNITID_LN:
-        raise RFCError("Invalid length of unit['id'] (should be {}, but found {}).".format(
-            RFC_UNITID_LN, len(unit['id'])
-        ))
+        raise RFCError(f"Invalid length of unit['id'] (should be {RFC_UNITID_LN}, but found {len(unit['id'])}).")
     sapuc = fillString(unit['id'])
     strncpyU(uIdentifier.unitID, sapuc, RFC_UNITID_LN + 1)
     free(sapuc)
