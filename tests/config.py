@@ -45,20 +45,6 @@ RFC_MATH = {
 }
 
 
-def get_error(ex):
-    error = {}
-    ex_type_full = str(type(ex))
-    error["type"] = ex_type_full[ex_type_full.rfind(".") + 1 : ex_type_full.rfind("'")]
-    error["code"] = ex.code if hasattr(ex, "code") else "<None>"
-    error["key"] = ex.key if hasattr(ex, "key") else "<None>"
-    error["message"] = ex.message.split("\n")
-    error["msg_class"] = ex.msg_class if hasattr(ex, "msg_class") else "<None>"
-    error["msg_type"] = ex.msg_type if hasattr(ex, "msg_type") else "<None>"
-    error["msg_number"] = ex.msg_number if hasattr(ex, "msg_number") else "<None>"
-    error["msg_v1"] = ex.msg_v1 if hasattr(ex, "msg_v1") else "<None>"
-    return error
-
-
 def ABAP_to_python_date(abap_date):
     return datetime.datetime.strptime(abap_date, "%Y%m%d").date()
 
@@ -77,8 +63,8 @@ def python_to_ABAP_time(py_time):
 
 CONFIG_SECTIONS = COPA._sections
 CONNECTION_INFO = CONFIG_SECTIONS["coevi51"]
-UNICODETEST = u"ทดสอบสร้างลูกค้าจากภายนอกครั้งที่" * 7
-UNICODE1 = u"四周远处都"
+UNICODETEST = "ทดสอบสร้างลูกค้าจากภายนอกครั้งที่" * 7
+UNICODE1 = "四周远处都"
 BYTEARRAY_TEST = bytearray.fromhex("01414243444549500051fdfeff")
 BYTES_TEST = bytes(BYTEARRAY_TEST)
 PARAMS = CONNECTION_INFO

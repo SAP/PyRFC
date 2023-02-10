@@ -6,9 +6,6 @@
 
 # -*- coding: utf-8 -*-
 
-import datetime
-import socket
-import unittest
 from pyrfc import Connection
 
 from decimal import Decimal
@@ -16,17 +13,16 @@ from decimal import Decimal
 from tests.config import (
     PARAMS as params,
     CONFIG_SECTIONS as config_sections,
-    get_error,
     UNICODETEST,
 )
 
 
 class TestOptions:
-    def setup_method(self, test_method):
+    def setup_method(self):
         self.conn = Connection(**params)
         assert self.conn.alive
 
-    def teardown_method(self, test_method):
+    def teardown_method(self):
         self.conn.close()
         assert not self.conn.alive
 
@@ -112,5 +108,3 @@ class TestOptions:
 #            self.assertEqual(s, out['EV_EXPORT_XSTRING'])
 
 """
-if __name__ == "__main__":
-    unittest.main()

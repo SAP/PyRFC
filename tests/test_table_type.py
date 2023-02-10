@@ -6,7 +6,6 @@
 
 # -*- coding: utf-8 -*-
 
-import unittest
 from pyrfc import Connection
 
 from tests.config import PARAMS as params
@@ -17,11 +16,11 @@ class TestTT:
     This test cases cover table types of variable and structure types
     """
 
-    def setup_method(self, test_method):
+    def setup_method(self):
         self.conn = Connection(**params)
         assert self.conn.alive
 
-    def teardown_method(self, test_method):
+    def teardown_method(self):
         self.conn.close()
         assert not self.conn.alive
 
@@ -37,7 +36,3 @@ class TestTT:
         assert erl["ID"] == "IWO_BAPI"
         assert erl["NUMBER"] == "121"
         assert erl["MESSAGE_V1"] == "4711"
-
-
-if __name__ == "__main__":
-    unittest.main()

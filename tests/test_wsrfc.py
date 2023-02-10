@@ -6,15 +6,16 @@
 
 # -*- coding: utf-8 -*-
 
-import unittest
+import pytest
 from pyrfc import Connection, set_cryptolib_path, ExternalRuntimeError
 from tests.config import (
     CryptoLibPath,
-    ClientPSEPath,
+    # ClientPSEPath,
 )
 
 
 class TestWsrfc:
+    @pytest.mark.skip(reason="no automatic test")
     def test_load_cryptolib_success(self):
         assert set_cryptolib_path(CryptoLibPath) is None
 
@@ -36,16 +37,14 @@ class TestWsrfc:
             assert ex.key == "RFC_INVALID_PARAMETER"
             assert ex.message == "Unable to use TLS with client PSE missing"
 
+    @pytest.mark.skip(reason="no automatic test")
     def test_wsrfc_call_basic_auth(self):
         client = Connection(dest="WS_ALX")
         assert client.alive is True
         client.close()
 
+    @pytest.mark.skip(reason="no automatic test")
     def test_wsrfc_call_client_cert(self):
         client = Connection(dest="WS_ALX_CC")
         assert client.alive is True
         client.close()
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -11,10 +11,11 @@
 # Furthermore, the python script error_test.py in this directory provides more test cases.
 # Some of them are used as well.
 
+import pytest
 import unittest
 from pyrfc import Connection
 
-from tests.config import PARAMS as params, get_error
+from tests.config import PARAMS as params
 
 
 class TestMRFC:
@@ -22,15 +23,15 @@ class TestMRFC:
     This test cases cover selected functions from the MRFC function group.
     """
 
-    def setup_method(self, test_method):
+    def setup_method(self):
         self.conn = Connection(**params)
         assert self.conn.alive
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info["isoLanguage"] == u"EN"
+        assert connection_info["isoLanguage"] == "EN"
 
-    def teardown_method(self, test_method):
+    def teardown_method(self):
         self.conn.close()
         assert not self.conn.alive
 

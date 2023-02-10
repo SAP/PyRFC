@@ -4,13 +4,12 @@
 
 # -*- coding: utf-8 -*-
 
-import unittest
+import pytest
 from pyrfc import Connection, Throughput
 
 from tests.config import (
     PARAMS as params,
     CONFIG_SECTIONS as config_sections,
-    get_error,
     UNICODETEST,
 )
 
@@ -65,27 +64,27 @@ class TestThroughput:
 
     def test_create_with_invalid_connection(self):
         conn = Connection(**params)
-        try:
-            throughput = Throughput(1)
-        except Exception as ex:
-            assert isinstance(ex, TypeError) is True
-            assert ex.args == (
-                "Connection object required, received",
-                1,
-                "of type",
-                type(1),
-            )
+        with pytest.raises(Exception) as ex:
+            Throughput(1)
+        error = ex.value
+        assert isinstance(error, TypeError) is True
+        assert error.args == (
+            "Connection object required, received",
+            1,
+            "of type",
+            type(1),
+        )
 
-        try:
-            throughput = Throughput([conn, 1])
-        except Exception as ex:
-            assert isinstance(ex, TypeError) is True
-            assert ex.args == (
-                "Connection object required, received",
-                1,
-                "of type",
-                type(1),
-            )
+        with pytest.raises(Exception) as ex:
+            Throughput([conn, 1])
+        error = ex.value
+        assert isinstance(error, TypeError) is True
+        assert error.args == (
+            "Connection object required, received",
+            1,
+            "of type",
+            type(1),
+        )
         conn.close()
 
     def test_get_from_connection(self):
@@ -175,7 +174,3 @@ class TestThroughput:
 
         conn.close()
         assert not conn.alive
-
-
-if __name__ == "__main__":
-    unittest.main()

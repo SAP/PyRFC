@@ -10,7 +10,7 @@ import datetime
 import unittest
 import pyrfc
 
-from tests.config import PARAMS as params, get_error
+from tests.config import PARAMS as params
 
 
 class TestSTFC:
@@ -18,15 +18,15 @@ class TestSTFC:
     This test cases cover selected functions from the STFC function group.
     """
 
-    def setup_method(self, test_method):
+    def setup_method(self):
         self.conn = pyrfc.Connection(**params)
         assert self.conn.alive
 
     def test_info(self):
         connection_info = self.conn.get_connection_attributes()
-        assert connection_info["isoLanguage"] == u"EN"
+        assert connection_info["isoLanguage"] == "EN"
 
-    def teardown_method(self, test_method):
+    def teardown_method(self):
         self.conn.close()
         assert not self.conn.alive
 
@@ -115,15 +115,15 @@ class TestSTFC:
         RFCFLOAT=1.23456789,
         RFCINT2=0x7FFE,
         RFCINT1=0x7F,
-        RFCCHAR4=u"bcde",
+        RFCCHAR4="bcde",
         RFCINT4=0x7FFFFFFE,
         RFCHEX3="fgh".encode("utf-8"),
-        RFCCHAR1=u"a",
-        RFCCHAR2=u"ij",
+        RFCCHAR1="a",
+        RFCCHAR2="ij",
         RFCTIME="123456",  # datetime.time(12,34,56),
         RFCDATE="20161231",  # datetime.date(2011,10,17),
-        RFCDATA1=u"k" * 50,
-        RFCDATA2=u"l" * 50,
+        RFCDATA1="k" * 50,
+        RFCDATA2="l" * 50,
     )
     out = dict(
         RFCFLOAT=imp["RFCFLOAT"] + 1,
@@ -131,11 +131,11 @@ class TestSTFC:
         RFCINT1=imp["RFCINT1"] + 1,
         RFCINT4=imp["RFCINT4"] + 1,
         RFCHEX3=b"\xf1\xf2\xf3",
-        RFCCHAR1=u"X",
-        RFCCHAR2=u"YZ",
+        RFCCHAR1="X",
+        RFCCHAR2="YZ",
         RFCDATE=str(datetime.date.today()).replace("-", ""),
-        RFCDATA1=u"k" * 50,
-        RFCDATA2=u"l" * 50,
+        RFCDATA1="k" * 50,
+        RFCDATA2="l" * 50,
     )
 
     """

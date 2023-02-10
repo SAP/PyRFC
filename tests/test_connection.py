@@ -8,26 +8,23 @@
 
 import datetime
 import socket
-import unittest
+import pytest
 import pyrfc
-
-from decimal import Decimal
 
 from tests.config import (
     PARAMS as params,
     PARAMSDEST as paramsdest,
     CONFIG_SECTIONS as config_sections,
-    get_error,
     UNICODETEST,
 )
 
 
 class TestConnection:
-    def setup_method(self, test_method):
+    def setup_method(self):
         self.conn = pyrfc.Connection(**paramsdest)
         assert self.conn.alive
 
-    def teardown_method(self, test_method):
+    def teardown_method(self):
         self.conn.close()
         assert not self.conn.alive
 
@@ -77,7 +74,7 @@ class TestConnection:
         # Only valid for direct logon systems:
         # self.assertEqual(data['sysNumber'], str(params['sysnr']))
         assert data["user"] == str(params["user"].upper())
-        assert data["rfcRole"] == u"C"
+        assert data["rfcRole"] == "C"
 
     def test_connection_info_disconnected(self):
         self.conn.close()
@@ -98,20 +95,19 @@ class TestConnection:
         conn = pyrfc.Connection(config={"rstrip": False}, **config_sections["coevi51"])
         conn.close()
         assert conn.alive == False
-        hello = u"Hällo SAP!"
-        try:
-            result = conn.call("STFC_CONNECTION", REQUTEXT=hello)
-        except pyrfc.RFCError as ex:
-            print(ex.args)
-            assert (
-                ex.args[0]
-                == "Remote function module STFC_CONNECTION invocation rejected because the connection is closed"
-            )
+        hello = "Hällo SAP!"
+        with pytest.raises(pyrfc.RFCError) as ex:
+            conn.call("STFC_CONNECTION", REQUTEXT=hello)
+        error = ex.value
+        assert (
+            error.args[0]
+            == "Remote function module STFC_CONNECTION invocation rejected because the connection is closed"
+        )
 
     def test_config_parameter(self):
         # rstrip test
         conn = pyrfc.Connection(config={"rstrip": False}, **config_sections["coevi51"])
-        hello = u"Hällo SAP!" + u" " * 245
+        hello = "Hällo SAP!" + " " * 245
         result = conn.call("STFC_CONNECTION", REQUTEXT=hello)
         # Test with rstrip=False (input length=255 char)
         assert result["ECHOTEXT"] == hello
@@ -143,34 +139,33 @@ class TestConnection:
         assert self.conn.alive
         self.conn.ping()
         self.conn.close()
-        try:
+        with pytest.raises(pyrfc.ExternalRuntimeError) as ex:
             self.conn.ping()
-        except pyrfc.ExternalRuntimeError as ex:
-            error = get_error(ex)
-            assert error["code"] == 13
-            assert error["key"] == "RFC_INVALID_HANDLE"
-            assert (
-                error["message"][0] == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
-                or error["message"][0] == "An invalid handle was passed to the API call"
-            )
+        error = ex.value
+        assert error.code == 13
+        assert error.key == "RFC_INVALID_HANDLE"
+        assert (
+            error.message == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
+            or error.message == "An invalid handle was passed to the API call"
+        )
 
     def test_RFM_name_string(self):
         result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
         assert result["ECHOTEXT"] == UNICODETEST
 
     def test_RFM_name_unicode(self):
-        result = self.conn.call(u"STFC_CONNECTION", REQUTEXT=UNICODETEST)
+        result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
         assert result["ECHOTEXT"] == UNICODETEST
 
     def test_RFM_name_invalid_type(self):
-        try:
+        with pytest.raises(Exception) as ex:
             self.conn.call(123)
-        except Exception as ex:
-            assert ex.args == (
-                "Remote function module name must be unicode string, received:",
-                123,
-                int,
-            )
+        error = ex.value
+        assert error.args == (
+            "Remote function module name must be unicode string, received:",
+            123,
+            int,
+        )
 
     def test_STFC_returns_structure_and_table(self):
         IMPORTSTRUCT = {
@@ -220,15 +215,15 @@ class TestConnection:
             RFCFLOAT=1.23456789,
             RFCINT2=0x7FFE,
             RFCINT1=0x7F,
-            RFCCHAR4=u"bcde",
+            RFCCHAR4="bcde",
             RFCINT4=0x7FFFFFFE,
             RFCHEX3="fgh".encode("utf-8"),
-            RFCCHAR1=u"a",
-            RFCCHAR2=u"ij",
+            RFCCHAR1="a",
+            RFCCHAR2="ij",
             RFCTIME="123456",  # datetime.time(12,34,56),
             RFCDATE="20161231",  # datetime.date(2011,10,17),
-            RFCDATA1=u"k" * 50,
-            RFCDATA2=u"l" * 50,
+            RFCDATA1="k" * 50,
+            RFCDATA2="l" * 50,
         )
         out = dict(
             RFCFLOAT=imp["RFCFLOAT"] + 1,
@@ -236,11 +231,11 @@ class TestConnection:
             RFCINT1=imp["RFCINT1"] + 1,
             RFCINT4=imp["RFCINT4"] + 1,
             RFCHEX3=b"\xf1\xf2\xf3",
-            RFCCHAR1=u"X",
-            RFCCHAR2=u"YZ",
+            RFCCHAR1="X",
+            RFCCHAR2="YZ",
             RFCDATE=str(datetime.date.today()).replace("-", ""),
-            RFCDATA1=u"k" * 50,
-            RFCDATA2=u"l" * 50,
+            RFCDATA1="k" * 50,
+            RFCDATA2="l" * 50,
         )
         table = []
         xtable = []
@@ -288,5 +283,3 @@ class TestConnection:
 #            self.assertEqual(s, out['EV_EXPORT_XSTRING'])
 
 """
-if __name__ == "__main__":
-    unittest.main()

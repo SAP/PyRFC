@@ -6,10 +6,10 @@
 
 # -*- coding: utf-8 -*-
 
-import unittest
 import pyrfc
 
-from tests.config import PARAMS as params, PARAMSDEST as paramsdest, CONFIG_SECTIONS as config_sections, LANGUAGES
+from tests.config import LANGUAGES
+
 
 class TestRfcSDK:
     def test_version(self):
@@ -29,7 +29,3 @@ class TestRfcSDK:
 
             laiso = pyrfc.language_sap_to_iso(lang_sap)
             assert laiso == lang_iso
-
-
-if __name__ == "__main__":
-    unittest.main()
