@@ -2,6 +2,12 @@ import os
 from pyrfc import Server, set_ini_file_directory
 from threading import Thread
 
+SERVER = {
+    "ALX": [{"dest": "ALX_GATEWAY"}, {"dest": "ALX"}, {"port": 8081, "server_log": False}],
+    "QM7": [{"dest": "gatewayqm7"}, {"dest": "QM7"}, {"port": 8081, "server_log": False}],
+    "MME": [{"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False}]
+}
+
 # server functions
 
 
@@ -25,6 +31,14 @@ def my_stfc_structure(request_context=None, IMPORTSTRUCT={}, RFCTABLE=[]):
     print(f"RESPTEXT: {RESPTEXT}")
 
     return {"ECHOSTRUCT": ECHOSTRUCT, "RFCTABLE": RFCTABLE, "RESPTEXT": RESPTEXT}
+
+def my_stfc_write_to_tcpic(request_context=None, RESTART_QNAME="", TCPICDAT=[]):
+    print("my_stfc_write_to_tcpic")
+    print("request_context", request_context)
+    print(f"RFCTABLE: {RESTART_QNAME}")
+    print(f"TCPICDAT: {TCPICDAT}")
+
+    return {"TCPICDAT": TCPICDAT}
 
 
 # server authorisation check
@@ -50,45 +64,22 @@ def myCommitFunction(rfcHandle, unit_identifier):
     return 2
 
 
-def server1_serve():
-    # create server for ABAP system ABC
-    server = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False})
+def server_serve(sid="SID"):
+    server = Server(*SERVER[sid])
     print(server.get_server_attributes())
 
-    # expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called by ABAP system
     server.add_function("STFC_CONNECTION", my_stfc_connection)
-
-    server.bgrfc_init("NODEJS", {"check": myCheckFunction, "commit": myCommitFunction})
-
-    # start server
-    server.serve()
-
-
-def server2_serve():
-    # create server for ABAP system XYZ
-    server = Server({"dest": "gatewayqm7"}, {"dest": "QM7"}, {"port": 8081, "server_log": False})
-    print(server.get_server_attributes())
-
-    # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
-    server.add_function("STFC_STRUCTURE", my_stfc_structure)
+    server.add_function("STFC_WRITE_TO_TCPIC", my_stfc_write_to_tcpic)
 
     # start server
     server.serve()
 
 
-# start servers
+# start server
 
-server1_thread = Thread(target=server1_serve)
-server1_thread.start()
-print("Server1 started")
+server_thread = Thread(target=server_serve("ALX"))
+server_thread.start()
 
-# server2_thread = Thread(target=server2_serve)
-# server2_thread.start()
-# print("Server2 started")
+input("Press Enter to stop server...")
 
-input("Press Enter to stop server1...")
-
-server1_thread.join()
-
-# input("Press Enter to stop server2...")
-# server2_thread.join()
+server_thread.join()
