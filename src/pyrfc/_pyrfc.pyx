@@ -753,6 +753,8 @@ cdef class Connection:
         if not self.alive:
             self._open()
 
+        print("_create_and_submit", unit_id, queue_names, attributes)
+
         # uid
         uid = fillString(unit_id)
         # queue
@@ -760,7 +762,6 @@ cdef class Connection:
         if len(queue_names) == 0:
             queueNameCount = 0
             queueNames = NULL
-            #queueNames = <SAP_UC**> mallocU(queueNameCount * sizeof(SAP_UC*))
         else:
             queueNameCount = int(len(queue_names))
             queueNames = <SAP_UC**> mallocU(queueNameCount * sizeof(SAP_UC*))
@@ -848,9 +849,9 @@ cdef class Connection:
                     RfcDestroyFunction(funcCont, NULL)
             # TODO: segfault here. FIXME
             # execute
-            #_# print " Invocation finished. submitting unit."
-            #with nogil:
-            rc = RfcSubmitUnit(self._uHandle, &errorInfo)
+            print (" Invocation finished. submitting unit.")
+            with nogil:
+              rc = RfcSubmitUnit(self._uHandle, &errorInfo)
             if rc != RFC_OK:
                 self._error(&errorInfo)
 
