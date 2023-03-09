@@ -1,6 +1,8 @@
-import os
+import sys
 from pyrfc import Connection, Server, set_ini_file_directory
 from threading import Thread
+
+backend_dest = sys.argv[1]
 
 SERVER = {
     "ALX": [{"dest": "ALX_GATEWAY"}, {"dest": "ALX"}, {"port": 8081, "server_log": False}],
@@ -10,13 +12,13 @@ SERVER = {
 
 # client connection
 
-client = Connection(dest="MME")
+client = Connection(dest=backend_dest)
 
 # server functions
 
 
-def my_stfc_write_to_tcpic(request_context=None, RESTART_QNAME="", TCPICDAT=[]):
-    print("my_stfc_write_to_tcpic")
+def stfc_write_to_tcpic(request_context=None, RESTART_QNAME="", TCPICDAT=[]):
+    print("stfc_write_to_tcpic")
     # print("request_context", request_context)
     print(f"RESTART_QNAME: {RESTART_QNAME}")
     print(f"TCPICDAT: {TCPICDAT}")
@@ -37,34 +39,34 @@ def my_stfc_write_to_tcpic(request_context=None, RESTART_QNAME="", TCPICDAT=[]):
     return {"TCPICDAT": TCPICDAT}
 
 
-def my_auth_check(func_name=False, request_context={}):
+def on_auth_check(func_name=False, request_context={}):
     print(f"authorization check for '{func_name}'")
     print("request_context", request_context)
     return 0
 
 
-def myCheckFunction(rfcHandle, unit_identifier):
-    print("myCheck", rfcHandle, unit_identifier)
+def onCheckFunction(rfcHandle, unit_identifier):
+    print("onCheck", rfcHandle, unit_identifier)
     return 0
 
 
-def myCommitFunction(rfcHandle, unit_identifier):
-    print("myCommit", rfcHandle, unit_identifier)
+def onCommitFunction(rfcHandle, unit_identifier):
+    print("onCommit", rfcHandle, unit_identifier)
     return 0
 
 
-def myRollbackFunction(rfcHandle, unit_identifier):
-    print("myRollback", rfcHandle, unit_identifier)
+def onRollbackFunction(rfcHandle, unit_identifier):
+    print("onRollback", rfcHandle, unit_identifier)
     return 0
 
 
-def myConfirmFunction(rfcHandle, unit_identifier):
-    print("myConfirm", rfcHandle, unit_identifier)
+def onConfirmFunction(rfcHandle, unit_identifier):
+    print("onConfirm", rfcHandle, unit_identifier)
     return 0
 
 
-def myGetStateFunction(rfcHandle, unit_identifier):
-    print("myGetState", rfcHandle, unit_identifier)
+def onGetStateFunction(rfcHandle, unit_identifier):
+    print("onGetState", rfcHandle, unit_identifier)
     return 0
 
 
@@ -76,16 +78,16 @@ def server_serve(sid):
     server = Server(*SERVER[sid])
     print(server.get_server_attributes())
 
-    server.add_function("STFC_WRITE_TO_TCPIC", my_stfc_write_to_tcpic)
+    server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
 
     server.bgrfc_init(
         sid,
         {
-            "check": myCheckFunction,
-            "commit": myCommitFunction,
-            "rollback": myRollbackFunction,
-            "confirm": myConfirmFunction,
-            "getState": myGetStateFunction,
+            "check": onCheckFunction,
+            "commit": onCommitFunction,
+            "rollback": onRollbackFunction,
+            "confirm": onConfirmFunction,
+            "getState": onGetStateFunction,
         },
     )
 
