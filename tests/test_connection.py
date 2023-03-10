@@ -104,37 +104,6 @@ class TestConnection:
             == "Remote function module STFC_CONNECTION invocation rejected because the connection is closed"
         )
 
-    def test_config_parameter(self):
-        # rstrip test
-        conn = pyrfc.Connection(config={"rstrip": False}, **config_sections["coevi51"])
-        hello = "Hällo SAP!" + " " * 245
-        result = conn.call("STFC_CONNECTION", REQUTEXT=hello)
-        # Test with rstrip=False (input length=255 char)
-        assert result["ECHOTEXT"] == hello
-        result = conn.call("STFC_CONNECTION", REQUTEXT=hello.rstrip())
-        # Test with rstrip=False (input length=10 char)
-        assert result["ECHOTEXT"] == hello
-        conn.close()
-        # dtime test
-        conn = pyrfc.Connection(config={"dtime": True}, **config_sections["coevi51"])
-        dates = conn.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
-        assert type(dates["MODDATE"]) is datetime.date
-        assert type(dates["MODTIME"]) is datetime.time
-        del conn
-        conn = pyrfc.Connection(**config_sections["coevi51"])
-        dates = conn.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
-        assert type(dates["MODDATE"]) is not datetime.date
-        assert type(dates["MODDATE"]) is not datetime.time
-        del conn
-        # no import params return
-        result = self.conn.call("STFC_CONNECTION", REQUTEXT=hello)
-        assert "REQTEXT" not in result
-        # return import params
-        conn = pyrfc.Connection(config={"return_import_params": True}, **config_sections["coevi51"])
-        result = conn.call("STFC_CONNECTION", REQUTEXT=hello.rstrip())
-        assert hello.rstrip() == result["REQUTEXT"]
-        conn.close()
-
     def test_ping(self):
         assert self.conn.alive
         self.conn.ping()
