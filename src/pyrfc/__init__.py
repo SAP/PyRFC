@@ -27,7 +27,7 @@ from ._exception import (
     ExternalRuntimeError,
 )
 
-from .cyrfc import (
+from ._cyrfc import (
     get_nwrfclib_version,
     py_to_string,
     string_to_py,

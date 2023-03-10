@@ -1,14 +1,9 @@
 import sys
-from pyrfc import Connection, Server, set_ini_file_directory
+from backends import BACKEND
+from pyrfc import Connection, Server
 from threading import Thread
 
 backend_dest = sys.argv[1]
-
-SERVER = {
-    "ALX": [{"dest": "ALX_GATEWAY"}, {"dest": "ALX"}, {"port": 8081, "server_log": False}],
-    "QM7": [{"dest": "gatewayqm7"}, {"dest": "QM7"}, {"port": 8081, "server_log": False}],
-    "MME": [{"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False}],
-}
 
 # client connection
 
@@ -70,12 +65,8 @@ def onGetStateFunction(rfcHandle, unit_identifier):
     return 0
 
 
-# dir_path = os.path.dirname(os.path.realpath(__file__))
-# set_ini_file_directory(dir_path)
-
-
 def server_serve(sid):
-    server = Server(*SERVER[sid])
+    server = Server(*BACKEND[sid])
     print(server.get_server_attributes())
 
     server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
@@ -97,9 +88,9 @@ def server_serve(sid):
 
 # start server
 
-server_thread = Thread(target=server_serve("ALX"))
+server_thread = Thread(target=server_serve(backend_dest))
 server_thread.start()
 
-input("Press Enter to stop server...\n")
+input("Press Enter key to stop server...\n")
 
 server_thread.join()

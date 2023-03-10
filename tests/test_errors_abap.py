@@ -165,4 +165,3 @@ class TestErrorsABAP:
     #         error = ex.value
     #         assert error.code == 1
     #         assert error.key =="RFC_COMMUNICATION_FAILURE"
-

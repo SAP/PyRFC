@@ -8,7 +8,7 @@ import sys
 from codecs import open
 from setuptools import setup, find_packages, Extension
 
-MODULE_NAME = "cyrfc"
+MODULE_NAME = "_cyrfc"
 PYPIPACKAGE = "pyrfc"
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
@@ -180,9 +180,8 @@ else:
 # https://docs.python.org/2/distutils/apiref.html
 PYRFC_EXT = Extension(
     language="c++",
-    # https://stackoverflow.com/questions/8024805/cython-compiled-c-extension-importerror-dynamic-module-does-not-define-init-fu
     name=f"{PYPIPACKAGE}.{MODULE_NAME}",
-    sources=[f"src/{PYPIPACKAGE}/_{MODULE_NAME}.pyx"],
+    sources=[f"src/{PYPIPACKAGE}/{MODULE_NAME}.pyx"],
     define_macros=MACROS,
     extra_compile_args=COMPILE_ARGS,
     extra_link_args=LINK_ARGS,
