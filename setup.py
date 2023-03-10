@@ -8,7 +8,7 @@ import sys
 from codecs import open
 from setuptools import setup, find_packages, Extension
 
-MODULE_NAME = "pyrfc"
+MODULE_NAME = "_cyrfc"
 PYPIPACKAGE = "pyrfc"
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
@@ -16,7 +16,7 @@ with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
 with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
     LONG_DESCRIPTION = readme_file.read().strip()
 
-BUILD_CYTHON = sys.platform.startswith("linux") or bool(os.getenv("PYRFC_BUILD_CYTHON"))
+BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or not sys.platform.startswith("win")
 CMDCLASS = {}
 
 if BUILD_CYTHON:
@@ -33,7 +33,6 @@ if not SAPNWRFC_HOME:
     sys.exit(
         "Environment variable SAPNWRFC_HOME not set.\nPlease specify this variable with the root directory of the SAP NWRFC Library."
     )
-
 
 # https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
@@ -181,9 +180,8 @@ else:
 # https://docs.python.org/2/distutils/apiref.html
 PYRFC_EXT = Extension(
     language="c++",
-    # https://stackoverflow.com/questions/8024805/cython-compiled-c-extension-importerror-dynamic-module-does-not-define-init-fu
-    name=f"{MODULE_NAME}.{MODULE_NAME}",
-    sources=[f"src/{MODULE_NAME}/_{MODULE_NAME}.pyx"],
+    name=f"{PYPIPACKAGE}.{MODULE_NAME}",
+    sources=[f"src/{PYPIPACKAGE}/{MODULE_NAME}.pyx"],
     define_macros=MACROS,
     extra_compile_args=COMPILE_ARGS,
     extra_link_args=LINK_ARGS,

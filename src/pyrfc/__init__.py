@@ -5,7 +5,7 @@
 # import from internal modules that they could be directly imported from
 # the pyrfc package
 
-# Set DLL path, due to https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
+# Set DLL path, per https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
 
 import os
 
@@ -27,7 +27,7 @@ from ._exception import (
     ExternalRuntimeError,
 )
 
-from .pyrfc import (
+from ._cyrfc import (
     get_nwrfclib_version,
     py_to_string,
     string_to_py,
