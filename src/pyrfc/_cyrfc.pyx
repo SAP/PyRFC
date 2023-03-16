@@ -11,12 +11,10 @@ from datetime import date, time, datetime
 from locale import localeconv
 from os.path import isfile, join
 from threading import Thread
-import pickle
 from decimal import Decimal
+import pickle
 from libc.stdlib cimport malloc, free
 from libc.stdint cimport uintptr_t
-# https://stackoverflow.com/questions/32371919/pointers-and-storing-unsafe-c-derivative-of-temporary-python-reference
-#from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
 from cpython cimport array
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from . csapnwrfc cimport *
@@ -55,6 +53,8 @@ _type2rfc = {
 _MASK_DTIME = 0x01
 _MASK_RETURN_IMPORT_PARAMS = 0x02
 _MASK_RSTRIP = 0x04
+
+_LOCALE_RADIX = localeconv()['decimal_point']
 
 # NOTES ON ERROR HANDLING
 # If an error occurs within a connection object, the error may - depending
@@ -172,6 +172,20 @@ def set_cryptolib_path(path_name):
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
 
+def set_locale_radix(value=None):
+    """Sets the locale radix for decimal conversions.
+
+    :param value: Locale radix like '.' or ','
+    :type path_name: string
+
+    :return: New radix set
+    """
+    global _LOCALE_RADIX
+    if value is None:
+        value = localeconv()['decimal_point']
+    _LOCALE_RADIX = value
+    return _LOCALE_RADIX
+
 ################################################################################
 # CONNECTION PARAMETERS
 ################################################################################
@@ -250,35 +264,35 @@ cdef class Connection:
     cdef RFC_UNIT_HANDLE _uHandle
     cdef ConnectionParameters _connection
 
-    property version:
-        def __get__(self):
-            """Get SAP NW RFC SDK and PyRFC binding versions
-            :returns: SAP NW RFC SDK major, minor, patch level and PyRFC binding version
-            """
-            cdef unsigned major = 0
-            cdef unsigned minor = 0
-            cdef unsigned patchlevel = 0
-            RfcGetVersion(&major, &minor, &patchlevel)
-            return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': platform}
+    @property
+    def version(self):
+        """Get SAP NW RFC SDK and PyRFC binding versions
+        :returns: SAP NW RFC SDK major, minor, patch level and PyRFC binding version
+        """
+        cdef unsigned major = 0
+        cdef unsigned minor = 0
+        cdef unsigned patchlevel = 0
+        RfcGetVersion(&major, &minor, &patchlevel)
+        return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': platform}
 
-    property options:
-        def __get__(self):
-            return self.__config
+    @property
+    def options(self):
+        return self.__config
 
-    property handle:
-        def __get__(self):
-            """Get client connection handle
-            :returns: Client connection handle
-            """
-            return <uintptr_t>self._handle
+    @property
+    def handle(self):
+        """Get client connection handle
+        :returns: Client connection handle
+        """
+        return <uintptr_t>self._handle
 
-    property alive:
-        def __get__(self):
-            """Get conection alive property
-            :returns: True when alive
-            :type alive: boolean
-            """
-            return self._handle != NULL
+    @property
+    def alive(self):
+        """Get conection alive property
+        :returns: True when alive
+        :type alive: boolean
+        """
+        return self._handle != NULL
 
     def __init__(self, config={}, **params):
         # set connection config, rstrip default True
@@ -1311,20 +1325,20 @@ cdef class ServerConnection:
     def __bool__(self):
         return self.alive
 
-    property handle:
-        def __get__(self):
-            """Get server connection handle
-            :returns: Server connection handle
-            """
-            return <uintptr_t>self._handle
+    @property
+    def handle(self):
+        """Get server connection handle
+        :returns: Server connection handle
+        """
+        return <uintptr_t>self._handle
 
-    property alive:
-        def __get__(self):
-            """Get conection alive property
-            :returns: True when alive
-            :type alive: boolean
-            """
-            return self._handle != NULL
+    @property
+    def alive(self):
+        """Get conection alive property
+        :returns: True when alive
+        :type alive: boolean
+        """
+        return self._handle != NULL
 
     def __del__(self):
         self._close()
@@ -1874,7 +1888,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
     cdef RFC_TABLE_HANDLE table
     cdef SAP_UC* cValue
     cdef SAP_RAW* bValue
-    #print ("fill", wrapString(cName), value)
+    # print ("fill", wrapString(cName), value, type(value))
     try:
         if typ == RFCTYPE_STRUCTURE:
             if type(value) is not dict:
@@ -2078,9 +2092,10 @@ cdef SAP_UC* fillString(pyuc) except NULL:
     cdef SAP_UC* sapuc = mallocU(sapuc_size)
     sapuc[0] = 0
     cdef unsigned result_len = 0
-    rc = RfcUTF8ToSAPUC(ucbytes, ucbytes_len, sapuc, &sapuc_size, &result_len, &errorInfo)
-    if rc != RFC_OK:
-        raise wrapError(&errorInfo)
+    if ucbytes_len > 0:
+        rc = RfcUTF8ToSAPUC(ucbytes, ucbytes_len, sapuc, &sapuc_size, &result_len, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
     return sapuc
 
 ################################################################################
@@ -2399,10 +2414,10 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         finally:
             free(stringValue)
     elif typ == RFCTYPE_FLOAT:
-        rc = RfcGetFloat(container, cName, &floatValue, &errorInfo)
-        if rc != RFC_OK:
-            raise wrapError(&errorInfo)
-        return floatValue
+       rc = RfcGetFloat(container, cName, &floatValue, &errorInfo)
+       if rc != RFC_OK:
+           raise wrapError(&errorInfo)
+       return floatValue
     elif typ == RFCTYPE_INT:
         rc = RfcGetInt(container, cName, &intValue, &errorInfo)
         if rc != RFC_OK:
@@ -2501,13 +2516,13 @@ cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=False):
     utf8[result_len] = 0
     try:
         if rstrip:
-            return utf8[:result_len].rstrip().decode('utf-8')
+            return utf8[:result_len].rstrip().decode()
         else:
-            return utf8[:result_len].decode('utf-8')
+            return utf8[:result_len].decode()
     finally:
         free(utf8)
 
-cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
+cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=True):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     if uclen == -1:
@@ -2525,9 +2540,9 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=False):
     utf8[result_len] = 0
     try:
         if rstrip:
-            return utf8[:result_len].rstrip().decode('UTF-8')
+            return utf8[:result_len].rstrip().decode()
         else:
-            return utf8[:result_len].decode('UTF-8')
+            return utf8[:result_len].decode()
     finally:
         free(utf8)
 
@@ -2557,13 +2572,13 @@ cdef class Throughput:
                 raise TypeError('Connection object required, received', conn, 'of type', type(conn))
             self.setOnConnection(conn)
 
-    property connections:
-        def __get__(self):
-            return self._connections
+    @property
+    def connections(self):
+        return self._connections
 
-    property _handle:
-        def __get__(self):
-            return <uintptr_t>self._throughput_handle
+    @property
+    def _handle(self):
+        return <uintptr_t>self._throughput_handle
 
     def setOnConnection(self, Connection connection):
         cdef RFC_ERROR_INFO errorInfo
@@ -2614,56 +2629,56 @@ cdef class Throughput:
     def __enter__(self):
         return self
 
-    property stats:
-        def __get__(self):
-            cdef RFC_ERROR_INFO errorInfo
-            cdef RFC_RC rc
-            cdef SAP_ULLONG numberOfCalls
-            cdef SAP_ULLONG sentBytes
-            cdef SAP_ULLONG receivedBytes
-            cdef SAP_ULLONG applicationTime
-            cdef SAP_ULLONG totalTime
-            cdef SAP_ULLONG serializationTime
-            cdef SAP_ULLONG deserializationTime
+    @property
+    def stats(self):
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC rc
+        cdef SAP_ULLONG numberOfCalls
+        cdef SAP_ULLONG sentBytes
+        cdef SAP_ULLONG receivedBytes
+        cdef SAP_ULLONG applicationTime
+        cdef SAP_ULLONG totalTime
+        cdef SAP_ULLONG serializationTime
+        cdef SAP_ULLONG deserializationTime
 
-            _stats = {}
+        _stats = {}
 
-            if self._throughput_handle == NULL:
-                raise RFCError('No connections assigned')
+        if self._throughput_handle == NULL:
+            raise RFCError('No connections assigned')
 
-            rc = RfcGetNumberOfCalls (self._throughput_handle, &numberOfCalls, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            _stats['numberOfCalls'] = numberOfCalls
+        rc = RfcGetNumberOfCalls (self._throughput_handle, &numberOfCalls, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        _stats['numberOfCalls'] = numberOfCalls
 
-            rc = RfcGetSentBytes (self._throughput_handle, &sentBytes, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            _stats['sentBytes'] = sentBytes
+        rc = RfcGetSentBytes (self._throughput_handle, &sentBytes, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        _stats['sentBytes'] = sentBytes
 
-            rc = RfcGetReceivedBytes (self._throughput_handle, &receivedBytes, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            _stats['receivedBytes'] = receivedBytes
+        rc = RfcGetReceivedBytes (self._throughput_handle, &receivedBytes, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        _stats['receivedBytes'] = receivedBytes
 
-            rc = RfcGetApplicationTime (self._throughput_handle, &applicationTime, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            _stats['applicationTime'] = applicationTime
+        rc = RfcGetApplicationTime (self._throughput_handle, &applicationTime, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        _stats['applicationTime'] = applicationTime
 
-            rc = RfcGetTotalTime (self._throughput_handle, &totalTime, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            _stats['totalTime'] = totalTime
+        rc = RfcGetTotalTime (self._throughput_handle, &totalTime, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        _stats['totalTime'] = totalTime
 
-            rc = RfcGetSerializationTime (self._throughput_handle, &serializationTime, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            _stats['serializationTime'] = serializationTime
+        rc = RfcGetSerializationTime (self._throughput_handle, &serializationTime, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        _stats['serializationTime'] = serializationTime
 
-            rc = RfcGetDeserializationTime (self._throughput_handle, &deserializationTime, &errorInfo)
-            if rc != RFC_OK:
-                raise wrapError(&errorInfo)
-            _stats['deserializationTime'] = deserializationTime
+        rc = RfcGetDeserializationTime (self._throughput_handle, &deserializationTime, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        _stats['deserializationTime'] = deserializationTime
 
-            return _stats
+        return _stats

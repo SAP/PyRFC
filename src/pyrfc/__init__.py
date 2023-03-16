@@ -34,6 +34,7 @@ from ._cyrfc import (
     reload_ini_file,
     set_ini_file_directory,
     set_cryptolib_path,
+    set_locale_radix,
     language_iso_to_sap,
     language_sap_to_iso,
     Connection,

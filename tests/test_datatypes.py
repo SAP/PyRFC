@@ -7,9 +7,10 @@
 
 import pytest
 from decimal import Decimal
-import locale
+from locale import setlocale, localeconv, LC_ALL
 
 from pyrfc import Connection, ExternalRuntimeError
+import pyrfc
 
 from tests.config import (
     CONNECTION_INFO,
@@ -25,10 +26,12 @@ from tests.config import (
 
 from tests.abap_system import connection_info
 
-locale.setlocale(locale.LC_ALL)
+setlocale(LC_ALL)
 
 client = Connection(**CONNECTION_INFO)
 
+def get_locale_radix():
+    return localeconv()['decimal_point']
 
 def test_structure_rejects_non_dict():
     with pytest.raises(TypeError) as ex:
@@ -266,7 +269,6 @@ def test_bcd_floats_accept_strings():
     assert IS_INPUT["ZQUAN_SIGN"] == str(output["ZQUAN_SIGN"])
 
 
-# @pytest.mark.skip(reason="no automatic test")
 def test_bcd_floats_accept_strings_radix_comma():
     # locale.setlocale(locale.LC_ALL, "de_DE")
     IS_INPUT = {
@@ -582,7 +584,8 @@ def test_float_accepts_point_for_point_locale():
 
 
 def test_float_rejects_point_for_comma_locale():
-    locale.setlocale(locale.LC_ALL, "de_DE")
+    setlocale(LC_ALL, "de_DE")
+    pyrfc.set_locale_radix(get_locale_radix())
     IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
     with pytest.raises(ExternalRuntimeError) as ex:
         client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
@@ -592,15 +595,16 @@ def test_float_rejects_point_for_comma_locale():
     assert (
         error.message == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
     )
-    locale.setlocale(locale.LC_ALL, "")
+    setlocale(LC_ALL, "")
 
 
 def test_float_accepts_comma_for_comma_locale():
-    locale.setlocale(locale.LC_ALL, "de_DE")
+    setlocale(LC_ALL, "de_DE")
+    pyrfc.set_locale_radix(get_locale_radix())
     IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
     output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
     assert output["RFCFLOAT"] == 1.2
-    locale.setlocale(locale.LC_ALL, "")
+    setlocale(LC_ALL, "")
 
 
 def test_bcd_rejects_not_a_number_string():

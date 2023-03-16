@@ -37,3 +37,4 @@ setuptools*.egg
 
 material
 ci/test
+ci/issues

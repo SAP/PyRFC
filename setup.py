@@ -16,7 +16,7 @@ with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
 with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
     LONG_DESCRIPTION = readme_file.read().strip()
 
-BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or not sys.platform.startswith("win")
+BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or sys.platform.startswith("linux")
 CMDCLASS = {}
 
 if BUILD_CYTHON:
