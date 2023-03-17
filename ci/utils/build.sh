@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-python_versions="3.7.16 3.8.16 3.9.16 3.10.9 3.11.1"
+python_versions="3.7.16 3.8.16 3.9.16 3.10.9 3.11.2"
 
 rm -rf build
 
@@ -17,5 +17,3 @@ do
     #[[ $1 != skip ]] && pytest -vv
 done
 [[ $1 == sdist ]] && python setup.py sdist
-
-
