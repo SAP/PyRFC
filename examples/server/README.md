@@ -9,7 +9,7 @@ Configure RFC destination using SM59 transaction:
 - TCP/IP Connection `NWRFC_SERVER_OS`
 - Special Options > Select Protocol: basXML serializer
 
-![ProtocolL basXML Serializer](doc/Protocol-basXML-serializer.png)
+![Protocol basXML Serializer](doc/sm59-serializer.png)
 
 ### MME
 

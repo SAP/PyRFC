@@ -1,5 +1,5 @@
 import sys
-from pyrfc import Connection, RFCError
+from pyrfc import Connection
 
 c = Connection(dest=sys.argv[1])
 
@@ -7,13 +7,6 @@ unit = c.initialize_unit()
 
 name = "BGRFC_TEST_OUTIN"
 counter = "00001"
-
-print("unit:", unit)
-try:
-    print(c.get_unit_state(unit))
-except RFCError as ex:
-    print(ex)
-
 
 c.fill_and_submit_unit(
     unit,
