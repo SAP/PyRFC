@@ -110,4 +110,3 @@ class TestErrors:
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"
         assert error.message == "field 'XRFCCHAR1' not found"
-

@@ -33,5 +33,3 @@ License: Apache-2.0
 Files: ci/* *.md *.json .gitignore .editorconfig .prettierignore CHANGES pytest.ini sapnwrfc.ini sapnwrfc.cfg MANIFEST.in VERSION
 Copyright: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 License: Apache-2.0
-
-

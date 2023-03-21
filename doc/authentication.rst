@@ -149,6 +149,3 @@ The same connection parameters as in a previous example, with X509 certificate a
    c = get_connection(ABAP_SYSTEM)
 
 See `SAP Help <http://help.sap.com/saphelp_nw04s/helpdata/en/b1/07dd3aeedb7445e10000000a114084/frameset.htm>`_ for more information.
-
-
-

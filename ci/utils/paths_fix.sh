@@ -47,4 +47,3 @@ for filename in *; do
 done
 install_name_tool -change @loader_path/libsapucum.dylib @rpath/libsapucum.dylib ./startrfc
 cd ..
-

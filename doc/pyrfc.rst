@@ -137,4 +137,3 @@ ABAP message            RFC_ABAP_MESSAGE [4]            ABAP_RUNTIME_FAILURE    
 communication failure   RFC_COMMUNICATION_FAILURE [1]   COMMUNICATION_FAILURE       CommunicationError
 \                       RFC_LOGON_FAILURE [2]           LOGON_FAILURE               LogonError
 ======================= =============================== =========================== ====================
-

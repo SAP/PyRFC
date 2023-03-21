@@ -243,4 +243,3 @@ a persistent change of the environment variable, do the following (Windows 7):
    and the system variables in the lower part. You may select and edit
    the desired variable.
 3. The modified variables are used when a *new* command prompt is opened.
-
