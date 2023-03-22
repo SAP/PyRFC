@@ -109,6 +109,12 @@ cdef extern from "sapnwrfc.h":
         SAP_UC unitType
         RFC_UNITID unitID
 
+    ctypedef enum RFC_CALL_TYPE:
+        RFC_SYNCHRONOUS,         # It's a standard synchronous RFC call.
+        RFC_TRANSACTIONAL,
+        RFC_QUEUED,
+        RFC_BACKGROUND_UNIT
+
     ctypedef void *RFC_FUNCTION_DESC_HANDLE
     ctypedef void *RFC_FUNCTION_HANDLE
     ctypedef void *RFC_TYPE_DESC_HANDLE
@@ -246,10 +252,19 @@ cdef extern from "sapnwrfc.h":
         RFC_UNIT_ROLLED_BACK
         RFC_UNIT_CONFIRMED
 
+    ctypedef struct RFC_SERVER_CONTEXT:
+        RFC_CALL_TYPE type                   # Specifies the type of function call. Depending on the value of this field, some of the other fields of this struct may be filled.
+        RFC_TID tid                          # If type is RFC_TRANSACTIONAL or RFC_QUEUED, this field is filled with the 24 digit TID of the tRFC/qRFC unit.
+        RFC_UNIT_IDENTIFIER* unitIdentifier  # If type is RFC_BACKGROUND_UNIT, this pointer is set to the unit identifier of the LUW. Note: the pointer is valid only during the execution context of your server function.
+        RFC_UNIT_ATTRIBUTES* unitAttributes  # If type is RFC_BACKGROUND_UNIT, this pointer is set to the unit attributes of the LUW. Note: the pointer is valid only during the execution context of your server function.
+        unsigned isStateful                  # Specifies whether the current server connection is processing stateful RFC requests (assigned permanently to one fixed ABAP user session).
+        SAP_UC sessionID[33]                 # Contains a unique zero-terminated session ID, identifying the ABAP or external user session. Can be used in stateful servers to store session context in a hashmap.
+
     RFC_RC RfcIsConnectionHandleValid(RFC_CONNECTION_HANDLE rfcHandle, RFC_INT *isValid, RFC_ERROR_INFO *errorInfo) nogil
     RFC_CONNECTION_HANDLE RfcOpenConnection(RFC_CONNECTION_PARAMETER *connectionParams, unsigned paramCount, RFC_ERROR_INFO *errorInfo) nogil
     RFC_RC RfcCloseConnection(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil
     RFC_RC RfcCancel(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcGetServerContext(RFC_CONNECTION_HANDLE rfcHandle, RFC_SERVER_CONTEXT *context, RFC_ERROR_INFO *errorInfo)	nogil
     RFC_RC RfcResetServerContext(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcPing(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO *errorInfo) nogil
     RFC_RC RfcListenAndDispatch (RFC_CONNECTION_HANDLE rfcHandle, int timeout, RFC_ERROR_INFO *errorInfo)

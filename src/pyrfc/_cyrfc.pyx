@@ -186,6 +186,18 @@ def set_locale_radix(value=None):
     _LOCALE_RADIX = value
     return _LOCALE_RADIX
 
+cdef get_server_context(RFC_SERVER_CONTEXT ctx):
+    call_type = ['s', 't', 'q', 'b'][ctx.type]
+    context = {
+        "call_type": call_type,
+        "is_stateful": ctx.isStateful != 0
+    }
+    if call_type != 's':
+       context["unit_identifier"] = wrapUnitIdentifier(ctx.unitIdentifier[0])
+    if call_type == 'b':
+        context ["unit_attributes"] = wrapUnitAttributes(ctx.unitAttributes)
+    return context
+
 ################################################################################
 # CONNECTION PARAMETERS
 ################################################################################
@@ -1362,7 +1374,23 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     cdef RFC_ATTRIBUTES attributes
     cdef RFC_FUNCTION_DESC_HANDLE funcDesc
     cdef RFC_ABAP_NAME funcName
+    cdef RFC_SERVER_CONTEXT context
+
     global server_functions
+
+    # bgRFC steps, as section 5.6.2 Function Module Implementation of SAP NWRFC SDK Programming Guide 7.50
+    rc = RfcGetServerContext(rfcHandle, &context, &errorInfo);
+    if rc != RFC_OK or errorInfo.code != RFC_OK:
+        err_msg = f"Error code {rc} when getting server context for connection '{<unsigned long>rfcHandle}'"
+        _server_log("genericHandler", err_msg)
+        new_error = ExternalRuntimeError(
+            message=err_msg,
+            code=RFC_EXTERNAL_FAILURE
+        )
+        fillError(new_error, serverErrorInfo)
+        return RFC_EXTERNAL_FAILURE;
+
+    _server_log("genericHandler", f"server context {get_server_context(context)}")
 
     funcDesc = RfcDescribeFunction(funcHandle, NULL)
     RfcGetFunctionName(funcDesc, funcName, NULL)
@@ -1541,40 +1569,35 @@ cdef class Server:
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         name = BgRfcHandlerFunction[0]
         if name in Server.__bgRfcFunction:
-            #unit_identifier = wrapUnitIdentifier(identifier[0])
-            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            unit_identifier = wrapUnitIdentifier(identifier[0])
             return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
 
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         name = BgRfcHandlerFunction[1]
         if name in Server.__bgRfcFunction:
-            #unit_identifier = wrapUnitIdentifier(identifier[0])
-            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            unit_identifier = wrapUnitIdentifier(identifier[0])
             return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
 
     @staticmethod
     cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         name = BgRfcHandlerFunction[2]
         if name in Server.__bgRfcFunction:
-            #unit_identifier = wrapUnitIdentifier(identifier[0])
-            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            unit_identifier = wrapUnitIdentifier(identifier[0])
             return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
 
     @staticmethod
     cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         name = BgRfcHandlerFunction[3]
         if name in Server.__bgRfcFunction:
-            #unit_identifier = wrapUnitIdentifier(identifier[0])
-            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            unit_identifier = wrapUnitIdentifier(identifier[0])
             return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
 
     @staticmethod
     cdef RFC_RC __onGetStateFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *unitState) with gil:
         name = BgRfcHandlerFunction[4]
         if name in Server.__bgRfcFunction:
-            #unit_identifier = wrapUnitIdentifier(identifier[0])
-            unit_identifier = {'queued': True, 'id': '01234567890123456789012345678901'}
+            unit_identifier = wrapUnitIdentifier(identifier[0])
             return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier, RfcUnitStateText[unitState[0]])
 
     def bgrfc_init(self, sysId, bgRfcFunction):
@@ -2247,6 +2270,22 @@ cdef wrapUnitIdentifier(RFC_UNIT_IDENTIFIER uIdentifier):
         'queued': "Q" == wrapString(&uIdentifier.unitType, 1),
         'id': wrapString(uIdentifier.unitID)
     }
+
+cdef wrapUnitAttributes(RFC_UNIT_ATTRIBUTES *uattr):
+    unit_attributes = {}
+    unit_attributes['kernel_trace'] = uattr.kernelTrace != 0
+    unit_attributes['sat_trace'] = uattr.satTrace != 0
+    unit_attributes['unit_history'] = uattr.unitHistory != 0
+    unit_attributes['lock'] = uattr.lock != 0
+    unit_attributes['no_commit_check'] = uattr.noCommitCheck != 0
+    unit_attributes['user'] = wrapString(uattr.user, 12, True)
+    unit_attributes['client'] = wrapString(uattr.client, 3, True)
+    unit_attributes['t_code'] = wrapString(uattr.tCode, 20, True)
+    unit_attributes['program'] = wrapString(uattr.program, 40, True)
+    unit_attributes['hostname'] = wrapString(uattr.hostname, 40, True)
+    unit_attributes['sending_date'] = wrapString(uattr.sendingDate, 8, True)
+    unit_attributes['sending_time'] = wrapString(uattr.sendingTime, 6, True)
+    return unit_attributes
 
 cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, config):
     cdef RFC_RC rc

@@ -65,12 +65,21 @@ python examples/server/bgrfc.py
 
 ### ALX
 
-Run test report `RSBGRFC_T200` with parameters:
+1. Start Python server
+
+2. Run test report `z_nwrfc_server_bgrfc` with parameters:
 
 - QNAME_O: BASIS_BGRFC_OUTIN
 - QNAME_IN: NCO_CONN_JUNIT_QUEUE_BC
 - RFCDEST: NWRFC_SERVER_OS
+- LOCK_OUT: X
 - LOCK_IN: X
+
+3. Run transaction `SBGRFCMON`, select outbound queues for destination NWRFC_SERVER_OS
+
+4. Delete queue lock to submit the queue to Python
+
+
 
 ### MME
 

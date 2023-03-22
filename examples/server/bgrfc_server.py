@@ -65,32 +65,30 @@ def onGetStateFunction(rfcHandle, unit_identifier):
     return 0
 
 
-def server_serve(sid):
-    server = Server(*BACKEND[sid])
-    print(server.get_server_attributes())
+# create server
+server = Server(*BACKEND[backend_dest])
 
-    server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
+print(server.get_server_attributes())
 
-    server.bgrfc_init(
-        sid,
-        {
-            "check": onCheckFunction,
-            "commit": onCommitFunction,
-            "rollback": onRollbackFunction,
-            "confirm": onConfirmFunction,
-            "getState": onGetStateFunction,
-        },
-    )
+# expose python function stfc_write_to_tcpic as ABAP function STFC_WRITE_TO_TCPIC, to be called by ABAP system
+server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
 
-    # start server
-    server.serve()
-
+# register bgRFC handlers
+server.bgrfc_init(
+    backend_dest,
+    {
+        "check": onCheckFunction,
+        "commit": onCommitFunction,
+        "rollback": onRollbackFunction,
+        "confirm": onConfirmFunction,
+        "getState": onGetStateFunction,
+    },
+)
 
 # start server
-
-server_thread = Thread(target=server_serve(backend_dest))
-server_thread.start()
+server.start()
 
 input("Press Enter key to stop server...\n")
 
-server_thread.join()
+# stop server
+server.stop()

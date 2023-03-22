@@ -31,7 +31,8 @@ if BUILD_CYTHON:
 SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
 if not SAPNWRFC_HOME:
     sys.exit(
-        "Environment variable SAPNWRFC_HOME not set.\nPlease specify this variable with the root directory of the SAP NWRFC Library."
+        "Environment variable SAPNWRFC_HOME not set.\n"
+        "Please specify this variable with the root directory of the SAP NWRFC Library."
     )
 
 # https://launchpad.support.sap.com/#/notes/2573953
@@ -204,6 +205,8 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Cython",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -222,7 +225,7 @@ setup(
     zip_safe=False,
     install_requires=["setuptools"],
     setup_requires=["setuptools-git", "cython; platform_system != 'Windows'"],
-    cmdclass=CMDCLASS,
-    ext_modules=cythonize(PYRFC_EXT, annotate=True) if BUILD_CYTHON else [PYRFC_EXT],
+    cmdclass=CMDCLASS,  # type: ignore
+    ext_modules=cythonize(PYRFC_EXT, annotate=True) if BUILD_CYTHON else [PYRFC_EXT],  # type: ignore
     test_suite=MODULE_NAME,
 )
