@@ -1,6 +1,5 @@
 import sys
 from pyrfc import Server, ExternalRuntimeError, ABAPRuntimeError, ABAPApplicationError
-from threading import Thread
 from backends import BACKEND
 
 backend_dest = sys.argv[1]
@@ -26,22 +25,17 @@ def my_stfc_connection(request_context=None, REQUTEXT=""):
 
     return {"ECHOTEXT": REQUTEXT, "RESPTEXT": "Python server here"}
 
-def server_serve(sid):
-    server = Server(*BACKEND[sid])
-    print(server.get_server_attributes())
+# create server
+server = Server(*BACKEND[backend_dest])
 
-    # expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called by ABAP system
-    server.add_function("STFC_CONNECTION", my_stfc_connection)
-
-    # start server
-    server.serve()
+# expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called by ABAP system
+server.add_function("STFC_CONNECTION", my_stfc_connection)
 
 # start server
-
-server_thread = Thread(target=server_serve(backend_dest))
-server_thread.start()
-print("Server started")
+server.start()
 
 input("Press Enter to stop server...")
 
-server_thread.join()
+# stop server
+server.stop()
+print("Server stoped")

@@ -42,6 +42,9 @@ from ._cyrfc import (
     TypeDescription,
     FunctionDescription,
     Server,
+    get_server_context,
+    TIDStatus,
+    StatusRC,
     ConnectionParameters,
 )
 

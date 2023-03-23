@@ -12,6 +12,7 @@ from locale import localeconv
 from os.path import isfile, join
 from threading import Thread
 from decimal import Decimal
+from enum import Enum
 import pickle
 from libc.stdlib cimport malloc, free
 from libc.stdint cimport uintptr_t
@@ -55,6 +56,19 @@ _MASK_RETURN_IMPORT_PARAMS = 0x02
 _MASK_RSTRIP = 0x04
 
 _LOCALE_RADIX = localeconv()['decimal_point']
+
+class TIDStatus(Enum):
+    Created = 11,
+    Executed = 12,
+    Committed = 13,
+    RolledBack = 14,
+    Confirmed = 15
+
+class StatusRC(Enum):
+    OK = 0,
+    NotFound = 1,
+    Error = 2
+
 
 # NOTES ON ERROR HANDLING
 # If an error occurs within a connection object, the error may - depending
@@ -130,6 +144,16 @@ def reload_ini_file():
         raise wrapError(&errorInfo)
 
 def language_iso_to_sap(lang_iso):
+    """Language code conversion of ISO code to SAP code.
+
+    :param lang_iso: Language ISO code
+    :type lang_iso: string
+
+    :return: SAP language code of char 1 type
+
+    :raises: :exc:`~pyrfc.RFCError` or a subclass
+                if ISO to SAP code conversion fails.
+    """
     cdef SAP_UC *uclang_iso = fillString(lang_iso)
     cdef SAP_UC uclang_sap[8]
     cdef RFC_ERROR_INFO errorInfo
@@ -137,9 +161,19 @@ def language_iso_to_sap(lang_iso):
     free(uclang_iso)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
-    return wrapString(uclang_sap,1)
+    return wrapString(uclang_sap, 1)
 
 def language_sap_to_iso(lang_sap):
+    """Language code conversion of SAP code to ISO code.
+
+    :param lang_sap: Language SAP code
+    :type lang_sap: string
+
+    :return: ISO language code
+
+    :raises: :exc:`~pyrfc.RFCError` or a subclass
+                if SAP to ISO code conversion fails.
+    """
     cdef SAP_UC *uclang_sap = fillString(lang_sap)
     cdef SAP_UC uclang_iso[16]
     cdef RFC_ERROR_INFO errorInfo
@@ -147,7 +181,7 @@ def language_sap_to_iso(lang_sap):
     free(uclang_sap)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
-    return wrapString(uclang_iso,2)
+    return wrapString(uclang_iso, 2)
 
 def set_cryptolib_path(path_name):
     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
@@ -185,18 +219,6 @@ def set_locale_radix(value=None):
         value = localeconv()['decimal_point']
     _LOCALE_RADIX = value
     return _LOCALE_RADIX
-
-cdef get_server_context(RFC_SERVER_CONTEXT ctx):
-    call_type = ['s', 't', 'q', 'b'][ctx.type]
-    context = {
-        "call_type": call_type,
-        "is_stateful": ctx.isStateful != 0
-    }
-    if call_type != 's':
-       context["unit_identifier"] = wrapUnitIdentifier(ctx.unitIdentifier[0])
-    if call_type == 'b':
-        context ["unit_attributes"] = wrapUnitAttributes(ctx.unitAttributes)
-    return context
 
 ################################################################################
 # CONNECTION PARAMETERS
@@ -868,7 +890,6 @@ cdef class Connection:
                         self._error(&errorInfo)
                 finally:
                     RfcDestroyFunction(funcCont, NULL)
-            # TODO: segfault here. FIXME
             # execute
             print (" Invocation finished. submitting unit.")
             with nogil:
@@ -1368,6 +1389,20 @@ cdef RFC_RC metadataLookup(const SAP_UC* functionName, RFC_ATTRIBUTES rfcAttribu
     _server_log("metadataLookup", f"Function '{function_name}' handle {<uintptr_t>funcDescHandle[0]}.")
     return RFC_OK
 
+def get_server_context(handle):
+    cdef RFC_CONNECTION_HANDLE rfcHandle = <RFC_CONNECTION_HANDLE><uintptr_t>handle
+    cdef RFC_ERROR_INFO errorInfo
+    cdef RFC_SERVER_CONTEXT context
+    cdef RFC_RC rc = RfcGetServerContext(rfcHandle, &context, &errorInfo);
+    if rc != RFC_OK or errorInfo.code != RFC_OK:
+        err_msg = f"Error code '{rc}' when getting server context for connection '{handle}'"
+        new_error = ExternalRuntimeError(
+            message=err_msg,
+            code=RFC_EXTERNAL_FAILURE
+        )
+        return new_error
+    return wrapServerContext(context)
+
 cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) with gil:
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
@@ -1378,7 +1413,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
     global server_functions
 
-    # bgRFC steps, as section 5.6.2 Function Module Implementation of SAP NWRFC SDK Programming Guide 7.50
+    # section 5.6.2 of SAP NWRFC SDK Programming Guide 7.50
     rc = RfcGetServerContext(rfcHandle, &context, &errorInfo);
     if rc != RFC_OK or errorInfo.code != RFC_OK:
         err_msg = f"Error code {rc} when getting server context for connection '{<unsigned long>rfcHandle}'"
@@ -1390,7 +1425,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         fillError(new_error, serverErrorInfo)
         return RFC_EXTERNAL_FAILURE;
 
-    _server_log("genericHandler", f"server context {get_server_context(context)}")
+    _server_log(f"genericHandler for {<uintptr_t>rfcHandle}", f"server context: {wrapServerContext(context)}")
 
     funcDesc = RfcDescribeFunction(funcHandle, NULL)
     RfcGetFunctionName(funcDesc, funcName, NULL)
@@ -1493,10 +1528,16 @@ class BasicServer(BaseHTTPRequestHandler):
 
 RfcUnitStateText = {
     RFC_UNIT_NOT_FOUND: "RFC_UNIT_NOT_FOUND",
-    # No information for this unit ID and unit type can be found in the target system. If you are sure, that target system, unit ID and unit type are correct, it means that your previous attempt did not even reach the target system. Send the unit again. However, if you get this status after the Confirm step has already been executed, it means that everything is ok. Don't re-execute in this case!
+    # No information for this unit ID and unit type can be found in the target system.
+    # If you are sure, that target system, unit ID and unit type are correct, it means
+    # that your previous attempt did not even reach the target system. Send the unit again.
+    # However, if you get this status after the Confirm step has already been executed,
+    # it means that everything is ok. Don't re-execute in this case!
 
     RFC_UNIT_IN_PROCESS: "RFC_UNIT_IN_PROCESS",
-    # Backend system is still in the process of persisting (or executing if type 'T') the payload data. Give it some more time and check the state again later. If this takes "too long", an admin should probably have a look at why there is no progress here.
+    # Backend system is still in the process of persisting (or executing if type 'T')
+    # the payload data. Give it some more time and check the state again later. If this takes
+    # "too long", an admin should probably have a look at why there is no progress here.
 
     RFC_UNIT_COMMITTED: "RFC_UNIT_COMMITTED",
     # Data has been persisted (or executed if type 'T') ok on receiver side. Confirm event may now be triggered.
@@ -1505,10 +1546,10 @@ RfcUnitStateText = {
     # An error of any type has occurred. Unit needs to be resent.
 
     RFC_UNIT_CONFIRMED: "RFC_UNIT_CONFIRMED",
-    # Temporary state between the Confirm event and the time, when the status data will be erased for good. Nothing to be done. Just delete the payload and status information on your side.
+    # Temporary state between the Confirm event and the time, when the status data will be erased for good.
+    # Nothing to be done. Just delete the payload and status information on your side.
  }
 
-BgRfcHandlerFunction = ["check", "commit", "rollback", "confirm", "getState"]
 
 cdef class Server:
     """ An ABAP server
@@ -1549,7 +1590,12 @@ cdef class Server:
     cdef object _server_thread
 
     __bgRfcFunction = {
-     }
+        "check": None,
+        "commit": None,
+        "rollback": None,
+        "confirm": None,
+        "getState": None
+    }
 
     def __cinit__(self, server_params, client_params, config={}):
         cdef uintptr_t handle
@@ -1567,42 +1613,48 @@ cdef class Server:
 
     @staticmethod
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        name = BgRfcHandlerFunction[0]
-        if name in Server.__bgRfcFunction:
+        handler = Server.__bgRfcFunction["check"]
+        if handler is not None:
             unit_identifier = wrapUnitIdentifier(identifier[0])
-            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+            state = handler(<uintptr_t>rfcHandle, unit_identifier)
+            # section 5.5.1 pg 76 of SAP NWRFC SDK Programming Guide 7.50
+            if state == TIDStatus.Created or state == TIDStatus.RolledBack:
+                return RFC_OK
+            if state == TIDStatus.Executed or state == TIDStatus.Committed:
+                return RFC_EXECUTED
+            return RFC_EXTERNAL_FAILURE # must be set in case of error
 
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        name = BgRfcHandlerFunction[1]
-        if name in Server.__bgRfcFunction:
+        handler = Server.__bgRfcFunction["commit"]
+        if handler is not None:
             unit_identifier = wrapUnitIdentifier(identifier[0])
-            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+            return handler(<uintptr_t>rfcHandle, unit_identifier)
 
     @staticmethod
     cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        name = BgRfcHandlerFunction[2]
-        if name in Server.__bgRfcFunction:
+        handler = Server.__bgRfcFunction["rollback"]
+        if handler is not None:
             unit_identifier = wrapUnitIdentifier(identifier[0])
-            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+            return handler(<uintptr_t>rfcHandle, unit_identifier)
 
     @staticmethod
     cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        name = BgRfcHandlerFunction[3]
-        if name in Server.__bgRfcFunction:
+        handler = Server.__bgRfcFunction["confirm"]
+        if handler is not None:
             unit_identifier = wrapUnitIdentifier(identifier[0])
-            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier)
+            return handler(<uintptr_t>rfcHandle, unit_identifier)
 
     @staticmethod
     cdef RFC_RC __onGetStateFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *unitState) with gil:
-        name = BgRfcHandlerFunction[4]
-        if name in Server.__bgRfcFunction:
+        handler = Server.__bgRfcFunction["getState"]
+        if handler is not None:
             unit_identifier = wrapUnitIdentifier(identifier[0])
-            return Server.__bgRfcFunction[name](<unsigned long long>rfcHandle, unit_identifier, RfcUnitStateText[unitState[0]])
+            return handler(<uintptr_t>rfcHandle, unit_identifier, RfcUnitStateText[unitState[0]])
 
     def bgrfc_init(self, sysId, bgRfcFunction):
         for name in bgRfcFunction:
-            if not name in BgRfcHandlerFunction:
+            if not name in Server.__bgRfcFunction:
                 raise TypeError(f"BgRfc callback function key not supported: '{name}'")
             if not callable(bgRfcFunction[name]):
                 raise TypeError(f"BgRfc callback function referenced by '{name}' is not callable: '{bgRfcFunction[name]}'")
@@ -1671,7 +1723,7 @@ cdef class Server:
         rc = RfcLaunchServer(self._server_connection._handle, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
-        _server_log("Server", "launched")
+        _server_log("Server", f"launched {self._server_connection.handle}")
 
         return rc
 
@@ -2584,6 +2636,18 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=True):
             return utf8[:result_len].decode()
     finally:
         free(utf8)
+
+cdef wrapServerContext(RFC_SERVER_CONTEXT ctx):
+    context = {
+        "call_type": ctx.type,
+        "is_stateful": ctx.isStateful != 0
+    }
+    if ctx.type != RFC_SYNCHRONOUS:
+       context["unit_identifier"] = wrapUnitIdentifier(ctx.unitIdentifier[0])
+    if ctx.type == RFC_BACKGROUND_UNIT:
+        context ["unit_attributes"] = wrapUnitAttributes(ctx.unitAttributes)
+    return context
+
 
 ################################################################################
 # THROUGHPUT FUNCTIONS                                                         #

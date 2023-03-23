@@ -1,4 +1,3 @@
-import os
 from pyrfc import Server
 
 # server functions
