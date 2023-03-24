@@ -1,5 +1,5 @@
 from sqlitedict import SqliteDict
-from pyrfc import TIDStatus, StatusRC
+from pyrfc import TIDStatus, RCStatus
 
 class ServerDB:
 
@@ -42,6 +42,9 @@ class ServerDB:
     def __iter__(self):
         return iter(self.__db)
 
+    def __unicode__(self):
+        return repr(self.__db)
+
     def getTIDs(self, tids=[]):
         if len(tids) == 0:
             return self.__db
@@ -58,8 +61,18 @@ class ServerDB:
     def close(self):
         self.__db.close()
 
+    def set_tid_status(self, tid, status, note = ''):
+        self.__db[tid] = {'status': status, 'note': note}
+        return self.__db[tid]
+
+    @property
+    def db(self):
+        return self.__db
+
 if __name__ == "__main__":
     db = ServerDB()
 
-    for k, v in db.items():
-        print(k, v)
+    print(len(db))
+
+    for tid, status in db.items():
+        print(tid, status)

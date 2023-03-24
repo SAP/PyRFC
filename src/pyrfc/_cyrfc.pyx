@@ -12,7 +12,6 @@ from locale import localeconv
 from os.path import isfile, join
 from threading import Thread
 from decimal import Decimal
-from enum import Enum
 import pickle
 from libc.stdlib cimport malloc, free
 from libc.stdint cimport uintptr_t
@@ -50,25 +49,37 @@ _type2rfc = {
     'RFCTYPE_XSTRING': RFCTYPE_XSTRING
 }
 
+# bgRFC server enumerations
+
+TIDStatus = {
+    'created': 'created',
+    'executed': 'executed',
+    'committed': 'committed',
+    'rolled_back':'rolled_back',
+    'confirmed': 'confirmed'
+}
+
+RCStatus = {
+    'OK': RFC_OK,
+    'RFC_NOT_FOUND': RFC_NOT_FOUND,
+    'RFC_EXTERNAL_FAILURE': RFC_EXTERNAL_FAILURE,
+    'RFC_EXECUTED':  RFC_EXECUTED,
+
+}
+
+TIDCallType = {
+    'synchronous': RFC_SYNCHRONOUS,
+    'transactional': RFC_TRANSACTIONAL,
+    'queued': RFC_QUEUED,
+    'background_unit': RFC_BACKGROUND_UNIT
+}
+
 # configuration bitmasks, internal use
 _MASK_DTIME = 0x01
 _MASK_RETURN_IMPORT_PARAMS = 0x02
 _MASK_RSTRIP = 0x04
 
 _LOCALE_RADIX = localeconv()['decimal_point']
-
-class TIDStatus(Enum):
-    Created = 11,
-    Executed = 12,
-    Committed = 13,
-    RolledBack = 14,
-    Confirmed = 15
-
-class StatusRC(Enum):
-    OK = 0,
-    NotFound = 1,
-    Error = 2
-
 
 # NOTES ON ERROR HANDLING
 # If an error occurs within a connection object, the error may - depending
@@ -1308,7 +1319,7 @@ class FunctionDescription(object):
 server_functions = {}
 
 def default_auth_check(func_name=False, request_context = {}):
-    _server_log(f"authorization check for '{func_name}'", request_context)
+    _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
     return RFC_OK
 
 # global information about served functions / callbacks
@@ -1389,19 +1400,22 @@ cdef RFC_RC metadataLookup(const SAP_UC* functionName, RFC_ATTRIBUTES rfcAttribu
     _server_log("metadataLookup", f"Function '{function_name}' handle {<uintptr_t>funcDescHandle[0]}.")
     return RFC_OK
 
-def get_server_context(handle):
-    cdef RFC_CONNECTION_HANDLE rfcHandle = <RFC_CONNECTION_HANDLE><uintptr_t>handle
-    cdef RFC_ERROR_INFO errorInfo
+cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverErrorInfo):
     cdef RFC_SERVER_CONTEXT context
-    cdef RFC_RC rc = RfcGetServerContext(rfcHandle, &context, &errorInfo);
-    if rc != RFC_OK or errorInfo.code != RFC_OK:
-        err_msg = f"Error code '{rc}' when getting server context for connection '{handle}'"
-        new_error = ExternalRuntimeError(
-            message=err_msg,
-            code=RFC_EXTERNAL_FAILURE
-        )
-        return new_error
-    return wrapServerContext(context)
+    cdef RFC_RC rc = RfcGetServerContext(rfcHandle, &context, serverErrorInfo);
+    if rc != RFC_OK or serverErrorInfo.code != RFC_OK:
+        return None
+
+    server_context = {
+        "call_type": context.type,
+        "is_stateful": context.isStateful != 0
+    }
+    if context.type != RFC_SYNCHRONOUS:
+       server_context["unit_identifier"] = wrapUnitIdentifier(context.unitIdentifier[0])
+    if context.type == RFC_BACKGROUND_UNIT:
+        server_context ["unit_attributes"] = wrapUnitAttributes(context.unitAttributes)
+
+    return server_context
 
 cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) with gil:
     cdef RFC_RC rc
@@ -1409,23 +1423,19 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     cdef RFC_ATTRIBUTES attributes
     cdef RFC_FUNCTION_DESC_HANDLE funcDesc
     cdef RFC_ABAP_NAME funcName
-    cdef RFC_SERVER_CONTEXT context
 
     global server_functions
 
     # section 5.6.2 of SAP NWRFC SDK Programming Guide 7.50
-    rc = RfcGetServerContext(rfcHandle, &context, &errorInfo);
-    if rc != RFC_OK or errorInfo.code != RFC_OK:
-        err_msg = f"Error code {rc} when getting server context for connection '{<unsigned long>rfcHandle}'"
-        _server_log("genericHandler", err_msg)
+    context = get_server_context(rfcHandle, serverErrorInfo)
+    if context is None:
+        err_msg = f"Error code {serverErrorInfo.code} when getting server context for connection '{<uintptr_t>rfcHandle}'"
         new_error = ExternalRuntimeError(
             message=err_msg,
             code=RFC_EXTERNAL_FAILURE
         )
         fillError(new_error, serverErrorInfo)
-        return RFC_EXTERNAL_FAILURE;
-
-    _server_log(f"genericHandler for {<uintptr_t>rfcHandle}", f"server context: {wrapServerContext(context)}")
+        return RFC_EXTERNAL_FAILURE
 
     funcDesc = RfcDescribeFunction(funcHandle, NULL)
     RfcGetFunctionName(funcDesc, funcName, NULL)
@@ -1453,7 +1463,8 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
         # Context of the request. Might later be extended by activeParameter information.
         request_context = {
-            'connection_attributes': conn_attr
+            'connection_attributes': conn_attr,
+            'server_context': context
         }
 
         # Authorization check
@@ -1461,7 +1472,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         rc = auth_function(func_name, request_context)
         if rc != RFC_OK:
             new_error = ExternalRuntimeError(
-                message=f"Invalid exception raised by callback function: rc='{rc}'",
+                message=f"Authentication exception raised by callback function: '{func_name}'",
                 code=RFC_EXTERNAL_FAILURE
             )
             fillError(new_error, serverErrorInfo)
@@ -1472,6 +1483,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         func_handle_variables = wrapResult(funcDesc, funcHandle, RFC_EXPORT, server.rstrip)
         # Invoke callback function
         result = callback(request_context, **func_handle_variables)
+
     # Server exception handling: cf. SAP NetWeaver RFC SDK 7.50
     # 5.1 Preparing a Server Program for Receiving RFC Requests
     except ExternalRuntimeError as e: # System failure
@@ -1616,13 +1628,12 @@ cdef class Server:
         handler = Server.__bgRfcFunction["check"]
         if handler is not None:
             unit_identifier = wrapUnitIdentifier(identifier[0])
-            state = handler(<uintptr_t>rfcHandle, unit_identifier)
-            # section 5.5.1 pg 76 of SAP NWRFC SDK Programming Guide 7.50
-            if state == TIDStatus.Created or state == TIDStatus.RolledBack:
-                return RFC_OK
-            if state == TIDStatus.Executed or state == TIDStatus.Committed:
-                return RFC_EXECUTED
-            return RFC_EXTERNAL_FAILURE # must be set in case of error
+            return handler(<uintptr_t>rfcHandle, unit_identifier)
+            # if state == TIDStatus.Created or state == TIDStatus.RolledBack:
+            #     return RFC_OK
+            # if state == TIDStatus.Executed or state == TIDStatus.Committed:
+            #     return RFC_EXECUTED
+            # return RFC_EXTERNAL_FAILURE # must be set in case of error
 
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
@@ -2636,18 +2647,6 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=True):
             return utf8[:result_len].decode()
     finally:
         free(utf8)
-
-cdef wrapServerContext(RFC_SERVER_CONTEXT ctx):
-    context = {
-        "call_type": ctx.type,
-        "is_stateful": ctx.isStateful != 0
-    }
-    if ctx.type != RFC_SYNCHRONOUS:
-       context["unit_identifier"] = wrapUnitIdentifier(ctx.unitIdentifier[0])
-    if ctx.type == RFC_BACKGROUND_UNIT:
-        context ["unit_attributes"] = wrapUnitAttributes(ctx.unitAttributes)
-    return context
-
 
 ################################################################################
 # THROUGHPUT FUNCTIONS                                                         #

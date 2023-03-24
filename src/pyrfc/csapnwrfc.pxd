@@ -110,7 +110,7 @@ cdef extern from "sapnwrfc.h":
         RFC_UNITID unitID
 
     ctypedef enum RFC_CALL_TYPE:
-        RFC_SYNCHRONOUS,         # It's a standard synchronous RFC call.
+        RFC_SYNCHRONOUS,
         RFC_TRANSACTIONAL,
         RFC_QUEUED,
         RFC_BACKGROUND_UNIT
