@@ -8,6 +8,7 @@
 
 from sys import platform, exc_info
 from datetime import date, time, datetime
+from enum import Enum, auto
 from locale import localeconv
 from os.path import isfile, join
 from threading import Thread
@@ -51,28 +52,24 @@ _type2rfc = {
 
 # bgRFC server enumerations
 
-TIDStatus = {
-    'created': 'created',
-    'executed': 'executed',
-    'committed': 'committed',
-    'rolled_back':'rolled_back',
-    'confirmed': 'confirmed'
-}
+class TIDStatus(Enum):
+    created = 0
+    executed = auto()
+    committed = auto()
+    rolled_back = auto()
+    confirmed = auto()
 
-RCStatus = {
-    'OK': RFC_OK,
-    'RFC_NOT_FOUND': RFC_NOT_FOUND,
-    'RFC_EXTERNAL_FAILURE': RFC_EXTERNAL_FAILURE,
-    'RFC_EXECUTED':  RFC_EXECUTED,
+class RCStatus(Enum):
+    OK = RFC_RC.RFC_OK
+    RFC_NOT_FOUND = RFC_RC.RFC_NOT_FOUND
+    RFC_EXTERNAL_FAILURE = RFC_RC.RFC_EXTERNAL_FAILURE
+    RFC_EXECUTED = RFC_RC.RFC_EXECUTED
 
-}
-
-TIDCallType = {
-    'synchronous': RFC_SYNCHRONOUS,
-    'transactional': RFC_TRANSACTIONAL,
-    'queued': RFC_QUEUED,
-    'background_unit': RFC_BACKGROUND_UNIT
-}
+class TIDCallType(Enum):
+    synchronous = RFC_CALL_TYPE.RFC_SYNCHRONOUS
+    transactional = RFC_CALL_TYPE.RFC_TRANSACTIONAL
+    queued = RFC_CALL_TYPE.RFC_QUEUED
+    background_unit = RFC_CALL_TYPE.RFC_BACKGROUND_UNIT
 
 # configuration bitmasks, internal use
 _MASK_DTIME = 0x01
@@ -1407,7 +1404,7 @@ cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverE
         return None
 
     server_context = {
-        "call_type": context.type,
+        "call_type": TIDCallType(context.type),
         "is_stateful": context.isStateful != 0
     }
     if context.type != RFC_SYNCHRONOUS:
@@ -1481,8 +1478,14 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         # Filter out variables that are of direction u'RFC_EXPORT'
         # (these will be set by the callback function)
         func_handle_variables = wrapResult(funcDesc, funcHandle, RFC_EXPORT, server.rstrip)
+
         # Invoke callback function
         result = callback(request_context, **func_handle_variables)
+
+        # Return results
+        if context["call_type"] != TIDCallType.background_unit:
+            for name, value in result.iteritems():
+                fillFunctionParameter(funcDesc, funcHandle, name, value)
 
     # Server exception handling: cf. SAP NetWeaver RFC SDK 7.50
     # 5.1 Preparing a Server Program for Receiving RFC Requests
@@ -1522,8 +1525,6 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         fillError(new_error, serverErrorInfo)
         return RFC_EXTERNAL_FAILURE
 
-    for name, value in result.iteritems():
-        fillFunctionParameter(funcDesc, funcHandle, name, value)
     return RFC_OK
 
 class BasicServer(BaseHTTPRequestHandler):
@@ -1627,49 +1628,76 @@ cdef class Server:
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["check"]
         if handler is not None:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier)
-            # if state == TIDStatus.Created or state == TIDStatus.RolledBack:
-            #     return RFC_OK
-            # if state == TIDStatus.Executed or state == TIDStatus.Committed:
-            #     return RFC_EXECUTED
-            # return RFC_EXTERNAL_FAILURE # must be set in case of error
+            try:
+                unit_identifier = wrapUnitIdentifier(identifier[0])
+                return handler(<uintptr_t>rfcHandle, unit_identifier).value
+            except Exception as ex:
+                _server_log("Error in bgRFC handler onCheck:", ex)
+                return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["commit"]
         if handler is not None:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier)
+            try:
+                unit_identifier = wrapUnitIdentifier(identifier[0])
+                return handler(<uintptr_t>rfcHandle, unit_identifier).value
+            except Exception as ex:
+                _server_log("Error in bgRFC handler onCommit:", ex)
+                return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["rollback"]
         if handler is not None:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier)
+            try:
+                unit_identifier = wrapUnitIdentifier(identifier[0])
+                return handler(<uintptr_t>rfcHandle, unit_identifier).value
+            except Exception as ex:
+                _server_log("Error in bgRFC handler onRollback:", ex)
+                return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["confirm"]
         if handler is not None:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier)
+            try:
+                unit_identifier = wrapUnitIdentifier(identifier[0])
+                return handler(<uintptr_t>rfcHandle, unit_identifier).value
+            except Exception as ex:
+                _server_log("Error in bgRFC handler onConfirm:", ex)
+                return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onGetStateFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *unitState) with gil:
         handler = Server.__bgRfcFunction["getState"]
         if handler is not None:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier, RfcUnitStateText[unitState[0]])
+            try:
+                unit_identifier = wrapUnitIdentifier(identifier[0])
+                state = handler(<uintptr_t>rfcHandle, unit_identifier)
+                # section 5.6.3 pg 84 of SAP NWRFC SDK Programming Guide 7.50
+                if state == TIDStatus.created or state == TIDStatus.executed:
+                    unitState[0] = RFC_UNIT_IN_PROCESS
+                elif state == TIDStatus.committed:
+                    idunitStateentifier[0] = RFC_UNIT_COMMITTED
+                elif state == TIDStatus.rolled_back:
+                    unitState[0] = RFC_UNIT_ROLLED_BACK
+                elif state == TIDStatus.confirmed:
+                    unitState[0] = RFC_UNIT_CONFIRMED
+                else:
+                    raise Exception(f"TID {unit_identifier['id']} invalid state '{state}'")
+                return RCStatus.OK.value
+            except Exception as ex:
+                _server_log("Error in bgRFC handler onGetState:\n", ex)
+                return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     def bgrfc_init(self, sysId, bgRfcFunction):
-        for name in bgRfcFunction:
-            if not name in Server.__bgRfcFunction:
-                raise TypeError(f"BgRfc callback function key not supported: '{name}'")
-            if not callable(bgRfcFunction[name]):
-                raise TypeError(f"BgRfc callback function referenced by '{name}' is not callable: '{bgRfcFunction[name]}'")
-            Server.__bgRfcFunction[name] = bgRfcFunction[name]
+        for func_name in bgRfcFunction:
+            if not func_name in Server.__bgRfcFunction:
+                raise TypeError(f"BgRfc callback function key not supported: '{func_name}'")
+            if not callable(bgRfcFunction[func_name]):
+                raise TypeError(f"BgRfc callback function referenced by '{func_name}' is not callable: '{bgRfcFunction[func_name]}'")
+            Server.__bgRfcFunction[func_name] = bgRfcFunction[func_name]
         self.install_bgrfc_handlers(sysId)
 
     def install_bgrfc_handlers(self, sysId):

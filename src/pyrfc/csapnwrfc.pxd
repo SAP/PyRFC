@@ -70,6 +70,9 @@ cdef extern from "sapnwrfc.h":
         RFC_CLOSED
         RFC_CANCELED
         RFC_TIMEOUT
+        RFC_MEMORY_INSUFFICIENT
+        RFC_VERSION_MISMATCH
+        RFC_INVALID_PROTOCOL
         RFC_SERIALIZATION_FAILURE
         RFC_INVALID_HANDLE
         RFC_RETRY
@@ -88,6 +91,10 @@ cdef extern from "sapnwrfc.h":
         RFC_ABAP_CLASS_EXCEPTION
         RFC_UNKNOWN_ERROR
         RFC_AUTHORIZATION_FAILURE
+        RFC_AUTHENTICATION_FAILURE
+        RFC_CRYPTOLIB_FAILURE
+        RFC_IO_FAILURE
+        RFC_LOCKING_FAILURE
 
     ctypedef enum RFC_ERROR_GROUP:
         OK
@@ -110,9 +117,9 @@ cdef extern from "sapnwrfc.h":
         RFC_UNITID unitID
 
     ctypedef enum RFC_CALL_TYPE:
-        RFC_SYNCHRONOUS,
-        RFC_TRANSACTIONAL,
-        RFC_QUEUED,
+        RFC_SYNCHRONOUS
+        RFC_TRANSACTIONAL
+        RFC_QUEUED
         RFC_BACKGROUND_UNIT
 
     ctypedef void *RFC_FUNCTION_DESC_HANDLE

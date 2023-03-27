@@ -22,7 +22,6 @@ class RFCLibError(RFCError):
     """
 
     # Results as of: RfcGetRcAsString(RFC_RC rc)
-    # cf. material/kjona_getRcAsString
     code2txt = {
         0: "RFC_OK",
         1: "RFC_COMMUNICATION_FAILURE",
@@ -54,6 +53,10 @@ class RFCLibError(RFCError):
         27: "RFC_ABAP_CLASS_EXCEPTION",
         28: "RFC_UNKNOWN_ERROR",
         29: "RFC_AUTHORIZATION_FAILURE",
+        30: "RFC_AUTHENTICATION_FAILURE",
+        31: "RFC_CRYPTOLIB_FAILURE",
+        32: "RFC_IO_FAILURE",
+        33: "RFC_LOCKING_FAILURE"
     }
 
     def __init__(
