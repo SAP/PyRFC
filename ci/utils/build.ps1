@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-$python_versions = "3.7.9 3.8.10 3.9.13 3.10.9 3.11.1"
+$python_versions = "3.7.9 3.8.10 3.9.13 3.10.9 3.11.2"
 
 $PYRFC_BUILD_CYTHON="yes"
 
