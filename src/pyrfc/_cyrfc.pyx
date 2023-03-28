@@ -955,7 +955,7 @@ cdef class Connection:
         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
         if rc != RFC_OK:
             self._error(&errorInfo)
-        if state not in UnitState._value2member_map_:
+        if state not in enum_values(UnitState):
             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
         return UnitState(state).name
 

@@ -2730,6 +2730,7 @@ static const char __pyx_k_chars_found[] = " chars, found ";
 static const char __pyx_k_collections[] = "collections";
 static const char __pyx_k_connections[] = "connections";
 static const char __pyx_k_end_headers[] = "end_headers";
+static const char __pyx_k_enum_values[] = "enum_values";
 static const char __pyx_k_get_unit_id[] = "_get_unit_id";
 static const char __pyx_k_http_server[] = "http.server";
 static const char __pyx_k_is_stateful[] = "is_stateful";
@@ -2837,7 +2838,6 @@ static const char __pyx_k_func_desc_handle[] = "func_desc_handle";
 static const char __pyx_k_server_functions[] = "server_functions";
 static const char __pyx_k_set_locale_radix[] = "set_locale_radix";
 static const char __pyx_k_type_description[] = "type_description";
-static const char __pyx_k_value2member_map[] = "_value2member_map_";
 static const char __pyx_k_RFCTYPE_STRUCTURE[] = "RFCTYPE_STRUCTURE";
 static const char __pyx_k_RFCTYPE_UTCMINUTE[] = "RFCTYPE_UTCMINUTE";
 static const char __pyx_k_RFCTYPE_UTCSECOND[] = "RFCTYPE_UTCSECOND";
@@ -3215,6 +3215,7 @@ static PyObject *__pyx_n_s_end_headers;
 static PyObject *__pyx_n_s_enum;
 static PyObject *__pyx_n_s_enum_names;
 static PyObject *__pyx_n_s_enum_names_locals_genexpr;
+static PyObject *__pyx_n_s_enum_values;
 static PyObject *__pyx_n_s_enum_values_locals_genexpr;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_errorInfo;
@@ -3478,7 +3479,6 @@ static PyObject *__pyx_n_s_upper;
 static PyObject *__pyx_n_u_user;
 static PyObject *__pyx_n_s_utcnow;
 static PyObject *__pyx_n_s_value;
-static PyObject *__pyx_n_s_value2member_map;
 static PyObject *__pyx_n_s_wfile;
 static PyObject *__pyx_kp_u_when_filling;
 static PyObject *__pyx_kp_u_when_getting_server_context_for;
@@ -13215,10 +13215,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_get_unit_state(struct _
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  Py_UCS4 __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  Py_ssize_t __pyx_t_9;
+  Py_UCS4 __pyx_t_10;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -13329,7 +13329,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_get_unit_state(struct _
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *             self._error(&errorInfo)
- *         if state not in UnitState._value2member_map_:
+ *         if state not in enum_values(UnitState):
  */
   __pyx_t_6 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_6) {
@@ -13338,7 +13338,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_get_unit_state(struct _
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
- *         if state not in UnitState._value2member_map_:
+ *         if state not in enum_values(UnitState):
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
  */
     __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 957, __pyx_L1_error)
@@ -13350,106 +13350,121 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_get_unit_state(struct _
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *             self._error(&errorInfo)
- *         if state not in UnitState._value2member_map_:
+ *         if state not in enum_values(UnitState):
  */
   }
 
   /* "pyrfc/_cyrfc.pyx":958
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
- *         if state not in UnitState._value2member_map_:             # <<<<<<<<<<<<<<
+ *         if state not in enum_values(UnitState):             # <<<<<<<<<<<<<<
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
  *         return UnitState(state).name
  */
   __pyx_t_3 = __Pyx_PyInt_From_RFC_UNIT_STATE(__pyx_v_state); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 958, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_UnitState); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 958, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_value2member_map); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 958, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_enum_values); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 958, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_t_3, __pyx_t_5, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 958, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_UnitState); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 958, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_8 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_8)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_8);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 958, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_t_3, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 958, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_2 = (__pyx_t_6 != 0);
   if (unlikely(__pyx_t_2)) {
 
     /* "pyrfc/_cyrfc.pyx":959
  *             self._error(&errorInfo)
- *         if state not in UnitState._value2member_map_:
+ *         if state not in enum_values(UnitState):
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")             # <<<<<<<<<<<<<<
  *         return UnitState(state).name
  * 
  */
     __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 959, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 959, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = 0;
-    __pyx_t_8 = 127;
+    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 959, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_9 = 0;
+    __pyx_t_10 = 127;
     __Pyx_INCREF(__pyx_kp_u_Unit);
-    __pyx_t_7 += 5;
+    __pyx_t_9 += 5;
     __Pyx_GIVEREF(__pyx_kp_u_Unit);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_Unit);
-    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_u_id); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 959, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_10 = __Pyx_PyObject_FormatSimple(__pyx_t_9, __pyx_empty_unicode); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 959, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_8 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_10) > __pyx_t_8) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_10) : __pyx_t_8;
-    __pyx_t_7 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_10);
-    __Pyx_GIVEREF(__pyx_t_10);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_10);
-    __pyx_t_10 = 0;
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Unit);
+    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_u_id); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 959, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = __Pyx_PyObject_FormatSimple(__pyx_t_7, __pyx_empty_unicode); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 959, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) : __pyx_t_10;
+    __pyx_t_9 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_8);
+    __Pyx_GIVEREF(__pyx_t_8);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_8);
+    __pyx_t_8 = 0;
     __Pyx_INCREF(__pyx_kp_u_has_invalid_state);
-    __pyx_t_7 += 20;
+    __pyx_t_9 += 20;
     __Pyx_GIVEREF(__pyx_kp_u_has_invalid_state);
-    PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_has_invalid_state);
-    __pyx_t_10 = __Pyx_PyUnicode_From_RFC_UNIT_STATE(__pyx_v_state, 0, ' ', 'd'); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 959, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_8 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_10) > __pyx_t_8) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_10) : __pyx_t_8;
-    __pyx_t_7 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_10);
-    __Pyx_GIVEREF(__pyx_t_10);
-    PyTuple_SET_ITEM(__pyx_t_4, 3, __pyx_t_10);
-    __pyx_t_10 = 0;
+    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_has_invalid_state);
+    __pyx_t_8 = __Pyx_PyUnicode_From_RFC_UNIT_STATE(__pyx_v_state, 0, ' ', 'd'); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 959, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) : __pyx_t_10;
+    __pyx_t_9 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_8);
+    __Pyx_GIVEREF(__pyx_t_8);
+    PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_8);
+    __pyx_t_8 = 0;
     __Pyx_INCREF(__pyx_kp_u__13);
-    __pyx_t_7 += 1;
+    __pyx_t_9 += 1;
     __Pyx_GIVEREF(__pyx_kp_u__13);
-    PyTuple_SET_ITEM(__pyx_t_4, 4, __pyx_kp_u__13);
-    __pyx_t_10 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 959, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = NULL;
+    PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u__13);
+    __pyx_t_8 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 959, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_5)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_5 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_10) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_10);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 959, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 959, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_Raise(__pyx_t_5, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __PYX_ERR(0, 959, __pyx_L1_error)
 
     /* "pyrfc/_cyrfc.pyx":958
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
- *         if state not in UnitState._value2member_map_:             # <<<<<<<<<<<<<<
+ *         if state not in enum_values(UnitState):             # <<<<<<<<<<<<<<
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
  *         return UnitState(state).name
  */
   }
 
   /* "pyrfc/_cyrfc.pyx":960
- *         if state not in UnitState._value2member_map_:
+ *         if state not in enum_values(UnitState):
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
  *         return UnitState(state).name             # <<<<<<<<<<<<<<
  * 
@@ -13458,27 +13473,27 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_get_unit_state(struct _
   __Pyx_XDECREF(__pyx_r);
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_UnitState); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 960, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_10 = __Pyx_PyInt_From_RFC_UNIT_STATE(__pyx_v_state); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 960, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_4 = NULL;
+  __pyx_t_8 = __Pyx_PyInt_From_RFC_UNIT_STATE(__pyx_v_state); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 960, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_4)) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_5)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_5 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_10) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 960, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 960, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 960, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 960, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
@@ -13496,8 +13511,8 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_get_unit_state(struct _
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection._get_unit_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -43553,6 +43568,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_enum, __pyx_k_enum, sizeof(__pyx_k_enum), 0, 0, 1, 1},
   {&__pyx_n_s_enum_names, __pyx_k_enum_names, sizeof(__pyx_k_enum_names), 0, 0, 1, 1},
   {&__pyx_n_s_enum_names_locals_genexpr, __pyx_k_enum_names_locals_genexpr, sizeof(__pyx_k_enum_names_locals_genexpr), 0, 0, 1, 1},
+  {&__pyx_n_s_enum_values, __pyx_k_enum_values, sizeof(__pyx_k_enum_values), 0, 0, 1, 1},
   {&__pyx_n_s_enum_values_locals_genexpr, __pyx_k_enum_values_locals_genexpr, sizeof(__pyx_k_enum_values_locals_genexpr), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_errorInfo, __pyx_k_errorInfo, sizeof(__pyx_k_errorInfo), 0, 0, 1, 1},
@@ -43816,7 +43832,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_user, __pyx_k_user, sizeof(__pyx_k_user), 0, 1, 0, 1},
   {&__pyx_n_s_utcnow, __pyx_k_utcnow, sizeof(__pyx_k_utcnow), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
-  {&__pyx_n_s_value2member_map, __pyx_k_value2member_map, sizeof(__pyx_k_value2member_map), 0, 0, 1, 1},
   {&__pyx_n_s_wfile, __pyx_k_wfile, sizeof(__pyx_k_wfile), 0, 0, 1, 1},
   {&__pyx_kp_u_when_filling, __pyx_k_when_filling, sizeof(__pyx_k_when_filling), 0, 1, 0, 0},
   {&__pyx_kp_u_when_getting_server_context_for, __pyx_k_when_getting_server_context_for, sizeof(__pyx_k_when_getting_server_context_for), 0, 1, 0, 0},
