@@ -28,6 +28,8 @@ from ._exception import (
 )
 
 from ._cyrfc import (
+    RfcParameterDirection,
+    RfcFieldType,
     get_nwrfclib_version,
     py_to_string,
     string_to_py,
@@ -42,8 +44,8 @@ from ._cyrfc import (
     TypeDescription,
     FunctionDescription,
     Server,
-    TIDCallType,
-    TIDStatus,
+    UnitCallType,
+    UnitState,
     RCStatus,
     ConnectionParameters,
 )

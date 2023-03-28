@@ -44,8 +44,6 @@ cdef extern from "sapnwrfc.h":
         RFCTYPE_CHAR
         RFCTYPE_DATE
         RFCTYPE_BCD
-        RFCTYPE_DECF16
-        RFCTYPE_DECF34
         RFCTYPE_TIME
         RFCTYPE_BYTE
         RFCTYPE_TABLE
@@ -54,11 +52,24 @@ cdef extern from "sapnwrfc.h":
         RFCTYPE_INT
         RFCTYPE_INT2
         RFCTYPE_INT1
-        RFCTYPE_INT8
+        RFCTYPE_NULL
+        RFCTYPE_ABAPOBJECT
         RFCTYPE_STRUCTURE
+        RFCTYPE_DECF16
+        RFCTYPE_DECF34
+        RFCTYPE_XMLDATA
         RFCTYPE_STRING
         RFCTYPE_XSTRING
-        RFCTYPE_UTCLONG
+        RFCTYPE_INT8		    # 8-byte integer
+        RFCTYPE_UTCLONG         # timestamp/long, 8-byte integer
+        RFCTYPE_UTCSECOND       # timestamp/second, 8-byte integer
+        RFCTYPE_UTCMINUTE       # timestamp/minute, 8-byte integer
+        RFCTYPE_DTDAY		    # date/day , 4-byte integer
+        RFCTYPE_DTWEEK          # date/week, 4-byte integer
+        RFCTYPE_DTMONTH         # date/month, 4-byte integer
+        RFCTYPE_TSECOND         # time/second, 4-byte integer
+        RFCTYPE_TMINUTE         # time/minute, 2-byte integer
+        RFCTYPE_CDAY            # calendar day, 2-byte integer
 
     ctypedef enum RFC_RC:
         RFC_OK

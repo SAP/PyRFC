@@ -1,7 +1,7 @@
 import os
 import uuid
 from datetime import datetime
-from pyrfc import TIDStatus
+from pyrfc import UnitState
 
 # default dbpath
 DBPATH = "./examples/server/tlog.log"
@@ -26,9 +26,17 @@ class TLog:
         except IOError:
             return None
 
-    def clear(self):
+    def remove(self, tid=None):
         try:
-            os.remove(self.__fn)
+            if tid is None:
+                os.remove(self.__fn)
+            else:
+                with open(self.__fn, 'r') as fp:
+                    lines = fp.readlines()
+                with open(self.__fn, 'w') as fp:
+                    for line in lines:
+                        if tid not in line[:-1]:
+                            fp.write(line)
         except IOError:
             pass
 
@@ -79,7 +87,7 @@ class TLog:
     def write(self, tid, status, note=None):
         if len(tid) != 32:
             raise Exception(f"TID length not 32: '{tid}'")
-        if status not in TIDStatus:
+        if status not in UnitState:
             raise Exception(f"TID status '{status}' not supported for tid '{tid}'")
         note = note = ' ' + note if note is not None else ''
         tlog_record = f"{datetime.utcnow()} {tid} {status.name}{note}"
@@ -106,15 +114,19 @@ if __name__ == "__main__":
 
     id = log.uuid()
 
-    log.write(id, TIDStatus.created)
-    log.write(id, TIDStatus.executed, "python_function_module")
+    log.write(id, UnitState.created)
+    log.write(id, UnitState.executed, "python_function_module")
 
     print(id in log)
 
     print(log[id])
 
+    print()
+
     print(len(log))
 
-    # log.clear()
+    log.dump()
+
+    # log.remove()
 
     # print(len(log))

@@ -14,6 +14,6 @@ do
     pyenv activate py$version
     PYRFC_BUILD_CYTHON=yes python setup.py bdist_wheel
     pip install --upgrade --force --find-links=dist pyrfc
-    #[[ $1 != skip ]] && pytest -vv
+    [[ $1 != skip ]] && [[ $version == 3.11.2 ]] && pytest -vvx
 done
 [[ $1 == sdist ]] && python setup.py sdist

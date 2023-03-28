@@ -26,46 +26,68 @@ try:
 except:
     from collections import Iterable
 
-# inverts the enumeration of RFC_DIRECTION
-_direction2rfc = {'RFC_IMPORT': RFC_IMPORT, 'RFC_EXPORT': RFC_EXPORT,
-                  'RFC_CHANGING': RFC_CHANGING, 'RFC_TABLES': RFC_TABLES}
+################################################################################
+# Enumerators, external and internal use
+################################################################################
 
-# inverts the enum of RFCTYPE
-_type2rfc = {
-    'RFCTYPE_CHAR': RFCTYPE_CHAR,
-    'RFCTYPE_DATE': RFCTYPE_DATE,
-    'RFCTYPE_BCD': RFCTYPE_BCD,
-    'RFCTYPE_TIME': RFCTYPE_TIME,
-    'RFCTYPE_BYTE': RFCTYPE_BYTE,
-    'RFCTYPE_TABLE': RFCTYPE_TABLE,
-    'RFCTYPE_NUM': RFCTYPE_NUM,
-    'RFCTYPE_FLOAT': RFCTYPE_FLOAT,
-    'RFCTYPE_INT': RFCTYPE_INT,
-    'RFCTYPE_INT2': RFCTYPE_INT2,
-    'RFCTYPE_INT1': RFCTYPE_INT1,
-    'RFCTYPE_INT8': RFCTYPE_INT8,
-    'RFCTYPE_UTCLONG': RFCTYPE_UTCLONG,
-    'RFCTYPE_STRUCTURE': RFCTYPE_STRUCTURE,
-    'RFCTYPE_STRING': RFCTYPE_STRING,
-    'RFCTYPE_XSTRING': RFCTYPE_XSTRING
-}
+# RFC parameter direction
+class RfcParameterDirection(Enum):
+    RFC_IMPORT = RFC_DIRECTION.RFC_IMPORT
+    RFC_EXPORT = RFC_DIRECTION.RFC_EXPORT
+    RFC_CHANGING = RFC_DIRECTION.RFC_CHANGING
+    RFC_TABLES = RFC_DIRECTION.RFC_TABLES
 
-# bgRFC server enumerations
+# RFC field tupe
+class RfcFieldType(Enum):
+    RFCTYPE_CHAR   = RFCTYPE.RFCTYPE_CHAR
+    RFCTYPE_DATE   = RFCTYPE.RFCTYPE_DATE
+    RFCTYPE_BCD    = RFCTYPE.RFCTYPE_BCD
+    RFCTYPE_TIME   = RFCTYPE.RFCTYPE_TIME
+    RFCTYPE_BYTE   = RFCTYPE.RFCTYPE_BYTE
+    RFCTYPE_TABLE  = RFCTYPE.RFCTYPE_TABLE
+    RFCTYPE_NUM    = RFCTYPE.RFCTYPE_NUM
+    RFCTYPE_FLOAT  = RFCTYPE.RFCTYPE_FLOAT
+    RFCTYPE_INT    = RFCTYPE.RFCTYPE_INT
+    RFCTYPE_INT2   = RFCTYPE.RFCTYPE_INT2
+    RFCTYPE_INT1   = RFCTYPE.RFCTYPE_INT1
+    RFCTYPE_NULL  = RFCTYPE.RFCTYPE_NULL
+    RFCTYPE_ABAPOBJECT = RFCTYPE.RFCTYPE_ABAPOBJECT
+    RFCTYPE_STRUCTURE = RFCTYPE.RFCTYPE_STRUCTURE
+    RFCTYPE_DECF16  = RFCTYPE.RFCTYPE_DECF16
+    RFCTYPE_DECF34  = RFCTYPE.RFCTYPE_DECF34
+    RFCTYPE_XMLDATA = RFCTYPE.RFCTYPE_XMLDATA
+    RFCTYPE_STRING = RFCTYPE.RFCTYPE_STRING
+    RFCTYPE_XSTRING = RFCTYPE.RFCTYPE_XSTRING
+    RFCTYPE_INT8 = RFCTYPE.RFCTYPE_INT8
+    RFCTYPE_UTCLONG = RFCTYPE.RFCTYPE_UTCLONG
+    RFCTYPE_UTCSECOND = RFCTYPE.RFCTYPE_UTCSECOND
+    RFCTYPE_UTCMINUTE = RFCTYPE.RFCTYPE_UTCMINUTE
+    RFCTYPE_DTDAY = RFCTYPE.RFCTYPE_DTDAY
+    RFCTYPE_DTWEEK = RFCTYPE.RFCTYPE_DTWEEK
+    RFCTYPE_DTMONTH = RFCTYPE.RFCTYPE_DTMONTH
+    RFCTYPE_TSECOND = RFCTYPE.RFCTYPE_TSECOND
+    RFCTYPE_TMINUTE = RFCTYPE.RFCTYPE_TMINUTE
+    RFCTYPE_CDAY = RFCTYPE.RFCTYPE_CDAY
 
-class TIDStatus(Enum):
-    created = 0
+# bgRFC unit state
+class UnitState(Enum):
+    not_found = RFC_UNIT_STATE.RFC_UNIT_NOT_FOUND
+    in_process = RFC_UNIT_STATE.RFC_UNIT_IN_PROCESS
+    committed = RFC_UNIT_STATE.RFC_UNIT_COMMITTED
+    rolled_back = RFC_UNIT_STATE.RFC_UNIT_ROLLED_BACK
+    confirmed = RFC_UNIT_STATE.RFC_UNIT_CONFIRMED
+    created = auto()
     executed = auto()
-    committed = auto()
-    rolled_back = auto()
-    confirmed = auto()
 
+# bgRFC status
 class RCStatus(Enum):
     OK = RFC_RC.RFC_OK
     RFC_NOT_FOUND = RFC_RC.RFC_NOT_FOUND
     RFC_EXTERNAL_FAILURE = RFC_RC.RFC_EXTERNAL_FAILURE
     RFC_EXECUTED = RFC_RC.RFC_EXECUTED
 
-class TIDCallType(Enum):
+# bgRFCunit call type
+class UnitCallType(Enum):
     synchronous = RFC_CALL_TYPE.RFC_SYNCHRONOUS
     transactional = RFC_CALL_TYPE.RFC_TRANSACTIONAL
     queued = RFC_CALL_TYPE.RFC_QUEUED
@@ -622,6 +644,12 @@ cdef class Connection:
 
     ##########################################################################
     ## HELPER METHODS
+    def enum_names(enum_obj):
+        return set(e.name for e in enum_obj)
+
+    def enum_values(enum_obj):
+        return set(e.value for e in enum_obj)
+
     def type_desc_get(self, type_name):
         """Removes the Type Description from SAP NW RFC Lib cache
 
@@ -919,13 +947,6 @@ cdef class Connection:
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_UNIT_IDENTIFIER uIdentifier = fillUnitIdentifier(unit)
         cdef RFC_UNIT_STATE state
-        unit_state2txt = {
-            RFC_UNIT_NOT_FOUND: "RFC_UNIT_NOT_FOUND",
-            RFC_UNIT_IN_PROCESS: "RFC_UNIT_IN_PROCESS",
-            RFC_UNIT_COMMITTED: "RFC_UNIT_COMMITTED",
-            RFC_UNIT_ROLLED_BACK: "RFC_UNIT_ROLLED_BACK",
-            RFC_UNIT_CONFIRMED: "RFC_UNIT_CONFIRMED"
-        }
 
         if not self.active_unit:
             raise RFCError("No unit handle for this connection available.")
@@ -934,7 +955,9 @@ cdef class Connection:
         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
         if rc != RFC_OK:
             self._error(&errorInfo)
-        return unit_state2txt[state]
+        if state not in UnitState._value2member_map_:
+            raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
+        return UnitState(state).name
 
     def _destroy_unit(self):
         cdef RFC_RC rc
@@ -1188,7 +1211,7 @@ class TypeDescription(object):
 
         :param name: Field name
         :type name: string (30)
-        :param field_type: Type of the field
+        :param field_type: RfcFieldType enum name
         :type field_type: string
         :param nuc_length: NUC length
         :type nuc_length: int
@@ -1207,8 +1230,8 @@ class TypeDescription(object):
             return None
         if len(name)>30:
             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
-        if field_type not in _type2rfc:
-            raise TypeError(f"field '{name}' 'field_type' (string) '{field_type}' must be in [" + ", ".join(_type2rfc) + "]")
+        if not field_type in enum_names(RfcFieldType):
+            raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
             if not isinstance(int_field, (int, long)):
                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
@@ -1260,9 +1283,9 @@ class FunctionDescription(object):
 
         :param name: Parameter name
         :type name: string (30)
-        :param parameter_type: Type of the parameter
+        :param parameter_type: RfcFieldType enum name
         :type parameter_type: string
-        :param direction: Direction (RFC_IMPORT, RFC_EXPORT, RFC_CHANGING, RFC_TABLES)
+        :param direction: RfcParameterDirection enum name
         :type direction: string
         :param nuc_length: NUC length
         :type nuc_length: int
@@ -1281,10 +1304,10 @@ class FunctionDescription(object):
         """
         if len(name)<1 or len(name)>30:
             raise TypeError(f"field 'name' (string) {name} should be from 1-30 chars.")
-        if parameter_type not in _type2rfc:
-            raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in [" + ", ".join(_type2rfc) + "]")
-        if direction not in _direction2rfc:
-            raise TypeError(f"'direction' (string) must '{direction}' be in [" + ", ".join(_direction2rfc) + "]")
+        if parameter_type not in enum_names(RfcFieldType):
+            raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in {enum_names(RfcFieldType)}")
+        if direction not in enum_names(RfcParameterDirection):
+            raise TypeError(f"'direction' (string) '{direction}' must be in '{enum_names(RfcParameterDirection)}'")
         if len(default_value)>30:
             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
         if len(parameter_text)>79:
@@ -1404,7 +1427,7 @@ cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverE
         return None
 
     server_context = {
-        "call_type": TIDCallType(context.type),
+        "call_type": UnitCallType(context.type),
         "is_stateful": context.isStateful != 0
     }
     if context.type != RFC_SYNCHRONOUS:
@@ -1483,7 +1506,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         result = callback(request_context, **func_handle_variables)
 
         # Return results
-        if context["call_type"] != TIDCallType.background_unit:
+        if context["call_type"] != UnitCallType.background_unit:
             for name, value in result.iteritems():
                 fillFunctionParameter(funcDesc, funcHandle, name, value)
 
@@ -1538,31 +1561,6 @@ class BasicServer(BaseHTTPRequestHandler):
         #_server_log("HTTP GET", f"path: {self.path}\nheaders:\n{self.headers}\n")
         self._set_response()
         self.wfile.write("Press CTRL-C to end".encode("utf-8"))
-
-RfcUnitStateText = {
-    RFC_UNIT_NOT_FOUND: "RFC_UNIT_NOT_FOUND",
-    # No information for this unit ID and unit type can be found in the target system.
-    # If you are sure, that target system, unit ID and unit type are correct, it means
-    # that your previous attempt did not even reach the target system. Send the unit again.
-    # However, if you get this status after the Confirm step has already been executed,
-    # it means that everything is ok. Don't re-execute in this case!
-
-    RFC_UNIT_IN_PROCESS: "RFC_UNIT_IN_PROCESS",
-    # Backend system is still in the process of persisting (or executing if type 'T')
-    # the payload data. Give it some more time and check the state again later. If this takes
-    # "too long", an admin should probably have a look at why there is no progress here.
-
-    RFC_UNIT_COMMITTED: "RFC_UNIT_COMMITTED",
-    # Data has been persisted (or executed if type 'T') ok on receiver side. Confirm event may now be triggered.
-
-    RFC_UNIT_ROLLED_BACK: "RFC_UNIT_ROLLED_BACK",
-    # An error of any type has occurred. Unit needs to be resent.
-
-    RFC_UNIT_CONFIRMED: "RFC_UNIT_CONFIRMED",
-    # Temporary state between the Confirm event and the time, when the status data will be erased for good.
-    # Nothing to be done. Just delete the payload and status information on your side.
- }
-
 
 cdef class Server:
     """ An ABAP server
@@ -1627,69 +1625,75 @@ cdef class Server:
     @staticmethod
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["check"]
-        if handler is not None:
-            try:
-                unit_identifier = wrapUnitIdentifier(identifier[0])
-                return handler(<uintptr_t>rfcHandle, unit_identifier).value
-            except Exception as ex:
-                _server_log("Error in bgRFC handler onCheck:", ex)
-                return RCStatus.RFC_EXTERNAL_FAILURE.value
+        if handler is None:
+            return RCStatus.OK.value
+        try:
+            unit_identifier = wrapUnitIdentifier(identifier[0])
+            return handler(<uintptr_t>rfcHandle, unit_identifier).value
+        except Exception as ex:
+            _server_log("Error in bgRFC handler onCheck:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["commit"]
-        if handler is not None:
-            try:
-                unit_identifier = wrapUnitIdentifier(identifier[0])
-                return handler(<uintptr_t>rfcHandle, unit_identifier).value
-            except Exception as ex:
-                _server_log("Error in bgRFC handler onCommit:", ex)
-                return RCStatus.RFC_EXTERNAL_FAILURE.value
+        if handler is None:
+            return RCStatus.OK.value
+        try:
+            unit_identifier = wrapUnitIdentifier(identifier[0])
+            return handler(<uintptr_t>rfcHandle, unit_identifier).value
+        except Exception as ex:
+            _server_log("Error in bgRFC handler onCommit:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["rollback"]
-        if handler is not None:
-            try:
-                unit_identifier = wrapUnitIdentifier(identifier[0])
-                return handler(<uintptr_t>rfcHandle, unit_identifier).value
-            except Exception as ex:
-                _server_log("Error in bgRFC handler onRollback:", ex)
-                return RCStatus.RFC_EXTERNAL_FAILURE.value
+        if handler is None:
+            return RCStatus.OK.value
+        try:
+            unit_identifier = wrapUnitIdentifier(identifier[0])
+            return handler(<uintptr_t>rfcHandle, unit_identifier).value
+        except Exception as ex:
+            _server_log("Error in bgRFC handler onRollback:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["confirm"]
-        if handler is not None:
-            try:
-                unit_identifier = wrapUnitIdentifier(identifier[0])
-                return handler(<uintptr_t>rfcHandle, unit_identifier).value
-            except Exception as ex:
-                _server_log("Error in bgRFC handler onConfirm:", ex)
-                return RCStatus.RFC_EXTERNAL_FAILURE.value
+        if handler is None:
+            return RCStatus.OK.value
+        try:
+            unit_identifier = wrapUnitIdentifier(identifier[0])
+            return handler(<uintptr_t>rfcHandle, unit_identifier).value
+        except Exception as ex:
+            _server_log("Error in bgRFC handler onConfirm:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
     cdef RFC_RC __onGetStateFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *unitState) with gil:
         handler = Server.__bgRfcFunction["getState"]
-        if handler is not None:
-            try:
-                unit_identifier = wrapUnitIdentifier(identifier[0])
-                state = handler(<uintptr_t>rfcHandle, unit_identifier)
-                # section 5.6.3 pg 84 of SAP NWRFC SDK Programming Guide 7.50
-                if state == TIDStatus.created or state == TIDStatus.executed:
-                    unitState[0] = RFC_UNIT_IN_PROCESS
-                elif state == TIDStatus.committed:
-                    idunitStateentifier[0] = RFC_UNIT_COMMITTED
-                elif state == TIDStatus.rolled_back:
-                    unitState[0] = RFC_UNIT_ROLLED_BACK
-                elif state == TIDStatus.confirmed:
-                    unitState[0] = RFC_UNIT_CONFIRMED
-                else:
-                    raise Exception(f"TID {unit_identifier['id']} invalid state '{state}'")
-                return RCStatus.OK.value
-            except Exception as ex:
-                _server_log("Error in bgRFC handler onGetState:\n", ex)
-                return RCStatus.RFC_EXTERNAL_FAILURE.value
+        if handler is None:
+            _server_log("bgRFC handler onGetState is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
+        try:
+            unit_identifier = wrapUnitIdentifier(identifier[0])
+            state = handler(<uintptr_t>rfcHandle, unit_identifier)
+            # section 5.6.3 pg 84 of SAP NWRFC SDK Programming Guide 7.50
+            if state == UnitState.created or state == UnitState.executed:
+                unitState[0] = RFC_UNIT_IN_PROCESS
+            elif state == UnitState.committed:
+                idunitStateentifier[0] = RFC_UNIT_COMMITTED
+            elif state == UnitState.rolled_back:
+                unitState[0] = RFC_UNIT_ROLLED_BACK
+            elif state == UnitState.confirmed:
+                unitState[0] = RFC_UNIT_CONFIRMED
+            else:
+                raise Exception(f"TID {unit_identifier['id']} invalid state '{state}'")
+            return RCStatus.OK.value
+        except Exception as ex:
+            _server_log("Error in bgRFC handler onGetState:\n", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     def bgrfc_init(self, sysId, bgRfcFunction):
         for func_name in bgRfcFunction:
@@ -1874,7 +1878,7 @@ cdef RFC_TYPE_DESC_HANDLE fillTypeDescription(type_desc):
         sapuc = fillString(field_desc['name'])
         strncpyU(fieldDesc.name, sapuc, len(field_desc['name']) + 1)
         free(sapuc)
-        fieldDesc.type = _type2rfc[field_desc['field_type']] # set type
+        fieldDesc.type = RfcFieldType[field_desc['field_type']].value
         fieldDesc.nucLength = field_desc['nuc_length']
         fieldDesc.nucOffset = field_desc['nuc_offset']
         fieldDesc.ucLength = field_desc['uc_length']
@@ -1914,8 +1918,8 @@ cdef RFC_FUNCTION_DESC_HANDLE fillFunctionDescription(func_desc):
         sapuc = fillString(param_desc['name'])
         strncpyU(paramDesc.name, sapuc, len(param_desc['name']) + 1)
         free(sapuc)
-        paramDesc.type = _type2rfc[param_desc['parameter_type']] # set type
-        paramDesc.direction = _direction2rfc[param_desc['direction']]
+        paramDesc.type = RfcFieldType[param_desc['parameter_type']].value
+        paramDesc.direction = RfcParameterDirection[param_desc['direction']].value
         paramDesc.nucLength = param_desc['nuc_length']
         paramDesc.ucLength = param_desc['uc_length']
         paramDesc.decimals = param_desc['decimals']
@@ -2278,7 +2282,7 @@ cdef wrapTypeDescription(RFC_TYPE_DESC_HANDLE typeDesc):
             raise wrapError(&errorInfo)
         field_description = {
             'name': wrapString(fieldDesc.name),
-            'field_type': wrapString(<SAP_UC*>RfcGetTypeAsString(fieldDesc.type)),
+            'field_type': RfcFieldType(fieldDesc.type).name,
             'nuc_length': fieldDesc.nucLength,
             'nuc_offset': fieldDesc.nucOffset,
             'uc_length': fieldDesc.ucLength,
@@ -2316,8 +2320,8 @@ cdef wrapFunctionDescription(RFC_FUNCTION_DESC_HANDLE funcDesc):
             raise wrapError(&errorInfo)
         parameter_description = {
             'name': wrapString(paramDesc.name),
-            'parameter_type': wrapString(<SAP_UC*>RfcGetTypeAsString(paramDesc.type)),
-            'direction': wrapString(<SAP_UC*>RfcGetDirectionAsString(paramDesc.direction)),
+            'parameter_type': RfcFieldType(paramDesc.type).name,
+            'direction': RfcParameterDirection(paramDesc.direction).name,
             'nuc_length': paramDesc.nucLength,
             'uc_length': paramDesc.ucLength,
             'decimals': paramDesc.decimals,
