@@ -13,7 +13,7 @@ tests
 _sources
 *.log
 *.inv
-*.pyc"
+*.pyc
 *.code-workspace
 *.trc
 *.ini
