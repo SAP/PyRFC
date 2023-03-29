@@ -89,31 +89,32 @@ Background RFC (bgRFC) Server
 Configuration
 -------------
 
-*Configure RFC destination using ``SM59`` transaction*
+Configure RFC destination using ``SM59`` transaction
 
-- TCP/IP Connection ```NWRFC_SERVER_OS``
+- TCP/IP Connection ``NWRFC_SERVER_OS``
 - Special Options > Select Protocol: basXML serializer
 
 ``basXML`` serializer shall be configured for RFC server destination in SM59 transaction
 
-.. figure:: _static/images/server/sm59-serializer.png
-    :align: center
+.. image:: _static/images/server/sm59-serializer.png
+   :scale: 50%
 
-*Configure bgRFC queues using transaction ``SBGRFCCONF``*
+Configure bgRFC queues using ``SBGRFCCONF`` transaction
 
 Scheduler app server and destination
 
-.. figure:: _static/images/server/BGRFCCONF-Scheduler-App-Server.png
-    :align: center
+.. image:: _static/images/server/SBGRFCCONF-Scheduler-App-Server.png
+   :scale: 50%
 
-.. figure:: _static/images/server/SBGRFCCONF-Scheduler-Destination.png
-    :align: center
+Scheduler destination
+
+.. image:: _static/images/server/SBGRFCCONF-Scheduler-Destination.png
+   :scale: 50%
 
 Configure inbound destination prefixes for bgRFC queues' names. Other queue names are processed as standard RFC queues.
 
-.. figure:: _static/images/server/SBGRFCCONF-Define-Inbound-Destination.png
-    :align: center
-
+.. image:: _static/images/server/SBGRFCCONF-Define-Inbound-Destination.png
+   :scale: 50%
 
 bgRFC Client
 ------------
@@ -133,11 +134,11 @@ Check bgRFC queue status using ``SBGRFCMON - bgRFC Monitor`` transaction
 
 Deleting the unit lock will release the unit for immediate execution
 
-.. figure:: _static/images/server/SBGRFCMON1-Client-MME.png
-    :align: center
+.. image:: _static/images/server/SBGRFCMON1-Client-MME.png
+   :scale: 50%
 
-.. figure:: _static/images/server/SBGRFCMON2-Client-MME.png
-    :align: center
+.. image:: _static/images/server/SBGRFCMON2-Client-MME.png
+   :scale: 50%
 
 
 bgRFC Server
@@ -170,7 +171,7 @@ To test, first start the Python server
 Then run ABAP test report `z_nwrfc_server_bgrfc.abap <https://github.com/SAP/PyRFC/blob/master/examples/server/z_nwrfc_server_bgrfc.abap>`_
 to create outbound bgRFC queue in ABAP system
 
-.. figure:: _static/images/server/z_nwrfc_server_bgrfc.png
+.. image:: _static/images/server/z_nwrfc_server_bgrfc.png
     :align: center
 
 After pressing the ``Execute`` button, the server log in Python system shell continues with

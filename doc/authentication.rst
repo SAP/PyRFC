@@ -69,7 +69,7 @@ is used for opening the SNC connection and the same user is used for the authent
 
 * SNC name must be configured for the ABAP user in NW ABAP system, using transaction SU01
 
-.. figure:: _static/images/SU01-SNC.png
+.. image:: _static/images/SU01-SNC.png
     :align: center
 
 * SAP Single Sign On must be configured on a client and the user must be logged in on a client.
@@ -114,18 +114,18 @@ X509 certificate to NW ABAP backend system, for authentication and logon.
 * Keystores are generated on a client system, using SAP cryptography tool *SAPGENPSE* and
   the environment variable SECUDIR points to the folder with generated keystores
 
-.. figure:: _static/images/SNC0-1.png
+.. image:: _static/images/SNC0-1.png
     :align: center
 
-.. figure:: _static/images/SNC0-2.png
+.. image:: _static/images/SNC0-2.png
     :align: center
 
 * User X509 certificate must be mapped to ABAP NW backend user, using transaction EXTID_DN
 
-.. figure:: _static/images/EXTID_DN-1.png
+.. image:: _static/images/EXTID_DN-1.png
     :align: center
 
-.. figure:: _static/images/EXTID_DN-2.png
+.. image:: _static/images/EXTID_DN-2.png
     :align: center
 
 The same connection parameters as in a previous example, with X509 certificate added.

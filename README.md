@@ -16,6 +16,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - [Supported platforms](#supported-platforms)
 - [Requirements](#requirements)
   - [SAP NW RFC SDK 7.50.11](#sap-nw-rfc-sdk-75011)
+  - [Docker](#docker)
   - [Windows](#windows)
   - [macOS](#macos)
 - [Download and installation](#download-and-installation)
@@ -58,6 +59,10 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - Using the latest version is recommended as SAP NWRFC SDK is fully backwards compatible, from today S4, down to R/3 release 4.6C.
 - Can be downloaded from SAP Software Download Center of the SAP Support Portal, like described at https://support.sap.com/nwrfcsdk.
 - If you are lacking the required authorization for downloading software from the SAP Service Marketplace, please follow the instructions of [SAP Note 1037575](https://launchpad.support.sap.com/#/notes/1037575) for requesting this authorization.
+
+### Docker
+
+- Docker container examples for Linux, Intel and ARM based Darwin: [SAP/fundamental-tools/docker](https://github.com/SAP/fundamental-tools/tree/main/docker). SAP NWRFC SDK libraries are not included.
 
 ### Windows
 
