@@ -6,13 +6,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Building from source &#8212; pyrfc 2.7.0 documentation</title>
+    <title>Building from source &#8212; pyrfc 2.7.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -23,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.7.0 documentation</a></div>
+          href="index.html">pyrfc 2.7.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="authentication.html" title="Security"
              accesskey="P">previous</a> |
@@ -54,7 +51,7 @@ the distribution release code and documentation.</p>
 <h3>Linux platform<a class="headerlink" href="#linux-platform" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p><a class="reference internal" href="install.html#install-python-linux"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip install cython wheel pytest sphinx
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cython<span class="w"> </span>wheel<span class="w"> </span>pytest<span class="w"> </span>sphinx
 </pre></div>
 </div>
 </li>
@@ -69,7 +66,7 @@ header and library files as provided by your distribution</p></li>
 <h3>Windows platform<a class="headerlink" href="#windows-platform" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p><a class="reference internal" href="install.html#install-python-win"><span class="std std-ref">Install Python, pip</span></a> and utilities:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip install cython wheel pytest sphinx
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cython<span class="w"> </span>wheel<span class="w"> </span>pytest<span class="w"> </span>sphinx
 </pre></div>
 </div>
 </li>
@@ -91,8 +88,8 @@ out of the Bash shell as you may need that shell later on.</p></li>
 <h3>macOS platform<a class="headerlink" href="#macos-platform" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p>Install Xcode command line tools with C++ development headers and check if <cite>uchar.h</cite> copied to $SAPNWRFC_HOME/include</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>xcode-select --install
-sudo installer -pkg macOS_SDK_headers_for_macOS_10.14.pkg -target /
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>xcode-select<span class="w"> </span>--install
+sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>macOS_SDK_headers_for_macOS_10.14.pkg<span class="w"> </span>-target<span class="w"> </span>/
 </pre></div>
 </div>
 </li>
@@ -109,13 +106,13 @@ for example:</p>
 <section id="id1">
 <h3>Linux platform<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 <p>Clone the repository:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/SAP/PyRFC
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SAP/PyRFC
 </pre></div>
 </div>
 <p>Edit <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and set the CYTHON_VERSION</p>
 <p>Build the distribution</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python setup.py clean --all
-python setup.py bdist_wheel
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>clean<span class="w"> </span>--all
+python<span class="w"> </span>setup.py<span class="w"> </span>bdist_wheel
 </pre></div>
 </div>
 <p>The result is found in the <code class="docutils literal notranslate"><span class="pre">dist/</span></code> directory. The process has to be done on all platforms
@@ -124,19 +121,19 @@ for which we provide wheels.</p>
 <section id="id2">
 <h3>Windows platform<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>Open the <code class="docutils literal notranslate"><span class="pre">GIT</span> <span class="pre">Bash</span></code> shell and clone the repository.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/SAP/PyRFC
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SAP/PyRFC
 </pre></div>
 </div>
 <p>Open the <code class="docutils literal notranslate"><span class="pre">CMD</span> <span class="pre">Shell</span></code> from <code class="docutils literal notranslate"><span class="pre">Microsoft</span> <span class="pre">Windows</span> <span class="pre">SDK</span> <span class="pre">7.0</span></code> and change to cloned <code class="docutils literal notranslate"><span class="pre">pyrfc</span></code> folder.</p>
 <p>Edit <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and set the CYTHON_VERSION</p>
 <p>Set env variables for the release, use /x64 for 64 bit and /x86 for 32 bit:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">DISTUTILS_USE_SDK</span><span class="o">=</span><span class="m">1</span>
-setenv /x64 /release
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span><span class="nv">DISTUTILS_USE_SDK</span><span class="o">=</span><span class="m">1</span>
+setenv<span class="w"> </span>/x64<span class="w"> </span>/release
 </pre></div>
 </div>
 <p>Build the distribution:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python setup.py clean --all
-python setup.py bdist_wheel
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>clean<span class="w"> </span>--all
+python<span class="w"> </span>setup.py<span class="w"> </span>bdist_wheel
 </pre></div>
 </div>
 <p>Check the <code class="docutils literal notranslate"><span class="pre">pyrfc\dist</span></code> folder for a new created wheel.</p>
@@ -144,8 +141,8 @@ python setup.py bdist_wheel
 <section id="id3">
 <h3>macOS platform<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">MACOS_UNICODE_DIR</span><span class="o">=</span>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-sudo ln -s <span class="nv">$MACOS_UNICODE_DIR</span> <span class="nv">$SAPNWRFC_HOME</span>/include/unicode
-sudo cp <span class="nv">$MACOS_UNICODE_DIR</span>/uchar.h <span class="nv">$SAPNWRFC_HOME</span>/include/.
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$MACOS_UNICODE_DIR</span><span class="w"> </span><span class="nv">$SAPNWRFC_HOME</span>/include/unicode
+sudo<span class="w"> </span>cp<span class="w"> </span><span class="nv">$MACOS_UNICODE_DIR</span>/uchar.h<span class="w"> </span><span class="nv">$SAPNWRFC_HOME</span>/include/.
 </pre></div>
 </div>
 </section>
@@ -157,9 +154,9 @@ the 32bit version on 64 bit system in <code class="docutils literal notranslate"
 the PATH variable.</p>
 <p>However, the PATH variable is modified when using a virtual environment, therefore
 modify the <code class="docutils literal notranslate"><span class="pre">Scripts/activate.bat</span></code> file with:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="nv">SAPNWRFC_HOME</span><span class="o">=</span>C:<span class="se">\n</span>wrfcsdk_x86
-<span class="nb">set</span> <span class="nv">PATH</span><span class="o">=</span>C:<span class="se">\n</span>wrfcsdk_x86<span class="se">\l</span>ib<span class="se">\;</span>%PATH%
-<span class="nb">set</span> <span class="nv">PATH</span><span class="o">=</span>%VIRTUAL_ENV%<span class="se">\S</span>cripts<span class="p">;</span>%PATH%
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span><span class="nv">SAPNWRFC_HOME</span><span class="o">=</span>C:<span class="se">\n</span>wrfcsdk_x86
+<span class="nb">set</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>C:<span class="se">\n</span>wrfcsdk_x86<span class="se">\l</span>ib<span class="se">\;</span>%PATH%
+<span class="nb">set</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>%VIRTUAL_ENV%<span class="se">\S</span>cripts<span class="p">;</span>%PATH%
 </pre></div>
 </div>
 <p>This assures that specific SAP NW RFC Library is used (e.g. 32bit in this example).
@@ -170,8 +167,8 @@ activate the virtual environment and assure that library paths are correct in <c
 <section id="python-3">
 <h3>Python 3<a class="headerlink" href="#python-3" title="Permalink to this heading">¶</a></h3>
 <p>Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo apt-get install python3-setuptools python3-dev python-configparser
-sudo pip3 install cython sphinx ipython pytest wheel
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-setuptools<span class="w"> </span>python3-dev<span class="w"> </span>python-configparser
+sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>cython<span class="w"> </span>sphinx<span class="w"> </span>ipython<span class="w"> </span>pytest<span class="w"> </span>wheel
 </pre></div>
 </div>
 </section>
@@ -180,8 +177,8 @@ sudo pip3 install cython sphinx ipython pytest wheel
 <h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this heading">¶</a></h2>
 <p>Ensure that the lib directory of the SAP NW RFC library is in your PATH environment.</p>
 <p>Change into the <code class="docutils literal notranslate"><span class="pre">doc</span></code> directory and type:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make clean
-make html
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>clean
+make<span class="w"> </span>html
 </pre></div>
 </div>
 <p>The result is found in <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> and for other options call <code class="docutils literal notranslate"><span class="pre">make</span></code>.</p>
@@ -193,10 +190,10 @@ make html
 as an orphan and the output of the documentation build process (<code class="docutils literal notranslate"><span class="pre">_build/html</span></code>) is stored in that branch.
 GitHub then serves these files under a special <code class="docutils literal notranslate"><span class="pre">/pages/</span></code> url.</p>
 <p>To update GitHub Pages, copy everyhing under <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> and overwrite the existing files in the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch root.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cp -R _build/html ~/tmp
-git checkout gh-pages
-rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv .buildinfo
-cp -R ~/tmp/_build/html/. .
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-R<span class="w"> </span>_build/html<span class="w"> </span>~/tmp
+git<span class="w"> </span>checkout<span class="w"> </span>gh-pages
+rm<span class="w"> </span>-Rf<span class="w"> </span>*.html<span class="w"> </span>*.js<span class="w"> </span>*.egg<span class="w"> </span>build<span class="w"> </span>doc<span class="w"> </span>_*<span class="w"> </span>pyrfc*<span class="w"> </span>*.inv<span class="w"> </span>.buildinfo
+cp<span class="w"> </span>-R<span class="w"> </span>~/tmp/_build/html/.<span class="w"> </span>.
 </pre></div>
 </div>
 <div class="admonition note">
@@ -270,8 +267,8 @@ cp -R ~/tmp/_build/html/. .
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2022-11-28 13:14.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+      Last updated on 2023-03-29 12:15.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
         </div>
         <div class="clearer"></div>

@@ -6,13 +6,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Installation &#8212; pyrfc 2.7.0 documentation</title>
+    <title>Installation &#8212; pyrfc 2.7.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -23,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.7.0 documentation</a></div>
+          href="index.html">pyrfc 2.7.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |
@@ -55,13 +52,13 @@ or clone this repository and build <code class="xref py py-mod docutils literal 
 <p>The error message like below indicates that SAP NWRFC SDK installation is technically correct, expecting more input parameters.
 Different error message may be caused by missing Windows C++ binary for example, or another installation inconsistency:</p>
 <blockquote>
-<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /usr/local/sap/nwrfcsdk/bin
-$ ./rfcexec
-Error: Not all mandatory parameters specified
-Please start the program <span class="k">in</span> the following way:
-rfcexec -t -a &lt;program ID&gt; -g &lt;gateway host&gt; -x &lt;gateway service&gt;
-        -f &lt;file with list of allowed commands&gt; -s &lt;allowed Sys ID&gt;
-The options <span class="s2">&quot;-t&quot;</span> <span class="o">(</span>trace<span class="o">)</span>, <span class="s2">&quot;-f&quot;</span> and <span class="s2">&quot;-s&quot;</span> are optional.
+<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/local/sap/nwrfcsdk/bin
+$<span class="w"> </span>./rfcexec
+Error:<span class="w"> </span>Not<span class="w"> </span>all<span class="w"> </span>mandatory<span class="w"> </span>parameters<span class="w"> </span>specified
+Please<span class="w"> </span>start<span class="w"> </span>the<span class="w"> </span>program<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>way:
+rfcexec<span class="w"> </span>-t<span class="w"> </span>-a<span class="w"> </span>&lt;program<span class="w"> </span>ID&gt;<span class="w"> </span>-g<span class="w"> </span>&lt;gateway<span class="w"> </span>host&gt;<span class="w"> </span>-x<span class="w"> </span>&lt;gateway<span class="w"> </span>service&gt;
+<span class="w">        </span>-f<span class="w"> </span>&lt;file<span class="w"> </span>with<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>allowed<span class="w"> </span>commands&gt;<span class="w"> </span>-s<span class="w"> </span>&lt;allowed<span class="w"> </span>Sys<span class="w"> </span>ID&gt;
+The<span class="w"> </span>options<span class="w"> </span><span class="s2">&quot;-t&quot;</span><span class="w"> </span><span class="o">(</span>trace<span class="o">)</span>,<span class="w"> </span><span class="s2">&quot;-f&quot;</span><span class="w"> </span>and<span class="w"> </span><span class="s2">&quot;-s&quot;</span><span class="w"> </span>are<span class="w"> </span>optional.
 </pre></div>
 </div>
 </div></blockquote>
@@ -98,15 +95,15 @@ enter the following values:</p>
 </div>
 </li>
 <li><p>As <code class="docutils literal notranslate"><span class="pre">root</span></code>, run the command <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code>. To check if libraries are installed:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ ldconfig -p <span class="p">|</span> grep sap <span class="c1"># should show something like:</span>
-  libsapucum.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libsapucum.so
-  libsapnwrfc.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libsapnwrfc.so
-  libicuuc.so.50 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicuuc.so.50
-  libicui18n.so.50 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicui18n.so.50
-  libicudecnumber.so <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicudecnumber.so
-  libicudata.so.50 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/local/sap/nwrfcsdk/lib/libicudata.so.50
-  libgssapi_krb5.so.2 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2
-  libgssapi.so.3 <span class="o">(</span>libc6,x86-64<span class="o">)</span> <span class="o">=</span>&gt; /usr/lib/x86_64-linux-gnu/libgssapi.so.3
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ldconfig<span class="w"> </span>-p<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>sap<span class="w"> </span><span class="c1"># should show something like:</span>
+<span class="w">  </span>libsapucum.so<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/local/sap/nwrfcsdk/lib/libsapucum.so
+<span class="w">  </span>libsapnwrfc.so<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/local/sap/nwrfcsdk/lib/libsapnwrfc.so
+<span class="w">  </span>libicuuc.so.50<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/local/sap/nwrfcsdk/lib/libicuuc.so.50
+<span class="w">  </span>libicui18n.so.50<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/local/sap/nwrfcsdk/lib/libicui18n.so.50
+<span class="w">  </span>libicudecnumber.so<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/local/sap/nwrfcsdk/lib/libicudecnumber.so
+<span class="w">  </span>libicudata.so.50<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/local/sap/nwrfcsdk/lib/libicudata.so.50
+<span class="w">  </span>libgssapi_krb5.so.2<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2
+<span class="w">  </span>libgssapi.so.3<span class="w"> </span><span class="o">(</span>libc6,x86-64<span class="o">)</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>/usr/lib/x86_64-linux-gnu/libgssapi.so.3
 $
 </pre></div>
 </div>
@@ -120,7 +117,7 @@ $
 <p>The macOS firewall stealth mode is by default active, blocking the ICMP protocol based network access to Macbook. Applications like
 Ping do not work by default (<a class="reference external" href="https://discussions.apple.com/thread/2554739">Can’t ping a machine - why?</a>) and the stealth mode
 must be disabled:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>/usr/libexec/ApplicationFirewall/socketfilterfw<span class="w"> </span>--setstealthmode<span class="w"> </span>off
 </pre></div>
 </div>
 <ol class="arabic simple">
@@ -136,9 +133,9 @@ and copy the <cite>uchar.h</cite> file to SAP NWRFC SDK include directory</p></l
 <p>For SAP NWRFC SDK, set the SAPNWRFC_HOME env variable to new SAP NWRFC SDK root directory and re-run the above script.</p>
 <p>For pyrfc:</p>
 <blockquote>
-<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ unzip unzip pyrfc-2.0.1-cp38-cp38-macosx_10_15_x86_64.whl
-$ <span class="nb">cd</span> pyrfc
-$ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib &lt;new path&gt; _pyrfc.cpython-38-darwin.so
+<div><div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>unzip<span class="w"> </span>unzip<span class="w"> </span>pyrfc-2.0.1-cp38-cp38-macosx_10_15_x86_64.whl
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>pyrfc
+$<span class="w"> </span>install_name_tool<span class="w"> </span>-rpath<span class="w"> </span>/usr/local/sap/nwrfcsdk/lib<span class="w"> </span>&lt;new<span class="w"> </span>path&gt;<span class="w"> </span>_pyrfc.cpython-38-darwin.so
 </pre></div>
 </div>
 </div></blockquote>
@@ -159,9 +156,9 @@ $ install_name_tool -rpath /usr/local/sap/nwrfcsdk/lib &lt;new path&gt; _pyrfc.c
 </li>
 <li><p>Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p></li>
 <li><p>Install the Python connector from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-win_amd64.whl
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-win_amd64.whl
 
-pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
+pip<span class="w"> </span>install<span class="w"> </span>pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 </pre></div>
 </div>
 <p>Please look up the correct wheel name, depending on your platform and Python version.</p>
@@ -175,9 +172,9 @@ pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
 <li><p>Install Python 3</p></li>
 <li><p>Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p></li>
 <li><p>Install the Python connector from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-linux_x86_64.whl
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-linux_x86_64.whl
 
-pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
+pip<span class="w"> </span>install<span class="w"> </span>pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
 </pre></div>
 </div>
 <p>Please look up the correct wheel name, depending on your platform and Python version.</p>
@@ -189,8 +186,8 @@ pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
 <h3>macOS<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
 <p id="install-python-macos">The macOS system version of Python is usually the older one and using wirtual environments,
 like <a class="reference external" href="https://github.com/pyenv/pyenv">pyenv</a> for example, is recommended:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pyenv install <span class="m">3</span>.8.0
-pyenv virtualenv <span class="m">3</span>.8.0 py380
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.8.0
+pyenv<span class="w"> </span>virtualenv<span class="w"> </span><span class="m">3</span>.8.0<span class="w"> </span>py380
 </pre></div>
 </div>
 <p>Install the Python connector the same way like for Linux.</p>
@@ -312,8 +309,8 @@ the desired variable.</p></li>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2022-11-28 13:14.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+      Last updated on 2023-03-29 12:15.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
         </div>
         <div class="clearer"></div>

@@ -6,13 +6,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Server scenario &#8212; pyrfc 2.7.0 documentation</title>
+    <title>Server scenario &#8212; pyrfc 2.7.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -23,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.7.0 documentation</a></div>
+          href="index.html">pyrfc 2.7.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="client.html" title="Client scenario"
              accesskey="P">previous</a> |
@@ -50,64 +47,205 @@ to consume Python functionality. Python functionality must be exposed like
 an ABAP function module and Python server shall provide input / output parameters
 just like ABAP function module.</p>
 <p>To streamline that process, the real ABAP function module is used as a
-“blueprint” and Python server will create exactly the same interface to
-expose the functionality.</p>
+“blueprint” and Python server will create exactly such ABAP interface to
+expose Python functionality.</p>
 <p>When Python server function “ABC” for example is registered on Python server,
 the name of ABAP “blueprint” function module is given, where the input/output
-parameters definition shall be taken from. The Python server function “ABC”
-can therefore look like ABAP function module “XYZ” for example, using exactly  the same interface
-like “XYZ”. The ABAP logic of “XYZ” is here irrelevant, the function module can
-be empty. Already existing or new ABAP function module can be used here.</p>
-<p>Python RFC server shall run in separate thread and that thread is either created
-automatically, by PyRFC, or it can be created by Python application.</p>
-<section id="examples">
-<span id="server-ex"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
-<p>Here the PyRFC server is registered for ABAP system <code class="docutils literal notranslate"><span class="pre">gateway</span></code> and function modules’
-“blueprint” definitions are read from ABAP system <code class="docutils literal notranslate"><span class="pre">MME</span></code>.</p>
-<p>Python function <code class="docutils literal notranslate"><span class="pre">my_stfc_connection</span></code> is exposed as ABAP function <code class="docutils literal notranslate"><span class="pre">STFC_CONNECTION</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create server for ABAP system ABC</span>
-<span class="n">server1</span> <span class="o">=</span> <span class="n">Server</span><span class="p">({</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;gateway&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;MME&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8081</span><span class="p">,</span> <span class="s2">&quot;server_log&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
-
-<span class="c1"># expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called by ABAP system</span>
-<span class="n">server1</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;STFC_CONNECTION&quot;</span><span class="p">,</span> <span class="n">my_stfc_connection</span><span class="p">)</span>
-</pre></div>
-</div>
+parameters definition shall be taken from. Let use ABAP function module “XYZ” for
+this example. The Python server will fetch ABAP function module “XYZ” definition
+and expose Python function using ABAP function module input/output parameters.
+The ABAP logic of “XYZ” is here irrelevant, the function module can
+be empty. Already existing or new ABAP function module can be used to define
+Python function interface.</p>
+<p>Python RFC server shall run in separate thread, created automatically by PyRFC,
+or created by Python application.</p>
 <section id="server-in-thread-created-by-pyrfc">
-<h3>Server in thread created by PyRFC<a class="headerlink" href="#server-in-thread-created-by-pyrfc" title="Permalink to this heading">¶</a></h3>
+<span id="server-thread-pyrfc"></span><h2>Server in thread created by PyRFC<a class="headerlink" href="#server-in-thread-created-by-pyrfc" title="Permalink to this heading">¶</a></h2>
 <p>Server running in new thread created by PyRFC is started using <code class="docutils literal notranslate"><span class="pre">start()</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># start 1st server</span>
-<span class="n">server1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">({</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;gateway&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;MME&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8081</span><span class="p">,</span> <span class="s2">&quot;server_log&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
 
-<span class="c1"># get server attributes</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;server1&quot;</span><span class="p">,</span> <span class="n">server1</span><span class="o">.</span><span class="n">get_server_attributes</span><span class="p">())</span>
+<span class="c1"># expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system</span>
+<span class="n">server</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;STFC_STRUCTURE&quot;</span><span class="p">,</span> <span class="n">my_stfc_structure</span><span class="p">)</span>
+
+<span class="c1"># start server</span>
+<span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
 </pre></div>
 </div>
 <p>and can be stopped using <code class="docutils literal notranslate"><span class="pre">stop()</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server1</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Server 1 stoped&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Server stoped&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Example: <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/start_stop.py">start_stop.py</a></p>
+<p>Example: <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/server_pyrfc_thread.py">server_pyrfc_thread.py</a></p>
 </section>
 <section id="server-in-thread-created-by-application">
-<h3>Server in thread created by application<a class="headerlink" href="#server-in-thread-created-by-application" title="Permalink to this heading">¶</a></h3>
-<p>Server running in new thread created by application is started using
-<code class="docutils literal notranslate"><span class="pre">serve()</span></code> method, like</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server1_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">server1_serve</span><span class="p">)</span>
-<span class="n">server1_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Server1 started&quot;</span><span class="p">)</span>
+<span id="server-thread-app"></span><h2>Server in thread created by application<a class="headerlink" href="#server-in-thread-created-by-application" title="Permalink to this heading">¶</a></h2>
+<p>Here the PyRFC server is registered for ABAP system <code class="docutils literal notranslate"><span class="pre">gateway</span></code> and Python function
+<code class="docutils literal notranslate"><span class="pre">my_stfc_connection</span></code> is exposed input/output parameters like ABAP function module <code class="docutils literal notranslate"><span class="pre">STFC_CONNECTION</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># server function</span>
+<span class="k">def</span> <span class="nf">my_stfc_connection</span><span class="p">(</span><span class="n">request_context</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">REQUTEXT</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;stfc connection invoked&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;request_context&quot;</span><span class="p">,</span> <span class="n">request_context</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;REQUTEXT: </span><span class="si">{</span><span class="n">REQUTEXT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># start server</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Server is created and started in Python function <cite>launch_server()</cite> and this function is invoked in
+new thread started by application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># start server</span>
+<span class="k">def</span> <span class="nf">launch_server</span><span class="p">():</span>
+    <span class="c1"># create server for ABAP system ABC</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">({</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;gateway&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;MME&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8081</span><span class="p">,</span> <span class="s2">&quot;server_log&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">get_server_attributes</span><span class="p">())</span>
+
+    <span class="c1"># expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called by ABAP system</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;STFC_CONNECTION&quot;</span><span class="p">,</span> <span class="n">my_stfc_connection</span><span class="p">)</span>
+
+    <span class="c1"># start server</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
+
+    <span class="c1"># get server attributes</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">get_server_attributes</span><span class="p">())</span>
+
+<span class="n">server_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">launch_server</span><span class="p">)</span>
+<span class="n">server_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>and stopped by application:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Press Enter to stop server1...&quot;</span><span class="p">)</span>
-
-<span class="n">server1_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># stop server</span>
+<span class="n">server_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Server  stoped&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Example: <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/serve.py">serve.py</a></p>
+<p>Example: <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/server_app_thread.py">server_app_thread.py</a></p>
 <p>Source code of ABAP test reports, calling RFC function modules exposed by Python server:
 <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/z_stfc_connection_call.abap">z_stfc_connection_call.abap</a> and
 <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/z_stfc_structure_call.abap">z_stfc_structure_call.abap</a></p>
+</section>
+<section id="background-rfc-bgrfc-server">
+<span id="server-bgrfc"></span><h2>Background RFC (bgRFC) Server<a class="headerlink" href="#background-rfc-bgrfc-server" title="Permalink to this heading">¶</a></h2>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h3>
+<p>Configure RFC destination using <code class="docutils literal notranslate"><span class="pre">SM59</span></code> transaction</p>
+<ul class="simple">
+<li><p>TCP/IP Connection <code class="docutils literal notranslate"><span class="pre">NWRFC_SERVER_OS</span></code></p></li>
+<li><p>Special Options &gt; Select Protocol: basXML serializer</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">basXML</span></code> serializer shall be configured for RFC server destination in SM59 transaction</p>
+<a class="reference internal image-reference" href="_images/sm59-serializer.png"><img alt="_images/sm59-serializer.png" src="_images/sm59-serializer.png" style="width: 874.0px; height: 387.5px;" /></a>
+<p>Configure bgRFC queues using <code class="docutils literal notranslate"><span class="pre">SBGRFCCONF</span></code> transaction</p>
+<p>Scheduler app server and destination</p>
+<a class="reference internal image-reference" href="_images/SBGRFCCONF-Scheduler-App-Server.png"><img alt="_images/SBGRFCCONF-Scheduler-App-Server.png" src="_images/SBGRFCCONF-Scheduler-App-Server.png" style="width: 809.0px; height: 557.0px;" /></a>
+<p>Scheduler destination</p>
+<a class="reference internal image-reference" href="_images/SBGRFCCONF-Scheduler-Destination.png"><img alt="_images/SBGRFCCONF-Scheduler-Destination.png" src="_images/SBGRFCCONF-Scheduler-Destination.png" style="width: 548.0px; height: 454.0px;" /></a>
+<p>Configure inbound destination prefixes for bgRFC queues’ names. Other queue names are processed as standard RFC queues.</p>
+<a class="reference internal image-reference" href="_images/SBGRFCCONF-Define-Inbound-Destination.png"><img alt="_images/SBGRFCCONF-Define-Inbound-Destination.png" src="_images/SBGRFCCONF-Define-Inbound-Destination.png" style="width: 729.0px; height: 615.0px;" /></a>
+</section>
+<section id="bgrfc-client">
+<h3>bgRFC Client<a class="headerlink" href="#bgrfc-client" title="Permalink to this heading">¶</a></h3>
+<p>To test sending bgRFC queue to ABAP system, you can try the example
+<a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/bgrfc_client.py">bgrfc_client.py</a> , adapted to your system,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/server/bgrfc_client.py<span class="w"> </span>MME
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">unit</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">initialize_unit</span><span class="p">()</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BGRFC_TEST_OUTIN&quot;</span>
+<span class="n">counter</span> <span class="o">=</span> <span class="s2">&quot;00001&quot;</span>
+
+<span class="n">c</span><span class="o">.</span><span class="n">fill_and_submit_unit</span><span class="p">(</span>
+    <span class="n">unit</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;STFC_WRITE_TO_TCPIC&quot;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;TCPICDAT&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">20</span><span class="si">}{</span><span class="n">counter</span><span class="si">:</span><span class="s2">20</span><span class="si">}{</span><span class="n">unit</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">32</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]},</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+    <span class="n">queue_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RFCSDK_QUEUE_IN&quot;</span><span class="p">],</span>
+    <span class="n">attributes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lock&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Check bgRFC queue status using <code class="docutils literal notranslate"><span class="pre">SBGRFCMON</span> <span class="pre">-</span> <span class="pre">bgRFC</span> <span class="pre">Monitor</span></code> transaction</p>
+<p>Deleting the unit lock will release the unit for immediate execution</p>
+<a class="reference internal image-reference" href="_images/SBGRFCMON1-Client-MME.png"><img alt="_images/SBGRFCMON1-Client-MME.png" src="_images/SBGRFCMON1-Client-MME.png" style="width: 674.0px; height: 490.0px;" /></a>
+<a class="reference internal image-reference" href="_images/SBGRFCMON2-Client-MME.png"><img alt="_images/SBGRFCMON2-Client-MME.png" src="_images/SBGRFCMON2-Client-MME.png" style="width: 1341.0px; height: 186.0px;" /></a>
+</section>
+<section id="bgrfc-server">
+<h3>bgRFC Server<a class="headerlink" href="#bgrfc-server" title="Permalink to this heading">¶</a></h3>
+<p>For bgRFC server configuration and implementation, first check the section <code class="docutils literal notranslate"><span class="pre">5.6</span> <span class="pre">Queued</span> <span class="pre">and</span> <span class="pre">Background</span> <span class="pre">RFC</span> <span class="pre">Server</span></code> of
+<a class="reference external" href="https://support.sap.com/content/dam/support/en_us/library/ssp/products/connectors/nwrfcsdk/NW_RFC_750_ProgrammingGuide.pdf">SAP NWRFC SDK 7.50 Programming Guide</a></p>
+<p>In addition to standard server, the bgRFC server requires the implementation of bgRFC event handlers,
+as per example <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/bgrfc_server.py">bgrfc_server.py</a>
+Event handlers shall be registered before server has started:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># register bgRFC handlers</span>
+<span class="n">server</span><span class="o">.</span><span class="n">bgrfc_init</span><span class="p">(</span>
+    <span class="n">backend_dest</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;check&quot;</span><span class="p">:</span> <span class="n">onCheckFunction</span><span class="p">,</span>
+        <span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="n">onCommitFunction</span><span class="p">,</span>
+        <span class="s2">&quot;rollback&quot;</span><span class="p">:</span> <span class="n">onRollbackFunction</span><span class="p">,</span>
+        <span class="s2">&quot;confirm&quot;</span><span class="p">:</span> <span class="n">onConfirmFunction</span><span class="p">,</span>
+        <span class="s2">&quot;getState&quot;</span><span class="p">:</span> <span class="n">onGetStateFunction</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="c1"># start server</span>
+<span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To test, first start the Python server</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/server/bgrfc_server.py<span class="w"> </span>ALX
+
+<span class="o">[</span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:16:13.215013<span class="w"> </span>UTC<span class="o">]</span><span class="w"> </span>Server<span class="w"> </span>connection<span class="w"> </span><span class="s1">&#39;5175819264&#39;</span>
+<span class="o">{</span><span class="s1">&#39;serverName&#39;</span>:<span class="w"> </span><span class="s1">&#39;&#39;</span>,<span class="w"> </span><span class="s1">&#39;protocolType&#39;</span>:<span class="w"> </span><span class="s1">&#39;multi count&#39;</span>,<span class="w"> </span><span class="s1">&#39;registrationCount&#39;</span>:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span><span class="s1">&#39;state&#39;</span>:<span class="w"> </span><span class="s1">&#39;RFC_SERVER_INITIAL&#39;</span>,<span class="w"> </span><span class="s1">&#39;currentBusyCount&#39;</span>:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span><span class="s1">&#39;peakBusyCount&#39;</span>:<span class="w"> </span><span class="m">0</span><span class="o">}</span>
+<span class="o">[</span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:16:13.577820<span class="w"> </span>UTC<span class="o">]</span><span class="w"> </span>Server<span class="w"> </span><span class="k">function</span><span class="w"> </span>installed<span class="w"> </span><span class="s1">&#39;STFC_WRITE_TO_TCPIC&#39;</span>
+<span class="o">[</span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:16:13.578015<span class="w"> </span>UTC<span class="o">]</span><span class="w"> </span>Server<span class="w"> </span><span class="k">function</span><span class="w"> </span>installed<span class="w"> </span><span class="s1">&#39;{&#39;</span>func_desc_handle<span class="s1">&#39;: 5166353136, &#39;</span>callback<span class="s1">&#39;: &lt;function stfc_write_to_tcpic at 0x1007f2020&gt;, &#39;</span>server<span class="s1">&#39;: &lt;pyrfc._cyrfc.Server object at 0x1008b81d0&gt;}&#39;</span>
+<span class="o">[</span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:16:13.645304<span class="w"> </span>UTC<span class="o">]</span><span class="w"> </span>Server<span class="w"> </span><span class="s1">&#39;launched 5175819264&#39;</span>
+Press<span class="w"> </span>Enter<span class="w"> </span>key<span class="w"> </span>to<span class="w"> </span>stop<span class="w"> </span>server...
+</pre></div>
+</div>
+<p>Then run ABAP test report <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/z_nwrfc_server_bgrfc.abap">z_nwrfc_server_bgrfc.abap</a>
+to create outbound bgRFC queue in ABAP system</p>
+<img alt="_images/z_nwrfc_server_bgrfc.png" class="align-center" src="_images/z_nwrfc_server_bgrfc.png" />
+<p>After pressing the <code class="docutils literal notranslate"><span class="pre">Execute</span></code> button, the server log in Python system shell continues with</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>bgRFC:onCheck<span class="w"> </span>handle<span class="w"> </span><span class="m">5175859712</span><span class="w"> </span>tid<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>status<span class="w"> </span>created
+<span class="o">[</span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.128859<span class="w"> </span>UTC<span class="o">]</span><span class="w"> </span>metadataLookup<span class="w"> </span><span class="s1">&#39;Function &#39;</span>STFC_WRITE_TO_TCPIC<span class="s1">&#39; handle 5166353136.&#39;</span>
+<span class="o">[</span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.130577<span class="w"> </span>UTC<span class="o">]</span><span class="w"> </span>genericHandler<span class="w"> </span><span class="s1">&#39;User &#39;</span>BOSKOVIC<span class="s1">&#39; from system &#39;</span>ALX<span class="s1">&#39;, client &#39;</span><span class="m">000</span><span class="s1">&#39;, host &#39;</span>vmw6265.wdf.sap.corp<span class="s1">&#39; invokes &#39;</span>STFC_WRITE_TO_TCPIC<span class="s1">&#39;&#39;</span>
+<span class="o">[</span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.130621<span class="w"> </span>UTC<span class="o">]</span><span class="w"> </span>authorization<span class="w"> </span>check<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;STFC_WRITE_TO_TCPIC&#39;</span><span class="w"> </span><span class="s1">&#39;{&#39;</span>call_type<span class="s1">&#39;: &lt;UnitCallType.background_unit: 3&gt;, &#39;</span>is_stateful<span class="s1">&#39;: False, &#39;</span>unit_identifier<span class="s1">&#39;: {&#39;</span>queued<span class="s1">&#39;: True, &#39;</span>id<span class="s1">&#39;: &#39;</span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="s1">&#39;}, &#39;</span>unit_attributes<span class="s1">&#39;: {&#39;</span>kernel_trace<span class="s1">&#39;: False, &#39;</span>sat_trace<span class="s1">&#39;: False, &#39;</span>unit_history<span class="s1">&#39;: False, &#39;</span>lock<span class="s1">&#39;: True, &#39;</span>no_commit_check<span class="s1">&#39;: False, &#39;</span>user<span class="s1">&#39;: &#39;</span>BOSKOVIC<span class="s1">&#39;, &#39;</span>client<span class="s1">&#39;: &#39;</span><span class="m">000</span><span class="s1">&#39;, &#39;</span>t_code<span class="s1">&#39;: &#39;</span>SE38<span class="s1">&#39;, &#39;</span>program<span class="s1">&#39;: &#39;</span>Z_NWRFC_SERVER_BGRFC<span class="s1">&#39;, &#39;</span>hostname<span class="s1">&#39;: &#39;</span>ldai1alx_ALX_18<span class="s1">&#39;, &#39;</span>sending_date<span class="s1">&#39;: &#39;</span><span class="m">20230328</span><span class="s1">&#39;, &#39;</span>sending_time<span class="s1">&#39;: &#39;</span><span class="m">122427</span><span class="s1">&#39;}}&#39;</span>
+server<span class="w"> </span><span class="k">function</span>:<span class="w"> </span>stfc_write_to_tcpic<span class="w"> </span>tid:<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>call:<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;call_type&#39;</span>:<span class="w"> </span>&lt;UnitCallType.background_unit:<span class="w"> </span><span class="m">3</span>&gt;,<span class="w"> </span><span class="s1">&#39;is_stateful&#39;</span>:<span class="w"> </span>False,<span class="w"> </span><span class="s1">&#39;unit_identifier&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;queued&#39;</span>:<span class="w"> </span>True,<span class="w"> </span><span class="s1">&#39;id&#39;</span>:<span class="w"> </span><span class="s1">&#39;FA163E82B1991EDDB3AC6EB2628DE0F1&#39;</span><span class="o">}</span>,<span class="w"> </span><span class="s1">&#39;unit_attributes&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;kernel_trace&#39;</span>:<span class="w"> </span>False,<span class="w"> </span><span class="s1">&#39;sat_trace&#39;</span>:<span class="w"> </span>False,<span class="w"> </span><span class="s1">&#39;unit_history&#39;</span>:<span class="w"> </span>False,<span class="w"> </span><span class="s1">&#39;lock&#39;</span>:<span class="w"> </span>True,<span class="w"> </span><span class="s1">&#39;no_commit_check&#39;</span>:<span class="w"> </span>False,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;BOSKOVIC&#39;</span>,<span class="w"> </span><span class="s1">&#39;client&#39;</span>:<span class="w"> </span><span class="s1">&#39;000&#39;</span>,<span class="w"> </span><span class="s1">&#39;t_code&#39;</span>:<span class="w"> </span><span class="s1">&#39;SE38&#39;</span>,<span class="w"> </span><span class="s1">&#39;program&#39;</span>:<span class="w"> </span><span class="s1">&#39;Z_NWRFC_SERVER_BGRFC&#39;</span>,<span class="w"> </span><span class="s1">&#39;hostname&#39;</span>:<span class="w"> </span><span class="s1">&#39;ldai1alx_ALX_18&#39;</span>,<span class="w"> </span><span class="s1">&#39;sending_date&#39;</span>:<span class="w"> </span><span class="s1">&#39;20230328&#39;</span>,<span class="w"> </span><span class="s1">&#39;sending_time&#39;</span>:<span class="w"> </span><span class="s1">&#39;122427&#39;</span><span class="o">}}</span>
+TCPICDAT:<span class="w"> </span><span class="o">[{</span><span class="s1">&#39;LINE&#39;</span>:<span class="w"> </span><span class="s1">&#39;BASIS_BGRFC_OUTIN   00001               12345678901234567890123456789012&#39;</span><span class="o">}]</span>
+bgRFC:onCommit<span class="w"> </span>handle<span class="w"> </span><span class="m">5175859712</span><span class="w"> </span>unit<span class="w"> </span><span class="o">{</span><span class="s1">&#39;queued&#39;</span>:<span class="w"> </span>True,<span class="w"> </span><span class="s1">&#39;id&#39;</span>:<span class="w"> </span><span class="s1">&#39;FA163E82B1991EDDB3AC6EB2628DE0F1&#39;</span><span class="o">}</span>
+bgRFC:onConfirm<span class="w"> </span>handle<span class="w"> </span><span class="m">5175859712</span><span class="w"> </span>unit<span class="w"> </span><span class="o">{</span><span class="s1">&#39;queued&#39;</span>:<span class="w"> </span>True,<span class="w"> </span><span class="s1">&#39;id&#39;</span>:<span class="w"> </span><span class="s1">&#39;FA163E82B1991EDDB3AC6EB2628DE0F1&#39;</span><span class="o">}</span>
+</pre></div>
+</div>
+<p>After pressing <code class="docutils literal notranslate"><span class="pre">Enter</span></code> button in Python system shell, recorded events are shown, recorded in <a class="reference external" href="https://github.com/SAP/PyRFC/blob/masterexamples/server/tlog.log">tlog.log</a></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.127087<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>created
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.130816<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>executed<span class="w"> </span>stfc_write_to_tcpic
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.132676<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>committed
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.224103<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>confirmed
+</pre></div>
+</div>
+<p>Unit status management and log example is provided in <code class="docutils literal notranslate"><span class="pre">TLog</span></code> class in <a class="reference external" href="https://github.com/SAP/PyRFC/blob/masterexamples/server/tlog.py">tlog.py</a> script
+and can be tested like:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/server/tlog.py
+
+True
+<span class="o">{</span><span class="s1">&#39;utc&#39;</span>:<span class="w"> </span><span class="s1">&#39;2023-03-28 12:32:35.064000&#39;</span>,<span class="w"> </span><span class="s1">&#39;tid&#39;</span>:<span class="w"> </span><span class="s1">&#39;60819ABA77594C698E98D552951A8A3B&#39;</span>,<span class="w"> </span><span class="s1">&#39;status&#39;</span>:<span class="w"> </span><span class="s1">&#39;executed&#39;</span>,<span class="w"> </span><span class="s1">&#39;note&#39;</span>:<span class="w"> </span><span class="s1">&#39;python_function_module&#39;</span><span class="o">}</span>
+
+<span class="m">6</span>
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.127087<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>created
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.130816<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>executed<span class="w"> </span>stfc_write_to_tcpic
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.132676<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>committed
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:24:27.224103<span class="w"> </span>FA163E82B1991EDDB3AC6EB2628DE0F1<span class="w"> </span>confirmed
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:31:38.743892<span class="w"> </span>41C5E22EB6D345EDBA8D8FBCD9F3EDE9<span class="w"> </span>created
+<span class="m">2023</span>-03-28<span class="w"> </span><span class="m">12</span>:31:38.744026<span class="w"> </span>41C5E22EB6D345EDBA8D8FBCD9F3EDE9<span class="w"> </span>executed<span class="w"> </span>python_function_module
+</pre></div>
+</div>
 </section>
 </section>
 </section>
@@ -126,7 +264,9 @@ automatically, by PyRFC, or it can be created by Python application.</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client.html">Client scenario</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Server scenario</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#server-in-thread-created-by-pyrfc">Server in thread created by PyRFC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#server-in-thread-created-by-application">Server in thread created by application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background-rfc-bgrfc-server">Background RFC (bgRFC) Server</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Security</a></li>
@@ -173,8 +313,8 @@ automatically, by PyRFC, or it can be created by Python application.</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2022-11-28 13:14.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+      Last updated on 2023-03-29 12:15.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
         </div>
         <div class="clearer"></div>
