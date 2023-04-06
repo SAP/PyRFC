@@ -8,13 +8,7 @@
 
 from pyrfc import Connection
 
-from decimal import Decimal
-
-from tests.config import (
-    PARAMS as params,
-    CONFIG_SECTIONS as config_sections,
-    UNICODETEST,
-)
+from tests.config import PARAMS as params
 
 
 class TestOptions:

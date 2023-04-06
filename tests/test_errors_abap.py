@@ -157,7 +157,8 @@ class TestErrorsABAP:
 
     # def test_RFC_RAISE_ERROR_CommunicationError(self):
     #     # Comment: cf. result_print of the error_test.py
-    #     # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message (CM_NO_DATA_RECEIVED)-True',
+    #     # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message
+    #     # (CM_NO_DATA_RECEIVED)-True',
     #     try:
     #         self.conn.call("RFC_RAISE_ERROR", METHOD="32", MESSAGETYPE="E")
 

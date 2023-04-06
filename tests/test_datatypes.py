@@ -19,7 +19,6 @@ from tests.config import (
     ABAP_to_python_time,
     python_to_ABAP_date,
     python_to_ABAP_time,
-    UNICODETEST,
     BYTEARRAY_TEST,
     BYTES_TEST,
 )
@@ -30,8 +29,10 @@ setlocale(LC_ALL)
 
 client = Connection(**CONNECTION_INFO)
 
+
 def get_locale_radix():
     return localeconv()['decimal_point']
+
 
 def test_structure_rejects_non_dict():
     with pytest.raises(TypeError) as ex:
@@ -405,12 +406,12 @@ def test_date_time():
             if counter < 13:
                 assert error.args[0] == "date value required, received"
                 assert error.args[1] == dt["RFCDATE"]
-                assert error.args[3] == type(dt["RFCDATE"])
+                assert isinstance(dt["RFCDATE"], error.args[3])
                 assert error.args[4] == "RFCDATE"
             else:
                 assert error.args[0] == "time value required, received"
                 assert error.args[1] == dt["RFCTIME"]
-                assert error.args[3] == type(dt["RFCTIME"])
+                assert isinstance(dt["RFCTIME"], error.args[3])
                 assert error.args[4] == "RFCTIME"
             assert error.args[5] == "IMPORTSTRUCT"
 
@@ -507,7 +508,7 @@ def test_error_string_rejects_None():
     error = ex.value
     assert error.args[0] == "an string is required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-    assert error.args[3] is type(None)
+    assert isinstance(None, error.args[3])  # error.args[3] is type(None)
     assert error.args[4] == "RFCCHAR4"
     assert error.args[5] == "IMPORTSTRUCT"
     with pytest.raises(TypeError) as ex:
@@ -515,7 +516,7 @@ def test_error_string_rejects_None():
     error = ex.value
     assert error.args[0] == "an string is required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-    assert error.args[3] is type(None)
+    assert isinstance(None, error.args[3])  # error.args[3] is type(None)
     assert error.args[4] == "RFCCHAR4"
     assert error.args[5] == "RFCTABLE"
 

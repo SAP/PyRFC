@@ -7,15 +7,10 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-import socket
-import pytest
 import pyrfc
 
 from tests.config import (
-    PARAMS as params,
-    PARAMSDEST as paramsdest,
     CONFIG_SECTIONS as config_sections,
-    UNICODETEST,
 )
 
 

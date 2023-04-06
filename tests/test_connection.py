@@ -93,7 +93,7 @@ class TestConnection:
     def test_call_over_closed_connection(self):
         conn = pyrfc.Connection(config={"rstrip": False}, **config_sections["coevi51"])
         conn.close()
-        assert conn.alive == False
+        assert conn.alive is False
         hello = "Hällo SAP!"
         with pytest.raises(pyrfc.RFCError) as ex:
             conn.call("STFC_CONNECTION", REQUTEXT=hello)
@@ -194,10 +194,10 @@ class TestConnection:
             RFCDATA2="l" * 50,
         )
         out = dict(
-            RFCFLOAT=imp["RFCFLOAT"] + 1,
-            RFCINT2=imp["RFCINT2"] + 1,
-            RFCINT1=imp["RFCINT1"] + 1,
-            RFCINT4=imp["RFCINT4"] + 1,
+            RFCFLOAT=imp["RFCFLOAT"] + 1,  # type: ignore
+            RFCINT2=imp["RFCINT2"] + 1,   # type: ignore
+            RFCINT1=imp["RFCINT1"] + 1,   # type: ignore
+            RFCINT4=imp["RFCINT4"] + 1,   # type: ignore
             RFCHEX3=b"\xf1\xf2\xf3",
             RFCCHAR1="X",
             RFCCHAR2="YZ",
@@ -249,5 +249,4 @@ class TestConnection:
 #            s = 'X' * i
 #            out = self.conn.call('Z_PBR_TEST_2', IV_INPUT_XSTRING=s)
 #            self.assertEqual(s, out['EV_EXPORT_XSTRING'])
-
 """

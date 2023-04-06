@@ -29,7 +29,7 @@ class TestWsrfc:
 
     def test_wsrfc_call_no_client_pse(self):
         with pytest.raises(ExternalRuntimeError) as ex:
-            client = Connection(dest="WS_ALX_NOCC")
+            Connection(dest="WS_ALX_NOCC")
         error = ex.value
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"

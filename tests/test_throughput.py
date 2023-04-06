@@ -7,11 +7,7 @@
 import pytest
 from pyrfc import Connection, Throughput
 
-from tests.config import (
-    PARAMS as params,
-    CONFIG_SECTIONS as config_sections,
-    UNICODETEST,
-)
+from tests.config import PARAMS as params
 
 
 def equal_no_time(a, b):

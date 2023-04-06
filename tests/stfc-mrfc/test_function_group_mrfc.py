@@ -11,7 +11,6 @@
 # Furthermore, the python script error_test.py in this directory provides more test cases.
 # Some of them are used as well.
 
-import pytest
 import unittest
 from pyrfc import Connection
 
@@ -69,20 +68,10 @@ class TestMRFC:
         # RFC_RAISE_ERROR_VB Behandlung von RFC-Methoden in Verbuchung
         pass
 
-    def test_RFC_TRANSFER_TABLE(self):
-        # RFC_TRANSFER_TABLE RFC Test:   PERFORMANCE Test
-#         Table input
-        pass
-#In [45]: h332 = [{'LINE1': 'Hallo', 'LINE2': 'Lise', 'LINE3': 'lauft', 'LINE4': 'leise'}, {'LINE1': 'Hallo', 'LINE2': 'aLise', 'LINE3': 'alauft', 'LINE4': 'aleise'}]
-#In [46]: h1000 = [{'LINE1': 'Hallo', 'LINE2': 'Lise', 'LINE3': 'lauft', 'LINE4': 'leise', 'LINE5':'und fuenf'}, {'LINE1': 'Hallo', 'LINE2': 'aLise', 'LINE3': 'alauft', 'LINE4': 'aleise', 'LINE5': 'und sechs'}]
-#In [47]: result = conn.call('RFC_TRANSFER_TABLE', APPEND=1, CHECKTAB='y', IMP0332=h332, IMP1000=h1000)
-
-
     @unittest.skip("not supported yet (xml)")
     def test_RFC_XML_TEST_1(self):
         # RFC_XML_TEST_1 Test xml stream
         pass
-
     """
 
 

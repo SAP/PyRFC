@@ -1,6 +1,7 @@
 import os
 from pyrfc import Server, set_ini_file_directory
 
+
 # server function
 def my_stfc_connection(request_context=None, REQUTEXT=""):
     print("stfc invoked")
