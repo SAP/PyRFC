@@ -7,11 +7,14 @@ import pickle
 # NW RFC SDK FUNCTIONALITY
 ################################################################################
 
+
 def py_to_string(obj):
     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
 
+
 def string_to_py(objstr):
     return pickle.loads(objstr)
+
 
 def get_nwrfclib_version():
     """Get SAP NW RFC Lib version
@@ -22,6 +25,7 @@ def get_nwrfclib_version():
     cdef unsigned patchlevel = 0
     RfcGetVersion(&major, &minor, &patchlevel)
     return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': platform}
+
 
 def set_ini_file_directory(path_name):
     """Sets the directory in which to search for the sapnwrfc.ini file
@@ -42,6 +46,7 @@ def set_ini_file_directory(path_name):
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
 
+
 def reload_ini_file():
     """Reloads the contents of the sapnwrfc.ini file into memory.
 
@@ -59,6 +64,7 @@ def reload_ini_file():
     cdef RFC_RC rc = RfcReloadIniFile (&errorInfo)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
+
 
 def language_iso_to_sap(lang_iso):
     """Language code conversion of ISO code to SAP code.
@@ -80,6 +86,7 @@ def language_iso_to_sap(lang_iso):
         raise wrapError(&errorInfo)
     return wrapString(uclang_sap, 1)
 
+
 def language_sap_to_iso(lang_sap):
     """Language code conversion of SAP code to ISO code.
 
@@ -99,6 +106,7 @@ def language_sap_to_iso(lang_sap):
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
     return wrapString(uclang_iso, 2)
+
 
 def set_cryptolib_path(path_name):
     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
@@ -123,6 +131,7 @@ def set_cryptolib_path(path_name):
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
 
+
 def set_locale_radix(value=None):
     """Sets the locale radix for decimal conversions.
 
@@ -140,6 +149,7 @@ def set_locale_radix(value=None):
 ################################################################################
 # CONNECTION PARAMETERS
 ################################################################################
+
 
 cdef class ConnectionParameters:
     cdef unsigned _params_count
@@ -170,6 +180,7 @@ cdef class ConnectionParameters:
 ################################################################################
 # Type Description
 ################################################################################
+
 
 class TypeDescription(object):
     """ A type description
@@ -232,7 +243,7 @@ class TypeDescription(object):
             return None
         if len(name)>30:
             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
-        if not field_type in enum_names(RfcFieldType):
+        if field_type not in enum_names(RfcFieldType):
             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
             if not isinstance(int_field, (int, long)):
@@ -249,11 +260,13 @@ class TypeDescription(object):
         })
 
     def __repr__(self):
-        return f"<TypeDescription '{self.name}' with {len(self.fields)} fields (n/uclength={self.nuc_length}/{self.uc_length})>"
+        return f"<TypeDescription '{self.name}' with {len(self.fields)} " \
+            f"fields (n/uclength={self.nuc_length}/{self.uc_length})>"
 
 ################################################################################
 # Function Description
 ################################################################################
+
 
 class FunctionDescription(object):
     """ A function description

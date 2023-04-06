@@ -133,8 +133,9 @@ cdef class Connection:
         return self
 
     def __exit__(self, type, value, traceback):
-        self._close() # Although the _close() method is also called in the destructor, the
-                      # explicit call assures the immediate closing to the connection.
+        # Although the _close() method is also called in the destructor, the
+        # explicit call assures the immediate closing to the connection.
+        self._close()
 
     def open(self):
         self._open()
@@ -199,8 +200,10 @@ cdef class Connection:
         """
         # Set alive=false if the error is in a certain group
         # Before, the alive=false setting depended on the error code. However, the group seems more robust here.
-        # (errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_MESSAGE, RFC_ABAP_RUNTIME_FAILURE, RFC_INVALID_HANDLE, RFC_NOT_FOUND, RFC_INVALID_PARAMETER):
-        #if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
+        # errorInfo.code in
+        #   RFC_COMMUNICATION_FAILURE, RFC_ABAP_MESSAGE, RFC_ABAP_RUNTIME_FAILURE,
+        #   RFC_INVALID_HANDLE, RFC_NOT_FOUND, RFC_INVALID_PARAMETER:
+        # if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
         #    self.alive = False
 
         raise wrapError(errorInfo)
@@ -277,7 +280,7 @@ cdef class Connection:
         cdef RFC_ATTRIBUTES attributes
         cdef RFC_INT isValid
 
-        rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo);
+        rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)
 
         result = {}
         if (isValid and rc == RFC_OK):
@@ -331,13 +334,12 @@ cdef class Connection:
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_ERROR_INFO openErrorInfo
-        cdef unsigned paramCount
         cdef SAP_UC *cName
         if type(func_name) is not str:
             raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
         cdef SAP_UC *funcName = fillString(func_name)
         if self._handle == NULL:
-            raise RFCError("Remote function module %s invocation rejected because the connection is closed" % func_name)
+            raise RFCError(f"Remote function module '{func_name}' invocation rejected because the connection is closed")
         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
         free(funcName)
         if not funcDesc:
@@ -346,7 +348,7 @@ cdef class Connection:
         if not funcCont:
             self._error(&errorInfo)
         cdef int isActive = 0
-        try: # now we have a function module
+        try:  # now we have a function module
             if 'not_requested' in options:
                 skip_parameters = options['not_requested']
                 if type(skip_parameters) is not list:
@@ -362,9 +364,9 @@ cdef class Connection:
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
             if rc != RFC_OK:
-                if (errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE)):
-                # error groups seen to be more robust here
-                # if (errorInfo.code in(RFC_COMMUNICATION_FAILURE, RFC_ABAP_RUNTIME_FAILURE, RFC_ABAP_MESSAGE, RFC_EXTERNAL_FAILURE):
+                if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
+                    # error groups seen to be more robust here
+                    # if errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_RUNTIME_FAILURE, RFC_ABAP_MESSAGE, RFC_EXTERNAL_FAILURE:
                     # Connection closed, reopen
                     self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
                     if openErrorInfo.code != RFC_OK:
@@ -380,7 +382,7 @@ cdef class Connection:
             RfcDestroyFunction(funcCont, NULL)
 
     ##########################################################################
-    ## HELPER METHODS
+    #  HELPER METHODS
     def enum_names(enum_obj):
         return set(e.name for e in enum_obj)
 
@@ -446,7 +448,7 @@ cdef class Connection:
         return rc
 
     ##########################################################################
-    ## TRANSACTIONAL / QUEUED RFC
+    #  TRANSACTIONAL / QUEUED RFC
 
     def _get_transaction_id(self):
         """ Returns a unique 24 char transaction ID (GUID)."""
@@ -543,7 +545,7 @@ cdef class Connection:
             self._error(&errorInfo)
 
     ##########################################################################
-    ## BACKGROUND RFC
+    #  BACKGROUND RFC
 
     def _get_unit_id(self):
         """Returns a unique 32 char bgRFC unit ID (GUID)."""
@@ -563,7 +565,7 @@ cdef class Connection:
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         cdef int queueNameCount
-        #cdef const_SAP_UC_ptr* queueNames
+        # cdef const_SAP_UC_ptr* queueNames
         cdef SAP_UC** queueNames
         cdef RFC_UNIT_ATTRIBUTES unitAttr
         cdef RFC_UNIT_IDENTIFIER uIdentifier
@@ -590,18 +592,32 @@ cdef class Connection:
         # set default values
         memsetR(&unitAttr, 0, sizeof(RFC_UNIT_ATTRIBUTES))
         memsetR(&uIdentifier, 0, sizeof(RFC_UNIT_IDENTIFIER))
-        # unitAttr.kernelTrace = 0       # (short) If != 0, the backend will write kernel traces, while executing this unit.
-        # unitAttr.satTrace = 0          # (short) If != 0, the backend will keep a "history" for this unit.
-        # unitAttr.unitHistory = 0       # (short) Used only for type Q: If != 0, the unit will be written to the queue, but not processed. The unit can then be started manually in the ABAP debugger.
-        # unitAttr.lock = 0              # (short) Used only for type Q: If != 0, the unit will be written to the queue, but not processed. The unit can then be started manually in the ABAP debugger.
-        # unitAttr.noCommitCheck = 0		# (short) Per default the backend will check during execution of a unit, whether one of the unit's function modules triggers an explicit or implicit COMMIT WORK. In this case the unit is aborted with an error, because the transactional integrity of this unit cannot be guaranteed. By setting "noCommitCheck" to true (!=0), this behavior can be suppressed, meaning the unit will be executed anyway, even if one of it's function modules "misbehaves" and triggers a COMMIT WORK.
-        # unitAttr.user[0] = '\0'        # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
-        # unitAttr.client[0] = '\0'      # (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
-        # unitAttr.tCode[0] = '\0'       # (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
-        # unitAttr.program[0] = '\0'     # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
-        # unitAttr.hostname[0] = '\0'    # (SAP_UC hostname[40+1];			///< Sender hostname. Used only when the external program is server. In the client case the nwrfclib fills this automatically.
-        # unitAttr.sendingDate[0] = '\0' # (RFC_DATE sendingDate;			///< Sending date in UTC (GMT-0). Used only when the external program is server. In the client case the nwrfclib fills this automatically.
-        # unitAttr.sendingTime[0] = '\0' # (RFC_TIME sendingTime;			///< Sending time in UTC (GMT-0). Used only when the external program is server. In the client case the nwrfclib fills this automatically.
+        # unitAttr.kernelTrace = 0       (short) If != 0, the backend will write kernel traces, while executing this unit.
+        # unitAttr.satTrace = 0          (short) If != 0, the backend will keep a "history" for this unit.
+        # unitAttr.unitHistory = 0       (short) Used only for type Q: If != 0, the unit will be written to the queue, but not processed.
+        #                                The unit can then be started manually in the ABAP debugger.
+        # unitAttr.lock = 0              (short) Used only for type Q: If != 0, the unit will be written to the queue, but not processed.
+        #                                The unit can then be started manually in the ABAP debugger.
+        # unitAttr.noCommitCheck = 0	 (short) Per default the backend will check during execution of a unit,
+        #                                whether one of the unit's function modules triggers an explicit or implicit COMMIT WORK.
+        #                                In this case the unit is aborted with an error, because the transactional
+        #                                integrity of this unit cannot be guaranteed.
+        #                                By setting "noCommitCheck" to true (!=0), this behavior can be suppressed,
+        #                                meaning the unit will be executed anyway,
+        #                                even if one of it's function modules "misbehaves" and triggers a COMMIT WORK.
+        # unitAttr.user[0] = '\0'        (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
+        # unitAttr.client[0] = '\0'      (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
+        # unitAttr.tCode[0] = '\0'       (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
+        # unitAttr.program[0] = '\0'     (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
+        # unitAttr.hostname[0] = '\0'    (SAP_UC hostname[40+1];
+        #                                Sender hostname. Used only when the external program is server.
+        #                                In the client case the nwrfclib fills this automatically.
+        # unitAttr.sendingDate[0] = '\0' (RFC_DATE sendingDate;
+        #                                Sending date in UTC (GMT-0). Used only when the external program is server.
+        #                                In the client case the nwrfclib fills this automatically.
+        # unitAttr.sendingTime[0] = '\0' (RFC_TIME sendingTime;
+        #                                Sending time in UTC (GMT-0). Used only when the external program is server.
+        #                                In the client case the nwrfclib fills this automatically.
         if attributes is not None:
             if 'kernel_trace' in attributes:
                 unitAttr.kernelTrace = attributes['kernel_trace']
@@ -613,19 +629,23 @@ cdef class Connection:
                 unitAttr.lock = attributes['lock']
             if 'no_commit_check' in attributes:
                 unitAttr.noCommitCheck = attributes['no_commit_check']
-            if 'user' in attributes and attributes['user'] is not None: # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
+            if 'user' in attributes and attributes['user'] is not None:
+                # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
                 sapuc = fillString(attributes['user'][0:12])
                 strncpyU(unitAttr.user, sapuc, len(attributes['user'][0:12]) + 1)
                 free(sapuc)
-            if 'client' in attributes: # (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
+            if 'client' in attributes:
+                # (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
                 sapuc = fillString(attributes['client'][0:3])
                 strncpyU(unitAttr.client, sapuc, len(attributes['client'][0:3]) + 1)
                 free(sapuc)
-            if 't_code' in attributes: # (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
+            if 't_code' in attributes:
+                # (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
                 sapuc = fillString(attributes['t_code'][0:20])
                 strncpyU(unitAttr.tCode, sapuc, len(attributes['t_code'][0:20]) + 1)
                 free(sapuc)
-            if 'program' in attributes and attributes['program'] is not None: # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
+            if 'program' in attributes and attributes['program'] is not None:
+                # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
                 sapuc = fillString(attributes['program'][0:40])
                 strncpyU(unitAttr.program, sapuc, len(attributes['program'][0:40]) + 1)
                 free(sapuc)
@@ -666,7 +686,7 @@ cdef class Connection:
             # execute
             print (" Invocation finished. submitting unit.")
             with nogil:
-              rc = RfcSubmitUnit(self._uHandle, &errorInfo)
+                rc = RfcSubmitUnit(self._uHandle, &errorInfo)
             if rc != RFC_OK:
                 self._error(&errorInfo)
 
@@ -675,7 +695,6 @@ cdef class Connection:
             RfcDestroyUnit(self._uHandle, NULL)
             raise
 
-        #_#print " - wrapping Unit IDentifier."
         unit_identifier = wrapUnitIdentifier(uIdentifier)
         return unit_identifier["queued"]
 
@@ -726,7 +745,7 @@ cdef class Connection:
             self._error(&errorInfo)
 
     ##########################################################################
-    ## UNIT RFC
+    # UNIT RFC
 
     # a "unit" for the client is a dictionary with up to three key-value pairs:
     # * background - boolean, set on initialize_unit() call
@@ -748,13 +767,13 @@ cdef class Connection:
 
         :returns: A dictionary describing the unit.
         """
-        if background is True: # use bgRFC
+        if background is True:     # use bgRFC
             id = self._get_unit_id()
-        elif background is False: # classic t/qRFC
+        elif background is False:  # classic t/qRFC
             id = self._get_transaction_id()
         else:
             raise RFCError("Argument 'background' must be a boolean value.")
-        return {'background': background, 'id':id, "queued": False}
+        return {'background': background, 'id': id, "queued": False}
 
     def fill_and_submit_unit(self, unit, calls, queue_names=None, attributes=None):
         """ Fills a unit with one or more RFC and submits it to the backend.

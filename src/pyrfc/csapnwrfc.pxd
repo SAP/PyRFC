@@ -118,10 +118,10 @@ cdef extern from "sapnwrfc.h":
         EXTERNAL_AUTHORIZATION_FAILURE
 
     ctypedef enum RFC_DIRECTION:
-        RFC_IMPORT   = 0x01
-        RFC_EXPORT   = 0x02
+        RFC_IMPORT = 0x01
+        RFC_EXPORT = 0x02
         RFC_CHANGING = RFC_IMPORT | RFC_EXPORT
-        RFC_TABLES   = 0x04 | RFC_CHANGING
+        RFC_TABLES = 0x04 | RFC_CHANGING
 
     ctypedef struct RFC_UNIT_IDENTIFIER:
         SAP_UC unitType
@@ -271,12 +271,22 @@ cdef extern from "sapnwrfc.h":
         RFC_UNIT_CONFIRMED
 
     ctypedef struct RFC_SERVER_CONTEXT:
-        RFC_CALL_TYPE type                   # Specifies the type of function call. Depending on the value of this field, some of the other fields of this struct may be filled.
-        RFC_TID tid                          # If type is RFC_TRANSACTIONAL or RFC_QUEUED, this field is filled with the 24 digit TID of the tRFC/qRFC unit.
-        RFC_UNIT_IDENTIFIER* unitIdentifier  # If type is RFC_BACKGROUND_UNIT, this pointer is set to the unit identifier of the LUW. Note: the pointer is valid only during the execution context of your server function.
-        RFC_UNIT_ATTRIBUTES* unitAttributes  # If type is RFC_BACKGROUND_UNIT, this pointer is set to the unit attributes of the LUW. Note: the pointer is valid only during the execution context of your server function.
-        unsigned isStateful                  # Specifies whether the current server connection is processing stateful RFC requests (assigned permanently to one fixed ABAP user session).
-        SAP_UC sessionID[33]                 # Contains a unique zero-terminated session ID, identifying the ABAP or external user session. Can be used in stateful servers to store session context in a hashmap.
+        # Specifies the type of function call. Depending on the value of this field, some of the other fields of this struct may be filled.
+        RFC_CALL_TYPE type
+        # If type is RFC_TRANSACTIONAL or RFC_QUEUED, this field is filled with the 24 digit TID of the tRFC/qRFC unit.
+        RFC_TID tid
+        # If type is RFC_BACKGROUND_UNIT, this pointer is set to the unit identifier of the LUW.
+        # Note: the pointer is valid only during the execution context of your server function.
+        RFC_UNIT_IDENTIFIER* unitIdentifier
+        # If type is RFC_BACKGROUND_UNIT, this pointer is set to the unit attributes of the LUW.
+        # Note: the pointer is valid only during the execution context of your server function.
+        RFC_UNIT_ATTRIBUTES* unitAttributes
+        # Specifies whether the current server connection is processing stateful RFC requests
+        # (assigned permanently to one fixed ABAP user session).
+        unsigned isStateful
+        # Contains a unique zero-terminated session ID, identifying the ABAP or external user session.
+        # Can be used in stateful servers to store session context in a hashmap.
+        SAP_UC sessionID[33]
 
     RFC_RC RfcIsConnectionHandleValid(RFC_CONNECTION_HANDLE rfcHandle, RFC_INT *isValid, RFC_ERROR_INFO *errorInfo) nogil
     RFC_CONNECTION_HANDLE RfcOpenConnection(RFC_CONNECTION_PARAMETER *connectionParams, unsigned paramCount, RFC_ERROR_INFO *errorInfo) nogil
@@ -300,8 +310,20 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcGetChars(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_CHAR *charBuffer, unsigned bufferLength, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetNum(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_NUM *charBuffer, unsigned bufferLength, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetBytes(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_RAW *byteBuffer, unsigned bufferLength, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcGetXString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_RAW *byteBuffer, unsigned bufferLength, unsigned *xstringLength, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcGetString(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, SAP_UC *stringBuffer, unsigned bufferLength, unsigned *stringLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetXString(
+                DATA_CONTAINER_HANDLE dataHandle,
+                SAP_UC *name,
+                SAP_RAW *byteBuffer,
+                unsigned bufferLength,
+                unsigned *xstringLength,
+                RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcGetString(
+                DATA_CONTAINER_HANDLE dataHandle,
+                SAP_UC *name,
+                SAP_UC *stringBuffer,
+                unsigned bufferLength,
+                unsigned *stringLength,
+                RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetFloat(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_FLOAT *value, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetInt(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT *value, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetInt1(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_INT1 *value, RFC_ERROR_INFO *errorInfo)
@@ -327,7 +349,7 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcInstallGenericServerFunction(RFC_SERVER_FUNCTION serverFunction, RFC_FUNC_DESC_CALLBACK funcDescProvider, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcShutdownServer(RFC_SERVER_HANDLE serverHandle, unsigned timeout, RFC_ERROR_INFO *errorInfo) nogil
     RFC_RC RfcDestroyServer(RFC_SERVER_HANDLE serverHandle, RFC_ERROR_INFO *errorInfo) nogil
-    RFC_RC RfcGetServerAttributes(RFC_SERVER_HANDLE serverHandle, RFC_SERVER_ATTRIBUTES  *serverAttributes, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcGetServerAttributes(RFC_SERVER_HANDLE serverHandle, RFC_SERVER_ATTRIBUTES *serverAttributes, RFC_ERROR_INFO *errorInfo) nogil
     SAP_UC *RfcGetServerStateAsString(RFC_SERVER_STATE serverState)
 
     RFC_FUNCTION_DESC_HANDLE RfcDescribeFunction(RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO *errorInfo)
@@ -362,15 +384,27 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcGetParameterDescByName(RFC_FUNCTION_DESC_HANDLE funcDesc, SAP_UC *name, RFC_PARAMETER_DESC *paramDesc, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDestroyFunctionDesc(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcRemoveFunctionDesc(const SAP_UC *repositoryID, const SAP_UC *functionName, RFC_ERROR_INFO *errorInfo)
-    RFC_FUNCTION_DESC_HANDLE RfcGetCachedFunctionDesc(const SAP_UC *repositoryID, const SAP_UC *funcName, RFC_ERROR_INFO *errorInfo);
+    RFC_FUNCTION_DESC_HANDLE RfcGetCachedFunctionDesc(const SAP_UC *repositoryID, const SAP_UC *funcName, RFC_ERROR_INFO *errorInfo)
 
     RFC_RC RfcGetRowCount(RFC_TABLE_HANDLE tableHandle, unsigned *rowCount, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcMoveTo(RFC_TABLE_HANDLE tableHandle, unsigned index, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDeleteCurrentRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetTable(DATA_CONTAINER_HANDLE dataHandle, SAP_UC *name, RFC_TABLE_HANDLE *tableHandle, RFC_ERROR_INFO *errorInfo)
     RFC_STRUCTURE_HANDLE RfcAppendNewRow(RFC_TABLE_HANDLE tableHandle, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcUTF8ToSAPUC(const unsigned char *utf8, unsigned utf8Length, SAP_UC *sapuc, unsigned *sapucSize, unsigned *resultLength, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcSAPUCToUTF8(const SAP_UC *sapuc, unsigned sapucLength, RFC_BYTE *utf8, unsigned *utf8Size, unsigned *resultLength, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcUTF8ToSAPUC(
+                const unsigned char *utf8,
+                unsigned utf8Length,
+                SAP_UC *sapuc,
+                unsigned *sapucSize,
+                unsigned *resultLength,
+                RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcSAPUCToUTF8(
+                const SAP_UC *sapuc,
+                unsigned sapucLength,
+                RFC_BYTE *utf8,
+                unsigned *utf8Size,
+                unsigned *resultLength,
+                RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetConnectionAttributes(RFC_CONNECTION_HANDLE rfcHandle, RFC_ATTRIBUTES *attr, RFC_ERROR_INFO *errorInfo)
 
     RFC_RC RfcGetTransactionID(RFC_CONNECTION_HANDLE rfcHandle, RFC_TID tid, RFC_ERROR_INFO *errorInfo)
@@ -380,13 +414,27 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcConfirmTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDestroyTransaction(RFC_TRANSACTION_HANDLE tHandle, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetUnitID(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNITID uid, RFC_ERROR_INFO *errorInfo)
-    RFC_UNIT_HANDLE RfcCreateUnit(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNITID uid, const SAP_UC *queueNames[], unsigned queueNameCount, RFC_UNIT_ATTRIBUTES *unitAttr, RFC_UNIT_IDENTIFIER *identifier, RFC_ERROR_INFO *errorInfo)
+    RFC_UNIT_HANDLE RfcCreateUnit(
+            RFC_CONNECTION_HANDLE rfcHandle,
+            RFC_UNITID uid,
+            const SAP_UC *queueNames[],
+            unsigned queueNameCount,
+            RFC_UNIT_ATTRIBUTES *unitAttr,
+            RFC_UNIT_IDENTIFIER *identifier,
+            RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcInvokeInUnit(RFC_UNIT_HANDLE unitHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcSubmitUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO *errorInfo) nogil
     RFC_RC RfcConfirmUnit(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER *identifier, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDestroyUnit(RFC_UNIT_HANDLE unitHandle, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcGetUnitState(RFC_CONNECTION_HANDLE rfcHandle, RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *state, RFC_ERROR_INFO *errorInfo)
-    RFC_RC RfcInstallBgRfcHandlers(const SAP_UC *sysId, RFC_ON_CHECK_UNIT onCheckFunction, RFC_ON_COMMIT_UNIT onCommitFunction, RFC_ON_ROLLBACK_UNIT onRollbackFunction, RFC_ON_CONFIRM_UNIT onConfirmFunction, RFC_ON_GET_UNIT_STATE onGetStateFunction, RFC_ERROR_INFO *errorInfo) nogil
+    RFC_RC RfcInstallBgRfcHandlers(
+                const SAP_UC *sysId,
+                RFC_ON_CHECK_UNIT onCheckFunction,
+                RFC_ON_COMMIT_UNIT onCommitFunction,
+                RFC_ON_ROLLBACK_UNIT onRollbackFunction,
+                RFC_ON_CONFIRM_UNIT onConfirmFunction,
+                RFC_ON_GET_UNIT_STATE onGetStateFunction,
+                RFC_ERROR_INFO *errorInfo) nogil
 
     RFC_THROUGHPUT_HANDLE RfcCreateThroughput(RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDestroyThroughput (RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)

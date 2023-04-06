@@ -1,6 +1,6 @@
 from sys import exc_info
 from threading import Thread
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler
 
 ################################################################################
 # SERVER FUNCTIONALITY
@@ -12,18 +12,21 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 #                   "server": Server object)
 server_functions = {}
 
-def default_auth_check(func_name=False, request_context = {}):
-    _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
-    return RFC_OK
-
 # global information about served functions / callbacks
 # "auth_check": Default authorization check function
 # "server_log": Server logging flag, default False
 server_context = {}
 
+
+def default_auth_check(func_name=False, request_context = {}):
+    _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
+    return RFC_OK
+
+
 def _server_log(origin, log_message):
     if server_context["server_log"]:
         print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
+
 
 cdef class ServerConnection:
     cdef ConnectionParameters _connection
@@ -46,12 +49,11 @@ cdef class ServerConnection:
         _server_log("Server connection", f"{<uintptr_t>self._handle}")
 
     cdef _close(self):
-        cdef RFC_ERROR_INFO errorInfo
         if self._handle != NULL:
             _server_log("Server close", <uintptr_t>self._handle)
             with nogil:
-                RfcShutdownServer(self._handle, 60, NULL);
-                RfcDestroyServer(self._handle, NULL);
+                RfcShutdownServer(self._handle, 60, NULL)
+                RfcDestroyServer(self._handle, NULL)
                 self._handle = NULL
 
     def open(self):
@@ -82,21 +84,25 @@ cdef class ServerConnection:
         self._close()
         self._connection._free()
 
-cdef RFC_RC metadataLookup(const SAP_UC* functionName, RFC_ATTRIBUTES rfcAttributes, RFC_FUNCTION_DESC_HANDLE *funcDescHandle) with gil:
+cdef RFC_RC metadataLookup(
+            const SAP_UC* functionName,
+            RFC_ATTRIBUTES rfcAttributes,
+            RFC_FUNCTION_DESC_HANDLE *funcDescHandle
+        ) with gil:
     global server_functions
     function_name = wrapString(functionName)
     if function_name not in server_functions:
         _server_log("metadataLookup", f"No metadata found for function '{function_name}'.")
         return RFC_NOT_FOUND
     func_metadata = server_functions[function_name]
-    callback = func_metadata['callback']
+    # callback = func_metadata['callback']
     funcDescHandle[0] = <RFC_FUNCTION_DESC_HANDLE><uintptr_t>func_metadata['func_desc_handle']
     _server_log("metadataLookup", f"Function '{function_name}' handle {<uintptr_t>funcDescHandle[0]}.")
     return RFC_OK
 
 cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverErrorInfo):
     cdef RFC_SERVER_CONTEXT context
-    cdef RFC_RC rc = RfcGetServerContext(rfcHandle, &context, serverErrorInfo);
+    cdef RFC_RC rc = RfcGetServerContext(rfcHandle, &context, serverErrorInfo)
     if rc != RFC_OK or serverErrorInfo.code != RFC_OK:
         return None
 
@@ -105,7 +111,7 @@ cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverE
         "is_stateful": context.isStateful != 0
     }
     if context.type != RFC_SYNCHRONOUS:
-       server_context["unit_identifier"] = wrapUnitIdentifier(context.unitIdentifier[0])
+        server_context["unit_identifier"] = wrapUnitIdentifier(context.unitIdentifier[0])
     if context.type == RFC_BACKGROUND_UNIT:
         server_context ["unit_attributes"] = wrapUnitAttributes(context.unitAttributes)
 
@@ -142,18 +148,22 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     func_data = server_functions[func_name]
     callback = func_data['callback']
     server = func_data['server']
-    func_desc = func_data['func_desc_handle']
+    # func_desc = func_data['func_desc_handle']
 
     try:
         rc = RfcGetConnectionAttributes(rfcHandle, &attributes, &errorInfo)
         if rc != RFC_OK:
-            _server_log(f"genericHandler", "Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
+            _server_log("genericHandler", f"Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
             if not server.debug:
                 raise ExternalRuntimeError(message="Invalid connection handle.")
             conn_attr = {}
         else:
             conn_attr = wrapConnectionAttributes(attributes)
-            _server_log("genericHandler", "User '{user}' from system '{sysId}', client '{client}', host '{partnerHost}' invokes '{func_name}'".format(func_name=func_name, **conn_attr))
+            _server_log(
+                "genericHandler",
+                "User '{user}' from system '{sysId}' client '{client}' host '{partnerHost}' invokes '{func_name}'"
+                .format(func_name=func_name, **conn_attr)
+            )
 
         # Context of the request. Might later be extended by activeParameter information.
         request_context = {
@@ -186,30 +196,31 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
     # Server exception handling: cf. SAP NetWeaver RFC SDK 7.50
     # 5.1 Preparing a Server Program for Receiving RFC Requests
-    except ExternalRuntimeError as e: # System failure
+    except ExternalRuntimeError as e:  # System failure
         # Parameter: message (optional: msg_type, msg_class, msg_number, msg_v1-v4)
         # returns:   RFC_EXTERNAL_FAILURE
         fillError(e, serverErrorInfo)
-        serverErrorInfo.code = RFC_EXTERNAL_FAILURE # Overwrite code, if set.
+        serverErrorInfo.code = RFC_EXTERNAL_FAILURE  # Overwrite code, if set.
         _server_log("genericHandler", f"Request for '{func_name}' raises ExternalRuntimeError {e} - code set to RFC_EXTERNAL_FAILURE.")
         return RFC_EXTERNAL_FAILURE
-    except ABAPRuntimeError as e: # ABAP Message
+    except ABAPRuntimeError as e:  # ABAP Message
         # Parameter: msg_type, msg_class, msg_number, msg_v1-v4
         # returns:   RFC_ABAP_MESSAGE
         fillError(e, serverErrorInfo)
-        serverErrorInfo.code = RFC_ABAP_MESSAGE # Overwrite code, if set.
+        serverErrorInfo.code = RFC_ABAP_MESSAGE  # Overwrite code, if set.
         _server_log("genericHandler", f"Request for '{func_name}' raises ABAPRuntimeError {e} - code set to RFC_ABAP_MESSAGE.")
         return RFC_ABAP_MESSAGE
-    except ABAPApplicationError as e: # ABAP Exception in implementing function
+    except ABAPApplicationError as e:  # ABAP Exception in implementing function
         # Parameter: key (optional: msg_type, msg_class, msg_number, msg_v1-v4)
         # returns:   RFC_ABAP_EXCEPTION
         fillError(e, serverErrorInfo)
-        serverErrorInfo.code = RFC_ABAP_EXCEPTION # Overwrite code, if set.
+        serverErrorInfo.code = RFC_ABAP_EXCEPTION  # Overwrite code, if set.
         _server_log("genericHandler", f"Request for '{func_name}' raises ABAPApplicationError {e} - code set to RFC_ABAP_EXCEPTION.")
         return RFC_ABAP_EXCEPTION
-    except:
+    except Exception as ex:
         exctype, value = exc_info()[:2]
-        _server_log("genericHandler",
+        _server_log(
+            "genericHandler",
             f"Request for '{func_name}' raises an invalid exception:\n Exception: {exctype}\n Values: {value}\n"
             "Callback functions may only raise ABAPApplicationError, ABAPRuntimeError, or ExternalRuntimeError.\n"
             "The values of the request were:\n"
@@ -224,6 +235,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
     return RFC_OK
 
+
 class BasicServer(BaseHTTPRequestHandler):
     # TODO: management-console
     def _set_response(self):
@@ -232,9 +244,10 @@ class BasicServer(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        #_server_log("HTTP GET", f"path: {self.path}\nheaders:\n{self.headers}\n")
+        # _server_log("HTTP GET", f"path: {self.path}\nheaders:\n{self.headers}\n")
         self._set_response()
         self.wfile.write("Press CTRL-C to end".encode("utf-8"))
+
 
 cdef class Server:
     """ An ABAP server
@@ -283,7 +296,7 @@ cdef class Server:
     }
 
     def __cinit__(self, server_params, client_params, config={}):
-        cdef uintptr_t handle
+        # cdef uintptr_t handle
 
         # config parsing
         self.debug = config.get('debug', False)
@@ -294,7 +307,7 @@ cdef class Server:
 
         self._client_connection = Connection(**client_params)
         self._server_connection = ServerConnection(**server_params)
-        self._server_thread=Thread(target=self.serve);
+        self._server_thread=Thread(target=self.serve)
 
     @staticmethod
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
@@ -345,7 +358,11 @@ cdef class Server:
             return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     @staticmethod
-    cdef RFC_RC __onGetStateFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier, RFC_UNIT_STATE *unitState) with gil:
+    cdef RFC_RC __onGetStateFunction(
+                RFC_CONNECTION_HANDLE rfcHandle,
+                const RFC_UNIT_IDENTIFIER *identifier,
+                RFC_UNIT_STATE *unitState
+            ) with gil:
         handler = Server.__bgRfcFunction["getState"]
         if handler is None:
             _server_log("bgRFC handler onGetState is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
@@ -371,7 +388,7 @@ cdef class Server:
 
     def bgrfc_init(self, sysId, bgRfcFunction):
         for func_name in bgRfcFunction:
-            if not func_name in Server.__bgRfcFunction:
+            if func_name not in Server.__bgRfcFunction:
                 raise TypeError(f"BgRfc callback function key not supported: '{func_name}'")
             if not callable(bgRfcFunction[func_name]):
                 raise TypeError(f"BgRfc callback function referenced by '{func_name}' is not callable: '{bgRfcFunction[func_name]}'")
@@ -381,7 +398,15 @@ cdef class Server:
     def install_bgrfc_handlers(self, sysId):
         ucSysId = fillString(sysId)
         cdef RFC_ERROR_INFO errorInfo
-        cdef RFC_RC rc = RfcInstallBgRfcHandlers (ucSysId, Server.__onCheckFunction, Server.__onCommitFunction, Server.__onRollbackFunction, Server.__onConfirmFunction, Server.__onGetStateFunction, &errorInfo)
+        cdef RFC_RC rc = RfcInstallBgRfcHandlers(
+                            ucSysId,
+                            Server.__onCheckFunction,
+                            Server.__onCommitFunction,
+                            Server.__onRollbackFunction,
+                            Server.__onConfirmFunction,
+                            Server.__onGetStateFunction,
+                            &errorInfo
+                        )
         free(ucSysId)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
@@ -480,7 +505,8 @@ cdef class Server:
             # This server's name as given when creating the server.
             'serverName': wrapString(attributes.serverName, -1, True)
             # This RFC server's type. Will be one of RFC_MULTI_COUNT_REGISTERED_SERVER or RFC_TCP_SOCKET_SERVER
-            , 'protocolType': "multi count" if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER else "tcp socket"                                    # Own host name
+            , 'protocolType': "multi count" if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER
+            else "tcp socket"  # Own host name
             # The current number of active registrations (in case of a Registered Server)
             # or the maximum number of parallel connections the server will accept (in case of a TCP Socket Server)
             , 'registrationCount': attributes.registrationCount
@@ -518,8 +544,9 @@ cdef class Server:
         # TODO: Error treatment server
         # Set alive=false if the error is in a certain group
         # Before, the alive=false setting depended on the error code. However, the group seems more robust here.
-        # (errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_MESSAGE, RFC_ABAP_RUNTIME_FAILURE, RFC_INVALID_HANDLE, RFC_NOT_FOUND, RFC_INVALID_PARAMETER):
-        #if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
+        # errorInfo.code in
+        #   RFC_COMMUNICATION_FAILURE, RFC_ABAP_MESSAGE, RFC_ABAP_RUNTIME_FAILURE, RFC_INVALID_HANDLE, RFC_NOT_FOUND, RFC_INVALID_PARAMETER:
+        # if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
         #    self.alive = False
 
         raise wrapError(errorInfo)
@@ -530,7 +557,7 @@ cdef RFC_TYPE_DESC_HANDLE fillTypeDescription(type_desc):
     :param type_desc: object of class TypeDescription
     :return: Handle of RFC_TYPE_DESC_HANDLE
     """
-    cdef RFC_RC = RFC_OK
+    cdef RFC_RC rc = RFC_OK
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_TYPE_DESC_HANDLE typeDesc
     cdef RFC_FIELD_DESC fieldDesc
@@ -575,7 +602,6 @@ cdef RFC_FUNCTION_DESC_HANDLE fillFunctionDescription(func_desc):
     :param func_desc: object of class FunctionDescription
     :return: Handle of RFC_FUNCTION_DESC_HANDLE
     """
-    cdef RFC_RC = RFC_OK
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_FUNCTION_DESC_HANDLE funcDesc
     cdef RFC_PARAMETER_DESC paramDesc

@@ -10,14 +10,15 @@ from setuptools import setup, find_packages, Extension
 
 from src.pyrfc import __version__
 
-MODULE_NAME = "_cyrfc"
-PYPIPACKAGE = "pyrfc"
 
 def readme_md():
     HERE = os.path.abspath(os.path.dirname(__file__))
     with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
         return readme_file.read().strip()
 
+
+MODULE_NAME = "_cyrfc"
+PYPIPACKAGE = "pyrfc"
 BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or sys.platform.startswith("linux")
 CMDCLASS = {}
 

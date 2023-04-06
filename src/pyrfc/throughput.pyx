@@ -11,7 +11,6 @@ cdef class Throughput:
 
     def __init__(self, connections = []):
         cdef RFC_ERROR_INFO errorInfo
-        cdef RFC_RC rc
         self._throughput_handle = NULL
         self._connections = set()
         self._throughput_handle = RfcCreateThroughput(&errorInfo)
@@ -66,12 +65,15 @@ cdef class Throughput:
 
     cdef _destroy(self):
         cdef RFC_ERROR_INFO errorInfo
-        cdef RFC_RC
+        cdef RFC_RC rc
         self._registry.clear()
         self._connections = None
         if self._throughput_handle != NULL:
             rc = RfcDestroyThroughput(self._throughput_handle, &errorInfo)
             self._throughput_handle = NULL
+            if rc != RFC_OK:
+                # is ok
+                pass
 
     def __del__(self):
         self.destroy()

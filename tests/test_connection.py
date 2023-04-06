@@ -100,7 +100,7 @@ class TestConnection:
         error = ex.value
         assert (
             error.args[0]
-            == "Remote function module STFC_CONNECTION invocation rejected because the connection is closed"
+            == "Remote function module 'STFC_CONNECTION' invocation rejected because the connection is closed"
         )
 
     def test_ping(self):

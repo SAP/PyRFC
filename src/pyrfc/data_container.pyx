@@ -19,7 +19,6 @@ cdef fillFunctionParameter(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDL
 cdef fillStructureField(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, name, value):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
-    cdef RFC_STRUCTURE_HANDLE struct
     cdef RFC_FIELD_DESC fieldDesc
     cdef SAP_UC* cName = fillString(name)
     rc = RfcGetFieldDescByName(typeDesc, cName, &fieldDesc, &errorInfo)
@@ -57,7 +56,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
     try:
         if typ == RFCTYPE_STRUCTURE:
             if type(value) is not dict:
-               raise TypeError('dictionary required for structure parameter, received', str(type(value)))
+                raise TypeError('dictionary required for structure parameter, received', str(type(value)))
             rc = RfcGetStructure(container, cName, &struct, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
@@ -65,7 +64,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                 fillStructureField(typeDesc, struct, name, value)
         elif typ == RFCTYPE_TABLE:
             if type(value) is not list:
-               raise TypeError('list required for table parameter, received', str(type(value)))
+                raise TypeError('list required for table parameter, received', str(type(value)))
             rc = RfcGetTable(container, cName, &table, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
@@ -98,7 +97,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                     free(cValue)
                 else:
                     raise
-            except:
+            except Exception as ex:
                 raise TypeError('a numeric string is required, received', value, 'of type', type(value))
         elif typ == RFCTYPE_BCD or typ == RFCTYPE_FLOAT or typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
             # cast to string prevents rounding errors in NWRFC SDK
@@ -109,13 +108,13 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                     # string passed from application should be locale correct, do nothing
                     svalue = value
                 # decimal separator must be "." for the Decimal parsing check
-                locale_radix = _LOCALE_RADIX # localeconv()['decimal_point']
+                locale_radix = _LOCALE_RADIX  # localeconv()['decimal_point']
                 if locale_radix != ".":
                     Decimal('.'.join(svalue.rsplit(locale_radix, 1)))
                 else:
                     Decimal(svalue)
                 cValue = fillString(svalue)
-            except:
+            except Exception as ex:
                 raise TypeError('a decimal value required, received', value, 'of type', type(value))
             rc = RfcSetString(container, cName, cValue, strlenU(cValue), &errorInfo)
             free(cValue)
@@ -146,7 +145,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                             if len(value.rstrip()) > 0:
                                 date(int(value[:4]), int(value[4:6]), int(value[6:8]))
                             cValue = fillString(value)
-                    except:
+                    except Exception as ex:
                         format_ok = False
                 if not format_ok:
                     raise TypeError('date value required, received', value, 'of type', type(value))
@@ -167,7 +166,7 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                             if len(value.rstrip()) > 0:
                                 time(int(value[:2]), int(value[2:4]), int(value[4:6]))
                             cValue = fillString(value)
-                    except:
+                    except Exception as ex:
                         format_ok = False
 
                 if not format_ok:
@@ -194,30 +193,31 @@ cdef SAP_RAW* fillBytes(pystr) except NULL:
     return bytes
 
 cdef fillError(exception, RFC_ERROR_INFO* errorInfo):
-    group2error = { ABAPApplicationError: ABAP_APPLICATION_FAILURE,
+    group2error = {
+                    ABAPApplicationError: ABAP_APPLICATION_FAILURE,
                     ABAPRuntimeError: ABAP_RUNTIME_FAILURE,
                     LogonError: LOGON_FAILURE,
                     CommunicationError: COMMUNICATION_FAILURE,
                     ExternalRuntimeError: EXTERNAL_RUNTIME_FAILURE,
                     ExternalApplicationError: EXTERNAL_APPLICATION_FAILURE,
                     ExternalAuthorizationError: EXTERNAL_AUTHORIZATION_FAILURE
-    }
+                }
     if type(exception) not in group2error:
         raise RFCError("Not a valid error group.")
 
     errorInfo.group = group2error.get(type(exception))
 
-    if exception.message: # fixed length, exactly 512 chars
-        #str = exception.message[0:512].ljust(512)
+    if exception.message:  # fixed length, exactly 512 chars
+        # str = exception.message[0:512].ljust(512)
         str = exception.message[0:512]
         sapuc = fillString(str)
         strncpyU(errorInfo.message, sapuc, min(len(str)+1, 512))
         free(sapuc)
     errorInfo.code = exception.code if exception.code else RFC_UNKNOWN_ERROR
-    if exception.key: # fixed length, exactly 128 chars
+    if exception.key:  # fixed length, exactly 128 chars
         str = exception.key[0:128]
         sapuc = fillString(str)
-        strncpyU(errorInfo.key, sapuc, min(len(str)+1,128))
+        strncpyU(errorInfo.key, sapuc, min(len(str)+1, 128))
         free(sapuc)
     if exception.msg_class:
         sapuc = fillString(exception.msg_class[0:20])
@@ -270,31 +270,31 @@ cdef SAP_UC* fillString(pyuc) except NULL:
 
 cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes):
     return {
-          'dest': wrapString(attributes.dest, 64, True).rstrip('\0')                        # RFC destination
-        , 'host': wrapString(attributes.host, 100, True).rstrip('\0')                                    # Own host name
-        , 'partnerHost': wrapString(attributes.partnerHost, 100, True).rstrip('\0')                      # Partner host name
-        , 'sysNumber': wrapString(attributes.sysNumber, 2, True).rstrip('\0')                            # R/3 system number
-        , 'sysId': wrapString(attributes.sysId, 8, True).rstrip('\0')                                    # R/3 system ID
-        , 'client': wrapString(attributes.client, 3, True).rstrip('\0')                                  # Client ("Mandant")
-        , 'user': wrapString(attributes.user, 12, True).rstrip('\0')                                     # User
-        , 'language': wrapString(attributes.language, 2, True).rstrip('\0')                              # Language
-        , 'trace': wrapString(attributes.trace, 1, True).rstrip('\0')                                    # Trace level (0-3)
-        , 'isoLanguage': wrapString(attributes.isoLanguage, 2, True).rstrip('\0')                        # 2-byte ISO-Language
-        , 'codepage': wrapString(attributes.codepage, 4, True).rstrip('\0')                              # Own code page
-        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4, True).rstrip('\0')                # Partner code page
-        , 'rfcRole': wrapString(attributes.rfcRole, 1, True).rstrip('\0')                                # C/S: RFC Client / RFC Server
-        , 'type': wrapString(attributes.type, 1).rstrip('\0')                                            # 2/3/E/R: R/2,R/3,Ext,Reg.Ext
-        , 'partnerType': wrapString(attributes.partnerType, 1, True).rstrip('\0')                              # 2/3/E/R: R/2,R/3,Ext,Reg.Ext
-        , 'rel': wrapString(attributes.rel, 4, True).rstrip('\0')                                        # My system release
-        , 'partnerRel': wrapString(attributes.partnerRel, 4, True).rstrip('\0')                          # Partner system release
-        , 'kernelRel': wrapString(attributes.kernelRel, 4, True).rstrip('\0')                            # Partner kernel release
-        , 'cpicConvId': wrapString(attributes.cpicConvId, 8, True).rstrip('\0')                          # CPI-C Conversation ID
-        , 'progName': wrapString(attributes.progName, 128, True).rstrip('\0')                            # Name of the calling APAB program (report, module pool)
-        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, True).rstrip('\0')        # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
-        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, True).rstrip('\0')    # Number of bytes per character in the backend's current codepage. Note this is different from the semantics of the PCS parameter.
-        , 'partnerIP': wrapString(attributes.partnerIP, 15, True).rstrip('\0')                           # Partner system code page
-        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, True).rstrip('\0')                       # Partner system code page IPv6
-        , 'reserved': wrapString(attributes.reserved, 17, True).rstrip('\0')                             # Reserved for later use
+        'dest': wrapString(attributes.dest, 64, True).rstrip('\0')
+        , 'host': wrapString(attributes.host, 100, True).rstrip('\0')
+        , 'partnerHost': wrapString(attributes.partnerHost, 100, True).rstrip('\0')
+        , 'sysNumber': wrapString(attributes.sysNumber, 2, True).rstrip('\0')
+        , 'sysId': wrapString(attributes.sysId, 8, True).rstrip('\0')
+        , 'client': wrapString(attributes.client, 3, True).rstrip('\0')
+        , 'user': wrapString(attributes.user, 12, True).rstrip('\0')
+        , 'language': wrapString(attributes.language, 2, True).rstrip('\0')
+        , 'trace': wrapString(attributes.trace, 1, True).rstrip('\0')
+        , 'isoLanguage': wrapString(attributes.isoLanguage, 2, True).rstrip('\0')
+        , 'codepage': wrapString(attributes.codepage, 4, True).rstrip('\0')
+        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4, True).rstrip('\0')
+        , 'rfcRole': wrapString(attributes.rfcRole, 1, True).rstrip('\0')
+        , 'type': wrapString(attributes.type, 1).rstrip('\0')
+        , 'partnerType': wrapString(attributes.partnerType, 1, True).rstrip('\0')
+        , 'rel': wrapString(attributes.rel, 4, True).rstrip('\0')
+        , 'partnerRel': wrapString(attributes.partnerRel, 4, True).rstrip('\0')
+        , 'kernelRel': wrapString(attributes.kernelRel, 4, True).rstrip('\0')
+        , 'cpicConvId': wrapString(attributes.cpicConvId, 8, True).rstrip('\0')
+        , 'progName': wrapString(attributes.progName, 128, True).rstrip('\0')
+        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, True).rstrip('\0')
+        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, True).rstrip('\0')
+        , 'partnerIP': wrapString(attributes.partnerIP, 15, True).rstrip('\0')
+        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, True).rstrip('\0')
+        , 'reserved': wrapString(attributes.reserved, 17, True).rstrip('\0')
     }
 
 
@@ -375,7 +375,8 @@ cdef wrapFunctionDescription(RFC_FUNCTION_DESC_HANDLE funcDesc):
             'default_value': wrapString(paramDesc.defaultValue),
             'parameter_text': wrapString(paramDesc.parameterText),
             'optional': bool(paramDesc.optional)
-            # skip: void* extendedDescription;	///< This field can be used by the application programmer (i.e. you) to store arbitrary extra information.
+            # skip: void* extendedDescription;
+            # This field can be used by the application programmer (i.e. you) to store arbitrary extra information.
         }
         if paramDesc.typeDescHandle is NULL:
             parameter_description['type_description'] = None
@@ -386,7 +387,12 @@ cdef wrapFunctionDescription(RFC_FUNCTION_DESC_HANDLE funcDesc):
     return func_desc
 
 
-cdef wrapResult(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container, RFC_DIRECTION filter_parameter_direction, config):
+cdef wrapResult(
+            RFC_FUNCTION_DESC_HANDLE funcDesc,
+            RFC_FUNCTION_HANDLE container,
+            RFC_DIRECTION filter_parameter_direction,
+            config
+        ):
     """
     :param funcDesc: a C pointer to a function description.
     :param container: a C pointer to a function container
@@ -395,8 +401,6 @@ cdef wrapResult(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container
     :param config (rstrip: right strip strings, dtime: return datetime objects)
     :return:
     """
-    cdef RFC_RC rc
-    cdef RFC_ERROR_INFO errorInfo
     cdef unsigned i, paramCount
     cdef RFC_PARAMETER_DESC paramDesc
     RfcGetParameterCount(funcDesc, &paramCount, NULL)
@@ -404,7 +408,14 @@ cdef wrapResult(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container
     for i in range(paramCount):
         RfcGetParameterDescByIndex(funcDesc, i, &paramDesc, NULL)
         if paramDesc.direction != filter_parameter_direction:
-            result[wrapString(paramDesc.name)] = wrapVariable(paramDesc.type, container, paramDesc.name, paramDesc.nucLength, paramDesc.typeDescHandle, config)
+            result[wrapString(paramDesc.name)] = wrapVariable(
+                paramDesc.type,
+                container,
+                paramDesc.name,
+                paramDesc.nucLength,
+                paramDesc.typeDescHandle,
+                config
+            )
     return result
 
 cdef wrapUnitIdentifier(RFC_UNIT_IDENTIFIER uIdentifier):
@@ -430,22 +441,27 @@ cdef wrapUnitAttributes(RFC_UNIT_ATTRIBUTES *uattr):
     return unit_attributes
 
 cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, config):
-    cdef RFC_RC rc
-    cdef RFC_ERROR_INFO errorInfo
     cdef unsigned i, fieldCount
     cdef RFC_FIELD_DESC fieldDesc
     RfcGetFieldCount(typeDesc, &fieldCount, NULL)
     result = {}
     for i in range(fieldCount):
         RfcGetFieldDescByIndex(typeDesc, i, &fieldDesc, NULL)
-        result[wrapString(fieldDesc.name)] = wrapVariable(fieldDesc.type, container, fieldDesc.name, fieldDesc.nucLength, fieldDesc.typeDescHandle, config)
+        result[wrapString(fieldDesc.name)] = wrapVariable(
+                fieldDesc.type,
+                container,
+                fieldDesc.name,
+                fieldDesc.nucLength,
+                fieldDesc.typeDescHandle,
+                config
+            )
     if len(result) == 1:
         if '' in result:
             result = result['']
     return result
 
-## Used for debugging tables, cf. wrapTable()
-#cdef class TableCursor:
+# # Used for debugging tables, cf. wrapTable()
+# cdef class TableCursor:
 #
 #    cdef RFC_TYPE_DESC_HANDLE typeDesc
 #    cdef RFC_TABLE_HANDLE container
@@ -456,7 +472,6 @@ cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container
 #        return wrapStructure(self.typeDesc, self.container)
 
 cdef wrapTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, config):
-    cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef unsigned rowCount
     # # For debugging in tables (cf. class TableCursor)
@@ -473,7 +488,14 @@ cdef wrapTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, config
         RfcDeleteCurrentRow(container, &errorInfo)
     return table
 
-cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, unsigned cLen, RFC_TYPE_DESC_HANDLE typeDesc, config):
+cdef wrapVariable(
+            RFCTYPE typ,
+            RFC_FUNCTION_HANDLE container,
+            SAP_UC* cName,
+            unsigned cLen,
+            RFC_TYPE_DESC_HANDLE typeDesc,
+            config
+        ):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_STRUCTURE_HANDLE structure
@@ -558,8 +580,8 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         try:
             stringValue = mallocU(strLen+1)
             rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
-            if rc == 23: # Buffer too small, use returned requried result length
-                #print("Warning: Buffer for BCD (cLen={}, buffer={}) too small: "
+            if rc == 23:  # Buffer too small, use returned requried result length
+                # print("Warning: Buffer for BCD (cLen={}, buffer={}) too small: "
                 #      "trying with {}".format(cLen, strLen, resultLen))
                 free(stringValue)
                 strLen = resultLen
@@ -582,8 +604,8 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         try:
             stringValue = mallocU(strLen+1)
             rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
-            if rc == 23: # Buffer too small, use returned requried result length
-                #print("Warning: Buffer for DECF (cLen={}, buffer={}) too small: "
+            if rc == 23:  # Buffer too small, use returned requried result length
+                # print("Warning: Buffer for DECF (cLen={}, buffer={}) too small: "
                 #      "trying with {}".format(cLen, strLen, resultLen))
                 free(stringValue)
                 strLen = resultLen
@@ -595,10 +617,10 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         finally:
             free(stringValue)
     elif typ == RFCTYPE_FLOAT:
-       rc = RfcGetFloat(container, cName, &floatValue, &errorInfo)
-       if rc != RFC_OK:
-           raise wrapError(&errorInfo)
-       return floatValue
+        rc = RfcGetFloat(container, cName, &floatValue, &errorInfo)
+        if rc != RFC_OK:
+            raise wrapError(&errorInfo)
+        return floatValue
     elif typ == RFCTYPE_INT:
         rc = RfcGetInt(container, cName, &intValue, &errorInfo)
         if rc != RFC_OK:
@@ -621,7 +643,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         return int8Value
     elif typ == RFCTYPE_UTCLONG:
         # rc = RfcGetStringLength(container, cName, &strLen, &errorInfo)
-        strLen = 27 # is fixed
+        strLen = 27  # is fixed
         try:
             stringValue = mallocU(strLen+1)
             # textual representation from NWRFC SDK because clients' systems unlikely support nanoseconds
@@ -645,7 +667,7 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
             return datetime.strptime(value, '%Y%m%d').date()
         # return date string or ''
         if (value == '00000000') or not value:
-              return ''
+            return ''
         return value
     elif typ == RFCTYPE_TIME:
         rc = RfcGetTime(container, cName, timeValue, &errorInfo)
@@ -665,19 +687,22 @@ cdef wrapVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, uns
         raise RFCError('Unknown RFC type %d when wrapping %s' % (typ, wrapString(cName)))
 
 cdef wrapError(RFC_ERROR_INFO* errorInfo):
-    group2error = { ABAP_APPLICATION_FAILURE: ABAPApplicationError,
-                    ABAP_RUNTIME_FAILURE: ABAPRuntimeError,
-                    LOGON_FAILURE: LogonError,
-                    COMMUNICATION_FAILURE: CommunicationError,
-                    EXTERNAL_RUNTIME_FAILURE: ExternalRuntimeError,
-                    EXTERNAL_APPLICATION_FAILURE: ExternalApplicationError,
-                    EXTERNAL_AUTHORIZATION_FAILURE: ExternalAuthorizationError
-    }
+    group2error = {
+            ABAP_APPLICATION_FAILURE: ABAPApplicationError,
+            ABAP_RUNTIME_FAILURE: ABAPRuntimeError,
+            LOGON_FAILURE: LogonError,
+            COMMUNICATION_FAILURE: CommunicationError,
+            EXTERNAL_RUNTIME_FAILURE: ExternalRuntimeError,
+            EXTERNAL_APPLICATION_FAILURE: ExternalApplicationError,
+            EXTERNAL_AUTHORIZATION_FAILURE: ExternalAuthorizationError
+        }
     error = group2error[errorInfo.group]
-    return error(wrapString(errorInfo.message), errorInfo.code, wrapString(errorInfo.key),
-        wrapString(errorInfo.abapMsgClass), wrapString(errorInfo.abapMsgType), wrapString(errorInfo.abapMsgNumber),
-        wrapString(errorInfo.abapMsgV1), wrapString(errorInfo.abapMsgV2),
-        wrapString(errorInfo.abapMsgV3), wrapString(errorInfo.abapMsgV4))
+    return error(
+            wrapString(errorInfo.message), errorInfo.code, wrapString(errorInfo.key),
+            wrapString(errorInfo.abapMsgClass), wrapString(errorInfo.abapMsgType), wrapString(errorInfo.abapMsgNumber),
+            wrapString(errorInfo.abapMsgV1), wrapString(errorInfo.abapMsgV2),
+            wrapString(errorInfo.abapMsgV3), wrapString(errorInfo.abapMsgV4)
+        )
 
 cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=False):
     cdef RFC_RC rc
