@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-python_versions="3.7.16 3.8.16 3.9.16 3.10.9 3.11.2"
+python_versions="3.7.16 3.8.16 3.9.16 3.10.10 3.11.2"
 
 rm -rf build
 
