@@ -1,0 +1,81 @@
+from locale import localeconv
+from enum import Enum, auto
+
+################################################################################
+# Configuration options
+################################################################################
+
+# configuration bitmasks, internal use
+_MASK_DTIME = 0x01
+_MASK_RETURN_IMPORT_PARAMS = 0x02
+_MASK_RSTRIP = 0x04
+
+_LOCALE_RADIX = localeconv()['decimal_point']
+
+################################################################################
+# Enumerators, external and internal use
+################################################################################
+
+# RFC parameter direction
+class RfcParameterDirection(Enum):
+    RFC_IMPORT = RFC_DIRECTION.RFC_IMPORT
+    RFC_EXPORT = RFC_DIRECTION.RFC_EXPORT
+    RFC_CHANGING = RFC_DIRECTION.RFC_CHANGING
+    RFC_TABLES = RFC_DIRECTION.RFC_TABLES
+
+# RFC field tupe
+class RfcFieldType(Enum):
+    RFCTYPE_CHAR   = RFCTYPE.RFCTYPE_CHAR
+    RFCTYPE_DATE   = RFCTYPE.RFCTYPE_DATE
+    RFCTYPE_BCD    = RFCTYPE.RFCTYPE_BCD
+    RFCTYPE_TIME   = RFCTYPE.RFCTYPE_TIME
+    RFCTYPE_BYTE   = RFCTYPE.RFCTYPE_BYTE
+    RFCTYPE_TABLE  = RFCTYPE.RFCTYPE_TABLE
+    RFCTYPE_NUM    = RFCTYPE.RFCTYPE_NUM
+    RFCTYPE_FLOAT  = RFCTYPE.RFCTYPE_FLOAT
+    RFCTYPE_INT    = RFCTYPE.RFCTYPE_INT
+    RFCTYPE_INT2   = RFCTYPE.RFCTYPE_INT2
+    RFCTYPE_INT1   = RFCTYPE.RFCTYPE_INT1
+    RFCTYPE_NULL  = RFCTYPE.RFCTYPE_NULL
+    RFCTYPE_ABAPOBJECT = RFCTYPE.RFCTYPE_ABAPOBJECT
+    RFCTYPE_STRUCTURE = RFCTYPE.RFCTYPE_STRUCTURE
+    RFCTYPE_DECF16  = RFCTYPE.RFCTYPE_DECF16
+    RFCTYPE_DECF34  = RFCTYPE.RFCTYPE_DECF34
+    RFCTYPE_XMLDATA = RFCTYPE.RFCTYPE_XMLDATA
+    RFCTYPE_STRING = RFCTYPE.RFCTYPE_STRING
+    RFCTYPE_XSTRING = RFCTYPE.RFCTYPE_XSTRING
+    RFCTYPE_INT8 = RFCTYPE.RFCTYPE_INT8
+    RFCTYPE_UTCLONG = RFCTYPE.RFCTYPE_UTCLONG
+    RFCTYPE_UTCSECOND = RFCTYPE.RFCTYPE_UTCSECOND
+    RFCTYPE_UTCMINUTE = RFCTYPE.RFCTYPE_UTCMINUTE
+    RFCTYPE_DTDAY = RFCTYPE.RFCTYPE_DTDAY
+    RFCTYPE_DTWEEK = RFCTYPE.RFCTYPE_DTWEEK
+    RFCTYPE_DTMONTH = RFCTYPE.RFCTYPE_DTMONTH
+    RFCTYPE_TSECOND = RFCTYPE.RFCTYPE_TSECOND
+    RFCTYPE_TMINUTE = RFCTYPE.RFCTYPE_TMINUTE
+    RFCTYPE_CDAY = RFCTYPE.RFCTYPE_CDAY
+
+# bgRFC unit state
+class UnitState(Enum):
+    not_found = RFC_UNIT_STATE.RFC_UNIT_NOT_FOUND
+    in_process = RFC_UNIT_STATE.RFC_UNIT_IN_PROCESS
+    committed = RFC_UNIT_STATE.RFC_UNIT_COMMITTED
+    rolled_back = RFC_UNIT_STATE.RFC_UNIT_ROLLED_BACK
+    confirmed = RFC_UNIT_STATE.RFC_UNIT_CONFIRMED
+    created = auto()
+    executed = auto()
+
+# bgRFC status
+class RCStatus(Enum):
+    OK = RFC_RC.RFC_OK
+    RFC_NOT_FOUND = RFC_RC.RFC_NOT_FOUND
+    RFC_EXTERNAL_FAILURE = RFC_RC.RFC_EXTERNAL_FAILURE
+    RFC_EXECUTED = RFC_RC.RFC_EXECUTED
+
+# bgRFCunit call type
+class UnitCallType(Enum):
+    synchronous = RFC_CALL_TYPE.RFC_SYNCHRONOUS
+    transactional = RFC_CALL_TYPE.RFC_TRANSACTIONAL
+    queued = RFC_CALL_TYPE.RFC_QUEUED
+    background_unit = RFC_CALL_TYPE.RFC_BACKGROUND_UNIT
+

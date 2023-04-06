@@ -8,13 +8,15 @@ import sys
 from codecs import open
 from setuptools import setup, find_packages, Extension
 
+from src.pyrfc import __version__
+
 MODULE_NAME = "_cyrfc"
 PYPIPACKAGE = "pyrfc"
-HERE = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(HERE, "VERSION"), "rb", "utf-8") as version_file:
-    VERSION = version_file.read().strip()
-with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
-    LONG_DESCRIPTION = readme_file.read().strip()
+
+def readme_md():
+    HERE = os.path.abspath(os.path.dirname(__file__))
+    with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
+        return readme_file.read().strip()
 
 BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or sys.platform.startswith("linux")
 CMDCLASS = {}
@@ -34,6 +36,8 @@ if not SAPNWRFC_HOME:
         "Environment variable SAPNWRFC_HOME not set.\n"
         "Please specify this variable with the root directory of the SAP NWRFC Library."
     )
+
+print("pyrfc version", __version__)
 
 # https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
@@ -192,9 +196,9 @@ PYRFC_EXT = Extension(
 # cf. http://docs.python.org/distutils/setupscript.html#additional-meta-data
 setup(
     name=PYPIPACKAGE,
-    version=VERSION,
+    version=__version__,
     description=("Python bindings for SAP NetWeaver RFC SDK"),
-    long_description=LONG_DESCRIPTION,
+    long_description=readme_md(),
     long_description_content_type="text/markdown",
     download_url="https://github.com/SAP/PyRFC/tarball/master",
     classifiers=[  # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -212,6 +216,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Topic :: Software Development :: Libraries"
     ],
     keywords=f"{MODULE_NAME} {PYPIPACKAGE} pyrfc sap rfc nwrfc sapnwrfc",
     author="SAP SE",
@@ -224,8 +229,10 @@ setup(
     # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
     zip_safe=False,
     install_requires=["setuptools"],
-    setup_requires=["setuptools-git", "cython; platform_system != 'Windows'"],
+    setup_requires=["setuptools-git"],
+    extras_require={':"linux" in sys_platform': ["cython"]},
     cmdclass=CMDCLASS,  # type: ignore
-    ext_modules=cythonize(PYRFC_EXT, annotate=True) if BUILD_CYTHON else [PYRFC_EXT],  # type: ignore
+    ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={"language_level": "1"})  # type: ignore
+        if BUILD_CYTHON else [PYRFC_EXT],  # type: ignore
     test_suite=MODULE_NAME,
 )

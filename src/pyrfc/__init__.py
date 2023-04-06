@@ -27,29 +27,37 @@ from ._exception import (
     ExternalRuntimeError,
 )
 
-from ._cyrfc import (
-    RfcParameterDirection,
-    RfcFieldType,
-    get_nwrfclib_version,
-    py_to_string,
-    string_to_py,
-    reload_ini_file,
-    set_ini_file_directory,
-    set_cryptolib_path,
-    set_locale_radix,
-    language_iso_to_sap,
-    language_sap_to_iso,
-    Connection,
-    Throughput,
-    TypeDescription,
-    FunctionDescription,
-    Server,
-    UnitCallType,
-    UnitState,
-    RCStatus,
-    ConnectionParameters,
-)
+try:
+    from ._cyrfc import (
+        RfcParameterDirection,
+        RfcFieldType,
+        get_nwrfclib_version,
+        py_to_string,
+        string_to_py,
+        reload_ini_file,
+        set_ini_file_directory,
+        set_cryptolib_path,
+        set_locale_radix,
+        language_iso_to_sap,
+        language_sap_to_iso,
+        Connection,
+        Throughput,
+        TypeDescription,
+        FunctionDescription,
+        Server,
+        UnitCallType,
+        UnitState,
+        RCStatus,
+        ConnectionParameters,
+    )
+except ModuleNotFoundError as ex:
+    if "'src.pyrfc._cyrfc'" in ex.msg:
+        # is ok, call from setup.py build
+        pass
+    else:
+        raise ex
 
 __author__ = "SAP SE"
 __email__ = "srdjan.boskovic@sap.com"
-__version__ = "2.7.2"
+__version_info__ = (2, 7, 2)
+__version__ = ".".join(str(i) for i in __version_info__)
