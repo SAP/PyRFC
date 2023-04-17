@@ -8,6 +8,7 @@
 # Set DLL path, per https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
 
 import os
+from .version import __version_info__, __version__
 
 if os.name == "nt":
     try:
@@ -41,6 +42,7 @@ try:
         language_iso_to_sap,
         language_sap_to_iso,
         Connection,
+        Decimal,
         Throughput,
         TypeDescription,
         FunctionDescription,
@@ -59,5 +61,3 @@ except ModuleNotFoundError as ex:
 
 __author__ = "SAP SE"
 __email__ = "srdjan.boskovic@sap.com"
-__version_info__ = (2, 7, 3)
-__version__ = ".".join(str(i) for i in __version_info__)
