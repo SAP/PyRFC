@@ -33,10 +33,7 @@ if BUILD_CYTHON:
 # Check if SAP NWRFC SDK configured
 SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
 if not SAPNWRFC_HOME:
-    sys.exit(
-        "Environment variable SAPNWRFC_HOME not set.\n"
-        "Please specify this variable with the root directory of the SAP NWRFC Library."
-    )
+    sys.exit("Environment variable SAPNWRFC_HOME not set.\n" "Please specify this variable with the root directory of the SAP NWRFC Library.")
 
 print("pyrfc version", __version__)
 
@@ -217,7 +214,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-        "Topic :: Software Development :: Libraries"
+        "Topic :: Software Development :: Libraries",
     ],
     keywords=f"{MODULE_NAME} {PYPIPACKAGE} pyrfc sap rfc nwrfc sapnwrfc",
     author="SAP SE",
@@ -234,6 +231,7 @@ setup(
     extras_require={':"linux" in sys_platform': ["cython"]},
     cmdclass=CMDCLASS,  # type: ignore
     ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={"language_level": "1"})  # type: ignore
-        if BUILD_CYTHON else [PYRFC_EXT],  # type: ignore
+    if BUILD_CYTHON
+    else [PYRFC_EXT],  # type: ignore
     test_suite=MODULE_NAME,
 )

@@ -47,16 +47,8 @@ def compare_function_description(fd1, fd2):
             assert q["type_description"] is None
         else:
             # compare fields
-            fd1_fields = (
-                p["type_description"]["fields"]
-                if type(p["type_description"]) is dict
-                else p["type_description"].fields
-            )
-            fd2_fields = (
-                q["type_description"]["fields"]
-                if type(q["type_description"]) is dict
-                else q["type_description"].fields
-            )
+            fd1_fields = p["type_description"]["fields"] if type(p["type_description"]) is dict else p["type_description"].fields
+            fd2_fields = q["type_description"]["fields"] if type(q["type_description"]) is dict else q["type_description"].fields
             assert len(fd1_fields) == len(fd2_fields)
             assert fd1_fields == fd2_fields
 

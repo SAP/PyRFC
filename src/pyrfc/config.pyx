@@ -10,7 +10,7 @@ _MASK_DTIME = 0x01
 _MASK_RETURN_IMPORT_PARAMS = 0x02
 _MASK_RSTRIP = 0x04
 
-_LOCALE_RADIX = localeconv()['decimal_point']
+_LOCALE_RADIX = localeconv()["decimal_point"]
 
 ################################################################################
 # Enumerators, external and internal use
@@ -32,7 +32,7 @@ class RfcFieldType(Enum):
     RFCTYPE_BCD = RFCTYPE.RFCTYPE_BCD
     RFCTYPE_TIME = RFCTYPE.RFCTYPE_TIME
     RFCTYPE_BYTE = RFCTYPE.RFCTYPE_BYTE
-    RFCTYPE_TABLE= RFCTYPE.RFCTYPE_TABLE
+    RFCTYPE_TABLE = RFCTYPE.RFCTYPE_TABLE
     RFCTYPE_NUM = RFCTYPE.RFCTYPE_NUM
     RFCTYPE_FLOAT = RFCTYPE.RFCTYPE_FLOAT
     RFCTYPE_INT = RFCTYPE.RFCTYPE_INT

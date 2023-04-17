@@ -56,7 +56,7 @@ class RFCLibError(RFCError):
         30: "RFC_AUTHENTICATION_FAILURE",
         31: "RFC_CRYPTOLIB_FAILURE",
         32: "RFC_IO_FAILURE",
-        33: "RFC_LOCKING_FAILURE"
+        33: "RFC_LOCKING_FAILURE",
     }
 
     def __init__(

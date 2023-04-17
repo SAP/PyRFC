@@ -15,7 +15,6 @@ from tests.config import (
 
 
 class TestConnection:
-
     def test_config_rstrip_false(self):
         conn = pyrfc.Connection(config={"rstrip": False}, **config_sections["coevi51"])
 

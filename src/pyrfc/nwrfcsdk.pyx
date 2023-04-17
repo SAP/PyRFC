@@ -146,8 +146,10 @@ def set_locale_radix(value=None):
     _LOCALE_RADIX = value
     return _LOCALE_RADIX
 
+
 def enum_names(enum_obj):
     return set(e.name for e in enum_obj)
+
 
 def enum_values(enum_obj):
     return set(e.value for e in enum_obj)

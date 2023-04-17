@@ -31,7 +31,7 @@ client = Connection(**CONNECTION_INFO)
 
 
 def get_locale_radix():
-    return localeconv()['decimal_point']
+    return localeconv()["decimal_point"]
 
 
 def test_structure_rejects_non_dict():
@@ -593,9 +593,7 @@ def test_float_rejects_point_for_comma_locale():
     error = ex.value
     assert error.code == 22
     assert error.key == "RFC_CONVERSION_FAILURE"
-    assert (
-        error.message == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
-    )
+    assert error.message == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
     setlocale(LC_ALL, "")
 
 

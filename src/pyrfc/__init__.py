@@ -59,5 +59,5 @@ except ModuleNotFoundError as ex:
 
 __author__ = "SAP SE"
 __email__ = "srdjan.boskovic@sap.com"
-__version_info__ = (2, 7, 2)
+__version_info__ = (2, 7, 3)
 __version__ = ".".join(str(i) for i in __version_info__)

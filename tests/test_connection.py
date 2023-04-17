@@ -98,10 +98,7 @@ class TestConnection:
         with pytest.raises(pyrfc.RFCError) as ex:
             conn.call("STFC_CONNECTION", REQUTEXT=hello)
         error = ex.value
-        assert (
-            error.args[0]
-            == "Remote function module 'STFC_CONNECTION' invocation rejected because the connection is closed"
-        )
+        assert error.args[0] == "Remote function module 'STFC_CONNECTION' invocation rejected because the connection is closed"
 
     def test_ping(self):
         assert self.conn.alive
@@ -112,10 +109,7 @@ class TestConnection:
         error = ex.value
         assert error.code == 13
         assert error.key == "RFC_INVALID_HANDLE"
-        assert (
-            error.message == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
-            or error.message == "An invalid handle was passed to the API call"
-        )
+        assert error.message == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call" or error.message == "An invalid handle was passed to the API call"
 
     def test_RFM_name_string(self):
         result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
@@ -195,9 +189,9 @@ class TestConnection:
         )
         out = dict(
             RFCFLOAT=imp["RFCFLOAT"] + 1,  # type: ignore
-            RFCINT2=imp["RFCINT2"] + 1,   # type: ignore
-            RFCINT1=imp["RFCINT1"] + 1,   # type: ignore
-            RFCINT4=imp["RFCINT4"] + 1,   # type: ignore
+            RFCINT2=imp["RFCINT2"] + 1,  # type: ignore
+            RFCINT1=imp["RFCINT1"] + 1,  # type: ignore
+            RFCINT4=imp["RFCINT4"] + 1,  # type: ignore
             RFCHEX3=b"\xf1\xf2\xf3",
             RFCCHAR1="X",
             RFCCHAR2="YZ",
