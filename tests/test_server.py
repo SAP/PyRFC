@@ -8,7 +8,15 @@
 
 import os
 import pytest
-from pyrfc import Server, set_ini_file_directory, ABAPApplicationError
+from pyrfc import Connection, Server, set_ini_file_directory, ABAPApplicationError
+from .function_description_utils import compare_function_description
+from .data.func_desc_STFC_STRUCTURE import FUNC_DESC_STFC_STRUCTURE
+from .data.func_desc_BAPISDORDER_GETDETAILEDLIST import (
+    FUNC_DESC_BAPISDORDER_GETDETAILEDLIST,
+)
+from .data.func_desc_BS01_SALESORDER_GETDETAIL import (
+    FUNC_DESC_BS01_SALESORDER_GETDETAIL,
+)
 
 
 def my_stfc_connection(request_context=None, REQUTEXT=""):
@@ -23,6 +31,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 set_ini_file_directory(dir_path)
 
 server = Server({"dest": "gateway"}, {"dest": "MME"})
+client = Connection(dest="MME")
 
 
 class TestServer:
@@ -43,6 +52,21 @@ class TestServer:
             server.add_function("STFC_CONNECTION", my_stfc_connection)
         error = ex.value
         assert error.args[0] == "Server function 'STFC_CONNECTION' already installed."
+
+    def test_function_description_STFC_STRUCTURE(self):
+        func_name = "STFC_STRUCTURE"
+        func_desc = client.get_function_description(func_name)
+        compare_function_description(func_desc, FUNC_DESC_STFC_STRUCTURE)
+
+    def test_function_description_BAPISDORDER_GETDETAILEDLIST(self):
+        func_name = "BAPISDORDER_GETDETAILEDLIST"
+        func_desc = client.get_function_description(func_name)
+        compare_function_description(func_desc, FUNC_DESC_BAPISDORDER_GETDETAILEDLIST)
+
+    def test_function_description_BS01_SALESORDER_GETDETAIL(self):
+        func_name = "BS01_SALESORDER_GETDETAIL"
+        func_desc = client.get_function_description(func_name)
+        compare_function_description(func_desc, FUNC_DESC_BS01_SALESORDER_GETDETAIL)
 
     @pytest.mark.skip(reason="manual test only")
     def test_stfc_connection(self):

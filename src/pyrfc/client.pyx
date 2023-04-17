@@ -383,11 +383,6 @@ cdef class Connection:
 
     ##########################################################################
     #  HELPER METHODS
-    def enum_names(enum_obj):
-        return set(e.name for e in enum_obj)
-
-    def enum_values(enum_obj):
-        return set(e.value for e in enum_obj)
 
     def type_desc_get(self, type_name):
         """Removes the Type Description from SAP NW RFC Lib cache
