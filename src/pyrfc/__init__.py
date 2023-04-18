@@ -41,6 +41,7 @@ try:
         set_locale_radix,
         language_iso_to_sap,
         language_sap_to_iso,
+        cancel_connection,
         Connection,
         Decimal,
         Throughput,

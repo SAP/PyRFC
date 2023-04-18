@@ -22,7 +22,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 set_ini_file_directory(dir_path)
 
 # create server instance
-server = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False})
+server = Server(
+    {"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False}
+)
 
 # expose python function my_stfc_connection as ABAP function STFC_CONNECTION, that ABAP server can call
 server.add_function("STFC_CONNECTION", my_stfc_connection)

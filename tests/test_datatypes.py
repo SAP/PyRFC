@@ -9,8 +9,7 @@ import pytest
 from decimal import Decimal
 from locale import setlocale, localeconv, LC_ALL
 
-from pyrfc import Connection, ExternalRuntimeError
-import pyrfc
+from pyrfc import Connection, set_locale_radix, ExternalRuntimeError
 
 from tests.config import (
     CONNECTION_INFO,
@@ -144,7 +143,9 @@ def test_min_max_positive():
         "ZDECF34_MAX": RFC_MATH["DECF34"]["POS"]["MAX"],
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
 
     assert type(output["ZFLTP_MIN"]) is float
     assert type(output["ZFLTP_MAX"]) is float
@@ -173,7 +174,9 @@ def test_min_max_negative():
         "ZDECF34_MAX": RFC_MATH["DECF34"]["NEG"]["MAX"],
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
 
     assert type(output["ZFLTP_MIN"]) is float
     assert type(output["ZFLTP_MAX"]) is float
@@ -204,7 +207,9 @@ def test_bcd_floats_accept_floats():
         "ZQUAN_SIGN": -12.345,
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
     assert type(output["ZFLTP"]) is float
     assert IS_INPUT["ZFLTP"] == output["ZFLTP"]
 
@@ -247,7 +252,9 @@ def test_bcd_floats_accept_strings():
         "ZQUAN_SIGN": "-12.345",
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
     assert type(output["ZFLTP"]) is float
     assert float(IS_INPUT["ZFLTP"]) == output["ZFLTP"]
 
@@ -285,7 +292,9 @@ def test_bcd_floats_accept_strings_radix_comma():
         "ZQUAN_SIGN": "-12.345",
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
     assert type(output["ZFLTP"]) is float
     assert float(IS_INPUT["ZFLTP"]) == output["ZFLTP"]
 
@@ -323,7 +332,9 @@ def test_bcd_floats_accept_decimals():
         "ZQUAN_SIGN": Decimal("-12.345"),
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
     assert type(output["ZFLTP"]) is float
     assert IS_INPUT["ZFLTP"] == Decimal(str(output["ZFLTP"]))
 
@@ -350,7 +361,9 @@ def test_raw_types_accept_bytes():
     ZRAW = BYTES_TEST
     DIFF = b"\x00\x00\x00\x00"
     IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
     assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
     assert type(output["ZRAW"]) is bytes
@@ -361,7 +374,9 @@ def test_raw_types_accept_bytearray():
     ZRAW = BYTEARRAY_TEST
     DIFF = b"\x00\x00\x00\x00"
     IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
+        "ES_OUTPUT"
+    ]
     assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
     assert type(output["ZRAW"]) is bytes
@@ -420,7 +435,9 @@ def test_date_accepts_string():
     TEST_DATE = "20180625"
     IMPORTSTRUCT = {"RFCDATE": TEST_DATE}
     IMPORTTABLE = [IMPORTSTRUCT]
-    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE)
+    output = client.call(
+        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+    )
     assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
     assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
     assert output["ECHOSTRUCT"]["RFCDATE"] == TEST_DATE
@@ -431,7 +448,9 @@ def test_date_accepts_date():
     TEST_DATE = ABAP_to_python_date("20180625")
     IMPORTSTRUCT = {"RFCDATE": TEST_DATE}
     IMPORTTABLE = [IMPORTSTRUCT]
-    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE)
+    output = client.call(
+        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+    )
     assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
     assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
     assert output["ECHOSTRUCT"]["RFCDATE"] == python_to_ABAP_date(TEST_DATE)
@@ -442,7 +461,9 @@ def test_time_accepts_string():
     TEST_TIME = "123456"
     IMPORTSTRUCT = {"RFCTIME": TEST_TIME}
     IMPORTTABLE = [IMPORTSTRUCT]
-    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE)
+    output = client.call(
+        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+    )
     assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
     assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
     assert output["ECHOSTRUCT"]["RFCTIME"] == TEST_TIME
@@ -453,7 +474,9 @@ def test_time_accepts_time():
     TEST_TIME = ABAP_to_python_time("123456")
     IMPORTSTRUCT = {"RFCTIME": TEST_TIME}
     IMPORTTABLE = [IMPORTSTRUCT]
-    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE)
+    output = client.call(
+        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+    )
     assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
     assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
     assert output["ECHOSTRUCT"]["RFCTIME"] == python_to_ABAP_time(TEST_TIME)
@@ -586,20 +609,23 @@ def test_float_accepts_point_for_point_locale():
 
 def test_float_rejects_point_for_comma_locale():
     setlocale(LC_ALL, "de_DE")
-    pyrfc.set_locale_radix(get_locale_radix())
+    set_locale_radix(get_locale_radix())
     IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
     with pytest.raises(ExternalRuntimeError) as ex:
         client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
     error = ex.value
     assert error.code == 22
     assert error.key == "RFC_CONVERSION_FAILURE"
-    assert error.message == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
+    assert (
+        error.message
+        == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
+    )
     setlocale(LC_ALL, "")
 
 
 def test_float_accepts_comma_for_comma_locale():
     setlocale(LC_ALL, "de_DE")
-    pyrfc.set_locale_radix(get_locale_radix())
+    set_locale_radix(get_locale_radix())
     IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
     output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
     assert output["RFCFLOAT"] == 1.2

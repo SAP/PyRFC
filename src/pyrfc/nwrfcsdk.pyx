@@ -1,19 +1,12 @@
 from locale import localeconv
 from os.path import isfile, join
-from sys import platform
 import pickle
+from sys import platform
+from threading import Thread
 
 ################################################################################
 # NW RFC SDK FUNCTIONALITY
 ################################################################################
-
-
-def py_to_string(obj):
-    return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
-
-
-def string_to_py(objstr):
-    return pickle.loads(objstr)
 
 
 def get_nwrfclib_version():
@@ -147,12 +140,49 @@ def set_locale_radix(value=None):
     return _LOCALE_RADIX
 
 
+cdef _cancel_connection(client_connection):
+    cdef RFC_RC rc
+    cdef RFC_ERROR_INFO errorInfo
+    if client_connection.handle is not None:
+        rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)
+        if rc != RFC_OK or errorInfo.code != RFC_OK:
+            raise wrapError(&errorInfo)
+        # open new connection
+        client_connection.open()
+
+
+def cancel_connection(client_connection):
+    """Cancels the RFC call which is currently being called over the given RFC connection
+    and closes the connection. Can be used only on an RFC client connection.
+    It must be called from a different thread than the one currently executing the RFC call,
+    which is done automatically by ``pyrfc``.
+
+    :param client_connection: RFC client connection instance to be cancelled
+    :type client_connection: Connection
+
+    :raises: :exc:`~pyrfc.RFCError` or a subclass
+                thereof if the connection cannot be cancelled cleanly.
+    """
+    t_cancel = Thread(target=_cancel_connection, args=(client_connection,))
+    t_cancel.start()
+    _cancel_connection(client_connection)
+
+
 def enum_names(enum_obj):
     return set(e.name for e in enum_obj)
 
 
 def enum_values(enum_obj):
     return set(e.value for e in enum_obj)
+
+
+def py_to_string(obj):
+    return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+
+
+def string_to_py(objstr):
+    return pickle.loads(objstr)
+
 
 ################################################################################
 # CONNECTION PARAMETERS

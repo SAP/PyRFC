@@ -96,7 +96,7 @@ cdef class Connection:
         :getter: Client connection handle
         :type: uintptr_t
         """
-        return <uintptr_t>self._handle
+        return <uintptr_t>self._handle if self._handle is not NULL else None
 
     @property
     def alive(self):
@@ -174,12 +174,12 @@ cdef class Connection:
         self._close()
 
     def cancel(self):
-        """ Cancels the ongoing RFC call
+        """ Cancels the ongoing RFC call using `~pyrfc.cancel_connection()` function
 
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the connection cannot be cancelled cleanly.
         """
-        self._cancel()
+        cancel_connection(self)
 
     def __bool__(self):
         return self.alive
@@ -200,15 +200,6 @@ cdef class Connection:
         cdef RFC_ERROR_INFO errorInfo
         if self._handle != NULL:
             rc = RfcCloseConnection(self._handle, &errorInfo)
-            self._handle = NULL
-            if rc != RFC_OK:
-                self._error(&errorInfo)
-
-    def _cancel(self):
-        cdef RFC_RC rc
-        cdef RFC_ERROR_INFO errorInfo
-        if self._handle != NULL:
-            rc = RfcCancel(self._handle, &errorInfo)
             self._handle = NULL
             if rc != RFC_OK:
                 self._error(&errorInfo)
@@ -300,12 +291,10 @@ cdef class Connection:
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_ATTRIBUTES attributes
-        cdef RFC_INT isValid
-
-        rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)
 
         result = {}
-        if (isValid and rc == RFC_OK):
+
+        if self.is_valid():
             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
             if rc != RFC_OK:
                 self._error(&errorInfo)
@@ -315,6 +304,35 @@ cdef class Connection:
                 'active_unit': self.active_unit or self.active_transaction
             })
         return result
+
+    def is_valid(self):
+        """Checks an RFC connection. Can be used to check whether a client/server connection
+        has already been closed, or whether the NW RFC library still "considers" the connection
+        to be open.
+
+        .. note::
+           This does not guarantee that the connection is indeed still alive:
+           A firewall may silently have closed the connection without notifying
+           the endpoints. If you want to find out, whether the connection is still alive,
+           you'll have to use the more expensive RfcPing().
+
+        :returns: boolean
+        """
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_INT isValid
+
+        rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)
+
+        if rc != RFC_OK or errorInfo.code != RFC_OK:
+            return False
+        return True
+
+    # def c_handle_test(self, p_handle):
+    #     print("p:handle", p_handle)
+    #     cdef RFC_CONNECTION_HANDLE c_handle = <RFC_CONNECTION_HANDLE><uintptr_t>p_handle
+    #     p_handle2 = <uintptr_t>c_handle
+    #     print("p:handle <uintptr_t>", p_handle2)
+    #     print("c:handle", "ok" if c_handle - self._handle == 0 else "error")
 
     def get_function_description(self, func_name):
         """ Returns a function description of a function module.
@@ -392,18 +410,29 @@ cdef class Connection:
                         self._error(&errorInfo)
             for name, value in params.iteritems():
                 fillFunctionParameter(funcDesc, funcCont, name, value)
+            # save old handle for troubleshooting
+            old_handle = self.handle
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+            # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
             if rc != RFC_OK:
-                if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
-                    # error groups seen to be more robust here
-                    # if errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_RUNTIME_FAILURE, RFC_ABAP_MESSAGE, RFC_EXTERNAL_FAILURE:
+                if errorInfo.code in (
+                        RFC_COMMUNICATION_FAILURE,
+                        RFC_ABAP_RUNTIME_FAILURE,
+                        RFC_ABAP_MESSAGE,
+                        RFC_EXTERNAL_FAILURE
+                    ) or errorInfo.group in (
+                        ABAP_RUNTIME_FAILURE,
+                        LOGON_FAILURE,
+                        COMMUNICATION_FAILURE,
+                        EXTERNAL_RUNTIME_FAILURE):
                     # Connection closed, reopen
-                    self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
-                    if openErrorInfo.code != RFC_OK:
-                        self._handle = NULL
-                        # Communication error returned as error
-                        errorInfo = openErrorInfo
+                    if self.handle == old_handle:
+                        self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
+                        if openErrorInfo.code != RFC_OK:
+                            self._handle = NULL
+                            # Communication error returned as error
+                            errorInfo = openErrorInfo
                 self._error(&errorInfo)
             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
                 return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)

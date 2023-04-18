@@ -8,7 +8,7 @@
 
 import datetime
 import unittest
-import pyrfc
+from pyrfc import Connection
 
 from tests.config import PARAMS as params
 
@@ -19,7 +19,7 @@ class TestSTFC:
     """
 
     def setup_method(self):
-        self.conn = pyrfc.Connection(**params)
+        self.conn = Connection(**params)
         assert self.conn.alive
 
     def test_info(self):
@@ -82,7 +82,7 @@ class TestSTFC:
     def test_STFC_PING_VB(self):
         pass
         # STFC_PING_VB RFC-Ping der in VB gerufen werden kann
-        # with self.assertRaises(pyrfc.ABAPRuntimeError) as run:
+        # with self.assertRaises(ABAPRuntimeError) as run:
         #    self.conn.call('STFC_PING_VB')
         # self.assertEqual(run.exception.code, 3)
         # self.assertEqual(run.exception.key, 'CALL_FUNCTION_NOT_REMOTE')

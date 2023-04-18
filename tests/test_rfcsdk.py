@@ -6,20 +6,20 @@
 
 # -*- coding: utf-8 -*-
 
-import pyrfc
+from pyrfc import reload_ini_file, language_iso_to_sap, language_sap_to_iso
 
 from tests.config import LANGUAGES
 
 
 class TestRfcSDK:
     def test_reload_ini_file(self):
-        pyrfc.reload_ini_file()
+        reload_ini_file()
         # no errors expected
         assert 1 == 1
 
     def test_language_iso_sap(self):
         for lang_iso in LANGUAGES:
-            lang_sap = pyrfc.language_iso_to_sap(lang_iso)
+            lang_sap = language_iso_to_sap(lang_iso)
             assert lang_sap == LANGUAGES[lang_iso]["lang_sap"]
-            laiso = pyrfc.language_sap_to_iso(lang_sap)
+            laiso = language_sap_to_iso(lang_sap)
             assert laiso == lang_iso

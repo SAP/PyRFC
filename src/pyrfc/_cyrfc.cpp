@@ -1080,6 +1080,7 @@ struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names;
 struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr;
 struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values;
 struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr;
+struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py;
 struct __pyx_opt_args_5pyrfc_6_cyrfc_wrapString;
 
 /* "src/pyrfc/data_container.pyx":707
@@ -1095,7 +1096,7 @@ struct __pyx_opt_args_5pyrfc_6_cyrfc_wrapString {
   PyObject *rstrip;
 };
 
-/* "src/pyrfc/nwrfcsdk.pyx":162
+/* "src/pyrfc/nwrfcsdk.pyx":192
  * 
  * 
  * cdef class ConnectionParameters:             # <<<<<<<<<<<<<<
@@ -1180,7 +1181,7 @@ struct __pyx_obj_5pyrfc_6_cyrfc_Throughput {
 };
 
 
-/* "src/pyrfc/nwrfcsdk.pyx":150
+/* "src/pyrfc/nwrfcsdk.pyx":171
  * 
  * 
  * def enum_names(enum_obj):             # <<<<<<<<<<<<<<
@@ -1193,7 +1194,7 @@ struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names {
 };
 
 
-/* "src/pyrfc/nwrfcsdk.pyx":151
+/* "src/pyrfc/nwrfcsdk.pyx":172
  * 
  * def enum_names(enum_obj):
  *     return set(e.name for e in enum_obj)             # <<<<<<<<<<<<<<
@@ -1207,7 +1208,7 @@ struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr {
 };
 
 
-/* "src/pyrfc/nwrfcsdk.pyx":154
+/* "src/pyrfc/nwrfcsdk.pyx":175
  * 
  * 
  * def enum_values(enum_obj):             # <<<<<<<<<<<<<<
@@ -1220,17 +1221,30 @@ struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values {
 };
 
 
-/* "src/pyrfc/nwrfcsdk.pyx":155
+/* "src/pyrfc/nwrfcsdk.pyx":176
  * 
  * def enum_values(enum_obj):
  *     return set(e.value for e in enum_obj)             # <<<<<<<<<<<<<<
  * 
- * ################################################################################
+ * 
  */
 struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr {
   PyObject_HEAD
   struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values *__pyx_outer_scope;
   PyObject *__pyx_v_e;
+};
+
+
+/* "cfunc.to_py":64
+ * 
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):             # <<<<<<<<<<<<<<
+ *     def wrap(object client_connection):
+ *         """wrap(client_connection)"""
+ */
+struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py {
+  PyObject_HEAD
+  PyObject *(*__pyx_v_f)(PyObject *);
 };
 
 
@@ -1419,61 +1433,12 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
 
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
-#else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#define __Pyx_BUILD_ASSERT_EXPR(cond)\
-    (sizeof(char [1 - 2*!(cond)]) - 1)
-#ifndef Py_MEMBER_SIZE
-#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
-#endif
-#if CYTHON_FAST_PYCALL
-  static size_t __pyx_pyframe_localsplus_offset = 0;
-  #include "frameobject.h"
-#if PY_VERSION_HEX >= 0x030b00a6
-  #ifndef Py_BUILD_CORE
-    #define Py_BUILD_CORE 1
-  #endif
-  #include "internal/pycore_frame.h"
-#endif
-  #define __Pxy_PyFrame_Initialize_Offsets()\
-    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
-     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
-  #define __Pyx_PyFrame_GetLocalsplus(frame)\
-    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
-#endif // CYTHON_FAST_PYCALL
-#endif
-
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
 /* PyObjectCall.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
 #else
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
-
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
-
-/* PyObjectCallMethO.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1513,6 +1478,55 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#define __Pyx_BUILD_ASSERT_EXPR(cond)\
+    (sizeof(char [1 - 2*!(cond)]) - 1)
+#ifndef Py_MEMBER_SIZE
+#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
+#endif
+#if CYTHON_FAST_PYCALL
+  static size_t __pyx_pyframe_localsplus_offset = 0;
+  #include "frameobject.h"
+#if PY_VERSION_HEX >= 0x030b00a6
+  #ifndef Py_BUILD_CORE
+    #define Py_BUILD_CORE 1
+  #endif
+  #include "internal/pycore_frame.h"
+#endif
+  #define __Pxy_PyFrame_Initialize_Offsets()\
+    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
+     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
+  #define __Pyx_PyFrame_GetLocalsplus(frame)\
+    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#endif // CYTHON_FAST_PYCALL
+#endif
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 /* IncludeStringH.proto */
 #include <string.h>
@@ -1908,55 +1922,6 @@ static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
         __Pyx__ArgTypeTest(obj, type, name, exact))
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
 
-/* PyObject_GenericGetAttrNoDict.proto */
-#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GenericGetAttrNoDict(PyObject* obj, PyObject* attr_name);
-#else
-#define __Pyx_PyObject_GenericGetAttrNoDict PyObject_GenericGetAttr
-#endif
-
-/* PyObject_GenericGetAttr.proto */
-#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
-static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_name);
-#else
-#define __Pyx_PyObject_GenericGetAttr PyObject_GenericGetAttr
-#endif
-
-/* PyObjectGetAttrStrNoError.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, PyObject* attr_name);
-
-/* SetupReduce.proto */
-static int __Pyx_setup_reduce(PyObject* type_obj);
-
-/* SetVTable.proto */
-static int __Pyx_SetVtable(PyObject *dict, void *vtable);
-
-/* Import.proto */
-static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
-
-/* ImportFrom.proto */
-static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
-
-/* CalculateMetaclass.proto */
-static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases);
-
-/* SetNameInClass.proto */
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-#define __Pyx_SetNameInClass(ns, name, value)\
-    (likely(PyDict_CheckExact(ns)) ? _PyDict_SetItem_KnownHash(ns, name, value, ((PyASCIIObject *) name)->hash) : PyObject_SetItem(ns, name, value))
-#elif CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_SetNameInClass(ns, name, value)\
-    (likely(PyDict_CheckExact(ns)) ? PyDict_SetItem(ns, name, value) : PyObject_SetItem(ns, name, value))
-#else
-#define __Pyx_SetNameInClass(ns, name, value)  PyObject_SetItem(ns, name, value)
-#endif
-
-/* Py3ClassCreate.proto */
-static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name, PyObject *qualname,
-                                           PyObject *mkw, PyObject *modname, PyObject *doc);
-static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
-                                      PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
-
 /* FetchCommonType.proto */
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type);
 
@@ -2020,6 +1985,55 @@ static PyObject *__Pyx_CyFunction_New(PyMethodDef *ml,
                                       PyObject *module, PyObject *globals,
                                       PyObject* code);
 
+/* PyObject_GenericGetAttrNoDict.proto */
+#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GenericGetAttrNoDict(PyObject* obj, PyObject* attr_name);
+#else
+#define __Pyx_PyObject_GenericGetAttrNoDict PyObject_GenericGetAttr
+#endif
+
+/* PyObject_GenericGetAttr.proto */
+#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
+static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_name);
+#else
+#define __Pyx_PyObject_GenericGetAttr PyObject_GenericGetAttr
+#endif
+
+/* PyObjectGetAttrStrNoError.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, PyObject* attr_name);
+
+/* SetupReduce.proto */
+static int __Pyx_setup_reduce(PyObject* type_obj);
+
+/* SetVTable.proto */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable);
+
+/* Import.proto */
+static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
+
+/* ImportFrom.proto */
+static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
+
+/* CalculateMetaclass.proto */
+static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases);
+
+/* SetNameInClass.proto */
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+#define __Pyx_SetNameInClass(ns, name, value)\
+    (likely(PyDict_CheckExact(ns)) ? _PyDict_SetItem_KnownHash(ns, name, value, ((PyASCIIObject *) name)->hash) : PyObject_SetItem(ns, name, value))
+#elif CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_SetNameInClass(ns, name, value)\
+    (likely(PyDict_CheckExact(ns)) ? PyDict_SetItem(ns, name, value) : PyObject_SetItem(ns, name, value))
+#else
+#define __Pyx_SetNameInClass(ns, name, value)  PyObject_SetItem(ns, name, value)
+#endif
+
+/* Py3ClassCreate.proto */
+static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name, PyObject *qualname,
+                                           PyObject *mkw, PyObject *modname, PyObject *doc);
+static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
+                                      PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
+
 /* GetNameInClass.proto */
 #define __Pyx_GetNameInClass(var, nmspace, name)  (var) = __Pyx__GetNameInClass(nmspace, name)
 static PyObject *__Pyx__GetNameInClass(PyObject *nmspace, PyObject *name);
@@ -2076,6 +2090,9 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_RFC_CALL_TYPE(RFC_CALL_TYPE valu
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
 
 /* CIntFromPy.proto */
+static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *);
+
+/* CIntFromPy.proto */
 static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
 
 /* CIntFromPy.proto */
@@ -2116,9 +2133,6 @@ static CYTHON_INLINE short __Pyx_PyInt_As_short(PyObject *);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
-
-/* CIntFromPy.proto */
-static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE RFCTYPE __Pyx_PyInt_As_RFCTYPE(PyObject *);
@@ -2251,6 +2265,8 @@ static PyTypeObject *__pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names =
 static PyTypeObject *__pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr = 0;
 static PyTypeObject *__pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values = 0;
 static PyTypeObject *__pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr = 0;
+static PyTypeObject *__pyx_ptype___pyx_scope_struct____Pyx_CFunc_object____object___to_py = 0;
+static PyObject *__pyx_f_5pyrfc_6_cyrfc__cancel_connection(PyObject *); /*proto*/
 static PyObject *__pyx_f_5pyrfc_6_cyrfc_fillFunctionParameter(RFC_FUNCTION_DESC_HANDLE, RFC_FUNCTION_HANDLE, PyObject *, PyObject *); /*proto*/
 static PyObject *__pyx_f_5pyrfc_6_cyrfc_fillStructureField(RFC_TYPE_DESC_HANDLE, RFC_STRUCTURE_HANDLE, PyObject *, PyObject *); /*proto*/
 static PyObject *__pyx_f_5pyrfc_6_cyrfc_fillTable(RFC_TYPE_DESC_HANDLE, RFC_TABLE_HANDLE, PyObject *); /*proto*/
@@ -2274,6 +2290,7 @@ static PyObject *__pyx_f_5pyrfc_6_cyrfc_get_server_context(RFC_CONNECTION_HANDLE
 static RFC_RC __pyx_f_5pyrfc_6_cyrfc_genericHandler(RFC_CONNECTION_HANDLE, RFC_FUNCTION_HANDLE, RFC_ERROR_INFO *); /*proto*/
 static RFC_TYPE_DESC_HANDLE __pyx_f_5pyrfc_6_cyrfc_fillTypeDescription(PyObject *); /*proto*/
 static RFC_UNIT_IDENTIFIER __pyx_f_5pyrfc_6_cyrfc_fillUnitIdentifier(PyObject *); /*proto*/
+static PyObject *__Pyx_CFunc_object____object___to_py(PyObject *(*)(PyObject *)); /*proto*/
 #define __Pyx_MODULE_NAME "pyrfc._cyrfc"
 extern int __pyx_module_is_main_pyrfc___cyrfc;
 int __pyx_module_is_main_pyrfc___cyrfc = 0;
@@ -2304,7 +2321,7 @@ static const char __pyx_k__37[] = "[";
 static const char __pyx_k__38[] = " '";
 static const char __pyx_k__41[] = "'.";
 static const char __pyx_k__42[] = ").";
-static const char __pyx_k__52[] = "*";
+static const char __pyx_k__54[] = "*";
 static const char __pyx_k_add[] = "add";
 static const char __pyx_k_day[] = "day";
 static const char __pyx_k_del[] = "__del__";
@@ -2344,6 +2361,7 @@ static const char __pyx_k_type[] = "type";
 static const char __pyx_k_unit[] = "unit";
 static const char __pyx_k_user[] = "user";
 static const char __pyx_k_with[] = "' with ";
+static const char __pyx_k_wrap[] = "wrap";
 static const char __pyx_k_year[] = "year";
 static const char __pyx_k_H_M_S[] = "%H%M%S";
 static const char __pyx_k_Y_m_d[] = "%Y%m%d";
@@ -2376,7 +2394,6 @@ static const char __pyx_k_Server[] = "Server";
 static const char __pyx_k_Thread[] = "Thread";
 static const char __pyx_k_Values[] = "\n Values: ";
 static const char __pyx_k_append[] = "append";
-static const char __pyx_k_cancel[] = "_cancel";
 static const char __pyx_k_client[] = "client";
 static const char __pyx_k_commit[] = "commit";
 static const char __pyx_k_config[] = "config";
@@ -2384,7 +2401,7 @@ static const char __pyx_k_decode[] = "decode";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_fields[] = "fields";
 static const char __pyx_k_format[] = "format";
-static const char __pyx_k_handle[] = "' handle ";
+static const char __pyx_k_handle[] = "handle";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_isfile[] = "isfile";
 static const char __pyx_k_length[] = "' length '";
@@ -2443,10 +2460,11 @@ static const char __pyx_k_exc_info[] = "exc_info";
 static const char __pyx_k_executed[] = "executed";
 static const char __pyx_k_getState[] = "getState";
 static const char __pyx_k_getstate[] = "__getstate__";
-static const char __pyx_k_handle_2[] = "handle";
+static const char __pyx_k_handle_2[] = "' handle ";
 static const char __pyx_k_handle_3[] = "_handle";
 static const char __pyx_k_hostname[] = "hostname";
 static const char __pyx_k_is_alive[] = "is_alive";
+static const char __pyx_k_is_valid[] = "is_valid";
 static const char __pyx_k_lang_iso[] = "lang_iso";
 static const char __pyx_k_lang_sap[] = "lang_sap";
 static const char __pyx_k_language[] = "language";
@@ -2462,6 +2480,7 @@ static const char __pyx_k_reserved[] = "reserved";
 static const char __pyx_k_rollback[] = "rollback";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_strptime[] = "strptime";
+static const char __pyx_k_t_cancel[] = "t_cancel";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_UnitState[] = "UnitState";
 static const char __pyx_k_add_field[] = "add_field";
@@ -2530,6 +2549,7 @@ static const char __pyx_k_RFCTYPE_INT[] = "RFCTYPE_INT";
 static const char __pyx_k_RFCTYPE_NUM[] = "RFCTYPE_NUM";
 static const char __pyx_k_Request_for[] = "Request for '";
 static const char __pyx_k_active_unit[] = "active_unit";
+static const char __pyx_k_cfunc_to_py[] = "cfunc.to_py";
 static const char __pyx_k_chars_found[] = " chars, found ";
 static const char __pyx_k_connections[] = "connections";
 static const char __pyx_k_enum_values[] = "enum_values";
@@ -2573,6 +2593,7 @@ static const char __pyx_k_sending_time[] = "sending_time";
 static const char __pyx_k_server_log_2[] = "server_log";
 static const char __pyx_k_staticmethod[] = "staticmethod";
 static const char __pyx_k_string_to_py[] = "string_to_py";
+static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_unit_history[] = "unit_history";
 static const char __pyx_k_RFCTYPE_DTDAY[] = "RFCTYPE_DTDAY";
 static const char __pyx_k_RFCTYPE_FLOAT[] = "RFCTYPE_FLOAT";
@@ -2640,6 +2661,8 @@ static const char __pyx_k_RFCTYPE_UTCSECOND[] = "RFCTYPE_UTCSECOND";
 static const char __pyx_k_Server_connection[] = "Server connection";
 static const char __pyx_k_TypeDescription_2[] = "TypeDescription";
 static const char __pyx_k_already_installed[] = "' already installed.";
+static const char __pyx_k_cancel_connection[] = "cancel_connection";
+static const char __pyx_k_client_connection[] = "client_connection";
 static const char __pyx_k_field_name_string[] = "field 'name' (string) '";
 static const char __pyx_k_field_type_string[] = "'field_type' (string) '";
 static const char __pyx_k_fields_n_uclength[] = " fields (n/uclength=";
@@ -2716,6 +2739,7 @@ static const char __pyx_k_create_and_submit_transaction[] = "_create_and_submit_
 static const char __pyx_k_Error_in_bgRFC_handler_onCheck[] = "Error in bgRFC handler onCheck:";
 static const char __pyx_k_Invocation_finished_submitting[] = " Invocation finished. submitting unit.";
 static const char __pyx_k_No_metadata_found_for_function[] = "No metadata found for function '";
+static const char __pyx_k_Pyx_CFunc_object____object___t[] = "__Pyx_CFunc_object____object___to_py.<locals>.wrap";
 static const char __pyx_k_an_string_is_required_received[] = "an string is required, received";
 static const char __pyx_k_code_set_to_RFC_ABAP_EXCEPTION[] = " - code set to RFC_ABAP_EXCEPTION.";
 static const char __pyx_k_wrapString_uclen_u_utf8_size_u[] = "wrapString uclen: %u utf8_size: %u";
@@ -2829,6 +2853,7 @@ static PyObject *__pyx_kp_s_Parameter_calls_must_be_iterable;
 static PyObject *__pyx_kp_s_Parameter_calls_must_contain_at;
 static PyObject *__pyx_kp_s_Parameter_calls_must_contain_val;
 static PyObject *__pyx_kp_s_Parameter_unit_not_valid_Please;
+static PyObject *__pyx_n_s_Pyx_CFunc_object____object___t;
 static PyObject *__pyx_n_s_Q;
 static PyObject *__pyx_n_s_RCStatus;
 static PyObject *__pyx_n_s_RFCError;
@@ -2907,7 +2932,7 @@ static PyObject *__pyx_kp_u__4;
 static PyObject *__pyx_kp_u__41;
 static PyObject *__pyx_kp_u__42;
 static PyObject *__pyx_kp_s__5;
-static PyObject *__pyx_n_s__52;
+static PyObject *__pyx_n_s__54;
 static PyObject *__pyx_kp_u__6;
 static PyObject *__pyx_kp_s__8;
 static PyObject *__pyx_kp_u__8;
@@ -2937,11 +2962,13 @@ static PyObject *__pyx_kp_u_but_found;
 static PyObject *__pyx_n_s_call_type;
 static PyObject *__pyx_n_s_callback;
 static PyObject *__pyx_n_s_calls;
-static PyObject *__pyx_n_s_cancel;
+static PyObject *__pyx_n_s_cancel_connection;
+static PyObject *__pyx_n_s_cfunc_to_py;
 static PyObject *__pyx_kp_u_chars_found;
 static PyObject *__pyx_n_s_check;
 static PyObject *__pyx_n_s_clear;
 static PyObject *__pyx_n_s_client;
+static PyObject *__pyx_n_s_client_connection;
 static PyObject *__pyx_n_s_client_params;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_close;
@@ -3028,8 +3055,8 @@ static PyObject *__pyx_n_s_get_unit_id;
 static PyObject *__pyx_n_s_get_unit_state;
 static PyObject *__pyx_n_s_gethostname;
 static PyObject *__pyx_n_s_getstate;
-static PyObject *__pyx_kp_u_handle;
-static PyObject *__pyx_n_s_handle_2;
+static PyObject *__pyx_n_s_handle;
+static PyObject *__pyx_kp_u_handle_2;
 static PyObject *__pyx_n_s_handle_3;
 static PyObject *__pyx_kp_u_has_invalid_state;
 static PyObject *__pyx_n_s_host;
@@ -3047,6 +3074,7 @@ static PyObject *__pyx_kp_u_invocation_rejected_because_the;
 static PyObject *__pyx_n_s_is_alive;
 static PyObject *__pyx_kp_u_is_not_callable;
 static PyObject *__pyx_n_s_is_stateful;
+static PyObject *__pyx_n_s_is_valid;
 static PyObject *__pyx_n_s_isdigit;
 static PyObject *__pyx_n_s_isfile;
 static PyObject *__pyx_n_s_isoLanguage;
@@ -3207,6 +3235,7 @@ static PyObject *__pyx_n_s_state;
 static PyObject *__pyx_n_s_staticmethod;
 static PyObject *__pyx_n_s_stop;
 static PyObject *__pyx_n_s_string_to_py;
+static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_strptime;
 static PyObject *__pyx_n_s_synchronous;
 static PyObject *__pyx_n_s_sys;
@@ -3214,6 +3243,7 @@ static PyObject *__pyx_n_s_sysId;
 static PyObject *__pyx_n_s_sysNumber;
 static PyObject *__pyx_n_s_sysid;
 static PyObject *__pyx_n_s_t;
+static PyObject *__pyx_n_s_t_cancel;
 static PyObject *__pyx_n_s_t_code;
 static PyObject *__pyx_n_s_target;
 static PyObject *__pyx_n_s_test;
@@ -3246,21 +3276,23 @@ static PyObject *__pyx_n_s_utcnow;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_kp_u_when_getting_server_context_for;
 static PyObject *__pyx_kp_u_with;
+static PyObject *__pyx_n_s_wrap;
 static PyObject *__pyx_kp_s_wrapString_uclen_u_utf8_size_u;
 static PyObject *__pyx_n_s_year;
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_py_to_string(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obj); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_2string_to_py(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_objstr); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_iso); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_sap); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_get_nwrfclib_version(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_2set_ini_file_directory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4reload_ini_file(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6language_iso_to_sap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_iso); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8language_sap_to_iso(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_sap); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10set_cryptolib_path(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12set_locale_radix(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14cancel_connection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_client_connection); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10enum_names_genexpr(PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_names(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16enum_names(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_11enum_values_genexpr(PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20enum_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20py_to_string(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obj); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_22string_to_py(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_objstr); /* proto */
 static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx_obj_5pyrfc_6_cyrfc_ConnectionParameters *__pyx_v_self, PyObject *__pyx_v_params); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_2__del__(struct __pyx_obj_5pyrfc_6_cyrfc_ConnectionParameters *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __pyx_obj_5pyrfc_6_cyrfc_ConnectionParameters *__pyx_v_self); /* proto */
@@ -3287,10 +3319,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_14close(struct __pyx_obj_5
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_16cancel(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
 static int __pyx_pf_5pyrfc_6_cyrfc_10Connection_18__bool__(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_20_close(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_22_cancel(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_28get_connection_attributes(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_22ping(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24reset_server_context(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26get_connection_attributes(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_28is_valid(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self, PyObject *__pyx_v_func_name); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self, PyObject *__pyx_v_func_name, PyObject *__pyx_v_options, PyObject *__pyx_v_params); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self, PyObject *__pyx_v_type_name); /* proto */
@@ -3315,8 +3347,8 @@ static int __pyx_pf_5pyrfc_6_cyrfc_10Connection_8__config_2__set__(struct __pyx_
 static int __pyx_pf_5pyrfc_6_cyrfc_10Connection_8__config_4__del__(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_68__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_70__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_22default_auth_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_func_name, PyObject *__pyx_v_request_context); /* proto */
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_24_server_log(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_origin, PyObject *__pyx_v_log_message); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_24default_auth_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_func_name, PyObject *__pyx_v_request_context); /* proto */
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_26_server_log(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_origin, PyObject *__pyx_v_log_message); /* proto */
 static int __pyx_pf_5pyrfc_6_cyrfc_16ServerConnection___init__(struct __pyx_obj_5pyrfc_6_cyrfc_ServerConnection *__pyx_v_self, PyObject *__pyx_v_params); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16ServerConnection_2open(struct __pyx_obj_5pyrfc_6_cyrfc_ServerConnection *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16ServerConnection_4close(struct __pyx_obj_5pyrfc_6_cyrfc_ServerConnection *__pyx_v_self); /* proto */
@@ -3359,6 +3391,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Throughput_14__enter__(struct __pyx_o
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Throughput_5stats___get__(struct __pyx_obj_5pyrfc_6_cyrfc_Throughput *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Throughput_16__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_5pyrfc_6_cyrfc_Throughput *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Throughput_18__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_5pyrfc_6_cyrfc_Throughput *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_wrap(PyObject *__pyx_self, PyObject *__pyx_v_client_connection); /* proto */
 static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc_ConnectionParameters(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc_Connection(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc_ServerConnection(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3368,6 +3401,7 @@ static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names(PyTy
 static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new___pyx_scope_struct____Pyx_CFunc_object____object___to_py(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_get = {0, &__pyx_n_s_get, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -3432,7 +3466,7 @@ static PyObject *__pyx_tuple__47;
 static PyObject *__pyx_tuple__48;
 static PyObject *__pyx_tuple__50;
 static PyObject *__pyx_tuple__51;
-static PyObject *__pyx_tuple__53;
+static PyObject *__pyx_tuple__52;
 static PyObject *__pyx_tuple__55;
 static PyObject *__pyx_tuple__57;
 static PyObject *__pyx_tuple__59;
@@ -3444,19 +3478,21 @@ static PyObject *__pyx_tuple__69;
 static PyObject *__pyx_tuple__71;
 static PyObject *__pyx_tuple__73;
 static PyObject *__pyx_tuple__75;
-static PyObject *__pyx_tuple__76;
-static PyObject *__pyx_tuple__78;
+static PyObject *__pyx_tuple__77;
+static PyObject *__pyx_tuple__79;
 static PyObject *__pyx_tuple__80;
-static PyObject *__pyx_tuple__81;
-static PyObject *__pyx_tuple__83;
+static PyObject *__pyx_tuple__82;
 static PyObject *__pyx_tuple__84;
-static PyObject *__pyx_tuple__86;
+static PyObject *__pyx_tuple__85;
+static PyObject *__pyx_tuple__87;
 static PyObject *__pyx_tuple__88;
-static PyObject *__pyx_tuple__89;
-static PyObject *__pyx_tuple__91;
+static PyObject *__pyx_tuple__90;
+static PyObject *__pyx_tuple__92;
 static PyObject *__pyx_tuple__93;
 static PyObject *__pyx_tuple__95;
-static PyObject *__pyx_codeobj__54;
+static PyObject *__pyx_tuple__97;
+static PyObject *__pyx_tuple__99;
+static PyObject *__pyx_codeobj__53;
 static PyObject *__pyx_codeobj__56;
 static PyObject *__pyx_codeobj__58;
 static PyObject *__pyx_codeobj__60;
@@ -3467,232 +3503,20 @@ static PyObject *__pyx_codeobj__68;
 static PyObject *__pyx_codeobj__70;
 static PyObject *__pyx_codeobj__72;
 static PyObject *__pyx_codeobj__74;
-static PyObject *__pyx_codeobj__77;
-static PyObject *__pyx_codeobj__79;
-static PyObject *__pyx_codeobj__82;
-static PyObject *__pyx_codeobj__85;
-static PyObject *__pyx_codeobj__87;
-static PyObject *__pyx_codeobj__90;
-static PyObject *__pyx_codeobj__92;
+static PyObject *__pyx_codeobj__76;
+static PyObject *__pyx_codeobj__78;
+static PyObject *__pyx_codeobj__81;
+static PyObject *__pyx_codeobj__83;
+static PyObject *__pyx_codeobj__86;
+static PyObject *__pyx_codeobj__89;
+static PyObject *__pyx_codeobj__91;
 static PyObject *__pyx_codeobj__94;
 static PyObject *__pyx_codeobj__96;
+static PyObject *__pyx_codeobj__98;
+static PyObject *__pyx_codeobj__100;
 /* Late includes */
 
-/* "src/pyrfc/nwrfcsdk.pyx":11
- * 
- * 
- * def py_to_string(obj):             # <<<<<<<<<<<<<<
- *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_1py_to_string(PyObject *__pyx_self, PyObject *__pyx_v_obj); /*proto*/
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_1py_to_string = {"py_to_string", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_1py_to_string, METH_O, 0};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_1py_to_string(PyObject *__pyx_self, PyObject *__pyx_v_obj) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("py_to_string (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_py_to_string(__pyx_self, ((PyObject *)__pyx_v_obj));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_py_to_string(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obj) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("py_to_string", 0);
-
-  /* "src/pyrfc/nwrfcsdk.pyx":12
- * 
- * def py_to_string(obj):
- *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pickle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_dumps); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pickle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_HIGHEST_PROTOCOL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  __pyx_t_5 = 0;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-      __pyx_t_5 = 1;
-    }
-  }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_obj, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_obj, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  } else
-  #endif
-  {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 12, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    if (__pyx_t_2) {
-      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
-    }
-    __Pyx_INCREF(__pyx_v_obj);
-    __Pyx_GIVEREF(__pyx_v_obj);
-    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_v_obj);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_4);
-    __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "src/pyrfc/nwrfcsdk.pyx":11
- * 
- * 
- * def py_to_string(obj):             # <<<<<<<<<<<<<<
- *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pyrfc._cyrfc.py_to_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "src/pyrfc/nwrfcsdk.pyx":15
- * 
- * 
- * def string_to_py(objstr):             # <<<<<<<<<<<<<<
- *     return pickle.loads(objstr)
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_3string_to_py(PyObject *__pyx_self, PyObject *__pyx_v_objstr); /*proto*/
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_3string_to_py = {"string_to_py", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_3string_to_py, METH_O, 0};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_3string_to_py(PyObject *__pyx_self, PyObject *__pyx_v_objstr) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("string_to_py (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_2string_to_py(__pyx_self, ((PyObject *)__pyx_v_objstr));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_2string_to_py(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_objstr) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("string_to_py", 0);
-
-  /* "src/pyrfc/nwrfcsdk.pyx":16
- * 
- * def string_to_py(objstr):
- *     return pickle.loads(objstr)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pickle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_loads); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_objstr) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_objstr);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "src/pyrfc/nwrfcsdk.pyx":15
- * 
- * 
- * def string_to_py(objstr):             # <<<<<<<<<<<<<<
- *     return pickle.loads(objstr)
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pyrfc._cyrfc.string_to_py", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "src/pyrfc/nwrfcsdk.pyx":19
+/* "src/pyrfc/nwrfcsdk.pyx":12
  * 
  * 
  * def get_nwrfclib_version():             # <<<<<<<<<<<<<<
@@ -3701,21 +3525,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_2string_to_py(CYTHON_UNUSED PyObject *_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_5get_nwrfclib_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_4get_nwrfclib_version[] = "Get SAP NW RFC Lib version\n    :returns: tuple of major, minor and patch level and OS platform\n    ";
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_5get_nwrfclib_version = {"get_nwrfclib_version", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_5get_nwrfclib_version, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_4get_nwrfclib_version};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_5get_nwrfclib_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_1get_nwrfclib_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_get_nwrfclib_version[] = "Get SAP NW RFC Lib version\n    :returns: tuple of major, minor and patch level and OS platform\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_1get_nwrfclib_version = {"get_nwrfclib_version", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_1get_nwrfclib_version, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_get_nwrfclib_version};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_1get_nwrfclib_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_nwrfclib_version (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(__pyx_self);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_get_nwrfclib_version(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_get_nwrfclib_version(CYTHON_UNUSED PyObject *__pyx_self) {
   unsigned int __pyx_v_major;
   unsigned int __pyx_v_minor;
   unsigned int __pyx_v_patchlevel;
@@ -3728,7 +3552,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_nwrfclib_version", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":23
+  /* "src/pyrfc/nwrfcsdk.pyx":16
  *     :returns: tuple of major, minor and patch level and OS platform
  *     """
  *     cdef unsigned major = 0             # <<<<<<<<<<<<<<
@@ -3737,7 +3561,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
  */
   __pyx_v_major = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":24
+  /* "src/pyrfc/nwrfcsdk.pyx":17
  *     """
  *     cdef unsigned major = 0
  *     cdef unsigned minor = 0             # <<<<<<<<<<<<<<
@@ -3746,7 +3570,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
  */
   __pyx_v_minor = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":25
+  /* "src/pyrfc/nwrfcsdk.pyx":18
  *     cdef unsigned major = 0
  *     cdef unsigned minor = 0
  *     cdef unsigned patchlevel = 0             # <<<<<<<<<<<<<<
@@ -3755,7 +3579,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
  */
   __pyx_v_patchlevel = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":26
+  /* "src/pyrfc/nwrfcsdk.pyx":19
  *     cdef unsigned minor = 0
  *     cdef unsigned patchlevel = 0
  *     RfcGetVersion(&major, &minor, &patchlevel)             # <<<<<<<<<<<<<<
@@ -3764,7 +3588,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
  */
   (void)(RfcGetVersion((&__pyx_v_major), (&__pyx_v_minor), (&__pyx_v_patchlevel)));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":27
+  /* "src/pyrfc/nwrfcsdk.pyx":20
  *     cdef unsigned patchlevel = 0
  *     RfcGetVersion(&major, &minor, &patchlevel)
  *     return {'major': major, 'minor': minor, 'patchLevel': patchlevel, 'platform': platform}             # <<<<<<<<<<<<<<
@@ -3772,29 +3596,29 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_major); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_major); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_major, __pyx_t_2) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_major, __pyx_t_2) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_minor); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_minor); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_minor, __pyx_t_2) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_minor, __pyx_t_2) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_patchlevel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_patchlevel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_patchLevel, __pyx_t_2) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_patchLevel, __pyx_t_2) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_platform); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_platform); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_platform, __pyx_t_2) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_platform, __pyx_t_2) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":19
+  /* "src/pyrfc/nwrfcsdk.pyx":12
  * 
  * 
  * def get_nwrfclib_version():             # <<<<<<<<<<<<<<
@@ -3814,7 +3638,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":30
+/* "src/pyrfc/nwrfcsdk.pyx":23
  * 
  * 
  * def set_ini_file_directory(path_name):             # <<<<<<<<<<<<<<
@@ -3823,21 +3647,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4get_nwrfclib_version(CYTHON_UNUSED PyO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_7set_ini_file_directory(PyObject *__pyx_self, PyObject *__pyx_v_path_name); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_6set_ini_file_directory[] = "Sets the directory in which to search for the sapnwrfc.ini file\n\n    :param path_name: Directory in which to search for the sapnwrfc.ini file.\n    :type path_name: string\n\n    :return: nothing, raises an error\n    ";
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_7set_ini_file_directory = {"set_ini_file_directory", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_7set_ini_file_directory, METH_O, __pyx_doc_5pyrfc_6_cyrfc_6set_ini_file_directory};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_7set_ini_file_directory(PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_3set_ini_file_directory(PyObject *__pyx_self, PyObject *__pyx_v_path_name); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_2set_ini_file_directory[] = "Sets the directory in which to search for the sapnwrfc.ini file\n\n    :param path_name: Directory in which to search for the sapnwrfc.ini file.\n    :type path_name: string\n\n    :return: nothing, raises an error\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_3set_ini_file_directory = {"set_ini_file_directory", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_3set_ini_file_directory, METH_O, __pyx_doc_5pyrfc_6_cyrfc_2set_ini_file_directory};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_3set_ini_file_directory(PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_ini_file_directory (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(__pyx_self, ((PyObject *)__pyx_v_path_name));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_2set_ini_file_directory(__pyx_self, ((PyObject *)__pyx_v_path_name));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_2set_ini_file_directory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
   RFC_ERROR_INFO __pyx_v_errorInfo;
   SAP_UC __pyx_v_pathName[0x200];
   RFC_RC __pyx_v_rc;
@@ -3858,7 +3682,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_ini_file_directory", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":38
+  /* "src/pyrfc/nwrfcsdk.pyx":31
  *     :return: nothing, raises an error
  *     """
  *     if type(path_name) is not str:             # <<<<<<<<<<<<<<
@@ -3869,14 +3693,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":39
+    /* "src/pyrfc/nwrfcsdk.pyx":32
  *     """
  *     if type(path_name) is not str:
  *         raise TypeError('sapnwrfc.ini path is not a string:', path_name)             # <<<<<<<<<<<<<<
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef SAP_UC pathName [512]
  */
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_s_sapnwrfc_ini_path_is_not_a_strin);
     __Pyx_GIVEREF(__pyx_kp_s_sapnwrfc_ini_path_is_not_a_strin);
@@ -3884,14 +3708,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
     __Pyx_INCREF(__pyx_v_path_name);
     __Pyx_GIVEREF(__pyx_v_path_name);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_path_name);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 39, __pyx_L1_error)
+    __PYX_ERR(0, 32, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":38
+    /* "src/pyrfc/nwrfcsdk.pyx":31
  *     :return: nothing, raises an error
  *     """
  *     if type(path_name) is not str:             # <<<<<<<<<<<<<<
@@ -3900,16 +3724,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":42
+  /* "src/pyrfc/nwrfcsdk.pyx":35
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef SAP_UC pathName [512]
  *     if not isfile(join(path_name, "sapnwrfc.ini")):             # <<<<<<<<<<<<<<
  *         raise TypeError('sapnwrfc.ini not found in:', path_name)
  *     pathName = fillString(path_name)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_isfile); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_isfile); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_join); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_join); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   __pyx_t_8 = 0;
@@ -3926,7 +3750,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_path_name, __pyx_kp_s_sapnwrfc_ini};
-    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else
@@ -3934,13 +3758,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_path_name, __pyx_kp_s_sapnwrfc_ini};
-    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else
   #endif
   {
-    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     if (__pyx_t_7) {
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -3951,7 +3775,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
     __Pyx_INCREF(__pyx_kp_s_sapnwrfc_ini);
     __Pyx_GIVEREF(__pyx_kp_s_sapnwrfc_ini);
     PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_kp_s_sapnwrfc_ini);
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   }
@@ -3969,22 +3793,22 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
   __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_1 = ((!__pyx_t_2) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":43
+    /* "src/pyrfc/nwrfcsdk.pyx":36
  *     cdef SAP_UC pathName [512]
  *     if not isfile(join(path_name, "sapnwrfc.ini")):
  *         raise TypeError('sapnwrfc.ini not found in:', path_name)             # <<<<<<<<<<<<<<
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
  */
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_kp_s_sapnwrfc_ini_not_found_in);
     __Pyx_GIVEREF(__pyx_kp_s_sapnwrfc_ini_not_found_in);
@@ -3992,14 +3816,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
     __Pyx_INCREF(__pyx_v_path_name);
     __Pyx_GIVEREF(__pyx_v_path_name);
     PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_path_name);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 43, __pyx_L1_error)
+    __PYX_ERR(0, 36, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":42
+    /* "src/pyrfc/nwrfcsdk.pyx":35
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef SAP_UC pathName [512]
  *     if not isfile(join(path_name, "sapnwrfc.ini")):             # <<<<<<<<<<<<<<
@@ -4008,17 +3832,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":44
+  /* "src/pyrfc/nwrfcsdk.pyx":37
  *     if not isfile(join(path_name, "sapnwrfc.ini")):
  *         raise TypeError('sapnwrfc.ini not found in:', path_name)
  *     pathName = fillString(path_name)             # <<<<<<<<<<<<<<
  *     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
  *     if rc != RFC_OK:
  */
-  __pyx_t_10 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_path_name); if (unlikely(__pyx_t_10 == ((SAP_UC *)NULL))) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_10 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_path_name); if (unlikely(__pyx_t_10 == ((SAP_UC *)NULL))) __PYX_ERR(0, 37, __pyx_L1_error)
   memcpy(&(__pyx_v_pathName[0]), __pyx_t_10, sizeof(__pyx_v_pathName[0]) * (0x200 - 0));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":45
+  /* "src/pyrfc/nwrfcsdk.pyx":38
  *         raise TypeError('sapnwrfc.ini not found in:', path_name)
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -4027,7 +3851,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
  */
   __pyx_v_rc = RfcSetIniPath(__pyx_v_pathName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":46
+  /* "src/pyrfc/nwrfcsdk.pyx":39
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4037,20 +3861,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
   __pyx_t_1 = ((__pyx_v_rc != RFC_OK) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":47
+    /* "src/pyrfc/nwrfcsdk.pyx":40
  *     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 47, __pyx_L1_error)
+    __PYX_ERR(0, 40, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":46
+    /* "src/pyrfc/nwrfcsdk.pyx":39
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcSetIniPath(pathName, &errorInfo)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4059,7 +3883,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":30
+  /* "src/pyrfc/nwrfcsdk.pyx":23
  * 
  * 
  * def set_ini_file_directory(path_name):             # <<<<<<<<<<<<<<
@@ -4085,7 +3909,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":50
+/* "src/pyrfc/nwrfcsdk.pyx":43
  * 
  * 
  * def reload_ini_file():             # <<<<<<<<<<<<<<
@@ -4094,21 +3918,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6set_ini_file_directory(CYTHON_UNUSED P
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_9reload_ini_file(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_8reload_ini_file[] = "Reloads the contents of the sapnwrfc.ini file into memory.\n\n       Searches the directory given by RfcSetIniPath() (or the current working directory)\n       for the file sapnwrfc.ini and loads its contents into memory. Reloading the sapnwrfc.ini\n       file is only necessary after the file has been manually edited.\n       If you want to use a sapnwrfc.ini file in a different location, consider using RfcSetIniPath().\n\n       Note: If a file with the name sapnwrfc.ini does not exist in the given directory,\n       this is not considered an error! Default settings are used in this case.\n\n    :return: nothing, raises an error\n    ";
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_9reload_ini_file = {"reload_ini_file", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_9reload_ini_file, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_8reload_ini_file};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_9reload_ini_file(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_5reload_ini_file(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_4reload_ini_file[] = "Reloads the contents of the sapnwrfc.ini file into memory.\n\n       Searches the directory given by RfcSetIniPath() (or the current working directory)\n       for the file sapnwrfc.ini and loads its contents into memory. Reloading the sapnwrfc.ini\n       file is only necessary after the file has been manually edited.\n       If you want to use a sapnwrfc.ini file in a different location, consider using RfcSetIniPath().\n\n       Note: If a file with the name sapnwrfc.ini does not exist in the given directory,\n       this is not considered an error! Default settings are used in this case.\n\n    :return: nothing, raises an error\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_5reload_ini_file = {"reload_ini_file", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_5reload_ini_file, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_4reload_ini_file};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_5reload_ini_file(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("reload_ini_file (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(__pyx_self);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_4reload_ini_file(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_4reload_ini_file(CYTHON_UNUSED PyObject *__pyx_self) {
   RFC_ERROR_INFO __pyx_v_errorInfo;
   RFC_RC __pyx_v_rc;
   PyObject *__pyx_r = NULL;
@@ -4120,7 +3944,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reload_ini_file", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":64
+  /* "src/pyrfc/nwrfcsdk.pyx":57
  *     """
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcReloadIniFile (&errorInfo)             # <<<<<<<<<<<<<<
@@ -4129,7 +3953,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject
  */
   __pyx_v_rc = RfcReloadIniFile((&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":65
+  /* "src/pyrfc/nwrfcsdk.pyx":58
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcReloadIniFile (&errorInfo)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4139,20 +3963,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject
   __pyx_t_1 = ((__pyx_v_rc != RFC_OK) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":66
+    /* "src/pyrfc/nwrfcsdk.pyx":59
  *     cdef RFC_RC rc = RfcReloadIniFile (&errorInfo)
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_2 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 66, __pyx_L1_error)
+    __PYX_ERR(0, 59, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":65
+    /* "src/pyrfc/nwrfcsdk.pyx":58
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcReloadIniFile (&errorInfo)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4161,7 +3985,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":50
+  /* "src/pyrfc/nwrfcsdk.pyx":43
  * 
  * 
  * def reload_ini_file():             # <<<<<<<<<<<<<<
@@ -4182,7 +4006,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":69
+/* "src/pyrfc/nwrfcsdk.pyx":62
  * 
  * 
  * def language_iso_to_sap(lang_iso):             # <<<<<<<<<<<<<<
@@ -4191,21 +4015,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8reload_ini_file(CYTHON_UNUSED PyObject
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_11language_iso_to_sap(PyObject *__pyx_self, PyObject *__pyx_v_lang_iso); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_10language_iso_to_sap[] = "Language code conversion of ISO code to SAP code.\n\n    :param lang_iso: Language ISO code\n    :type lang_iso: string\n\n    :return: SAP language code of char 1 type\n\n    :raises: :exc:`~pyrfc.RFCError` or a subclass\n                if ISO to SAP code conversion fails.\n    ";
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_11language_iso_to_sap = {"language_iso_to_sap", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_11language_iso_to_sap, METH_O, __pyx_doc_5pyrfc_6_cyrfc_10language_iso_to_sap};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_11language_iso_to_sap(PyObject *__pyx_self, PyObject *__pyx_v_lang_iso) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_7language_iso_to_sap(PyObject *__pyx_self, PyObject *__pyx_v_lang_iso); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_6language_iso_to_sap[] = "Language code conversion of ISO code to SAP code.\n\n    :param lang_iso: Language ISO code\n    :type lang_iso: string\n\n    :return: SAP language code of char 1 type\n\n    :raises: :exc:`~pyrfc.RFCError` or a subclass\n                if ISO to SAP code conversion fails.\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_7language_iso_to_sap = {"language_iso_to_sap", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_7language_iso_to_sap, METH_O, __pyx_doc_5pyrfc_6_cyrfc_6language_iso_to_sap};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_7language_iso_to_sap(PyObject *__pyx_self, PyObject *__pyx_v_lang_iso) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("language_iso_to_sap (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(__pyx_self, ((PyObject *)__pyx_v_lang_iso));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_6language_iso_to_sap(__pyx_self, ((PyObject *)__pyx_v_lang_iso));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_iso) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6language_iso_to_sap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_iso) {
   SAP_UC *__pyx_v_uclang_iso;
   SAP_UC __pyx_v_uclang_sap[8];
   RFC_ERROR_INFO __pyx_v_errorInfo;
@@ -4221,17 +4045,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("language_iso_to_sap", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":80
+  /* "src/pyrfc/nwrfcsdk.pyx":73
  *                 if ISO to SAP code conversion fails.
  *     """
  *     cdef SAP_UC *uclang_iso = fillString(lang_iso)             # <<<<<<<<<<<<<<
  *     cdef SAP_UC uclang_sap[8]
  *     cdef RFC_ERROR_INFO errorInfo
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_lang_iso); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_lang_iso); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(0, 73, __pyx_L1_error)
   __pyx_v_uclang_iso = __pyx_t_1;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":83
+  /* "src/pyrfc/nwrfcsdk.pyx":76
  *     cdef SAP_UC uclang_sap[8]
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)             # <<<<<<<<<<<<<<
@@ -4240,7 +4064,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
  */
   __pyx_v_rc = RfcLanguageIsoToSap(__pyx_v_uclang_iso, __pyx_v_uclang_sap, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":84
+  /* "src/pyrfc/nwrfcsdk.pyx":77
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
  *     free(uclang_iso)             # <<<<<<<<<<<<<<
@@ -4249,7 +4073,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
  */
   free(__pyx_v_uclang_iso);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":85
+  /* "src/pyrfc/nwrfcsdk.pyx":78
  *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
  *     free(uclang_iso)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4259,20 +4083,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
   __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":86
+    /* "src/pyrfc/nwrfcsdk.pyx":79
  *     free(uclang_iso)
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
  *     return wrapString(uclang_sap, 1)
  * 
  */
-    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 86, __pyx_L1_error)
+    __PYX_ERR(0, 79, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":85
+    /* "src/pyrfc/nwrfcsdk.pyx":78
  *     cdef RFC_RC rc = RfcLanguageIsoToSap(uclang_iso, uclang_sap, &errorInfo)
  *     free(uclang_iso)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4281,7 +4105,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":87
+  /* "src/pyrfc/nwrfcsdk.pyx":80
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_sap, 1)             # <<<<<<<<<<<<<<
@@ -4291,13 +4115,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_4.__pyx_n = 1;
   __pyx_t_4.uclen = __pyx_int_1;
-  __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_uclang_sap, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_uclang_sap, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":69
+  /* "src/pyrfc/nwrfcsdk.pyx":62
  * 
  * 
  * def language_iso_to_sap(lang_iso):             # <<<<<<<<<<<<<<
@@ -4316,7 +4140,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":90
+/* "src/pyrfc/nwrfcsdk.pyx":83
  * 
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
@@ -4325,21 +4149,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10language_iso_to_sap(CYTHON_UNUSED PyO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_13language_sap_to_iso(PyObject *__pyx_self, PyObject *__pyx_v_lang_sap); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_12language_sap_to_iso[] = "Language code conversion of SAP code to ISO code.\n\n    :param lang_sap: Language SAP code\n    :type lang_sap: string\n\n    :return: ISO language code\n\n    :raises: :exc:`~pyrfc.RFCError` or a subclass\n                if SAP to ISO code conversion fails.\n    ";
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_13language_sap_to_iso = {"language_sap_to_iso", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_13language_sap_to_iso, METH_O, __pyx_doc_5pyrfc_6_cyrfc_12language_sap_to_iso};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_13language_sap_to_iso(PyObject *__pyx_self, PyObject *__pyx_v_lang_sap) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_9language_sap_to_iso(PyObject *__pyx_self, PyObject *__pyx_v_lang_sap); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_8language_sap_to_iso[] = "Language code conversion of SAP code to ISO code.\n\n    :param lang_sap: Language SAP code\n    :type lang_sap: string\n\n    :return: ISO language code\n\n    :raises: :exc:`~pyrfc.RFCError` or a subclass\n                if SAP to ISO code conversion fails.\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_9language_sap_to_iso = {"language_sap_to_iso", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_9language_sap_to_iso, METH_O, __pyx_doc_5pyrfc_6_cyrfc_8language_sap_to_iso};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_9language_sap_to_iso(PyObject *__pyx_self, PyObject *__pyx_v_lang_sap) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("language_sap_to_iso (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(__pyx_self, ((PyObject *)__pyx_v_lang_sap));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_8language_sap_to_iso(__pyx_self, ((PyObject *)__pyx_v_lang_sap));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_sap) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_8language_sap_to_iso(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lang_sap) {
   SAP_UC *__pyx_v_uclang_sap;
   SAP_UC __pyx_v_uclang_iso[16];
   RFC_ERROR_INFO __pyx_v_errorInfo;
@@ -4355,17 +4179,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("language_sap_to_iso", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":101
+  /* "src/pyrfc/nwrfcsdk.pyx":94
  *                 if SAP to ISO code conversion fails.
  *     """
  *     cdef SAP_UC *uclang_sap = fillString(lang_sap)             # <<<<<<<<<<<<<<
  *     cdef SAP_UC uclang_iso[16]
  *     cdef RFC_ERROR_INFO errorInfo
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_lang_sap); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_lang_sap); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(0, 94, __pyx_L1_error)
   __pyx_v_uclang_sap = __pyx_t_1;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":104
+  /* "src/pyrfc/nwrfcsdk.pyx":97
  *     cdef SAP_UC uclang_iso[16]
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)             # <<<<<<<<<<<<<<
@@ -4374,7 +4198,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
  */
   __pyx_v_rc = RfcLanguageSapToIso(__pyx_v_uclang_sap, __pyx_v_uclang_iso, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":105
+  /* "src/pyrfc/nwrfcsdk.pyx":98
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
  *     free(uclang_sap)             # <<<<<<<<<<<<<<
@@ -4383,7 +4207,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
  */
   free(__pyx_v_uclang_sap);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":106
+  /* "src/pyrfc/nwrfcsdk.pyx":99
  *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
  *     free(uclang_sap)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4393,20 +4217,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
   __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":107
+    /* "src/pyrfc/nwrfcsdk.pyx":100
  *     free(uclang_sap)
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
  *     return wrapString(uclang_iso, 2)
  * 
  */
-    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 107, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":106
+    /* "src/pyrfc/nwrfcsdk.pyx":99
  *     cdef RFC_RC rc = RfcLanguageSapToIso(uclang_sap, uclang_iso, &errorInfo)
  *     free(uclang_sap)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4415,7 +4239,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":108
+  /* "src/pyrfc/nwrfcsdk.pyx":101
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)
  *     return wrapString(uclang_iso, 2)             # <<<<<<<<<<<<<<
@@ -4425,13 +4249,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_4.__pyx_n = 1;
   __pyx_t_4.uclen = __pyx_int_2;
-  __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_uclang_iso, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_uclang_iso, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":90
+  /* "src/pyrfc/nwrfcsdk.pyx":83
  * 
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
@@ -4450,7 +4274,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":111
+/* "src/pyrfc/nwrfcsdk.pyx":104
  * 
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
@@ -4459,21 +4283,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12language_sap_to_iso(CYTHON_UNUSED PyO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15set_cryptolib_path(PyObject *__pyx_self, PyObject *__pyx_v_path_name); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_14set_cryptolib_path[] = "Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.\n\n       The parameter path_name needs also to contain the name of the library.\n       This function has the same effect as the sapnwrfc.ini parameter TLS_SAPCRYPTOLIB.\n       This API cannot reset a new path to the library during runtime. Once set, the path is definitive.\n\n    :param path_name: Absolute path to crypto library\n    :type path_name: string\n\n    :return: nothing, raises an error\n    ";
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_15set_cryptolib_path = {"set_cryptolib_path", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_15set_cryptolib_path, METH_O, __pyx_doc_5pyrfc_6_cyrfc_14set_cryptolib_path};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15set_cryptolib_path(PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_11set_cryptolib_path(PyObject *__pyx_self, PyObject *__pyx_v_path_name); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_10set_cryptolib_path[] = "Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.\n\n       The parameter path_name needs also to contain the name of the library.\n       This function has the same effect as the sapnwrfc.ini parameter TLS_SAPCRYPTOLIB.\n       This API cannot reset a new path to the library during runtime. Once set, the path is definitive.\n\n    :param path_name: Absolute path to crypto library\n    :type path_name: string\n\n    :return: nothing, raises an error\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_11set_cryptolib_path = {"set_cryptolib_path", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_11set_cryptolib_path, METH_O, __pyx_doc_5pyrfc_6_cyrfc_10set_cryptolib_path};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_11set_cryptolib_path(PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_cryptolib_path (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(__pyx_self, ((PyObject *)__pyx_v_path_name));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10set_cryptolib_path(__pyx_self, ((PyObject *)__pyx_v_path_name));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10set_cryptolib_path(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_path_name) {
   RFC_ERROR_INFO __pyx_v_errorInfo;
   SAP_UC __pyx_v_pathName[0x200];
   RFC_RC __pyx_v_rc;
@@ -4490,7 +4314,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_cryptolib_path", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":123
+  /* "src/pyrfc/nwrfcsdk.pyx":116
  *     :return: nothing, raises an error
  *     """
  *     if type(path_name) is not str:             # <<<<<<<<<<<<<<
@@ -4501,14 +4325,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":124
+    /* "src/pyrfc/nwrfcsdk.pyx":117
  *     """
  *     if type(path_name) is not str:
  *         raise TypeError('sapnwrfc.ini path is not a string:', path_name)             # <<<<<<<<<<<<<<
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef SAP_UC pathName [512]
  */
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_s_sapnwrfc_ini_path_is_not_a_strin);
     __Pyx_GIVEREF(__pyx_kp_s_sapnwrfc_ini_path_is_not_a_strin);
@@ -4516,14 +4340,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
     __Pyx_INCREF(__pyx_v_path_name);
     __Pyx_GIVEREF(__pyx_v_path_name);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_path_name);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 117, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 124, __pyx_L1_error)
+    __PYX_ERR(0, 117, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":123
+    /* "src/pyrfc/nwrfcsdk.pyx":116
  *     :return: nothing, raises an error
  *     """
  *     if type(path_name) is not str:             # <<<<<<<<<<<<<<
@@ -4532,14 +4356,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":127
+  /* "src/pyrfc/nwrfcsdk.pyx":120
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef SAP_UC pathName [512]
  *     if not isfile(path_name):             # <<<<<<<<<<<<<<
  *         raise TypeError('Crypto library not found:', path_name)
  *     pathName = fillString(path_name)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_isfile); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_isfile); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -4553,22 +4377,22 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
   }
   __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_v_path_name) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_path_name);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 127, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 120, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_1 = ((!__pyx_t_2) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":128
+    /* "src/pyrfc/nwrfcsdk.pyx":121
  *     cdef SAP_UC pathName [512]
  *     if not isfile(path_name):
  *         raise TypeError('Crypto library not found:', path_name)             # <<<<<<<<<<<<<<
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)
  */
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_kp_s_Crypto_library_not_found);
     __Pyx_GIVEREF(__pyx_kp_s_Crypto_library_not_found);
@@ -4576,14 +4400,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
     __Pyx_INCREF(__pyx_v_path_name);
     __Pyx_GIVEREF(__pyx_v_path_name);
     PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_path_name);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 128, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":127
+    /* "src/pyrfc/nwrfcsdk.pyx":120
  *     cdef RFC_ERROR_INFO errorInfo
  *     cdef SAP_UC pathName [512]
  *     if not isfile(path_name):             # <<<<<<<<<<<<<<
@@ -4592,17 +4416,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":129
+  /* "src/pyrfc/nwrfcsdk.pyx":122
  *     if not isfile(path_name):
  *         raise TypeError('Crypto library not found:', path_name)
  *     pathName = fillString(path_name)             # <<<<<<<<<<<<<<
  *     cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)
  *     if rc != RFC_OK:
  */
-  __pyx_t_6 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_path_name); if (unlikely(__pyx_t_6 == ((SAP_UC *)NULL))) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_6 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_path_name); if (unlikely(__pyx_t_6 == ((SAP_UC *)NULL))) __PYX_ERR(0, 122, __pyx_L1_error)
   memcpy(&(__pyx_v_pathName[0]), __pyx_t_6, sizeof(__pyx_v_pathName[0]) * (0x200 - 0));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":130
+  /* "src/pyrfc/nwrfcsdk.pyx":123
  *         raise TypeError('Crypto library not found:', path_name)
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -4611,7 +4435,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
  */
   __pyx_v_rc = RfcLoadCryptoLibrary(__pyx_v_pathName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":131
+  /* "src/pyrfc/nwrfcsdk.pyx":124
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4621,20 +4445,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
   __pyx_t_1 = ((__pyx_v_rc != RFC_OK) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":132
+    /* "src/pyrfc/nwrfcsdk.pyx":125
  *     cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)
  *     if rc != RFC_OK:
  *         raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 132, __pyx_L1_error)
+    __PYX_ERR(0, 125, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":131
+    /* "src/pyrfc/nwrfcsdk.pyx":124
  *     pathName = fillString(path_name)
  *     cdef RFC_RC rc = RfcLoadCryptoLibrary(pathName, &errorInfo)
  *     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -4643,7 +4467,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":111
+  /* "src/pyrfc/nwrfcsdk.pyx":104
  * 
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
@@ -4666,7 +4490,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":135
+/* "src/pyrfc/nwrfcsdk.pyx":128
  * 
  * 
  * def set_locale_radix(value=None):             # <<<<<<<<<<<<<<
@@ -4675,10 +4499,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14set_cryptolib_path(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_17set_locale_radix(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_16set_locale_radix[] = "Sets the locale radix for decimal conversions.\n\n    :param value: Locale radix like ``.`` or ``,``\n    :type path_name: string\n\n    :return: New radix set\n    ";
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_17set_locale_radix = {"set_locale_radix", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5pyrfc_6_cyrfc_17set_locale_radix, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5pyrfc_6_cyrfc_16set_locale_radix};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_17set_locale_radix(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_13set_locale_radix(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_12set_locale_radix[] = "Sets the locale radix for decimal conversions.\n\n    :param value: Locale radix like ``.`` or ``,``\n    :type path_name: string\n\n    :return: New radix set\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_13set_locale_radix = {"set_locale_radix", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5pyrfc_6_cyrfc_13set_locale_radix, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5pyrfc_6_cyrfc_12set_locale_radix};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_13set_locale_radix(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_value = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -4708,7 +4532,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_17set_locale_radix(PyObject *__pyx_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_locale_radix") < 0)) __PYX_ERR(0, 135, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_locale_radix") < 0)) __PYX_ERR(0, 128, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4722,20 +4546,20 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_17set_locale_radix(PyObject *__pyx_self
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_locale_radix", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 135, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_locale_radix", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 128, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.set_locale_radix", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(__pyx_self, __pyx_v_value);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_12set_locale_radix(__pyx_self, __pyx_v_value);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_value) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_12set_locale_radix(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_value) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -4749,7 +4573,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObje
   __Pyx_RefNannySetupContext("set_locale_radix", 0);
   __Pyx_INCREF(__pyx_v_value);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":144
+  /* "src/pyrfc/nwrfcsdk.pyx":137
  *     """
  *     global _LOCALE_RADIX
  *     if value is None:             # <<<<<<<<<<<<<<
@@ -4760,14 +4584,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObje
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":145
+    /* "src/pyrfc/nwrfcsdk.pyx":138
  *     global _LOCALE_RADIX
  *     if value is None:
  *         value = localeconv()['decimal_point']             # <<<<<<<<<<<<<<
  *     _LOCALE_RADIX = value
  *     return _LOCALE_RADIX
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_localeconv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_localeconv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -4781,16 +4605,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObje
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 145, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_decimal_point); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_decimal_point); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":144
+    /* "src/pyrfc/nwrfcsdk.pyx":137
  *     """
  *     global _LOCALE_RADIX
  *     if value is None:             # <<<<<<<<<<<<<<
@@ -4799,16 +4623,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObje
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":146
+  /* "src/pyrfc/nwrfcsdk.pyx":139
  *     if value is None:
  *         value = localeconv()['decimal_point']
  *     _LOCALE_RADIX = value             # <<<<<<<<<<<<<<
  *     return _LOCALE_RADIX
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LOCALE_RADIX, __pyx_v_value) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LOCALE_RADIX, __pyx_v_value) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":147
+  /* "src/pyrfc/nwrfcsdk.pyx":140
  *         value = localeconv()['decimal_point']
  *     _LOCALE_RADIX = value
  *     return _LOCALE_RADIX             # <<<<<<<<<<<<<<
@@ -4816,13 +4640,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObje
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_LOCALE_RADIX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_LOCALE_RADIX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":135
+  /* "src/pyrfc/nwrfcsdk.pyx":128
  * 
  * 
  * def set_locale_radix(value=None):             # <<<<<<<<<<<<<<
@@ -4844,7 +4668,281 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObje
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":150
+/* "src/pyrfc/nwrfcsdk.pyx":143
+ * 
+ * 
+ * cdef _cancel_connection(client_connection):             # <<<<<<<<<<<<<<
+ *     cdef RFC_RC rc
+ *     cdef RFC_ERROR_INFO errorInfo
+ */
+
+static PyObject *__pyx_f_5pyrfc_6_cyrfc__cancel_connection(PyObject *__pyx_v_client_connection) {
+  RFC_RC __pyx_v_rc;
+  RFC_ERROR_INFO __pyx_v_errorInfo;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  uintptr_t __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_cancel_connection", 0);
+
+  /* "src/pyrfc/nwrfcsdk.pyx":146
+ *     cdef RFC_RC rc
+ *     cdef RFC_ERROR_INFO errorInfo
+ *     if client_connection.handle is not None:             # <<<<<<<<<<<<<<
+ *         rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_client_connection, __pyx_n_s_handle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = (__pyx_t_1 != Py_None);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = (__pyx_t_2 != 0);
+  if (__pyx_t_3) {
+
+    /* "src/pyrfc/nwrfcsdk.pyx":147
+ *     cdef RFC_ERROR_INFO errorInfo
+ *     if client_connection.handle is not None:
+ *         rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)             # <<<<<<<<<<<<<<
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:
+ *             raise wrapError(&errorInfo)
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_client_connection, __pyx_n_s_handle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = __Pyx_PyInt_As_size_t(__pyx_t_1); if (unlikely((__pyx_t_4 == ((uintptr_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 147, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_rc = RfcCancel(((RFC_CONNECTION_HANDLE)((uintptr_t)__pyx_t_4)), (&__pyx_v_errorInfo));
+
+    /* "src/pyrfc/nwrfcsdk.pyx":148
+ *     if client_connection.handle is not None:
+ *         rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
+ *             raise wrapError(&errorInfo)
+ *         # open new connection
+ */
+    __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
+    if (!__pyx_t_2) {
+    } else {
+      __pyx_t_3 = __pyx_t_2;
+      goto __pyx_L5_bool_binop_done;
+    }
+    __pyx_t_2 = ((__pyx_v_errorInfo.code != RFC_OK) != 0);
+    __pyx_t_3 = __pyx_t_2;
+    __pyx_L5_bool_binop_done:;
+    if (unlikely(__pyx_t_3)) {
+
+      /* "src/pyrfc/nwrfcsdk.pyx":149
+ *         rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:
+ *             raise wrapError(&errorInfo)             # <<<<<<<<<<<<<<
+ *         # open new connection
+ *         client_connection.open()
+ */
+      __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapError((&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __PYX_ERR(0, 149, __pyx_L1_error)
+
+      /* "src/pyrfc/nwrfcsdk.pyx":148
+ *     if client_connection.handle is not None:
+ *         rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
+ *             raise wrapError(&errorInfo)
+ *         # open new connection
+ */
+    }
+
+    /* "src/pyrfc/nwrfcsdk.pyx":151
+ *             raise wrapError(&errorInfo)
+ *         # open new connection
+ *         client_connection.open()             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_client_connection, __pyx_n_s_open); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
+      }
+    }
+    __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "src/pyrfc/nwrfcsdk.pyx":146
+ *     cdef RFC_RC rc
+ *     cdef RFC_ERROR_INFO errorInfo
+ *     if client_connection.handle is not None:             # <<<<<<<<<<<<<<
+ *         rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:
+ */
+  }
+
+  /* "src/pyrfc/nwrfcsdk.pyx":143
+ * 
+ * 
+ * cdef _cancel_connection(client_connection):             # <<<<<<<<<<<<<<
+ *     cdef RFC_RC rc
+ *     cdef RFC_ERROR_INFO errorInfo
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("pyrfc._cyrfc._cancel_connection", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "src/pyrfc/nwrfcsdk.pyx":154
+ * 
+ * 
+ * def cancel_connection(client_connection):             # <<<<<<<<<<<<<<
+ *     """Cancels the RFC call which is currently being called over the given RFC connection
+ *     and closes the connection. Can be used only on an RFC client connection.
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15cancel_connection(PyObject *__pyx_self, PyObject *__pyx_v_client_connection); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_14cancel_connection[] = "Cancels the RFC call which is currently being called over the given RFC connection\n    and closes the connection. Can be used only on an RFC client connection.\n    It must be called from a different thread than the one currently executing the RFC call,\n    which is done automatically by ``pyrfc``.\n\n    :param client_connection: RFC client connection instance to be cancelled\n    :type client_connection: Connection\n\n    :raises: :exc:`~pyrfc.RFCError` or a subclass\n                thereof if the connection cannot be cancelled cleanly.\n    ";
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_15cancel_connection = {"cancel_connection", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_15cancel_connection, METH_O, __pyx_doc_5pyrfc_6_cyrfc_14cancel_connection};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15cancel_connection(PyObject *__pyx_self, PyObject *__pyx_v_client_connection) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("cancel_connection (wrapper)", 0);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_14cancel_connection(__pyx_self, ((PyObject *)__pyx_v_client_connection));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_14cancel_connection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_client_connection) {
+  PyObject *__pyx_v_t_cancel = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("cancel_connection", 0);
+
+  /* "src/pyrfc/nwrfcsdk.pyx":166
+ *                 thereof if the connection cannot be cancelled cleanly.
+ *     """
+ *     t_cancel = Thread(target=_cancel_connection, args=(client_connection,))             # <<<<<<<<<<<<<<
+ *     t_cancel.start()
+ *     _cancel_connection(client_connection)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Thread); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_CFunc_object____object___to_py(__pyx_f_5pyrfc_6_cyrfc__cancel_connection); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_target, __pyx_t_3) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_INCREF(__pyx_v_client_connection);
+  __Pyx_GIVEREF(__pyx_v_client_connection);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_client_connection);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_args, __pyx_t_3) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_t_cancel = __pyx_t_3;
+  __pyx_t_3 = 0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":167
+ *     """
+ *     t_cancel = Thread(target=_cancel_connection, args=(client_connection,))
+ *     t_cancel.start()             # <<<<<<<<<<<<<<
+ *     _cancel_connection(client_connection)
+ * 
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_t_cancel, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":168
+ *     t_cancel = Thread(target=_cancel_connection, args=(client_connection,))
+ *     t_cancel.start()
+ *     _cancel_connection(client_connection)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc__cancel_connection(__pyx_v_client_connection); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":154
+ * 
+ * 
+ * def cancel_connection(client_connection):             # <<<<<<<<<<<<<<
+ *     """Cancels the RFC call which is currently being called over the given RFC connection
+ *     and closes the connection. Can be used only on an RFC client connection.
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("pyrfc._cyrfc.cancel_connection", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_t_cancel);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "src/pyrfc/nwrfcsdk.pyx":171
  * 
  * 
  * def enum_names(enum_obj):             # <<<<<<<<<<<<<<
@@ -4853,13 +4951,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16set_locale_radix(CYTHON_UNUSED PyObje
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19enum_names(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /*proto*/
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_19enum_names = {"enum_names", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_19enum_names, METH_O, 0};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19enum_names(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_17enum_names(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /*proto*/
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_17enum_names = {"enum_names", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_17enum_names, METH_O, 0};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_17enum_names(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("enum_names (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_18enum_names(__pyx_self, ((PyObject *)__pyx_v_enum_obj));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_16enum_names(__pyx_self, ((PyObject *)__pyx_v_enum_obj));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
@@ -4867,7 +4965,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19enum_names(PyObject *__pyx_self, PyOb
 }
 static PyObject *__pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "src/pyrfc/nwrfcsdk.pyx":151
+/* "src/pyrfc/nwrfcsdk.pyx":172
  * 
  * def enum_names(enum_obj):
  *     return set(e.name for e in enum_obj)             # <<<<<<<<<<<<<<
@@ -4887,7 +4985,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10enum_names_genexpr(PyObject *__pyx_se
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 151, __pyx_L1_error)
+    __PYX_ERR(0, 172, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -4895,7 +4993,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10enum_names_genexpr(PyObject *__pyx_se
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_enum_names_locals_genexpr, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!gen)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_enum_names_locals_genexpr, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!gen)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -4931,34 +5029,34 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator(__pyx_Coroutine
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 151, __pyx_L1_error)
-  __pyx_r = PySet_New(NULL); if (unlikely(!__pyx_r)) __PYX_ERR(0, 151, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_r = PySet_New(NULL); if (unlikely(!__pyx_r)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) { __Pyx_RaiseClosureNameError("enum_obj"); __PYX_ERR(0, 151, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) { __Pyx_RaiseClosureNameError("enum_obj"); __PYX_ERR(0, 172, __pyx_L1_error) }
   if (likely(PyList_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) || PyTuple_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) {
     __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 151, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 151, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 151, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 151, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -4968,7 +5066,7 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator(__pyx_Coroutine
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 151, __pyx_L1_error)
+          else __PYX_ERR(0, 172, __pyx_L1_error)
         }
         break;
       }
@@ -4978,9 +5076,9 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator(__pyx_Coroutine
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_e, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 151, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(PySet_Add(__pyx_r, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 151, __pyx_L1_error)
+    if (unlikely(PySet_Add(__pyx_r, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5004,7 +5102,7 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator(__pyx_Coroutine
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":150
+/* "src/pyrfc/nwrfcsdk.pyx":171
  * 
  * 
  * def enum_names(enum_obj):             # <<<<<<<<<<<<<<
@@ -5012,7 +5110,7 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator(__pyx_Coroutine
  * 
  */
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_names(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_16enum_names(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
   struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names *__pyx_cur_scope;
   PyObject *__pyx_gb_5pyrfc_6_cyrfc_10enum_names_2generator = 0;
   PyObject *__pyx_r = NULL;
@@ -5027,7 +5125,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_names(CYTHON_UNUSED PyObject *__
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 150, __pyx_L1_error)
+    __PYX_ERR(0, 171, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -5035,7 +5133,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_names(CYTHON_UNUSED PyObject *__
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_enum_obj);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_enum_obj);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":151
+  /* "src/pyrfc/nwrfcsdk.pyx":172
  * 
  * def enum_names(enum_obj):
  *     return set(e.name for e in enum_obj)             # <<<<<<<<<<<<<<
@@ -5043,16 +5141,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_names(CYTHON_UNUSED PyObject *__
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_pf_5pyrfc_6_cyrfc_10enum_names_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_1 = __pyx_pf_5pyrfc_6_cyrfc_10enum_names_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_Generator_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Generator_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":150
+  /* "src/pyrfc/nwrfcsdk.pyx":171
  * 
  * 
  * def enum_names(enum_obj):             # <<<<<<<<<<<<<<
@@ -5074,7 +5172,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_names(CYTHON_UNUSED PyObject *__
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":154
+/* "src/pyrfc/nwrfcsdk.pyx":175
  * 
  * 
  * def enum_values(enum_obj):             # <<<<<<<<<<<<<<
@@ -5083,13 +5181,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_names(CYTHON_UNUSED PyObject *__
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_21enum_values(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /*proto*/
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_21enum_values = {"enum_values", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_21enum_values, METH_O, 0};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_21enum_values(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19enum_values(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj); /*proto*/
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_19enum_values = {"enum_values", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_19enum_values, METH_O, 0};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19enum_values(PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("enum_values (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_20enum_values(__pyx_self, ((PyObject *)__pyx_v_enum_obj));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_18enum_values(__pyx_self, ((PyObject *)__pyx_v_enum_obj));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
@@ -5097,12 +5195,12 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_21enum_values(PyObject *__pyx_self, PyO
 }
 static PyObject *__pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "src/pyrfc/nwrfcsdk.pyx":155
+/* "src/pyrfc/nwrfcsdk.pyx":176
  * 
  * def enum_values(enum_obj):
  *     return set(e.value for e in enum_obj)             # <<<<<<<<<<<<<<
  * 
- * ################################################################################
+ * 
  */
 
 static PyObject *__pyx_pf_5pyrfc_6_cyrfc_11enum_values_genexpr(PyObject *__pyx_self) {
@@ -5117,7 +5215,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_11enum_values_genexpr(PyObject *__pyx_s
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 155, __pyx_L1_error)
+    __PYX_ERR(0, 176, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -5125,7 +5223,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_11enum_values_genexpr(PyObject *__pyx_s
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_enum_values_locals_genexpr, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!gen)) __PYX_ERR(0, 155, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_enum_values_locals_genexpr, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!gen)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -5161,34 +5259,34 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1(__pyx_Corouti
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 155, __pyx_L1_error)
-  __pyx_r = PySet_New(NULL); if (unlikely(!__pyx_r)) __PYX_ERR(0, 155, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_r = PySet_New(NULL); if (unlikely(!__pyx_r)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) { __Pyx_RaiseClosureNameError("enum_obj"); __PYX_ERR(0, 155, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) { __Pyx_RaiseClosureNameError("enum_obj"); __PYX_ERR(0, 176, __pyx_L1_error) }
   if (likely(PyList_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) || PyTuple_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj)) {
     __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_enum_obj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 176, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 176, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 176, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -5198,7 +5296,7 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1(__pyx_Corouti
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 155, __pyx_L1_error)
+          else __PYX_ERR(0, 176, __pyx_L1_error)
         }
         break;
       }
@@ -5208,9 +5306,9 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1(__pyx_Corouti
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_e, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_value); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_value); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(PySet_Add(__pyx_r, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 155, __pyx_L1_error)
+    if (unlikely(PySet_Add(__pyx_r, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5234,7 +5332,7 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1(__pyx_Corouti
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":154
+/* "src/pyrfc/nwrfcsdk.pyx":175
  * 
  * 
  * def enum_values(enum_obj):             # <<<<<<<<<<<<<<
@@ -5242,7 +5340,7 @@ static PyObject *__pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1(__pyx_Corouti
  * 
  */
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20enum_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_18enum_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_enum_obj) {
   struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values *__pyx_cur_scope;
   PyObject *__pyx_gb_5pyrfc_6_cyrfc_11enum_values_2generator1 = 0;
   PyObject *__pyx_r = NULL;
@@ -5257,7 +5355,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20enum_values(CYTHON_UNUSED PyObject *_
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 154, __pyx_L1_error)
+    __PYX_ERR(0, 175, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -5265,24 +5363,24 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20enum_values(CYTHON_UNUSED PyObject *_
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_enum_obj);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_enum_obj);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":155
+  /* "src/pyrfc/nwrfcsdk.pyx":176
  * 
  * def enum_values(enum_obj):
  *     return set(e.value for e in enum_obj)             # <<<<<<<<<<<<<<
  * 
- * ################################################################################
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_pf_5pyrfc_6_cyrfc_11enum_values_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_t_1 = __pyx_pf_5pyrfc_6_cyrfc_11enum_values_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_Generator_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Generator_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":154
+  /* "src/pyrfc/nwrfcsdk.pyx":175
  * 
  * 
  * def enum_values(enum_obj):             # <<<<<<<<<<<<<<
@@ -5304,7 +5402,221 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20enum_values(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":173
+/* "src/pyrfc/nwrfcsdk.pyx":179
+ * 
+ * 
+ * def py_to_string(obj):             # <<<<<<<<<<<<<<
+ *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_21py_to_string(PyObject *__pyx_self, PyObject *__pyx_v_obj); /*proto*/
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_21py_to_string = {"py_to_string", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_21py_to_string, METH_O, 0};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_21py_to_string(PyObject *__pyx_self, PyObject *__pyx_v_obj) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("py_to_string (wrapper)", 0);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_20py_to_string(__pyx_self, ((PyObject *)__pyx_v_obj));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20py_to_string(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obj) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("py_to_string", 0);
+
+  /* "src/pyrfc/nwrfcsdk.pyx":180
+ * 
+ * def py_to_string(obj):
+ *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pickle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_dumps); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pickle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_HIGHEST_PROTOCOL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  __pyx_t_5 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_obj, __pyx_t_4};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_obj, __pyx_t_4};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_obj);
+    __Pyx_GIVEREF(__pyx_v_obj);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_v_obj);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_4);
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":179
+ * 
+ * 
+ * def py_to_string(obj):             # <<<<<<<<<<<<<<
+ *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("pyrfc._cyrfc.py_to_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "src/pyrfc/nwrfcsdk.pyx":183
+ * 
+ * 
+ * def string_to_py(objstr):             # <<<<<<<<<<<<<<
+ *     return pickle.loads(objstr)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_23string_to_py(PyObject *__pyx_self, PyObject *__pyx_v_objstr); /*proto*/
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_23string_to_py = {"string_to_py", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_23string_to_py, METH_O, 0};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_23string_to_py(PyObject *__pyx_self, PyObject *__pyx_v_objstr) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("string_to_py (wrapper)", 0);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_22string_to_py(__pyx_self, ((PyObject *)__pyx_v_objstr));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_22string_to_py(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_objstr) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("string_to_py", 0);
+
+  /* "src/pyrfc/nwrfcsdk.pyx":184
+ * 
+ * def string_to_py(objstr):
+ *     return pickle.loads(objstr)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pickle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_loads); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_objstr) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_objstr);
+  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":183
+ * 
+ * 
+ * def string_to_py(objstr):             # <<<<<<<<<<<<<<
+ *     return pickle.loads(objstr)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("pyrfc._cyrfc.string_to_py", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "src/pyrfc/nwrfcsdk.pyx":203
  *     cdef RFC_CONNECTION_PARAMETER *_params
  * 
  *     def __cinit__(self, **params):             # <<<<<<<<<<<<<<
@@ -5352,17 +5664,17 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":174
+  /* "src/pyrfc/nwrfcsdk.pyx":204
  * 
  *     def __cinit__(self, **params):
  *         self._params_count = len(params)             # <<<<<<<<<<<<<<
  *         if self._params_count < 1:
  *             raise RFCError("Connection parameters missing")
  */
-  __pyx_t_1 = PyDict_Size(__pyx_v_params); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_1 = PyDict_Size(__pyx_v_params); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 204, __pyx_L1_error)
   __pyx_v_self->_params_count = __pyx_t_1;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":175
+  /* "src/pyrfc/nwrfcsdk.pyx":205
  *     def __cinit__(self, **params):
  *         self._params_count = len(params)
  *         if self._params_count < 1:             # <<<<<<<<<<<<<<
@@ -5372,14 +5684,14 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
   __pyx_t_2 = ((__pyx_v_self->_params_count < 1) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":176
+    /* "src/pyrfc/nwrfcsdk.pyx":206
  *         self._params_count = len(params)
  *         if self._params_count < 1:
  *             raise RFCError("Connection parameters missing")             # <<<<<<<<<<<<<<
  *         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))
  *         cdef int i = 0
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 206, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -5393,14 +5705,14 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_Connection_parameters_missing) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_Connection_parameters_missing);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 176, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 176, __pyx_L1_error)
+    __PYX_ERR(0, 206, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":175
+    /* "src/pyrfc/nwrfcsdk.pyx":205
  *     def __cinit__(self, **params):
  *         self._params_count = len(params)
  *         if self._params_count < 1:             # <<<<<<<<<<<<<<
@@ -5409,7 +5721,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":177
+  /* "src/pyrfc/nwrfcsdk.pyx":207
  *         if self._params_count < 1:
  *             raise RFCError("Connection parameters missing")
  *         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))             # <<<<<<<<<<<<<<
@@ -5418,7 +5730,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
  */
   __pyx_v_self->_params = ((RFC_CONNECTION_PARAMETER *)malloc((__pyx_v_self->_params_count * (sizeof(RFC_CONNECTION_PARAMETER)))));
 
-  /* "src/pyrfc/nwrfcsdk.pyx":178
+  /* "src/pyrfc/nwrfcsdk.pyx":208
  *             raise RFCError("Connection parameters missing")
  *         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))
  *         cdef int i = 0             # <<<<<<<<<<<<<<
@@ -5427,7 +5739,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
  */
   __pyx_v_i = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":179
+  /* "src/pyrfc/nwrfcsdk.pyx":209
  *         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))
  *         cdef int i = 0
  *         for name, value in params.iteritems():             # <<<<<<<<<<<<<<
@@ -5435,7 +5747,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
  *             self._params[i].value = fillString(value)
  */
   __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_dict_iterator(__pyx_v_params, 1, __pyx_n_s_iteritems, (&__pyx_t_6), (&__pyx_t_7)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_dict_iterator(__pyx_v_params, 1, __pyx_n_s_iteritems, (&__pyx_t_6), (&__pyx_t_7)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_3);
   __pyx_t_3 = __pyx_t_4;
@@ -5443,7 +5755,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
   while (1) {
     __pyx_t_8 = __Pyx_dict_iter_next(__pyx_t_3, __pyx_t_6, &__pyx_t_1, &__pyx_t_4, &__pyx_t_5, NULL, __pyx_t_7);
     if (unlikely(__pyx_t_8 == 0)) break;
-    if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 179, __pyx_L1_error)
+    if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 209, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_4);
@@ -5451,27 +5763,27 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":180
+    /* "src/pyrfc/nwrfcsdk.pyx":210
  *         cdef int i = 0
  *         for name, value in params.iteritems():
  *             self._params[i].name = fillString(name)             # <<<<<<<<<<<<<<
  *             self._params[i].value = fillString(value)
  *             i += 1
  */
-    __pyx_t_9 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_name); if (unlikely(__pyx_t_9 == ((SAP_UC *)NULL))) __PYX_ERR(0, 180, __pyx_L1_error)
+    __pyx_t_9 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_name); if (unlikely(__pyx_t_9 == ((SAP_UC *)NULL))) __PYX_ERR(0, 210, __pyx_L1_error)
     (__pyx_v_self->_params[__pyx_v_i]).name = __pyx_t_9;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":181
+    /* "src/pyrfc/nwrfcsdk.pyx":211
  *         for name, value in params.iteritems():
  *             self._params[i].name = fillString(name)
  *             self._params[i].value = fillString(value)             # <<<<<<<<<<<<<<
  *             i += 1
  * 
  */
-    __pyx_t_9 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_value); if (unlikely(__pyx_t_9 == ((SAP_UC *)NULL))) __PYX_ERR(0, 181, __pyx_L1_error)
+    __pyx_t_9 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_value); if (unlikely(__pyx_t_9 == ((SAP_UC *)NULL))) __PYX_ERR(0, 211, __pyx_L1_error)
     (__pyx_v_self->_params[__pyx_v_i]).value = __pyx_t_9;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":182
+    /* "src/pyrfc/nwrfcsdk.pyx":212
  *             self._params[i].name = fillString(name)
  *             self._params[i].value = fillString(value)
  *             i += 1             # <<<<<<<<<<<<<<
@@ -5482,7 +5794,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":173
+  /* "src/pyrfc/nwrfcsdk.pyx":203
  *     cdef RFC_CONNECTION_PARAMETER *_params
  * 
  *     def __cinit__(self, **params):             # <<<<<<<<<<<<<<
@@ -5506,7 +5818,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":184
+/* "src/pyrfc/nwrfcsdk.pyx":214
  *             i += 1
  * 
  *     def __del__(self):             # <<<<<<<<<<<<<<
@@ -5538,14 +5850,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_2__del__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":185
+  /* "src/pyrfc/nwrfcsdk.pyx":215
  * 
  *     def __del__(self):
  *         self._free()             # <<<<<<<<<<<<<<
  * 
  *     def _free(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_free); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_free); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5559,12 +5871,12 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_2__del__(struct 
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":184
+  /* "src/pyrfc/nwrfcsdk.pyx":214
  *             i += 1
  * 
  *     def __del__(self):             # <<<<<<<<<<<<<<
@@ -5587,7 +5899,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_2__del__(struct 
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":187
+/* "src/pyrfc/nwrfcsdk.pyx":217
  *         self._free()
  * 
  *     def _free(self):             # <<<<<<<<<<<<<<
@@ -5618,7 +5930,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
   unsigned int __pyx_t_4;
   __Pyx_RefNannySetupContext("_free", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":188
+  /* "src/pyrfc/nwrfcsdk.pyx":218
  * 
  *     def _free(self):
  *         if self._params_count > 0:             # <<<<<<<<<<<<<<
@@ -5628,7 +5940,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
   __pyx_t_1 = ((__pyx_v_self->_params_count > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":189
+    /* "src/pyrfc/nwrfcsdk.pyx":219
  *     def _free(self):
  *         if self._params_count > 0:
  *             for i in range(self._params_count):             # <<<<<<<<<<<<<<
@@ -5640,7 +5952,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
     for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
       __pyx_v_i = __pyx_t_4;
 
-      /* "src/pyrfc/nwrfcsdk.pyx":190
+      /* "src/pyrfc/nwrfcsdk.pyx":220
  *         if self._params_count > 0:
  *             for i in range(self._params_count):
  *                 free(<SAP_UC*>self._params[i].name)             # <<<<<<<<<<<<<<
@@ -5649,7 +5961,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
  */
       free(((SAP_UC *)(__pyx_v_self->_params[__pyx_v_i]).name));
 
-      /* "src/pyrfc/nwrfcsdk.pyx":191
+      /* "src/pyrfc/nwrfcsdk.pyx":221
  *             for i in range(self._params_count):
  *                 free(<SAP_UC*>self._params[i].name)
  *                 free(<SAP_UC*> self._params[i].value)             # <<<<<<<<<<<<<<
@@ -5659,7 +5971,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
       free(((SAP_UC *)(__pyx_v_self->_params[__pyx_v_i]).value));
     }
 
-    /* "src/pyrfc/nwrfcsdk.pyx":192
+    /* "src/pyrfc/nwrfcsdk.pyx":222
  *                 free(<SAP_UC*>self._params[i].name)
  *                 free(<SAP_UC*> self._params[i].value)
  *             free(self._params)             # <<<<<<<<<<<<<<
@@ -5668,7 +5980,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
  */
     free(__pyx_v_self->_params);
 
-    /* "src/pyrfc/nwrfcsdk.pyx":193
+    /* "src/pyrfc/nwrfcsdk.pyx":223
  *                 free(<SAP_UC*> self._params[i].value)
  *             free(self._params)
  *             self._params_count = 0             # <<<<<<<<<<<<<<
@@ -5677,7 +5989,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
  */
     __pyx_v_self->_params_count = 0;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":188
+    /* "src/pyrfc/nwrfcsdk.pyx":218
  * 
  *     def _free(self):
  *         if self._params_count > 0:             # <<<<<<<<<<<<<<
@@ -5686,7 +5998,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_4_free(struct __
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":187
+  /* "src/pyrfc/nwrfcsdk.pyx":217
  *         self._free()
  * 
  *     def _free(self):             # <<<<<<<<<<<<<<
@@ -5814,7 +6126,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters_8__setstate_cyth
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":225
+/* "src/pyrfc/nwrfcsdk.pyx":255
  * 
  *     """
  *     def __init__(self, name, nuc_length, uc_length):             # <<<<<<<<<<<<<<
@@ -5863,23 +6175,23 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15TypeDescription_1__init__(PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 1); __PYX_ERR(0, 225, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 1); __PYX_ERR(0, 255, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nuc_length)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 2); __PYX_ERR(0, 225, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 2); __PYX_ERR(0, 255, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_uc_length)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 3); __PYX_ERR(0, 225, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 3); __PYX_ERR(0, 255, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 225, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 255, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5896,7 +6208,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15TypeDescription_1__init__(PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 225, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 255, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.TypeDescription.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5926,46 +6238,46 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":226
+  /* "src/pyrfc/nwrfcsdk.pyx":256
  *     """
  *     def __init__(self, name, nuc_length, uc_length):
  *         self.fields = []             # <<<<<<<<<<<<<<
  *         if len(name)<1 or len(name)>30:
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_fields, __pyx_t_1) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_fields, __pyx_t_1) < 0) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":227
+  /* "src/pyrfc/nwrfcsdk.pyx":257
  *     def __init__(self, name, nuc_length, uc_length):
  *         self.fields = []
  *         if len(name)<1 or len(name)>30:             # <<<<<<<<<<<<<<
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         for int_field in [nuc_length, uc_length]:
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 257, __pyx_L1_error)
   __pyx_t_4 = ((__pyx_t_3 < 1) != 0);
   if (!__pyx_t_4) {
   } else {
     __pyx_t_2 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_3 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 257, __pyx_L1_error)
   __pyx_t_4 = ((__pyx_t_3 > 30) != 0);
   __pyx_t_2 = __pyx_t_4;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":228
+    /* "src/pyrfc/nwrfcsdk.pyx":258
  *         self.fields = []
  *         if len(name)<1 or len(name)>30:
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")             # <<<<<<<<<<<<<<
  *         for int_field in [nuc_length, uc_length]:
  *             if type(int_field) not in [int, long]:
  */
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_3 = 0;
     __pyx_t_5 = 127;
@@ -5973,7 +6285,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
     __pyx_t_3 += 23;
     __Pyx_GIVEREF(__pyx_kp_u_field_name_string);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_field_name_string);
-    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_5;
     __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_6);
@@ -5984,17 +6296,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
     __pyx_t_3 += 28;
     __Pyx_GIVEREF(__pyx_kp_u_should_be_from_1_30_chars);
     PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_should_be_from_1_30_chars);
-    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 228, __pyx_L1_error)
+    __PYX_ERR(0, 258, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":227
+    /* "src/pyrfc/nwrfcsdk.pyx":257
  *     def __init__(self, name, nuc_length, uc_length):
  *         self.fields = []
  *         if len(name)<1 or len(name)>30:             # <<<<<<<<<<<<<<
@@ -6003,14 +6315,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":229
+  /* "src/pyrfc/nwrfcsdk.pyx":259
  *         if len(name)<1 or len(name)>30:
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         for int_field in [nuc_length, uc_length]:             # <<<<<<<<<<<<<<
  *             if type(int_field) not in [int, long]:
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_nuc_length);
   __Pyx_GIVEREF(__pyx_v_nuc_length);
@@ -6023,15 +6335,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
   for (;;) {
     if (__pyx_t_3 >= 2) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 259, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_int_field, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":230
+    /* "src/pyrfc/nwrfcsdk.pyx":260
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         for int_field in [nuc_length, uc_length]:
  *             if type(int_field) not in [int, long]:             # <<<<<<<<<<<<<<
@@ -6040,16 +6352,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
  */
     __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_int_field)));
     __pyx_t_1 = ((PyObject *)Py_TYPE(__pyx_v_int_field));
-    __pyx_t_7 = PyObject_RichCompare(((PyObject *)__pyx_t_1), ((PyObject *)(&PyInt_Type)), Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(((PyObject *)__pyx_t_1), ((PyObject *)(&PyInt_Type)), Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 260, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 260, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_4) {
     } else {
       __pyx_t_2 = __pyx_t_4;
       goto __pyx_L9_bool_binop_done;
     }
-    __pyx_t_7 = PyObject_RichCompare(((PyObject *)__pyx_t_1), ((PyObject *)(&PyLong_Type)), Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(((PyObject *)__pyx_t_1), ((PyObject *)(&PyLong_Type)), Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 260, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 260, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_2 = __pyx_t_4;
     __pyx_L9_bool_binop_done:;
@@ -6057,14 +6369,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
     __pyx_t_4 = (__pyx_t_2 != 0);
     if (unlikely(__pyx_t_4)) {
 
-      /* "src/pyrfc/nwrfcsdk.pyx":231
+      /* "src/pyrfc/nwrfcsdk.pyx":261
  *         for int_field in [nuc_length, uc_length]:
  *             if type(int_field) not in [int, long]:
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")             # <<<<<<<<<<<<<<
  *         self.name = name
  *         self.nuc_length = nuc_length
  */
-      __pyx_t_1 = PyTuple_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_8 = 0;
       __pyx_t_5 = 127;
@@ -6072,7 +6384,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
       __pyx_t_8 += 7;
       __Pyx_GIVEREF(__pyx_kp_u_field);
       PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_field);
-      __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) : __pyx_t_5;
       __pyx_t_8 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
@@ -6083,7 +6395,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
       __pyx_t_8 += 10;
       __Pyx_GIVEREF(__pyx_kp_u_length);
       PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_length);
-      __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_v_int_field, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_v_int_field, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) : __pyx_t_5;
       __pyx_t_8 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
@@ -6094,17 +6406,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
       __pyx_t_8 += 25;
       __Pyx_GIVEREF(__pyx_kp_u_must_be_of_type_integer);
       PyTuple_SET_ITEM(__pyx_t_1, 4, __pyx_kp_u_must_be_of_type_integer);
-      __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_1, 5, __pyx_t_8, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_1, 5, __pyx_t_8, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_1, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __PYX_ERR(0, 231, __pyx_L1_error)
+      __PYX_ERR(0, 261, __pyx_L1_error)
 
-      /* "src/pyrfc/nwrfcsdk.pyx":230
+      /* "src/pyrfc/nwrfcsdk.pyx":260
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         for int_field in [nuc_length, uc_length]:
  *             if type(int_field) not in [int, long]:             # <<<<<<<<<<<<<<
@@ -6113,7 +6425,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
  */
     }
 
-    /* "src/pyrfc/nwrfcsdk.pyx":229
+    /* "src/pyrfc/nwrfcsdk.pyx":259
  *         if len(name)<1 or len(name)>30:
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         for int_field in [nuc_length, uc_length]:             # <<<<<<<<<<<<<<
@@ -6123,34 +6435,34 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":232
+  /* "src/pyrfc/nwrfcsdk.pyx":262
  *             if type(int_field) not in [int, long]:
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
  *         self.name = name             # <<<<<<<<<<<<<<
  *         self.nuc_length = nuc_length
  *         self.uc_length = uc_length
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 232, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":233
+  /* "src/pyrfc/nwrfcsdk.pyx":263
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
  *         self.name = name
  *         self.nuc_length = nuc_length             # <<<<<<<<<<<<<<
  *         self.uc_length = uc_length
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_nuc_length, __pyx_v_nuc_length) < 0) __PYX_ERR(0, 233, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_nuc_length, __pyx_v_nuc_length) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":234
+  /* "src/pyrfc/nwrfcsdk.pyx":264
  *         self.name = name
  *         self.nuc_length = nuc_length
  *         self.uc_length = uc_length             # <<<<<<<<<<<<<<
  * 
  *     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_uc_length, __pyx_v_uc_length) < 0) __PYX_ERR(0, 234, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_uc_length, __pyx_v_uc_length) < 0) __PYX_ERR(0, 264, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":225
+  /* "src/pyrfc/nwrfcsdk.pyx":255
  * 
  *     """
  *     def __init__(self, name, nuc_length, uc_length):             # <<<<<<<<<<<<<<
@@ -6174,7 +6486,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription___init__(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":236
+/* "src/pyrfc/nwrfcsdk.pyx":266
  *         self.uc_length = uc_length
  * 
  *     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,             # <<<<<<<<<<<<<<
@@ -6207,7 +6519,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15TypeDescription_3add_field(PyObject *
     PyObject* values[9] = {0,0,0,0,0,0,0,0,0};
     values[7] = ((PyObject *)((PyObject *)__pyx_int_0));
 
-    /* "src/pyrfc/nwrfcsdk.pyx":237
+    /* "src/pyrfc/nwrfcsdk.pyx":267
  * 
  *     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,
  *                   uc_offset, decimals=0, type_description=None):             # <<<<<<<<<<<<<<
@@ -6249,37 +6561,37 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15TypeDescription_3add_field(PyObject *
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 1); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 1); __PYX_ERR(0, 266, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_field_type)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 2); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 2); __PYX_ERR(0, 266, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nuc_length)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 3); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 3); __PYX_ERR(0, 266, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_uc_length)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 4); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 4); __PYX_ERR(0, 266, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nuc_offset)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 5); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 5); __PYX_ERR(0, 266, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_uc_offset)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 6); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, 6); __PYX_ERR(0, 266, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
@@ -6295,7 +6607,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15TypeDescription_3add_field(PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_field") < 0)) __PYX_ERR(0, 236, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_field") < 0)) __PYX_ERR(0, 266, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -6326,7 +6638,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15TypeDescription_3add_field(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 236, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_field", 0, 7, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 266, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.TypeDescription.add_field", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6334,7 +6646,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_15TypeDescription_3add_field(PyObject *
   __pyx_L4_argument_unpacking_done:;
   __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(__pyx_self, __pyx_v_self, __pyx_v_name, __pyx_v_field_type, __pyx_v_nuc_length, __pyx_v_uc_length, __pyx_v_nuc_offset, __pyx_v_uc_offset, __pyx_v_decimals, __pyx_v_type_description);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":236
+  /* "src/pyrfc/nwrfcsdk.pyx":266
  *         self.uc_length = uc_length
  * 
  *     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,             # <<<<<<<<<<<<<<
@@ -6368,18 +6680,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_field", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":257
+  /* "src/pyrfc/nwrfcsdk.pyx":287
  *         :type type_description: object of class TypeDescription
  *         """
  *         if len(name)<1:             # <<<<<<<<<<<<<<
  *             return None
  *         if len(name)>30:
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 287, __pyx_L1_error)
   __pyx_t_2 = ((__pyx_t_1 < 1) != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":258
+    /* "src/pyrfc/nwrfcsdk.pyx":288
  *         """
  *         if len(name)<1:
  *             return None             # <<<<<<<<<<<<<<
@@ -6390,7 +6702,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":257
+    /* "src/pyrfc/nwrfcsdk.pyx":287
  *         :type type_description: object of class TypeDescription
  *         """
  *         if len(name)<1:             # <<<<<<<<<<<<<<
@@ -6399,25 +6711,25 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":259
+  /* "src/pyrfc/nwrfcsdk.pyx":289
  *         if len(name)<1:
  *             return None
  *         if len(name)>30:             # <<<<<<<<<<<<<<
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         if field_type not in enum_names(RfcFieldType):
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 259, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 289, __pyx_L1_error)
   __pyx_t_2 = ((__pyx_t_1 > 30) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":260
+    /* "src/pyrfc/nwrfcsdk.pyx":290
  *             return None
  *         if len(name)>30:
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")             # <<<<<<<<<<<<<<
  *         if field_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
  */
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 260, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = 0;
     __pyx_t_4 = 127;
@@ -6425,7 +6737,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __pyx_t_1 += 23;
     __Pyx_GIVEREF(__pyx_kp_u_field_name_string);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_field_name_string);
-    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 260, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 290, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_4 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_4) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_4;
     __pyx_t_1 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
@@ -6436,17 +6748,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __pyx_t_1 += 28;
     __Pyx_GIVEREF(__pyx_kp_u_should_be_from_1_30_chars);
     PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u_should_be_from_1_30_chars);
-    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_3, 3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 260, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_3, 3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 290, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 260, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 260, __pyx_L1_error)
+    __PYX_ERR(0, 290, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":259
+    /* "src/pyrfc/nwrfcsdk.pyx":289
  *         if len(name)<1:
  *             return None
  *         if len(name)>30:             # <<<<<<<<<<<<<<
@@ -6455,16 +6767,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":261
+  /* "src/pyrfc/nwrfcsdk.pyx":291
  *         if len(name)>30:
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         if field_type not in enum_names(RfcFieldType):             # <<<<<<<<<<<<<<
  *             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
  *         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -6479,22 +6791,22 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
   __pyx_t_3 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_field_type, __pyx_t_3, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_field_type, __pyx_t_3, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_8 = (__pyx_t_2 != 0);
   if (unlikely(__pyx_t_8)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":262
+    /* "src/pyrfc/nwrfcsdk.pyx":292
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         if field_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")             # <<<<<<<<<<<<<<
  *         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
  *             if not isinstance(int_field, (int, long)):
  */
-    __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = 0;
     __pyx_t_4 = 127;
@@ -6502,7 +6814,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __pyx_t_1 += 23;
     __Pyx_GIVEREF(__pyx_kp_u_field_type_string);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_field_type_string);
-    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_field_type, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_field_type, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_4 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_4) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_4;
     __pyx_t_1 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
@@ -6513,9 +6825,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __pyx_t_1 += 13;
     __Pyx_GIVEREF(__pyx_kp_u_must_be_in);
     PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u_must_be_in);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -6530,10 +6842,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __pyx_t_5 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_t_5, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_t_5, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_4 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_4) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_4;
@@ -6541,17 +6853,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_3, 3, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_3, 4, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_3, 4, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 262, __pyx_L1_error)
+    __PYX_ERR(0, 292, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":261
+    /* "src/pyrfc/nwrfcsdk.pyx":291
  *         if len(name)>30:
  *             raise TypeError(f"field 'name' (string) '{name}' should be from 1-30 chars.")
  *         if field_type not in enum_names(RfcFieldType):             # <<<<<<<<<<<<<<
@@ -6560,14 +6872,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":263
+  /* "src/pyrfc/nwrfcsdk.pyx":293
  *         if field_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
  *         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:             # <<<<<<<<<<<<<<
  *             if not isinstance(int_field, (int, long)):
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
  */
-  __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 293, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_nuc_length);
   __Pyx_GIVEREF(__pyx_v_nuc_length);
@@ -6586,15 +6898,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
   for (;;) {
     if (__pyx_t_1 >= 4) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 293, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_6, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_6, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 293, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_int_field, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "src/pyrfc/nwrfcsdk.pyx":264
+    /* "src/pyrfc/nwrfcsdk.pyx":294
  *             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
  *         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
  *             if not isinstance(int_field, (int, long)):             # <<<<<<<<<<<<<<
@@ -6615,14 +6927,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
     __pyx_t_2 = ((!(__pyx_t_8 != 0)) != 0);
     if (unlikely(__pyx_t_2)) {
 
-      /* "src/pyrfc/nwrfcsdk.pyx":265
+      /* "src/pyrfc/nwrfcsdk.pyx":295
  *         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
  *             if not isinstance(int_field, (int, long)):
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")             # <<<<<<<<<<<<<<
  *         self.fields.append({
  *             'name': name,
  */
-      __pyx_t_3 = PyTuple_New(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_11 = 0;
       __pyx_t_4 = 127;
@@ -6630,7 +6942,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
       __pyx_t_11 += 7;
       __Pyx_GIVEREF(__pyx_kp_u_field);
       PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_field);
-      __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_4 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_4) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_4;
       __pyx_t_11 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
@@ -6641,7 +6953,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
       __pyx_t_11 += 10;
       __Pyx_GIVEREF(__pyx_kp_u_length);
       PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u_length);
-      __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_int_field, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_int_field, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_4 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_4) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_4;
       __pyx_t_11 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
@@ -6652,17 +6964,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
       __pyx_t_11 += 25;
       __Pyx_GIVEREF(__pyx_kp_u_must_be_of_type_integer);
       PyTuple_SET_ITEM(__pyx_t_3, 4, __pyx_kp_u_must_be_of_type_integer);
-      __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_3, 5, __pyx_t_11, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_3, 5, __pyx_t_11, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(0, 265, __pyx_L1_error)
+      __PYX_ERR(0, 295, __pyx_L1_error)
 
-      /* "src/pyrfc/nwrfcsdk.pyx":264
+      /* "src/pyrfc/nwrfcsdk.pyx":294
  *             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
  *         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:
  *             if not isinstance(int_field, (int, long)):             # <<<<<<<<<<<<<<
@@ -6671,7 +6983,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
  */
     }
 
-    /* "src/pyrfc/nwrfcsdk.pyx":263
+    /* "src/pyrfc/nwrfcsdk.pyx":293
  *         if field_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'field_type' (string) '{field_type}' must be in {enum_names(RfcFieldType)}")
  *         for int_field in [nuc_length, nuc_offset, uc_length, uc_offset]:             # <<<<<<<<<<<<<<
@@ -6681,102 +6993,102 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":266
+  /* "src/pyrfc/nwrfcsdk.pyx":296
  *             if not isinstance(int_field, (int, long)):
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
  *         self.fields.append({             # <<<<<<<<<<<<<<
  *             'name': name,
  *             'field_type': field_type,
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fields); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fields); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":267
+  /* "src/pyrfc/nwrfcsdk.pyx":297
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
  *         self.fields.append({
  *             'name': name,             # <<<<<<<<<<<<<<
  *             'field_type': field_type,
  *             'nuc_length': nuc_length,
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 297, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":268
+  /* "src/pyrfc/nwrfcsdk.pyx":298
  *         self.fields.append({
  *             'name': name,
  *             'field_type': field_type,             # <<<<<<<<<<<<<<
  *             'nuc_length': nuc_length,
  *             'nuc_offset': nuc_offset,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_field_type, __pyx_v_field_type) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_field_type, __pyx_v_field_type) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":269
+  /* "src/pyrfc/nwrfcsdk.pyx":299
  *             'name': name,
  *             'field_type': field_type,
  *             'nuc_length': nuc_length,             # <<<<<<<<<<<<<<
  *             'nuc_offset': nuc_offset,
  *             'uc_length': uc_length,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_nuc_length, __pyx_v_nuc_length) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_nuc_length, __pyx_v_nuc_length) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":270
+  /* "src/pyrfc/nwrfcsdk.pyx":300
  *             'field_type': field_type,
  *             'nuc_length': nuc_length,
  *             'nuc_offset': nuc_offset,             # <<<<<<<<<<<<<<
  *             'uc_length': uc_length,
  *             'uc_offset': uc_offset,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_nuc_offset, __pyx_v_nuc_offset) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_nuc_offset, __pyx_v_nuc_offset) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":271
+  /* "src/pyrfc/nwrfcsdk.pyx":301
  *             'nuc_length': nuc_length,
  *             'nuc_offset': nuc_offset,
  *             'uc_length': uc_length,             # <<<<<<<<<<<<<<
  *             'uc_offset': uc_offset,
  *             'decimals': decimals,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_uc_length, __pyx_v_uc_length) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_uc_length, __pyx_v_uc_length) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":272
+  /* "src/pyrfc/nwrfcsdk.pyx":302
  *             'nuc_offset': nuc_offset,
  *             'uc_length': uc_length,
  *             'uc_offset': uc_offset,             # <<<<<<<<<<<<<<
  *             'decimals': decimals,
  *             'type_description': type_description
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_uc_offset, __pyx_v_uc_offset) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_uc_offset, __pyx_v_uc_offset) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":273
+  /* "src/pyrfc/nwrfcsdk.pyx":303
  *             'uc_length': uc_length,
  *             'uc_offset': uc_offset,
  *             'decimals': decimals,             # <<<<<<<<<<<<<<
  *             'type_description': type_description
  *         })
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_decimals, __pyx_v_decimals) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_decimals, __pyx_v_decimals) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":274
+  /* "src/pyrfc/nwrfcsdk.pyx":304
  *             'uc_offset': uc_offset,
  *             'decimals': decimals,
  *             'type_description': type_description             # <<<<<<<<<<<<<<
  *         })
  * 
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type_description, __pyx_v_type_description) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type_description, __pyx_v_type_description) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":266
+  /* "src/pyrfc/nwrfcsdk.pyx":296
  *             if not isinstance(int_field, (int, long)):
  *                 raise TypeError(f"field '{name}' length '{int_field}' must be of type integer")
  *         self.fields.append({             # <<<<<<<<<<<<<<
  *             'name': name,
  *             'field_type': field_type,
  */
-  __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 266, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 296, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":236
+  /* "src/pyrfc/nwrfcsdk.pyx":266
  *         self.uc_length = uc_length
  * 
  *     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,             # <<<<<<<<<<<<<<
@@ -6802,7 +7114,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_2add_field(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":277
+/* "src/pyrfc/nwrfcsdk.pyx":307
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -6838,7 +7150,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":278
+  /* "src/pyrfc/nwrfcsdk.pyx":308
  * 
  *     def __repr__(self):
  *         return f"<TypeDescription '{self.name}' with {len(self.fields)} " \             # <<<<<<<<<<<<<<
@@ -6846,7 +7158,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = 0;
   __pyx_t_3 = 127;
@@ -6854,9 +7166,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
   __pyx_t_2 += 18;
   __Pyx_GIVEREF(__pyx_kp_u_TypeDescription);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_TypeDescription);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_3;
@@ -6868,11 +7180,11 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
   __pyx_t_2 += 7;
   __Pyx_GIVEREF(__pyx_kp_u_with);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_with);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fields); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fields); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_6 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_6, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_6, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -6883,16 +7195,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
   __Pyx_GIVEREF(__pyx_kp_u_fields_n_uclength);
   PyTuple_SET_ITEM(__pyx_t_1, 4, __pyx_kp_u_fields_n_uclength);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":279
+  /* "src/pyrfc/nwrfcsdk.pyx":309
  *     def __repr__(self):
  *         return f"<TypeDescription '{self.name}' with {len(self.fields)} " \
  *             f"fields (n/uclength={self.nuc_length}/{self.uc_length})>"             # <<<<<<<<<<<<<<
  * 
  * ################################################################################
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nuc_length); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nuc_length); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_5, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_5, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -6904,9 +7216,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
   __pyx_t_2 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__3);
   PyTuple_SET_ITEM(__pyx_t_1, 6, __pyx_kp_u__3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_uc_length); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_uc_length); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_3;
@@ -6919,21 +7231,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
   __Pyx_GIVEREF(__pyx_kp_u__4);
   PyTuple_SET_ITEM(__pyx_t_1, 8, __pyx_kp_u__4);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":278
+  /* "src/pyrfc/nwrfcsdk.pyx":308
  * 
  *     def __repr__(self):
  *         return f"<TypeDescription '{self.name}' with {len(self.fields)} " \             # <<<<<<<<<<<<<<
  *             f"fields (n/uclength={self.nuc_length}/{self.uc_length})>"
  * 
  */
-  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 9, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 9, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":277
+  /* "src/pyrfc/nwrfcsdk.pyx":307
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -6954,7 +7266,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_15TypeDescription_4__repr__(CYTHON_UNUS
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":309
+/* "src/pyrfc/nwrfcsdk.pyx":339
  * 
  *     """
  *     def __init__(self, name):             # <<<<<<<<<<<<<<
@@ -6997,11 +7309,11 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19FunctionDescription_1__init__(PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 309, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 339, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 309, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 339, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -7014,7 +7326,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19FunctionDescription_1__init__(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 309, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 339, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.FunctionDescription.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7036,28 +7348,28 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription___init__(CYTHON_U
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":310
+  /* "src/pyrfc/nwrfcsdk.pyx":340
  *     """
  *     def __init__(self, name):
  *         self.name = name             # <<<<<<<<<<<<<<
  *         self.parameters = []
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 310, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":311
+  /* "src/pyrfc/nwrfcsdk.pyx":341
  *     def __init__(self, name):
  *         self.name = name
  *         self.parameters = []             # <<<<<<<<<<<<<<
  * 
  *     def add_parameter(self, name, parameter_type, direction, nuc_length,
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_parameters, __pyx_t_1) < 0) __PYX_ERR(0, 311, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_parameters, __pyx_t_1) < 0) __PYX_ERR(0, 341, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":309
+  /* "src/pyrfc/nwrfcsdk.pyx":339
  * 
  *     """
  *     def __init__(self, name):             # <<<<<<<<<<<<<<
@@ -7078,7 +7390,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription___init__(CYTHON_U
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":313
+/* "src/pyrfc/nwrfcsdk.pyx":343
  *         self.parameters = []
  * 
  *     def add_parameter(self, name, parameter_type, direction, nuc_length,             # <<<<<<<<<<<<<<
@@ -7115,7 +7427,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19FunctionDescription_3add_parameter(Py
     values[7] = ((PyObject *)((PyObject*)__pyx_kp_s__5));
     values[8] = ((PyObject *)((PyObject*)__pyx_kp_s__5));
 
-    /* "src/pyrfc/nwrfcsdk.pyx":315
+    /* "src/pyrfc/nwrfcsdk.pyx":345
  *     def add_parameter(self, name, parameter_type, direction, nuc_length,
  *                       uc_length, decimals=0, default_value="", parameter_text="",
  *                       optional=False, type_description=None):             # <<<<<<<<<<<<<<
@@ -7162,31 +7474,31 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19FunctionDescription_3add_parameter(Py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 1); __PYX_ERR(0, 313, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 1); __PYX_ERR(0, 343, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_parameter_type)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 2); __PYX_ERR(0, 313, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 2); __PYX_ERR(0, 343, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_direction)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 3); __PYX_ERR(0, 313, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 3); __PYX_ERR(0, 343, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nuc_length)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 4); __PYX_ERR(0, 313, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 4); __PYX_ERR(0, 343, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_uc_length)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 5); __PYX_ERR(0, 313, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, 5); __PYX_ERR(0, 343, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
@@ -7220,7 +7532,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19FunctionDescription_3add_parameter(Py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_parameter") < 0)) __PYX_ERR(0, 313, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_parameter") < 0)) __PYX_ERR(0, 343, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7258,7 +7570,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19FunctionDescription_3add_parameter(Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 313, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_parameter", 0, 6, 11, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 343, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.FunctionDescription.add_parameter", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7266,7 +7578,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_19FunctionDescription_3add_parameter(Py
   __pyx_L4_argument_unpacking_done:;
   __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(__pyx_self, __pyx_v_self, __pyx_v_name, __pyx_v_parameter_type, __pyx_v_direction, __pyx_v_nuc_length, __pyx_v_uc_length, __pyx_v_decimals, __pyx_v_default_value, __pyx_v_parameter_text, __pyx_v_optional, __pyx_v_type_description);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":313
+  /* "src/pyrfc/nwrfcsdk.pyx":343
  *         self.parameters = []
  * 
  *     def add_parameter(self, name, parameter_type, direction, nuc_length,             # <<<<<<<<<<<<<<
@@ -7297,34 +7609,34 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_parameter", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":339
+  /* "src/pyrfc/nwrfcsdk.pyx":369
  *         :type type_description: object of class TypeDescription
  *         """
  *         if len(name)<1 or len(name)>30:             # <<<<<<<<<<<<<<
  *             raise TypeError(f"field 'name' (string) {name} should be from 1-30 chars.")
  *         if parameter_type not in enum_names(RfcFieldType):
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 369, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 < 1) != 0);
   if (!__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_name); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 369, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 > 30) != 0);
   __pyx_t_1 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":340
+    /* "src/pyrfc/nwrfcsdk.pyx":370
  *         """
  *         if len(name)<1 or len(name)>30:
  *             raise TypeError(f"field 'name' (string) {name} should be from 1-30 chars.")             # <<<<<<<<<<<<<<
  *         if parameter_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in {enum_names(RfcFieldType)}")
  */
-    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 370, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_2 = 0;
     __pyx_t_5 = 127;
@@ -7332,7 +7644,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 22;
     __Pyx_GIVEREF(__pyx_kp_u_field_name_string_2);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_field_name_string_2);
-    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 370, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_5;
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_6);
@@ -7343,17 +7655,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 27;
     __Pyx_GIVEREF(__pyx_kp_u_should_be_from_1_30_chars_2);
     PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_should_be_from_1_30_chars_2);
-    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_4, 3, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_4, 3, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 370, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 370, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 340, __pyx_L1_error)
+    __PYX_ERR(0, 370, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":339
+    /* "src/pyrfc/nwrfcsdk.pyx":369
  *         :type type_description: object of class TypeDescription
  *         """
  *         if len(name)<1 or len(name)>30:             # <<<<<<<<<<<<<<
@@ -7362,16 +7674,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":341
+  /* "src/pyrfc/nwrfcsdk.pyx":371
  *         if len(name)<1 or len(name)>30:
  *             raise TypeError(f"field 'name' (string) {name} should be from 1-30 chars.")
  *         if parameter_type not in enum_names(RfcFieldType):             # <<<<<<<<<<<<<<
  *             raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in {enum_names(RfcFieldType)}")
  *         if direction not in enum_names(RfcParameterDirection):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -7386,22 +7698,22 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
   __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 341, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_parameter_type, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_parameter_type, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":342
+    /* "src/pyrfc/nwrfcsdk.pyx":372
  *             raise TypeError(f"field 'name' (string) {name} should be from 1-30 chars.")
  *         if parameter_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in {enum_names(RfcFieldType)}")             # <<<<<<<<<<<<<<
  *         if direction not in enum_names(RfcParameterDirection):
  *             raise TypeError(f"'direction' (string) '{direction}' must be in '{enum_names(RfcParameterDirection)}'")
  */
-    __pyx_t_4 = PyTuple_New(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_2 = 0;
     __pyx_t_5 = 127;
@@ -7409,7 +7721,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 27;
     __Pyx_GIVEREF(__pyx_kp_u_parameter_type_string);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_parameter_type_string);
-    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_parameter_type, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_parameter_type, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_5;
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_6);
@@ -7420,9 +7732,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 13;
     __Pyx_GIVEREF(__pyx_kp_u_must_be_in);
     PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_must_be_in);
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_RfcFieldType); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -7437,10 +7749,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_6 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_9, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8);
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 342, __pyx_L1_error)
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_t_6, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_t_6, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) : __pyx_t_5;
@@ -7448,17 +7760,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __Pyx_GIVEREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_4, 3, __pyx_t_7);
     __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_4, 4, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_4, 4, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 342, __pyx_L1_error)
+    __PYX_ERR(0, 372, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":341
+    /* "src/pyrfc/nwrfcsdk.pyx":371
  *         if len(name)<1 or len(name)>30:
  *             raise TypeError(f"field 'name' (string) {name} should be from 1-30 chars.")
  *         if parameter_type not in enum_names(RfcFieldType):             # <<<<<<<<<<<<<<
@@ -7467,16 +7779,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":343
+  /* "src/pyrfc/nwrfcsdk.pyx":373
  *         if parameter_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in {enum_names(RfcFieldType)}")
  *         if direction not in enum_names(RfcParameterDirection):             # <<<<<<<<<<<<<<
  *             raise TypeError(f"'direction' (string) '{direction}' must be in '{enum_names(RfcParameterDirection)}'")
  *         if len(default_value)>30:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 373, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_RfcParameterDirection); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_RfcParameterDirection); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 373, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -7491,22 +7803,22 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
   __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
   __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 343, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 373, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_direction, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_direction, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 373, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_1 = (__pyx_t_3 != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":344
+    /* "src/pyrfc/nwrfcsdk.pyx":374
  *             raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in {enum_names(RfcFieldType)}")
  *         if direction not in enum_names(RfcParameterDirection):
  *             raise TypeError(f"'direction' (string) '{direction}' must be in '{enum_names(RfcParameterDirection)}'")             # <<<<<<<<<<<<<<
  *         if len(default_value)>30:
  *             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
  */
-    __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_2 = 0;
     __pyx_t_5 = 127;
@@ -7514,7 +7826,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 22;
     __Pyx_GIVEREF(__pyx_kp_u_direction_string);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_direction_string);
-    __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_v_direction, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_FormatSimple(__pyx_v_direction, __pyx_empty_unicode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) : __pyx_t_5;
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
@@ -7525,9 +7837,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 14;
     __Pyx_GIVEREF(__pyx_kp_u_must_be_in_2);
     PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_must_be_in_2);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_enum_names); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_RfcParameterDirection); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_RfcParameterDirection); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -7542,10 +7854,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_7 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_9, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_8);
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
+    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_t_7, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_t_7, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_5;
@@ -7557,17 +7869,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 1;
     __Pyx_GIVEREF(__pyx_kp_u__6);
     PyTuple_SET_ITEM(__pyx_t_4, 4, __pyx_kp_u__6);
-    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 344, __pyx_L1_error)
+    __PYX_ERR(0, 374, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":343
+    /* "src/pyrfc/nwrfcsdk.pyx":373
  *         if parameter_type not in enum_names(RfcFieldType):
  *             raise TypeError(f"'parameter_type' (string) '{parameter_type}' must be in {enum_names(RfcFieldType)}")
  *         if direction not in enum_names(RfcParameterDirection):             # <<<<<<<<<<<<<<
@@ -7576,25 +7888,25 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":345
+  /* "src/pyrfc/nwrfcsdk.pyx":375
  *         if direction not in enum_names(RfcParameterDirection):
  *             raise TypeError(f"'direction' (string) '{direction}' must be in '{enum_names(RfcParameterDirection)}'")
  *         if len(default_value)>30:             # <<<<<<<<<<<<<<
  *             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
  *         if len(parameter_text)>79:
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_default_value); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_default_value); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 375, __pyx_L1_error)
   __pyx_t_1 = ((__pyx_t_2 > 30) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":346
+    /* "src/pyrfc/nwrfcsdk.pyx":376
  *             raise TypeError(f"'direction' (string) '{direction}' must be in '{enum_names(RfcParameterDirection)}'")
  *         if len(default_value)>30:
  *             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")             # <<<<<<<<<<<<<<
  *         if len(parameter_text)>79:
  *             raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")
  */
-    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 376, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_2 = 0;
     __pyx_t_5 = 127;
@@ -7602,7 +7914,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 26;
     __Pyx_GIVEREF(__pyx_kp_u_default_value_string);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_default_value_string);
-    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_default_value, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_v_default_value, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 376, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) > __pyx_t_5) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_6) : __pyx_t_5;
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_6);
@@ -7613,17 +7925,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
     __pyx_t_2 += 27;
     __Pyx_GIVEREF(__pyx_kp_u_must_not_exceed_30_chars);
     PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_must_not_exceed_30_chars);
-    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_4, 3, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_4, 3, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 376, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 376, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 346, __pyx_L1_error)
+    __PYX_ERR(0, 376, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":345
+    /* "src/pyrfc/nwrfcsdk.pyx":375
  *         if direction not in enum_names(RfcParameterDirection):
  *             raise TypeError(f"'direction' (string) '{direction}' must be in '{enum_names(RfcParameterDirection)}'")
  *         if len(default_value)>30:             # <<<<<<<<<<<<<<
@@ -7632,31 +7944,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":347
+  /* "src/pyrfc/nwrfcsdk.pyx":377
  *         if len(default_value)>30:
  *             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
  *         if len(parameter_text)>79:             # <<<<<<<<<<<<<<
  *             raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")
  *         self.parameters.append({
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_parameter_text); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_parameter_text); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 377, __pyx_L1_error)
   __pyx_t_1 = ((__pyx_t_2 > 79) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/nwrfcsdk.pyx":348
+    /* "src/pyrfc/nwrfcsdk.pyx":378
  *             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
  *         if len(parameter_text)>79:
  *             raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")             # <<<<<<<<<<<<<<
  *         self.parameters.append({
  *             'name': name,
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 378, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 348, __pyx_L1_error)
+    __PYX_ERR(0, 378, __pyx_L1_error)
 
-    /* "src/pyrfc/nwrfcsdk.pyx":347
+    /* "src/pyrfc/nwrfcsdk.pyx":377
  *         if len(default_value)>30:
  *             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
  *         if len(parameter_text)>79:             # <<<<<<<<<<<<<<
@@ -7665,120 +7977,120 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
  */
   }
 
-  /* "src/pyrfc/nwrfcsdk.pyx":349
+  /* "src/pyrfc/nwrfcsdk.pyx":379
  *         if len(parameter_text)>79:
  *             raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")
  *         self.parameters.append({             # <<<<<<<<<<<<<<
  *             'name': name,
  *             'parameter_type': parameter_type,
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parameters); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 349, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parameters); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":350
+  /* "src/pyrfc/nwrfcsdk.pyx":380
  *             raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")
  *         self.parameters.append({
  *             'name': name,             # <<<<<<<<<<<<<<
  *             'parameter_type': parameter_type,
  *             'direction': direction,
  */
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 380, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":351
+  /* "src/pyrfc/nwrfcsdk.pyx":381
  *         self.parameters.append({
  *             'name': name,
  *             'parameter_type': parameter_type,             # <<<<<<<<<<<<<<
  *             'direction': direction,
  *             'nuc_length': nuc_length,
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_parameter_type, __pyx_v_parameter_type) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_parameter_type, __pyx_v_parameter_type) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":352
+  /* "src/pyrfc/nwrfcsdk.pyx":382
  *             'name': name,
  *             'parameter_type': parameter_type,
  *             'direction': direction,             # <<<<<<<<<<<<<<
  *             'nuc_length': nuc_length,
  *             'uc_length': uc_length,
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_direction, __pyx_v_direction) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_direction, __pyx_v_direction) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":353
+  /* "src/pyrfc/nwrfcsdk.pyx":383
  *             'parameter_type': parameter_type,
  *             'direction': direction,
  *             'nuc_length': nuc_length,             # <<<<<<<<<<<<<<
  *             'uc_length': uc_length,
  *             'decimals': decimals,
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_nuc_length, __pyx_v_nuc_length) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_nuc_length, __pyx_v_nuc_length) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":354
+  /* "src/pyrfc/nwrfcsdk.pyx":384
  *             'direction': direction,
  *             'nuc_length': nuc_length,
  *             'uc_length': uc_length,             # <<<<<<<<<<<<<<
  *             'decimals': decimals,
  *             'default_value': default_value,
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_uc_length, __pyx_v_uc_length) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_uc_length, __pyx_v_uc_length) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":355
+  /* "src/pyrfc/nwrfcsdk.pyx":385
  *             'nuc_length': nuc_length,
  *             'uc_length': uc_length,
  *             'decimals': decimals,             # <<<<<<<<<<<<<<
  *             'default_value': default_value,
  *             'parameter_text': parameter_text,
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_decimals, __pyx_v_decimals) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_decimals, __pyx_v_decimals) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":356
+  /* "src/pyrfc/nwrfcsdk.pyx":386
  *             'uc_length': uc_length,
  *             'decimals': decimals,
  *             'default_value': default_value,             # <<<<<<<<<<<<<<
  *             'parameter_text': parameter_text,
  *             'optional': optional,
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_default_value, __pyx_v_default_value) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_default_value, __pyx_v_default_value) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":357
+  /* "src/pyrfc/nwrfcsdk.pyx":387
  *             'decimals': decimals,
  *             'default_value': default_value,
  *             'parameter_text': parameter_text,             # <<<<<<<<<<<<<<
  *             'optional': optional,
  *             'type_description': type_description
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_parameter_text, __pyx_v_parameter_text) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_parameter_text, __pyx_v_parameter_text) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":358
+  /* "src/pyrfc/nwrfcsdk.pyx":388
  *             'default_value': default_value,
  *             'parameter_text': parameter_text,
  *             'optional': optional,             # <<<<<<<<<<<<<<
  *             'type_description': type_description
  *         })
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_optional, __pyx_v_optional) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_optional, __pyx_v_optional) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":359
+  /* "src/pyrfc/nwrfcsdk.pyx":389
  *             'parameter_text': parameter_text,
  *             'optional': optional,
  *             'type_description': type_description             # <<<<<<<<<<<<<<
  *         })
  * 
  */
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_type_description, __pyx_v_type_description) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_type_description, __pyx_v_type_description) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":349
+  /* "src/pyrfc/nwrfcsdk.pyx":379
  *         if len(parameter_text)>79:
  *             raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")
  *         self.parameters.append({             # <<<<<<<<<<<<<<
  *             'name': name,
  *             'parameter_type': parameter_type,
  */
-  __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_6); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 349, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_6); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":313
+  /* "src/pyrfc/nwrfcsdk.pyx":343
  *         self.parameters = []
  * 
  *     def add_parameter(self, name, parameter_type, direction, nuc_length,             # <<<<<<<<<<<<<<
@@ -7803,7 +8115,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_2add_parameter(CY
   return __pyx_r;
 }
 
-/* "src/pyrfc/nwrfcsdk.pyx":362
+/* "src/pyrfc/nwrfcsdk.pyx":392
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -7838,13 +8150,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_4__repr__(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":363
+  /* "src/pyrfc/nwrfcsdk.pyx":393
  * 
  *     def __repr__(self):
  *         return f"<FunctionDescription '{self.name}' with {len(self.parameters)} params>"             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = 0;
   __pyx_t_3 = 127;
@@ -7852,9 +8164,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_4__repr__(CYTHON_
   __pyx_t_2 += 22;
   __Pyx_GIVEREF(__pyx_kp_u_FunctionDescription);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_FunctionDescription);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_3;
@@ -7866,11 +8178,11 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_4__repr__(CYTHON_
   __pyx_t_2 += 7;
   __Pyx_GIVEREF(__pyx_kp_u_with);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_with);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parameters); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parameters); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_6 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_6, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_6, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -7880,14 +8192,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_19FunctionDescription_4__repr__(CYTHON_
   __pyx_t_2 += 8;
   __Pyx_GIVEREF(__pyx_kp_u_params);
   PyTuple_SET_ITEM(__pyx_t_1, 4, __pyx_kp_u_params);
-  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 5, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 5, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":362
+  /* "src/pyrfc/nwrfcsdk.pyx":392
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -18503,6 +18815,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_6handle___get__(struct __p
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -18511,13 +18824,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_6handle___get__(struct __p
   /* "src/pyrfc/client.pyx":99
  *         :type: uintptr_t
  *         """
- *         return <uintptr_t>self._handle             # <<<<<<<<<<<<<<
+ *         return <uintptr_t>self._handle if self._handle is not NULL else None             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(((uintptr_t)__pyx_v_self->_handle)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 99, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  if (((__pyx_v_self->_handle != NULL) != 0)) {
+    __pyx_t_2 = __Pyx_PyInt_FromSize_t(((uintptr_t)__pyx_v_self->_handle)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = __pyx_t_2;
+    __pyx_t_2 = 0;
+  } else {
+    __Pyx_INCREF(Py_None);
+    __pyx_t_1 = Py_None;
+  }
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -18533,6 +18853,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_6handle___get__(struct __p
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection.handle.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -19580,13 +19901,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_14close(struct __pyx_obj_5
  *         self._close()
  * 
  *     def cancel(self):             # <<<<<<<<<<<<<<
- *         """ Cancels the ongoing RFC call
+ *         """ Cancels the ongoing RFC call using `~pyrfc.cancel_connection()` function
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_17cancel(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_16cancel[] = " Cancels the ongoing RFC call\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof if the connection cannot be cancelled cleanly.\n        ";
+static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_16cancel[] = " Cancels the ongoing RFC call using `~pyrfc.cancel_connection()` function\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof if the connection cannot be cancelled cleanly.\n        ";
 static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_17cancel(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -19612,14 +19933,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_16cancel(struct __pyx_obj_
   /* "src/pyrfc/client.pyx":182
  *                  thereof if the connection cannot be cancelled cleanly.
  *         """
- *         self._cancel()             # <<<<<<<<<<<<<<
+ *         cancel_connection(self)             # <<<<<<<<<<<<<<
  * 
  *     def __bool__(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cancel); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 182, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_cancel_connection); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
     __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
     if (likely(__pyx_t_3)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
@@ -19628,7 +19949,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_16cancel(struct __pyx_obj_
       __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, ((PyObject *)__pyx_v_self)) : __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)__pyx_v_self));
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -19639,7 +19960,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_16cancel(struct __pyx_obj_
  *         self._close()
  * 
  *     def cancel(self):             # <<<<<<<<<<<<<<
- *         """ Cancels the ongoing RFC call
+ *         """ Cancels the ongoing RFC call using `~pyrfc.cancel_connection()` function
  * 
  */
 
@@ -19659,7 +19980,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_16cancel(struct __pyx_obj_
 }
 
 /* "src/pyrfc/client.pyx":184
- *         self._cancel()
+ *         cancel_connection(self)
  * 
  *     def __bool__(self):             # <<<<<<<<<<<<<<
  *         return self.alive
@@ -19704,7 +20025,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_10Connection_18__bool__(struct __pyx_obj_5pyr
   goto __pyx_L0;
 
   /* "src/pyrfc/client.pyx":184
- *         self._cancel()
+ *         cancel_connection(self)
  * 
  *     def __bool__(self):             # <<<<<<<<<<<<<<
  *         return self.alive
@@ -19990,7 +20311,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_20_close(struct __pyx_obj_
  *             if rc != RFC_OK:
  *                 self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
- *     def _cancel(self):
+ *     cdef _error(self, RFC_ERROR_INFO* errorInfo):
  */
       __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 205, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
@@ -20038,127 +20359,6 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_20_close(struct __pyx_obj_
 /* "src/pyrfc/client.pyx":207
  *                 self._error(&errorInfo)
  * 
- *     def _cancel(self):             # <<<<<<<<<<<<<<
- *         cdef RFC_RC rc
- *         cdef RFC_ERROR_INFO errorInfo
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_23_cancel(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_23_cancel(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_cancel (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_22_cancel(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_22_cancel(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
-  RFC_RC __pyx_v_rc;
-  RFC_ERROR_INFO __pyx_v_errorInfo;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("_cancel", 0);
-
-  /* "src/pyrfc/client.pyx":210
- *         cdef RFC_RC rc
- *         cdef RFC_ERROR_INFO errorInfo
- *         if self._handle != NULL:             # <<<<<<<<<<<<<<
- *             rc = RfcCancel(self._handle, &errorInfo)
- *             self._handle = NULL
- */
-  __pyx_t_1 = ((__pyx_v_self->_handle != NULL) != 0);
-  if (__pyx_t_1) {
-
-    /* "src/pyrfc/client.pyx":211
- *         cdef RFC_ERROR_INFO errorInfo
- *         if self._handle != NULL:
- *             rc = RfcCancel(self._handle, &errorInfo)             # <<<<<<<<<<<<<<
- *             self._handle = NULL
- *             if rc != RFC_OK:
- */
-    __pyx_v_rc = RfcCancel(__pyx_v_self->_handle, (&__pyx_v_errorInfo));
-
-    /* "src/pyrfc/client.pyx":212
- *         if self._handle != NULL:
- *             rc = RfcCancel(self._handle, &errorInfo)
- *             self._handle = NULL             # <<<<<<<<<<<<<<
- *             if rc != RFC_OK:
- *                 self._error(&errorInfo)
- */
-    __pyx_v_self->_handle = NULL;
-
-    /* "src/pyrfc/client.pyx":213
- *             rc = RfcCancel(self._handle, &errorInfo)
- *             self._handle = NULL
- *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
- *                 self._error(&errorInfo)
- * 
- */
-    __pyx_t_1 = ((__pyx_v_rc != RFC_OK) != 0);
-    if (__pyx_t_1) {
-
-      /* "src/pyrfc/client.pyx":214
- *             self._handle = NULL
- *             if rc != RFC_OK:
- *                 self._error(&errorInfo)             # <<<<<<<<<<<<<<
- * 
- *     cdef _error(self, RFC_ERROR_INFO* errorInfo):
- */
-      __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 214, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-      /* "src/pyrfc/client.pyx":213
- *             rc = RfcCancel(self._handle, &errorInfo)
- *             self._handle = NULL
- *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
- *                 self._error(&errorInfo)
- * 
- */
-    }
-
-    /* "src/pyrfc/client.pyx":210
- *         cdef RFC_RC rc
- *         cdef RFC_ERROR_INFO errorInfo
- *         if self._handle != NULL:             # <<<<<<<<<<<<<<
- *             rc = RfcCancel(self._handle, &errorInfo)
- *             self._handle = NULL
- */
-  }
-
-  /* "src/pyrfc/client.pyx":207
- *                 self._error(&errorInfo)
- * 
- *     def _cancel(self):             # <<<<<<<<<<<<<<
- *         cdef RFC_RC rc
- *         cdef RFC_ERROR_INFO errorInfo
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("pyrfc._cyrfc.Connection._cancel", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "src/pyrfc/client.pyx":216
- *                 self._error(&errorInfo)
- * 
  *     cdef _error(self, RFC_ERROR_INFO* errorInfo):             # <<<<<<<<<<<<<<
  *         """
  *         Error treatment of a connection.
@@ -20173,20 +20373,20 @@ static PyObject *__pyx_f_5pyrfc_6_cyrfc_10Connection__error(CYTHON_UNUSED struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_error", 0);
 
-  /* "src/pyrfc/client.pyx":231
+  /* "src/pyrfc/client.pyx":222
  *         #    self.alive = False
  * 
  *         raise wrapError(errorInfo)             # <<<<<<<<<<<<<<
  * 
  *     def ping(self):
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapError(__pyx_v_errorInfo); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 231, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapError(__pyx_v_errorInfo); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(2, 231, __pyx_L1_error)
+  __PYX_ERR(2, 222, __pyx_L1_error)
 
-  /* "src/pyrfc/client.pyx":216
+  /* "src/pyrfc/client.pyx":207
  *                 self._error(&errorInfo)
  * 
  *     cdef _error(self, RFC_ERROR_INFO* errorInfo):             # <<<<<<<<<<<<<<
@@ -20204,7 +20404,7 @@ static PyObject *__pyx_f_5pyrfc_6_cyrfc_10Connection__error(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":233
+/* "src/pyrfc/client.pyx":224
  *         raise wrapError(errorInfo)
  * 
  *     def ping(self):             # <<<<<<<<<<<<<<
@@ -20213,20 +20413,20 @@ static PyObject *__pyx_f_5pyrfc_6_cyrfc_10Connection__error(CYTHON_UNUSED struct
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_25ping(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_24ping[] = " Send a RFC Ping through the current connection\n\n        Returns nothing.\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof if the RFC Ping fails.\n        ";
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_25ping(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_23ping(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_22ping[] = " Send a RFC Ping through the current connection\n\n        Returns nothing.\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof if the RFC Ping fails.\n        ";
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_23ping(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("ping (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_22ping(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_22ping(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
   RFC_RC __pyx_v_rc;
   RFC_ERROR_INFO __pyx_v_errorInfo;
   PyObject *__pyx_r = NULL;
@@ -20238,7 +20438,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ping", 0);
 
-  /* "src/pyrfc/client.pyx":243
+  /* "src/pyrfc/client.pyx":234
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         rc = RfcPing(self._handle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -20247,7 +20447,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5p
  */
   __pyx_v_rc = RfcPing(__pyx_v_self->_handle, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":244
+  /* "src/pyrfc/client.pyx":235
  *         cdef RFC_ERROR_INFO errorInfo
  *         rc = RfcPing(self._handle, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -20257,18 +20457,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5p
   __pyx_t_1 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_1) {
 
-    /* "src/pyrfc/client.pyx":245
+    /* "src/pyrfc/client.pyx":236
  *         rc = RfcPing(self._handle, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *     def reset_server_context(self):
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 245, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 236, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":244
+    /* "src/pyrfc/client.pyx":235
  *         cdef RFC_ERROR_INFO errorInfo
  *         rc = RfcPing(self._handle, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -20277,7 +20477,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5p
  */
   }
 
-  /* "src/pyrfc/client.pyx":233
+  /* "src/pyrfc/client.pyx":224
  *         raise wrapError(errorInfo)
  * 
  *     def ping(self):             # <<<<<<<<<<<<<<
@@ -20298,7 +20498,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5p
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":247
+/* "src/pyrfc/client.pyx":238
  *             self._error(&errorInfo)
  * 
  *     def reset_server_context(self):             # <<<<<<<<<<<<<<
@@ -20307,20 +20507,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24ping(struct __pyx_obj_5p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_27reset_server_context(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_26reset_server_context[] = " Resets the SAP server context (\"user context / ABAP session context\")\n        associated with the given client connection, but does not close the connection\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof in case resetting the server context fails.\n                 (Better close the connection in that case.).\n                 :exc:`sapnwrf2.CommunicationError` if no conversion\n                 was found for the\n        ";
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_27reset_server_context(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_25reset_server_context(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_24reset_server_context[] = " Resets the SAP server context (\"user context / ABAP session context\")\n        associated with the given client connection, but does not close the connection\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof in case resetting the server context fails.\n                 (Better close the connection in that case.).\n                 :exc:`sapnwrf2.CommunicationError` if no conversion\n                 was found for the\n        ";
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_25reset_server_context(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("reset_server_context (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_24reset_server_context(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_24reset_server_context(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
   RFC_RC __pyx_v_rc;
   RFC_ERROR_INFO __pyx_v_errorInfo;
   PyObject *__pyx_r = NULL;
@@ -20332,7 +20532,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset_server_context", 0);
 
-  /* "src/pyrfc/client.pyx":260
+  /* "src/pyrfc/client.pyx":251
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         rc = RfcResetServerContext(self._handle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -20341,7 +20541,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(str
  */
   __pyx_v_rc = RfcResetServerContext(__pyx_v_self->_handle, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":261
+  /* "src/pyrfc/client.pyx":252
  *         cdef RFC_ERROR_INFO errorInfo
  *         rc = RfcResetServerContext(self._handle, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -20351,18 +20551,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(str
   __pyx_t_1 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_1) {
 
-    /* "src/pyrfc/client.pyx":262
+    /* "src/pyrfc/client.pyx":253
  *         rc = RfcResetServerContext(self._handle, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *     def get_connection_attributes(self):
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 262, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 253, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":261
+    /* "src/pyrfc/client.pyx":252
  *         cdef RFC_ERROR_INFO errorInfo
  *         rc = RfcResetServerContext(self._handle, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -20371,7 +20571,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":247
+  /* "src/pyrfc/client.pyx":238
  *             self._error(&errorInfo)
  * 
  *     def reset_server_context(self):             # <<<<<<<<<<<<<<
@@ -20392,7 +20592,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(str
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":264
+/* "src/pyrfc/client.pyx":255
  *             self._error(&errorInfo)
  * 
  *     def get_connection_attributes(self):             # <<<<<<<<<<<<<<
@@ -20401,110 +20601,109 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26reset_server_context(str
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_29get_connection_attributes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_28get_connection_attributes[] = " Get connection details\n\n        :returns: Mapping of connection information keys:\n\n                  * active_unit: True if there is a filled and submitted unit w/o being confirmed or destroyed.\n                  * dest: RFC destination\n                  * host: Own host name\n                  * partnerHost: Partner host name\n                  * sysNumber: R/3 system number\n                  * sysId: R/3 system ID\n                  * client: Client (\"Mandant\")\n                  * user: User\n                  * language: Language\n                  * trace: Trace level (0-3)\n                  * isoLanguage: 2-byte ISO-Language\n                  * codepage: Own code page\n                  * partnerCodepage: Partner code page\n                  * rfcRole: C/S: RFC Client / RFC Server\n                  * type: 2/3/E/R: R/2,R/3,Ext,Reg.Ext\n                  * partnerType: 2/3/E/R: R/2,R/3,Ext,Reg.Ext\n                  * rel: My system release\n                  * partnerRe: Partner system release\n                  * kernelRel: Partner kernel release\n                  * cpicConvId: CPI-C Conversation ID\n                  * progName: Name calling APAB program (report, module pool)\n                  * partnerBytesPerChar: Bytes per char in backend codepage.\n                  * partnerSystemCodepage: Partner system code page\n                  * reserved: Reserved for later use\n\n                Note: all values, except ``active_unit`` are right stripped\n                string values.\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof if the RFC call fails.\n        ";
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_29get_connection_attributes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_27get_connection_attributes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_26get_connection_attributes[] = " Get connection details\n\n        :returns: Mapping of connection information keys:\n\n                  * active_unit: True if there is a filled and submitted unit w/o being confirmed or destroyed.\n                  * dest: RFC destination\n                  * host: Own host name\n                  * partnerHost: Partner host name\n                  * sysNumber: R/3 system number\n                  * sysId: R/3 system ID\n                  * client: Client (\"Mandant\")\n                  * user: User\n                  * language: Language\n                  * trace: Trace level (0-3)\n                  * isoLanguage: 2-byte ISO-Language\n                  * codepage: Own code page\n                  * partnerCodepage: Partner code page\n                  * rfcRole: C/S: RFC Client / RFC Server\n                  * type: 2/3/E/R: R/2,R/3,Ext,Reg.Ext\n                  * partnerType: 2/3/E/R: R/2,R/3,Ext,Reg.Ext\n                  * rel: My system release\n                  * partnerRe: Partner system release\n                  * kernelRel: Partner kernel release\n                  * cpicConvId: CPI-C Conversation ID\n                  * progName: Name calling APAB program (report, module pool)\n                  * partnerBytesPerChar: Bytes per char in backend codepage.\n                  * partnerSystemCodepage: Partner system code page\n                  * reserved: Reserved for later use\n\n                Note: all values, except ``active_unit`` are right stripped\n                string values.\n\n        :raises: :exc:`~pyrfc.RFCError` or a subclass\n                 thereof if the RFC call fails.\n        ";
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_27get_connection_attributes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_connection_attributes (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_28get_connection_attributes(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_26get_connection_attributes(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_28get_connection_attributes(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_26get_connection_attributes(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
   RFC_RC __pyx_v_rc;
   RFC_ERROR_INFO __pyx_v_errorInfo;
   RFC_ATTRIBUTES __pyx_v_attributes;
-  RFC_INT __pyx_v_isValid;
   PyObject *__pyx_v_result = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_connection_attributes", 0);
 
-  /* "src/pyrfc/client.pyx":305
- *         cdef RFC_INT isValid
- * 
- *         rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)             # <<<<<<<<<<<<<<
- * 
- *         result = {}
- */
-  __pyx_v_rc = RfcIsConnectionHandleValid(__pyx_v_self->_handle, (&__pyx_v_isValid), (&__pyx_v_errorInfo));
-
-  /* "src/pyrfc/client.pyx":307
- *         rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)
+  /* "src/pyrfc/client.pyx":295
+ *         cdef RFC_ATTRIBUTES attributes
  * 
  *         result = {}             # <<<<<<<<<<<<<<
- *         if (isValid and rc == RFC_OK):
- *             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
+ * 
+ *         if self.is_valid():
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 307, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 295, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_result = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "src/pyrfc/client.pyx":308
- * 
+  /* "src/pyrfc/client.pyx":297
  *         result = {}
- *         if (isValid and rc == RFC_OK):             # <<<<<<<<<<<<<<
+ * 
+ *         if self.is_valid():             # <<<<<<<<<<<<<<
  *             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
  *             if rc != RFC_OK:
  */
-  __pyx_t_3 = (__pyx_v_isValid != 0);
-  if (__pyx_t_3) {
-  } else {
-    __pyx_t_2 = __pyx_t_3;
-    goto __pyx_L4_bool_binop_done;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_is_valid); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 297, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
   }
-  __pyx_t_3 = ((__pyx_v_rc == RFC_OK) != 0);
-  __pyx_t_2 = __pyx_t_3;
-  __pyx_L4_bool_binop_done:;
-  if (__pyx_t_2) {
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 297, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(2, 297, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_t_4) {
 
-    /* "src/pyrfc/client.pyx":309
- *         result = {}
- *         if (isValid and rc == RFC_OK):
+    /* "src/pyrfc/client.pyx":298
+ * 
+ *         if self.is_valid():
  *             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)             # <<<<<<<<<<<<<<
  *             if rc != RFC_OK:
  *                 self._error(&errorInfo)
  */
     __pyx_v_rc = RfcGetConnectionAttributes(__pyx_v_self->_handle, (&__pyx_v_attributes), (&__pyx_v_errorInfo));
 
-    /* "src/pyrfc/client.pyx":310
- *         if (isValid and rc == RFC_OK):
+    /* "src/pyrfc/client.pyx":299
+ *         if self.is_valid():
  *             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *                 self._error(&errorInfo)
  * 
  */
-    __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
-    if (__pyx_t_2) {
+    __pyx_t_4 = ((__pyx_v_rc != RFC_OK) != 0);
+    if (__pyx_t_4) {
 
-      /* "src/pyrfc/client.pyx":311
+      /* "src/pyrfc/client.pyx":300
  *             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
  *             if rc != RFC_OK:
  *                 self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *             result = wrapConnectionAttributes(attributes)
  */
-      __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 311, __pyx_L1_error)
+      __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "src/pyrfc/client.pyx":310
- *         if (isValid and rc == RFC_OK):
+      /* "src/pyrfc/client.pyx":299
+ *         if self.is_valid():
  *             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
  *                 self._error(&errorInfo)
@@ -20512,92 +20711,92 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_28get_connection_attribute
  */
     }
 
-    /* "src/pyrfc/client.pyx":313
+    /* "src/pyrfc/client.pyx":302
  *                 self._error(&errorInfo)
  * 
  *             result = wrapConnectionAttributes(attributes)             # <<<<<<<<<<<<<<
  *             result.update({
  *                 'active_unit': self.active_unit or self.active_transaction
  */
-    __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapConnectionAttributes(__pyx_v_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 313, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapConnectionAttributes(__pyx_v_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 302, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_result, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":314
+    /* "src/pyrfc/client.pyx":303
  * 
  *             result = wrapConnectionAttributes(attributes)
  *             result.update({             # <<<<<<<<<<<<<<
  *                 'active_unit': self.active_unit or self.active_transaction
  *             })
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_update); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 314, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_update); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 303, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
 
-    /* "src/pyrfc/client.pyx":315
+    /* "src/pyrfc/client.pyx":304
  *             result = wrapConnectionAttributes(attributes)
  *             result.update({
  *                 'active_unit': self.active_unit or self.active_transaction             # <<<<<<<<<<<<<<
  *             })
  *         return result
  */
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 315, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 304, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     if (!__pyx_v_self->active_unit) {
     } else {
-      __pyx_t_7 = __Pyx_PyBool_FromLong(__pyx_v_self->active_unit); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 315, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = __pyx_t_7;
-      __pyx_t_7 = 0;
-      goto __pyx_L7_bool_binop_done;
+      __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_self->active_unit); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 304, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_5 = __pyx_t_6;
+      __pyx_t_6 = 0;
+      goto __pyx_L5_bool_binop_done;
     }
-    __pyx_t_7 = __Pyx_PyBool_FromLong(__pyx_v_self->active_transaction); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 315, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __pyx_t_7;
-    __pyx_t_7 = 0;
-    __pyx_L7_bool_binop_done:;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_active_unit, __pyx_t_6) < 0) __PYX_ERR(2, 315, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_6);
+    __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_self->active_transaction); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 304, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = __pyx_t_6;
+    __pyx_t_6 = 0;
+    __pyx_L5_bool_binop_done:;
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active_unit, __pyx_t_5) < 0) __PYX_ERR(2, 304, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 314, __pyx_L1_error)
+    __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 303, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":308
- * 
+    /* "src/pyrfc/client.pyx":297
  *         result = {}
- *         if (isValid and rc == RFC_OK):             # <<<<<<<<<<<<<<
+ * 
+ *         if self.is_valid():             # <<<<<<<<<<<<<<
  *             rc = RfcGetConnectionAttributes(self._handle, &attributes, &errorInfo)
  *             if rc != RFC_OK:
  */
   }
 
-  /* "src/pyrfc/client.pyx":317
+  /* "src/pyrfc/client.pyx":306
  *                 'active_unit': self.active_unit or self.active_transaction
  *             })
  *         return result             # <<<<<<<<<<<<<<
  * 
- *     def get_function_description(self, func_name):
+ *     def is_valid(self):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_result);
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":264
+  /* "src/pyrfc/client.pyx":255
  *             self._error(&errorInfo)
  * 
  *     def get_connection_attributes(self):             # <<<<<<<<<<<<<<
@@ -20608,10 +20807,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_28get_connection_attribute
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection.get_connection_attributes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -20621,8 +20820,115 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_28get_connection_attribute
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":319
+/* "src/pyrfc/client.pyx":308
  *         return result
+ * 
+ *     def is_valid(self):             # <<<<<<<<<<<<<<
+ *         """Checks an RFC connection. Can be used to check whether a client/server connection
+ *         has already been closed, or whether the NW RFC library still "considers" the connection
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_29is_valid(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5pyrfc_6_cyrfc_10Connection_28is_valid[] = "Checks an RFC connection. Can be used to check whether a client/server connection\n        has already been closed, or whether the NW RFC library still \"considers\" the connection\n        to be open.\n\n        .. note::\n           This does not guarantee that the connection is indeed still alive:\n           A firewall may silently have closed the connection without notifying\n           the endpoints. If you want to find out, whether the connection is still alive,\n           you'll have to use the more expensive RfcPing().\n\n        :returns: boolean\n        ";
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_29is_valid(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("is_valid (wrapper)", 0);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_10Connection_28is_valid(((struct __pyx_obj_5pyrfc_6_cyrfc_Connection *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_28is_valid(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *__pyx_v_self) {
+  RFC_ERROR_INFO __pyx_v_errorInfo;
+  RFC_INT __pyx_v_isValid;
+  RFC_RC __pyx_v_rc;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  __Pyx_RefNannySetupContext("is_valid", 0);
+
+  /* "src/pyrfc/client.pyx":324
+ *         cdef RFC_INT isValid
+ * 
+ *         rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)             # <<<<<<<<<<<<<<
+ * 
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:
+ */
+  __pyx_v_rc = RfcIsConnectionHandleValid(__pyx_v_self->_handle, (&__pyx_v_isValid), (&__pyx_v_errorInfo));
+
+  /* "src/pyrfc/client.pyx":326
+ *         rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)
+ * 
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
+ *             return False
+ *         return True
+ */
+  __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
+  if (!__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_2 = ((__pyx_v_errorInfo.code != RFC_OK) != 0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L4_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "src/pyrfc/client.pyx":327
+ * 
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:
+ *             return False             # <<<<<<<<<<<<<<
+ *         return True
+ * 
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    goto __pyx_L0;
+
+    /* "src/pyrfc/client.pyx":326
+ *         rc = RfcIsConnectionHandleValid(self._handle, &isValid, &errorInfo)
+ * 
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
+ *             return False
+ *         return True
+ */
+  }
+
+  /* "src/pyrfc/client.pyx":328
+ *         if rc != RFC_OK or errorInfo.code != RFC_OK:
+ *             return False
+ *         return True             # <<<<<<<<<<<<<<
+ * 
+ *     # def c_handle_test(self, p_handle):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(Py_True);
+  __pyx_r = Py_True;
+  goto __pyx_L0;
+
+  /* "src/pyrfc/client.pyx":308
+ *         return result
+ * 
+ *     def is_valid(self):             # <<<<<<<<<<<<<<
+ *         """Checks an RFC connection. Can be used to check whether a client/server connection
+ *         has already been closed, or whether the NW RFC library still "considers" the connection
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "src/pyrfc/client.pyx":337
+ *     #     print("c:handle", "ok" if c_handle - self._handle == 0 else "error")
  * 
  *     def get_function_description(self, func_name):             # <<<<<<<<<<<<<<
  *         """ Returns a function description of a function module.
@@ -20659,14 +20965,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_function_description", 0);
 
-  /* "src/pyrfc/client.pyx":329
+  /* "src/pyrfc/client.pyx":347
  *         """
  *         cdef RFC_ERROR_INFO errorInfo
  *         funcName = fillString(func_name.upper())             # <<<<<<<<<<<<<<
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_func_name, __pyx_n_s_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 329, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_func_name, __pyx_n_s_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 347, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -20680,14 +20986,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 329, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 347, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_1); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 329, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_1); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 347, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_funcName = __pyx_t_4;
 
-  /* "src/pyrfc/client.pyx":330
+  /* "src/pyrfc/client.pyx":348
  *         cdef RFC_ERROR_INFO errorInfo
  *         funcName = fillString(func_name.upper())
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -20696,7 +21002,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
  */
   __pyx_v_funcDesc = RfcGetFunctionDesc(__pyx_v_self->_handle, __pyx_v_funcName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":331
+  /* "src/pyrfc/client.pyx":349
  *         funcName = fillString(func_name.upper())
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)             # <<<<<<<<<<<<<<
@@ -20705,7 +21011,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
  */
   free(__pyx_v_funcName);
 
-  /* "src/pyrfc/client.pyx":332
+  /* "src/pyrfc/client.pyx":350
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)
  *         if not funcDesc:             # <<<<<<<<<<<<<<
@@ -20715,18 +21021,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
   __pyx_t_5 = ((!(__pyx_v_funcDesc != 0)) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":333
+    /* "src/pyrfc/client.pyx":351
  *         free(funcName)
  *         if not funcDesc:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         return wrapFunctionDescription(funcDesc)
  * 
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 333, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 351, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":332
+    /* "src/pyrfc/client.pyx":350
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)
  *         if not funcDesc:             # <<<<<<<<<<<<<<
@@ -20735,7 +21041,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
  */
   }
 
-  /* "src/pyrfc/client.pyx":334
+  /* "src/pyrfc/client.pyx":352
  *         if not funcDesc:
  *             self._error(&errorInfo)
  *         return wrapFunctionDescription(funcDesc)             # <<<<<<<<<<<<<<
@@ -20743,14 +21049,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
  *     def call(self, func_name, options={}, **params):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapFunctionDescription(__pyx_v_funcDesc); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 334, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapFunctionDescription(__pyx_v_funcDesc); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 352, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":319
- *         return result
+  /* "src/pyrfc/client.pyx":337
+ *     #     print("c:handle", "ok" if c_handle - self._handle == 0 else "error")
  * 
  *     def get_function_description(self, func_name):             # <<<<<<<<<<<<<<
  *         """ Returns a function description of a function module.
@@ -20770,7 +21076,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_30get_function_description
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":336
+/* "src/pyrfc/client.pyx":354
  *         return wrapFunctionDescription(funcDesc)
  * 
  *     def call(self, func_name, options={}, **params):             # <<<<<<<<<<<<<<
@@ -20821,7 +21127,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_33call(PyObject *__pyx_v_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_params, values, pos_args, "call") < 0)) __PYX_ERR(2, 336, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_params, values, pos_args, "call") < 0)) __PYX_ERR(2, 354, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -20837,7 +21143,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_33call(PyObject *__pyx_v_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("call", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 336, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("call", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 354, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_params); __pyx_v_params = 0;
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection.call", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -20864,6 +21170,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
   PyObject *__pyx_v_skip_parameters = NULL;
   PyObject *__pyx_v_name = NULL;
   PyObject *__pyx_v_value = NULL;
+  PyObject *__pyx_v_old_handle = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -20879,19 +21186,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
   PyObject *(*__pyx_t_11)(PyObject *);
   Py_ssize_t __pyx_t_12;
   int __pyx_t_13;
-  char const *__pyx_t_14;
-  PyObject *__pyx_t_15 = NULL;
+  int __pyx_t_14;
+  char const *__pyx_t_15;
   PyObject *__pyx_t_16 = NULL;
   PyObject *__pyx_t_17 = NULL;
   PyObject *__pyx_t_18 = NULL;
   PyObject *__pyx_t_19 = NULL;
   PyObject *__pyx_t_20 = NULL;
+  PyObject *__pyx_t_21 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("call", 0);
 
-  /* "src/pyrfc/client.pyx":369
+  /* "src/pyrfc/client.pyx":387
  *         cdef RFC_ERROR_INFO openErrorInfo
  *         cdef SAP_UC *cName
  *         if type(func_name) is not str:             # <<<<<<<<<<<<<<
@@ -20902,14 +21210,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":370
+    /* "src/pyrfc/client.pyx":388
  *         cdef SAP_UC *cName
  *         if type(func_name) is not str:
  *             raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))             # <<<<<<<<<<<<<<
  *         cdef SAP_UC *funcName = fillString(func_name)
  *         if self._handle == NULL:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 370, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 388, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     __pyx_t_6 = 0;
@@ -20926,7 +21234,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_kp_s_Remote_function_module_name_must, __pyx_v_func_name, ((PyObject *)Py_TYPE(__pyx_v_func_name))};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 370, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 388, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
@@ -20934,13 +21242,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_kp_s_Remote_function_module_name_must, __pyx_v_func_name, ((PyObject *)Py_TYPE(__pyx_v_func_name))};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 370, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 388, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 370, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 388, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -20954,16 +21262,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
       __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_func_name)));
       __Pyx_GIVEREF(((PyObject *)Py_TYPE(__pyx_v_func_name)));
       PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, ((PyObject *)Py_TYPE(__pyx_v_func_name)));
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 370, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 388, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 370, __pyx_L1_error)
+    __PYX_ERR(2, 388, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":369
+    /* "src/pyrfc/client.pyx":387
  *         cdef RFC_ERROR_INFO openErrorInfo
  *         cdef SAP_UC *cName
  *         if type(func_name) is not str:             # <<<<<<<<<<<<<<
@@ -20972,17 +21280,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   }
 
-  /* "src/pyrfc/client.pyx":371
+  /* "src/pyrfc/client.pyx":389
  *         if type(func_name) is not str:
  *             raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
  *         cdef SAP_UC *funcName = fillString(func_name)             # <<<<<<<<<<<<<<
  *         if self._handle == NULL:
  *             raise RFCError(f"Remote function module '{func_name}' invocation rejected because the connection is closed")
  */
-  __pyx_t_8 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_8 == ((SAP_UC *)NULL))) __PYX_ERR(2, 371, __pyx_L1_error)
+  __pyx_t_8 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_8 == ((SAP_UC *)NULL))) __PYX_ERR(2, 389, __pyx_L1_error)
   __pyx_v_funcName = __pyx_t_8;
 
-  /* "src/pyrfc/client.pyx":372
+  /* "src/pyrfc/client.pyx":390
  *             raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
  *         cdef SAP_UC *funcName = fillString(func_name)
  *         if self._handle == NULL:             # <<<<<<<<<<<<<<
@@ -20992,16 +21300,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
   __pyx_t_2 = ((__pyx_v_self->_handle == NULL) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":373
+    /* "src/pyrfc/client.pyx":391
  *         cdef SAP_UC *funcName = fillString(func_name)
  *         if self._handle == NULL:
  *             raise RFCError(f"Remote function module '{func_name}' invocation rejected because the connection is closed")             # <<<<<<<<<<<<<<
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 373, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 391, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 373, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 391, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_9 = 0;
     __pyx_t_10 = 127;
@@ -21009,7 +21317,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
     __pyx_t_9 += 24;
     __Pyx_GIVEREF(__pyx_kp_u_Remote_function_module);
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_kp_u_Remote_function_module);
-    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_func_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 373, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_func_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 391, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_10;
     __pyx_t_9 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
@@ -21020,7 +21328,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
     __pyx_t_9 += 54;
     __Pyx_GIVEREF(__pyx_kp_u_invocation_rejected_because_the);
     PyTuple_SET_ITEM(__pyx_t_7, 2, __pyx_kp_u_invocation_rejected_because_the);
-    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_7, 3, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 373, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_7, 3, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 391, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = NULL;
@@ -21036,14 +21344,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
     __pyx_t_3 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 373, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 391, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 373, __pyx_L1_error)
+    __PYX_ERR(2, 391, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":372
+    /* "src/pyrfc/client.pyx":390
  *             raise RFCError("Remote function module name must be unicode string, received:", func_name, type(func_name))
  *         cdef SAP_UC *funcName = fillString(func_name)
  *         if self._handle == NULL:             # <<<<<<<<<<<<<<
@@ -21052,7 +21360,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   }
 
-  /* "src/pyrfc/client.pyx":374
+  /* "src/pyrfc/client.pyx":392
  *         if self._handle == NULL:
  *             raise RFCError(f"Remote function module '{func_name}' invocation rejected because the connection is closed")
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -21061,7 +21369,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   __pyx_v_funcDesc = RfcGetFunctionDesc(__pyx_v_self->_handle, __pyx_v_funcName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":375
+  /* "src/pyrfc/client.pyx":393
  *             raise RFCError(f"Remote function module '{func_name}' invocation rejected because the connection is closed")
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)             # <<<<<<<<<<<<<<
@@ -21070,7 +21378,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   free(__pyx_v_funcName);
 
-  /* "src/pyrfc/client.pyx":376
+  /* "src/pyrfc/client.pyx":394
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)
  *         if not funcDesc:             # <<<<<<<<<<<<<<
@@ -21080,18 +21388,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
   __pyx_t_2 = ((!(__pyx_v_funcDesc != 0)) != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/client.pyx":377
+    /* "src/pyrfc/client.pyx":395
  *         free(funcName)
  *         if not funcDesc:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *         if not funcCont:
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 377, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":376
+    /* "src/pyrfc/client.pyx":394
  *         cdef RFC_FUNCTION_DESC_HANDLE funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *         free(funcName)
  *         if not funcDesc:             # <<<<<<<<<<<<<<
@@ -21100,7 +21408,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   }
 
-  /* "src/pyrfc/client.pyx":378
+  /* "src/pyrfc/client.pyx":396
  *         if not funcDesc:
  *             self._error(&errorInfo)
  *         cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)             # <<<<<<<<<<<<<<
@@ -21109,7 +21417,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   __pyx_v_funcCont = RfcCreateFunction(__pyx_v_funcDesc, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":379
+  /* "src/pyrfc/client.pyx":397
  *             self._error(&errorInfo)
  *         cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *         if not funcCont:             # <<<<<<<<<<<<<<
@@ -21119,18 +21427,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
   __pyx_t_2 = ((!(__pyx_v_funcCont != 0)) != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/client.pyx":380
+    /* "src/pyrfc/client.pyx":398
  *         cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *         if not funcCont:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         cdef int isActive = 0
  *         try:  # now we have a function module
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 380, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 398, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":379
+    /* "src/pyrfc/client.pyx":397
  *             self._error(&errorInfo)
  *         cdef RFC_FUNCTION_HANDLE funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *         if not funcCont:             # <<<<<<<<<<<<<<
@@ -21139,7 +21447,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   }
 
-  /* "src/pyrfc/client.pyx":381
+  /* "src/pyrfc/client.pyx":399
  *         if not funcCont:
  *             self._error(&errorInfo)
  *         cdef int isActive = 0             # <<<<<<<<<<<<<<
@@ -21148,7 +21456,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   __pyx_v_isActive = 0;
 
-  /* "src/pyrfc/client.pyx":382
+  /* "src/pyrfc/client.pyx":400
  *             self._error(&errorInfo)
  *         cdef int isActive = 0
  *         try:  # now we have a function module             # <<<<<<<<<<<<<<
@@ -21157,30 +21465,30 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
   /*try:*/ {
 
-    /* "src/pyrfc/client.pyx":383
+    /* "src/pyrfc/client.pyx":401
  *         cdef int isActive = 0
  *         try:  # now we have a function module
  *             if 'not_requested' in options:             # <<<<<<<<<<<<<<
  *                 skip_parameters = options['not_requested']
  *                 if type(skip_parameters) is not list:
  */
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_not_requested, __pyx_v_options, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 383, __pyx_L8_error)
+    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_not_requested, __pyx_v_options, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 401, __pyx_L8_error)
     __pyx_t_1 = (__pyx_t_2 != 0);
     if (__pyx_t_1) {
 
-      /* "src/pyrfc/client.pyx":384
+      /* "src/pyrfc/client.pyx":402
  *         try:  # now we have a function module
  *             if 'not_requested' in options:
  *                 skip_parameters = options['not_requested']             # <<<<<<<<<<<<<<
  *                 if type(skip_parameters) is not list:
  *                     skip_parameters = [skip_parameters]
  */
-      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_options, __pyx_n_s_not_requested); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 384, __pyx_L8_error)
+      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_options, __pyx_n_s_not_requested); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 402, __pyx_L8_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_v_skip_parameters = __pyx_t_3;
       __pyx_t_3 = 0;
 
-      /* "src/pyrfc/client.pyx":385
+      /* "src/pyrfc/client.pyx":403
  *             if 'not_requested' in options:
  *                 skip_parameters = options['not_requested']
  *                 if type(skip_parameters) is not list:             # <<<<<<<<<<<<<<
@@ -21191,14 +21499,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
       __pyx_t_2 = (__pyx_t_1 != 0);
       if (__pyx_t_2) {
 
-        /* "src/pyrfc/client.pyx":386
+        /* "src/pyrfc/client.pyx":404
  *                 skip_parameters = options['not_requested']
  *                 if type(skip_parameters) is not list:
  *                     skip_parameters = [skip_parameters]             # <<<<<<<<<<<<<<
  *                 for name in skip_parameters:
  *                     cName = fillString(name)
  */
-        __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 386, __pyx_L8_error)
+        __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 404, __pyx_L8_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_v_skip_parameters);
         __Pyx_GIVEREF(__pyx_v_skip_parameters);
@@ -21206,7 +21514,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
         __Pyx_DECREF_SET(__pyx_v_skip_parameters, __pyx_t_3);
         __pyx_t_3 = 0;
 
-        /* "src/pyrfc/client.pyx":385
+        /* "src/pyrfc/client.pyx":403
  *             if 'not_requested' in options:
  *                 skip_parameters = options['not_requested']
  *                 if type(skip_parameters) is not list:             # <<<<<<<<<<<<<<
@@ -21215,7 +21523,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
       }
 
-      /* "src/pyrfc/client.pyx":387
+      /* "src/pyrfc/client.pyx":405
  *                 if type(skip_parameters) is not list:
  *                     skip_parameters = [skip_parameters]
  *                 for name in skip_parameters:             # <<<<<<<<<<<<<<
@@ -21226,26 +21534,26 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
         __pyx_t_3 = __pyx_v_skip_parameters; __Pyx_INCREF(__pyx_t_3); __pyx_t_9 = 0;
         __pyx_t_11 = NULL;
       } else {
-        __pyx_t_9 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_skip_parameters); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 387, __pyx_L8_error)
+        __pyx_t_9 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_skip_parameters); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 405, __pyx_L8_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_11 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 387, __pyx_L8_error)
+        __pyx_t_11 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 405, __pyx_L8_error)
       }
       for (;;) {
         if (likely(!__pyx_t_11)) {
           if (likely(PyList_CheckExact(__pyx_t_3))) {
             if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_3)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_4); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(2, 387, __pyx_L8_error)
+            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_4); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(2, 405, __pyx_L8_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 387, __pyx_L8_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 405, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           } else {
             if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_4); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(2, 387, __pyx_L8_error)
+            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_4); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(2, 405, __pyx_L8_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 387, __pyx_L8_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 405, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           }
@@ -21255,7 +21563,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(2, 387, __pyx_L8_error)
+              else __PYX_ERR(2, 405, __pyx_L8_error)
             }
             break;
           }
@@ -21264,17 +21572,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
         __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "src/pyrfc/client.pyx":388
+        /* "src/pyrfc/client.pyx":406
  *                     skip_parameters = [skip_parameters]
  *                 for name in skip_parameters:
  *                     cName = fillString(name)             # <<<<<<<<<<<<<<
  *                     rc = RfcSetParameterActive(funcCont, cName, isActive, &errorInfo)
  *                     free(cName)
  */
-        __pyx_t_8 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_name); if (unlikely(__pyx_t_8 == ((SAP_UC *)NULL))) __PYX_ERR(2, 388, __pyx_L8_error)
+        __pyx_t_8 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_name); if (unlikely(__pyx_t_8 == ((SAP_UC *)NULL))) __PYX_ERR(2, 406, __pyx_L8_error)
         __pyx_v_cName = __pyx_t_8;
 
-        /* "src/pyrfc/client.pyx":389
+        /* "src/pyrfc/client.pyx":407
  *                 for name in skip_parameters:
  *                     cName = fillString(name)
  *                     rc = RfcSetParameterActive(funcCont, cName, isActive, &errorInfo)             # <<<<<<<<<<<<<<
@@ -21283,7 +21591,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
         __pyx_v_rc = RfcSetParameterActive(__pyx_v_funcCont, __pyx_v_cName, __pyx_v_isActive, (&__pyx_v_errorInfo));
 
-        /* "src/pyrfc/client.pyx":390
+        /* "src/pyrfc/client.pyx":408
  *                     cName = fillString(name)
  *                     rc = RfcSetParameterActive(funcCont, cName, isActive, &errorInfo)
  *                     free(cName)             # <<<<<<<<<<<<<<
@@ -21292,7 +21600,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
         free(__pyx_v_cName);
 
-        /* "src/pyrfc/client.pyx":391
+        /* "src/pyrfc/client.pyx":409
  *                     rc = RfcSetParameterActive(funcCont, cName, isActive, &errorInfo)
  *                     free(cName)
  *                     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -21302,18 +21610,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
         __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
         if (__pyx_t_2) {
 
-          /* "src/pyrfc/client.pyx":392
+          /* "src/pyrfc/client.pyx":410
  *                     free(cName)
  *                     if rc != RFC_OK:
  *                         self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *             for name, value in params.iteritems():
  *                 fillFunctionParameter(funcDesc, funcCont, name, value)
  */
-          __pyx_t_4 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 392, __pyx_L8_error)
+          __pyx_t_4 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 410, __pyx_L8_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "src/pyrfc/client.pyx":391
+          /* "src/pyrfc/client.pyx":409
  *                     rc = RfcSetParameterActive(funcCont, cName, isActive, &errorInfo)
  *                     free(cName)
  *                     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -21322,7 +21630,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
         }
 
-        /* "src/pyrfc/client.pyx":387
+        /* "src/pyrfc/client.pyx":405
  *                 if type(skip_parameters) is not list:
  *                     skip_parameters = [skip_parameters]
  *                 for name in skip_parameters:             # <<<<<<<<<<<<<<
@@ -21332,7 +21640,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "src/pyrfc/client.pyx":383
+      /* "src/pyrfc/client.pyx":401
  *         cdef int isActive = 0
  *         try:  # now we have a function module
  *             if 'not_requested' in options:             # <<<<<<<<<<<<<<
@@ -21341,15 +21649,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
     }
 
-    /* "src/pyrfc/client.pyx":393
+    /* "src/pyrfc/client.pyx":411
  *                     if rc != RFC_OK:
  *                         self._error(&errorInfo)
  *             for name, value in params.iteritems():             # <<<<<<<<<<<<<<
  *                 fillFunctionParameter(funcDesc, funcCont, name, value)
- *             with nogil:
+ *             # save old handle for troubleshooting
  */
     __pyx_t_9 = 0;
-    __pyx_t_4 = __Pyx_dict_iterator(__pyx_v_params, 1, __pyx_n_s_iteritems, (&__pyx_t_12), (&__pyx_t_6)); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 393, __pyx_L8_error)
+    __pyx_t_4 = __Pyx_dict_iterator(__pyx_v_params, 1, __pyx_n_s_iteritems, (&__pyx_t_12), (&__pyx_t_6)); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 411, __pyx_L8_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3);
     __pyx_t_3 = __pyx_t_4;
@@ -21357,7 +21665,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
     while (1) {
       __pyx_t_13 = __Pyx_dict_iter_next(__pyx_t_3, __pyx_t_12, &__pyx_t_9, &__pyx_t_4, &__pyx_t_5, NULL, __pyx_t_6);
       if (unlikely(__pyx_t_13 == 0)) break;
-      if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(2, 393, __pyx_L8_error)
+      if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(2, 411, __pyx_L8_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_4);
@@ -21365,25 +21673,37 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
       __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "src/pyrfc/client.pyx":394
+      /* "src/pyrfc/client.pyx":412
  *                         self._error(&errorInfo)
  *             for name, value in params.iteritems():
  *                 fillFunctionParameter(funcDesc, funcCont, name, value)             # <<<<<<<<<<<<<<
- *             with nogil:
- *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+ *             # save old handle for troubleshooting
+ *             old_handle = self.handle
  */
-      __pyx_t_5 = __pyx_f_5pyrfc_6_cyrfc_fillFunctionParameter(__pyx_v_funcDesc, __pyx_v_funcCont, __pyx_v_name, __pyx_v_value); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 394, __pyx_L8_error)
+      __pyx_t_5 = __pyx_f_5pyrfc_6_cyrfc_fillFunctionParameter(__pyx_v_funcDesc, __pyx_v_funcCont, __pyx_v_name, __pyx_v_value); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 412, __pyx_L8_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":395
- *             for name, value in params.iteritems():
+    /* "src/pyrfc/client.pyx":414
  *                 fillFunctionParameter(funcDesc, funcCont, name, value)
+ *             # save old handle for troubleshooting
+ *             old_handle = self.handle             # <<<<<<<<<<<<<<
+ *             with nogil:
+ *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_handle); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 414, __pyx_L8_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_v_old_handle = __pyx_t_3;
+    __pyx_t_3 = 0;
+
+    /* "src/pyrfc/client.pyx":415
+ *             # save old handle for troubleshooting
+ *             old_handle = self.handle
  *             with nogil:             # <<<<<<<<<<<<<<
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
- *             if rc != RFC_OK:
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
  */
     {
         #ifdef WITH_THREAD
@@ -21393,22 +21713,22 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
         #endif
         /*try:*/ {
 
-          /* "src/pyrfc/client.pyx":396
- *                 fillFunctionParameter(funcDesc, funcCont, name, value)
+          /* "src/pyrfc/client.pyx":416
+ *             old_handle = self.handle
  *             with nogil:
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)             # <<<<<<<<<<<<<<
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
  *             if rc != RFC_OK:
- *                 if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
  */
           __pyx_v_rc = RfcInvoke(__pyx_v_self->_handle, __pyx_v_funcCont, (&__pyx_v_errorInfo));
         }
 
-        /* "src/pyrfc/client.pyx":395
- *             for name, value in params.iteritems():
- *                 fillFunctionParameter(funcDesc, funcCont, name, value)
+        /* "src/pyrfc/client.pyx":415
+ *             # save old handle for troubleshooting
+ *             old_handle = self.handle
  *             with nogil:             # <<<<<<<<<<<<<<
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
- *             if rc != RFC_OK:
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
  */
         /*finally:*/ {
           /*normal exit:*/{
@@ -21422,126 +21742,255 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
         }
     }
 
-    /* "src/pyrfc/client.pyx":397
- *             with nogil:
+    /* "src/pyrfc/client.pyx":418
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
- *                 if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
- *                     # error groups seen to be more robust here
+ *                 if errorInfo.code in (
+ *                         RFC_COMMUNICATION_FAILURE,
  */
     __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
     if (__pyx_t_2) {
 
-      /* "src/pyrfc/client.pyx":398
- *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+      /* "src/pyrfc/client.pyx":419
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
  *             if rc != RFC_OK:
- *                 if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):             # <<<<<<<<<<<<<<
- *                     # error groups seen to be more robust here
- *                     # if errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_RUNTIME_FAILURE, RFC_ABAP_MESSAGE, RFC_EXTERNAL_FAILURE:
+ *                 if errorInfo.code in (             # <<<<<<<<<<<<<<
+ *                         RFC_COMMUNICATION_FAILURE,
+ *                         RFC_ABAP_RUNTIME_FAILURE,
+ */
+      switch (__pyx_v_errorInfo.code) {
+        case RFC_COMMUNICATION_FAILURE:
+
+        /* "src/pyrfc/client.pyx":420
+ *             if rc != RFC_OK:
+ *                 if errorInfo.code in (
+ *                         RFC_COMMUNICATION_FAILURE,             # <<<<<<<<<<<<<<
+ *                         RFC_ABAP_RUNTIME_FAILURE,
+ *                         RFC_ABAP_MESSAGE,
+ */
+        case RFC_ABAP_RUNTIME_FAILURE:
+
+        /* "src/pyrfc/client.pyx":421
+ *                 if errorInfo.code in (
+ *                         RFC_COMMUNICATION_FAILURE,
+ *                         RFC_ABAP_RUNTIME_FAILURE,             # <<<<<<<<<<<<<<
+ *                         RFC_ABAP_MESSAGE,
+ *                         RFC_EXTERNAL_FAILURE
+ */
+        case RFC_ABAP_MESSAGE:
+
+        /* "src/pyrfc/client.pyx":422
+ *                         RFC_COMMUNICATION_FAILURE,
+ *                         RFC_ABAP_RUNTIME_FAILURE,
+ *                         RFC_ABAP_MESSAGE,             # <<<<<<<<<<<<<<
+ *                         RFC_EXTERNAL_FAILURE
+ *                     ) or errorInfo.group in (
+ */
+        case RFC_EXTERNAL_FAILURE:
+
+        /* "src/pyrfc/client.pyx":419
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
+ *             if rc != RFC_OK:
+ *                 if errorInfo.code in (             # <<<<<<<<<<<<<<
+ *                         RFC_COMMUNICATION_FAILURE,
+ *                         RFC_ABAP_RUNTIME_FAILURE,
+ */
+        __pyx_t_1 = 1;
+        break;
+        default:
+        __pyx_t_1 = 0;
+        break;
+      }
+      __pyx_t_14 = (__pyx_t_1 != 0);
+      if (!__pyx_t_14) {
+      } else {
+        __pyx_t_2 = __pyx_t_14;
+        goto __pyx_L22_bool_binop_done;
+      }
+
+      /* "src/pyrfc/client.pyx":424
+ *                         RFC_ABAP_MESSAGE,
+ *                         RFC_EXTERNAL_FAILURE
+ *                     ) or errorInfo.group in (             # <<<<<<<<<<<<<<
+ *                         ABAP_RUNTIME_FAILURE,
+ *                         LOGON_FAILURE,
  */
       switch (__pyx_v_errorInfo.group) {
         case ABAP_RUNTIME_FAILURE:
+
+        /* "src/pyrfc/client.pyx":425
+ *                         RFC_EXTERNAL_FAILURE
+ *                     ) or errorInfo.group in (
+ *                         ABAP_RUNTIME_FAILURE,             # <<<<<<<<<<<<<<
+ *                         LOGON_FAILURE,
+ *                         COMMUNICATION_FAILURE,
+ */
         case LOGON_FAILURE:
+
+        /* "src/pyrfc/client.pyx":426
+ *                     ) or errorInfo.group in (
+ *                         ABAP_RUNTIME_FAILURE,
+ *                         LOGON_FAILURE,             # <<<<<<<<<<<<<<
+ *                         COMMUNICATION_FAILURE,
+ *                         EXTERNAL_RUNTIME_FAILURE):
+ */
         case COMMUNICATION_FAILURE:
+
+        /* "src/pyrfc/client.pyx":427
+ *                         ABAP_RUNTIME_FAILURE,
+ *                         LOGON_FAILURE,
+ *                         COMMUNICATION_FAILURE,             # <<<<<<<<<<<<<<
+ *                         EXTERNAL_RUNTIME_FAILURE):
+ *                     # Connection closed, reopen
+ */
         case EXTERNAL_RUNTIME_FAILURE:
 
-        /* "src/pyrfc/client.pyx":402
- *                     # if errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_RUNTIME_FAILURE, RFC_ABAP_MESSAGE, RFC_EXTERNAL_FAILURE:
- *                     # Connection closed, reopen
- *                     self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)             # <<<<<<<<<<<<<<
- *                     if openErrorInfo.code != RFC_OK:
- *                         self._handle = NULL
+        /* "src/pyrfc/client.pyx":424
+ *                         RFC_ABAP_MESSAGE,
+ *                         RFC_EXTERNAL_FAILURE
+ *                     ) or errorInfo.group in (             # <<<<<<<<<<<<<<
+ *                         ABAP_RUNTIME_FAILURE,
+ *                         LOGON_FAILURE,
  */
-        __pyx_v_self->_handle = RfcOpenConnection(__pyx_v_self->_connection->_params, __pyx_v_self->_connection->_params_count, (&__pyx_v_openErrorInfo));
+        __pyx_t_14 = 1;
+        break;
+        default:
+        __pyx_t_14 = 0;
+        break;
+      }
+      __pyx_t_1 = (__pyx_t_14 != 0);
+      __pyx_t_2 = __pyx_t_1;
+      __pyx_L22_bool_binop_done:;
 
-        /* "src/pyrfc/client.pyx":403
- *                     # Connection closed, reopen
- *                     self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
- *                     if openErrorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
- *                         self._handle = NULL
- *                         # Communication error returned as error
+      /* "src/pyrfc/client.pyx":419
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
+ *             if rc != RFC_OK:
+ *                 if errorInfo.code in (             # <<<<<<<<<<<<<<
+ *                         RFC_COMMUNICATION_FAILURE,
+ *                         RFC_ABAP_RUNTIME_FAILURE,
  */
-        __pyx_t_2 = ((__pyx_v_openErrorInfo.code != RFC_OK) != 0);
+      if (__pyx_t_2) {
+
+        /* "src/pyrfc/client.pyx":430
+ *                         EXTERNAL_RUNTIME_FAILURE):
+ *                     # Connection closed, reopen
+ *                     if self.handle == old_handle:             # <<<<<<<<<<<<<<
+ *                         self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
+ *                         if openErrorInfo.code != RFC_OK:
+ */
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_handle); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 430, __pyx_L8_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_v_old_handle, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 430, __pyx_L8_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 430, __pyx_L8_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         if (__pyx_t_2) {
 
-          /* "src/pyrfc/client.pyx":404
- *                     self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
- *                     if openErrorInfo.code != RFC_OK:
- *                         self._handle = NULL             # <<<<<<<<<<<<<<
- *                         # Communication error returned as error
- *                         errorInfo = openErrorInfo
+          /* "src/pyrfc/client.pyx":431
+ *                     # Connection closed, reopen
+ *                     if self.handle == old_handle:
+ *                         self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)             # <<<<<<<<<<<<<<
+ *                         if openErrorInfo.code != RFC_OK:
+ *                             self._handle = NULL
  */
-          __pyx_v_self->_handle = NULL;
+          __pyx_v_self->_handle = RfcOpenConnection(__pyx_v_self->_connection->_params, __pyx_v_self->_connection->_params_count, (&__pyx_v_openErrorInfo));
 
-          /* "src/pyrfc/client.pyx":406
- *                         self._handle = NULL
- *                         # Communication error returned as error
- *                         errorInfo = openErrorInfo             # <<<<<<<<<<<<<<
+          /* "src/pyrfc/client.pyx":432
+ *                     if self.handle == old_handle:
+ *                         self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
+ *                         if openErrorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
+ *                             self._handle = NULL
+ *                             # Communication error returned as error
+ */
+          __pyx_t_2 = ((__pyx_v_openErrorInfo.code != RFC_OK) != 0);
+          if (__pyx_t_2) {
+
+            /* "src/pyrfc/client.pyx":433
+ *                         self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
+ *                         if openErrorInfo.code != RFC_OK:
+ *                             self._handle = NULL             # <<<<<<<<<<<<<<
+ *                             # Communication error returned as error
+ *                             errorInfo = openErrorInfo
+ */
+            __pyx_v_self->_handle = NULL;
+
+            /* "src/pyrfc/client.pyx":435
+ *                             self._handle = NULL
+ *                             # Communication error returned as error
+ *                             errorInfo = openErrorInfo             # <<<<<<<<<<<<<<
  *                 self._error(&errorInfo)
  *             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
  */
-          __pyx_v_errorInfo = __pyx_v_openErrorInfo;
+            __pyx_v_errorInfo = __pyx_v_openErrorInfo;
 
-          /* "src/pyrfc/client.pyx":403
+            /* "src/pyrfc/client.pyx":432
+ *                     if self.handle == old_handle:
+ *                         self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
+ *                         if openErrorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
+ *                             self._handle = NULL
+ *                             # Communication error returned as error
+ */
+          }
+
+          /* "src/pyrfc/client.pyx":430
+ *                         EXTERNAL_RUNTIME_FAILURE):
  *                     # Connection closed, reopen
- *                     self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
- *                     if openErrorInfo.code != RFC_OK:             # <<<<<<<<<<<<<<
- *                         self._handle = NULL
- *                         # Communication error returned as error
+ *                     if self.handle == old_handle:             # <<<<<<<<<<<<<<
+ *                         self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
+ *                         if openErrorInfo.code != RFC_OK:
  */
         }
 
-        /* "src/pyrfc/client.pyx":398
- *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+        /* "src/pyrfc/client.pyx":419
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
  *             if rc != RFC_OK:
- *                 if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):             # <<<<<<<<<<<<<<
- *                     # error groups seen to be more robust here
- *                     # if errorInfo.code in (RFC_COMMUNICATION_FAILURE, RFC_ABAP_RUNTIME_FAILURE, RFC_ABAP_MESSAGE, RFC_EXTERNAL_FAILURE:
+ *                 if errorInfo.code in (             # <<<<<<<<<<<<<<
+ *                         RFC_COMMUNICATION_FAILURE,
+ *                         RFC_ABAP_RUNTIME_FAILURE,
  */
-        break;
-        default: break;
       }
 
-      /* "src/pyrfc/client.pyx":407
- *                         # Communication error returned as error
- *                         errorInfo = openErrorInfo
+      /* "src/pyrfc/client.pyx":436
+ *                             # Communication error returned as error
+ *                             errorInfo = openErrorInfo
  *                 self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
  *                 return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)
  */
-      __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 407, __pyx_L8_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_5 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 436, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "src/pyrfc/client.pyx":397
- *             with nogil:
+      /* "src/pyrfc/client.pyx":418
  *                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+ *             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
- *                 if errorInfo.group in (ABAP_RUNTIME_FAILURE, LOGON_FAILURE, COMMUNICATION_FAILURE, EXTERNAL_RUNTIME_FAILURE):
- *                     # error groups seen to be more robust here
+ *                 if errorInfo.code in (
+ *                         RFC_COMMUNICATION_FAILURE,
  */
     }
 
-    /* "src/pyrfc/client.pyx":408
- *                         errorInfo = openErrorInfo
+    /* "src/pyrfc/client.pyx":437
+ *                             errorInfo = openErrorInfo
  *                 self._error(&errorInfo)
  *             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:             # <<<<<<<<<<<<<<
  *                 return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)
  *             else:
  */
-    __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->__pyx___bconfig); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 408, __pyx_L8_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_MASK_RETURN_IMPORT_PARAMS); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 408, __pyx_L8_error)
+    __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->__pyx___bconfig); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 437, __pyx_L8_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyNumber_And(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 408, __pyx_L8_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_MASK_RETURN_IMPORT_PARAMS); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 437, __pyx_L8_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = PyNumber_And(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 437, __pyx_L8_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 408, __pyx_L8_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 437, __pyx_L8_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_2) {
 
-      /* "src/pyrfc/client.pyx":409
+      /* "src/pyrfc/client.pyx":438
  *                 self._error(&errorInfo)
  *             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
  *                 return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)             # <<<<<<<<<<<<<<
@@ -21549,17 +21998,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  *                 return wrapResult(funcDesc, funcCont, RFC_IMPORT, self.__bconfig)
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->__pyx___bconfig); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 409, __pyx_L8_error)
+      __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->__pyx___bconfig); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 438, __pyx_L8_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __pyx_f_5pyrfc_6_cyrfc_wrapResult(__pyx_v_funcDesc, __pyx_v_funcCont, ((RFC_DIRECTION)0), __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 409, __pyx_L8_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_3 = __pyx_f_5pyrfc_6_cyrfc_wrapResult(__pyx_v_funcDesc, __pyx_v_funcCont, ((RFC_DIRECTION)0), __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 438, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
+      __pyx_r = __pyx_t_3;
+      __pyx_t_3 = 0;
       goto __pyx_L7_return;
 
-      /* "src/pyrfc/client.pyx":408
- *                         errorInfo = openErrorInfo
+      /* "src/pyrfc/client.pyx":437
+ *                             errorInfo = openErrorInfo
  *                 self._error(&errorInfo)
  *             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:             # <<<<<<<<<<<<<<
  *                 return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)
@@ -21567,7 +22016,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
     }
 
-    /* "src/pyrfc/client.pyx":411
+    /* "src/pyrfc/client.pyx":440
  *                 return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)
  *             else:
  *                 return wrapResult(funcDesc, funcCont, RFC_IMPORT, self.__bconfig)             # <<<<<<<<<<<<<<
@@ -21576,18 +22025,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
  */
     /*else*/ {
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->__pyx___bconfig); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 411, __pyx_L8_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_wrapResult(__pyx_v_funcDesc, __pyx_v_funcCont, RFC_IMPORT, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 411, __pyx_L8_error)
+      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->__pyx___bconfig); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 440, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_wrapResult(__pyx_v_funcDesc, __pyx_v_funcCont, RFC_IMPORT, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 440, __pyx_L8_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_r = __pyx_t_4;
       __pyx_t_4 = 0;
       goto __pyx_L7_return;
     }
   }
 
-  /* "src/pyrfc/client.pyx":413
+  /* "src/pyrfc/client.pyx":442
  *                 return wrapResult(funcDesc, funcCont, RFC_IMPORT, self.__bconfig)
  *         finally:
  *             RfcDestroyFunction(funcCont, NULL)             # <<<<<<<<<<<<<<
@@ -21599,48 +22048,48 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
     /*exception exit:*/{
       __Pyx_PyThreadState_declare
       __Pyx_PyThreadState_assign
-      __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0;
+      __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0;
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_18, &__pyx_t_19, &__pyx_t_20);
-      if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_15, &__pyx_t_16, &__pyx_t_17) < 0)) __Pyx_ErrFetch(&__pyx_t_15, &__pyx_t_16, &__pyx_t_17);
-      __Pyx_XGOTREF(__pyx_t_15);
+      if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_19, &__pyx_t_20, &__pyx_t_21);
+      if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18) < 0)) __Pyx_ErrFetch(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18);
       __Pyx_XGOTREF(__pyx_t_16);
       __Pyx_XGOTREF(__pyx_t_17);
       __Pyx_XGOTREF(__pyx_t_18);
       __Pyx_XGOTREF(__pyx_t_19);
       __Pyx_XGOTREF(__pyx_t_20);
-      __pyx_t_6 = __pyx_lineno; __pyx_t_13 = __pyx_clineno; __pyx_t_14 = __pyx_filename;
+      __Pyx_XGOTREF(__pyx_t_21);
+      __pyx_t_6 = __pyx_lineno; __pyx_t_13 = __pyx_clineno; __pyx_t_15 = __pyx_filename;
       {
         (void)(RfcDestroyFunction(__pyx_v_funcCont, NULL));
       }
       if (PY_MAJOR_VERSION >= 3) {
-        __Pyx_XGIVEREF(__pyx_t_18);
         __Pyx_XGIVEREF(__pyx_t_19);
         __Pyx_XGIVEREF(__pyx_t_20);
-        __Pyx_ExceptionReset(__pyx_t_18, __pyx_t_19, __pyx_t_20);
+        __Pyx_XGIVEREF(__pyx_t_21);
+        __Pyx_ExceptionReset(__pyx_t_19, __pyx_t_20, __pyx_t_21);
       }
-      __Pyx_XGIVEREF(__pyx_t_15);
       __Pyx_XGIVEREF(__pyx_t_16);
       __Pyx_XGIVEREF(__pyx_t_17);
-      __Pyx_ErrRestore(__pyx_t_15, __pyx_t_16, __pyx_t_17);
-      __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0;
-      __pyx_lineno = __pyx_t_6; __pyx_clineno = __pyx_t_13; __pyx_filename = __pyx_t_14;
+      __Pyx_XGIVEREF(__pyx_t_18);
+      __Pyx_ErrRestore(__pyx_t_16, __pyx_t_17, __pyx_t_18);
+      __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0; __pyx_t_19 = 0; __pyx_t_20 = 0; __pyx_t_21 = 0;
+      __pyx_lineno = __pyx_t_6; __pyx_clineno = __pyx_t_13; __pyx_filename = __pyx_t_15;
       goto __pyx_L1_error;
     }
     __pyx_L7_return: {
-      __pyx_t_20 = __pyx_r;
+      __pyx_t_21 = __pyx_r;
       __pyx_r = 0;
       (void)(RfcDestroyFunction(__pyx_v_funcCont, NULL));
-      __pyx_r = __pyx_t_20;
-      __pyx_t_20 = 0;
+      __pyx_r = __pyx_t_21;
+      __pyx_t_21 = 0;
       goto __pyx_L0;
     }
   }
 
-  /* "src/pyrfc/client.pyx":336
+  /* "src/pyrfc/client.pyx":354
  *         return wrapFunctionDescription(funcDesc)
  * 
  *     def call(self, func_name, options={}, **params):             # <<<<<<<<<<<<<<
@@ -21660,12 +22109,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_32call(struct __pyx_obj_5p
   __Pyx_XDECREF(__pyx_v_skip_parameters);
   __Pyx_XDECREF(__pyx_v_name);
   __Pyx_XDECREF(__pyx_v_value);
+  __Pyx_XDECREF(__pyx_v_old_handle);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":418
+/* "src/pyrfc/client.pyx":447
  *     #  HELPER METHODS
  * 
  *     def type_desc_get(self, type_name):             # <<<<<<<<<<<<<<
@@ -21703,14 +22153,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("type_desc_get", 0);
 
-  /* "src/pyrfc/client.pyx":427
+  /* "src/pyrfc/client.pyx":456
  *         """
  *         cdef RFC_ERROR_INFO errorInfo
  *         typeName = fillString(type_name.upper())             # <<<<<<<<<<<<<<
  *         cdef RFC_TYPE_DESC_HANDLE typeDesc = RfcGetTypeDesc(self._handle, typeName, &errorInfo)
  *         free(typeName)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_type_name, __pyx_n_s_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 427, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_type_name, __pyx_n_s_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -21724,14 +22174,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 427, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_1); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 427, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_1); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 456, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_typeName = __pyx_t_4;
 
-  /* "src/pyrfc/client.pyx":428
+  /* "src/pyrfc/client.pyx":457
  *         cdef RFC_ERROR_INFO errorInfo
  *         typeName = fillString(type_name.upper())
  *         cdef RFC_TYPE_DESC_HANDLE typeDesc = RfcGetTypeDesc(self._handle, typeName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -21740,7 +22190,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
  */
   __pyx_v_typeDesc = RfcGetTypeDesc(__pyx_v_self->_handle, __pyx_v_typeName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":429
+  /* "src/pyrfc/client.pyx":458
  *         typeName = fillString(type_name.upper())
  *         cdef RFC_TYPE_DESC_HANDLE typeDesc = RfcGetTypeDesc(self._handle, typeName, &errorInfo)
  *         free(typeName)             # <<<<<<<<<<<<<<
@@ -21749,7 +22199,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
  */
   free(__pyx_v_typeName);
 
-  /* "src/pyrfc/client.pyx":430
+  /* "src/pyrfc/client.pyx":459
  *         cdef RFC_TYPE_DESC_HANDLE typeDesc = RfcGetTypeDesc(self._handle, typeName, &errorInfo)
  *         free(typeName)
  *         if typeDesc == NULL:             # <<<<<<<<<<<<<<
@@ -21759,18 +22209,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
   __pyx_t_5 = ((__pyx_v_typeDesc == NULL) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":431
+    /* "src/pyrfc/client.pyx":460
  *         free(typeName)
  *         if typeDesc == NULL:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         return wrapTypeDescription(typeDesc)
  * 
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 431, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 460, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":430
+    /* "src/pyrfc/client.pyx":459
  *         cdef RFC_TYPE_DESC_HANDLE typeDesc = RfcGetTypeDesc(self._handle, typeName, &errorInfo)
  *         free(typeName)
  *         if typeDesc == NULL:             # <<<<<<<<<<<<<<
@@ -21779,7 +22229,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":432
+  /* "src/pyrfc/client.pyx":461
  *         if typeDesc == NULL:
  *             self._error(&errorInfo)
  *         return wrapTypeDescription(typeDesc)             # <<<<<<<<<<<<<<
@@ -21787,13 +22237,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
  *     def type_desc_remove(self, sysid, type_name):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapTypeDescription(__pyx_v_typeDesc); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 432, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapTypeDescription(__pyx_v_typeDesc); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 461, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":418
+  /* "src/pyrfc/client.pyx":447
  *     #  HELPER METHODS
  * 
  *     def type_desc_get(self, type_name):             # <<<<<<<<<<<<<<
@@ -21814,7 +22264,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_34type_desc_get(struct __p
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":434
+/* "src/pyrfc/client.pyx":463
  *         return wrapTypeDescription(typeDesc)
  * 
  *     def type_desc_remove(self, sysid, type_name):             # <<<<<<<<<<<<<<
@@ -21857,11 +22307,11 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_37type_desc_remove(PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_type_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("type_desc_remove", 1, 2, 2, 1); __PYX_ERR(2, 434, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("type_desc_remove", 1, 2, 2, 1); __PYX_ERR(2, 463, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "type_desc_remove") < 0)) __PYX_ERR(2, 434, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "type_desc_remove") < 0)) __PYX_ERR(2, 463, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -21874,7 +22324,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_37type_desc_remove(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("type_desc_remove", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 434, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("type_desc_remove", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 463, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection.type_desc_remove", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -21902,27 +22352,27 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("type_desc_remove", 0);
 
-  /* "src/pyrfc/client.pyx":446
+  /* "src/pyrfc/client.pyx":475
  *         """
  *         cdef RFC_ERROR_INFO errorInfo
  *         sysId = fillString(sysid)             # <<<<<<<<<<<<<<
  *         typeName = fillString(type_name)
  *         cdef RFC_RC rc = RfcRemoveTypeDesc(sysId, typeName, &errorInfo)
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_sysid); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 446, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_sysid); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 475, __pyx_L1_error)
   __pyx_v_sysId = __pyx_t_1;
 
-  /* "src/pyrfc/client.pyx":447
+  /* "src/pyrfc/client.pyx":476
  *         cdef RFC_ERROR_INFO errorInfo
  *         sysId = fillString(sysid)
  *         typeName = fillString(type_name)             # <<<<<<<<<<<<<<
  *         cdef RFC_RC rc = RfcRemoveTypeDesc(sysId, typeName, &errorInfo)
  *         free(sysId)
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_type_name); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 447, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_type_name); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 476, __pyx_L1_error)
   __pyx_v_typeName = __pyx_t_1;
 
-  /* "src/pyrfc/client.pyx":448
+  /* "src/pyrfc/client.pyx":477
  *         sysId = fillString(sysid)
  *         typeName = fillString(type_name)
  *         cdef RFC_RC rc = RfcRemoveTypeDesc(sysId, typeName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -21931,7 +22381,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
  */
   __pyx_v_rc = RfcRemoveTypeDesc(__pyx_v_sysId, __pyx_v_typeName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":449
+  /* "src/pyrfc/client.pyx":478
  *         typeName = fillString(type_name)
  *         cdef RFC_RC rc = RfcRemoveTypeDesc(sysId, typeName, &errorInfo)
  *         free(sysId)             # <<<<<<<<<<<<<<
@@ -21940,7 +22390,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
  */
   free(__pyx_v_sysId);
 
-  /* "src/pyrfc/client.pyx":450
+  /* "src/pyrfc/client.pyx":479
  *         cdef RFC_RC rc = RfcRemoveTypeDesc(sysId, typeName, &errorInfo)
  *         free(sysId)
  *         free(typeName)             # <<<<<<<<<<<<<<
@@ -21949,7 +22399,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
  */
   free(__pyx_v_typeName);
 
-  /* "src/pyrfc/client.pyx":451
+  /* "src/pyrfc/client.pyx":480
  *         free(sysId)
  *         free(typeName)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -21959,18 +22409,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
   __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/client.pyx":452
+    /* "src/pyrfc/client.pyx":481
  *         free(typeName)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         return rc
  * 
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 452, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":451
+    /* "src/pyrfc/client.pyx":480
  *         free(sysId)
  *         free(typeName)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -21979,7 +22429,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
  */
   }
 
-  /* "src/pyrfc/client.pyx":453
+  /* "src/pyrfc/client.pyx":482
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         return rc             # <<<<<<<<<<<<<<
@@ -21987,13 +22437,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
  *     def func_desc_remove(self, sysid, func_name):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyInt_From_RFC_RC(__pyx_v_rc); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 453, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_RFC_RC(__pyx_v_rc); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 482, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":434
+  /* "src/pyrfc/client.pyx":463
  *         return wrapTypeDescription(typeDesc)
  * 
  *     def type_desc_remove(self, sysid, type_name):             # <<<<<<<<<<<<<<
@@ -22012,7 +22462,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_36type_desc_remove(struct 
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":455
+/* "src/pyrfc/client.pyx":484
  *         return rc
  * 
  *     def func_desc_remove(self, sysid, func_name):             # <<<<<<<<<<<<<<
@@ -22055,11 +22505,11 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_39func_desc_remove(PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_func_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("func_desc_remove", 1, 2, 2, 1); __PYX_ERR(2, 455, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("func_desc_remove", 1, 2, 2, 1); __PYX_ERR(2, 484, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "func_desc_remove") < 0)) __PYX_ERR(2, 455, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "func_desc_remove") < 0)) __PYX_ERR(2, 484, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -22072,7 +22522,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_39func_desc_remove(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("func_desc_remove", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 455, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("func_desc_remove", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 484, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection.func_desc_remove", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -22100,27 +22550,27 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("func_desc_remove", 0);
 
-  /* "src/pyrfc/client.pyx":467
+  /* "src/pyrfc/client.pyx":496
  *         """
  *         cdef RFC_ERROR_INFO errorInfo
  *         sysId = fillString(sysid)             # <<<<<<<<<<<<<<
  *         funcName = fillString(func_name)
  *         cdef RFC_RC rc = RfcRemoveFunctionDesc(sysId, funcName, &errorInfo)
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_sysid); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 467, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_sysid); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 496, __pyx_L1_error)
   __pyx_v_sysId = __pyx_t_1;
 
-  /* "src/pyrfc/client.pyx":468
+  /* "src/pyrfc/client.pyx":497
  *         cdef RFC_ERROR_INFO errorInfo
  *         sysId = fillString(sysid)
  *         funcName = fillString(func_name)             # <<<<<<<<<<<<<<
  *         cdef RFC_RC rc = RfcRemoveFunctionDesc(sysId, funcName, &errorInfo)
  *         free(sysId)
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 468, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_1 == ((SAP_UC *)NULL))) __PYX_ERR(2, 497, __pyx_L1_error)
   __pyx_v_funcName = __pyx_t_1;
 
-  /* "src/pyrfc/client.pyx":469
+  /* "src/pyrfc/client.pyx":498
  *         sysId = fillString(sysid)
  *         funcName = fillString(func_name)
  *         cdef RFC_RC rc = RfcRemoveFunctionDesc(sysId, funcName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -22129,7 +22579,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
  */
   __pyx_v_rc = RfcRemoveFunctionDesc(__pyx_v_sysId, __pyx_v_funcName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":470
+  /* "src/pyrfc/client.pyx":499
  *         funcName = fillString(func_name)
  *         cdef RFC_RC rc = RfcRemoveFunctionDesc(sysId, funcName, &errorInfo)
  *         free(sysId)             # <<<<<<<<<<<<<<
@@ -22138,7 +22588,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
  */
   free(__pyx_v_sysId);
 
-  /* "src/pyrfc/client.pyx":471
+  /* "src/pyrfc/client.pyx":500
  *         cdef RFC_RC rc = RfcRemoveFunctionDesc(sysId, funcName, &errorInfo)
  *         free(sysId)
  *         free(funcName)             # <<<<<<<<<<<<<<
@@ -22147,7 +22597,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
  */
   free(__pyx_v_funcName);
 
-  /* "src/pyrfc/client.pyx":472
+  /* "src/pyrfc/client.pyx":501
  *         free(sysId)
  *         free(funcName)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -22157,18 +22607,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
   __pyx_t_2 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/client.pyx":473
+    /* "src/pyrfc/client.pyx":502
  *         free(funcName)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         return rc
  * 
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 473, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 502, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":472
+    /* "src/pyrfc/client.pyx":501
  *         free(sysId)
  *         free(funcName)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -22177,7 +22627,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
  */
   }
 
-  /* "src/pyrfc/client.pyx":474
+  /* "src/pyrfc/client.pyx":503
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         return rc             # <<<<<<<<<<<<<<
@@ -22185,13 +22635,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
  *     ##########################################################################
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyInt_From_RFC_RC(__pyx_v_rc); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 474, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_RFC_RC(__pyx_v_rc); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":455
+  /* "src/pyrfc/client.pyx":484
  *         return rc
  * 
  *     def func_desc_remove(self, sysid, func_name):             # <<<<<<<<<<<<<<
@@ -22210,7 +22660,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_38func_desc_remove(struct 
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":479
+/* "src/pyrfc/client.pyx":508
  *     #  TRANSACTIONAL / QUEUED RFC
  * 
  *     def _get_transaction_id(self):             # <<<<<<<<<<<<<<
@@ -22248,32 +22698,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_40_get_transaction_id(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_get_transaction_id", 0);
 
-  /* "src/pyrfc/client.pyx":485
+  /* "src/pyrfc/client.pyx":514
  *         cdef RFC_TID tid
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  *         rc = RfcGetTransactionID(self._handle, tid, &errorInfo)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 485, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 485, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 514, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((!__pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":486
+    /* "src/pyrfc/client.pyx":515
  * 
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  *         rc = RfcGetTransactionID(self._handle, tid, &errorInfo)
  *         if rc != RFC_OK:
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 486, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 515, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":485
+    /* "src/pyrfc/client.pyx":514
  *         cdef RFC_TID tid
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -22282,7 +22732,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_40_get_transaction_id(stru
  */
   }
 
-  /* "src/pyrfc/client.pyx":487
+  /* "src/pyrfc/client.pyx":516
  *         if not self.alive:
  *             self._open()
  *         rc = RfcGetTransactionID(self._handle, tid, &errorInfo)             # <<<<<<<<<<<<<<
@@ -22291,7 +22741,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_40_get_transaction_id(stru
  */
   __pyx_v_rc = RfcGetTransactionID(__pyx_v_self->_handle, __pyx_v_tid, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":488
+  /* "src/pyrfc/client.pyx":517
  *             self._open()
  *         rc = RfcGetTransactionID(self._handle, tid, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -22301,18 +22751,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_40_get_transaction_id(stru
   __pyx_t_3 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":489
+    /* "src/pyrfc/client.pyx":518
  *         rc = RfcGetTransactionID(self._handle, tid, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         return wrapString(tid, RFC_TID_LN)
  * 
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 489, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 518, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":488
+    /* "src/pyrfc/client.pyx":517
  *             self._open()
  *         rc = RfcGetTransactionID(self._handle, tid, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -22321,7 +22771,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_40_get_transaction_id(stru
  */
   }
 
-  /* "src/pyrfc/client.pyx":490
+  /* "src/pyrfc/client.pyx":519
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         return wrapString(tid, RFC_TID_LN)             # <<<<<<<<<<<<<<
@@ -22329,18 +22779,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_40_get_transaction_id(stru
  *     def _create_and_submit_transaction(self, transaction_id, calls, queue_name=None):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(RFC_TID_LN); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 490, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(RFC_TID_LN); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_5.__pyx_n = 1;
   __pyx_t_5.uclen = __pyx_t_1;
-  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_tid, &__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 490, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_tid, &__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":479
+  /* "src/pyrfc/client.pyx":508
  *     #  TRANSACTIONAL / QUEUED RFC
  * 
  *     def _get_transaction_id(self):             # <<<<<<<<<<<<<<
@@ -22360,7 +22810,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_40_get_transaction_id(stru
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":492
+/* "src/pyrfc/client.pyx":521
  *         return wrapString(tid, RFC_TID_LN)
  * 
  *     def _create_and_submit_transaction(self, transaction_id, calls, queue_name=None):             # <<<<<<<<<<<<<<
@@ -22406,7 +22856,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_43_create_and_submit_trans
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_calls)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_create_and_submit_transaction", 0, 2, 3, 1); __PYX_ERR(2, 492, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_create_and_submit_transaction", 0, 2, 3, 1); __PYX_ERR(2, 521, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -22416,7 +22866,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_43_create_and_submit_trans
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_create_and_submit_transaction") < 0)) __PYX_ERR(2, 492, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_create_and_submit_transaction") < 0)) __PYX_ERR(2, 521, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -22434,7 +22884,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_43_create_and_submit_trans
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_create_and_submit_transaction", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 492, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_create_and_submit_transaction", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 521, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection._create_and_submit_transaction", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -22493,32 +22943,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_create_and_submit_transaction", 0);
 
-  /* "src/pyrfc/client.pyx":500
+  /* "src/pyrfc/client.pyx":529
  *         cdef RFC_FUNCTION_HANDLE funcCont
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 500, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 529, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 500, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 529, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((!__pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":501
+    /* "src/pyrfc/client.pyx":530
  * 
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  * 
  *         tid = fillString(transaction_id)
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 501, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 530, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":500
+    /* "src/pyrfc/client.pyx":529
  *         cdef RFC_FUNCTION_HANDLE funcCont
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -22527,17 +22977,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   }
 
-  /* "src/pyrfc/client.pyx":503
+  /* "src/pyrfc/client.pyx":532
  *             self._open()
  * 
  *         tid = fillString(transaction_id)             # <<<<<<<<<<<<<<
  *         queueName = NULL
  *         if queue_name:
  */
-  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_transaction_id); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 503, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_transaction_id); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 532, __pyx_L1_error)
   __pyx_v_tid = __pyx_t_4;
 
-  /* "src/pyrfc/client.pyx":504
+  /* "src/pyrfc/client.pyx":533
  * 
  *         tid = fillString(transaction_id)
  *         queueName = NULL             # <<<<<<<<<<<<<<
@@ -22546,27 +22996,27 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   __pyx_v_queueName = NULL;
 
-  /* "src/pyrfc/client.pyx":505
+  /* "src/pyrfc/client.pyx":534
  *         tid = fillString(transaction_id)
  *         queueName = NULL
  *         if queue_name:             # <<<<<<<<<<<<<<
  *             queueName = fillString(queue_name)
  *         self._tHandle = RfcCreateTransaction(self._handle, tid, queueName, &errorInfo)
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_queue_name); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 505, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_queue_name); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 534, __pyx_L1_error)
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":506
+    /* "src/pyrfc/client.pyx":535
  *         queueName = NULL
  *         if queue_name:
  *             queueName = fillString(queue_name)             # <<<<<<<<<<<<<<
  *         self._tHandle = RfcCreateTransaction(self._handle, tid, queueName, &errorInfo)
  * 
  */
-    __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_queue_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 506, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_queue_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 535, __pyx_L1_error)
     __pyx_v_queueName = __pyx_t_4;
 
-    /* "src/pyrfc/client.pyx":505
+    /* "src/pyrfc/client.pyx":534
  *         tid = fillString(transaction_id)
  *         queueName = NULL
  *         if queue_name:             # <<<<<<<<<<<<<<
@@ -22575,7 +23025,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   }
 
-  /* "src/pyrfc/client.pyx":507
+  /* "src/pyrfc/client.pyx":536
  *         if queue_name:
  *             queueName = fillString(queue_name)
  *         self._tHandle = RfcCreateTransaction(self._handle, tid, queueName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -22584,17 +23034,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   __pyx_v_self->_tHandle = RfcCreateTransaction(__pyx_v_self->_handle, __pyx_v_tid, __pyx_v_queueName, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":509
+  /* "src/pyrfc/client.pyx":538
  *         self._tHandle = RfcCreateTransaction(self._handle, tid, queueName, &errorInfo)
  * 
  *         if queue_name:             # <<<<<<<<<<<<<<
  *             free(queueName)
  *         free(tid)
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_queue_name); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 509, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_queue_name); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 538, __pyx_L1_error)
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":510
+    /* "src/pyrfc/client.pyx":539
  * 
  *         if queue_name:
  *             free(queueName)             # <<<<<<<<<<<<<<
@@ -22603,7 +23053,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
     free(__pyx_v_queueName);
 
-    /* "src/pyrfc/client.pyx":509
+    /* "src/pyrfc/client.pyx":538
  *         self._tHandle = RfcCreateTransaction(self._handle, tid, queueName, &errorInfo)
  * 
  *         if queue_name:             # <<<<<<<<<<<<<<
@@ -22612,7 +23062,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   }
 
-  /* "src/pyrfc/client.pyx":511
+  /* "src/pyrfc/client.pyx":540
  *         if queue_name:
  *             free(queueName)
  *         free(tid)             # <<<<<<<<<<<<<<
@@ -22621,7 +23071,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   free(__pyx_v_tid);
 
-  /* "src/pyrfc/client.pyx":512
+  /* "src/pyrfc/client.pyx":541
  *             free(queueName)
  *         free(tid)
  *         if self._tHandle == NULL:             # <<<<<<<<<<<<<<
@@ -22631,18 +23081,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
   __pyx_t_3 = ((__pyx_v_self->_tHandle == NULL) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":513
+    /* "src/pyrfc/client.pyx":542
  *         free(tid)
  *         if self._tHandle == NULL:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         self.active_transaction = True
  * 
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 513, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 542, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":512
+    /* "src/pyrfc/client.pyx":541
  *             free(queueName)
  *         free(tid)
  *         if self._tHandle == NULL:             # <<<<<<<<<<<<<<
@@ -22651,7 +23101,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   }
 
-  /* "src/pyrfc/client.pyx":514
+  /* "src/pyrfc/client.pyx":543
  *         if self._tHandle == NULL:
  *             self._error(&errorInfo)
  *         self.active_transaction = True             # <<<<<<<<<<<<<<
@@ -22660,7 +23110,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
   __pyx_v_self->active_transaction = 1;
 
-  /* "src/pyrfc/client.pyx":516
+  /* "src/pyrfc/client.pyx":545
  *         self.active_transaction = True
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -22676,7 +23126,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
     __Pyx_XGOTREF(__pyx_t_7);
     /*try:*/ {
 
-      /* "src/pyrfc/client.pyx":517
+      /* "src/pyrfc/client.pyx":546
  * 
  *         try:
  *             for func_name, params in calls:             # <<<<<<<<<<<<<<
@@ -22687,26 +23137,26 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
         __pyx_t_1 = __pyx_v_calls; __Pyx_INCREF(__pyx_t_1); __pyx_t_8 = 0;
         __pyx_t_9 = NULL;
       } else {
-        __pyx_t_8 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_calls); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 517, __pyx_L7_error)
+        __pyx_t_8 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_calls); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 546, __pyx_L7_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_9 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 517, __pyx_L7_error)
+        __pyx_t_9 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 546, __pyx_L7_error)
       }
       for (;;) {
         if (likely(!__pyx_t_9)) {
           if (likely(PyList_CheckExact(__pyx_t_1))) {
             if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_1)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_10 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_10); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(2, 517, __pyx_L7_error)
+            __pyx_t_10 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_10); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(2, 546, __pyx_L7_error)
             #else
-            __pyx_t_10 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 517, __pyx_L7_error)
+            __pyx_t_10 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 546, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_10);
             #endif
           } else {
             if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_10 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_10); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(2, 517, __pyx_L7_error)
+            __pyx_t_10 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_10); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(2, 546, __pyx_L7_error)
             #else
-            __pyx_t_10 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 517, __pyx_L7_error)
+            __pyx_t_10 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 546, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_10);
             #endif
           }
@@ -22716,7 +23166,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(2, 517, __pyx_L7_error)
+              else __PYX_ERR(2, 546, __pyx_L7_error)
             }
             break;
           }
@@ -22728,7 +23178,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           if (unlikely(size != 2)) {
             if (size > 2) __Pyx_RaiseTooManyValuesError(2);
             else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-            __PYX_ERR(2, 517, __pyx_L7_error)
+            __PYX_ERR(2, 546, __pyx_L7_error)
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
           if (likely(PyTuple_CheckExact(sequence))) {
@@ -22741,15 +23191,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           __Pyx_INCREF(__pyx_t_11);
           __Pyx_INCREF(__pyx_t_12);
           #else
-          __pyx_t_11 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 517, __pyx_L7_error)
+          __pyx_t_11 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 546, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_11);
-          __pyx_t_12 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 517, __pyx_L7_error)
+          __pyx_t_12 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 546, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_12);
           #endif
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         } else {
           Py_ssize_t index = -1;
-          __pyx_t_13 = PyObject_GetIter(__pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 517, __pyx_L7_error)
+          __pyx_t_13 = PyObject_GetIter(__pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 546, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_13);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __pyx_t_14 = Py_TYPE(__pyx_t_13)->tp_iternext;
@@ -22757,7 +23207,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           __Pyx_GOTREF(__pyx_t_11);
           index = 1; __pyx_t_12 = __pyx_t_14(__pyx_t_13); if (unlikely(!__pyx_t_12)) goto __pyx_L15_unpacking_failed;
           __Pyx_GOTREF(__pyx_t_12);
-          if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_13), 2) < 0) __PYX_ERR(2, 517, __pyx_L7_error)
+          if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_13), 2) < 0) __PYX_ERR(2, 546, __pyx_L7_error)
           __pyx_t_14 = NULL;
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           goto __pyx_L16_unpacking_done;
@@ -22765,7 +23215,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __pyx_t_14 = NULL;
           if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-          __PYX_ERR(2, 517, __pyx_L7_error)
+          __PYX_ERR(2, 546, __pyx_L7_error)
           __pyx_L16_unpacking_done:;
         }
         __Pyx_XDECREF_SET(__pyx_v_func_name, __pyx_t_11);
@@ -22773,17 +23223,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
         __Pyx_XDECREF_SET(__pyx_v_params, __pyx_t_12);
         __pyx_t_12 = 0;
 
-        /* "src/pyrfc/client.pyx":518
+        /* "src/pyrfc/client.pyx":547
  *         try:
  *             for func_name, params in calls:
  *                 funcName = fillString(func_name)             # <<<<<<<<<<<<<<
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)
  */
-        __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 518, __pyx_L7_error)
+        __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 547, __pyx_L7_error)
         __pyx_v_funcName = __pyx_t_4;
 
-        /* "src/pyrfc/client.pyx":519
+        /* "src/pyrfc/client.pyx":548
  *             for func_name, params in calls:
  *                 funcName = fillString(func_name)
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -22792,7 +23242,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
         __pyx_v_funcDesc = RfcGetFunctionDesc(__pyx_v_self->_handle, __pyx_v_funcName, (&__pyx_v_errorInfo));
 
-        /* "src/pyrfc/client.pyx":520
+        /* "src/pyrfc/client.pyx":549
  *                 funcName = fillString(func_name)
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)             # <<<<<<<<<<<<<<
@@ -22801,7 +23251,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
         free(__pyx_v_funcName);
 
-        /* "src/pyrfc/client.pyx":521
+        /* "src/pyrfc/client.pyx":550
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)
  *                 if not funcDesc:             # <<<<<<<<<<<<<<
@@ -22811,18 +23261,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
         __pyx_t_3 = ((!(__pyx_v_funcDesc != 0)) != 0);
         if (__pyx_t_3) {
 
-          /* "src/pyrfc/client.pyx":522
+          /* "src/pyrfc/client.pyx":551
  *                 free(funcName)
  *                 if not funcDesc:
  *                     self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:
  */
-          __pyx_t_10 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 522, __pyx_L7_error)
+          __pyx_t_10 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 551, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-          /* "src/pyrfc/client.pyx":521
+          /* "src/pyrfc/client.pyx":550
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)
  *                 if not funcDesc:             # <<<<<<<<<<<<<<
@@ -22831,7 +23281,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
         }
 
-        /* "src/pyrfc/client.pyx":523
+        /* "src/pyrfc/client.pyx":552
  *                 if not funcDesc:
  *                     self._error(&errorInfo)
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)             # <<<<<<<<<<<<<<
@@ -22840,7 +23290,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
         __pyx_v_funcCont = RfcCreateFunction(__pyx_v_funcDesc, (&__pyx_v_errorInfo));
 
-        /* "src/pyrfc/client.pyx":524
+        /* "src/pyrfc/client.pyx":553
  *                     self._error(&errorInfo)
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:             # <<<<<<<<<<<<<<
@@ -22850,18 +23300,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
         __pyx_t_3 = ((!(__pyx_v_funcCont != 0)) != 0);
         if (__pyx_t_3) {
 
-          /* "src/pyrfc/client.pyx":525
+          /* "src/pyrfc/client.pyx":554
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:
  *                     self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *                 try:
  *                     for name, value in params.iteritems():
  */
-          __pyx_t_10 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 525, __pyx_L7_error)
+          __pyx_t_10 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 554, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-          /* "src/pyrfc/client.pyx":524
+          /* "src/pyrfc/client.pyx":553
  *                     self._error(&errorInfo)
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:             # <<<<<<<<<<<<<<
@@ -22870,7 +23320,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
         }
 
-        /* "src/pyrfc/client.pyx":526
+        /* "src/pyrfc/client.pyx":555
  *                 if not funcCont:
  *                     self._error(&errorInfo)
  *                 try:             # <<<<<<<<<<<<<<
@@ -22879,7 +23329,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
         /*try:*/ {
 
-          /* "src/pyrfc/client.pyx":527
+          /* "src/pyrfc/client.pyx":556
  *                     self._error(&errorInfo)
  *                 try:
  *                     for name, value in params.iteritems():             # <<<<<<<<<<<<<<
@@ -22889,9 +23339,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           __pyx_t_15 = 0;
           if (unlikely(__pyx_v_params == Py_None)) {
             PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "iteritems");
-            __PYX_ERR(2, 527, __pyx_L22_error)
+            __PYX_ERR(2, 556, __pyx_L22_error)
           }
-          __pyx_t_12 = __Pyx_dict_iterator(__pyx_v_params, 0, __pyx_n_s_iteritems, (&__pyx_t_16), (&__pyx_t_17)); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 527, __pyx_L22_error)
+          __pyx_t_12 = __Pyx_dict_iterator(__pyx_v_params, 0, __pyx_n_s_iteritems, (&__pyx_t_16), (&__pyx_t_17)); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 556, __pyx_L22_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_XDECREF(__pyx_t_10);
           __pyx_t_10 = __pyx_t_12;
@@ -22899,7 +23349,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           while (1) {
             __pyx_t_18 = __Pyx_dict_iter_next(__pyx_t_10, __pyx_t_16, &__pyx_t_15, &__pyx_t_12, &__pyx_t_11, NULL, __pyx_t_17);
             if (unlikely(__pyx_t_18 == 0)) break;
-            if (unlikely(__pyx_t_18 == -1)) __PYX_ERR(2, 527, __pyx_L22_error)
+            if (unlikely(__pyx_t_18 == -1)) __PYX_ERR(2, 556, __pyx_L22_error)
             __Pyx_GOTREF(__pyx_t_12);
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_12);
@@ -22907,20 +23357,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
             __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_11);
             __pyx_t_11 = 0;
 
-            /* "src/pyrfc/client.pyx":528
+            /* "src/pyrfc/client.pyx":557
  *                 try:
  *                     for name, value in params.iteritems():
  *                         fillFunctionParameter(funcDesc, funcCont, name, value)             # <<<<<<<<<<<<<<
  *                     # Add RFC call to transaction
  *                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)
  */
-            __pyx_t_11 = __pyx_f_5pyrfc_6_cyrfc_fillFunctionParameter(__pyx_v_funcDesc, __pyx_v_funcCont, __pyx_v_name, __pyx_v_value); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 528, __pyx_L22_error)
+            __pyx_t_11 = __pyx_f_5pyrfc_6_cyrfc_fillFunctionParameter(__pyx_v_funcDesc, __pyx_v_funcCont, __pyx_v_name, __pyx_v_value); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 557, __pyx_L22_error)
             __Pyx_GOTREF(__pyx_t_11);
             __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           }
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-          /* "src/pyrfc/client.pyx":530
+          /* "src/pyrfc/client.pyx":559
  *                         fillFunctionParameter(funcDesc, funcCont, name, value)
  *                     # Add RFC call to transaction
  *                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)             # <<<<<<<<<<<<<<
@@ -22929,7 +23379,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
           __pyx_v_rc = RfcInvokeInTransaction(__pyx_v_self->_tHandle, __pyx_v_funcCont, (&__pyx_v_errorInfo));
 
-          /* "src/pyrfc/client.pyx":531
+          /* "src/pyrfc/client.pyx":560
  *                     # Add RFC call to transaction
  *                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)
  *                     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -22939,18 +23389,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           __pyx_t_3 = ((__pyx_v_rc != RFC_OK) != 0);
           if (__pyx_t_3) {
 
-            /* "src/pyrfc/client.pyx":532
+            /* "src/pyrfc/client.pyx":561
  *                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)
  *                     if rc != RFC_OK:
  *                         self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *                 finally:
  *                     RfcDestroyFunction(funcCont, NULL)
  */
-            __pyx_t_10 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 532, __pyx_L22_error)
+            __pyx_t_10 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 561, __pyx_L22_error)
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-            /* "src/pyrfc/client.pyx":531
+            /* "src/pyrfc/client.pyx":560
  *                     # Add RFC call to transaction
  *                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)
  *                     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -22960,7 +23410,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           }
         }
 
-        /* "src/pyrfc/client.pyx":534
+        /* "src/pyrfc/client.pyx":563
  *                         self._error(&errorInfo)
  *                 finally:
  *                     RfcDestroyFunction(funcCont, NULL)             # <<<<<<<<<<<<<<
@@ -23010,7 +23460,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           __pyx_L23:;
         }
 
-        /* "src/pyrfc/client.pyx":517
+        /* "src/pyrfc/client.pyx":546
  * 
  *         try:
  *             for func_name, params in calls:             # <<<<<<<<<<<<<<
@@ -23020,7 +23470,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
       }
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "src/pyrfc/client.pyx":536
+      /* "src/pyrfc/client.pyx":565
  *                     RfcDestroyFunction(funcCont, NULL)
  *             # execute
  *             with nogil:             # <<<<<<<<<<<<<<
@@ -23035,7 +23485,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           #endif
           /*try:*/ {
 
-            /* "src/pyrfc/client.pyx":537
+            /* "src/pyrfc/client.pyx":566
  *             # execute
  *             with nogil:
  *                 rc = RfcSubmitTransaction(self._tHandle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -23045,7 +23495,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
             __pyx_v_rc = RfcSubmitTransaction(__pyx_v_self->_tHandle, (&__pyx_v_errorInfo));
           }
 
-          /* "src/pyrfc/client.pyx":536
+          /* "src/pyrfc/client.pyx":565
  *                     RfcDestroyFunction(funcCont, NULL)
  *             # execute
  *             with nogil:             # <<<<<<<<<<<<<<
@@ -23064,7 +23514,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
           }
       }
 
-      /* "src/pyrfc/client.pyx":538
+      /* "src/pyrfc/client.pyx":567
  *             with nogil:
  *                 rc = RfcSubmitTransaction(self._tHandle, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23074,18 +23524,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
       __pyx_t_3 = ((__pyx_v_rc != RFC_OK) != 0);
       if (__pyx_t_3) {
 
-        /* "src/pyrfc/client.pyx":539
+        /* "src/pyrfc/client.pyx":568
  *                 rc = RfcSubmitTransaction(self._tHandle, &errorInfo)
  *             if rc != RFC_OK:
  *                 self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *         except RFCError as e:
  */
-        __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 539, __pyx_L7_error)
+        __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 568, __pyx_L7_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "src/pyrfc/client.pyx":538
+        /* "src/pyrfc/client.pyx":567
  *             with nogil:
  *                 rc = RfcSubmitTransaction(self._tHandle, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23094,7 +23544,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
       }
 
-      /* "src/pyrfc/client.pyx":516
+      /* "src/pyrfc/client.pyx":545
  *         self.active_transaction = True
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -23113,7 +23563,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
     __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
 
-    /* "src/pyrfc/client.pyx":541
+    /* "src/pyrfc/client.pyx":570
  *                 self._error(&errorInfo)
  * 
  *         except RFCError as e:             # <<<<<<<<<<<<<<
@@ -23121,7 +23571,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  *             RfcDestroyTransaction(self._tHandle, NULL)
  */
     __Pyx_ErrFetch(&__pyx_t_1, &__pyx_t_10, &__pyx_t_11);
-    __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 541, __pyx_L9_except_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 570, __pyx_L9_except_error)
     __Pyx_GOTREF(__pyx_t_12);
     __pyx_t_18 = __Pyx_PyErr_GivenExceptionMatches(__pyx_t_1, __pyx_t_12);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -23129,7 +23579,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
     __pyx_t_1 = 0; __pyx_t_10 = 0; __pyx_t_11 = 0;
     if (__pyx_t_18) {
       __Pyx_AddTraceback("pyrfc._cyrfc.Connection._create_and_submit_transaction", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_10, &__pyx_t_1) < 0) __PYX_ERR(2, 541, __pyx_L9_except_error)
+      if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_10, &__pyx_t_1) < 0) __PYX_ERR(2, 570, __pyx_L9_except_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_GOTREF(__pyx_t_1);
@@ -23137,7 +23587,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
       __pyx_v_e = __pyx_t_10;
       /*try:*/ {
 
-        /* "src/pyrfc/client.pyx":543
+        /* "src/pyrfc/client.pyx":572
  *         except RFCError as e:
  *             # clean up actions
  *             RfcDestroyTransaction(self._tHandle, NULL)             # <<<<<<<<<<<<<<
@@ -23146,7 +23596,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
  */
         (void)(RfcDestroyTransaction(__pyx_v_self->_tHandle, NULL));
 
-        /* "src/pyrfc/client.pyx":544
+        /* "src/pyrfc/client.pyx":573
  *             # clean up actions
  *             RfcDestroyTransaction(self._tHandle, NULL)
  *             raise             # <<<<<<<<<<<<<<
@@ -23158,10 +23608,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
         __Pyx_XGIVEREF(__pyx_t_1);
         __Pyx_ErrRestoreWithState(__pyx_t_11, __pyx_t_10, __pyx_t_1);
         __pyx_t_11 = 0; __pyx_t_10 = 0; __pyx_t_1 = 0; 
-        __PYX_ERR(2, 544, __pyx_L40_error)
+        __PYX_ERR(2, 573, __pyx_L40_error)
       }
 
-      /* "src/pyrfc/client.pyx":541
+      /* "src/pyrfc/client.pyx":570
  *                 self._error(&errorInfo)
  * 
  *         except RFCError as e:             # <<<<<<<<<<<<<<
@@ -23208,7 +23658,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
     goto __pyx_L9_except_error;
     __pyx_L9_except_error:;
 
-    /* "src/pyrfc/client.pyx":516
+    /* "src/pyrfc/client.pyx":545
  *         self.active_transaction = True
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -23223,7 +23673,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
     __pyx_L12_try_end:;
   }
 
-  /* "src/pyrfc/client.pyx":492
+  /* "src/pyrfc/client.pyx":521
  *         return wrapString(tid, RFC_TID_LN)
  * 
  *     def _create_and_submit_transaction(self, transaction_id, calls, queue_name=None):             # <<<<<<<<<<<<<<
@@ -23253,7 +23703,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_42_create_and_submit_trans
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":546
+/* "src/pyrfc/client.pyx":575
  *             raise
  * 
  *     def _destroy_transaction(self):             # <<<<<<<<<<<<<<
@@ -23289,7 +23739,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_destroy_transaction", 0);
 
-  /* "src/pyrfc/client.pyx":549
+  /* "src/pyrfc/client.pyx":578
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_transaction:             # <<<<<<<<<<<<<<
@@ -23299,14 +23749,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
   __pyx_t_1 = ((!(__pyx_v_self->active_transaction != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/client.pyx":550
+    /* "src/pyrfc/client.pyx":579
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_transaction:
  *             raise RFCError("No transaction handle for this connection available.")             # <<<<<<<<<<<<<<
  *         if not self.alive:
  *             self._open()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 550, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 579, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -23320,14 +23770,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_kp_s_No_transaction_handle_for_this_c) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s_No_transaction_handle_for_this_c);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 550, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 579, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(2, 550, __pyx_L1_error)
+    __PYX_ERR(2, 579, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":549
+    /* "src/pyrfc/client.pyx":578
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_transaction:             # <<<<<<<<<<<<<<
@@ -23336,32 +23786,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":551
+  /* "src/pyrfc/client.pyx":580
  *         if not self.active_transaction:
  *             raise RFCError("No transaction handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 551, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 580, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(2, 551, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(2, 580, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = ((!__pyx_t_1) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":552
+    /* "src/pyrfc/client.pyx":581
  *             raise RFCError("No transaction handle for this connection available.")
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 552, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 581, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":551
+    /* "src/pyrfc/client.pyx":580
  *         if not self.active_transaction:
  *             raise RFCError("No transaction handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -23370,7 +23820,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":553
+  /* "src/pyrfc/client.pyx":582
  *         if not self.alive:
  *             self._open()
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -23379,7 +23829,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
  */
   __pyx_v_rc = RfcDestroyTransaction(__pyx_v_self->_tHandle, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":554
+  /* "src/pyrfc/client.pyx":583
  *             self._open()
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False             # <<<<<<<<<<<<<<
@@ -23388,7 +23838,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
  */
   __pyx_v_self->active_transaction = 0;
 
-  /* "src/pyrfc/client.pyx":555
+  /* "src/pyrfc/client.pyx":584
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23398,18 +23848,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
   __pyx_t_5 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":556
+    /* "src/pyrfc/client.pyx":585
  *         self.active_transaction = False
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *     def _confirm_transaction(self):
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 556, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 585, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":555
+    /* "src/pyrfc/client.pyx":584
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23418,7 +23868,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":546
+  /* "src/pyrfc/client.pyx":575
  *             raise
  * 
  *     def _destroy_transaction(self):             # <<<<<<<<<<<<<<
@@ -23441,7 +23891,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_44_destroy_transaction(str
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":558
+/* "src/pyrfc/client.pyx":587
  *             self._error(&errorInfo)
  * 
  *     def _confirm_transaction(self):             # <<<<<<<<<<<<<<
@@ -23477,7 +23927,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_confirm_transaction", 0);
 
-  /* "src/pyrfc/client.pyx":561
+  /* "src/pyrfc/client.pyx":590
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_transaction:             # <<<<<<<<<<<<<<
@@ -23487,14 +23937,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
   __pyx_t_1 = ((!(__pyx_v_self->active_transaction != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/client.pyx":562
+    /* "src/pyrfc/client.pyx":591
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_transaction:
  *             raise RFCError("No transaction handle for this connection available.")             # <<<<<<<<<<<<<<
  *         if not self.alive:
  *             self._open()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 562, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 591, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -23508,14 +23958,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_kp_s_No_transaction_handle_for_this_c) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s_No_transaction_handle_for_this_c);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 562, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 591, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(2, 562, __pyx_L1_error)
+    __PYX_ERR(2, 591, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":561
+    /* "src/pyrfc/client.pyx":590
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_transaction:             # <<<<<<<<<<<<<<
@@ -23524,32 +23974,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":563
+  /* "src/pyrfc/client.pyx":592
  *         if not self.active_transaction:
  *             raise RFCError("No transaction handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  *         rc = RfcConfirmTransaction(self._tHandle, &errorInfo)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 563, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 592, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(2, 563, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(2, 592, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = ((!__pyx_t_1) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":564
+    /* "src/pyrfc/client.pyx":593
  *             raise RFCError("No transaction handle for this connection available.")
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  *         rc = RfcConfirmTransaction(self._tHandle, &errorInfo)
  *         if rc != RFC_OK:
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 564, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 593, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":563
+    /* "src/pyrfc/client.pyx":592
  *         if not self.active_transaction:
  *             raise RFCError("No transaction handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -23558,7 +24008,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":565
+  /* "src/pyrfc/client.pyx":594
  *         if not self.alive:
  *             self._open()
  *         rc = RfcConfirmTransaction(self._tHandle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -23567,7 +24017,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
  */
   __pyx_v_rc = RfcConfirmTransaction(__pyx_v_self->_tHandle, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":566
+  /* "src/pyrfc/client.pyx":595
  *             self._open()
  *         rc = RfcConfirmTransaction(self._tHandle, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23577,18 +24027,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
   __pyx_t_5 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":567
+    /* "src/pyrfc/client.pyx":596
  *         rc = RfcConfirmTransaction(self._tHandle, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 567, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 596, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":566
+    /* "src/pyrfc/client.pyx":595
  *             self._open()
  *         rc = RfcConfirmTransaction(self._tHandle, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23597,7 +24047,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":568
+  /* "src/pyrfc/client.pyx":597
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -23606,7 +24056,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
  */
   __pyx_v_rc = RfcDestroyTransaction(__pyx_v_self->_tHandle, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":569
+  /* "src/pyrfc/client.pyx":598
  *             self._error(&errorInfo)
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False             # <<<<<<<<<<<<<<
@@ -23615,7 +24065,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
  */
   __pyx_v_self->active_transaction = 0;
 
-  /* "src/pyrfc/client.pyx":570
+  /* "src/pyrfc/client.pyx":599
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23625,18 +24075,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
   __pyx_t_5 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":571
+    /* "src/pyrfc/client.pyx":600
  *         self.active_transaction = False
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *     ##########################################################################
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 571, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 600, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":570
+    /* "src/pyrfc/client.pyx":599
  *         rc = RfcDestroyTransaction(self._tHandle, &errorInfo)
  *         self.active_transaction = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23645,7 +24095,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":558
+  /* "src/pyrfc/client.pyx":587
  *             self._error(&errorInfo)
  * 
  *     def _confirm_transaction(self):             # <<<<<<<<<<<<<<
@@ -23668,7 +24118,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_46_confirm_transaction(str
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":576
+/* "src/pyrfc/client.pyx":605
  *     #  BACKGROUND RFC
  * 
  *     def _get_unit_id(self):             # <<<<<<<<<<<<<<
@@ -23706,32 +24156,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_48_get_unit_id(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_get_unit_id", 0);
 
-  /* "src/pyrfc/client.pyx":582
+  /* "src/pyrfc/client.pyx":611
  *         cdef RFC_UNITID uid
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  *         rc = RfcGetUnitID(self._handle, uid, &errorInfo)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 582, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 611, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 582, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 611, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((!__pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":583
+    /* "src/pyrfc/client.pyx":612
  * 
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  *         rc = RfcGetUnitID(self._handle, uid, &errorInfo)
  *         if rc != RFC_OK:
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 583, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 612, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":582
+    /* "src/pyrfc/client.pyx":611
  *         cdef RFC_UNITID uid
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -23740,7 +24190,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_48_get_unit_id(struct __py
  */
   }
 
-  /* "src/pyrfc/client.pyx":584
+  /* "src/pyrfc/client.pyx":613
  *         if not self.alive:
  *             self._open()
  *         rc = RfcGetUnitID(self._handle, uid, &errorInfo)             # <<<<<<<<<<<<<<
@@ -23749,7 +24199,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_48_get_unit_id(struct __py
  */
   __pyx_v_rc = RfcGetUnitID(__pyx_v_self->_handle, __pyx_v_uid, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":585
+  /* "src/pyrfc/client.pyx":614
  *             self._open()
  *         rc = RfcGetUnitID(self._handle, uid, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23759,18 +24209,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_48_get_unit_id(struct __py
   __pyx_t_3 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":586
+    /* "src/pyrfc/client.pyx":615
  *         rc = RfcGetUnitID(self._handle, uid, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         return wrapString(uid, RFC_UNITID_LN)
  * 
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 586, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 615, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":585
+    /* "src/pyrfc/client.pyx":614
  *             self._open()
  *         rc = RfcGetUnitID(self._handle, uid, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -23779,7 +24229,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_48_get_unit_id(struct __py
  */
   }
 
-  /* "src/pyrfc/client.pyx":587
+  /* "src/pyrfc/client.pyx":616
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         return wrapString(uid, RFC_UNITID_LN)             # <<<<<<<<<<<<<<
@@ -23787,18 +24237,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_48_get_unit_id(struct __py
  *     def _create_and_submit_unit(self, unit_id, calls, queue_names=None, attributes=None):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(RFC_UNITID_LN); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 587, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(RFC_UNITID_LN); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 616, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_5.__pyx_n = 1;
   __pyx_t_5.uclen = __pyx_t_1;
-  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_uid, &__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 587, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_wrapString(__pyx_v_uid, &__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 616, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":576
+  /* "src/pyrfc/client.pyx":605
  *     #  BACKGROUND RFC
  * 
  *     def _get_unit_id(self):             # <<<<<<<<<<<<<<
@@ -23818,7 +24268,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_48_get_unit_id(struct __py
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":589
+/* "src/pyrfc/client.pyx":618
  *         return wrapString(uid, RFC_UNITID_LN)
  * 
  *     def _create_and_submit_unit(self, unit_id, calls, queue_names=None, attributes=None):             # <<<<<<<<<<<<<<
@@ -23868,7 +24318,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_51_create_and_submit_unit(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_calls)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_create_and_submit_unit", 0, 2, 4, 1); __PYX_ERR(2, 589, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_create_and_submit_unit", 0, 2, 4, 1); __PYX_ERR(2, 618, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -23884,7 +24334,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_51_create_and_submit_unit(
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_create_and_submit_unit") < 0)) __PYX_ERR(2, 589, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_create_and_submit_unit") < 0)) __PYX_ERR(2, 618, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -23905,7 +24355,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_51_create_and_submit_unit(
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_create_and_submit_unit", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 589, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_create_and_submit_unit", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 618, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection._create_and_submit_unit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -23974,32 +24424,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
   __Pyx_RefNannySetupContext("_create_and_submit_unit", 0);
   __Pyx_INCREF(__pyx_v_queue_names);
 
-  /* "src/pyrfc/client.pyx":602
+  /* "src/pyrfc/client.pyx":631
  *         cdef SAP_UC* sapuc
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 602, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 631, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 602, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 631, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((!__pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":603
+    /* "src/pyrfc/client.pyx":632
  * 
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  * 
  *         # uid
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 603, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 632, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":602
+    /* "src/pyrfc/client.pyx":631
  *         cdef SAP_UC* sapuc
  * 
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -24008,31 +24458,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   }
 
-  /* "src/pyrfc/client.pyx":606
+  /* "src/pyrfc/client.pyx":635
  * 
  *         # uid
  *         uid = fillString(unit_id)             # <<<<<<<<<<<<<<
  *         # queue
  *         queue_names = queue_names or []
  */
-  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_unit_id); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 606, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_unit_id); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 635, __pyx_L1_error)
   __pyx_v_uid = __pyx_t_4;
 
-  /* "src/pyrfc/client.pyx":608
+  /* "src/pyrfc/client.pyx":637
  *         uid = fillString(unit_id)
  *         # queue
  *         queue_names = queue_names or []             # <<<<<<<<<<<<<<
  *         if len(queue_names) == 0:
  *             queueNameCount = 0
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_queue_names); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 608, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_queue_names); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 637, __pyx_L1_error)
   if (!__pyx_t_3) {
   } else {
     __Pyx_INCREF(__pyx_v_queue_names);
     __pyx_t_1 = __pyx_v_queue_names;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 608, __pyx_L1_error)
+  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 637, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_t_5);
   __pyx_t_1 = __pyx_t_5;
@@ -24041,18 +24491,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
   __Pyx_DECREF_SET(__pyx_v_queue_names, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "src/pyrfc/client.pyx":609
+  /* "src/pyrfc/client.pyx":638
  *         # queue
  *         queue_names = queue_names or []
  *         if len(queue_names) == 0:             # <<<<<<<<<<<<<<
  *             queueNameCount = 0
  *             queueNames = NULL
  */
-  __pyx_t_6 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 609, __pyx_L1_error)
+  __pyx_t_6 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 638, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_6 == 0) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":610
+    /* "src/pyrfc/client.pyx":639
  *         queue_names = queue_names or []
  *         if len(queue_names) == 0:
  *             queueNameCount = 0             # <<<<<<<<<<<<<<
@@ -24061,7 +24511,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     __pyx_v_queueNameCount = 0;
 
-    /* "src/pyrfc/client.pyx":611
+    /* "src/pyrfc/client.pyx":640
  *         if len(queue_names) == 0:
  *             queueNameCount = 0
  *             queueNames = NULL             # <<<<<<<<<<<<<<
@@ -24070,7 +24520,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     __pyx_v_queueNames = NULL;
 
-    /* "src/pyrfc/client.pyx":609
+    /* "src/pyrfc/client.pyx":638
  *         # queue
  *         queue_names = queue_names or []
  *         if len(queue_names) == 0:             # <<<<<<<<<<<<<<
@@ -24080,7 +24530,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     goto __pyx_L6;
   }
 
-  /* "src/pyrfc/client.pyx":613
+  /* "src/pyrfc/client.pyx":642
  *             queueNames = NULL
  *         else:
  *             queueNameCount = int(len(queue_names))             # <<<<<<<<<<<<<<
@@ -24088,10 +24538,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  *             for i, queue_name in enumerate(queue_names):
  */
   /*else*/ {
-    __pyx_t_6 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 613, __pyx_L1_error)
+    __pyx_t_6 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 642, __pyx_L1_error)
     __pyx_v_queueNameCount = ((int)__pyx_t_6);
 
-    /* "src/pyrfc/client.pyx":614
+    /* "src/pyrfc/client.pyx":643
  *         else:
  *             queueNameCount = int(len(queue_names))
  *             queueNames = <SAP_UC**> mallocU(queueNameCount * sizeof(SAP_UC*))             # <<<<<<<<<<<<<<
@@ -24100,7 +24550,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     __pyx_v_queueNames = ((SAP_UC **)mallocU((__pyx_v_queueNameCount * (sizeof(SAP_UC *)))));
 
-    /* "src/pyrfc/client.pyx":615
+    /* "src/pyrfc/client.pyx":644
  *             queueNameCount = int(len(queue_names))
  *             queueNames = <SAP_UC**> mallocU(queueNameCount * sizeof(SAP_UC*))
  *             for i, queue_name in enumerate(queue_names):             # <<<<<<<<<<<<<<
@@ -24113,26 +24563,26 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
       __pyx_t_5 = __pyx_v_queue_names; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_queue_names); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 615, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_queue_names); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 615, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 644, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_7)) {
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 615, __pyx_L1_error)
+          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 644, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 615, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 644, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 615, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 644, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 615, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 644, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         }
@@ -24142,7 +24592,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(2, 615, __pyx_L1_error)
+            else __PYX_ERR(2, 644, __pyx_L1_error)
           }
           break;
         }
@@ -24152,24 +24602,24 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
       __pyx_t_8 = 0;
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-      __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 615, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1);
       __pyx_t_1 = __pyx_t_8;
       __pyx_t_8 = 0;
 
-      /* "src/pyrfc/client.pyx":616
+      /* "src/pyrfc/client.pyx":645
  *             queueNames = <SAP_UC**> mallocU(queueNameCount * sizeof(SAP_UC*))
  *             for i, queue_name in enumerate(queue_names):
  *                 queueNames[i] = fillString(queue_name)             # <<<<<<<<<<<<<<
  *         # attributes
  *         # set default values
  */
-      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_queue_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 616, __pyx_L1_error)
-      __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 616, __pyx_L1_error)
+      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_queue_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 645, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 645, __pyx_L1_error)
       (__pyx_v_queueNames[__pyx_t_9]) = __pyx_t_4;
 
-      /* "src/pyrfc/client.pyx":615
+      /* "src/pyrfc/client.pyx":644
  *             queueNameCount = int(len(queue_names))
  *             queueNames = <SAP_UC**> mallocU(queueNameCount * sizeof(SAP_UC*))
  *             for i, queue_name in enumerate(queue_names):             # <<<<<<<<<<<<<<
@@ -24182,7 +24632,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
   }
   __pyx_L6:;
 
-  /* "src/pyrfc/client.pyx":619
+  /* "src/pyrfc/client.pyx":648
  *         # attributes
  *         # set default values
  *         memsetR(&unitAttr, 0, sizeof(RFC_UNIT_ATTRIBUTES))             # <<<<<<<<<<<<<<
@@ -24191,7 +24641,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   memsetR((&__pyx_v_unitAttr), 0, (sizeof(RFC_UNIT_ATTRIBUTES)));
 
-  /* "src/pyrfc/client.pyx":620
+  /* "src/pyrfc/client.pyx":649
  *         # set default values
  *         memsetR(&unitAttr, 0, sizeof(RFC_UNIT_ATTRIBUTES))
  *         memsetR(&uIdentifier, 0, sizeof(RFC_UNIT_IDENTIFIER))             # <<<<<<<<<<<<<<
@@ -24200,7 +24650,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   memsetR((&__pyx_v_uIdentifier), 0, (sizeof(RFC_UNIT_IDENTIFIER)));
 
-  /* "src/pyrfc/client.pyx":647
+  /* "src/pyrfc/client.pyx":676
  *         #                                Sending time in UTC (GMT-0). Used only when the external program is server.
  *         #                                In the client case the nwrfclib fills this automatically.
  *         if attributes is not None:             # <<<<<<<<<<<<<<
@@ -24211,31 +24661,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/client.pyx":648
+    /* "src/pyrfc/client.pyx":677
  *         #                                In the client case the nwrfclib fills this automatically.
  *         if attributes is not None:
  *             if 'kernel_trace' in attributes:             # <<<<<<<<<<<<<<
  *                 unitAttr.kernelTrace = attributes['kernel_trace']
  *             if 'sat_trace' in attributes:
  */
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_kernel_trace, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 648, __pyx_L1_error)
+    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_kernel_trace, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 677, __pyx_L1_error)
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (__pyx_t_3) {
 
-      /* "src/pyrfc/client.pyx":649
+      /* "src/pyrfc/client.pyx":678
  *         if attributes is not None:
  *             if 'kernel_trace' in attributes:
  *                 unitAttr.kernelTrace = attributes['kernel_trace']             # <<<<<<<<<<<<<<
  *             if 'sat_trace' in attributes:
  *                 unitAttr.satTrace = attributes['sat_trace']
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_kernel_trace); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 649, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_kernel_trace); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 678, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 649, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 678, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_unitAttr.kernelTrace = __pyx_t_10;
 
-      /* "src/pyrfc/client.pyx":648
+      /* "src/pyrfc/client.pyx":677
  *         #                                In the client case the nwrfclib fills this automatically.
  *         if attributes is not None:
  *             if 'kernel_trace' in attributes:             # <<<<<<<<<<<<<<
@@ -24244,31 +24694,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":650
+    /* "src/pyrfc/client.pyx":679
  *             if 'kernel_trace' in attributes:
  *                 unitAttr.kernelTrace = attributes['kernel_trace']
  *             if 'sat_trace' in attributes:             # <<<<<<<<<<<<<<
  *                 unitAttr.satTrace = attributes['sat_trace']
  *             if 'unit_history' in attributes:
  */
-    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_sat_trace, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 650, __pyx_L1_error)
+    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_sat_trace, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 679, __pyx_L1_error)
     __pyx_t_2 = (__pyx_t_3 != 0);
     if (__pyx_t_2) {
 
-      /* "src/pyrfc/client.pyx":651
+      /* "src/pyrfc/client.pyx":680
  *                 unitAttr.kernelTrace = attributes['kernel_trace']
  *             if 'sat_trace' in attributes:
  *                 unitAttr.satTrace = attributes['sat_trace']             # <<<<<<<<<<<<<<
  *             if 'unit_history' in attributes:
  *                 unitAttr.unitHistory = attributes['unit_history']
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_sat_trace); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 651, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_sat_trace); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 680, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 651, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 680, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_unitAttr.satTrace = __pyx_t_10;
 
-      /* "src/pyrfc/client.pyx":650
+      /* "src/pyrfc/client.pyx":679
  *             if 'kernel_trace' in attributes:
  *                 unitAttr.kernelTrace = attributes['kernel_trace']
  *             if 'sat_trace' in attributes:             # <<<<<<<<<<<<<<
@@ -24277,31 +24727,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":652
+    /* "src/pyrfc/client.pyx":681
  *             if 'sat_trace' in attributes:
  *                 unitAttr.satTrace = attributes['sat_trace']
  *             if 'unit_history' in attributes:             # <<<<<<<<<<<<<<
  *                 unitAttr.unitHistory = attributes['unit_history']
  *             if 'lock' in attributes:
  */
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_unit_history, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 652, __pyx_L1_error)
+    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_unit_history, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 681, __pyx_L1_error)
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (__pyx_t_3) {
 
-      /* "src/pyrfc/client.pyx":653
+      /* "src/pyrfc/client.pyx":682
  *                 unitAttr.satTrace = attributes['sat_trace']
  *             if 'unit_history' in attributes:
  *                 unitAttr.unitHistory = attributes['unit_history']             # <<<<<<<<<<<<<<
  *             if 'lock' in attributes:
  *                 unitAttr.lock = attributes['lock']
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_unit_history); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 653, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_unit_history); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 682, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 653, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 682, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_unitAttr.unitHistory = __pyx_t_10;
 
-      /* "src/pyrfc/client.pyx":652
+      /* "src/pyrfc/client.pyx":681
  *             if 'sat_trace' in attributes:
  *                 unitAttr.satTrace = attributes['sat_trace']
  *             if 'unit_history' in attributes:             # <<<<<<<<<<<<<<
@@ -24310,31 +24760,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":654
+    /* "src/pyrfc/client.pyx":683
  *             if 'unit_history' in attributes:
  *                 unitAttr.unitHistory = attributes['unit_history']
  *             if 'lock' in attributes:             # <<<<<<<<<<<<<<
  *                 unitAttr.lock = attributes['lock']
  *             if 'no_commit_check' in attributes:
  */
-    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_lock, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 654, __pyx_L1_error)
+    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_lock, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 683, __pyx_L1_error)
     __pyx_t_2 = (__pyx_t_3 != 0);
     if (__pyx_t_2) {
 
-      /* "src/pyrfc/client.pyx":655
+      /* "src/pyrfc/client.pyx":684
  *                 unitAttr.unitHistory = attributes['unit_history']
  *             if 'lock' in attributes:
  *                 unitAttr.lock = attributes['lock']             # <<<<<<<<<<<<<<
  *             if 'no_commit_check' in attributes:
  *                 unitAttr.noCommitCheck = attributes['no_commit_check']
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_lock); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 655, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_lock); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 684, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 655, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 684, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_unitAttr.lock = __pyx_t_10;
 
-      /* "src/pyrfc/client.pyx":654
+      /* "src/pyrfc/client.pyx":683
  *             if 'unit_history' in attributes:
  *                 unitAttr.unitHistory = attributes['unit_history']
  *             if 'lock' in attributes:             # <<<<<<<<<<<<<<
@@ -24343,31 +24793,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":656
+    /* "src/pyrfc/client.pyx":685
  *             if 'lock' in attributes:
  *                 unitAttr.lock = attributes['lock']
  *             if 'no_commit_check' in attributes:             # <<<<<<<<<<<<<<
  *                 unitAttr.noCommitCheck = attributes['no_commit_check']
  *             if 'user' in attributes and attributes['user'] is not None:
  */
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_no_commit_check, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 656, __pyx_L1_error)
+    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_no_commit_check, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 685, __pyx_L1_error)
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (__pyx_t_3) {
 
-      /* "src/pyrfc/client.pyx":657
+      /* "src/pyrfc/client.pyx":686
  *                 unitAttr.lock = attributes['lock']
  *             if 'no_commit_check' in attributes:
  *                 unitAttr.noCommitCheck = attributes['no_commit_check']             # <<<<<<<<<<<<<<
  *             if 'user' in attributes and attributes['user'] is not None:
  *                 # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_no_commit_check); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 657, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_no_commit_check); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 686, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 657, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_As_short(__pyx_t_1); if (unlikely((__pyx_t_10 == (short)-1) && PyErr_Occurred())) __PYX_ERR(2, 686, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_unitAttr.noCommitCheck = __pyx_t_10;
 
-      /* "src/pyrfc/client.pyx":656
+      /* "src/pyrfc/client.pyx":685
  *             if 'lock' in attributes:
  *                 unitAttr.lock = attributes['lock']
  *             if 'no_commit_check' in attributes:             # <<<<<<<<<<<<<<
@@ -24376,21 +24826,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":658
+    /* "src/pyrfc/client.pyx":687
  *             if 'no_commit_check' in attributes:
  *                 unitAttr.noCommitCheck = attributes['no_commit_check']
  *             if 'user' in attributes and attributes['user'] is not None:             # <<<<<<<<<<<<<<
  *                 # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
  *                 sapuc = fillString(attributes['user'][0:12])
  */
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_user, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 658, __pyx_L1_error)
+    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_user, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 687, __pyx_L1_error)
     __pyx_t_11 = (__pyx_t_2 != 0);
     if (__pyx_t_11) {
     } else {
       __pyx_t_3 = __pyx_t_11;
       goto __pyx_L16_bool_binop_done;
     }
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_user); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 658, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_user); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 687, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_11 = (__pyx_t_1 != Py_None);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24399,39 +24849,39 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     __pyx_L16_bool_binop_done:;
     if (__pyx_t_3) {
 
-      /* "src/pyrfc/client.pyx":660
+      /* "src/pyrfc/client.pyx":689
  *             if 'user' in attributes and attributes['user'] is not None:
  *                 # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
  *                 sapuc = fillString(attributes['user'][0:12])             # <<<<<<<<<<<<<<
  *                 strncpyU(unitAttr.user, sapuc, len(attributes['user'][0:12]) + 1)
  *                 free(sapuc)
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_user); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 660, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_user); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 689, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 12, NULL, NULL, &__pyx_slice__28, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 660, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 12, NULL, NULL, &__pyx_slice__28, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 689, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 660, __pyx_L1_error)
+      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 689, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_sapuc = __pyx_t_4;
 
-      /* "src/pyrfc/client.pyx":661
+      /* "src/pyrfc/client.pyx":690
  *                 # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
  *                 sapuc = fillString(attributes['user'][0:12])
  *                 strncpyU(unitAttr.user, sapuc, len(attributes['user'][0:12]) + 1)             # <<<<<<<<<<<<<<
  *                 free(sapuc)
  *             if 'client' in attributes:
  */
-      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_user); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 661, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_user); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 690, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 12, NULL, NULL, &__pyx_slice__28, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 661, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 12, NULL, NULL, &__pyx_slice__28, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 690, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 661, __pyx_L1_error)
+      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 690, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       strncpyU(__pyx_v_unitAttr.user, __pyx_v_sapuc, (__pyx_t_6 + 1));
 
-      /* "src/pyrfc/client.pyx":662
+      /* "src/pyrfc/client.pyx":691
  *                 sapuc = fillString(attributes['user'][0:12])
  *                 strncpyU(unitAttr.user, sapuc, len(attributes['user'][0:12]) + 1)
  *                 free(sapuc)             # <<<<<<<<<<<<<<
@@ -24440,7 +24890,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
       free(__pyx_v_sapuc);
 
-      /* "src/pyrfc/client.pyx":658
+      /* "src/pyrfc/client.pyx":687
  *             if 'no_commit_check' in attributes:
  *                 unitAttr.noCommitCheck = attributes['no_commit_check']
  *             if 'user' in attributes and attributes['user'] is not None:             # <<<<<<<<<<<<<<
@@ -24449,50 +24899,50 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":663
+    /* "src/pyrfc/client.pyx":692
  *                 strncpyU(unitAttr.user, sapuc, len(attributes['user'][0:12]) + 1)
  *                 free(sapuc)
  *             if 'client' in attributes:             # <<<<<<<<<<<<<<
  *                 # (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
  *                 sapuc = fillString(attributes['client'][0:3])
  */
-    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_client, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 663, __pyx_L1_error)
+    __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_client, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 692, __pyx_L1_error)
     __pyx_t_2 = (__pyx_t_3 != 0);
     if (__pyx_t_2) {
 
-      /* "src/pyrfc/client.pyx":665
+      /* "src/pyrfc/client.pyx":694
  *             if 'client' in attributes:
  *                 # (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
  *                 sapuc = fillString(attributes['client'][0:3])             # <<<<<<<<<<<<<<
  *                 strncpyU(unitAttr.client, sapuc, len(attributes['client'][0:3]) + 1)
  *                 free(sapuc)
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_client); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 665, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_client); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 694, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 3, NULL, NULL, &__pyx_slice__18, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 665, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 3, NULL, NULL, &__pyx_slice__18, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 694, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 665, __pyx_L1_error)
+      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 694, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_sapuc = __pyx_t_4;
 
-      /* "src/pyrfc/client.pyx":666
+      /* "src/pyrfc/client.pyx":695
  *                 # (SAP_UC[3+1]) Sender Client ("Mandant") (optional). Default is "000".
  *                 sapuc = fillString(attributes['client'][0:3])
  *                 strncpyU(unitAttr.client, sapuc, len(attributes['client'][0:3]) + 1)             # <<<<<<<<<<<<<<
  *                 free(sapuc)
  *             if 't_code' in attributes:
  */
-      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_client); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 666, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_client); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 695, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 3, NULL, NULL, &__pyx_slice__18, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 666, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 3, NULL, NULL, &__pyx_slice__18, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 695, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 666, __pyx_L1_error)
+      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 695, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       strncpyU(__pyx_v_unitAttr.client, __pyx_v_sapuc, (__pyx_t_6 + 1));
 
-      /* "src/pyrfc/client.pyx":667
+      /* "src/pyrfc/client.pyx":696
  *                 sapuc = fillString(attributes['client'][0:3])
  *                 strncpyU(unitAttr.client, sapuc, len(attributes['client'][0:3]) + 1)
  *                 free(sapuc)             # <<<<<<<<<<<<<<
@@ -24501,7 +24951,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
       free(__pyx_v_sapuc);
 
-      /* "src/pyrfc/client.pyx":663
+      /* "src/pyrfc/client.pyx":692
  *                 strncpyU(unitAttr.user, sapuc, len(attributes['user'][0:12]) + 1)
  *                 free(sapuc)
  *             if 'client' in attributes:             # <<<<<<<<<<<<<<
@@ -24510,50 +24960,50 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":668
+    /* "src/pyrfc/client.pyx":697
  *                 strncpyU(unitAttr.client, sapuc, len(attributes['client'][0:3]) + 1)
  *                 free(sapuc)
  *             if 't_code' in attributes:             # <<<<<<<<<<<<<<
  *                 # (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
  *                 sapuc = fillString(attributes['t_code'][0:20])
  */
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_t_code, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 668, __pyx_L1_error)
+    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_t_code, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 697, __pyx_L1_error)
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (__pyx_t_3) {
 
-      /* "src/pyrfc/client.pyx":670
+      /* "src/pyrfc/client.pyx":699
  *             if 't_code' in attributes:
  *                 # (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
  *                 sapuc = fillString(attributes['t_code'][0:20])             # <<<<<<<<<<<<<<
  *                 strncpyU(unitAttr.tCode, sapuc, len(attributes['t_code'][0:20]) + 1)
  *                 free(sapuc)
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_t_code); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 670, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_t_code); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 699, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 20, NULL, NULL, &__pyx_slice__16, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 670, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 20, NULL, NULL, &__pyx_slice__16, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 699, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 670, __pyx_L1_error)
+      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 699, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_sapuc = __pyx_t_4;
 
-      /* "src/pyrfc/client.pyx":671
+      /* "src/pyrfc/client.pyx":700
  *                 # (SAP_UC[20+1]) Sender Transaction Code (optional). Default is "".
  *                 sapuc = fillString(attributes['t_code'][0:20])
  *                 strncpyU(unitAttr.tCode, sapuc, len(attributes['t_code'][0:20]) + 1)             # <<<<<<<<<<<<<<
  *                 free(sapuc)
  *             if 'program' in attributes and attributes['program'] is not None:
  */
-      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_t_code); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 671, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_t_code); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 700, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 20, NULL, NULL, &__pyx_slice__16, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 671, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 20, NULL, NULL, &__pyx_slice__16, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 700, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 671, __pyx_L1_error)
+      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 700, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       strncpyU(__pyx_v_unitAttr.tCode, __pyx_v_sapuc, (__pyx_t_6 + 1));
 
-      /* "src/pyrfc/client.pyx":672
+      /* "src/pyrfc/client.pyx":701
  *                 sapuc = fillString(attributes['t_code'][0:20])
  *                 strncpyU(unitAttr.tCode, sapuc, len(attributes['t_code'][0:20]) + 1)
  *                 free(sapuc)             # <<<<<<<<<<<<<<
@@ -24562,7 +25012,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
       free(__pyx_v_sapuc);
 
-      /* "src/pyrfc/client.pyx":668
+      /* "src/pyrfc/client.pyx":697
  *                 strncpyU(unitAttr.client, sapuc, len(attributes['client'][0:3]) + 1)
  *                 free(sapuc)
  *             if 't_code' in attributes:             # <<<<<<<<<<<<<<
@@ -24571,21 +25021,21 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":673
+    /* "src/pyrfc/client.pyx":702
  *                 strncpyU(unitAttr.tCode, sapuc, len(attributes['t_code'][0:20]) + 1)
  *                 free(sapuc)
  *             if 'program' in attributes and attributes['program'] is not None:             # <<<<<<<<<<<<<<
  *                 # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
  *                 sapuc = fillString(attributes['program'][0:40])
  */
-    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_program, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 673, __pyx_L1_error)
+    __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_program, __pyx_v_attributes, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 702, __pyx_L1_error)
     __pyx_t_11 = (__pyx_t_2 != 0);
     if (__pyx_t_11) {
     } else {
       __pyx_t_3 = __pyx_t_11;
       goto __pyx_L21_bool_binop_done;
     }
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_program); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 673, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_program); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_11 = (__pyx_t_1 != Py_None);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24594,39 +25044,39 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     __pyx_L21_bool_binop_done:;
     if (__pyx_t_3) {
 
-      /* "src/pyrfc/client.pyx":675
+      /* "src/pyrfc/client.pyx":704
  *             if 'program' in attributes and attributes['program'] is not None:
  *                 # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
  *                 sapuc = fillString(attributes['program'][0:40])             # <<<<<<<<<<<<<<
  *                 strncpyU(unitAttr.program, sapuc, len(attributes['program'][0:40]) + 1)
  *                 free(sapuc)
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_program); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 675, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_program); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 704, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 40, NULL, NULL, &__pyx_slice__29, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 675, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 40, NULL, NULL, &__pyx_slice__29, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 704, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 675, __pyx_L1_error)
+      __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_t_5); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 704, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_sapuc = __pyx_t_4;
 
-      /* "src/pyrfc/client.pyx":676
+      /* "src/pyrfc/client.pyx":705
  *                 # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
  *                 sapuc = fillString(attributes['program'][0:40])
  *                 strncpyU(unitAttr.program, sapuc, len(attributes['program'][0:40]) + 1)             # <<<<<<<<<<<<<<
  *                 free(sapuc)
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_program); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 676, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_attributes, __pyx_n_s_program); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 705, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 40, NULL, NULL, &__pyx_slice__29, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 676, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_5, 0, 40, NULL, NULL, &__pyx_slice__29, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 705, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 676, __pyx_L1_error)
+      __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 705, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       strncpyU(__pyx_v_unitAttr.program, __pyx_v_sapuc, (__pyx_t_6 + 1));
 
-      /* "src/pyrfc/client.pyx":677
+      /* "src/pyrfc/client.pyx":706
  *                 sapuc = fillString(attributes['program'][0:40])
  *                 strncpyU(unitAttr.program, sapuc, len(attributes['program'][0:40]) + 1)
  *                 free(sapuc)             # <<<<<<<<<<<<<<
@@ -24635,7 +25085,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
       free(__pyx_v_sapuc);
 
-      /* "src/pyrfc/client.pyx":673
+      /* "src/pyrfc/client.pyx":702
  *                 strncpyU(unitAttr.tCode, sapuc, len(attributes['t_code'][0:20]) + 1)
  *                 free(sapuc)
  *             if 'program' in attributes and attributes['program'] is not None:             # <<<<<<<<<<<<<<
@@ -24644,7 +25094,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     }
 
-    /* "src/pyrfc/client.pyx":647
+    /* "src/pyrfc/client.pyx":676
  *         #                                Sending time in UTC (GMT-0). Used only when the external program is server.
  *         #                                In the client case the nwrfclib fills this automatically.
  *         if attributes is not None:             # <<<<<<<<<<<<<<
@@ -24653,7 +25103,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   }
 
-  /* "src/pyrfc/client.pyx":679
+  /* "src/pyrfc/client.pyx":708
  *                 free(sapuc)
  * 
  *         self._uHandle = RfcCreateUnit(self._handle, uid, <const_SAP_UC_ptr*> queueNames, queueNameCount, &unitAttr, &uIdentifier, &errorInfo)             # <<<<<<<<<<<<<<
@@ -24662,18 +25112,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   __pyx_v_self->_uHandle = RfcCreateUnit(__pyx_v_self->_handle, __pyx_v_uid, ((const SAP_UC* *)__pyx_v_queueNames), __pyx_v_queueNameCount, (&__pyx_v_unitAttr), (&__pyx_v_uIdentifier), (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":682
+  /* "src/pyrfc/client.pyx":711
  * 
  *         # queue (deallocate)
  *         if len(queue_names) > 0:             # <<<<<<<<<<<<<<
  *             for i, queue_name in enumerate(queue_names):
  *                 free(queueNames[i])
  */
-  __pyx_t_6 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 682, __pyx_L1_error)
+  __pyx_t_6 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 711, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_6 > 0) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":683
+    /* "src/pyrfc/client.pyx":712
  *         # queue (deallocate)
  *         if len(queue_names) > 0:
  *             for i, queue_name in enumerate(queue_names):             # <<<<<<<<<<<<<<
@@ -24686,26 +25136,26 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
       __pyx_t_5 = __pyx_v_queue_names; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_queue_names); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 683, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_queue_names); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 712, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 683, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 712, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_7)) {
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 683, __pyx_L1_error)
+          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 712, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 683, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 712, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 683, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 712, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 683, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 712, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         }
@@ -24715,7 +25165,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(2, 683, __pyx_L1_error)
+            else __PYX_ERR(2, 712, __pyx_L1_error)
           }
           break;
         }
@@ -24725,23 +25175,23 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
       __pyx_t_8 = 0;
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-      __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 683, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 712, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1);
       __pyx_t_1 = __pyx_t_8;
       __pyx_t_8 = 0;
 
-      /* "src/pyrfc/client.pyx":684
+      /* "src/pyrfc/client.pyx":713
  *         if len(queue_names) > 0:
  *             for i, queue_name in enumerate(queue_names):
  *                 free(queueNames[i])             # <<<<<<<<<<<<<<
  *             free(queueNames)
  *         # uid (deallocate)
  */
-      __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 684, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 713, __pyx_L1_error)
       free((__pyx_v_queueNames[__pyx_t_9]));
 
-      /* "src/pyrfc/client.pyx":683
+      /* "src/pyrfc/client.pyx":712
  *         # queue (deallocate)
  *         if len(queue_names) > 0:
  *             for i, queue_name in enumerate(queue_names):             # <<<<<<<<<<<<<<
@@ -24752,7 +25202,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":685
+    /* "src/pyrfc/client.pyx":714
  *             for i, queue_name in enumerate(queue_names):
  *                 free(queueNames[i])
  *             free(queueNames)             # <<<<<<<<<<<<<<
@@ -24761,7 +25211,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
     free(__pyx_v_queueNames);
 
-    /* "src/pyrfc/client.pyx":682
+    /* "src/pyrfc/client.pyx":711
  * 
  *         # queue (deallocate)
  *         if len(queue_names) > 0:             # <<<<<<<<<<<<<<
@@ -24770,7 +25220,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   }
 
-  /* "src/pyrfc/client.pyx":687
+  /* "src/pyrfc/client.pyx":716
  *             free(queueNames)
  *         # uid (deallocate)
  *         free(uid)             # <<<<<<<<<<<<<<
@@ -24779,7 +25229,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   free(__pyx_v_uid);
 
-  /* "src/pyrfc/client.pyx":689
+  /* "src/pyrfc/client.pyx":718
  *         free(uid)
  * 
  *         if self._uHandle == NULL:             # <<<<<<<<<<<<<<
@@ -24789,18 +25239,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
   __pyx_t_3 = ((__pyx_v_self->_uHandle == NULL) != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":690
+    /* "src/pyrfc/client.pyx":719
  * 
  *         if self._uHandle == NULL:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         self.active_unit = True
  * 
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 690, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 719, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":689
+    /* "src/pyrfc/client.pyx":718
  *         free(uid)
  * 
  *         if self._uHandle == NULL:             # <<<<<<<<<<<<<<
@@ -24809,7 +25259,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   }
 
-  /* "src/pyrfc/client.pyx":691
+  /* "src/pyrfc/client.pyx":720
  *         if self._uHandle == NULL:
  *             self._error(&errorInfo)
  *         self.active_unit = True             # <<<<<<<<<<<<<<
@@ -24818,7 +25268,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
   __pyx_v_self->active_unit = 1;
 
-  /* "src/pyrfc/client.pyx":693
+  /* "src/pyrfc/client.pyx":722
  *         self.active_unit = True
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -24834,7 +25284,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     __Pyx_XGOTREF(__pyx_t_14);
     /*try:*/ {
 
-      /* "src/pyrfc/client.pyx":694
+      /* "src/pyrfc/client.pyx":723
  * 
  *         try:
  *             for func_name, params in calls:             # <<<<<<<<<<<<<<
@@ -24845,26 +25295,26 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
         __pyx_t_1 = __pyx_v_calls; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
         __pyx_t_7 = NULL;
       } else {
-        __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_calls); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 694, __pyx_L27_error)
+        __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_calls); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 723, __pyx_L27_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 694, __pyx_L27_error)
+        __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 723, __pyx_L27_error)
       }
       for (;;) {
         if (likely(!__pyx_t_7)) {
           if (likely(PyList_CheckExact(__pyx_t_1))) {
             if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 694, __pyx_L27_error)
+            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 723, __pyx_L27_error)
             #else
-            __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 694, __pyx_L27_error)
+            __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 723, __pyx_L27_error)
             __Pyx_GOTREF(__pyx_t_5);
             #endif
           } else {
             if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 694, __pyx_L27_error)
+            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(2, 723, __pyx_L27_error)
             #else
-            __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 694, __pyx_L27_error)
+            __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 723, __pyx_L27_error)
             __Pyx_GOTREF(__pyx_t_5);
             #endif
           }
@@ -24874,7 +25324,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(2, 694, __pyx_L27_error)
+              else __PYX_ERR(2, 723, __pyx_L27_error)
             }
             break;
           }
@@ -24886,7 +25336,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           if (unlikely(size != 2)) {
             if (size > 2) __Pyx_RaiseTooManyValuesError(2);
             else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-            __PYX_ERR(2, 694, __pyx_L27_error)
+            __PYX_ERR(2, 723, __pyx_L27_error)
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
           if (likely(PyTuple_CheckExact(sequence))) {
@@ -24899,15 +25349,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           __Pyx_INCREF(__pyx_t_8);
           __Pyx_INCREF(__pyx_t_15);
           #else
-          __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 694, __pyx_L27_error)
+          __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 723, __pyx_L27_error)
           __Pyx_GOTREF(__pyx_t_8);
-          __pyx_t_15 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 694, __pyx_L27_error)
+          __pyx_t_15 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 723, __pyx_L27_error)
           __Pyx_GOTREF(__pyx_t_15);
           #endif
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         } else {
           Py_ssize_t index = -1;
-          __pyx_t_16 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 694, __pyx_L27_error)
+          __pyx_t_16 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 723, __pyx_L27_error)
           __Pyx_GOTREF(__pyx_t_16);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __pyx_t_17 = Py_TYPE(__pyx_t_16)->tp_iternext;
@@ -24915,7 +25365,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           __Pyx_GOTREF(__pyx_t_8);
           index = 1; __pyx_t_15 = __pyx_t_17(__pyx_t_16); if (unlikely(!__pyx_t_15)) goto __pyx_L35_unpacking_failed;
           __Pyx_GOTREF(__pyx_t_15);
-          if (__Pyx_IternextUnpackEndCheck(__pyx_t_17(__pyx_t_16), 2) < 0) __PYX_ERR(2, 694, __pyx_L27_error)
+          if (__Pyx_IternextUnpackEndCheck(__pyx_t_17(__pyx_t_16), 2) < 0) __PYX_ERR(2, 723, __pyx_L27_error)
           __pyx_t_17 = NULL;
           __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
           goto __pyx_L36_unpacking_done;
@@ -24923,7 +25373,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
           __pyx_t_17 = NULL;
           if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-          __PYX_ERR(2, 694, __pyx_L27_error)
+          __PYX_ERR(2, 723, __pyx_L27_error)
           __pyx_L36_unpacking_done:;
         }
         __Pyx_XDECREF_SET(__pyx_v_func_name, __pyx_t_8);
@@ -24931,17 +25381,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
         __Pyx_XDECREF_SET(__pyx_v_params, __pyx_t_15);
         __pyx_t_15 = 0;
 
-        /* "src/pyrfc/client.pyx":695
+        /* "src/pyrfc/client.pyx":724
  *         try:
  *             for func_name, params in calls:
  *                 funcName = fillString(func_name)             # <<<<<<<<<<<<<<
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)
  */
-        __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 695, __pyx_L27_error)
+        __pyx_t_4 = __pyx_f_5pyrfc_6_cyrfc_fillString(__pyx_v_func_name); if (unlikely(__pyx_t_4 == ((SAP_UC *)NULL))) __PYX_ERR(2, 724, __pyx_L27_error)
         __pyx_v_funcName = __pyx_t_4;
 
-        /* "src/pyrfc/client.pyx":696
+        /* "src/pyrfc/client.pyx":725
  *             for func_name, params in calls:
  *                 funcName = fillString(func_name)
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)             # <<<<<<<<<<<<<<
@@ -24950,7 +25400,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
         __pyx_v_funcDesc = RfcGetFunctionDesc(__pyx_v_self->_handle, __pyx_v_funcName, (&__pyx_v_errorInfo));
 
-        /* "src/pyrfc/client.pyx":697
+        /* "src/pyrfc/client.pyx":726
  *                 funcName = fillString(func_name)
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)             # <<<<<<<<<<<<<<
@@ -24959,7 +25409,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
         free(__pyx_v_funcName);
 
-        /* "src/pyrfc/client.pyx":698
+        /* "src/pyrfc/client.pyx":727
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)
  *                 if not funcDesc:             # <<<<<<<<<<<<<<
@@ -24969,18 +25419,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
         __pyx_t_3 = ((!(__pyx_v_funcDesc != 0)) != 0);
         if (__pyx_t_3) {
 
-          /* "src/pyrfc/client.pyx":699
+          /* "src/pyrfc/client.pyx":728
  *                 free(funcName)
  *                 if not funcDesc:
  *                     self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:
  */
-          __pyx_t_5 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 699, __pyx_L27_error)
+          __pyx_t_5 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 728, __pyx_L27_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "src/pyrfc/client.pyx":698
+          /* "src/pyrfc/client.pyx":727
  *                 funcDesc = RfcGetFunctionDesc(self._handle, funcName, &errorInfo)
  *                 free(funcName)
  *                 if not funcDesc:             # <<<<<<<<<<<<<<
@@ -24989,7 +25439,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
         }
 
-        /* "src/pyrfc/client.pyx":700
+        /* "src/pyrfc/client.pyx":729
  *                 if not funcDesc:
  *                     self._error(&errorInfo)
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)             # <<<<<<<<<<<<<<
@@ -24998,7 +25448,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
         __pyx_v_funcCont = RfcCreateFunction(__pyx_v_funcDesc, (&__pyx_v_errorInfo));
 
-        /* "src/pyrfc/client.pyx":701
+        /* "src/pyrfc/client.pyx":730
  *                     self._error(&errorInfo)
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:             # <<<<<<<<<<<<<<
@@ -25008,18 +25458,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
         __pyx_t_3 = ((!(__pyx_v_funcCont != 0)) != 0);
         if (__pyx_t_3) {
 
-          /* "src/pyrfc/client.pyx":702
+          /* "src/pyrfc/client.pyx":731
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:
  *                     self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *                 try:
  *                     for name, value in params.iteritems():
  */
-          __pyx_t_5 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 702, __pyx_L27_error)
+          __pyx_t_5 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 731, __pyx_L27_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "src/pyrfc/client.pyx":701
+          /* "src/pyrfc/client.pyx":730
  *                     self._error(&errorInfo)
  *                 funcCont = RfcCreateFunction(funcDesc, &errorInfo)
  *                 if not funcCont:             # <<<<<<<<<<<<<<
@@ -25028,7 +25478,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
         }
 
-        /* "src/pyrfc/client.pyx":703
+        /* "src/pyrfc/client.pyx":732
  *                 if not funcCont:
  *                     self._error(&errorInfo)
  *                 try:             # <<<<<<<<<<<<<<
@@ -25037,7 +25487,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
         /*try:*/ {
 
-          /* "src/pyrfc/client.pyx":704
+          /* "src/pyrfc/client.pyx":733
  *                     self._error(&errorInfo)
  *                 try:
  *                     for name, value in params.iteritems():             # <<<<<<<<<<<<<<
@@ -25047,9 +25497,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           __pyx_t_9 = 0;
           if (unlikely(__pyx_v_params == Py_None)) {
             PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "iteritems");
-            __PYX_ERR(2, 704, __pyx_L42_error)
+            __PYX_ERR(2, 733, __pyx_L42_error)
           }
-          __pyx_t_15 = __Pyx_dict_iterator(__pyx_v_params, 0, __pyx_n_s_iteritems, (&__pyx_t_18), (&__pyx_t_19)); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 704, __pyx_L42_error)
+          __pyx_t_15 = __Pyx_dict_iterator(__pyx_v_params, 0, __pyx_n_s_iteritems, (&__pyx_t_18), (&__pyx_t_19)); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 733, __pyx_L42_error)
           __Pyx_GOTREF(__pyx_t_15);
           __Pyx_XDECREF(__pyx_t_5);
           __pyx_t_5 = __pyx_t_15;
@@ -25057,7 +25507,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           while (1) {
             __pyx_t_20 = __Pyx_dict_iter_next(__pyx_t_5, __pyx_t_18, &__pyx_t_9, &__pyx_t_15, &__pyx_t_8, NULL, __pyx_t_19);
             if (unlikely(__pyx_t_20 == 0)) break;
-            if (unlikely(__pyx_t_20 == -1)) __PYX_ERR(2, 704, __pyx_L42_error)
+            if (unlikely(__pyx_t_20 == -1)) __PYX_ERR(2, 733, __pyx_L42_error)
             __Pyx_GOTREF(__pyx_t_15);
             __Pyx_GOTREF(__pyx_t_8);
             __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_15);
@@ -25065,20 +25515,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
             __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_8);
             __pyx_t_8 = 0;
 
-            /* "src/pyrfc/client.pyx":705
+            /* "src/pyrfc/client.pyx":734
  *                 try:
  *                     for name, value in params.iteritems():
  *                         fillFunctionParameter(funcDesc, funcCont, name, value)             # <<<<<<<<<<<<<<
  *                     # Add RFC call to unit
  *                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)
  */
-            __pyx_t_8 = __pyx_f_5pyrfc_6_cyrfc_fillFunctionParameter(__pyx_v_funcDesc, __pyx_v_funcCont, __pyx_v_name, __pyx_v_value); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 705, __pyx_L42_error)
+            __pyx_t_8 = __pyx_f_5pyrfc_6_cyrfc_fillFunctionParameter(__pyx_v_funcDesc, __pyx_v_funcCont, __pyx_v_name, __pyx_v_value); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 734, __pyx_L42_error)
             __Pyx_GOTREF(__pyx_t_8);
             __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           }
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "src/pyrfc/client.pyx":707
+          /* "src/pyrfc/client.pyx":736
  *                         fillFunctionParameter(funcDesc, funcCont, name, value)
  *                     # Add RFC call to unit
  *                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)             # <<<<<<<<<<<<<<
@@ -25087,7 +25537,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
           __pyx_v_rc = RfcInvokeInUnit(__pyx_v_self->_uHandle, __pyx_v_funcCont, (&__pyx_v_errorInfo));
 
-          /* "src/pyrfc/client.pyx":708
+          /* "src/pyrfc/client.pyx":737
  *                     # Add RFC call to unit
  *                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)
  *                     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25097,18 +25547,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           __pyx_t_3 = ((__pyx_v_rc != RFC_OK) != 0);
           if (__pyx_t_3) {
 
-            /* "src/pyrfc/client.pyx":709
+            /* "src/pyrfc/client.pyx":738
  *                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)
  *                     if rc != RFC_OK:
  *                         self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *                 finally:
  *                     RfcDestroyFunction(funcCont, NULL)
  */
-            __pyx_t_5 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 709, __pyx_L42_error)
+            __pyx_t_5 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 738, __pyx_L42_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-            /* "src/pyrfc/client.pyx":708
+            /* "src/pyrfc/client.pyx":737
  *                     # Add RFC call to unit
  *                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)
  *                     if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25118,7 +25568,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           }
         }
 
-        /* "src/pyrfc/client.pyx":711
+        /* "src/pyrfc/client.pyx":740
  *                         self._error(&errorInfo)
  *                 finally:
  *                     RfcDestroyFunction(funcCont, NULL)             # <<<<<<<<<<<<<<
@@ -25168,7 +25618,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           __pyx_L43:;
         }
 
-        /* "src/pyrfc/client.pyx":694
+        /* "src/pyrfc/client.pyx":723
  * 
  *         try:
  *             for func_name, params in calls:             # <<<<<<<<<<<<<<
@@ -25178,16 +25628,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
       }
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "src/pyrfc/client.pyx":713
+      /* "src/pyrfc/client.pyx":742
  *                     RfcDestroyFunction(funcCont, NULL)
  *             # execute
  *             print (" Invocation finished. submitting unit.")             # <<<<<<<<<<<<<<
  *             with nogil:
  *                 rc = RfcSubmitUnit(self._uHandle, &errorInfo)
  */
-      if (__Pyx_PrintOne(0, __pyx_kp_s_Invocation_finished_submitting) < 0) __PYX_ERR(2, 713, __pyx_L27_error)
+      if (__Pyx_PrintOne(0, __pyx_kp_s_Invocation_finished_submitting) < 0) __PYX_ERR(2, 742, __pyx_L27_error)
 
-      /* "src/pyrfc/client.pyx":714
+      /* "src/pyrfc/client.pyx":743
  *             # execute
  *             print (" Invocation finished. submitting unit.")
  *             with nogil:             # <<<<<<<<<<<<<<
@@ -25202,7 +25652,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           #endif
           /*try:*/ {
 
-            /* "src/pyrfc/client.pyx":715
+            /* "src/pyrfc/client.pyx":744
  *             print (" Invocation finished. submitting unit.")
  *             with nogil:
  *                 rc = RfcSubmitUnit(self._uHandle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -25212,7 +25662,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
             __pyx_v_rc = RfcSubmitUnit(__pyx_v_self->_uHandle, (&__pyx_v_errorInfo));
           }
 
-          /* "src/pyrfc/client.pyx":714
+          /* "src/pyrfc/client.pyx":743
  *             # execute
  *             print (" Invocation finished. submitting unit.")
  *             with nogil:             # <<<<<<<<<<<<<<
@@ -25231,7 +25681,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
           }
       }
 
-      /* "src/pyrfc/client.pyx":716
+      /* "src/pyrfc/client.pyx":745
  *             with nogil:
  *                 rc = RfcSubmitUnit(self._uHandle, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25241,18 +25691,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
       __pyx_t_3 = ((__pyx_v_rc != RFC_OK) != 0);
       if (__pyx_t_3) {
 
-        /* "src/pyrfc/client.pyx":717
+        /* "src/pyrfc/client.pyx":746
  *                 rc = RfcSubmitUnit(self._uHandle, &errorInfo)
  *             if rc != RFC_OK:
  *                 self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *         except RFCError as e:
  */
-        __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 717, __pyx_L27_error)
+        __pyx_t_1 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 746, __pyx_L27_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "src/pyrfc/client.pyx":716
+        /* "src/pyrfc/client.pyx":745
  *             with nogil:
  *                 rc = RfcSubmitUnit(self._uHandle, &errorInfo)
  *             if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25261,7 +25711,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
       }
 
-      /* "src/pyrfc/client.pyx":693
+      /* "src/pyrfc/client.pyx":722
  *         self.active_unit = True
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -25280,7 +25730,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "src/pyrfc/client.pyx":719
+    /* "src/pyrfc/client.pyx":748
  *                 self._error(&errorInfo)
  * 
  *         except RFCError as e:             # <<<<<<<<<<<<<<
@@ -25288,7 +25738,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  *             RfcDestroyUnit(self._uHandle, NULL)
  */
     __Pyx_ErrFetch(&__pyx_t_1, &__pyx_t_5, &__pyx_t_8);
-    __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 719, __pyx_L29_except_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 748, __pyx_L29_except_error)
     __Pyx_GOTREF(__pyx_t_15);
     __pyx_t_20 = __Pyx_PyErr_GivenExceptionMatches(__pyx_t_1, __pyx_t_15);
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -25296,7 +25746,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     __pyx_t_1 = 0; __pyx_t_5 = 0; __pyx_t_8 = 0;
     if (__pyx_t_20) {
       __Pyx_AddTraceback("pyrfc._cyrfc.Connection._create_and_submit_unit", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_5, &__pyx_t_1) < 0) __PYX_ERR(2, 719, __pyx_L29_except_error)
+      if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_5, &__pyx_t_1) < 0) __PYX_ERR(2, 748, __pyx_L29_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_1);
@@ -25304,7 +25754,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
       __pyx_v_e = __pyx_t_5;
       /*try:*/ {
 
-        /* "src/pyrfc/client.pyx":721
+        /* "src/pyrfc/client.pyx":750
  *         except RFCError as e:
  *             # clean up actions
  *             RfcDestroyUnit(self._uHandle, NULL)             # <<<<<<<<<<<<<<
@@ -25313,7 +25763,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  */
         (void)(RfcDestroyUnit(__pyx_v_self->_uHandle, NULL));
 
-        /* "src/pyrfc/client.pyx":722
+        /* "src/pyrfc/client.pyx":751
  *             # clean up actions
  *             RfcDestroyUnit(self._uHandle, NULL)
  *             raise             # <<<<<<<<<<<<<<
@@ -25325,10 +25775,10 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
         __Pyx_XGIVEREF(__pyx_t_1);
         __Pyx_ErrRestoreWithState(__pyx_t_8, __pyx_t_5, __pyx_t_1);
         __pyx_t_8 = 0; __pyx_t_5 = 0; __pyx_t_1 = 0; 
-        __PYX_ERR(2, 722, __pyx_L60_error)
+        __PYX_ERR(2, 751, __pyx_L60_error)
       }
 
-      /* "src/pyrfc/client.pyx":719
+      /* "src/pyrfc/client.pyx":748
  *                 self._error(&errorInfo)
  * 
  *         except RFCError as e:             # <<<<<<<<<<<<<<
@@ -25375,7 +25825,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     goto __pyx_L29_except_error;
     __pyx_L29_except_error:;
 
-    /* "src/pyrfc/client.pyx":693
+    /* "src/pyrfc/client.pyx":722
  *         self.active_unit = True
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -25390,19 +25840,19 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
     __pyx_L32_try_end:;
   }
 
-  /* "src/pyrfc/client.pyx":724
+  /* "src/pyrfc/client.pyx":753
  *             raise
  * 
  *         unit_identifier = wrapUnitIdentifier(uIdentifier)             # <<<<<<<<<<<<<<
  *         return unit_identifier["queued"]
  * 
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapUnitIdentifier(__pyx_v_uIdentifier); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 724, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_wrapUnitIdentifier(__pyx_v_uIdentifier); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 753, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_unit_identifier = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "src/pyrfc/client.pyx":725
+  /* "src/pyrfc/client.pyx":754
  * 
  *         unit_identifier = wrapUnitIdentifier(uIdentifier)
  *         return unit_identifier["queued"]             # <<<<<<<<<<<<<<
@@ -25410,13 +25860,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
  *     def _get_unit_state(self, unit):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit_identifier, __pyx_n_s_queued); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 725, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit_identifier, __pyx_n_s_queued); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 754, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":589
+  /* "src/pyrfc/client.pyx":618
  *         return wrapString(uid, RFC_UNITID_LN)
  * 
  *     def _create_and_submit_unit(self, unit_id, calls, queue_names=None, attributes=None):             # <<<<<<<<<<<<<<
@@ -25448,7 +25898,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_50_create_and_submit_unit(
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":727
+/* "src/pyrfc/client.pyx":756
  *         return unit_identifier["queued"]
  * 
  *     def _get_unit_state(self, unit):             # <<<<<<<<<<<<<<
@@ -25491,17 +25941,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_get_unit_state", 0);
 
-  /* "src/pyrfc/client.pyx":730
+  /* "src/pyrfc/client.pyx":759
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         cdef RFC_UNIT_IDENTIFIER uIdentifier = fillUnitIdentifier(unit)             # <<<<<<<<<<<<<<
  *         cdef RFC_UNIT_STATE state
  * 
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillUnitIdentifier(__pyx_v_unit); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 730, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillUnitIdentifier(__pyx_v_unit); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 759, __pyx_L1_error)
   __pyx_v_uIdentifier = __pyx_t_1;
 
-  /* "src/pyrfc/client.pyx":733
+  /* "src/pyrfc/client.pyx":762
  *         cdef RFC_UNIT_STATE state
  * 
  *         if not self.active_unit:             # <<<<<<<<<<<<<<
@@ -25511,14 +25961,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
   __pyx_t_2 = ((!(__pyx_v_self->active_unit != 0)) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":734
+    /* "src/pyrfc/client.pyx":763
  * 
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")             # <<<<<<<<<<<<<<
  *         if not self.alive:
  *             self._open()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 734, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -25532,14 +25982,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_No_unit_handle_for_this_connecti) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_No_unit_handle_for_this_connecti);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 734, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 734, __pyx_L1_error)
+    __PYX_ERR(2, 763, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":733
+    /* "src/pyrfc/client.pyx":762
  *         cdef RFC_UNIT_STATE state
  * 
  *         if not self.active_unit:             # <<<<<<<<<<<<<<
@@ -25548,32 +25998,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
  */
   }
 
-  /* "src/pyrfc/client.pyx":735
+  /* "src/pyrfc/client.pyx":764
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 735, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 764, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 735, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 764, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_6 = ((!__pyx_t_2) != 0);
   if (__pyx_t_6) {
 
-    /* "src/pyrfc/client.pyx":736
+    /* "src/pyrfc/client.pyx":765
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  *         if rc != RFC_OK:
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 736, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 765, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":735
+    /* "src/pyrfc/client.pyx":764
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -25582,7 +26032,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
  */
   }
 
-  /* "src/pyrfc/client.pyx":737
+  /* "src/pyrfc/client.pyx":766
  *         if not self.alive:
  *             self._open()
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)             # <<<<<<<<<<<<<<
@@ -25591,7 +26041,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
  */
   __pyx_v_rc = RfcGetUnitState(__pyx_v_self->_handle, (&__pyx_v_uIdentifier), (&__pyx_v_state), (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":738
+  /* "src/pyrfc/client.pyx":767
  *             self._open()
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25601,18 +26051,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
   __pyx_t_6 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_6) {
 
-    /* "src/pyrfc/client.pyx":739
+    /* "src/pyrfc/client.pyx":768
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         if state not in enum_values(UnitState):
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 739, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 768, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":738
+    /* "src/pyrfc/client.pyx":767
  *             self._open()
  *         rc = RfcGetUnitState(self._handle, &uIdentifier, &state, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25621,18 +26071,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
  */
   }
 
-  /* "src/pyrfc/client.pyx":740
+  /* "src/pyrfc/client.pyx":769
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         if state not in enum_values(UnitState):             # <<<<<<<<<<<<<<
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
  *         return UnitState(state).name
  */
-  __pyx_t_3 = __Pyx_PyInt_From_RFC_UNIT_STATE(__pyx_v_state); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 740, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_RFC_UNIT_STATE(__pyx_v_state); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 769, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_enum_values); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 740, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_enum_values); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 769, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_UnitState); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 740, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_UnitState); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 769, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -25647,25 +26097,25 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
   __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 740, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 769, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_t_3, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 740, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_t_3, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 769, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_2 = (__pyx_t_6 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":741
+    /* "src/pyrfc/client.pyx":770
  *             self._error(&errorInfo)
  *         if state not in enum_values(UnitState):
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")             # <<<<<<<<<<<<<<
  *         return UnitState(state).name
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 741, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 770, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 741, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 770, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_9 = 0;
     __pyx_t_10 = 127;
@@ -25673,9 +26123,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
     __pyx_t_9 += 5;
     __Pyx_GIVEREF(__pyx_kp_u_Unit);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Unit);
-    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_id); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 741, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_id); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 770, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __Pyx_PyObject_FormatSimple(__pyx_t_7, __pyx_empty_unicode); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 741, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_FormatSimple(__pyx_t_7, __pyx_empty_unicode); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 770, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) : __pyx_t_10;
@@ -25687,7 +26137,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
     __pyx_t_9 += 20;
     __Pyx_GIVEREF(__pyx_kp_u_has_invalid_state);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_has_invalid_state);
-    __pyx_t_8 = __Pyx_PyUnicode_From_RFC_UNIT_STATE(__pyx_v_state, 0, ' ', 'd'); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 741, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyUnicode_From_RFC_UNIT_STATE(__pyx_v_state, 0, ' ', 'd'); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 770, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_8) : __pyx_t_10;
     __pyx_t_9 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_8);
@@ -25698,7 +26148,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
     __pyx_t_9 += 1;
     __Pyx_GIVEREF(__pyx_kp_u__6);
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u__6);
-    __pyx_t_8 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 741, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 770, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -25714,14 +26164,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
     __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 741, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 770, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(2, 741, __pyx_L1_error)
+    __PYX_ERR(2, 770, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":740
+    /* "src/pyrfc/client.pyx":769
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         if state not in enum_values(UnitState):             # <<<<<<<<<<<<<<
@@ -25730,7 +26180,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
  */
   }
 
-  /* "src/pyrfc/client.pyx":742
+  /* "src/pyrfc/client.pyx":771
  *         if state not in enum_values(UnitState):
  *             raise RFCError(f"Unit {unit['id']} has invalid state '{state}'")
  *         return UnitState(state).name             # <<<<<<<<<<<<<<
@@ -25738,9 +26188,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
  *     def _destroy_unit(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_UnitState); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 742, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_UnitState); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = __Pyx_PyInt_From_RFC_UNIT_STATE(__pyx_v_state); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 742, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_From_RFC_UNIT_STATE(__pyx_v_state); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -25755,17 +26205,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
   __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 742, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 742, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":727
+  /* "src/pyrfc/client.pyx":756
  *         return unit_identifier["queued"]
  * 
  *     def _get_unit_state(self, unit):             # <<<<<<<<<<<<<<
@@ -25788,7 +26238,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_52_get_unit_state(struct _
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":744
+/* "src/pyrfc/client.pyx":773
  *         return UnitState(state).name
  * 
  *     def _destroy_unit(self):             # <<<<<<<<<<<<<<
@@ -25824,7 +26274,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_destroy_unit", 0);
 
-  /* "src/pyrfc/client.pyx":747
+  /* "src/pyrfc/client.pyx":776
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_unit:             # <<<<<<<<<<<<<<
@@ -25834,14 +26284,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
   __pyx_t_1 = ((!(__pyx_v_self->active_unit != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/client.pyx":748
+    /* "src/pyrfc/client.pyx":777
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")             # <<<<<<<<<<<<<<
  *         if not self.alive:
  *             self._open()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 748, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 777, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -25855,14 +26305,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_kp_s_No_unit_handle_for_this_connecti) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s_No_unit_handle_for_this_connecti);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 748, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 777, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(2, 748, __pyx_L1_error)
+    __PYX_ERR(2, 777, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":747
+    /* "src/pyrfc/client.pyx":776
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         if not self.active_unit:             # <<<<<<<<<<<<<<
@@ -25871,32 +26321,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":749
+  /* "src/pyrfc/client.pyx":778
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 749, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 778, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(2, 749, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(2, 778, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = ((!__pyx_t_1) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":750
+    /* "src/pyrfc/client.pyx":779
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 750, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 779, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":749
+    /* "src/pyrfc/client.pyx":778
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -25905,7 +26355,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":751
+  /* "src/pyrfc/client.pyx":780
  *         if not self.alive:
  *             self._open()
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -25914,7 +26364,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
  */
   __pyx_v_rc = RfcDestroyUnit(__pyx_v_self->_uHandle, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":752
+  /* "src/pyrfc/client.pyx":781
  *             self._open()
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False             # <<<<<<<<<<<<<<
@@ -25923,7 +26373,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
  */
   __pyx_v_self->active_unit = 0;
 
-  /* "src/pyrfc/client.pyx":753
+  /* "src/pyrfc/client.pyx":782
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25933,18 +26383,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
   __pyx_t_5 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_5) {
 
-    /* "src/pyrfc/client.pyx":754
+    /* "src/pyrfc/client.pyx":783
  *         self.active_unit = False
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *     def _confirm_unit(self, unit):
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 754, __pyx_L1_error)
+    __pyx_t_2 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 783, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "src/pyrfc/client.pyx":753
+    /* "src/pyrfc/client.pyx":782
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -25953,7 +26403,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":744
+  /* "src/pyrfc/client.pyx":773
  *         return UnitState(state).name
  * 
  *     def _destroy_unit(self):             # <<<<<<<<<<<<<<
@@ -25976,7 +26426,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_54_destroy_unit(struct __p
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":756
+/* "src/pyrfc/client.pyx":785
  *             self._error(&errorInfo)
  * 
  *     def _confirm_unit(self, unit):             # <<<<<<<<<<<<<<
@@ -26014,17 +26464,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_confirm_unit", 0);
 
-  /* "src/pyrfc/client.pyx":759
+  /* "src/pyrfc/client.pyx":788
  *         cdef RFC_RC rc
  *         cdef RFC_ERROR_INFO errorInfo
  *         cdef RFC_UNIT_IDENTIFIER uIdentifier = fillUnitIdentifier(unit)             # <<<<<<<<<<<<<<
  * 
  *         if not self.active_unit:
  */
-  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillUnitIdentifier(__pyx_v_unit); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 759, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyrfc_6_cyrfc_fillUnitIdentifier(__pyx_v_unit); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 788, __pyx_L1_error)
   __pyx_v_uIdentifier = __pyx_t_1;
 
-  /* "src/pyrfc/client.pyx":761
+  /* "src/pyrfc/client.pyx":790
  *         cdef RFC_UNIT_IDENTIFIER uIdentifier = fillUnitIdentifier(unit)
  * 
  *         if not self.active_unit:             # <<<<<<<<<<<<<<
@@ -26034,14 +26484,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
   __pyx_t_2 = ((!(__pyx_v_self->active_unit != 0)) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":762
+    /* "src/pyrfc/client.pyx":791
  * 
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")             # <<<<<<<<<<<<<<
  *         if not self.alive:
  *             self._open()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 762, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -26055,14 +26505,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_No_unit_handle_for_this_connecti) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_No_unit_handle_for_this_connecti);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 762, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 762, __pyx_L1_error)
+    __PYX_ERR(2, 791, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":761
+    /* "src/pyrfc/client.pyx":790
  *         cdef RFC_UNIT_IDENTIFIER uIdentifier = fillUnitIdentifier(unit)
  * 
  *         if not self.active_unit:             # <<<<<<<<<<<<<<
@@ -26071,32 +26521,32 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":763
+  /* "src/pyrfc/client.pyx":792
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
  *             self._open()
  *         rc = RfcConfirmUnit(self._handle, &uIdentifier, &errorInfo)
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 763, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alive); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 792, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 763, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 792, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_6 = ((!__pyx_t_2) != 0);
   if (__pyx_t_6) {
 
-    /* "src/pyrfc/client.pyx":764
+    /* "src/pyrfc/client.pyx":793
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:
  *             self._open()             # <<<<<<<<<<<<<<
  *         rc = RfcConfirmUnit(self._handle, &uIdentifier, &errorInfo)
  *         if rc != RFC_OK:
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 764, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_open(__pyx_v_self); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 793, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":763
+    /* "src/pyrfc/client.pyx":792
  *         if not self.active_unit:
  *             raise RFCError("No unit handle for this connection available.")
  *         if not self.alive:             # <<<<<<<<<<<<<<
@@ -26105,7 +26555,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":765
+  /* "src/pyrfc/client.pyx":794
  *         if not self.alive:
  *             self._open()
  *         rc = RfcConfirmUnit(self._handle, &uIdentifier, &errorInfo)             # <<<<<<<<<<<<<<
@@ -26114,7 +26564,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
  */
   __pyx_v_rc = RfcConfirmUnit(__pyx_v_self->_handle, (&__pyx_v_uIdentifier), (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":766
+  /* "src/pyrfc/client.pyx":795
  *             self._open()
  *         rc = RfcConfirmUnit(self._handle, &uIdentifier, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -26124,18 +26574,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
   __pyx_t_6 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_6) {
 
-    /* "src/pyrfc/client.pyx":767
+    /* "src/pyrfc/client.pyx":796
  *         rc = RfcConfirmUnit(self._handle, &uIdentifier, &errorInfo)
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 767, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 796, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":766
+    /* "src/pyrfc/client.pyx":795
  *             self._open()
  *         rc = RfcConfirmUnit(self._handle, &uIdentifier, &errorInfo)
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -26144,7 +26594,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":768
+  /* "src/pyrfc/client.pyx":797
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)             # <<<<<<<<<<<<<<
@@ -26153,7 +26603,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
  */
   __pyx_v_rc = RfcDestroyUnit(__pyx_v_self->_uHandle, (&__pyx_v_errorInfo));
 
-  /* "src/pyrfc/client.pyx":769
+  /* "src/pyrfc/client.pyx":798
  *             self._error(&errorInfo)
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False             # <<<<<<<<<<<<<<
@@ -26162,7 +26612,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
  */
   __pyx_v_self->active_unit = 0;
 
-  /* "src/pyrfc/client.pyx":770
+  /* "src/pyrfc/client.pyx":799
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -26172,18 +26622,18 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
   __pyx_t_6 = ((__pyx_v_rc != RFC_OK) != 0);
   if (__pyx_t_6) {
 
-    /* "src/pyrfc/client.pyx":771
+    /* "src/pyrfc/client.pyx":800
  *         self.active_unit = False
  *         if rc != RFC_OK:
  *             self._error(&errorInfo)             # <<<<<<<<<<<<<<
  * 
  *     ##########################################################################
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 771, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_5pyrfc_6_cyrfc_Connection *)__pyx_v_self->__pyx_vtab)->_error(__pyx_v_self, (&__pyx_v_errorInfo)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 800, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":770
+    /* "src/pyrfc/client.pyx":799
  *         rc = RfcDestroyUnit(self._uHandle, &errorInfo)
  *         self.active_unit = False
  *         if rc != RFC_OK:             # <<<<<<<<<<<<<<
@@ -26192,7 +26642,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
  */
   }
 
-  /* "src/pyrfc/client.pyx":756
+  /* "src/pyrfc/client.pyx":785
  *             self._error(&errorInfo)
  * 
  *     def _confirm_unit(self, unit):             # <<<<<<<<<<<<<<
@@ -26215,7 +26665,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_56_confirm_unit(struct __p
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":781
+/* "src/pyrfc/client.pyx":810
  *     # * queued - boolean, set on fill_and_submit_unit() call
  * 
  *     def initialize_unit(self, background=True):             # <<<<<<<<<<<<<<
@@ -26256,7 +26706,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_59initialize_unit(PyObject
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "initialize_unit") < 0)) __PYX_ERR(2, 781, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "initialize_unit") < 0)) __PYX_ERR(2, 810, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -26270,7 +26720,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_59initialize_unit(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("initialize_unit", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 781, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("initialize_unit", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 810, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection.initialize_unit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -26297,7 +26747,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("initialize_unit", 0);
 
-  /* "src/pyrfc/client.pyx":796
+  /* "src/pyrfc/client.pyx":825
  *         :returns: A dictionary describing the unit.
  *         """
  *         if background is True:     # use bgRFC             # <<<<<<<<<<<<<<
@@ -26308,14 +26758,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "src/pyrfc/client.pyx":797
+    /* "src/pyrfc/client.pyx":826
  *         """
  *         if background is True:     # use bgRFC
  *             id = self._get_unit_id()             # <<<<<<<<<<<<<<
  *         elif background is False:  # classic t/qRFC
  *             id = self._get_transaction_id()
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_unit_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 797, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_unit_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 826, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -26329,13 +26779,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 797, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 826, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_id = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":796
+    /* "src/pyrfc/client.pyx":825
  *         :returns: A dictionary describing the unit.
  *         """
  *         if background is True:     # use bgRFC             # <<<<<<<<<<<<<<
@@ -26345,7 +26795,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
     goto __pyx_L3;
   }
 
-  /* "src/pyrfc/client.pyx":798
+  /* "src/pyrfc/client.pyx":827
  *         if background is True:     # use bgRFC
  *             id = self._get_unit_id()
  *         elif background is False:  # classic t/qRFC             # <<<<<<<<<<<<<<
@@ -26356,14 +26806,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (likely(__pyx_t_1)) {
 
-    /* "src/pyrfc/client.pyx":799
+    /* "src/pyrfc/client.pyx":828
  *             id = self._get_unit_id()
  *         elif background is False:  # classic t/qRFC
  *             id = self._get_transaction_id()             # <<<<<<<<<<<<<<
  *         else:
  *             raise RFCError("Argument 'background' must be a boolean value.")
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_transaction_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 799, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_transaction_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 828, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -26377,13 +26827,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 799, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 828, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_id = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "src/pyrfc/client.pyx":798
+    /* "src/pyrfc/client.pyx":827
  *         if background is True:     # use bgRFC
  *             id = self._get_unit_id()
  *         elif background is False:  # classic t/qRFC             # <<<<<<<<<<<<<<
@@ -26393,7 +26843,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
     goto __pyx_L3;
   }
 
-  /* "src/pyrfc/client.pyx":801
+  /* "src/pyrfc/client.pyx":830
  *             id = self._get_transaction_id()
  *         else:
  *             raise RFCError("Argument 'background' must be a boolean value.")             # <<<<<<<<<<<<<<
@@ -26401,7 +26851,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
  * 
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 801, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 830, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -26415,16 +26865,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_Argument_background_must_be_a_bo) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_Argument_background_must_be_a_bo);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 801, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 830, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 801, __pyx_L1_error)
+    __PYX_ERR(2, 830, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "src/pyrfc/client.pyx":802
+  /* "src/pyrfc/client.pyx":831
  *         else:
  *             raise RFCError("Argument 'background' must be a boolean value.")
  *         return {'background': background, 'id': id, "queued": False}             # <<<<<<<<<<<<<<
@@ -26432,16 +26882,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
  *     def fill_and_submit_unit(self, unit, calls, queue_names=None, attributes=None):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 802, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 831, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_background, __pyx_v_background) < 0) __PYX_ERR(2, 802, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_id, __pyx_v_id) < 0) __PYX_ERR(2, 802, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_queued, Py_False) < 0) __PYX_ERR(2, 802, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_background, __pyx_v_background) < 0) __PYX_ERR(2, 831, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_id, __pyx_v_id) < 0) __PYX_ERR(2, 831, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_queued, Py_False) < 0) __PYX_ERR(2, 831, __pyx_L1_error)
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":781
+  /* "src/pyrfc/client.pyx":810
  *     # * queued - boolean, set on fill_and_submit_unit() call
  * 
  *     def initialize_unit(self, background=True):             # <<<<<<<<<<<<<<
@@ -26463,7 +26913,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_58initialize_unit(struct _
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":804
+/* "src/pyrfc/client.pyx":833
  *         return {'background': background, 'id': id, "queued": False}
  * 
  *     def fill_and_submit_unit(self, unit, calls, queue_names=None, attributes=None):             # <<<<<<<<<<<<<<
@@ -26514,7 +26964,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_61fill_and_submit_unit(PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_calls)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("fill_and_submit_unit", 0, 2, 4, 1); __PYX_ERR(2, 804, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("fill_and_submit_unit", 0, 2, 4, 1); __PYX_ERR(2, 833, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -26530,7 +26980,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_61fill_and_submit_unit(PyO
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fill_and_submit_unit") < 0)) __PYX_ERR(2, 804, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fill_and_submit_unit") < 0)) __PYX_ERR(2, 833, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -26551,7 +27001,7 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_10Connection_61fill_and_submit_unit(PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fill_and_submit_unit", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 804, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fill_and_submit_unit", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 833, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyrfc._cyrfc.Connection.fill_and_submit_unit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -26591,7 +27041,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_and_submit_unit", 0);
 
-  /* "src/pyrfc/client.pyx":857
+  /* "src/pyrfc/client.pyx":886
  *         """
  * 
  *         if type(unit) is not dict or 'id' not in unit or 'background' not in unit:             # <<<<<<<<<<<<<<
@@ -26605,33 +27055,33 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_id, __pyx_v_unit, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 857, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_id, __pyx_v_unit, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(2, 886, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_background, __pyx_v_unit, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 857, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_background, __pyx_v_unit, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 886, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_2 != 0);
   __pyx_t_1 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "src/pyrfc/client.pyx":858
+    /* "src/pyrfc/client.pyx":887
  * 
  *         if type(unit) is not dict or 'id' not in unit or 'background' not in unit:
  *             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")             # <<<<<<<<<<<<<<
  *         if not isinstance(calls, Iterable):
  *             raise TypeError("Parameter 'calls' must be iterable.")
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 858, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 887, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(2, 858, __pyx_L1_error)
+    __PYX_ERR(2, 887, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":857
+    /* "src/pyrfc/client.pyx":886
  *         """
  * 
  *         if type(unit) is not dict or 'id' not in unit or 'background' not in unit:             # <<<<<<<<<<<<<<
@@ -26640,34 +27090,34 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":859
+  /* "src/pyrfc/client.pyx":888
  *         if type(unit) is not dict or 'id' not in unit or 'background' not in unit:
  *             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")
  *         if not isinstance(calls, Iterable):             # <<<<<<<<<<<<<<
  *             raise TypeError("Parameter 'calls' must be iterable.")
  *         if len(calls)==0:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Iterable); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 859, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Iterable); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 888, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyObject_IsInstance(__pyx_v_calls, __pyx_t_4); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(2, 859, __pyx_L1_error)
+  __pyx_t_1 = PyObject_IsInstance(__pyx_v_calls, __pyx_t_4); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(2, 888, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = ((!(__pyx_t_1 != 0)) != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "src/pyrfc/client.pyx":860
+    /* "src/pyrfc/client.pyx":889
  *             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")
  *         if not isinstance(calls, Iterable):
  *             raise TypeError("Parameter 'calls' must be iterable.")             # <<<<<<<<<<<<<<
  *         if len(calls)==0:
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 860, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 889, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(2, 860, __pyx_L1_error)
+    __PYX_ERR(2, 889, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":859
+    /* "src/pyrfc/client.pyx":888
  *         if type(unit) is not dict or 'id' not in unit or 'background' not in unit:
  *             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")
  *         if not isinstance(calls, Iterable):             # <<<<<<<<<<<<<<
@@ -26676,31 +27126,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":861
+  /* "src/pyrfc/client.pyx":890
  *         if not isinstance(calls, Iterable):
  *             raise TypeError("Parameter 'calls' must be iterable.")
  *         if len(calls)==0:             # <<<<<<<<<<<<<<
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
  *         for func_name, params in calls:
  */
-  __pyx_t_5 = PyObject_Length(__pyx_v_calls); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 861, __pyx_L1_error)
+  __pyx_t_5 = PyObject_Length(__pyx_v_calls); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 890, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_5 == 0) != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "src/pyrfc/client.pyx":862
+    /* "src/pyrfc/client.pyx":891
  *             raise TypeError("Parameter 'calls' must be iterable.")
  *         if len(calls)==0:
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")             # <<<<<<<<<<<<<<
  *         for func_name, params in calls:
  *             if type(func_name) is not str or type(params) is not dict:
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 862, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 891, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(2, 862, __pyx_L1_error)
+    __PYX_ERR(2, 891, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":861
+    /* "src/pyrfc/client.pyx":890
  *         if not isinstance(calls, Iterable):
  *             raise TypeError("Parameter 'calls' must be iterable.")
  *         if len(calls)==0:             # <<<<<<<<<<<<<<
@@ -26709,7 +27159,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":863
+  /* "src/pyrfc/client.pyx":892
  *         if len(calls)==0:
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
  *         for func_name, params in calls:             # <<<<<<<<<<<<<<
@@ -26720,26 +27170,26 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     __pyx_t_4 = __pyx_v_calls; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_calls); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 863, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_calls); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 892, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 863, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 892, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_6)) {
       if (likely(PyList_CheckExact(__pyx_t_4))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(2, 863, __pyx_L1_error)
+        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(2, 892, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 863, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 892, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(2, 863, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(2, 892, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 863, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 892, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       }
@@ -26749,7 +27199,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(2, 863, __pyx_L1_error)
+          else __PYX_ERR(2, 892, __pyx_L1_error)
         }
         break;
       }
@@ -26761,7 +27211,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(2, 863, __pyx_L1_error)
+        __PYX_ERR(2, 892, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -26774,15 +27224,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_9);
       #else
-      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 863, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 892, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 863, __pyx_L1_error)
+      __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 892, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       #endif
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_10 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 863, __pyx_L1_error)
+      __pyx_t_10 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 892, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
@@ -26790,7 +27240,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __Pyx_GOTREF(__pyx_t_8);
       index = 1; __pyx_t_9 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_9)) goto __pyx_L11_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_9);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(2, 863, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(2, 892, __pyx_L1_error)
       __pyx_t_11 = NULL;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       goto __pyx_L12_unpacking_done;
@@ -26798,7 +27248,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_11 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(2, 863, __pyx_L1_error)
+      __PYX_ERR(2, 892, __pyx_L1_error)
       __pyx_L12_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_func_name, __pyx_t_8);
@@ -26806,7 +27256,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     __Pyx_XDECREF_SET(__pyx_v_params, __pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "src/pyrfc/client.pyx":864
+    /* "src/pyrfc/client.pyx":893
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
  *         for func_name, params in calls:
  *             if type(func_name) is not str or type(params) is not dict:             # <<<<<<<<<<<<<<
@@ -26826,20 +27276,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     __pyx_L14_bool_binop_done:;
     if (unlikely(__pyx_t_3)) {
 
-      /* "src/pyrfc/client.pyx":865
+      /* "src/pyrfc/client.pyx":894
  *         for func_name, params in calls:
  *             if type(func_name) is not str or type(params) is not dict:
  *                 raise TypeError("Parameter 'calls' must contain valid call descriptions (func_name, params dict).")             # <<<<<<<<<<<<<<
  *         if self.active_unit:
  *             raise RFCError("There is an active unit for this connection. "
  */
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 865, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 894, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_Raise(__pyx_t_7, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __PYX_ERR(2, 865, __pyx_L1_error)
+      __PYX_ERR(2, 894, __pyx_L1_error)
 
-      /* "src/pyrfc/client.pyx":864
+      /* "src/pyrfc/client.pyx":893
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
  *         for func_name, params in calls:
  *             if type(func_name) is not str or type(params) is not dict:             # <<<<<<<<<<<<<<
@@ -26848,7 +27298,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
     }
 
-    /* "src/pyrfc/client.pyx":863
+    /* "src/pyrfc/client.pyx":892
  *         if len(calls)==0:
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
  *         for func_name, params in calls:             # <<<<<<<<<<<<<<
@@ -26858,7 +27308,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "src/pyrfc/client.pyx":866
+  /* "src/pyrfc/client.pyx":895
  *             if type(func_name) is not str or type(params) is not dict:
  *                 raise TypeError("Parameter 'calls' must contain valid call descriptions (func_name, params dict).")
  *         if self.active_unit:             # <<<<<<<<<<<<<<
@@ -26868,24 +27318,24 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
   __pyx_t_3 = (__pyx_v_self->active_unit != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "src/pyrfc/client.pyx":867
+    /* "src/pyrfc/client.pyx":896
  *                 raise TypeError("Parameter 'calls' must contain valid call descriptions (func_name, params dict).")
  *         if self.active_unit:
  *             raise RFCError("There is an active unit for this connection. "             # <<<<<<<<<<<<<<
  *                            "Use destroy_unit() " +
  *                            "or confirm_unit().")
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 867, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 896, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
 
-    /* "src/pyrfc/client.pyx":868
+    /* "src/pyrfc/client.pyx":897
  *         if self.active_unit:
  *             raise RFCError("There is an active unit for this connection. "
  *                            "Use destroy_unit() " +             # <<<<<<<<<<<<<<
  *                            "or confirm_unit().")
  *         bg = unit['background']
  */
-    __pyx_t_9 = PyNumber_Add(__pyx_kp_s_There_is_an_active_unit_for_this, __pyx_kp_s_or_confirm_unit); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 868, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Add(__pyx_kp_s_There_is_an_active_unit_for_this, __pyx_kp_s_or_confirm_unit); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 897, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -26900,14 +27350,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_9);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 867, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 896, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(2, 867, __pyx_L1_error)
+    __PYX_ERR(2, 896, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":866
+    /* "src/pyrfc/client.pyx":895
  *             if type(func_name) is not str or type(params) is not dict:
  *                 raise TypeError("Parameter 'calls' must contain valid call descriptions (func_name, params dict).")
  *         if self.active_unit:             # <<<<<<<<<<<<<<
@@ -26916,31 +27366,31 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
   }
 
-  /* "src/pyrfc/client.pyx":870
+  /* "src/pyrfc/client.pyx":899
  *                            "Use destroy_unit() " +
  *                            "or confirm_unit().")
  *         bg = unit['background']             # <<<<<<<<<<<<<<
  *         unit_id = unit['id']
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 870, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 899, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_v_bg = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "src/pyrfc/client.pyx":871
+  /* "src/pyrfc/client.pyx":900
  *                            "or confirm_unit().")
  *         bg = unit['background']
  *         unit_id = unit['id']             # <<<<<<<<<<<<<<
  * 
  *         if bg is True:
  */
-  __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 871, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 900, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_v_unit_id = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "src/pyrfc/client.pyx":873
+  /* "src/pyrfc/client.pyx":902
  *         unit_id = unit['id']
  * 
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -26951,25 +27401,25 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
   __pyx_t_1 = (__pyx_t_3 != 0);
   if (__pyx_t_1) {
 
-    /* "src/pyrfc/client.pyx":874
+    /* "src/pyrfc/client.pyx":903
  * 
  *         if bg is True:
  *             if len(unit_id) != RFC_UNITID_LN:             # <<<<<<<<<<<<<<
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_UNITID_LN} chars, found {len(unit_id)}.")
  *             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)
  */
-    __pyx_t_5 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 874, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 903, __pyx_L1_error)
     __pyx_t_1 = ((__pyx_t_5 != RFC_UNITID_LN) != 0);
     if (unlikely(__pyx_t_1)) {
 
-      /* "src/pyrfc/client.pyx":875
+      /* "src/pyrfc/client.pyx":904
  *         if bg is True:
  *             if len(unit_id) != RFC_UNITID_LN:
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_UNITID_LN} chars, found {len(unit_id)}.")             # <<<<<<<<<<<<<<
  *             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)
  *         elif bg is False:
  */
-      __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 875, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 904, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_5 = 0;
       __pyx_t_12 = 127;
@@ -26977,7 +27427,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __pyx_t_5 += 41;
       __Pyx_GIVEREF(__pyx_kp_u_Length_of_parameter_unit_id_must);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_Length_of_parameter_unit_id_must);
-      __pyx_t_7 = __Pyx_PyUnicode_From_int(RFC_UNITID_LN, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 875, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyUnicode_From_int(RFC_UNITID_LN, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 904, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_5 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_7);
@@ -26987,8 +27437,8 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __pyx_t_5 += 14;
       __Pyx_GIVEREF(__pyx_kp_u_chars_found);
       PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_chars_found);
-      __pyx_t_13 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(2, 875, __pyx_L1_error)
-      __pyx_t_7 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_13, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 875, __pyx_L1_error)
+      __pyx_t_13 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(2, 904, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_13, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 904, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_5 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_7);
@@ -26998,17 +27448,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __pyx_t_5 += 1;
       __Pyx_GIVEREF(__pyx_kp_u__8);
       PyTuple_SET_ITEM(__pyx_t_4, 4, __pyx_kp_u__8);
-      __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_5, __pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 875, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_5, __pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 904, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 875, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 904, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __PYX_ERR(2, 875, __pyx_L1_error)
+      __PYX_ERR(2, 904, __pyx_L1_error)
 
-      /* "src/pyrfc/client.pyx":874
+      /* "src/pyrfc/client.pyx":903
  * 
  *         if bg is True:
  *             if len(unit_id) != RFC_UNITID_LN:             # <<<<<<<<<<<<<<
@@ -27017,14 +27467,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
     }
 
-    /* "src/pyrfc/client.pyx":876
+    /* "src/pyrfc/client.pyx":905
  *             if len(unit_id) != RFC_UNITID_LN:
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_UNITID_LN} chars, found {len(unit_id)}.")
  *             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)             # <<<<<<<<<<<<<<
  *         elif bg is False:
  *             if len(unit_id) != RFC_TID_LN:
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_create_and_submit_unit); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 876, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_create_and_submit_unit); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 905, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_9 = NULL;
     __pyx_t_14 = 0;
@@ -27041,7 +27491,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[5] = {__pyx_t_9, __pyx_v_unit_id, __pyx_v_calls, __pyx_v_queue_names, __pyx_v_attributes};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 4+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 876, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 4+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 905, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
@@ -27049,13 +27499,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[5] = {__pyx_t_9, __pyx_v_unit_id, __pyx_v_calls, __pyx_v_queue_names, __pyx_v_attributes};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 4+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 876, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 4+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 905, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(4+__pyx_t_14); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 876, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(4+__pyx_t_14); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 905, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_9) {
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -27072,15 +27522,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __Pyx_INCREF(__pyx_v_attributes);
       __Pyx_GIVEREF(__pyx_v_attributes);
       PyTuple_SET_ITEM(__pyx_t_8, 3+__pyx_t_14, __pyx_v_attributes);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 876, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 905, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_v_unit, __pyx_n_s_queued, __pyx_t_4) < 0)) __PYX_ERR(2, 876, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_unit, __pyx_n_s_queued, __pyx_t_4) < 0)) __PYX_ERR(2, 905, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "src/pyrfc/client.pyx":873
+    /* "src/pyrfc/client.pyx":902
  *         unit_id = unit['id']
  * 
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -27090,7 +27540,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     goto __pyx_L17;
   }
 
-  /* "src/pyrfc/client.pyx":877
+  /* "src/pyrfc/client.pyx":906
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_UNITID_LN} chars, found {len(unit_id)}.")
  *             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -27101,25 +27551,25 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
   __pyx_t_3 = (__pyx_t_1 != 0);
   if (likely(__pyx_t_3)) {
 
-    /* "src/pyrfc/client.pyx":878
+    /* "src/pyrfc/client.pyx":907
  *             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)
  *         elif bg is False:
  *             if len(unit_id) != RFC_TID_LN:             # <<<<<<<<<<<<<<
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_TID_LN} chars, found {len(unit_id)}.")
  *             if attributes is not None:
  */
-    __pyx_t_5 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 878, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 907, __pyx_L1_error)
     __pyx_t_3 = ((__pyx_t_5 != RFC_TID_LN) != 0);
     if (unlikely(__pyx_t_3)) {
 
-      /* "src/pyrfc/client.pyx":879
+      /* "src/pyrfc/client.pyx":908
  *         elif bg is False:
  *             if len(unit_id) != RFC_TID_LN:
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_TID_LN} chars, found {len(unit_id)}.")             # <<<<<<<<<<<<<<
  *             if attributes is not None:
  *                 raise RFCError("Argument 'attributes' not valid. (t/qRFC does not support attributes.)")
  */
-      __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 879, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 908, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_5 = 0;
       __pyx_t_12 = 127;
@@ -27127,7 +27577,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __pyx_t_5 += 41;
       __Pyx_GIVEREF(__pyx_kp_u_Length_of_parameter_unit_id_must);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_Length_of_parameter_unit_id_must);
-      __pyx_t_7 = __Pyx_PyUnicode_From_int(RFC_TID_LN, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 879, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyUnicode_From_int(RFC_TID_LN, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 908, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_5 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_7);
@@ -27137,8 +27587,8 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __pyx_t_5 += 14;
       __Pyx_GIVEREF(__pyx_kp_u_chars_found);
       PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_chars_found);
-      __pyx_t_13 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(2, 879, __pyx_L1_error)
-      __pyx_t_7 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_13, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 879, __pyx_L1_error)
+      __pyx_t_13 = PyObject_Length(__pyx_v_unit_id); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(2, 908, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_t_13, 0, ' ', 'd'); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 908, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_5 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_7);
@@ -27148,17 +27598,17 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __pyx_t_5 += 1;
       __Pyx_GIVEREF(__pyx_kp_u__8);
       PyTuple_SET_ITEM(__pyx_t_4, 4, __pyx_kp_u__8);
-      __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_5, __pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 879, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_5, __pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 908, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 879, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 908, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __PYX_ERR(2, 879, __pyx_L1_error)
+      __PYX_ERR(2, 908, __pyx_L1_error)
 
-      /* "src/pyrfc/client.pyx":878
+      /* "src/pyrfc/client.pyx":907
  *             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)
  *         elif bg is False:
  *             if len(unit_id) != RFC_TID_LN:             # <<<<<<<<<<<<<<
@@ -27167,7 +27617,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
     }
 
-    /* "src/pyrfc/client.pyx":880
+    /* "src/pyrfc/client.pyx":909
  *             if len(unit_id) != RFC_TID_LN:
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_TID_LN} chars, found {len(unit_id)}.")
  *             if attributes is not None:             # <<<<<<<<<<<<<<
@@ -27178,14 +27628,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     __pyx_t_1 = (__pyx_t_3 != 0);
     if (unlikely(__pyx_t_1)) {
 
-      /* "src/pyrfc/client.pyx":881
+      /* "src/pyrfc/client.pyx":910
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_TID_LN} chars, found {len(unit_id)}.")
  *             if attributes is not None:
  *                 raise RFCError("Argument 'attributes' not valid. (t/qRFC does not support attributes.)")             # <<<<<<<<<<<<<<
  *             if queue_names is None or type(queue_names) is list and len(queue_names) == 0:
  *                 self._create_and_submit_transaction(unit_id, calls)
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 881, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 910, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -27199,14 +27649,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       }
       __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_kp_s_Argument_attributes_not_valid_t) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_kp_s_Argument_attributes_not_valid_t);
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 881, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 910, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __PYX_ERR(2, 881, __pyx_L1_error)
+      __PYX_ERR(2, 910, __pyx_L1_error)
 
-      /* "src/pyrfc/client.pyx":880
+      /* "src/pyrfc/client.pyx":909
  *             if len(unit_id) != RFC_TID_LN:
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_TID_LN} chars, found {len(unit_id)}.")
  *             if attributes is not None:             # <<<<<<<<<<<<<<
@@ -27215,7 +27665,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  */
     }
 
-    /* "src/pyrfc/client.pyx":882
+    /* "src/pyrfc/client.pyx":911
  *             if attributes is not None:
  *                 raise RFCError("Argument 'attributes' not valid. (t/qRFC does not support attributes.)")
  *             if queue_names is None or type(queue_names) is list and len(queue_names) == 0:             # <<<<<<<<<<<<<<
@@ -27236,20 +27686,20 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       __pyx_t_1 = __pyx_t_3;
       goto __pyx_L22_bool_binop_done;
     }
-    __pyx_t_5 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 882, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 911, __pyx_L1_error)
     __pyx_t_3 = ((__pyx_t_5 == 0) != 0);
     __pyx_t_1 = __pyx_t_3;
     __pyx_L22_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "src/pyrfc/client.pyx":883
+      /* "src/pyrfc/client.pyx":912
  *                 raise RFCError("Argument 'attributes' not valid. (t/qRFC does not support attributes.)")
  *             if queue_names is None or type(queue_names) is list and len(queue_names) == 0:
  *                 self._create_and_submit_transaction(unit_id, calls)             # <<<<<<<<<<<<<<
  *                 unit['queued'] = False
  *             elif len(queue_names) == 1:
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_create_and_submit_transaction); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 883, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_create_and_submit_transaction); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 912, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = NULL;
       __pyx_t_14 = 0;
@@ -27266,7 +27716,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_v_unit_id, __pyx_v_calls};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 883, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 912, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
@@ -27274,13 +27724,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_v_unit_id, __pyx_v_calls};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 883, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 912, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(2+__pyx_t_14); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 883, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(2+__pyx_t_14); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 912, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         if (__pyx_t_8) {
           __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -27291,23 +27741,23 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
         __Pyx_INCREF(__pyx_v_calls);
         __Pyx_GIVEREF(__pyx_v_calls);
         PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_14, __pyx_v_calls);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 883, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 912, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "src/pyrfc/client.pyx":884
+      /* "src/pyrfc/client.pyx":913
  *             if queue_names is None or type(queue_names) is list and len(queue_names) == 0:
  *                 self._create_and_submit_transaction(unit_id, calls)
  *                 unit['queued'] = False             # <<<<<<<<<<<<<<
  *             elif len(queue_names) == 1:
  *                 queue_name = queue_names[0]
  */
-      if (unlikely(PyObject_SetItem(__pyx_v_unit, __pyx_n_s_queued, Py_False) < 0)) __PYX_ERR(2, 884, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_unit, __pyx_n_s_queued, Py_False) < 0)) __PYX_ERR(2, 913, __pyx_L1_error)
 
-      /* "src/pyrfc/client.pyx":882
+      /* "src/pyrfc/client.pyx":911
  *             if attributes is not None:
  *                 raise RFCError("Argument 'attributes' not valid. (t/qRFC does not support attributes.)")
  *             if queue_names is None or type(queue_names) is list and len(queue_names) == 0:             # <<<<<<<<<<<<<<
@@ -27317,37 +27767,37 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       goto __pyx_L21;
     }
 
-    /* "src/pyrfc/client.pyx":885
+    /* "src/pyrfc/client.pyx":914
  *                 self._create_and_submit_transaction(unit_id, calls)
  *                 unit['queued'] = False
  *             elif len(queue_names) == 1:             # <<<<<<<<<<<<<<
  *                 queue_name = queue_names[0]
  *                 self._create_and_submit_transaction(unit_id, calls, queue_name)
  */
-    __pyx_t_5 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 885, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_v_queue_names); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(2, 914, __pyx_L1_error)
     __pyx_t_1 = ((__pyx_t_5 == 1) != 0);
     if (likely(__pyx_t_1)) {
 
-      /* "src/pyrfc/client.pyx":886
+      /* "src/pyrfc/client.pyx":915
  *                 unit['queued'] = False
  *             elif len(queue_names) == 1:
  *                 queue_name = queue_names[0]             # <<<<<<<<<<<<<<
  *                 self._create_and_submit_transaction(unit_id, calls, queue_name)
  *                 unit['queued'] = True
  */
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_queue_names, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 886, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_queue_names, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 915, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_v_queue_name = __pyx_t_4;
       __pyx_t_4 = 0;
 
-      /* "src/pyrfc/client.pyx":887
+      /* "src/pyrfc/client.pyx":916
  *             elif len(queue_names) == 1:
  *                 queue_name = queue_names[0]
  *                 self._create_and_submit_transaction(unit_id, calls, queue_name)             # <<<<<<<<<<<<<<
  *                 unit['queued'] = True
  *             else:
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_create_and_submit_transaction); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 887, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_create_and_submit_transaction); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 916, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_9 = NULL;
       __pyx_t_14 = 0;
@@ -27364,7 +27814,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[4] = {__pyx_t_9, __pyx_v_unit_id, __pyx_v_calls, __pyx_v_queue_name};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 3+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 887, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 3+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 916, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
@@ -27372,13 +27822,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[4] = {__pyx_t_9, __pyx_v_unit_id, __pyx_v_calls, __pyx_v_queue_name};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 3+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 887, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_14, 3+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 916, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(3+__pyx_t_14); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 887, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(3+__pyx_t_14); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 916, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         if (__pyx_t_9) {
           __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -27392,23 +27842,23 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
         __Pyx_INCREF(__pyx_v_queue_name);
         __Pyx_GIVEREF(__pyx_v_queue_name);
         PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_14, __pyx_v_queue_name);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 887, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 916, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "src/pyrfc/client.pyx":888
+      /* "src/pyrfc/client.pyx":917
  *                 queue_name = queue_names[0]
  *                 self._create_and_submit_transaction(unit_id, calls, queue_name)
  *                 unit['queued'] = True             # <<<<<<<<<<<<<<
  *             else:
  *                 raise RFCError("Argument 'queue_names' not valid. (t/qRFC only support one queue name.)")
  */
-      if (unlikely(PyObject_SetItem(__pyx_v_unit, __pyx_n_s_queued, Py_True) < 0)) __PYX_ERR(2, 888, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_unit, __pyx_n_s_queued, Py_True) < 0)) __PYX_ERR(2, 917, __pyx_L1_error)
 
-      /* "src/pyrfc/client.pyx":885
+      /* "src/pyrfc/client.pyx":914
  *                 self._create_and_submit_transaction(unit_id, calls)
  *                 unit['queued'] = False
  *             elif len(queue_names) == 1:             # <<<<<<<<<<<<<<
@@ -27418,7 +27868,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       goto __pyx_L21;
     }
 
-    /* "src/pyrfc/client.pyx":890
+    /* "src/pyrfc/client.pyx":919
  *                 unit['queued'] = True
  *             else:
  *                 raise RFCError("Argument 'queue_names' not valid. (t/qRFC only support one queue name.)")             # <<<<<<<<<<<<<<
@@ -27426,7 +27876,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  */
     /*else*/ {
-      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 890, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 919, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -27440,16 +27890,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
       }
       __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_kp_s_Argument_queue_names_not_valid_t) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_kp_s_Argument_queue_names_not_valid_t);
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 890, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 919, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __PYX_ERR(2, 890, __pyx_L1_error)
+      __PYX_ERR(2, 919, __pyx_L1_error)
     }
     __pyx_L21:;
 
-    /* "src/pyrfc/client.pyx":877
+    /* "src/pyrfc/client.pyx":906
  *                 raise TypeError(f"Length of parameter 'unit['id']' must be {RFC_UNITID_LN} chars, found {len(unit_id)}.")
  *             unit['queued'] = self._create_and_submit_unit(unit_id, calls, queue_names, attributes)
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -27459,7 +27909,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     goto __pyx_L17;
   }
 
-  /* "src/pyrfc/client.pyx":892
+  /* "src/pyrfc/client.pyx":921
  *                 raise RFCError("Argument 'queue_names' not valid. (t/qRFC only support one queue name.)")
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")             # <<<<<<<<<<<<<<
@@ -27467,7 +27917,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
  * 
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 892, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 921, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -27481,16 +27931,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
     }
     __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_kp_s_Argument_unit_not_valid_Is_unit) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_kp_s_Argument_unit_not_valid_Is_unit);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 892, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 921, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(2, 892, __pyx_L1_error)
+    __PYX_ERR(2, 921, __pyx_L1_error)
   }
   __pyx_L17:;
 
-  /* "src/pyrfc/client.pyx":893
+  /* "src/pyrfc/client.pyx":922
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  *         return unit             # <<<<<<<<<<<<<<
@@ -27502,7 +27952,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
   __pyx_r = __pyx_v_unit;
   goto __pyx_L0;
 
-  /* "src/pyrfc/client.pyx":804
+  /* "src/pyrfc/client.pyx":833
  *         return {'background': background, 'id': id, "queued": False}
  * 
  *     def fill_and_submit_unit(self, unit, calls, queue_names=None, attributes=None):             # <<<<<<<<<<<<<<
@@ -27530,7 +27980,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_60fill_and_submit_unit(str
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":895
+/* "src/pyrfc/client.pyx":924
  *         return unit
  * 
  *     def get_unit_state(self, unit):             # <<<<<<<<<<<<<<
@@ -27566,19 +28016,19 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_unit_state", 0);
 
-  /* "src/pyrfc/client.pyx":910
+  /* "src/pyrfc/client.pyx":939
  *             RFC_UNIT_CONFIRMED
  *         """
  *         bg = unit['background']             # <<<<<<<<<<<<<<
  *         if bg is True:
  *             return self._get_unit_state(unit)
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 910, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 939, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bg = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "src/pyrfc/client.pyx":911
+  /* "src/pyrfc/client.pyx":940
  *         """
  *         bg = unit['background']
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -27589,7 +28039,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":912
+    /* "src/pyrfc/client.pyx":941
  *         bg = unit['background']
  *         if bg is True:
  *             return self._get_unit_state(unit)             # <<<<<<<<<<<<<<
@@ -27597,7 +28047,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
  *             raise RFCError("No state check possible of non-bgRFC units.")
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_unit_state); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 912, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_unit_state); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 941, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -27611,14 +28061,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_unit) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_unit);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 912, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 941, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "src/pyrfc/client.pyx":911
+    /* "src/pyrfc/client.pyx":940
  *         """
  *         bg = unit['background']
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -27627,7 +28077,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
  */
   }
 
-  /* "src/pyrfc/client.pyx":913
+  /* "src/pyrfc/client.pyx":942
  *         if bg is True:
  *             return self._get_unit_state(unit)
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -27638,14 +28088,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":914
+    /* "src/pyrfc/client.pyx":943
  *             return self._get_unit_state(unit)
  *         elif bg is False:
  *             raise RFCError("No state check possible of non-bgRFC units.")             # <<<<<<<<<<<<<<
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 914, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 943, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -27659,14 +28109,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_No_state_check_possible_of_non_b) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_No_state_check_possible_of_non_b);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 914, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 943, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(2, 914, __pyx_L1_error)
+    __PYX_ERR(2, 943, __pyx_L1_error)
 
-    /* "src/pyrfc/client.pyx":913
+    /* "src/pyrfc/client.pyx":942
  *         if bg is True:
  *             return self._get_unit_state(unit)
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -27675,7 +28125,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
  */
   }
 
-  /* "src/pyrfc/client.pyx":916
+  /* "src/pyrfc/client.pyx":945
  *             raise RFCError("No state check possible of non-bgRFC units.")
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")             # <<<<<<<<<<<<<<
@@ -27683,7 +28133,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
  *     def destroy_unit(self, unit):
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 916, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 945, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -27697,15 +28147,15 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_Argument_unit_not_valid_Is_unit) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_Argument_unit_not_valid_Is_unit);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 916, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 945, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(2, 916, __pyx_L1_error)
+    __PYX_ERR(2, 945, __pyx_L1_error)
   }
 
-  /* "src/pyrfc/client.pyx":895
+  /* "src/pyrfc/client.pyx":924
  *         return unit
  * 
  *     def get_unit_state(self, unit):             # <<<<<<<<<<<<<<
@@ -27727,7 +28177,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_62get_unit_state(struct __
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":918
+/* "src/pyrfc/client.pyx":947
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  * 
  *     def destroy_unit(self, unit):             # <<<<<<<<<<<<<<
@@ -27763,19 +28213,19 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("destroy_unit", 0);
 
-  /* "src/pyrfc/client.pyx":928
+  /* "src/pyrfc/client.pyx":957
  *                  thereof if the connection attempt fails.
  *         """
  *         bg = unit['background']             # <<<<<<<<<<<<<<
  *         if bg is True:
  *             self._destroy_unit()
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 928, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 957, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bg = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "src/pyrfc/client.pyx":929
+  /* "src/pyrfc/client.pyx":958
  *         """
  *         bg = unit['background']
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -27786,14 +28236,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":930
+    /* "src/pyrfc/client.pyx":959
  *         bg = unit['background']
  *         if bg is True:
  *             self._destroy_unit()             # <<<<<<<<<<<<<<
  *         elif bg is False:
  *             self._destroy_transaction()
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_destroy_unit); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 930, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_destroy_unit); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 959, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -27807,12 +28257,12 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 930, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 959, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":929
+    /* "src/pyrfc/client.pyx":958
  *         """
  *         bg = unit['background']
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -27822,7 +28272,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
     goto __pyx_L3;
   }
 
-  /* "src/pyrfc/client.pyx":931
+  /* "src/pyrfc/client.pyx":960
  *         if bg is True:
  *             self._destroy_unit()
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -27833,14 +28283,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (likely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":932
+    /* "src/pyrfc/client.pyx":961
  *             self._destroy_unit()
  *         elif bg is False:
  *             self._destroy_transaction()             # <<<<<<<<<<<<<<
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_destroy_transaction); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 932, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_destroy_transaction); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -27854,12 +28304,12 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 932, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":931
+    /* "src/pyrfc/client.pyx":960
  *         if bg is True:
  *             self._destroy_unit()
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -27869,7 +28319,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
     goto __pyx_L3;
   }
 
-  /* "src/pyrfc/client.pyx":934
+  /* "src/pyrfc/client.pyx":963
  *             self._destroy_transaction()
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")             # <<<<<<<<<<<<<<
@@ -27877,7 +28327,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
  *     def confirm_unit(self, unit):
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 934, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 963, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -27891,16 +28341,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_Argument_unit_not_valid_Is_unit) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_Argument_unit_not_valid_Is_unit);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 934, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 963, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(2, 934, __pyx_L1_error)
+    __PYX_ERR(2, 963, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "src/pyrfc/client.pyx":918
+  /* "src/pyrfc/client.pyx":947
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  * 
  *     def destroy_unit(self, unit):             # <<<<<<<<<<<<<<
@@ -27924,7 +28374,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_64destroy_unit(struct __py
   return __pyx_r;
 }
 
-/* "src/pyrfc/client.pyx":936
+/* "src/pyrfc/client.pyx":965
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  * 
  *     def confirm_unit(self, unit):             # <<<<<<<<<<<<<<
@@ -27960,19 +28410,19 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("confirm_unit", 0);
 
-  /* "src/pyrfc/client.pyx":946
+  /* "src/pyrfc/client.pyx":975
  *                  thereof if the connection attempt fails.
  *         """
  *         bg = unit['background']             # <<<<<<<<<<<<<<
  *         if bg is True:
  *             self._confirm_unit(unit)
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 946, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_unit, __pyx_n_s_background); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 975, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bg = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "src/pyrfc/client.pyx":947
+  /* "src/pyrfc/client.pyx":976
  *         """
  *         bg = unit['background']
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -27983,14 +28433,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "src/pyrfc/client.pyx":948
+    /* "src/pyrfc/client.pyx":977
  *         bg = unit['background']
  *         if bg is True:
  *             self._confirm_unit(unit)             # <<<<<<<<<<<<<<
  *         elif bg is False:
  *             self._confirm_transaction()
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_confirm_unit); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 948, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_confirm_unit); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 977, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -28004,12 +28454,12 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_unit) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_unit);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 948, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 977, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":947
+    /* "src/pyrfc/client.pyx":976
  *         """
  *         bg = unit['background']
  *         if bg is True:             # <<<<<<<<<<<<<<
@@ -28019,7 +28469,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
     goto __pyx_L3;
   }
 
-  /* "src/pyrfc/client.pyx":949
+  /* "src/pyrfc/client.pyx":978
  *         if bg is True:
  *             self._confirm_unit(unit)
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -28030,14 +28480,14 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (likely(__pyx_t_2)) {
 
-    /* "src/pyrfc/client.pyx":950
+    /* "src/pyrfc/client.pyx":979
  *             self._confirm_unit(unit)
  *         elif bg is False:
  *             self._confirm_transaction()             # <<<<<<<<<<<<<<
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_confirm_transaction); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 950, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_confirm_transaction); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 979, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -28051,12 +28501,12 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 950, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 979, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/pyrfc/client.pyx":949
+    /* "src/pyrfc/client.pyx":978
  *         if bg is True:
  *             self._confirm_unit(unit)
  *         elif bg is False:             # <<<<<<<<<<<<<<
@@ -28066,13 +28516,13 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
     goto __pyx_L3;
   }
 
-  /* "src/pyrfc/client.pyx":952
+  /* "src/pyrfc/client.pyx":981
  *             self._confirm_transaction()
  *         else:
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")             # <<<<<<<<<<<<<<
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 952, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RFCError); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 981, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -28086,16 +28536,16 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_66confirm_unit(struct __py
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_Argument_unit_not_valid_Is_unit) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_Argument_unit_not_valid_Is_unit);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 952, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 981, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(2, 952, __pyx_L1_error)
+    __PYX_ERR(2, 981, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "src/pyrfc/client.pyx":936
+  /* "src/pyrfc/client.pyx":965
  *             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
  * 
  *     def confirm_unit(self, unit):             # <<<<<<<<<<<<<<
@@ -28349,9 +28799,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Connection_70__setstate_cython__(CYTH
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_23default_auth_check(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_23default_auth_check = {"default_auth_check", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5pyrfc_6_cyrfc_23default_auth_check, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_23default_auth_check(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_25default_auth_check(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_25default_auth_check = {"default_auth_check", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5pyrfc_6_cyrfc_25default_auth_check, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_25default_auth_check(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_func_name = 0;
   PyObject *__pyx_v_request_context = 0;
   int __pyx_lineno = 0;
@@ -28414,14 +28864,14 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_23default_auth_check(PyObject *__pyx_se
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_22default_auth_check(__pyx_self, __pyx_v_func_name, __pyx_v_request_context);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_24default_auth_check(__pyx_self, __pyx_v_func_name, __pyx_v_request_context);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_22default_auth_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_func_name, PyObject *__pyx_v_request_context) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_24default_auth_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_func_name, PyObject *__pyx_v_request_context) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -28569,9 +29019,9 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_22default_auth_check(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_25_server_log(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_25_server_log = {"_server_log", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5pyrfc_6_cyrfc_25_server_log, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_5pyrfc_6_cyrfc_25_server_log(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_27_server_log(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_5pyrfc_6_cyrfc_27_server_log = {"_server_log", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5pyrfc_6_cyrfc_27_server_log, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_5pyrfc_6_cyrfc_27_server_log(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_origin = 0;
   PyObject *__pyx_v_log_message = 0;
   int __pyx_lineno = 0;
@@ -28626,14 +29076,14 @@ static PyObject *__pyx_pw_5pyrfc_6_cyrfc_25_server_log(PyObject *__pyx_self, PyO
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_24_server_log(__pyx_self, __pyx_v_origin, __pyx_v_log_message);
+  __pyx_r = __pyx_pf_5pyrfc_6_cyrfc_26_server_log(__pyx_self, __pyx_v_origin, __pyx_v_log_message);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyrfc_6_cyrfc_24_server_log(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_origin, PyObject *__pyx_v_log_message) {
+static PyObject *__pyx_pf_5pyrfc_6_cyrfc_26_server_log(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_origin, PyObject *__pyx_v_log_message) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -30146,10 +30596,10 @@ static RFC_RC __pyx_f_5pyrfc_6_cyrfc_metadataLookup(SAP_UC const *__pyx_v_functi
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_8);
   __pyx_t_8 = 0;
-  __Pyx_INCREF(__pyx_kp_u_handle);
+  __Pyx_INCREF(__pyx_kp_u_handle_2);
   __pyx_t_6 += 9;
-  __Pyx_GIVEREF(__pyx_kp_u_handle);
-  PyTuple_SET_ITEM(__pyx_t_10, 2, __pyx_kp_u_handle);
+  __Pyx_GIVEREF(__pyx_kp_u_handle_2);
+  PyTuple_SET_ITEM(__pyx_t_10, 2, __pyx_kp_u_handle_2);
   __pyx_t_8 = __Pyx_PyInt_FromSize_t(((uintptr_t)(__pyx_v_funcDescHandle[0]))); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_8, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 103, __pyx_L1_error)
@@ -36361,7 +36811,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_6Server_8serve(struct __pyx_obj_5pyrfc_
  */
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_server_log); if (unlikely(!__pyx_t_4)) __PYX_ERR(5, 483, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->_server_connection), __pyx_n_s_handle_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 483, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->_server_connection), __pyx_n_s_handle); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 483, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = __Pyx_PyObject_FormatSimple(__pyx_t_5, __pyx_empty_unicode); if (unlikely(!__pyx_t_6)) __PYX_ERR(5, 483, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -40930,6 +41380,148 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_10Throughput_18__setstate_cython__(CYTH
   return __pyx_r;
 }
 
+/* "cfunc.to_py":65
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):
+ *     def wrap(object client_connection):             # <<<<<<<<<<<<<<
+ *         """wrap(client_connection)"""
+ *         return f(client_connection)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_1wrap(PyObject *__pyx_self, PyObject *__pyx_v_client_connection); /*proto*/
+static char __pyx_doc_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_wrap[] = "wrap(client_connection)";
+static PyMethodDef __pyx_mdef_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_1wrap = {"wrap", (PyCFunction)__pyx_pw_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_1wrap, METH_O, __pyx_doc_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_wrap};
+static PyObject *__pyx_pw_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_1wrap(PyObject *__pyx_self, PyObject *__pyx_v_client_connection) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("wrap (wrapper)", 0);
+  __pyx_r = __pyx_pf_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_wrap(__pyx_self, ((PyObject *)__pyx_v_client_connection));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_wrap(PyObject *__pyx_self, PyObject *__pyx_v_client_connection) {
+  struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *__pyx_cur_scope;
+  struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *__pyx_outer_scope;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("wrap", 0);
+  __pyx_outer_scope = (struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *) __Pyx_CyFunction_GetClosure(__pyx_self);
+  __pyx_cur_scope = __pyx_outer_scope;
+
+  /* "cfunc.to_py":67
+ *     def wrap(object client_connection):
+ *         """wrap(client_connection)"""
+ *         return f(client_connection)             # <<<<<<<<<<<<<<
+ *     return wrap
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_cur_scope->__pyx_v_f(__pyx_v_client_connection); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 67, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "cfunc.to_py":65
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):
+ *     def wrap(object client_connection):             # <<<<<<<<<<<<<<
+ *         """wrap(client_connection)"""
+ *         return f(client_connection)
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cfunc.to_py.__Pyx_CFunc_object____object___to_py.wrap", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cfunc.to_py":64
+ * 
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):             # <<<<<<<<<<<<<<
+ *     def wrap(object client_connection):
+ *         """wrap(client_connection)"""
+ */
+
+static PyObject *__Pyx_CFunc_object____object___to_py(PyObject *(*__pyx_v_f)(PyObject *)) {
+  struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *__pyx_cur_scope;
+  PyObject *__pyx_v_wrap = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__Pyx_CFunc_object____object___to_py", 0);
+  __pyx_cur_scope = (struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *)__pyx_tp_new___pyx_scope_struct____Pyx_CFunc_object____object___to_py(__pyx_ptype___pyx_scope_struct____Pyx_CFunc_object____object___to_py, __pyx_empty_tuple, NULL);
+  if (unlikely(!__pyx_cur_scope)) {
+    __pyx_cur_scope = ((struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *)Py_None);
+    __Pyx_INCREF(Py_None);
+    __PYX_ERR(3, 64, __pyx_L1_error)
+  } else {
+    __Pyx_GOTREF(__pyx_cur_scope);
+  }
+  __pyx_cur_scope->__pyx_v_f = __pyx_v_f;
+
+  /* "cfunc.to_py":65
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):
+ *     def wrap(object client_connection):             # <<<<<<<<<<<<<<
+ *         """wrap(client_connection)"""
+ *         return f(client_connection)
+ */
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_11cfunc_dot_to_py_36__Pyx_CFunc_object____object___to_py_1wrap, 0, __pyx_n_s_Pyx_CFunc_object____object___t, ((PyObject*)__pyx_cur_scope), __pyx_n_s_cfunc_to_py, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 65, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_wrap = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "cfunc.to_py":68
+ *         """wrap(client_connection)"""
+ *         return f(client_connection)
+ *     return wrap             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_wrap);
+  __pyx_r = __pyx_v_wrap;
+  goto __pyx_L0;
+
+  /* "cfunc.to_py":64
+ * 
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):             # <<<<<<<<<<<<<<
+ *     def wrap(object client_connection):
+ *         """wrap(client_connection)"""
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cfunc.to_py.__Pyx_CFunc_object____object___to_py", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_wrap);
+  __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 static PyObject *__pyx_tp_new_5pyrfc_6_cyrfc_ConnectionParameters(PyTypeObject *t, PyObject *a, PyObject *k) {
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
@@ -41127,10 +41719,10 @@ static PyMethodDef __pyx_methods_5pyrfc_6_cyrfc_Connection[] = {
   {"close", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_15close, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_14close},
   {"cancel", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_17cancel, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_16cancel},
   {"_close", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_21_close, METH_NOARGS, 0},
-  {"_cancel", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_23_cancel, METH_NOARGS, 0},
-  {"ping", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_25ping, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_24ping},
-  {"reset_server_context", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_27reset_server_context, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_26reset_server_context},
-  {"get_connection_attributes", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_29get_connection_attributes, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_28get_connection_attributes},
+  {"ping", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_23ping, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_22ping},
+  {"reset_server_context", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_25reset_server_context, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_24reset_server_context},
+  {"get_connection_attributes", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_27get_connection_attributes, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_26get_connection_attributes},
+  {"is_valid", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_29is_valid, METH_NOARGS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_28is_valid},
   {"get_function_description", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_31get_function_description, METH_O, __pyx_doc_5pyrfc_6_cyrfc_10Connection_30get_function_description},
   {"call", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5pyrfc_6_cyrfc_10Connection_33call, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5pyrfc_6_cyrfc_10Connection_32call},
   {"type_desc_get", (PyCFunction)__pyx_pw_5pyrfc_6_cyrfc_10Connection_35type_desc_get, METH_O, __pyx_doc_5pyrfc_6_cyrfc_10Connection_34type_desc_get},
@@ -42330,6 +42922,102 @@ static PyTypeObject __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr = {
   #endif
 };
 
+static struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *__pyx_freelist___pyx_scope_struct____Pyx_CFunc_object____object___to_py[8];
+static int __pyx_freecount___pyx_scope_struct____Pyx_CFunc_object____object___to_py = 0;
+
+static PyObject *__pyx_tp_new___pyx_scope_struct____Pyx_CFunc_object____object___to_py(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  PyObject *o;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount___pyx_scope_struct____Pyx_CFunc_object____object___to_py > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py)))) {
+    o = (PyObject*)__pyx_freelist___pyx_scope_struct____Pyx_CFunc_object____object___to_py[--__pyx_freecount___pyx_scope_struct____Pyx_CFunc_object____object___to_py];
+    memset(o, 0, sizeof(struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py));
+    (void) PyObject_INIT(o, t);
+  } else {
+    o = (*t->tp_alloc)(t, 0);
+    if (unlikely(!o)) return 0;
+  }
+  return o;
+}
+
+static void __pyx_tp_dealloc___pyx_scope_struct____Pyx_CFunc_object____object___to_py(PyObject *o) {
+  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount___pyx_scope_struct____Pyx_CFunc_object____object___to_py < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py)))) {
+    __pyx_freelist___pyx_scope_struct____Pyx_CFunc_object____object___to_py[__pyx_freecount___pyx_scope_struct____Pyx_CFunc_object____object___to_py++] = ((struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py *)o);
+  } else {
+    (*Py_TYPE(o)->tp_free)(o);
+  }
+}
+
+static PyTypeObject __pyx_scope_struct____Pyx_CFunc_object____object___to_py = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "pyrfc._cyrfc.__pyx_scope_struct____Pyx_CFunc_object____object___to_py", /*tp_name*/
+  sizeof(struct __pyx_obj___pyx_scope_struct____Pyx_CFunc_object____object___to_py), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc___pyx_scope_struct____Pyx_CFunc_object____object___to_py, /*tp_dealloc*/
+  #if PY_VERSION_HEX < 0x030800b4
+  0, /*tp_print*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b4
+  0, /*tp_vectorcall_offset*/
+  #endif
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  0, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new___pyx_scope_struct____Pyx_CFunc_object____object___to_py, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b1 && (!CYTHON_COMPILING_IN_PYPY || PYPY_VERSION_NUM >= 0x07030800)
+  0, /*tp_vectorcall*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
+  0, /*tp_print*/
+  #endif
+  #if CYTHON_COMPILING_IN_PYPY && PY_VERSION_HEX >= 0x03090000
+  0, /*tp_pypy_flags*/
+  #endif
+};
+
 static PyMethodDef __pyx_methods[] = {
   {0, 0, 0, 0}
 };
@@ -42416,6 +43104,7 @@ static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
     "__pyx_scope_struct_1_genexpr",
     "__pyx_scope_struct_2_enum_values",
     "__pyx_scope_struct_3_genexpr",
+    "__pyx_scope_struct____Pyx_CFunc_object____object___to_py",
     "__pyx_scope_struct__enum_names",
     "const_SAP_UC_ptr",
     "uintptr_t",
@@ -42650,6 +43339,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Parameter_calls_must_contain_at, __pyx_k_Parameter_calls_must_contain_at, sizeof(__pyx_k_Parameter_calls_must_contain_at), 0, 0, 1, 0},
   {&__pyx_kp_s_Parameter_calls_must_contain_val, __pyx_k_Parameter_calls_must_contain_val, sizeof(__pyx_k_Parameter_calls_must_contain_val), 0, 0, 1, 0},
   {&__pyx_kp_s_Parameter_unit_not_valid_Please, __pyx_k_Parameter_unit_not_valid_Please, sizeof(__pyx_k_Parameter_unit_not_valid_Please), 0, 0, 1, 0},
+  {&__pyx_n_s_Pyx_CFunc_object____object___t, __pyx_k_Pyx_CFunc_object____object___t, sizeof(__pyx_k_Pyx_CFunc_object____object___t), 0, 0, 1, 1},
   {&__pyx_n_s_Q, __pyx_k_Q, sizeof(__pyx_k_Q), 0, 0, 1, 1},
   {&__pyx_n_s_RCStatus, __pyx_k_RCStatus, sizeof(__pyx_k_RCStatus), 0, 0, 1, 1},
   {&__pyx_n_s_RFCError, __pyx_k_RFCError, sizeof(__pyx_k_RFCError), 0, 0, 1, 1},
@@ -42728,7 +43418,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u__41, __pyx_k__41, sizeof(__pyx_k__41), 0, 1, 0, 0},
   {&__pyx_kp_u__42, __pyx_k__42, sizeof(__pyx_k__42), 0, 1, 0, 0},
   {&__pyx_kp_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 0},
-  {&__pyx_n_s__52, __pyx_k__52, sizeof(__pyx_k__52), 0, 0, 1, 1},
+  {&__pyx_n_s__54, __pyx_k__54, sizeof(__pyx_k__54), 0, 0, 1, 1},
   {&__pyx_kp_u__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 1, 0, 0},
   {&__pyx_kp_s__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 0},
   {&__pyx_kp_u__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 1, 0, 0},
@@ -42758,11 +43448,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_call_type, __pyx_k_call_type, sizeof(__pyx_k_call_type), 0, 0, 1, 1},
   {&__pyx_n_s_callback, __pyx_k_callback, sizeof(__pyx_k_callback), 0, 0, 1, 1},
   {&__pyx_n_s_calls, __pyx_k_calls, sizeof(__pyx_k_calls), 0, 0, 1, 1},
-  {&__pyx_n_s_cancel, __pyx_k_cancel, sizeof(__pyx_k_cancel), 0, 0, 1, 1},
+  {&__pyx_n_s_cancel_connection, __pyx_k_cancel_connection, sizeof(__pyx_k_cancel_connection), 0, 0, 1, 1},
+  {&__pyx_n_s_cfunc_to_py, __pyx_k_cfunc_to_py, sizeof(__pyx_k_cfunc_to_py), 0, 0, 1, 1},
   {&__pyx_kp_u_chars_found, __pyx_k_chars_found, sizeof(__pyx_k_chars_found), 0, 1, 0, 0},
   {&__pyx_n_s_check, __pyx_k_check, sizeof(__pyx_k_check), 0, 0, 1, 1},
   {&__pyx_n_s_clear, __pyx_k_clear, sizeof(__pyx_k_clear), 0, 0, 1, 1},
   {&__pyx_n_s_client, __pyx_k_client, sizeof(__pyx_k_client), 0, 0, 1, 1},
+  {&__pyx_n_s_client_connection, __pyx_k_client_connection, sizeof(__pyx_k_client_connection), 0, 0, 1, 1},
   {&__pyx_n_s_client_params, __pyx_k_client_params, sizeof(__pyx_k_client_params), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
@@ -42849,8 +43541,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_unit_state, __pyx_k_get_unit_state, sizeof(__pyx_k_get_unit_state), 0, 0, 1, 1},
   {&__pyx_n_s_gethostname, __pyx_k_gethostname, sizeof(__pyx_k_gethostname), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
-  {&__pyx_kp_u_handle, __pyx_k_handle, sizeof(__pyx_k_handle), 0, 1, 0, 0},
-  {&__pyx_n_s_handle_2, __pyx_k_handle_2, sizeof(__pyx_k_handle_2), 0, 0, 1, 1},
+  {&__pyx_n_s_handle, __pyx_k_handle, sizeof(__pyx_k_handle), 0, 0, 1, 1},
+  {&__pyx_kp_u_handle_2, __pyx_k_handle_2, sizeof(__pyx_k_handle_2), 0, 1, 0, 0},
   {&__pyx_n_s_handle_3, __pyx_k_handle_3, sizeof(__pyx_k_handle_3), 0, 0, 1, 1},
   {&__pyx_kp_u_has_invalid_state, __pyx_k_has_invalid_state, sizeof(__pyx_k_has_invalid_state), 0, 1, 0, 0},
   {&__pyx_n_s_host, __pyx_k_host, sizeof(__pyx_k_host), 0, 0, 1, 1},
@@ -42868,6 +43560,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_is_alive, __pyx_k_is_alive, sizeof(__pyx_k_is_alive), 0, 0, 1, 1},
   {&__pyx_kp_u_is_not_callable, __pyx_k_is_not_callable, sizeof(__pyx_k_is_not_callable), 0, 1, 0, 0},
   {&__pyx_n_s_is_stateful, __pyx_k_is_stateful, sizeof(__pyx_k_is_stateful), 0, 0, 1, 1},
+  {&__pyx_n_s_is_valid, __pyx_k_is_valid, sizeof(__pyx_k_is_valid), 0, 0, 1, 1},
   {&__pyx_n_s_isdigit, __pyx_k_isdigit, sizeof(__pyx_k_isdigit), 0, 0, 1, 1},
   {&__pyx_n_s_isfile, __pyx_k_isfile, sizeof(__pyx_k_isfile), 0, 0, 1, 1},
   {&__pyx_n_s_isoLanguage, __pyx_k_isoLanguage, sizeof(__pyx_k_isoLanguage), 0, 0, 1, 1},
@@ -43028,6 +43721,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_staticmethod, __pyx_k_staticmethod, sizeof(__pyx_k_staticmethod), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
   {&__pyx_n_s_string_to_py, __pyx_k_string_to_py, sizeof(__pyx_k_string_to_py), 0, 0, 1, 1},
+  {&__pyx_kp_s_stringsource, __pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 0, 1, 0},
   {&__pyx_n_s_strptime, __pyx_k_strptime, sizeof(__pyx_k_strptime), 0, 0, 1, 1},
   {&__pyx_n_s_synchronous, __pyx_k_synchronous, sizeof(__pyx_k_synchronous), 0, 0, 1, 1},
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
@@ -43035,6 +43729,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sysNumber, __pyx_k_sysNumber, sizeof(__pyx_k_sysNumber), 0, 0, 1, 1},
   {&__pyx_n_s_sysid, __pyx_k_sysid, sizeof(__pyx_k_sysid), 0, 0, 1, 1},
   {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
+  {&__pyx_n_s_t_cancel, __pyx_k_t_cancel, sizeof(__pyx_k_t_cancel), 0, 0, 1, 1},
   {&__pyx_n_s_t_code, __pyx_k_t_code, sizeof(__pyx_k_t_code), 0, 0, 1, 1},
   {&__pyx_n_s_target, __pyx_k_target, sizeof(__pyx_k_target), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
@@ -43067,16 +43762,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_kp_u_when_getting_server_context_for, __pyx_k_when_getting_server_context_for, sizeof(__pyx_k_when_getting_server_context_for), 0, 1, 0, 0},
   {&__pyx_kp_u_with, __pyx_k_with, sizeof(__pyx_k_with), 0, 1, 0, 0},
+  {&__pyx_n_s_wrap, __pyx_k_wrap, sizeof(__pyx_k_wrap), 0, 0, 1, 1},
   {&__pyx_kp_s_wrapString_uclen_u_utf8_size_u, __pyx_k_wrapString_uclen_u_utf8_size_u, sizeof(__pyx_k_wrapString_uclen_u_utf8_size_u), 0, 0, 1, 0},
   {&__pyx_n_s_year, __pyx_k_year, sizeof(__pyx_k_year), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) __PYX_ERR(0, 230, __pyx_L1_error)
   __pyx_builtin_staticmethod = __Pyx_GetBuiltinName(__pyx_n_s_staticmethod); if (!__pyx_builtin_staticmethod) __PYX_ERR(1, 64, __pyx_L1_error)
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 39, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 189, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(2, 615, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(2, 644, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -43105,14 +43801,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":348
+  /* "src/pyrfc/nwrfcsdk.pyx":378
  *             raise TypeError(f"'default_value' (string) '{default_value}' must not exceed 30 chars.")
  *         if len(parameter_text)>79:
  *             raise TypeError("'parameter_text' (string) '{parameter_text}' must not exceed 79 chars.")             # <<<<<<<<<<<<<<
  *         self.parameters.append({
  *             'name': name,
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_parameter_text_string_parameter); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_parameter_text_string_parameter); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 378, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -43260,69 +43956,69 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__26);
   __Pyx_GIVEREF(__pyx_tuple__26);
 
-  /* "src/pyrfc/client.pyx":660
+  /* "src/pyrfc/client.pyx":689
  *             if 'user' in attributes and attributes['user'] is not None:
  *                 # (SAP_UC[12+1]) Sender User (optional). Default is current operating system User.
  *                 sapuc = fillString(attributes['user'][0:12])             # <<<<<<<<<<<<<<
  *                 strncpyU(unitAttr.user, sapuc, len(attributes['user'][0:12]) + 1)
  *                 free(sapuc)
  */
-  __pyx_slice__28 = PySlice_New(__pyx_int_0, __pyx_int_12, Py_None); if (unlikely(!__pyx_slice__28)) __PYX_ERR(2, 660, __pyx_L1_error)
+  __pyx_slice__28 = PySlice_New(__pyx_int_0, __pyx_int_12, Py_None); if (unlikely(!__pyx_slice__28)) __PYX_ERR(2, 689, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__28);
   __Pyx_GIVEREF(__pyx_slice__28);
 
-  /* "src/pyrfc/client.pyx":675
+  /* "src/pyrfc/client.pyx":704
  *             if 'program' in attributes and attributes['program'] is not None:
  *                 # (SAP_UC[40+1]) Sender Program (optional). Default is current executable name.
  *                 sapuc = fillString(attributes['program'][0:40])             # <<<<<<<<<<<<<<
  *                 strncpyU(unitAttr.program, sapuc, len(attributes['program'][0:40]) + 1)
  *                 free(sapuc)
  */
-  __pyx_slice__29 = PySlice_New(__pyx_int_0, __pyx_int_40, Py_None); if (unlikely(!__pyx_slice__29)) __PYX_ERR(2, 675, __pyx_L1_error)
+  __pyx_slice__29 = PySlice_New(__pyx_int_0, __pyx_int_40, Py_None); if (unlikely(!__pyx_slice__29)) __PYX_ERR(2, 704, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__29);
   __Pyx_GIVEREF(__pyx_slice__29);
 
-  /* "src/pyrfc/client.pyx":858
+  /* "src/pyrfc/client.pyx":887
  * 
  *         if type(unit) is not dict or 'id' not in unit or 'background' not in unit:
  *             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")             # <<<<<<<<<<<<<<
  *         if not isinstance(calls, Iterable):
  *             raise TypeError("Parameter 'calls' must be iterable.")
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_Parameter_unit_not_valid_Please); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(2, 858, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_Parameter_unit_not_valid_Please); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(2, 887, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
-  /* "src/pyrfc/client.pyx":860
+  /* "src/pyrfc/client.pyx":889
  *             raise TypeError("Parameter 'unit' not valid. Please use initialize_unit() to retrieve a valid unit.")
  *         if not isinstance(calls, Iterable):
  *             raise TypeError("Parameter 'calls' must be iterable.")             # <<<<<<<<<<<<<<
  *         if len(calls)==0:
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_Parameter_calls_must_be_iterable); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(2, 860, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_Parameter_calls_must_be_iterable); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(2, 889, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
 
-  /* "src/pyrfc/client.pyx":862
+  /* "src/pyrfc/client.pyx":891
  *             raise TypeError("Parameter 'calls' must be iterable.")
  *         if len(calls)==0:
  *             raise TypeError("Parameter 'calls' must contain at least on call description (func_name, params).")             # <<<<<<<<<<<<<<
  *         for func_name, params in calls:
  *             if type(func_name) is not str or type(params) is not dict:
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_Parameter_calls_must_contain_at); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(2, 862, __pyx_L1_error)
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_Parameter_calls_must_contain_at); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(2, 891, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
 
-  /* "src/pyrfc/client.pyx":865
+  /* "src/pyrfc/client.pyx":894
  *         for func_name, params in calls:
  *             if type(func_name) is not str or type(params) is not dict:
  *                 raise TypeError("Parameter 'calls' must contain valid call descriptions (func_name, params dict).")             # <<<<<<<<<<<<<<
  *         if self.active_unit:
  *             raise RFCError("There is an active unit for this connection. "
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_Parameter_calls_must_contain_val); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(2, 865, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_Parameter_calls_must_contain_val); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(2, 894, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
 
@@ -43435,236 +44131,260 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__51);
   __Pyx_GIVEREF(__pyx_tuple__51);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":11
- * 
- * 
- * def py_to_string(obj):             # <<<<<<<<<<<<<<
- *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
- * 
+  /* "cfunc.to_py":65
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):
+ *     def wrap(object client_connection):             # <<<<<<<<<<<<<<
+ *         """wrap(client_connection)"""
+ *         return f(client_connection)
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 11, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__53);
-  __Pyx_GIVEREF(__pyx_tuple__53);
-  __pyx_codeobj__54 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_py_to_string, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__54)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_n_s_client_connection); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(3, 65, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_wrap, 65, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(3, 65, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":15
- * 
- * 
- * def string_to_py(objstr):             # <<<<<<<<<<<<<<
- *     return pickle.loads(objstr)
- * 
- */
-  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_n_s_objstr); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__55);
-  __Pyx_GIVEREF(__pyx_tuple__55);
-  __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_string_to_py, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 15, __pyx_L1_error)
-
-  /* "src/pyrfc/nwrfcsdk.pyx":19
+  /* "src/pyrfc/nwrfcsdk.pyx":12
  * 
  * 
  * def get_nwrfclib_version():             # <<<<<<<<<<<<<<
  *     """Get SAP NW RFC Lib version
  *     :returns: tuple of major, minor and patch level and OS platform
  */
-  __pyx_tuple__57 = PyTuple_Pack(3, __pyx_n_s_major, __pyx_n_s_minor, __pyx_n_s_patchlevel); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__57);
-  __Pyx_GIVEREF(__pyx_tuple__57);
-  __pyx_codeobj__58 = (PyObject*)__Pyx_PyCode_New(0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_get_nwrfclib_version, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple__55 = PyTuple_Pack(3, __pyx_n_s_major, __pyx_n_s_minor, __pyx_n_s_patchlevel); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__55);
+  __Pyx_GIVEREF(__pyx_tuple__55);
+  __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_get_nwrfclib_version, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 12, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":30
+  /* "src/pyrfc/nwrfcsdk.pyx":23
  * 
  * 
  * def set_ini_file_directory(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the directory in which to search for the sapnwrfc.ini file
  * 
  */
-  __pyx_tuple__59 = PyTuple_Pack(4, __pyx_n_s_path_name, __pyx_n_s_errorInfo, __pyx_n_s_pathName, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__59);
-  __Pyx_GIVEREF(__pyx_tuple__59);
-  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_set_ini_file_directory, 30, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(4, __pyx_n_s_path_name, __pyx_n_s_errorInfo, __pyx_n_s_pathName, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__57);
+  __Pyx_GIVEREF(__pyx_tuple__57);
+  __pyx_codeobj__58 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_set_ini_file_directory, 23, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 23, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":50
+  /* "src/pyrfc/nwrfcsdk.pyx":43
  * 
  * 
  * def reload_ini_file():             # <<<<<<<<<<<<<<
  *     """Reloads the contents of the sapnwrfc.ini file into memory.
  * 
  */
-  __pyx_tuple__61 = PyTuple_Pack(2, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__61);
-  __Pyx_GIVEREF(__pyx_tuple__61);
-  __pyx_codeobj__62 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_reload_ini_file, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(2, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__59);
+  __Pyx_GIVEREF(__pyx_tuple__59);
+  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_reload_ini_file, 43, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 43, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":69
+  /* "src/pyrfc/nwrfcsdk.pyx":62
  * 
  * 
  * def language_iso_to_sap(lang_iso):             # <<<<<<<<<<<<<<
  *     """Language code conversion of ISO code to SAP code.
  * 
  */
-  __pyx_tuple__63 = PyTuple_Pack(5, __pyx_n_s_lang_iso, __pyx_n_s_uclang_iso, __pyx_n_s_uclang_sap, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 69, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__63);
-  __Pyx_GIVEREF(__pyx_tuple__63);
-  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_language_iso_to_sap, 69, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_tuple__61 = PyTuple_Pack(5, __pyx_n_s_lang_iso, __pyx_n_s_uclang_iso, __pyx_n_s_uclang_sap, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__61);
+  __Pyx_GIVEREF(__pyx_tuple__61);
+  __pyx_codeobj__62 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_language_iso_to_sap, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 62, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":90
+  /* "src/pyrfc/nwrfcsdk.pyx":83
  * 
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
  *     """Language code conversion of SAP code to ISO code.
  * 
  */
-  __pyx_tuple__65 = PyTuple_Pack(5, __pyx_n_s_lang_sap, __pyx_n_s_uclang_sap, __pyx_n_s_uclang_iso, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 90, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__65);
-  __Pyx_GIVEREF(__pyx_tuple__65);
-  __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_language_sap_to_iso, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(5, __pyx_n_s_lang_sap, __pyx_n_s_uclang_sap, __pyx_n_s_uclang_iso, __pyx_n_s_errorInfo, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__63);
+  __Pyx_GIVEREF(__pyx_tuple__63);
+  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_language_sap_to_iso, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 83, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":111
+  /* "src/pyrfc/nwrfcsdk.pyx":104
  * 
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
  * 
  */
-  __pyx_tuple__67 = PyTuple_Pack(4, __pyx_n_s_path_name, __pyx_n_s_errorInfo, __pyx_n_s_pathName, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__67);
-  __Pyx_GIVEREF(__pyx_tuple__67);
-  __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_set_cryptolib_path, 111, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(4, __pyx_n_s_path_name, __pyx_n_s_errorInfo, __pyx_n_s_pathName, __pyx_n_s_rc); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__65);
+  __Pyx_GIVEREF(__pyx_tuple__65);
+  __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_set_cryptolib_path, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) __PYX_ERR(0, 104, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":135
+  /* "src/pyrfc/nwrfcsdk.pyx":128
  * 
  * 
  * def set_locale_radix(value=None):             # <<<<<<<<<<<<<<
  *     """Sets the locale radix for decimal conversions.
  * 
  */
-  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_n_s_value); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_n_s_value); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__67);
+  __Pyx_GIVEREF(__pyx_tuple__67);
+  __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_set_locale_radix, 128, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) __PYX_ERR(0, 128, __pyx_L1_error)
+
+  /* "src/pyrfc/nwrfcsdk.pyx":154
+ * 
+ * 
+ * def cancel_connection(client_connection):             # <<<<<<<<<<<<<<
+ *     """Cancels the RFC call which is currently being called over the given RFC connection
+ *     and closes the connection. Can be used only on an RFC client connection.
+ */
+  __pyx_tuple__69 = PyTuple_Pack(2, __pyx_n_s_client_connection, __pyx_n_s_t_cancel); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__69);
   __Pyx_GIVEREF(__pyx_tuple__69);
-  __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_set_locale_radix, 135, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_cancel_connection, 154, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) __PYX_ERR(0, 154, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":150
+  /* "src/pyrfc/nwrfcsdk.pyx":171
  * 
  * 
  * def enum_names(enum_obj):             # <<<<<<<<<<<<<<
  *     return set(e.name for e in enum_obj)
  * 
  */
-  __pyx_tuple__71 = PyTuple_Pack(3, __pyx_n_s_enum_obj, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(3, __pyx_n_s_enum_obj, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__71);
   __Pyx_GIVEREF(__pyx_tuple__71);
-  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_enum_names, 150, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_enum_names, 171, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 171, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":154
+  /* "src/pyrfc/nwrfcsdk.pyx":175
  * 
  * 
  * def enum_values(enum_obj):             # <<<<<<<<<<<<<<
  *     return set(e.value for e in enum_obj)
  * 
  */
-  __pyx_tuple__73 = PyTuple_Pack(3, __pyx_n_s_enum_obj, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_tuple__73 = PyTuple_Pack(3, __pyx_n_s_enum_obj, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__73);
   __Pyx_GIVEREF(__pyx_tuple__73);
-  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_enum_values, 154, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_enum_values, 175, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 175, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":200
+  /* "src/pyrfc/nwrfcsdk.pyx":179
+ * 
+ * 
+ * def py_to_string(obj):             # <<<<<<<<<<<<<<
+ *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+ * 
+ */
+  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_n_s_obj); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__75);
+  __Pyx_GIVEREF(__pyx_tuple__75);
+  __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_py_to_string, 179, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) __PYX_ERR(0, 179, __pyx_L1_error)
+
+  /* "src/pyrfc/nwrfcsdk.pyx":183
+ * 
+ * 
+ * def string_to_py(objstr):             # <<<<<<<<<<<<<<
+ *     return pickle.loads(objstr)
+ * 
+ */
+  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_n_s_objstr); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__77);
+  __Pyx_GIVEREF(__pyx_tuple__77);
+  __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_string_to_py, 183, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) __PYX_ERR(0, 183, __pyx_L1_error)
+
+  /* "src/pyrfc/nwrfcsdk.pyx":230
  * 
  * 
  * class TypeDescription(object):             # <<<<<<<<<<<<<<
  *     """ A type description
  * 
  */
-  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_builtin_object); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(0, 200, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__75);
-  __Pyx_GIVEREF(__pyx_tuple__75);
+  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_builtin_object); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__79);
+  __Pyx_GIVEREF(__pyx_tuple__79);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":225
+  /* "src/pyrfc/nwrfcsdk.pyx":255
  * 
  *     """
  *     def __init__(self, name, nuc_length, uc_length):             # <<<<<<<<<<<<<<
  *         self.fields = []
  *         if len(name)<1 or len(name)>30:
  */
-  __pyx_tuple__76 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_nuc_length, __pyx_n_s_uc_length, __pyx_n_s_int_field); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 225, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__76);
-  __Pyx_GIVEREF(__pyx_tuple__76);
-  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_init, 225, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_tuple__80 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_nuc_length, __pyx_n_s_uc_length, __pyx_n_s_int_field); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__80);
+  __Pyx_GIVEREF(__pyx_tuple__80);
+  __pyx_codeobj__81 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__80, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_init, 255, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__81)) __PYX_ERR(0, 255, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":236
+  /* "src/pyrfc/nwrfcsdk.pyx":266
  *         self.uc_length = uc_length
  * 
  *     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,             # <<<<<<<<<<<<<<
  *                   uc_offset, decimals=0, type_description=None):
  *         """ Adds a field to the type description.
  */
-  __pyx_tuple__78 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_field_type, __pyx_n_s_nuc_length, __pyx_n_s_uc_length, __pyx_n_s_nuc_offset, __pyx_n_s_uc_offset, __pyx_n_s_decimals, __pyx_n_s_type_description, __pyx_n_s_int_field); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__78);
-  __Pyx_GIVEREF(__pyx_tuple__78);
-  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(9, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_add_field, 236, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __pyx_tuple__80 = PyTuple_Pack(2, ((PyObject *)__pyx_int_0), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__80);
-  __Pyx_GIVEREF(__pyx_tuple__80);
+  __pyx_tuple__82 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_field_type, __pyx_n_s_nuc_length, __pyx_n_s_uc_length, __pyx_n_s_nuc_offset, __pyx_n_s_uc_offset, __pyx_n_s_decimals, __pyx_n_s_type_description, __pyx_n_s_int_field); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__82);
+  __Pyx_GIVEREF(__pyx_tuple__82);
+  __pyx_codeobj__83 = (PyObject*)__Pyx_PyCode_New(9, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__82, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_add_field, 266, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__83)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __pyx_tuple__84 = PyTuple_Pack(2, ((PyObject *)__pyx_int_0), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__84);
+  __Pyx_GIVEREF(__pyx_tuple__84);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":277
+  /* "src/pyrfc/nwrfcsdk.pyx":307
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         return f"<TypeDescription '{self.name}' with {len(self.fields)} " \
  *             f"fields (n/uclength={self.nuc_length}/{self.uc_length})>"
  */
-  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 277, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__81);
-  __Pyx_GIVEREF(__pyx_tuple__81);
-  __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_repr, 277, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__85);
+  __Pyx_GIVEREF(__pyx_tuple__85);
+  __pyx_codeobj__86 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__85, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_repr, 307, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__86)) __PYX_ERR(0, 307, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":286
+  /* "src/pyrfc/nwrfcsdk.pyx":316
  * 
  * 
  * class FunctionDescription(object):             # <<<<<<<<<<<<<<
  *     """ A function description
  * 
  */
-  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_builtin_object); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__83);
-  __Pyx_GIVEREF(__pyx_tuple__83);
+  __pyx_tuple__87 = PyTuple_Pack(1, __pyx_builtin_object); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__87);
+  __Pyx_GIVEREF(__pyx_tuple__87);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":309
+  /* "src/pyrfc/nwrfcsdk.pyx":339
  * 
  *     """
  *     def __init__(self, name):             # <<<<<<<<<<<<<<
  *         self.name = name
  *         self.parameters = []
  */
-  __pyx_tuple__84 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 309, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__84);
-  __Pyx_GIVEREF(__pyx_tuple__84);
-  __pyx_codeobj__85 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__84, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_init, 309, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__85)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __pyx_tuple__88 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_name); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__88);
+  __Pyx_GIVEREF(__pyx_tuple__88);
+  __pyx_codeobj__89 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__88, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_init, 339, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__89)) __PYX_ERR(0, 339, __pyx_L1_error)
 
-  /* "src/pyrfc/nwrfcsdk.pyx":313
+  /* "src/pyrfc/nwrfcsdk.pyx":343
  *         self.parameters = []
  * 
  *     def add_parameter(self, name, parameter_type, direction, nuc_length,             # <<<<<<<<<<<<<<
  *                       uc_length, decimals=0, default_value="", parameter_text="",
  *                       optional=False, type_description=None):
  */
-  __pyx_tuple__86 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_parameter_type, __pyx_n_s_direction, __pyx_n_s_nuc_length, __pyx_n_s_uc_length, __pyx_n_s_decimals, __pyx_n_s_default_value, __pyx_n_s_parameter_text, __pyx_n_s_optional, __pyx_n_s_type_description); if (unlikely(!__pyx_tuple__86)) __PYX_ERR(0, 313, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__86);
-  __Pyx_GIVEREF(__pyx_tuple__86);
-  __pyx_codeobj__87 = (PyObject*)__Pyx_PyCode_New(11, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__86, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_add_parameter, 313, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__87)) __PYX_ERR(0, 313, __pyx_L1_error)
-  __pyx_tuple__88 = PyTuple_Pack(5, ((PyObject *)__pyx_int_0), ((PyObject*)__pyx_kp_s__5), ((PyObject*)__pyx_kp_s__5), ((PyObject *)Py_False), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(0, 313, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__88);
-  __Pyx_GIVEREF(__pyx_tuple__88);
+  __pyx_tuple__90 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_parameter_type, __pyx_n_s_direction, __pyx_n_s_nuc_length, __pyx_n_s_uc_length, __pyx_n_s_decimals, __pyx_n_s_default_value, __pyx_n_s_parameter_text, __pyx_n_s_optional, __pyx_n_s_type_description); if (unlikely(!__pyx_tuple__90)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__90);
+  __Pyx_GIVEREF(__pyx_tuple__90);
+  __pyx_codeobj__91 = (PyObject*)__Pyx_PyCode_New(11, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__90, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_add_parameter, 343, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__91)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_tuple__92 = PyTuple_Pack(5, ((PyObject *)__pyx_int_0), ((PyObject*)__pyx_kp_s__5), ((PyObject*)__pyx_kp_s__5), ((PyObject *)Py_False), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__92)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__92);
+  __Pyx_GIVEREF(__pyx_tuple__92);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":362
+  /* "src/pyrfc/nwrfcsdk.pyx":392
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         return f"<FunctionDescription '{self.name}' with {len(self.parameters)} params>"
  */
-  __pyx_tuple__89 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(0, 362, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__89);
-  __Pyx_GIVEREF(__pyx_tuple__89);
-  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_repr, 362, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(0, 362, __pyx_L1_error)
+  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(0, 392, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__93);
+  __Pyx_GIVEREF(__pyx_tuple__93);
+  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_nwrfcsdk_pyx, __pyx_n_s_repr, 392, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(0, 392, __pyx_L1_error)
 
   /* "src/pyrfc/server.pyx":21
  * 
@@ -43673,10 +44393,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
  *     return RFC_OK
  */
-  __pyx_tuple__91 = PyTuple_Pack(2, __pyx_n_s_func_name, __pyx_n_s_request_context); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(5, 21, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__91);
-  __Pyx_GIVEREF(__pyx_tuple__91);
-  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_server_pyx, __pyx_n_s_default_auth_check, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(5, 21, __pyx_L1_error)
+  __pyx_tuple__95 = PyTuple_Pack(2, __pyx_n_s_func_name, __pyx_n_s_request_context); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(5, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__95);
+  __Pyx_GIVEREF(__pyx_tuple__95);
+  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_server_pyx, __pyx_n_s_default_auth_check, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(5, 21, __pyx_L1_error)
 
   /* "src/pyrfc/server.pyx":26
  * 
@@ -43685,10 +44405,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     if server_context["server_log"]:
  *         print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
  */
-  __pyx_tuple__93 = PyTuple_Pack(2, __pyx_n_s_origin, __pyx_n_s_log_message); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(5, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__93);
-  __Pyx_GIVEREF(__pyx_tuple__93);
-  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_server_pyx, __pyx_n_s_server_log, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(5, 26, __pyx_L1_error)
+  __pyx_tuple__97 = PyTuple_Pack(2, __pyx_n_s_origin, __pyx_n_s_log_message); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(5, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__97);
+  __Pyx_GIVEREF(__pyx_tuple__97);
+  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_server_pyx, __pyx_n_s_server_log, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(5, 26, __pyx_L1_error)
 
   /* "src/pyrfc/throughput.pyx":65
  * 
@@ -43697,10 +44417,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         """Returns the currently attached throughput object from a connection, if any.
  * 
  */
-  __pyx_tuple__95 = PyTuple_Pack(4, __pyx_n_s_connection, __pyx_n_s_errorInfo, __pyx_n_s_throughput, __pyx_n_s_t); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(1, 65, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__95);
-  __Pyx_GIVEREF(__pyx_tuple__95);
-  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_throughput_pyx, __pyx_n_s_getFromConnection, 65, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(1, 65, __pyx_L1_error)
+  __pyx_tuple__99 = PyTuple_Pack(4, __pyx_n_s_connection, __pyx_n_s_errorInfo, __pyx_n_s_throughput, __pyx_n_s_t); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(1, 65, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__99);
+  __Pyx_GIVEREF(__pyx_tuple__99);
+  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pyrfc_throughput_pyx, __pyx_n_s_getFromConnection, 65, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(1, 65, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -43777,15 +44497,15 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_5pyrfc_6_cyrfc_ConnectionParameters.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters.tp_dictoffset && __pyx_type_5pyrfc_6_cyrfc_ConnectionParameters.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_5pyrfc_6_cyrfc_ConnectionParameters.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ConnectionParameters, (PyObject *)&__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ConnectionParameters, (PyObject *)&__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
   __pyx_ptype_5pyrfc_6_cyrfc_ConnectionParameters = &__pyx_type_5pyrfc_6_cyrfc_ConnectionParameters;
   __pyx_vtabptr_5pyrfc_6_cyrfc_Connection = &__pyx_vtable_5pyrfc_6_cyrfc_Connection;
   __pyx_vtable_5pyrfc_6_cyrfc_Connection._reopen = (PyObject *(*)(struct __pyx_obj_5pyrfc_6_cyrfc_Connection *))__pyx_f_5pyrfc_6_cyrfc_10Connection__reopen;
@@ -43847,7 +44567,7 @@ static int __Pyx_modinit_type_init_code(void) {
   if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Throughput, (PyObject *)&__pyx_type_5pyrfc_6_cyrfc_Throughput) < 0) __PYX_ERR(1, 6, __pyx_L1_error)
   if (__Pyx_setup_reduce((PyObject*)&__pyx_type_5pyrfc_6_cyrfc_Throughput) < 0) __PYX_ERR(1, 6, __pyx_L1_error)
   __pyx_ptype_5pyrfc_6_cyrfc_Throughput = &__pyx_type_5pyrfc_6_cyrfc_Throughput;
-  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names) < 0) __PYX_ERR(0, 150, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names.tp_print = 0;
   #endif
@@ -43855,7 +44575,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names = &__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct__enum_names;
-  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 151, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 172, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr.tp_print = 0;
   #endif
@@ -43863,7 +44583,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr = &__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_1_genexpr;
-  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values) < 0) __PYX_ERR(0, 154, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values.tp_print = 0;
   #endif
@@ -43871,7 +44591,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values = &__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_2_enum_values;
-  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr) < 0) __PYX_ERR(0, 176, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr.tp_print = 0;
   #endif
@@ -43879,6 +44599,14 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr = &__pyx_type_5pyrfc_6_cyrfc___pyx_scope_struct_3_genexpr;
+  if (PyType_Ready(&__pyx_scope_struct____Pyx_CFunc_object____object___to_py) < 0) __PYX_ERR(3, 64, __pyx_L1_error)
+  #if PY_VERSION_HEX < 0x030800B1
+  __pyx_scope_struct____Pyx_CFunc_object____object___to_py.tp_print = 0;
+  #endif
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_scope_struct____Pyx_CFunc_object____object___to_py.tp_dictoffset && __pyx_scope_struct____Pyx_CFunc_object____object___to_py.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_scope_struct____Pyx_CFunc_object____object___to_py.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
+  }
+  __pyx_ptype___pyx_scope_struct____Pyx_CFunc_object____object___to_py = &__pyx_scope_struct____Pyx_CFunc_object____object___to_py;
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -44124,9 +44852,9 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s__52);
-  __Pyx_GIVEREF(__pyx_n_s__52);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__52);
+  __Pyx_INCREF(__pyx_n_s__54);
+  __Pyx_GIVEREF(__pyx_n_s__54);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__54);
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_exception, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(6, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -45000,7 +45728,7 @@ if (!__Pyx_RefNanny) {
   /* "src/pyrfc/nwrfcsdk.pyx":1
  * from locale import localeconv             # <<<<<<<<<<<<<<
  * from os.path import isfile, join
- * from sys import platform
+ * import pickle
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -45019,8 +45747,8 @@ if (!__Pyx_RefNanny) {
   /* "src/pyrfc/nwrfcsdk.pyx":2
  * from locale import localeconv
  * from os.path import isfile, join             # <<<<<<<<<<<<<<
- * from sys import platform
  * import pickle
+ * from sys import platform
  */
   __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -45046,325 +45774,358 @@ if (!__Pyx_RefNanny) {
   /* "src/pyrfc/nwrfcsdk.pyx":3
  * from locale import localeconv
  * from os.path import isfile, join
- * from sys import platform             # <<<<<<<<<<<<<<
+ * import pickle             # <<<<<<<<<<<<<<
+ * from sys import platform
+ * from threading import Thread
+ */
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pickle, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pickle, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":4
+ * from os.path import isfile, join
  * import pickle
+ * from sys import platform             # <<<<<<<<<<<<<<
+ * from threading import Thread
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_platform);
   __Pyx_GIVEREF(__pyx_n_s_platform);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_platform);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_sys, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_sys, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_platform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_platform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_platform, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_platform, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":4
- * from os.path import isfile, join
+  /* "src/pyrfc/nwrfcsdk.pyx":5
+ * import pickle
  * from sys import platform
- * import pickle             # <<<<<<<<<<<<<<
+ * from threading import Thread             # <<<<<<<<<<<<<<
  * 
  * ################################################################################
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pickle, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pickle, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_Thread);
+  __Pyx_GIVEREF(__pyx_n_s_Thread);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Thread);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_threading, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "src/pyrfc/nwrfcsdk.pyx":11
- * 
- * 
- * def py_to_string(obj):             # <<<<<<<<<<<<<<
- *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
- * 
- */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_1py_to_string, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Thread); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_py_to_string, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Thread, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":15
- * 
- * 
- * def string_to_py(objstr):             # <<<<<<<<<<<<<<
- *     return pickle.loads(objstr)
- * 
- */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_3string_to_py, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_string_to_py, __pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "src/pyrfc/nwrfcsdk.pyx":19
+  /* "src/pyrfc/nwrfcsdk.pyx":12
  * 
  * 
  * def get_nwrfclib_version():             # <<<<<<<<<<<<<<
  *     """Get SAP NW RFC Lib version
  *     :returns: tuple of major, minor and patch level and OS platform
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_5get_nwrfclib_version, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_nwrfclib_version, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_1get_nwrfclib_version, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_nwrfclib_version, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":30
+  /* "src/pyrfc/nwrfcsdk.pyx":23
  * 
  * 
  * def set_ini_file_directory(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the directory in which to search for the sapnwrfc.ini file
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_7set_ini_file_directory, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_ini_file_directory, __pyx_t_2) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_3set_ini_file_directory, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_ini_file_directory, __pyx_t_1) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":50
+  /* "src/pyrfc/nwrfcsdk.pyx":43
  * 
  * 
  * def reload_ini_file():             # <<<<<<<<<<<<<<
  *     """Reloads the contents of the sapnwrfc.ini file into memory.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_9reload_ini_file, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_reload_ini_file, __pyx_t_2) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_5reload_ini_file, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_reload_ini_file, __pyx_t_1) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":69
+  /* "src/pyrfc/nwrfcsdk.pyx":62
  * 
  * 
  * def language_iso_to_sap(lang_iso):             # <<<<<<<<<<<<<<
  *     """Language code conversion of ISO code to SAP code.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_11language_iso_to_sap, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_language_iso_to_sap, __pyx_t_2) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_7language_iso_to_sap, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_language_iso_to_sap, __pyx_t_1) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":90
+  /* "src/pyrfc/nwrfcsdk.pyx":83
  * 
  * 
  * def language_sap_to_iso(lang_sap):             # <<<<<<<<<<<<<<
  *     """Language code conversion of SAP code to ISO code.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_13language_sap_to_iso, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_language_sap_to_iso, __pyx_t_2) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_9language_sap_to_iso, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_language_sap_to_iso, __pyx_t_1) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":111
+  /* "src/pyrfc/nwrfcsdk.pyx":104
  * 
  * 
  * def set_cryptolib_path(path_name):             # <<<<<<<<<<<<<<
  *     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_15set_cryptolib_path, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_cryptolib_path, __pyx_t_2) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_11set_cryptolib_path, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_cryptolib_path, __pyx_t_1) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":135
+  /* "src/pyrfc/nwrfcsdk.pyx":128
  * 
  * 
  * def set_locale_radix(value=None):             # <<<<<<<<<<<<<<
  *     """Sets the locale radix for decimal conversions.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_17set_locale_radix, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_locale_radix, __pyx_t_2) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_13set_locale_radix, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_set_locale_radix, __pyx_t_1) < 0) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":150
+  /* "src/pyrfc/nwrfcsdk.pyx":154
+ * 
+ * 
+ * def cancel_connection(client_connection):             # <<<<<<<<<<<<<<
+ *     """Cancels the RFC call which is currently being called over the given RFC connection
+ *     and closes the connection. Can be used only on an RFC client connection.
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_15cancel_connection, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cancel_connection, __pyx_t_1) < 0) __PYX_ERR(0, 154, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":171
  * 
  * 
  * def enum_names(enum_obj):             # <<<<<<<<<<<<<<
  *     return set(e.name for e in enum_obj)
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_19enum_names, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_enum_names, __pyx_t_2) < 0) __PYX_ERR(0, 150, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_17enum_names, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_enum_names, __pyx_t_1) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":154
+  /* "src/pyrfc/nwrfcsdk.pyx":175
  * 
  * 
  * def enum_values(enum_obj):             # <<<<<<<<<<<<<<
  *     return set(e.value for e in enum_obj)
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_21enum_values, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_enum_values, __pyx_t_2) < 0) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_19enum_values, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_enum_values, __pyx_t_1) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":200
+  /* "src/pyrfc/nwrfcsdk.pyx":179
+ * 
+ * 
+ * def py_to_string(obj):             # <<<<<<<<<<<<<<
+ *     return pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+ * 
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_21py_to_string, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_py_to_string, __pyx_t_1) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":183
+ * 
+ * 
+ * def string_to_py(objstr):             # <<<<<<<<<<<<<<
+ *     return pickle.loads(objstr)
+ * 
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_23string_to_py, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_string_to_py, __pyx_t_1) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "src/pyrfc/nwrfcsdk.pyx":230
  * 
  * 
  * class TypeDescription(object):             # <<<<<<<<<<<<<<
  *     """ A type description
  * 
  */
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_tuple__75); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_tuple__75, __pyx_n_s_TypeDescription_2, __pyx_n_s_TypeDescription_2, (PyObject *) NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_kp_s_A_type_description_This_class_w); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_tuple__79); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_tuple__79, __pyx_n_s_TypeDescription_2, __pyx_n_s_TypeDescription_2, (PyObject *) NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_kp_s_A_type_description_This_class_w); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":225
+  /* "src/pyrfc/nwrfcsdk.pyx":255
  * 
  *     """
  *     def __init__(self, name, nuc_length, uc_length):             # <<<<<<<<<<<<<<
  *         self.fields = []
  *         if len(name)<1 or len(name)>30:
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_15TypeDescription_1__init__, 0, __pyx_n_s_TypeDescription___init, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__77)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_15TypeDescription_1__init__, 0, __pyx_n_s_TypeDescription___init, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__81)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 225, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":236
+  /* "src/pyrfc/nwrfcsdk.pyx":266
  *         self.uc_length = uc_length
  * 
  *     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,             # <<<<<<<<<<<<<<
  *                   uc_offset, decimals=0, type_description=None):
  *         """ Adds a field to the type description.
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_15TypeDescription_3add_field, 0, __pyx_n_s_TypeDescription_add_field, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__79)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_15TypeDescription_3add_field, 0, __pyx_n_s_TypeDescription_add_field, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__83)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__80);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_field, __pyx_t_3) < 0) __PYX_ERR(0, 236, __pyx_L1_error)
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__84);
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_field, __pyx_t_3) < 0) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":277
+  /* "src/pyrfc/nwrfcsdk.pyx":307
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         return f"<TypeDescription '{self.name}' with {len(self.fields)} " \
  *             f"fields (n/uclength={self.nuc_length}/{self.uc_length})>"
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_15TypeDescription_5__repr__, 0, __pyx_n_s_TypeDescription___repr, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_15TypeDescription_5__repr__, 0, __pyx_n_s_TypeDescription___repr, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_repr, __pyx_t_3) < 0) __PYX_ERR(0, 277, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_repr, __pyx_t_3) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":200
+  /* "src/pyrfc/nwrfcsdk.pyx":230
  * 
  * 
  * class TypeDescription(object):             # <<<<<<<<<<<<<<
  *     """ A type description
  * 
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_TypeDescription_2, __pyx_tuple__75, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_TypeDescription_2, __pyx_tuple__79, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TypeDescription_2, __pyx_t_3) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TypeDescription_2, __pyx_t_3) < 0) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":286
+  /* "src/pyrfc/nwrfcsdk.pyx":316
  * 
  * 
  * class FunctionDescription(object):             # <<<<<<<<<<<<<<
  *     """ A function description
  * 
  */
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_tuple__83); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_tuple__83, __pyx_n_s_FunctionDescription_2, __pyx_n_s_FunctionDescription_2, (PyObject *) NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_kp_s_A_function_description_This_cla); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_tuple__87); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_tuple__87, __pyx_n_s_FunctionDescription_2, __pyx_n_s_FunctionDescription_2, (PyObject *) NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_kp_s_A_function_description_This_cla); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
 
-  /* "src/pyrfc/nwrfcsdk.pyx":309
+  /* "src/pyrfc/nwrfcsdk.pyx":339
  * 
  *     """
  *     def __init__(self, name):             # <<<<<<<<<<<<<<
  *         self.name = name
  *         self.parameters = []
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_19FunctionDescription_1__init__, 0, __pyx_n_s_FunctionDescription___init, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__85)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_19FunctionDescription_1__init__, 0, __pyx_n_s_FunctionDescription___init, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__89)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 309, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":313
+  /* "src/pyrfc/nwrfcsdk.pyx":343
  *         self.parameters = []
  * 
  *     def add_parameter(self, name, parameter_type, direction, nuc_length,             # <<<<<<<<<<<<<<
  *                       uc_length, decimals=0, default_value="", parameter_text="",
  *                       optional=False, type_description=None):
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_19FunctionDescription_3add_parameter, 0, __pyx_n_s_FunctionDescription_add_paramete, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__87)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_19FunctionDescription_3add_parameter, 0, __pyx_n_s_FunctionDescription_add_paramete, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__91)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__88);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_parameter, __pyx_t_3) < 0) __PYX_ERR(0, 313, __pyx_L1_error)
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__92);
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_parameter, __pyx_t_3) < 0) __PYX_ERR(0, 343, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":362
+  /* "src/pyrfc/nwrfcsdk.pyx":392
  *         })
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         return f"<FunctionDescription '{self.name}' with {len(self.parameters)} params>"
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_19FunctionDescription_5__repr__, 0, __pyx_n_s_FunctionDescription___repr, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__90)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 362, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_5pyrfc_6_cyrfc_19FunctionDescription_5__repr__, 0, __pyx_n_s_FunctionDescription___repr, NULL, __pyx_n_s_pyrfc__cyrfc, __pyx_d, ((PyObject *)__pyx_codeobj__94)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 392, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_repr, __pyx_t_3) < 0) __PYX_ERR(0, 362, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_repr, __pyx_t_3) < 0) __PYX_ERR(0, 392, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/pyrfc/nwrfcsdk.pyx":286
+  /* "src/pyrfc/nwrfcsdk.pyx":316
  * 
  * 
  * class FunctionDescription(object):             # <<<<<<<<<<<<<<
  *     """ A function description
  * 
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_FunctionDescription_2, __pyx_tuple__83, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_FunctionDescription_2, __pyx_tuple__87, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FunctionDescription_2, __pyx_t_3) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FunctionDescription_2, __pyx_t_3) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/data_container.pyx":1
  * from datetime import date, time, datetime             # <<<<<<<<<<<<<<
  * from decimal import Decimal
  * 
  */
-  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_date);
   __Pyx_GIVEREF(__pyx_n_s_date);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_date);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_date);
   __Pyx_INCREF(__pyx_n_s_time);
   __Pyx_GIVEREF(__pyx_n_s_time);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_time);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_time);
   __Pyx_INCREF(__pyx_n_s_datetime);
   __Pyx_GIVEREF(__pyx_n_s_datetime);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_datetime);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_datetime, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_date); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 1, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_datetime);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_datetime, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_date, __pyx_t_2) < 0) __PYX_ERR(4, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_2) < 0) __PYX_ERR(4, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_datetime); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_datetime, __pyx_t_2) < 0) __PYX_ERR(4, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_date, __pyx_t_1) < 0) __PYX_ERR(4, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(4, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_datetime); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_datetime, __pyx_t_1) < 0) __PYX_ERR(4, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/pyrfc/data_container.pyx":2
  * from datetime import date, time, datetime
@@ -45372,38 +46133,38 @@ if (!__Pyx_RefNanny) {
  * 
  * ################################################################################
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_Decimal);
   __Pyx_GIVEREF(__pyx_n_s_Decimal);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Decimal);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_decimal, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Decimal); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 2, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Decimal);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_decimal, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Decimal, __pyx_t_1) < 0) __PYX_ERR(4, 2, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Decimal); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Decimal, __pyx_t_2) < 0) __PYX_ERR(4, 2, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/client.pyx":1
  * from sys import platform             # <<<<<<<<<<<<<<
  * from collections.abc import Iterable
  * 
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_platform);
   __Pyx_GIVEREF(__pyx_n_s_platform);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_platform);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_platform); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 1, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_platform);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_sys, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_platform, __pyx_t_2) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_platform); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_platform, __pyx_t_1) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/pyrfc/client.pyx":2
  * from sys import platform
@@ -45411,19 +46172,19 @@ if (!__Pyx_RefNanny) {
  * 
  * # NOTES ON ERROR HANDLING
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_Iterable);
   __Pyx_GIVEREF(__pyx_n_s_Iterable);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Iterable);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections_abc, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Iterable); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Iterable);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections_abc, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Iterable, __pyx_t_1) < 0) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Iterable); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Iterable, __pyx_t_2) < 0) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/client.pyx":110
  *         return self._handle != NULL
@@ -45432,43 +46193,43 @@ if (!__Pyx_RefNanny) {
  *         # set connection config, rstrip default True
  *         self.__config = {}
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 110, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_k__23 = __pyx_t_2;
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 110, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_k__23 = __pyx_t_1;
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "src/pyrfc/client.pyx":336
+  /* "src/pyrfc/client.pyx":354
  *         return wrapFunctionDescription(funcDesc)
  * 
  *     def call(self, func_name, options={}, **params):             # <<<<<<<<<<<<<<
  *         """ Invokes a remote-enabled function module via RFC.
  * 
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 336, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_k__27 = __pyx_t_2;
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 354, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_k__27 = __pyx_t_1;
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "src/pyrfc/server.pyx":1
  * from sys import exc_info             # <<<<<<<<<<<<<<
  * from threading import Thread
  * import socket
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_exc_info);
   __Pyx_GIVEREF(__pyx_n_s_exc_info);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_exc_info);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_exc_info); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 1, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_exc_info);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_sys, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_exc_info, __pyx_t_2) < 0) __PYX_ERR(5, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_exc_info); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_exc_info, __pyx_t_1) < 0) __PYX_ERR(5, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/pyrfc/server.pyx":2
  * from sys import exc_info
@@ -45476,19 +46237,19 @@ if (!__Pyx_RefNanny) {
  * import socket
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_Thread);
   __Pyx_GIVEREF(__pyx_n_s_Thread);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Thread);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_threading, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Thread); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 2, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Thread);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_threading, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Thread, __pyx_t_1) < 0) __PYX_ERR(5, 2, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Thread); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Thread, __pyx_t_2) < 0) __PYX_ERR(5, 2, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/server.pyx":3
  * from sys import exc_info
@@ -45497,10 +46258,10 @@ if (!__Pyx_RefNanny) {
  * 
  * ################################################################################
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_socket, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_socket, __pyx_t_2) < 0) __PYX_ERR(5, 3, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_socket, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_socket, __pyx_t_1) < 0) __PYX_ERR(5, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/server.pyx":13
  * #                   "callback": Python function,
@@ -45509,10 +46270,10 @@ if (!__Pyx_RefNanny) {
  * 
  * # global information about served functions / callbacks
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 13, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_server_functions, __pyx_t_2) < 0) __PYX_ERR(5, 13, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_server_functions, __pyx_t_1) < 0) __PYX_ERR(5, 13, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/server.pyx":18
  * # "auth_check": Default authorization check function
@@ -45521,10 +46282,10 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_server_context, __pyx_t_2) < 0) __PYX_ERR(5, 18, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 18, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_server_context, __pyx_t_1) < 0) __PYX_ERR(5, 18, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/server.pyx":21
  * 
@@ -45533,15 +46294,15 @@ if (!__Pyx_RefNanny) {
  *     _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
  *     return RFC_OK
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 21, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_k__36 = __pyx_t_2;
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_23default_auth_check, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 21, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_default_auth_check, __pyx_t_2) < 0) __PYX_ERR(5, 21, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_k__36 = __pyx_t_1;
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_25default_auth_check, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_default_auth_check, __pyx_t_1) < 0) __PYX_ERR(5, 21, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/server.pyx":26
  * 
@@ -45550,10 +46311,10 @@ if (!__Pyx_RefNanny) {
  *     if server_context["server_log"]:
  *         print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_25_server_log, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_server_log, __pyx_t_2) < 0) __PYX_ERR(5, 26, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_27_server_log, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_server_log, __pyx_t_1) < 0) __PYX_ERR(5, 26, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/pyrfc/server.pyx":281
  * 
@@ -45562,9 +46323,9 @@ if (!__Pyx_RefNanny) {
  *         "commit": None,
  *         "rollback": None,
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 281, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_check, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 281, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_check, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
 
   /* "src/pyrfc/server.pyx":282
  *     __bgRfcFunction = {
@@ -45573,7 +46334,7 @@ if (!__Pyx_RefNanny) {
  *         "rollback": None,
  *         "confirm": None,
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_commit, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_commit, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
 
   /* "src/pyrfc/server.pyx":283
  *         "check": None,
@@ -45582,7 +46343,7 @@ if (!__Pyx_RefNanny) {
  *         "confirm": None,
  *         "getState": None
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_rollback, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_rollback, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
 
   /* "src/pyrfc/server.pyx":284
  *         "commit": None,
@@ -45591,7 +46352,7 @@ if (!__Pyx_RefNanny) {
  *         "getState": None
  *     }
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_confirm, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_confirm, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
 
   /* "src/pyrfc/server.pyx":285
  *         "rollback": None,
@@ -45600,9 +46361,9 @@ if (!__Pyx_RefNanny) {
  *     }
  * 
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_getState, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Server->tp_dict, __pyx_n_s_bgRfcFunction, __pyx_t_2) < 0) __PYX_ERR(5, 280, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_getState, Py_None) < 0) __PYX_ERR(5, 281, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Server->tp_dict, __pyx_n_s_bgRfcFunction, __pyx_t_1) < 0) __PYX_ERR(5, 280, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_5pyrfc_6_cyrfc_Server);
 
   /* "src/pyrfc/server.pyx":288
@@ -45612,11 +46373,11 @@ if (!__Pyx_RefNanny) {
  *         # cdef uintptr_t handle
  * 
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_k__43 = __pyx_t_2;
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_k__43 = __pyx_t_1;
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "src/pyrfc/throughput.pyx":7
  * 
@@ -45625,10 +46386,10 @@ if (!__Pyx_RefNanny) {
  * 
  *     cdef RFC_THROUGHPUT_HANDLE _throughput_handle
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput->tp_dict, __pyx_n_s_registry, __pyx_t_2) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 7, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput->tp_dict, __pyx_n_s_registry, __pyx_t_1) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_5pyrfc_6_cyrfc_Throughput);
 
   /* "src/pyrfc/throughput.pyx":12
@@ -45638,11 +46399,11 @@ if (!__Pyx_RefNanny) {
  *         cdef RFC_ERROR_INFO errorInfo
  *         self._throughput_handle = NULL
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_k__49 = __pyx_t_2;
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_k__49 = __pyx_t_1;
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "src/pyrfc/throughput.pyx":65
  * 
@@ -45651,10 +46412,10 @@ if (!__Pyx_RefNanny) {
  *         """Returns the currently attached throughput object from a connection, if any.
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_10Throughput_5getFromConnection, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 65, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput->tp_dict, __pyx_n_s_getFromConnection, __pyx_t_2) < 0) __PYX_ERR(1, 65, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5pyrfc_6_cyrfc_10Throughput_5getFromConnection, NULL, __pyx_n_s_pyrfc__cyrfc); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 65, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput->tp_dict, __pyx_n_s_getFromConnection, __pyx_t_1) < 0) __PYX_ERR(1, 65, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_5pyrfc_6_cyrfc_Throughput);
 
   /* "src/pyrfc/throughput.pyx":64
@@ -45664,13 +46425,13 @@ if (!__Pyx_RefNanny) {
  *     def getFromConnection(Connection connection):
  *         """Returns the currently attached throughput object from a connection, if any.
  */
-  __Pyx_GetNameInClass(__pyx_t_2, (PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput, __pyx_n_s_getFromConnection); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 65, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 64, __pyx_L1_error)
+  __Pyx_GetNameInClass(__pyx_t_1, (PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput, __pyx_n_s_getFromConnection); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput->tp_dict, __pyx_n_s_getFromConnection, __pyx_t_1) < 0) __PYX_ERR(1, 65, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 64, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_5pyrfc_6_cyrfc_Throughput->tp_dict, __pyx_n_s_getFromConnection, __pyx_t_2) < 0) __PYX_ERR(1, 65, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_5pyrfc_6_cyrfc_Throughput);
 
   /* "pyrfc/_cyrfc.pyx":1
@@ -45678,10 +46439,18 @@ if (!__Pyx_RefNanny) {
  * #
  * # SPDX-License-Identifier: Apache-2.0
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(6, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(6, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(6, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "cfunc.to_py":64
+ * 
+ * @cname("__Pyx_CFunc_object____object___to_py")
+ * cdef object __Pyx_CFunc_object____object___to_py(object (*f)(object) ):             # <<<<<<<<<<<<<<
+ *     def wrap(object client_connection):
+ *         """wrap(client_connection)"""
+ */
 
   /*--- Wrapped vars code ---*/
 
@@ -45819,148 +46588,6 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
     return __Pyx_GetBuiltinName(name);
 }
 
-/* PyFunctionFastCall */
-#if CYTHON_FAST_PYCALL
-static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
-                                               PyObject *globals) {
-    PyFrameObject *f;
-    PyThreadState *tstate = __Pyx_PyThreadState_Current;
-    PyObject **fastlocals;
-    Py_ssize_t i;
-    PyObject *result;
-    assert(globals != NULL);
-    /* XXX Perhaps we should create a specialized
-       PyFrame_New() that doesn't take locals, but does
-       take builtins without sanity checking them.
-       */
-    assert(tstate != NULL);
-    f = PyFrame_New(tstate, co, globals, NULL);
-    if (f == NULL) {
-        return NULL;
-    }
-    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
-    for (i = 0; i < na; i++) {
-        Py_INCREF(*args);
-        fastlocals[i] = *args++;
-    }
-    result = PyEval_EvalFrameEx(f,0);
-    ++tstate->recursion_depth;
-    Py_DECREF(f);
-    --tstate->recursion_depth;
-    return result;
-}
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs) {
-    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
-    PyObject *globals = PyFunction_GET_GLOBALS(func);
-    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
-    PyObject *closure;
-#if PY_MAJOR_VERSION >= 3
-    PyObject *kwdefs;
-#endif
-    PyObject *kwtuple, **k;
-    PyObject **d;
-    Py_ssize_t nd;
-    Py_ssize_t nk;
-    PyObject *result;
-    assert(kwargs == NULL || PyDict_Check(kwargs));
-    nk = kwargs ? PyDict_Size(kwargs) : 0;
-    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
-        return NULL;
-    }
-    if (
-#if PY_MAJOR_VERSION >= 3
-            co->co_kwonlyargcount == 0 &&
-#endif
-            likely(kwargs == NULL || nk == 0) &&
-            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
-        if (argdefs == NULL && co->co_argcount == nargs) {
-            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
-            goto done;
-        }
-        else if (nargs == 0 && argdefs != NULL
-                 && co->co_argcount == Py_SIZE(argdefs)) {
-            /* function called with no arguments, but all parameters have
-               a default value: use default values as arguments .*/
-            args = &PyTuple_GET_ITEM(argdefs, 0);
-            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
-            goto done;
-        }
-    }
-    if (kwargs != NULL) {
-        Py_ssize_t pos, i;
-        kwtuple = PyTuple_New(2 * nk);
-        if (kwtuple == NULL) {
-            result = NULL;
-            goto done;
-        }
-        k = &PyTuple_GET_ITEM(kwtuple, 0);
-        pos = i = 0;
-        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
-            Py_INCREF(k[i]);
-            Py_INCREF(k[i+1]);
-            i += 2;
-        }
-        nk = i / 2;
-    }
-    else {
-        kwtuple = NULL;
-        k = NULL;
-    }
-    closure = PyFunction_GET_CLOSURE(func);
-#if PY_MAJOR_VERSION >= 3
-    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
-#endif
-    if (argdefs != NULL) {
-        d = &PyTuple_GET_ITEM(argdefs, 0);
-        nd = Py_SIZE(argdefs);
-    }
-    else {
-        d = NULL;
-        nd = 0;
-    }
-#if PY_MAJOR_VERSION >= 3
-    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
-                               args, (int)nargs,
-                               k, (int)nk,
-                               d, (int)nd, kwdefs, closure);
-#else
-    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
-                               args, (int)nargs,
-                               k, (int)nk,
-                               d, (int)nd, closure);
-#endif
-    Py_XDECREF(kwtuple);
-done:
-    Py_LeaveRecursiveCall();
-    return result;
-}
-#endif
-#endif
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
-}
-#endif
-
 /* PyObjectCall */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
@@ -45977,95 +46604,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
             PyExc_SystemError,
             "NULL result without error in PyObject_Call");
     }
-    return result;
-}
-#endif
-
-/* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-    PyObject *args, *result = NULL;
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyFunction_FastCall(function, args, 2);
-    }
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyCFunction_FastCall(function, args, 2);
-    }
-    #endif
-    args = PyTuple_New(2);
-    if (unlikely(!args)) goto done;
-    Py_INCREF(arg1);
-    PyTuple_SET_ITEM(args, 0, arg1);
-    Py_INCREF(arg2);
-    PyTuple_SET_ITEM(args, 1, arg2);
-    Py_INCREF(function);
-    result = __Pyx_PyObject_Call(function, args, NULL);
-    Py_DECREF(args);
-    Py_DECREF(function);
-done:
-    return result;
-}
-
-/* PyObjectCallMethO */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
-    PyObject *self, *result;
-    PyCFunction cfunc;
-    cfunc = PyCFunction_GET_FUNCTION(func);
-    self = PyCFunction_GET_SELF(func);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = cfunc(self, arg);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* PyObjectCallOneArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_New(1);
-    if (unlikely(!args)) return NULL;
-    Py_INCREF(arg);
-    PyTuple_SET_ITEM(args, 0, arg);
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, &arg, 1);
-    }
-#endif
-    if (likely(PyCFunction_Check(func))) {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
-            return __Pyx_PyObject_CallMethO(func, arg);
-#if CYTHON_FAST_PYCCALL
-        } else if (__Pyx_PyFastCFunction_Check(func)) {
-            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
-#endif
-        }
-    }
-    return __Pyx__PyObject_CallOneArg(func, arg);
-}
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_Pack(1, arg);
-    if (unlikely(!args)) return NULL;
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
     return result;
 }
 #endif
@@ -46250,6 +46788,237 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 bad:
     Py_XDECREF(owned_instance);
     return;
+}
+#endif
+
+/* PyFunctionFastCall */
+#if CYTHON_FAST_PYCALL
+static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
+                                               PyObject *globals) {
+    PyFrameObject *f;
+    PyThreadState *tstate = __Pyx_PyThreadState_Current;
+    PyObject **fastlocals;
+    Py_ssize_t i;
+    PyObject *result;
+    assert(globals != NULL);
+    /* XXX Perhaps we should create a specialized
+       PyFrame_New() that doesn't take locals, but does
+       take builtins without sanity checking them.
+       */
+    assert(tstate != NULL);
+    f = PyFrame_New(tstate, co, globals, NULL);
+    if (f == NULL) {
+        return NULL;
+    }
+    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
+    for (i = 0; i < na; i++) {
+        Py_INCREF(*args);
+        fastlocals[i] = *args++;
+    }
+    result = PyEval_EvalFrameEx(f,0);
+    ++tstate->recursion_depth;
+    Py_DECREF(f);
+    --tstate->recursion_depth;
+    return result;
+}
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs) {
+    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
+    PyObject *globals = PyFunction_GET_GLOBALS(func);
+    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
+    PyObject *closure;
+#if PY_MAJOR_VERSION >= 3
+    PyObject *kwdefs;
+#endif
+    PyObject *kwtuple, **k;
+    PyObject **d;
+    Py_ssize_t nd;
+    Py_ssize_t nk;
+    PyObject *result;
+    assert(kwargs == NULL || PyDict_Check(kwargs));
+    nk = kwargs ? PyDict_Size(kwargs) : 0;
+    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
+        return NULL;
+    }
+    if (
+#if PY_MAJOR_VERSION >= 3
+            co->co_kwonlyargcount == 0 &&
+#endif
+            likely(kwargs == NULL || nk == 0) &&
+            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
+        if (argdefs == NULL && co->co_argcount == nargs) {
+            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
+            goto done;
+        }
+        else if (nargs == 0 && argdefs != NULL
+                 && co->co_argcount == Py_SIZE(argdefs)) {
+            /* function called with no arguments, but all parameters have
+               a default value: use default values as arguments .*/
+            args = &PyTuple_GET_ITEM(argdefs, 0);
+            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
+            goto done;
+        }
+    }
+    if (kwargs != NULL) {
+        Py_ssize_t pos, i;
+        kwtuple = PyTuple_New(2 * nk);
+        if (kwtuple == NULL) {
+            result = NULL;
+            goto done;
+        }
+        k = &PyTuple_GET_ITEM(kwtuple, 0);
+        pos = i = 0;
+        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
+            Py_INCREF(k[i]);
+            Py_INCREF(k[i+1]);
+            i += 2;
+        }
+        nk = i / 2;
+    }
+    else {
+        kwtuple = NULL;
+        k = NULL;
+    }
+    closure = PyFunction_GET_CLOSURE(func);
+#if PY_MAJOR_VERSION >= 3
+    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
+#endif
+    if (argdefs != NULL) {
+        d = &PyTuple_GET_ITEM(argdefs, 0);
+        nd = Py_SIZE(argdefs);
+    }
+    else {
+        d = NULL;
+        nd = 0;
+    }
+#if PY_MAJOR_VERSION >= 3
+    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, kwdefs, closure);
+#else
+    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, closure);
+#endif
+    Py_XDECREF(kwtuple);
+done:
+    Py_LeaveRecursiveCall();
+    return result;
+}
+#endif
+#endif
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
+}
+#endif
+
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
+}
+
+/* PyObjectCallMethO */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyObjectCallOneArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, &arg, 1);
+    }
+#endif
+    if (likely(PyCFunction_Check(func))) {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+#if CYTHON_FAST_PYCCALL
+        } else if (__Pyx_PyFastCFunction_Check(func)) {
+            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
+#endif
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_Pack(1, arg);
+    if (unlikely(!args)) return NULL;
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
 }
 #endif
 
@@ -48616,385 +49385,6 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
     return 0;
 }
 
-/* PyObject_GenericGetAttrNoDict */
-#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
-static PyObject *__Pyx_RaiseGenericGetAttributeError(PyTypeObject *tp, PyObject *attr_name) {
-    PyErr_Format(PyExc_AttributeError,
-#if PY_MAJOR_VERSION >= 3
-                 "'%.50s' object has no attribute '%U'",
-                 tp->tp_name, attr_name);
-#else
-                 "'%.50s' object has no attribute '%.400s'",
-                 tp->tp_name, PyString_AS_STRING(attr_name));
-#endif
-    return NULL;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GenericGetAttrNoDict(PyObject* obj, PyObject* attr_name) {
-    PyObject *descr;
-    PyTypeObject *tp = Py_TYPE(obj);
-    if (unlikely(!PyString_Check(attr_name))) {
-        return PyObject_GenericGetAttr(obj, attr_name);
-    }
-    assert(!tp->tp_dictoffset);
-    descr = _PyType_Lookup(tp, attr_name);
-    if (unlikely(!descr)) {
-        return __Pyx_RaiseGenericGetAttributeError(tp, attr_name);
-    }
-    Py_INCREF(descr);
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyType_HasFeature(Py_TYPE(descr), Py_TPFLAGS_HAVE_CLASS)))
-    #endif
-    {
-        descrgetfunc f = Py_TYPE(descr)->tp_descr_get;
-        if (unlikely(f)) {
-            PyObject *res = f(descr, obj, (PyObject *)tp);
-            Py_DECREF(descr);
-            return res;
-        }
-    }
-    return descr;
-}
-#endif
-
-/* PyObject_GenericGetAttr */
-#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
-static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_name) {
-    if (unlikely(Py_TYPE(obj)->tp_dictoffset)) {
-        return PyObject_GenericGetAttr(obj, attr_name);
-    }
-    return __Pyx_PyObject_GenericGetAttrNoDict(obj, attr_name);
-}
-#endif
-
-/* PyObjectGetAttrStrNoError */
-static void __Pyx_PyObject_GetAttrStr_ClearAttributeError(void) {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    if (likely(__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
-        __Pyx_PyErr_Clear();
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, PyObject* attr_name) {
-    PyObject *result;
-#if CYTHON_COMPILING_IN_CPYTHON && CYTHON_USE_TYPE_SLOTS && PY_VERSION_HEX >= 0x030700B1
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_getattro == PyObject_GenericGetAttr)) {
-        return _PyObject_GenericGetAttrWithDict(obj, attr_name, NULL, 1);
-    }
-#endif
-    result = __Pyx_PyObject_GetAttrStr(obj, attr_name);
-    if (unlikely(!result)) {
-        __Pyx_PyObject_GetAttrStr_ClearAttributeError();
-    }
-    return result;
-}
-
-/* SetupReduce */
-static int __Pyx_setup_reduce_is_named(PyObject* meth, PyObject* name) {
-  int ret;
-  PyObject *name_attr;
-  name_attr = __Pyx_PyObject_GetAttrStr(meth, __pyx_n_s_name_2);
-  if (likely(name_attr)) {
-      ret = PyObject_RichCompareBool(name_attr, name, Py_EQ);
-  } else {
-      ret = -1;
-  }
-  if (unlikely(ret < 0)) {
-      PyErr_Clear();
-      ret = 0;
-  }
-  Py_XDECREF(name_attr);
-  return ret;
-}
-static int __Pyx_setup_reduce(PyObject* type_obj) {
-    int ret = 0;
-    PyObject *object_reduce = NULL;
-    PyObject *object_getstate = NULL;
-    PyObject *object_reduce_ex = NULL;
-    PyObject *reduce = NULL;
-    PyObject *reduce_ex = NULL;
-    PyObject *reduce_cython = NULL;
-    PyObject *setstate = NULL;
-    PyObject *setstate_cython = NULL;
-    PyObject *getstate = NULL;
-#if CYTHON_USE_PYTYPE_LOOKUP
-    getstate = _PyType_Lookup((PyTypeObject*)type_obj, __pyx_n_s_getstate);
-#else
-    getstate = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_getstate);
-    if (!getstate && PyErr_Occurred()) {
-        goto __PYX_BAD;
-    }
-#endif
-    if (getstate) {
-#if CYTHON_USE_PYTYPE_LOOKUP
-        object_getstate = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_getstate);
-#else
-        object_getstate = __Pyx_PyObject_GetAttrStrNoError((PyObject*)&PyBaseObject_Type, __pyx_n_s_getstate);
-        if (!object_getstate && PyErr_Occurred()) {
-            goto __PYX_BAD;
-        }
-#endif
-        if (object_getstate != getstate) {
-            goto __PYX_GOOD;
-        }
-    }
-#if CYTHON_USE_PYTYPE_LOOKUP
-    object_reduce_ex = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
-#else
-    object_reduce_ex = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
-#endif
-    reduce_ex = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce_ex); if (unlikely(!reduce_ex)) goto __PYX_BAD;
-    if (reduce_ex == object_reduce_ex) {
-#if CYTHON_USE_PYTYPE_LOOKUP
-        object_reduce = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
-#else
-        object_reduce = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
-#endif
-        reduce = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce); if (unlikely(!reduce)) goto __PYX_BAD;
-        if (reduce == object_reduce || __Pyx_setup_reduce_is_named(reduce, __pyx_n_s_reduce_cython)) {
-            reduce_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_reduce_cython);
-            if (likely(reduce_cython)) {
-                ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce, reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-                ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-            } else if (reduce == object_reduce || PyErr_Occurred()) {
-                goto __PYX_BAD;
-            }
-            setstate = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_setstate);
-            if (!setstate) PyErr_Clear();
-            if (!setstate || __Pyx_setup_reduce_is_named(setstate, __pyx_n_s_setstate_cython)) {
-                setstate_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_setstate_cython);
-                if (likely(setstate_cython)) {
-                    ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate, setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-                    ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-                } else if (!setstate || PyErr_Occurred()) {
-                    goto __PYX_BAD;
-                }
-            }
-            PyType_Modified((PyTypeObject*)type_obj);
-        }
-    }
-    goto __PYX_GOOD;
-__PYX_BAD:
-    if (!PyErr_Occurred())
-        PyErr_Format(PyExc_RuntimeError, "Unable to initialize pickling for %s", ((PyTypeObject*)type_obj)->tp_name);
-    ret = -1;
-__PYX_GOOD:
-#if !CYTHON_USE_PYTYPE_LOOKUP
-    Py_XDECREF(object_reduce);
-    Py_XDECREF(object_reduce_ex);
-    Py_XDECREF(object_getstate);
-    Py_XDECREF(getstate);
-#endif
-    Py_XDECREF(reduce);
-    Py_XDECREF(reduce_ex);
-    Py_XDECREF(reduce_cython);
-    Py_XDECREF(setstate);
-    Py_XDECREF(setstate_cython);
-    return ret;
-}
-
-/* SetVTable */
-static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
-#if PY_VERSION_HEX >= 0x02070000
-    PyObject *ob = PyCapsule_New(vtable, 0, 0);
-#else
-    PyObject *ob = PyCObject_FromVoidPtr(vtable, 0);
-#endif
-    if (!ob)
-        goto bad;
-    if (PyDict_SetItem(dict, __pyx_n_s_pyx_vtable, ob) < 0)
-        goto bad;
-    Py_DECREF(ob);
-    return 0;
-bad:
-    Py_XDECREF(ob);
-    return -1;
-}
-
-/* Import */
-static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
-    PyObject *empty_list = 0;
-    PyObject *module = 0;
-    PyObject *global_dict = 0;
-    PyObject *empty_dict = 0;
-    PyObject *list;
-    #if PY_MAJOR_VERSION < 3
-    PyObject *py_import;
-    py_import = __Pyx_PyObject_GetAttrStr(__pyx_b, __pyx_n_s_import);
-    if (!py_import)
-        goto bad;
-    #endif
-    if (from_list)
-        list = from_list;
-    else {
-        empty_list = PyList_New(0);
-        if (!empty_list)
-            goto bad;
-        list = empty_list;
-    }
-    global_dict = PyModule_GetDict(__pyx_m);
-    if (!global_dict)
-        goto bad;
-    empty_dict = PyDict_New();
-    if (!empty_dict)
-        goto bad;
-    {
-        #if PY_MAJOR_VERSION >= 3
-        if (level == -1) {
-            if ((1) && (strchr(__Pyx_MODULE_NAME, '.'))) {
-                module = PyImport_ImportModuleLevelObject(
-                    name, global_dict, empty_dict, list, 1);
-                if (!module) {
-                    if (!PyErr_ExceptionMatches(PyExc_ImportError))
-                        goto bad;
-                    PyErr_Clear();
-                }
-            }
-            level = 0;
-        }
-        #endif
-        if (!module) {
-            #if PY_MAJOR_VERSION < 3
-            PyObject *py_level = PyInt_FromLong(level);
-            if (!py_level)
-                goto bad;
-            module = PyObject_CallFunctionObjArgs(py_import,
-                name, global_dict, empty_dict, list, py_level, (PyObject *)NULL);
-            Py_DECREF(py_level);
-            #else
-            module = PyImport_ImportModuleLevelObject(
-                name, global_dict, empty_dict, list, level);
-            #endif
-        }
-    }
-bad:
-    #if PY_MAJOR_VERSION < 3
-    Py_XDECREF(py_import);
-    #endif
-    Py_XDECREF(empty_list);
-    Py_XDECREF(empty_dict);
-    return module;
-}
-
-/* ImportFrom */
-static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
-    PyObject* value = __Pyx_PyObject_GetAttrStr(module, name);
-    if (unlikely(!value) && PyErr_ExceptionMatches(PyExc_AttributeError)) {
-        PyErr_Format(PyExc_ImportError,
-        #if PY_MAJOR_VERSION < 3
-            "cannot import name %.230s", PyString_AS_STRING(name));
-        #else
-            "cannot import name %S", name);
-        #endif
-    }
-    return value;
-}
-
-/* CalculateMetaclass */
-static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases) {
-    Py_ssize_t i, nbases = PyTuple_GET_SIZE(bases);
-    for (i=0; i < nbases; i++) {
-        PyTypeObject *tmptype;
-        PyObject *tmp = PyTuple_GET_ITEM(bases, i);
-        tmptype = Py_TYPE(tmp);
-#if PY_MAJOR_VERSION < 3
-        if (tmptype == &PyClass_Type)
-            continue;
-#endif
-        if (!metaclass) {
-            metaclass = tmptype;
-            continue;
-        }
-        if (PyType_IsSubtype(metaclass, tmptype))
-            continue;
-        if (PyType_IsSubtype(tmptype, metaclass)) {
-            metaclass = tmptype;
-            continue;
-        }
-        PyErr_SetString(PyExc_TypeError,
-                        "metaclass conflict: "
-                        "the metaclass of a derived class "
-                        "must be a (non-strict) subclass "
-                        "of the metaclasses of all its bases");
-        return NULL;
-    }
-    if (!metaclass) {
-#if PY_MAJOR_VERSION < 3
-        metaclass = &PyClass_Type;
-#else
-        metaclass = &PyType_Type;
-#endif
-    }
-    Py_INCREF((PyObject*) metaclass);
-    return (PyObject*) metaclass;
-}
-
-/* Py3ClassCreate */
-static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name,
-                                           PyObject *qualname, PyObject *mkw, PyObject *modname, PyObject *doc) {
-    PyObject *ns;
-    if (metaclass) {
-        PyObject *prep = __Pyx_PyObject_GetAttrStr(metaclass, __pyx_n_s_prepare);
-        if (prep) {
-            PyObject *pargs = PyTuple_Pack(2, name, bases);
-            if (unlikely(!pargs)) {
-                Py_DECREF(prep);
-                return NULL;
-            }
-            ns = PyObject_Call(prep, pargs, mkw);
-            Py_DECREF(prep);
-            Py_DECREF(pargs);
-        } else {
-            if (unlikely(!PyErr_ExceptionMatches(PyExc_AttributeError)))
-                return NULL;
-            PyErr_Clear();
-            ns = PyDict_New();
-        }
-    } else {
-        ns = PyDict_New();
-    }
-    if (unlikely(!ns))
-        return NULL;
-    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_module, modname) < 0)) goto bad;
-    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_qualname, qualname) < 0)) goto bad;
-    if (unlikely(doc && PyObject_SetItem(ns, __pyx_n_s_doc, doc) < 0)) goto bad;
-    return ns;
-bad:
-    Py_DECREF(ns);
-    return NULL;
-}
-static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases,
-                                      PyObject *dict, PyObject *mkw,
-                                      int calculate_metaclass, int allow_py2_metaclass) {
-    PyObject *result, *margs;
-    PyObject *owned_metaclass = NULL;
-    if (allow_py2_metaclass) {
-        owned_metaclass = PyObject_GetItem(dict, __pyx_n_s_metaclass);
-        if (owned_metaclass) {
-            metaclass = owned_metaclass;
-        } else if (likely(PyErr_ExceptionMatches(PyExc_KeyError))) {
-            PyErr_Clear();
-        } else {
-            return NULL;
-        }
-    }
-    if (calculate_metaclass && (!metaclass || PyType_Check(metaclass))) {
-        metaclass = __Pyx_CalculateMetaclass((PyTypeObject*) metaclass, bases);
-        Py_XDECREF(owned_metaclass);
-        if (unlikely(!metaclass))
-            return NULL;
-        owned_metaclass = metaclass;
-    }
-    margs = PyTuple_Pack(3, name, bases, dict);
-    if (unlikely(!margs)) {
-        result = NULL;
-    } else {
-        result = PyObject_Call(metaclass, margs, mkw);
-        Py_DECREF(margs);
-    }
-    Py_XDECREF(owned_metaclass);
-    return result;
-}
-
 /* FetchCommonType */
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type) {
     PyObject* fake_module;
@@ -49663,6 +50053,385 @@ static PyObject *__Pyx_CyFunction_New(PyMethodDef *ml, int flags, PyObject* qual
     return op;
 }
 
+/* PyObject_GenericGetAttrNoDict */
+#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
+static PyObject *__Pyx_RaiseGenericGetAttributeError(PyTypeObject *tp, PyObject *attr_name) {
+    PyErr_Format(PyExc_AttributeError,
+#if PY_MAJOR_VERSION >= 3
+                 "'%.50s' object has no attribute '%U'",
+                 tp->tp_name, attr_name);
+#else
+                 "'%.50s' object has no attribute '%.400s'",
+                 tp->tp_name, PyString_AS_STRING(attr_name));
+#endif
+    return NULL;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GenericGetAttrNoDict(PyObject* obj, PyObject* attr_name) {
+    PyObject *descr;
+    PyTypeObject *tp = Py_TYPE(obj);
+    if (unlikely(!PyString_Check(attr_name))) {
+        return PyObject_GenericGetAttr(obj, attr_name);
+    }
+    assert(!tp->tp_dictoffset);
+    descr = _PyType_Lookup(tp, attr_name);
+    if (unlikely(!descr)) {
+        return __Pyx_RaiseGenericGetAttributeError(tp, attr_name);
+    }
+    Py_INCREF(descr);
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyType_HasFeature(Py_TYPE(descr), Py_TPFLAGS_HAVE_CLASS)))
+    #endif
+    {
+        descrgetfunc f = Py_TYPE(descr)->tp_descr_get;
+        if (unlikely(f)) {
+            PyObject *res = f(descr, obj, (PyObject *)tp);
+            Py_DECREF(descr);
+            return res;
+        }
+    }
+    return descr;
+}
+#endif
+
+/* PyObject_GenericGetAttr */
+#if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
+static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_name) {
+    if (unlikely(Py_TYPE(obj)->tp_dictoffset)) {
+        return PyObject_GenericGetAttr(obj, attr_name);
+    }
+    return __Pyx_PyObject_GenericGetAttrNoDict(obj, attr_name);
+}
+#endif
+
+/* PyObjectGetAttrStrNoError */
+static void __Pyx_PyObject_GetAttrStr_ClearAttributeError(void) {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    if (likely(__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
+        __Pyx_PyErr_Clear();
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, PyObject* attr_name) {
+    PyObject *result;
+#if CYTHON_COMPILING_IN_CPYTHON && CYTHON_USE_TYPE_SLOTS && PY_VERSION_HEX >= 0x030700B1
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro == PyObject_GenericGetAttr)) {
+        return _PyObject_GenericGetAttrWithDict(obj, attr_name, NULL, 1);
+    }
+#endif
+    result = __Pyx_PyObject_GetAttrStr(obj, attr_name);
+    if (unlikely(!result)) {
+        __Pyx_PyObject_GetAttrStr_ClearAttributeError();
+    }
+    return result;
+}
+
+/* SetupReduce */
+static int __Pyx_setup_reduce_is_named(PyObject* meth, PyObject* name) {
+  int ret;
+  PyObject *name_attr;
+  name_attr = __Pyx_PyObject_GetAttrStr(meth, __pyx_n_s_name_2);
+  if (likely(name_attr)) {
+      ret = PyObject_RichCompareBool(name_attr, name, Py_EQ);
+  } else {
+      ret = -1;
+  }
+  if (unlikely(ret < 0)) {
+      PyErr_Clear();
+      ret = 0;
+  }
+  Py_XDECREF(name_attr);
+  return ret;
+}
+static int __Pyx_setup_reduce(PyObject* type_obj) {
+    int ret = 0;
+    PyObject *object_reduce = NULL;
+    PyObject *object_getstate = NULL;
+    PyObject *object_reduce_ex = NULL;
+    PyObject *reduce = NULL;
+    PyObject *reduce_ex = NULL;
+    PyObject *reduce_cython = NULL;
+    PyObject *setstate = NULL;
+    PyObject *setstate_cython = NULL;
+    PyObject *getstate = NULL;
+#if CYTHON_USE_PYTYPE_LOOKUP
+    getstate = _PyType_Lookup((PyTypeObject*)type_obj, __pyx_n_s_getstate);
+#else
+    getstate = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_getstate);
+    if (!getstate && PyErr_Occurred()) {
+        goto __PYX_BAD;
+    }
+#endif
+    if (getstate) {
+#if CYTHON_USE_PYTYPE_LOOKUP
+        object_getstate = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_getstate);
+#else
+        object_getstate = __Pyx_PyObject_GetAttrStrNoError((PyObject*)&PyBaseObject_Type, __pyx_n_s_getstate);
+        if (!object_getstate && PyErr_Occurred()) {
+            goto __PYX_BAD;
+        }
+#endif
+        if (object_getstate != getstate) {
+            goto __PYX_GOOD;
+        }
+    }
+#if CYTHON_USE_PYTYPE_LOOKUP
+    object_reduce_ex = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
+#else
+    object_reduce_ex = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
+#endif
+    reduce_ex = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce_ex); if (unlikely(!reduce_ex)) goto __PYX_BAD;
+    if (reduce_ex == object_reduce_ex) {
+#if CYTHON_USE_PYTYPE_LOOKUP
+        object_reduce = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
+#else
+        object_reduce = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
+#endif
+        reduce = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce); if (unlikely(!reduce)) goto __PYX_BAD;
+        if (reduce == object_reduce || __Pyx_setup_reduce_is_named(reduce, __pyx_n_s_reduce_cython)) {
+            reduce_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_reduce_cython);
+            if (likely(reduce_cython)) {
+                ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce, reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+                ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+            } else if (reduce == object_reduce || PyErr_Occurred()) {
+                goto __PYX_BAD;
+            }
+            setstate = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_setstate);
+            if (!setstate) PyErr_Clear();
+            if (!setstate || __Pyx_setup_reduce_is_named(setstate, __pyx_n_s_setstate_cython)) {
+                setstate_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_setstate_cython);
+                if (likely(setstate_cython)) {
+                    ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate, setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+                    ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+                } else if (!setstate || PyErr_Occurred()) {
+                    goto __PYX_BAD;
+                }
+            }
+            PyType_Modified((PyTypeObject*)type_obj);
+        }
+    }
+    goto __PYX_GOOD;
+__PYX_BAD:
+    if (!PyErr_Occurred())
+        PyErr_Format(PyExc_RuntimeError, "Unable to initialize pickling for %s", ((PyTypeObject*)type_obj)->tp_name);
+    ret = -1;
+__PYX_GOOD:
+#if !CYTHON_USE_PYTYPE_LOOKUP
+    Py_XDECREF(object_reduce);
+    Py_XDECREF(object_reduce_ex);
+    Py_XDECREF(object_getstate);
+    Py_XDECREF(getstate);
+#endif
+    Py_XDECREF(reduce);
+    Py_XDECREF(reduce_ex);
+    Py_XDECREF(reduce_cython);
+    Py_XDECREF(setstate);
+    Py_XDECREF(setstate_cython);
+    return ret;
+}
+
+/* SetVTable */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
+#if PY_VERSION_HEX >= 0x02070000
+    PyObject *ob = PyCapsule_New(vtable, 0, 0);
+#else
+    PyObject *ob = PyCObject_FromVoidPtr(vtable, 0);
+#endif
+    if (!ob)
+        goto bad;
+    if (PyDict_SetItem(dict, __pyx_n_s_pyx_vtable, ob) < 0)
+        goto bad;
+    Py_DECREF(ob);
+    return 0;
+bad:
+    Py_XDECREF(ob);
+    return -1;
+}
+
+/* Import */
+static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
+    PyObject *empty_list = 0;
+    PyObject *module = 0;
+    PyObject *global_dict = 0;
+    PyObject *empty_dict = 0;
+    PyObject *list;
+    #if PY_MAJOR_VERSION < 3
+    PyObject *py_import;
+    py_import = __Pyx_PyObject_GetAttrStr(__pyx_b, __pyx_n_s_import);
+    if (!py_import)
+        goto bad;
+    #endif
+    if (from_list)
+        list = from_list;
+    else {
+        empty_list = PyList_New(0);
+        if (!empty_list)
+            goto bad;
+        list = empty_list;
+    }
+    global_dict = PyModule_GetDict(__pyx_m);
+    if (!global_dict)
+        goto bad;
+    empty_dict = PyDict_New();
+    if (!empty_dict)
+        goto bad;
+    {
+        #if PY_MAJOR_VERSION >= 3
+        if (level == -1) {
+            if ((1) && (strchr(__Pyx_MODULE_NAME, '.'))) {
+                module = PyImport_ImportModuleLevelObject(
+                    name, global_dict, empty_dict, list, 1);
+                if (!module) {
+                    if (!PyErr_ExceptionMatches(PyExc_ImportError))
+                        goto bad;
+                    PyErr_Clear();
+                }
+            }
+            level = 0;
+        }
+        #endif
+        if (!module) {
+            #if PY_MAJOR_VERSION < 3
+            PyObject *py_level = PyInt_FromLong(level);
+            if (!py_level)
+                goto bad;
+            module = PyObject_CallFunctionObjArgs(py_import,
+                name, global_dict, empty_dict, list, py_level, (PyObject *)NULL);
+            Py_DECREF(py_level);
+            #else
+            module = PyImport_ImportModuleLevelObject(
+                name, global_dict, empty_dict, list, level);
+            #endif
+        }
+    }
+bad:
+    #if PY_MAJOR_VERSION < 3
+    Py_XDECREF(py_import);
+    #endif
+    Py_XDECREF(empty_list);
+    Py_XDECREF(empty_dict);
+    return module;
+}
+
+/* ImportFrom */
+static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
+    PyObject* value = __Pyx_PyObject_GetAttrStr(module, name);
+    if (unlikely(!value) && PyErr_ExceptionMatches(PyExc_AttributeError)) {
+        PyErr_Format(PyExc_ImportError,
+        #if PY_MAJOR_VERSION < 3
+            "cannot import name %.230s", PyString_AS_STRING(name));
+        #else
+            "cannot import name %S", name);
+        #endif
+    }
+    return value;
+}
+
+/* CalculateMetaclass */
+static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases) {
+    Py_ssize_t i, nbases = PyTuple_GET_SIZE(bases);
+    for (i=0; i < nbases; i++) {
+        PyTypeObject *tmptype;
+        PyObject *tmp = PyTuple_GET_ITEM(bases, i);
+        tmptype = Py_TYPE(tmp);
+#if PY_MAJOR_VERSION < 3
+        if (tmptype == &PyClass_Type)
+            continue;
+#endif
+        if (!metaclass) {
+            metaclass = tmptype;
+            continue;
+        }
+        if (PyType_IsSubtype(metaclass, tmptype))
+            continue;
+        if (PyType_IsSubtype(tmptype, metaclass)) {
+            metaclass = tmptype;
+            continue;
+        }
+        PyErr_SetString(PyExc_TypeError,
+                        "metaclass conflict: "
+                        "the metaclass of a derived class "
+                        "must be a (non-strict) subclass "
+                        "of the metaclasses of all its bases");
+        return NULL;
+    }
+    if (!metaclass) {
+#if PY_MAJOR_VERSION < 3
+        metaclass = &PyClass_Type;
+#else
+        metaclass = &PyType_Type;
+#endif
+    }
+    Py_INCREF((PyObject*) metaclass);
+    return (PyObject*) metaclass;
+}
+
+/* Py3ClassCreate */
+static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name,
+                                           PyObject *qualname, PyObject *mkw, PyObject *modname, PyObject *doc) {
+    PyObject *ns;
+    if (metaclass) {
+        PyObject *prep = __Pyx_PyObject_GetAttrStr(metaclass, __pyx_n_s_prepare);
+        if (prep) {
+            PyObject *pargs = PyTuple_Pack(2, name, bases);
+            if (unlikely(!pargs)) {
+                Py_DECREF(prep);
+                return NULL;
+            }
+            ns = PyObject_Call(prep, pargs, mkw);
+            Py_DECREF(prep);
+            Py_DECREF(pargs);
+        } else {
+            if (unlikely(!PyErr_ExceptionMatches(PyExc_AttributeError)))
+                return NULL;
+            PyErr_Clear();
+            ns = PyDict_New();
+        }
+    } else {
+        ns = PyDict_New();
+    }
+    if (unlikely(!ns))
+        return NULL;
+    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_module, modname) < 0)) goto bad;
+    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_qualname, qualname) < 0)) goto bad;
+    if (unlikely(doc && PyObject_SetItem(ns, __pyx_n_s_doc, doc) < 0)) goto bad;
+    return ns;
+bad:
+    Py_DECREF(ns);
+    return NULL;
+}
+static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases,
+                                      PyObject *dict, PyObject *mkw,
+                                      int calculate_metaclass, int allow_py2_metaclass) {
+    PyObject *result, *margs;
+    PyObject *owned_metaclass = NULL;
+    if (allow_py2_metaclass) {
+        owned_metaclass = PyObject_GetItem(dict, __pyx_n_s_metaclass);
+        if (owned_metaclass) {
+            metaclass = owned_metaclass;
+        } else if (likely(PyErr_ExceptionMatches(PyExc_KeyError))) {
+            PyErr_Clear();
+        } else {
+            return NULL;
+        }
+    }
+    if (calculate_metaclass && (!metaclass || PyType_Check(metaclass))) {
+        metaclass = __Pyx_CalculateMetaclass((PyTypeObject*) metaclass, bases);
+        Py_XDECREF(owned_metaclass);
+        if (unlikely(!metaclass))
+            return NULL;
+        owned_metaclass = metaclass;
+    }
+    margs = PyTuple_Pack(3, name, bases, dict);
+    if (unlikely(!margs)) {
+        result = NULL;
+    } else {
+        result = PyObject_Call(metaclass, margs, mkw);
+        Py_DECREF(margs);
+    }
+    Py_XDECREF(owned_metaclass);
+    return result;
+}
+
 /* GetNameInClass */
 static PyObject *__Pyx_GetGlobalNameAfterAttributeLookup(PyObject *name) {
     PyObject *result;
@@ -50266,6 +51035,202 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value)
         return _PyLong_FromByteArray(bytes, sizeof(unsigned int),
                                      little, !is_unsigned);
     }
+}
+
+/* CIntFromPy */
+static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *x) {
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#endif
+    const size_t neg_one = (size_t) -1, const_zero = (size_t) 0;
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic pop
+#endif
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(size_t) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(size_t, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (size_t) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (size_t) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(size_t, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) >= 2 * PyLong_SHIFT) {
+                            return (size_t) (((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) >= 3 * PyLong_SHIFT) {
+                            return (size_t) (((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) >= 4 * PyLong_SHIFT) {
+                            return (size_t) (((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (size_t) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(size_t) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(size_t) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (size_t) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(size_t, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(size_t,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(size_t) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (size_t) (((size_t)-1)*(((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (size_t) ((((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (size_t) (((size_t)-1)*(((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (size_t) ((((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (size_t) (((size_t)-1)*(((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (size_t) ((((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(size_t) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(size_t) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            size_t val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (size_t) -1;
+        }
+    } else {
+        size_t val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (size_t) -1;
+        val = __Pyx_PyInt_As_size_t(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to size_t");
+    return (size_t) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to size_t");
+    return (size_t) -1;
 }
 
 /* CIntFromPy */
@@ -51904,202 +52869,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
         return _PyLong_FromByteArray(bytes, sizeof(long),
                                      little, !is_unsigned);
     }
-}
-
-/* CIntFromPy */
-static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *x) {
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wconversion"
-#endif
-    const size_t neg_one = (size_t) -1, const_zero = (size_t) 0;
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic pop
-#endif
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(size_t) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(size_t, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (size_t) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (size_t) 0;
-                case  1: __PYX_VERIFY_RETURN_INT(size_t, digit, digits[0])
-                case 2:
-                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) >= 2 * PyLong_SHIFT) {
-                            return (size_t) (((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) >= 3 * PyLong_SHIFT) {
-                            return (size_t) (((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) >= 4 * PyLong_SHIFT) {
-                            return (size_t) (((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
-                        }
-                    }
-                    break;
-            }
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-#else
-            {
-                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
-                if (unlikely(result < 0))
-                    return (size_t) -1;
-                if (unlikely(result == 1))
-                    goto raise_neg_overflow;
-            }
-#endif
-            if (sizeof(size_t) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned long, PyLong_AsUnsignedLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(size_t) <= sizeof(unsigned PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
-#endif
-            }
-        } else {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (size_t) 0;
-                case -1: __PYX_VERIFY_RETURN_INT(size_t, sdigit, (sdigit) (-(sdigit)digits[0]))
-                case  1: __PYX_VERIFY_RETURN_INT(size_t,  digit, +digits[0])
-                case -2:
-                    if (8 * sizeof(size_t) - 1 > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (size_t) (((size_t)-1)*(((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case 2:
-                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (size_t) ((((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case -3:
-                    if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (size_t) (((size_t)-1)*(((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (size_t) ((((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case -4:
-                    if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (size_t) (((size_t)-1)*(((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (size_t) ((((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
-                        }
-                    }
-                    break;
-            }
-#endif
-            if (sizeof(size_t) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, long, PyLong_AsLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(size_t) <= sizeof(PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(size_t, PY_LONG_LONG, PyLong_AsLongLong(x))
-#endif
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            size_t val;
-            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (size_t) -1;
-        }
-    } else {
-        size_t val;
-        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
-        if (!tmp) return (size_t) -1;
-        val = __Pyx_PyInt_As_size_t(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to size_t");
-    return (size_t) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to size_t");
-    return (size_t) -1;
 }
 
 /* CIntFromPy */

@@ -32,6 +32,7 @@ PyRFC module functions
 .. autofunction:: language_sap_to_iso(lang_sap)
 .. autofunction:: set_cryptolib_path(path_name)
 .. autofunction:: set_locale_radix(value=None)
+.. autofunction:: cancel_connection(client_connection)
 
 .. _apiconn:
 
@@ -53,6 +54,7 @@ Connection
    .. automethod:: free()
    .. automethod:: ping()
    .. automethod:: reset_server_context()
+   .. automethod:: is_valid()
    .. automethod:: initialize_unit([background=True])
    .. automethod:: fill_and_submit_unit(unit, calls[, queue_names=None[, attributes=None]])
    .. automethod:: confirm_unit(unit)
