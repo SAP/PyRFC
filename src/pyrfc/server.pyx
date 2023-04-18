@@ -1,6 +1,6 @@
 from sys import exc_info
 from threading import Thread
-from http.server import BaseHTTPRequestHandler
+import socket
 
 ################################################################################
 # SERVER FUNCTIONALITY
@@ -67,16 +67,19 @@ cdef class ServerConnection:
 
     @property
     def handle(self):
-        """Get server connection handle
-        :returns: Server connection handle
+        """Server connection handle
+
+        :getter: Returns server connection handle
+        :type: uitptr_t
         """
         return <uintptr_t>self._handle
 
     @property
     def alive(self):
-        """Get conection alive property
-        :returns: True when alive
-        :type alive: boolean
+        """Conection alive property
+
+        :getter: Returns True when alive
+        :type: boolean
         """
         return self._handle != NULL
 
@@ -236,19 +239,6 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     return RFC_OK
 
 
-class BasicServer(BaseHTTPRequestHandler):
-    # TODO: management-console
-    def _set_response(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-
-    def do_GET(self):
-        # _server_log("HTTP GET", f"path: {self.path}\nheaders:\n{self.headers}\n")
-        self._set_response()
-        self.wfile.write("Press CTRL-C to end".encode("utf-8"))
-
-
 cdef class Server:
     """ An ABAP server
 
@@ -387,16 +377,41 @@ cdef class Server:
             return RCStatus.RFC_EXTERNAL_FAILURE.value
 
     def bgrfc_init(self, sysId, bgRfcFunction):
+        """Installs the necessary callback functions for processing incoming bgRFC calls.
+
+        These functions need to be implemented by Python application and will be used by the RFC runtime.
+        When no callback function is provided, the default one is used,
+        not necessarily matching your application requirements.
+
+        For more info search for the ``RfcInstallBgRfcHandlers`` method in
+        `SAP NetWeaver RFC SDK Doxygen Documentation <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_
+
+        :param sysId: System ID of the SAP system for which to use this set of transaction handlers, or None
+                      When None value provided, the transaction handlers will be used for bgRFC calls from
+                      any backend system, for which no explicit handlers have been installed.
+        :type sysId: string or None
+
+        :param bgRfcFunction: Function callbacks
+        :type bgRfcFunction: dict(str, function)
+
+            * "check": onCheckFunction,
+            * "commit": onCommitFunction,
+            * "rollback": onRollbackFunction,
+            * "confirm": onConfirmFunction,
+            * "getState": onGetStateFunction,
+
+        :return: error code, zero when no error
+        """
         for func_name in bgRfcFunction:
             if func_name not in Server.__bgRfcFunction:
                 raise TypeError(f"BgRfc callback function key not supported: '{func_name}'")
             if not callable(bgRfcFunction[func_name]):
                 raise TypeError(f"BgRfc callback function referenced by '{func_name}' is not callable: '{bgRfcFunction[func_name]}'")
             Server.__bgRfcFunction[func_name] = bgRfcFunction[func_name]
-        self.install_bgrfc_handlers(sysId)
+        return self.install_bgrfc_handlers(sysId)
 
     def install_bgrfc_handlers(self, sysId):
-        ucSysId = fillString(sysId)
+        ucSysId = fillString(sysId) if sysId is not None else NULL
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_RC rc = RfcInstallBgRfcHandlers(
                             ucSysId,
@@ -416,7 +431,7 @@ cdef class Server:
         """
         Installs a function in the server.
 
-        :param func_name: A RFM name
+        :param func_name: ABAP remote function module name
         :type func_name: string
 
         :param callback: A callback function that implements the logic.
@@ -493,6 +508,20 @@ cdef class Server:
         self._close()
 
     def get_server_attributes(self):
+        """Retrieves detailed information about a multi-count Registered Server or a TCP Socket Server.
+
+        :returns: Dictionary with server state and attributes
+        :rtype: dict(str, str or int)
+
+            * serverName: This server's name as given when creating the server.
+            * protocolType: This RFC server's type:
+              RFC_MULTI_COUNT_REGISTERED_SERVER or RFC_TCP_SOCKET_SERVER
+            * registrationCount: The current number of active registrations (in case of a Registered Server)
+              or the maximum number of parallel connections the server will accept (in case of a TCP Socket Server)
+            * state: Used in state information in order to indicate the current state of an RFC Server.
+            * currentBusyCount: The number of requests currently being processed.
+            * peakBusyCount: The maximum number of requests the server has been processing in parallel since it has been created
+        """
         cdef RFC_RC rc
         cdef RFC_SERVER_ATTRIBUTES attributes
         cdef RFC_ERROR_INFO errorInfo
@@ -506,7 +535,7 @@ cdef class Server:
             'serverName': wrapString(attributes.serverName, -1, True)
             # This RFC server's type. Will be one of RFC_MULTI_COUNT_REGISTERED_SERVER or RFC_TCP_SOCKET_SERVER
             , 'protocolType': "multi count" if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER
-            else "tcp socket"  # Own host name
+            else socket.gethostname()  # Own host name
             # The current number of active registrations (in case of a Registered Server)
             # or the maximum number of parallel connections the server will accept (in case of a TCP Socket Server)
             , 'registrationCount': attributes.registrationCount

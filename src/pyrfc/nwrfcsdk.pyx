@@ -18,7 +18,7 @@ def string_to_py(objstr):
 
 def get_nwrfclib_version():
     """Get SAP NW RFC Lib version
-    :returns: tuple of major, minor and patch level
+    :returns: tuple of major, minor and patch level and OS platform
     """
     cdef unsigned major = 0
     cdef unsigned minor = 0
@@ -135,7 +135,7 @@ def set_cryptolib_path(path_name):
 def set_locale_radix(value=None):
     """Sets the locale radix for decimal conversions.
 
-    :param value: Locale radix like '.' or ','
+    :param value: Locale radix like ``.`` or ``,``
     :type path_name: string
 
     :return: New radix set
@@ -160,6 +160,13 @@ def enum_values(enum_obj):
 
 
 cdef class ConnectionParameters:
+    """Connection parameters instance in SAP unicode format
+
+    :param args: Connection parameters like ASHOST="ABC" etc
+    :type args: positional
+
+    :returns: Nothing
+    """
     cdef unsigned _params_count
     cdef RFC_CONNECTION_PARAMETER *_params
 

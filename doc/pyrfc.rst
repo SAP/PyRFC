@@ -19,6 +19,20 @@ The :mod:`pyrfc` package.
 .. toctree::
    :maxdepth: 2
 
+.. _pyrfcapi:
+
+======================
+PyRFC module functions
+======================
+
+.. autofunction:: get_nwrfclib_version
+.. autofunction:: set_ini_file_directory(path_name)
+.. autofunction:: reload_ini_file
+.. autofunction:: language_iso_to_sap(lang_iso)
+.. autofunction:: language_sap_to_iso(lang_sap)
+.. autofunction:: set_cryptolib_path(path_name)
+.. autofunction:: set_locale_radix(value=None)
+
 .. _apiconn:
 
 ==========
@@ -27,24 +41,57 @@ Connection
 
 .. autoclass:: Connection
 
+   .. autoattribute:: alive
+   .. autoattribute:: handle
    .. autoattribute:: options
+   .. automethod:: get_connection_attributes()
+   .. automethod:: open()
+   .. automethod:: reopen()
    .. automethod:: call(func_name, options, params)
    .. automethod:: close()
-   .. automethod:: confirm_unit(unit)
-   .. automethod:: destroy_unit(unit)
-   .. automethod:: fill_and_submit_unit(unit, calls[, queue_names=None[, attributes=None]])
-   .. automethod:: get_connection_attributes()
-   .. automethod:: get_function_description(func_name)
-   .. automethod:: get_unit_state(unit)
-   .. automethod:: initialize_unit([background=True])
+   .. automethod:: cancel()
+   .. automethod:: free()
    .. automethod:: ping()
    .. automethod:: reset_server_context()
+   .. automethod:: initialize_unit([background=True])
+   .. automethod:: fill_and_submit_unit(unit, calls[, queue_names=None[, attributes=None]])
+   .. automethod:: confirm_unit(unit)
+   .. automethod:: destroy_unit(unit)
+   .. automethod:: get_unit_state(unit)
+   .. automethod:: get_function_description(func_name)
+   .. automethod:: type_desc_get(type_name)
+   .. automethod:: type_desc_remove(type_name)
+   .. automethod:: func_desc_remove(func_name)
+
+.. _apiserver:
+
+==========
+Server
+==========
+
+.. autoclass:: Server
+
+   .. automethod:: bgrfc_init(sysId, bgRfcFunction)
+   .. automethod:: add_function(func_name, callback)
+   .. automethod:: serve()
+   .. automethod:: start()
+   .. automethod:: stop()
+   .. automethod:: close()
+   .. automethod:: get_server_attributes()
+
+.. _apiconnectionparams:
+
+=====================
+Connection Parameters
+=====================
+
+.. autoclass:: ConnectionParameters
 
 .. _apifuncdesc:
 
-===================
-FunctionDescription
-===================
+====================
+Function Description
+====================
 
 .. note::
 
@@ -57,11 +104,27 @@ FunctionDescription
 .. _apitypedesc:
 
 ===================
-TypeDescription
+Type Description
 ===================
 .. autoclass:: TypeDescription
 
    .. automethod:: add_field(name, field_type, nuc_length, uc_length, nuc_offset, uc_offset[, decimals=0[, type_description=None]])
+
+.. _apithrououghput:
+
+==========
+Throughput
+==========
+
+.. autoclass:: Throughput
+
+   .. autoattribute:: _handle
+   .. autoattribute:: connections
+   .. autoattribute:: stats
+   .. automethod:: setOnConnection()
+   .. automethod:: getFromConnection()
+   .. automethod:: removeFromConnection()
+   .. automethod:: reset()
 
 .. _apierr:
 

@@ -27,13 +27,17 @@ cdef class Connection:
     Instantiating an :class:`pyrfc.Connection` object will
     automatically attempt to open a connection the SAP backend.
 
-    :param config: Configuration of the instance. Allowed keys are:
+    :param config: Configuration of the client connection, valid for all RFC calls of given connection. Allowed keys are:
 
-           ``rstrip``
+           * ``dtime``
+             ABAP DATE and TIME strings are returned as Python datetime date and time objects,
+             instead of ABAP date and time strings (default is False)
+
+           * ``rstrip``
              right strips strings returned from RFC call (default is True)
-           ``return_import_params``
-             importing parameters are returned by the RFC call (default is False)
 
+           * ``return_import_params``
+             importing parameters are returned by the RFC call (default is False)
     :type config: dict or None (default)
 
     :param params: SAP connection parameters. The parameters consist of
@@ -50,7 +54,6 @@ cdef class Connection:
              ``snc_lib``.
              (If ``snc_lib`` is not specified, the RFC library uses the "global" GSS library
              defined via environment variable SNC_LIB.)
-
     :type params: Keyword parameters
 
     :raises: :exc:`~pyrfc.RFCError` or a subclass
@@ -78,20 +81,29 @@ cdef class Connection:
 
     @property
     def options(self):
+        """Client connection configuration
+
+        :getter: Client connection options
+        :setter: Set when new connection object created
+        :type: dict
+        """
         return self.__config
 
     @property
     def handle(self):
         """Get client connection handle
-        :returns: Client connection handle
+
+        :getter: Client connection handle
+        :type: uintptr_t
         """
         return <uintptr_t>self._handle
 
     @property
     def alive(self):
-        """Get conection alive property
-        :returns: True when alive
-        :type alive: boolean
+        """Conection alive property
+
+        :getter: True when alive
+        :type: boolean
         """
         return self._handle != NULL
 
@@ -138,15 +150,35 @@ cdef class Connection:
         self._close()
 
     def open(self):
+        """ Open client the connection
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+                 thereof if the connection cannot be opened.
+        """
         self._open()
 
     def reopen(self):
+        """ Re-open client the connection
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+                 thereof if the connection cannot be re-opened.
+        """
         self._reopen()
 
     def close(self):
+        """ Close the connection
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+                 thereof if the connection cannot be closed cleanly.
+        """
         self._close()
 
     def cancel(self):
+        """ Cancels the ongoing RFC call
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass
+                 thereof if the connection cannot be cancelled cleanly.
+        """
         self._cancel()
 
     def __bool__(self):
@@ -164,11 +196,6 @@ cdef class Connection:
             self._error(&errorInfo)
 
     def _close(self):
-        """ Close the connection (private function)
-
-        :raises: :exc:`~pyrfc.RFCError` or a subclass
-                 thereof if the connection cannot be closed cleanly.
-        """
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         if self._handle != NULL:
@@ -178,11 +205,6 @@ cdef class Connection:
                 self._error(&errorInfo)
 
     def _cancel(self):
-        """ Cancels the ongoing RFC call (private function)
-
-        :raises: :exc:`~pyrfc.RFCError` or a subclass
-                 thereof if the connection cannot be cancelled cleanly.
-        """
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         if self._handle != NULL:
@@ -317,16 +339,25 @@ cdef class Connection:
         :param func_name: Name of the function module that will be invoked.
         :type func_name: string
 
-        :param options: Call options, like 'skip', to deactivate certain parameters.
+        :param options: Call options for single remote ABAP function call. Allowed keys:
+
+            - ``not_requested`` Allows to deactivate certain parameters in the function module interface.
+              This is particularly useful for BAPIs which have many large tables, the Python client is not interested in.
+              Deactivate those, to reduce network traffic and memory consumption in your application considerably.
+
+              This functionality can be used for input and output parameters. If the parameter is an input, no data for
+              that parameter will be sent to the backend. If it's an output, the backend will be informed not to return
+              data for that parameter.
+
         :type options: dictionary
 
         :param params: Parameter of the function module. All non optional
-              IMPORT, CHANGING, and TABLE parameters must be provided.
+                IMPORT, CHANGING, and TABLE parameters must be provided.
         :type params: keyword arguments
 
         :return: Dictionary with all EXPORT, CHANGING, and TABLE parameters.
-              The IMPORT parameters are also given, if :attr:`Connection.config.return_import_params`
-              is set to ``True``.
+                 The IMPORT parameters are also given, if :attr:`Connection.config.return_import_params`
+                 is set to ``True``.
 
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the RFC call fails.

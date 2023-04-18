@@ -26,13 +26,35 @@ cdef class Throughput:
 
     @property
     def connections(self):
+        """Get connections attached to throughput monitoring
+
+        :getter: Connections' instances
+        :type: set of Connection
+        """
         return self._connections
 
     @property
     def _handle(self):
+        """Get throughput object handle
+
+        :getter: Throughput object handle
+        :type: uintptr_t
+        """
         return <uintptr_t>self._throughput_handle
 
     def setOnConnection(self, Connection connection):
+        """Attaches a throughput object to a connection to be monitored by the throughput object.
+        Once attached to a connection, the throughput object collects the data statistics of
+        function calls invoked via this connection.
+
+        For more info search for the ``RfcSetThroughputOnConnection`` method in
+        `SAP NetWeaver RFC SDK Doxygen Documentation <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_
+
+        :param connection: Connection instance to be attached to throughput monitoring
+        :type connection: Connection
+
+        :return: nothing, raises an error
+        """
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_RC rc = RfcSetThroughputOnConnection(connection._handle, self._throughput_handle, &errorInfo)
         if rc != RFC_OK:
@@ -41,6 +63,19 @@ cdef class Throughput:
 
     @staticmethod
     def getFromConnection(Connection connection):
+        """Returns the currently attached throughput object from a connection, if any.
+
+        For more info search for the ``RfcGetThroughputFromConnection`` method in
+        `SAP NetWeaver RFC SDK Doxygen Documentation <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_
+
+        :param connection: Connection instance
+        :type connection: Connection
+
+        :returns: Throughput object the connection is attached to, if any
+        :rtype: Throughput
+
+        :raises: :exc:`~pyrfc.RFCError` or a subclass in case of error
+        """
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_THROUGHPUT_HANDLE throughput = RfcGetThroughputFromConnection(connection._handle, &errorInfo)
         if errorInfo.code != RFC_OK:
@@ -51,6 +86,14 @@ cdef class Throughput:
         return None
 
     def removeFromConnection(self, Connection connection):
+        """Removes the throughput object from a connection.
+        The connection will no longer be monitored.
+
+        :param connection: Connection instance
+        :type connection: Connection
+        :returns: Nothing
+        :raises: :exc:`~pyrfc.RFCError` or a subclass in case of error
+        """
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_RC rc = RfcRemoveThroughputFromConnection(connection._handle, &errorInfo)
         if rc != RFC_OK:
@@ -58,6 +101,11 @@ cdef class Throughput:
         self._connections.remove(connection)
 
     def reset(self):
+        """Resets the data so far collected and aggregated by the throughput object.
+
+        :returns: Nothing
+        :raises: :exc:`~pyrfc.RFCError` or a subclass in case of error
+        """
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_RC rc = RfcResetThroughput(self._throughput_handle, &errorInfo)
         if rc != RFC_OK:
@@ -86,6 +134,19 @@ cdef class Throughput:
 
     @property
     def stats(self):
+        """Get throughput monitor statistics
+
+        :getter: Throughput monitor counters
+        :type: dict(str,int)
+
+           * numberOfCalls
+           * sentBytes
+           * receivedBytes
+           * applicationTime
+           * totalTime
+           * serializationTime
+           * deserializationTime
+        """
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_RC rc
         cdef SAP_ULLONG numberOfCalls

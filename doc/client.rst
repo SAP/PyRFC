@@ -308,7 +308,8 @@ Configuration of a connection
 =============================
 
 Upon construction, a :class:`Connection` object may be configured
-in various ways by passing a ``config`` parameter.
+in various ways by passing a ``config`` parameter. These configuration
+options are valid for all RFC function module calls:
 
 >>> conn = Connection(config = {'keyword': value, ...}, **params)
 
