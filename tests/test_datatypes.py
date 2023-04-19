@@ -6,6 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pytest
+import sys
 from decimal import Decimal
 from locale import setlocale, localeconv, LC_ALL
 
@@ -608,28 +609,30 @@ def test_float_accepts_point_for_point_locale():
 
 
 def test_float_rejects_point_for_comma_locale():
-    setlocale(LC_ALL, "de_DE")
-    set_locale_radix(get_locale_radix())
-    IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
-    with pytest.raises(ExternalRuntimeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
-    error = ex.value
-    assert error.code == 22
-    assert error.key == "RFC_CONVERSION_FAILURE"
-    assert (
-        error.message
-        == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
-    )
-    setlocale(LC_ALL, "")
+    if sys.platform != "win32":
+        setlocale(LC_ALL, "de_DE")
+        set_locale_radix(get_locale_radix())
+        IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
+        with pytest.raises(ExternalRuntimeError) as ex:
+            client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        error = ex.value
+        assert error.code == 22
+        assert error.key == "RFC_CONVERSION_FAILURE"
+        assert (
+            error.message
+            == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
+        )
+        setlocale(LC_ALL, "")
 
 
 def test_float_accepts_comma_for_comma_locale():
-    setlocale(LC_ALL, "de_DE")
-    set_locale_radix(get_locale_radix())
-    IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
-    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
-    assert output["RFCFLOAT"] == 1.2
-    setlocale(LC_ALL, "")
+    if sys.platform != "win32":
+        setlocale(LC_ALL, "de_DE")
+        set_locale_radix(get_locale_radix())
+        IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
+        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
+        assert output["RFCFLOAT"] == 1.2
+        setlocale(LC_ALL, "")
 
 
 def test_bcd_rejects_not_a_number_string():
