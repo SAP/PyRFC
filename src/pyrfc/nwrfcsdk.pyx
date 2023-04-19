@@ -43,13 +43,13 @@ def set_ini_file_directory(path_name):
 def reload_ini_file():
     """Reloads the contents of the sapnwrfc.ini file into memory.
 
-       Searches the directory given by RfcSetIniPath() (or the current working directory)
-       for the file sapnwrfc.ini and loads its contents into memory. Reloading the sapnwrfc.ini
-       file is only necessary after the file has been manually edited.
-       If you want to use a sapnwrfc.ini file in a different location, consider using RfcSetIniPath().
+    Searches the directory given by ``RfcSetIniPath()`` (or the current working directory)
+    for the file sapnwrfc.ini and loads its contents into memory. Reloading the sapnwrfc.ini
+    file is only necessary after the file has been manually edited.
+    If you want to use a sapnwrfc.ini file in a different location, consider using ``RfcSetIniPath()``.
 
-       Note: If a file with the name sapnwrfc.ini does not exist in the given directory,
-       this is not considered an error! Default settings are used in this case.
+    Note: If a file with the name ``sapnwrfc.ini`` does not exist in the given directory,
+    this is not considered an error! Default settings are used in this case.
 
     :return: nothing, raises an error
     """
@@ -104,9 +104,9 @@ def language_sap_to_iso(lang_sap):
 def set_cryptolib_path(path_name):
     """Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.
 
-       The parameter path_name needs also to contain the name of the library.
-       This function has the same effect as the sapnwrfc.ini parameter TLS_SAPCRYPTOLIB.
-       This API cannot reset a new path to the library during runtime. Once set, the path is definitive.
+    The parameter path_name needs also to contain the name of the library.
+    This function has the same effect as the sapnwrfc.ini parameter TLS_SAPCRYPTOLIB.
+    This API cannot reset a new path to the library during runtime. Once set, the path is definitive.
 
     :param path_name: Absolute path to crypto library
     :type path_name: string
@@ -155,7 +155,7 @@ def cancel_connection(client_connection):
 
     RFC call cancellation with timeout can be done automatically, without using this method explicitely.
     The ``timeout`` option can be at connection level, when creating connection instance, or at RFC call level, as
-    RFC ``Connection.call()``option. Either way, the connection will be cancelled if RFC call takes longer than ``timeout`` seconds.
+    RFC ``Connection.call()`` option. Either way, the connection will be cancelled if RFC call takes longer than ``timeout`` seconds.
 
     :param client_connection: RFC client connection instance to be cancelled
     :type client_connection: Connection
@@ -228,26 +228,26 @@ cdef class ConnectionParameters:
 class TypeDescription(object):
     """ A type description
 
-        This class wraps the RFC_TYPE_DESC_HANDLE as e.g. contained in
-        a parameter description of a function description.
+    This class wraps the RFC_TYPE_DESC_HANDLE as e.g. contained in
+    a parameter description of a function description.
 
-        :param name: Name of the type.
-        :param nuc_length: Length of the type in non unicode systems.
-        :param uc_length: Length of the type in unicode systems.
+    :param name: Name of the type.
+    :param nuc_length: Length of the type in non unicode systems.
+    :param uc_length: Length of the type in unicode systems.
 
-        *Attributes and methods*
+    *Attributes and methods*
 
-        **name**
-          The name of the function.
+    **name**
+        The name of the function.
 
-        **nuc_length**
-          The length in bytes if chars are non unicode.
+    **nuc_length**
+        The length in bytes if chars are non unicode.
 
-        **uc_length**
-          The length in bytes if chars are unicode.
+    **uc_length**
+        The length in bytes if chars are unicode.
 
-        **fields**
-          The fields as a list of dicts.
+    **fields**
+        The fields as a list of dicts.
 
     """
     def __init__(self, name, nuc_length, uc_length):
@@ -314,24 +314,24 @@ class TypeDescription(object):
 class FunctionDescription(object):
     """ A function description
 
-        This class wraps the RFC_FUNCTION_DESC_HANDLE as e.g. returned by
-        RfcGetFunctionDesc() and used for server functionality.
+    This class wraps the RFC_FUNCTION_DESC_HANDLE as e.g. returned by
+    RfcGetFunctionDesc() and used for server functionality.
 
-        .. WARNING::
+    .. WARNING::
 
-           Actually, the function description does not support exceptions
-           (cf. RfcAddException() etc.)
+        Actually, the function description does not support exceptions
+        (cf. RfcAddException() etc.)
 
-        :param name: Name of the function.
+    :param name: Name of the function.
 
 
-        *Attributes and methods*
+    *Attributes and methods*
 
-        **name**
-          The name of the function.
+    **name**
+        The name of the function.
 
-        **parameters**
-          The parameters as a list of dicts.
+    **parameters**
+        The parameters as a list of dicts.
 
     """
     def __init__(self, name):

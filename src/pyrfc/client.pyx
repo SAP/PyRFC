@@ -42,7 +42,10 @@ cdef class Connection:
 
            * ``timeout``
              Cancel connection if ongoing RFC calls takes longer than ``timeout`` seconds.
-             Timeout can be also set as option for particular RFC call, overriding timeout set at connection level
+             Timeout can be also set as option for particular RFC call, overriding timeout set at connection level.
+
+             Examples: https://github.com/SAP/PyRFC/tree/main/examples/timeout
+
 
     :type config: dict or None (default)
 
@@ -143,9 +146,9 @@ cdef class Connection:
     def free(self):
         """ Explicitly free connection parameters and close the connection.
 
-            Note that this is usually required because the object destruction
-            can be delayed by the garbage collection and problems may occur
-            when too many connections are opened.
+        Note that this is usually required because the object destruction
+        can be delayed by the garbage collection and problems may occur
+        when too many connections are opened.
         """
         self.__del__()
 
@@ -269,36 +272,34 @@ cdef class Connection:
 
         :returns: Mapping of connection information keys:
 
-                  * active_unit: True if there is a filled and submitted unit w/o being confirmed or destroyed.
-                  * dest: RFC destination
-                  * host: Own host name
-                  * partnerHost: Partner host name
-                  * sysNumber: R/3 system number
-                  * sysId: R/3 system ID
-                  * client: Client ("Mandant")
-                  * user: User
-                  * language: Language
-                  * trace: Trace level (0-3)
-                  * isoLanguage: 2-byte ISO-Language
-                  * codepage: Own code page
-                  * partnerCodepage: Partner code page
-                  * rfcRole: C/S: RFC Client / RFC Server
-                  * type: 2/3/E/R: R/2,R/3,Ext,Reg.Ext
-                  * partnerType: 2/3/E/R: R/2,R/3,Ext,Reg.Ext
-                  * rel: My system release
-                  * partnerRe: Partner system release
-                  * kernelRel: Partner kernel release
-                  * cpicConvId: CPI-C Conversation ID
-                  * progName: Name calling APAB program (report, module pool)
-                  * partnerBytesPerChar: Bytes per char in backend codepage.
-                  * partnerSystemCodepage: Partner system code page
-                  * reserved: Reserved for later use
+            * active_unit: True if there is a filled and submitted unit w/o being confirmed or destroyed.
+            * dest: RFC destination
+            * host: Own host name
+            * partnerHost: Partner host name
+            * sysNumber: R/3 system number
+            * sysId: R/3 system ID
+            * client: Client ("Mandant")
+            * user: User
+            * language: Language
+            * trace: Trace level (0-3)
+            * isoLanguage: 2-byte ISO-Language
+            * codepage: Own code page
+            * partnerCodepage: Partner code page
+            * rfcRole: C/S: RFC Client / RFC Server
+            * type: 2/3/E/R: R/2,R/3,Ext,Reg.Ext
+            * partnerType: 2/3/E/R: R/2,R/3,Ext,Reg.Ext
+            * rel: My system release
+            * partnerRe: Partner system release
+            * kernelRel: Partner kernel release
+            * cpicConvId: CPI-C Conversation ID
+            * progName: Name calling APAB program (report, module pool)
+            * partnerBytesPerChar: Bytes per char in backend codepage.
+            * partnerSystemCodepage: Partner system code page
+            * reserved: Reserved for later use
 
-                Note: all values, except ``active_unit`` are right stripped
-                string values.
+            Note: all values, except ``active_unit`` are right stripped string values.
 
-        :raises: :exc:`~pyrfc.RFCError` or a subclass
-                 thereof if the RFC call fails.
+        :raises: :exc:`~pyrfc.RFCError` or a subclass thereof if the RFC call fails.
         """
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
@@ -372,15 +373,17 @@ cdef class Connection:
         :param options: Call options for single remote ABAP function call. Allowed keys:
 
             - ``not_requested`` Allows to deactivate certain parameters in the function module interface.
-                This is particularly useful for BAPIs which have many large tables, the Python client is not interested in.
-                Deactivate those, to reduce network traffic and memory consumption in your application considerably.
+              This is particularly useful for BAPIs which have many large tables, the Python client is not interested in.
+              Deactivate those, to reduce network traffic and memory consumption in your application considerably.
 
-                This functionality can be used for input and output parameters. If the parameter is an input, no data for
-                that parameter will be sent to the backend. If it's an output, the backend will be informed not to return
-                data for that parameter.
+              This functionality can be used for input and output parameters. If the parameter is an input, no data for
+              that parameter will be sent to the backend. If it's an output, the backend will be informed not to return
+              data for that parameter.
 
             - ``timeout`` Cancel RFC connection if ongoing RFC call not completed within ``timeout`` seconds.
-               Timeout can be also set as client connection configuration option, in which case is valid for all RFC calls.
+              Timeout can be also set as client connection configuration option, in which case is valid for all RFC calls.
+
+              Examples: https://github.com/SAP/PyRFC/tree/main/examples/timeout
 
         :type options: dictionary
 
