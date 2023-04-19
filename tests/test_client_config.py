@@ -7,8 +7,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-from pyrfc import Connection
-
+import pytest
+from pyrfc import Connection, RFCError
 from tests.config import (
     CONFIG_SECTIONS as config_sections,
 )
@@ -74,8 +74,20 @@ class TestConnection:
         assert "REQUTEXT" in result
         conn.close()
 
+    def test_config_timeout(self):
+        conn = Connection(config={"timeout": 123}, **config_sections["coevi51"])
+        assert conn.options["timeout"] == 123
+        conn.close()
 
-"""
+    def test_config_not_supported(self):
+        with pytest.raises(RFCError) as ex:
+            Connection(config={"xtimeout": 123}, **config_sections["coevi51"])
+        error = ex.value
+        assert (
+            error.args[0]
+            == "Connection configuration option 'xtimeout' is not supported"
+        )
+
     def test_config_parameter(self):
         conn = Connection(config={"dtime": True}, **config_sections["coevi51"])
         # dtime test
@@ -87,14 +99,17 @@ class TestConnection:
         dates = conn.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
         assert type(dates["MODDATE"]) is not datetime.date
         assert type(dates["MODDATE"]) is not datetime.time
-        del conn
+        conn.close()
+        conn = Connection(config={"dtime": True}, **config_sections["coevi51"])
         # no import params return
         hello = "Hällo SAP!"
-        result = self.conn.call("STFC_CONNECTION", REQUTEXT=hello)
+        result = conn.call("STFC_CONNECTION", REQUTEXT=hello)
         assert "REQTEXT" not in result
+        conn.close()
         # return import params
-        conn = Connection(config={"return_import_params": True}, **config_sections["coevi51"])
+        conn = Connection(
+            config={"return_import_params": True}, **config_sections["coevi51"]
+        )
         result = conn.call("STFC_CONNECTION", REQUTEXT=hello.rstrip())
         assert hello.rstrip() == result["REQUTEXT"]
         conn.close()
-"""

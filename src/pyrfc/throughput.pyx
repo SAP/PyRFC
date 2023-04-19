@@ -9,7 +9,7 @@ cdef class Throughput:
     cdef RFC_THROUGHPUT_HANDLE _throughput_handle
     cdef _connections
 
-    def __init__(self, connections = []):
+    def __init__(self, connections = None):
         cdef RFC_ERROR_INFO errorInfo
         self._throughput_handle = NULL
         self._connections = set()
@@ -17,6 +17,7 @@ cdef class Throughput:
         if errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
         Throughput._registry.append(self)
+        connections = connections or []
         if type(connections) is not list:
             connections = [connections]
         for conn in connections:

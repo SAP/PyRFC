@@ -21,44 +21,6 @@ class RFCLibError(RFCError):
     Base class for exceptions raised by the local underlying C connector (sapnwrfc.c).
     """
 
-    # Results as of: RfcGetRcAsString(RFC_RC rc)
-    code2txt = {
-        0: "RFC_OK",
-        1: "RFC_COMMUNICATION_FAILURE",
-        2: "RFC_LOGON_FAILURE",
-        3: "RFC_ABAP_RUNTIME_FAILURE",
-        4: "RFC_ABAP_MESSAGE",
-        5: "RFC_ABAP_EXCEPTION",
-        6: "RFC_CLOSED",
-        7: "RFC_CANCELED",
-        8: "RFC_TIMEOUT",
-        9: "RFC_MEMORY_INSUFFICIENT",
-        10: "RFC_VERSION_MISMATCH",
-        11: "RFC_INVALID_PROTOCOL",
-        12: "RFC_SERIALIZATION_FAILURE",
-        13: "RFC_INVALID_HANDLE",
-        14: "RFC_RETRY",
-        15: "RFC_EXTERNAL_FAILURE",
-        16: "RFC_EXECUTED",
-        17: "RFC_NOT_FOUND",
-        18: "RFC_NOT_SUPPORTED",
-        19: "RFC_ILLEGAL_STATE",
-        20: "RFC_INVALID_PARAMETER",
-        21: "RFC_CODEPAGE_CONVERSION_FAILURE",
-        22: "RFC_CONVERSION_FAILURE",
-        23: "RFC_BUFFER_TOO_SMALL",
-        24: "RFC_TABLE_MOVE_BOF",
-        25: "RFC_TABLE_MOVE_EOF",
-        26: "RFC_START_SAPGUI_FAILURE",
-        27: "RFC_ABAP_CLASS_EXCEPTION",
-        28: "RFC_UNKNOWN_ERROR",
-        29: "RFC_AUTHORIZATION_FAILURE",
-        30: "RFC_AUTHENTICATION_FAILURE",
-        31: "RFC_CRYPTOLIB_FAILURE",
-        32: "RFC_IO_FAILURE",
-        33: "RFC_LOCKING_FAILURE",
-    }
-
     def __init__(
         self,
         message=None,
@@ -85,9 +47,10 @@ class RFCLibError(RFCError):
         self.msg_v4 = msg_v4
 
     def __str__(self):
-        rctext = self.code2txt.get(28 if self.code is None else self.code, "???")
+        code = 28 if self.code is None else self.code
+        rc_text = RFC_RC(code) if code in [item.value for item in RFC_RC] else "???"
         return (
-            f"{rctext} (rc={self.code}): key={self.key}, message={self.message}"
+            f"{rc_text} (rc={self.code}): key={self.key}, message={self.message}"
             f" [MSG: class={self.msg_class}, type={self.msg_type}, number={self.msg_number},"
             f" v1-4:={self.msg_v1};{self.msg_v2};{self.msg_v3};{self.msg_v4}]"
         )

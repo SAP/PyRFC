@@ -1,5 +1,6 @@
-from sys import platform
 from collections.abc import Iterable
+from sys import platform
+from threading import Timer
 
 # NOTES ON ERROR HANDLING
 # If an error occurs within a connection object, the error may - depending
@@ -38,6 +39,11 @@ cdef class Connection:
 
            * ``return_import_params``
              importing parameters are returned by the RFC call (default is False)
+
+           * ``timeout``
+             Cancel connection if ongoing RFC calls takes longer than ``timeout`` seconds.
+             Timeout can be also set as option for particular RFC call, overriding timeout set at connection level
+
     :type config: dict or None (default)
 
     :param params: SAP connection parameters. The parameters consist of
@@ -107,12 +113,18 @@ cdef class Connection:
         """
         return self._handle != NULL
 
-    def __init__(self, config={}, **params):
-        # set connection config, rstrip default True
+    def __init__(self, config=None, **params):
+        # check and set connection configuration
+        config = config or {}
+        for k in config:
+            if k not in['dtime', 'return_import_params', 'rstrip', 'timeout']:
+                raise RFCError(f"Connection configuration option '{k}' is not supported")
         self.__config = {}
         self.__config['dtime'] = config.get('dtime', False)
         self.__config['return_import_params'] = config.get('return_import_params', False)
         self.__config['rstrip'] = config.get('rstrip', True)
+        self.__config['timeout'] = config.get('timeout', None)
+
         # set internal configuration
         self.__bconfig = 0
         if self.__config['dtime']:
@@ -351,7 +363,7 @@ cdef class Connection:
             self._error(&errorInfo)
         return wrapFunctionDescription(funcDesc)
 
-    def call(self, func_name, options={}, **params):
+    def call(self, func_name, options=None, **params):
         """ Invokes a remote-enabled function module via RFC.
 
         :param func_name: Name of the function module that will be invoked.
@@ -360,12 +372,15 @@ cdef class Connection:
         :param options: Call options for single remote ABAP function call. Allowed keys:
 
             - ``not_requested`` Allows to deactivate certain parameters in the function module interface.
-              This is particularly useful for BAPIs which have many large tables, the Python client is not interested in.
-              Deactivate those, to reduce network traffic and memory consumption in your application considerably.
+                This is particularly useful for BAPIs which have many large tables, the Python client is not interested in.
+                Deactivate those, to reduce network traffic and memory consumption in your application considerably.
 
-              This functionality can be used for input and output parameters. If the parameter is an input, no data for
-              that parameter will be sent to the backend. If it's an output, the backend will be informed not to return
-              data for that parameter.
+                This functionality can be used for input and output parameters. If the parameter is an input, no data for
+                that parameter will be sent to the backend. If it's an output, the backend will be informed not to return
+                data for that parameter.
+
+            - ``timeout`` Cancel RFC connection if ongoing RFC call not completed within ``timeout`` seconds.
+               Timeout can be also set as client connection configuration option, in which case is valid for all RFC calls.
 
         :type options: dictionary
 
@@ -397,6 +412,7 @@ cdef class Connection:
         if not funcCont:
             self._error(&errorInfo)
         cdef int isActive = 0
+        options = options or {}
         try:  # now we have a function module
             if 'not_requested' in options:
                 skip_parameters = options['not_requested']
@@ -408,12 +424,19 @@ cdef class Connection:
                     free(cName)
                     if rc != RFC_OK:
                         self._error(&errorInfo)
+            # set connection timeout, starts before writing input parameters to container
+            cancel_timer = None
+            timeout = options.get('timeout', self.__config['timeout'])
+            if timeout is not None:
+                cancel_timer = Timer(timeout, cancel_connection, (self,))
+                cancel_timer.start()
             for name, value in params.iteritems():
                 fillFunctionParameter(funcDesc, funcCont, name, value)
             # save old handle for troubleshooting
-            old_handle = self.handle
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
+            if cancel_timer is not None:
+                cancel_timer.cancel()
             # print("invoke:", errorInfo.group, rc, self.handle, self.is_valid())
             if rc != RFC_OK:
                 if errorInfo.code in (
@@ -426,13 +449,15 @@ cdef class Connection:
                         LOGON_FAILURE,
                         COMMUNICATION_FAILURE,
                         EXTERNAL_RUNTIME_FAILURE):
-                    # Connection closed, reopen
-                    if self.handle == old_handle:
-                        self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
-                        if openErrorInfo.code != RFC_OK:
-                            self._handle = NULL
-                            # Communication error returned as error
-                            errorInfo = openErrorInfo
+                    # Connection closed, re-open
+                    closed_handle = self.handle
+                    self._handle = RfcOpenConnection(self._connection._params, self._connection._params_count, &openErrorInfo)
+                    if openErrorInfo.code != RFC_OK:
+                        self._handle = NULL
+                        # Communication error returned as error
+                        errorInfo = openErrorInfo
+                    elif errorInfo.code == RFC_CANCELED:
+                        errorInfo.message = fillString(f"Connection was canceled: {closed_handle}. New handle: {self.handle}")
                 self._error(&errorInfo)
             if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
                 return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)

@@ -18,7 +18,8 @@ server_functions = {}
 server_context = {}
 
 
-def default_auth_check(func_name=False, request_context = {}):
+def default_auth_check(func_name=False, request_context = None):
+    request_context = request_context or {}
     _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
     return RFC_OK
 
@@ -285,10 +286,9 @@ cdef class Server:
         "getState": None
     }
 
-    def __cinit__(self, server_params, client_params, config={}):
-        # cdef uintptr_t handle
-
+    def __cinit__(self, server_params, client_params, config=None):
         # config parsing
+        config = config or {}
         self.debug = config.get('debug', False)
         self.rstrip = config.get('rstrip', True)
         server_context["server_log"] = config.get("server_log", False)

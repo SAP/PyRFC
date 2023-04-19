@@ -7,7 +7,6 @@ import os
 import sys
 from codecs import open
 from setuptools import setup, find_packages, Extension
-
 from src.pyrfc import __version__
 
 

@@ -147,15 +147,15 @@ cdef _cancel_connection(client_connection):
         rc = RfcCancel(<RFC_CONNECTION_HANDLE><uintptr_t>client_connection.handle, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
-        # open new connection
-        client_connection.open()
 
 
 def cancel_connection(client_connection):
-    """Cancels the RFC call which is currently being called over the given RFC connection
+    """Immediately cancels the RFC call which is currently being called over the given RFC connection
     and closes the connection. Can be used only on an RFC client connection.
-    It must be called from a different thread than the one currently executing the RFC call,
-    which is done automatically by ``pyrfc``.
+
+    RFC call cancellation with timeout can be done automatically, without using this method explicitely.
+    The ``timeout`` option can be at connection level, when creating connection instance, or at RFC call level, as
+    RFC ``Connection.call()``option. Either way, the connection will be cancelled if RFC call takes longer than ``timeout`` seconds.
 
     :param client_connection: RFC client connection instance to be cancelled
     :type client_connection: Connection
@@ -163,9 +163,7 @@ def cancel_connection(client_connection):
     :raises: :exc:`~pyrfc.RFCError` or a subclass
                 thereof if the connection cannot be cancelled cleanly.
     """
-    t_cancel = Thread(target=_cancel_connection, args=(client_connection,))
-    t_cancel.start()
-    _cancel_connection(client_connection)
+    Thread(target=_cancel_connection, args=(client_connection,)).start()
 
 
 def enum_names(enum_obj):

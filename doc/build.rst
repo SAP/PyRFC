@@ -123,9 +123,21 @@ macOS platform
 
 .. code-block:: sh
 
-    MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-    sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-    sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
+   MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
+   sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
+   sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
+
+Linting and Formatting
+----------------------
+
+.. code-block:: sh
+
+   # cython
+   cython-lint setup.py src/pyrfc tests --max-line-length=180
+
+   # python
+   flake8 setup.py src tests --max-line-length=180
+   black src test
 
 
 Virtual Environments
