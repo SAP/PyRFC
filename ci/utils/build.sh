@@ -2,7 +2,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-python_versions="3.7.16 3.8.16 3.9.16 3.10.10 3.11.2"
+#
+# . ci/utils/build.sh
+#   pip - update pip
+#   test - only test, no build, otherwise build and test
+#
+
+python_versions="3.7.16 3.8.16" #  3.9.16 3.10.10 3.11.2"
 
 rm -rf build
 
@@ -12,8 +18,14 @@ do
     rm -rf tests/stfc-mrfc/__pycache__
     echo py$version
     pyenv activate py$version
-    PYRFC_BUILD_CYTHON=yes python setup.py bdist_wheel
-    pip install --upgrade --force --find-links=dist pyrfc
-    [[ $1 != skip ]] && [[ $version == 3.11.2 ]] && pytest -vvx
+    if [[ $1 == pip ]]; then
+        pip install --upgrade pip
+    else
+        if [[ $1 != test ]]; then
+            PYRFC_BUILD_CYTHON=yes python setup.py bdist_wheel
+            pip install --upgrade --force --find-links=dist pyrfc
+        fi
+        pytest -vvx
+    fi
 done
 [[ $1 == sdist ]] && python setup.py sdist
