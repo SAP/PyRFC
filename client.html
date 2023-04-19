@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Client scenario &#8212; pyrfc 2.7.2 documentation</title>
+    <title>Client scenario &#8212; pyrfc 2.8.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -20,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.7.2 documentation</a></div>
+          href="index.html">pyrfc 2.8.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="install.html" title="Installation"
              accesskey="P">previous</a> |
@@ -319,7 +319,8 @@ Citing Schmidt and Le (sapnwrfc.h, l. 1361ff) with modifications:</p>
 <section id="configuration-of-a-connection">
 <span id="client-connectionconfig"></span><h2>Configuration of a connection<a class="headerlink" href="#configuration-of-a-connection" title="Permalink to this heading">¶</a></h2>
 <p>Upon construction, a <a class="reference internal" href="pyrfc.html#pyrfc.Connection" title="pyrfc.Connection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Connection</span></code></a> object may be configured
-in various ways by passing a <code class="docutils literal notranslate"><span class="pre">config</span></code> parameter.</p>
+in various ways by passing a <code class="docutils literal notranslate"><span class="pre">config</span></code> parameter. These configuration
+options are valid for all RFC function module calls:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conn</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;keyword&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span> <span class="o">...</span><span class="p">},</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -369,7 +370,7 @@ some basic methods for working with a connection:</p>
 <td><p>Get connection details</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyrfc.html#pyrfc.Connection.close" title="pyrfc.Connection.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Connection.close</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Close the connection</p></td>
 </tr>
 </tbody>
 </table>
@@ -586,7 +587,7 @@ the shorter term (“FM”) throughout the text.</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2023-03-29 12:15.
+      Last updated on 2023-04-19 14:26.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
         </div>
