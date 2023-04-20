@@ -5,7 +5,63 @@
     "distutils": {
         "define_macros": [
             [
+                "SAPonNT",
+                null
+            ],
+            [
+                "_CRT_NON_CONFORMING_SWPRINTFS",
+                null
+            ],
+            [
+                "_CRT_SECURE_NO_DEPRECATES",
+                null
+            ],
+            [
+                "_CRT_NONSTDC_NO_DEPRECATE",
+                null
+            ],
+            [
+                "_AFXDLL",
+                null
+            ],
+            [
+                "WIN32",
+                null
+            ],
+            [
+                "_WIN32_WINNT",
+                "0x0502"
+            ],
+            [
+                "WIN64",
+                null
+            ],
+            [
+                "_AMD64_",
+                null
+            ],
+            [
                 "NDEBUG",
+                null
+            ],
+            [
+                "SAPwithUNICODE",
+                null
+            ],
+            [
+                "UNICODE",
+                null
+            ],
+            [
+                "_UNICODE",
+                null
+            ],
+            [
+                "SAPwithTHREADS",
+                null
+            ],
+            [
+                "_ATL_ALLOW_CHAR_UNSIGNED",
                 null
             ],
             [
@@ -17,59 +73,46 @@
                 null
             ],
             [
-                "_FILE_OFFSET_BITS",
-                64
-            ],
-            [
-                "SAPonUNIX",
-                null
-            ],
-            [
-                "SAPwithUNICODE",
-                null
-            ],
-            [
-                "SAPwithTHREADS",
-                null
-            ],
-            [
-                "SAPonDARW",
-                null
+                "SAP_PLATFORM_MAKENAME",
+                "ntintel"
             ]
         ],
         "depends": [],
         "extra_compile_args": [
-            "-Wall",
-            "-O2",
-            "-fexceptions",
-            "-funsigned-char",
-            "-fno-strict-aliasing",
-            "-Wno-uninitialized",
-            "-Wcast-align",
-            "-fPIC",
-            "-pthread",
-            "-minline-all-stringops",
-            "-isystem",
-            "-std=c++11",
-            "-mmacosx-version-min=10.15",
-            "-I/usr/local/sap/nwrfcsdk/include",
-            "-Wno-cast-align",
-            "-Wno-deprecated-declarations",
-            "-Wno-unused-function",
-            "-Wno-nullability-completeness",
-            "-Wno-expansion-to-defined",
-            "-Wno-unreachable-code-fallthrough"
+            "-Ic:\\tools\\nwrfcsdk\\include",
+            "-IC:\\Users\\bsrdjan\\.pyenv\\pyenv-win\\versions\\3.7.9\\lib\\inspect.py\\Include",
+            "-IC:\\Users\\bsrdjan\\.pyenv\\pyenv-win\\versions\\3.7.9\\lib\\inspect.py\\Include\\PC",
+            "/EHs",
+            "/Gy",
+            "/J",
+            "/MD",
+            "/nologo",
+            "/W3",
+            "/Z7",
+            "/GL",
+            "/O2",
+            "/Oy-",
+            "/we4552",
+            "/we4700",
+            "/we4789"
         ],
         "extra_link_args": [
-            "-L/usr/local/sap/nwrfcsdk/lib",
-            "-stdlib=libc++",
-            "-mmacosx-version-min=10.15",
-            "-Wl,-rpath,/usr/local/sap/nwrfcsdk/lib"
+            "-LIBPATH:c:\\tools\\nwrfcsdk\\lib",
+            "-LIBPATH:C:\\Users\\bsrdjan\\.pyenv\\pyenv-win\\versions\\3.7.9\\lib\\inspect.py\\PCbuild",
+            "/NXCOMPAT",
+            "/STACK:0x2000000",
+            "/SWAPRUN:NET",
+            "/DEBUG",
+            "/OPT:REF",
+            "/DEBUGTYPE:CV,FIXUP",
+            "/MACHINE:amd64",
+            "/nologo",
+            "/LTCG"
         ],
         "language": "c++",
         "libraries": [
             "sapnwrfc",
-            "sapucum"
+            "libsapucum"
         ],
         "name": "pyrfc._cyrfc",
         "sources": [
@@ -1048,14 +1091,14 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "src/pyrfc/nwrfcsdk.pyx",
-  "src/pyrfc/throughput.pyx",
-  "src/pyrfc/client.pyx",
+  "src\\pyrfc\\nwrfcsdk.pyx",
+  "src\\pyrfc\\throughput.pyx",
+  "src\\pyrfc\\client.pyx",
   "stringsource",
-  "src/pyrfc/data_container.pyx",
-  "src/pyrfc/server.pyx",
-  "src/pyrfc/_cyrfc.pyx",
-  "src/pyrfc/config.pyx",
+  "src\\pyrfc\\data_container.pyx",
+  "src\\pyrfc\\server.pyx",
+  "src\\pyrfc\\_cyrfc.pyx",
+  "src\\pyrfc\\config.pyx",
 };
 /* NoFastGil.proto */
 #define __Pyx_PyGILState_Ensure PyGILState_Ensure
@@ -2697,7 +2740,7 @@ static const char __pyx_k_RFC_EXTERNAL_FAILURE[] = "RFC_EXTERNAL_FAILURE";
 static const char __pyx_k_default_value_string[] = "'default_value' (string) '";
 static const char __pyx_k_get_nwrfclib_version[] = "get_nwrfclib_version";
 static const char __pyx_k_return_import_params[] = "return_import_params";
-static const char __pyx_k_src_pyrfc_server_pyx[] = "src/pyrfc/server.pyx";
+static const char __pyx_k_src_pyrfc_server_pyx[] = "src\\pyrfc\\server.pyx";
 static const char __pyx_k_FunctionDescription_2[] = "FunctionDescription";
 static const char __pyx_k_RfcParameterDirection[] = "RfcParameterDirection";
 static const char __pyx_k_connection_attributes[] = "connection_attributes";
@@ -2709,7 +2752,7 @@ static const char __pyx_k_TypeDescription___repr[] = "TypeDescription.__repr__";
 static const char __pyx_k_create_and_submit_unit[] = "_create_and_submit_unit";
 static const char __pyx_k_install_bgrfc_handlers[] = "install_bgrfc_handlers";
 static const char __pyx_k_set_ini_file_directory[] = "set_ini_file_directory";
-static const char __pyx_k_src_pyrfc_nwrfcsdk_pyx[] = "src/pyrfc/nwrfcsdk.pyx";
+static const char __pyx_k_src_pyrfc_nwrfcsdk_pyx[] = "src\\pyrfc\\nwrfcsdk.pyx";
 static const char __pyx_k_Connection_was_canceled[] = "Connection was canceled: ";
 static const char __pyx_k_No_connections_assigned[] = "No connections assigned";
 static const char __pyx_k_Not_a_valid_error_group[] = "Not a valid error group.";
@@ -2719,7 +2762,7 @@ static const char __pyx_k_raises_ABAPRuntimeError[] = "' raises ABAPRuntimeError
 static const char __pyx_k_Crypto_library_not_found[] = "Crypto library not found:";
 static const char __pyx_k_ExternalApplicationError[] = "ExternalApplicationError";
 static const char __pyx_k_must_not_exceed_30_chars[] = "' must not exceed 30 chars.";
-static const char __pyx_k_src_pyrfc_throughput_pyx[] = "src/pyrfc/throughput.pyx";
+static const char __pyx_k_src_pyrfc_throughput_pyx[] = "src\\pyrfc\\throughput.pyx";
 static const char __pyx_k_Invalid_connection_handle[] = "Invalid connection handle.";
 static const char __pyx_k_MASK_RETURN_IMPORT_PARAMS[] = "_MASK_RETURN_IMPORT_PARAMS";
 static const char __pyx_k_Server_function_installed[] = "Server function installed";
@@ -5578,7 +5621,7 @@ static PyObject *__pyx_pf_5pyrfc_6_cyrfc_22string_to_py(CYTHON_UNUSED PyObject *
  *     cdef RFC_CONNECTION_PARAMETER *_params
  * 
  *     def __cinit__(self, **params):             # <<<<<<<<<<<<<<
- *         self._params_count = len(params)
+ *         self._params_count = <unsigned> len(params)
  *         if self._params_count < 1:
  */
 
@@ -5625,16 +5668,16 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
   /* "src/pyrfc/nwrfcsdk.pyx":202
  * 
  *     def __cinit__(self, **params):
- *         self._params_count = len(params)             # <<<<<<<<<<<<<<
+ *         self._params_count = <unsigned> len(params)             # <<<<<<<<<<<<<<
  *         if self._params_count < 1:
  *             raise RFCError("Connection parameters missing")
  */
   __pyx_t_1 = PyDict_Size(__pyx_v_params); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 202, __pyx_L1_error)
-  __pyx_v_self->_params_count = __pyx_t_1;
+  __pyx_v_self->_params_count = ((unsigned int)__pyx_t_1);
 
   /* "src/pyrfc/nwrfcsdk.pyx":203
  *     def __cinit__(self, **params):
- *         self._params_count = len(params)
+ *         self._params_count = <unsigned> len(params)
  *         if self._params_count < 1:             # <<<<<<<<<<<<<<
  *             raise RFCError("Connection parameters missing")
  *         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))
@@ -5643,7 +5686,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
   if (unlikely(__pyx_t_2)) {
 
     /* "src/pyrfc/nwrfcsdk.pyx":204
- *         self._params_count = len(params)
+ *         self._params_count = <unsigned> len(params)
  *         if self._params_count < 1:
  *             raise RFCError("Connection parameters missing")             # <<<<<<<<<<<<<<
  *         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))
@@ -5672,7 +5715,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
 
     /* "src/pyrfc/nwrfcsdk.pyx":203
  *     def __cinit__(self, **params):
- *         self._params_count = len(params)
+ *         self._params_count = <unsigned> len(params)
  *         if self._params_count < 1:             # <<<<<<<<<<<<<<
  *             raise RFCError("Connection parameters missing")
  *         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))
@@ -5756,7 +5799,7 @@ static int __pyx_pf_5pyrfc_6_cyrfc_20ConnectionParameters___cinit__(struct __pyx
  *     cdef RFC_CONNECTION_PARAMETER *_params
  * 
  *     def __cinit__(self, **params):             # <<<<<<<<<<<<<<
- *         self._params_count = len(params)
+ *         self._params_count = <unsigned> len(params)
  *         if self._params_count < 1:
  */
 
@@ -12184,7 +12227,7 @@ static SAP_UC *__pyx_f_5pyrfc_6_cyrfc_fillString(PyObject *__pyx_v_pyuc) {
  *     cdef RFC_RC rc
  *     cdef RFC_ERROR_INFO errorInfo
  *     ucbytes = pyuc.encode()             # <<<<<<<<<<<<<<
- *     cdef unsigned ucbytes_len = len(ucbytes)
+ *     cdef unsigned ucbytes_len = <unsigned> len(ucbytes)
  *     cdef unsigned sapuc_size = ucbytes_len + 1
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_pyuc, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 254, __pyx_L1_error)
@@ -12210,16 +12253,16 @@ static SAP_UC *__pyx_f_5pyrfc_6_cyrfc_fillString(PyObject *__pyx_v_pyuc) {
   /* "src/pyrfc/data_container.pyx":255
  *     cdef RFC_ERROR_INFO errorInfo
  *     ucbytes = pyuc.encode()
- *     cdef unsigned ucbytes_len = len(ucbytes)             # <<<<<<<<<<<<<<
+ *     cdef unsigned ucbytes_len = <unsigned> len(ucbytes)             # <<<<<<<<<<<<<<
  *     cdef unsigned sapuc_size = ucbytes_len + 1
  *     cdef SAP_UC* sapuc = mallocU(sapuc_size)
  */
   __pyx_t_4 = PyObject_Length(__pyx_v_ucbytes); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(4, 255, __pyx_L1_error)
-  __pyx_v_ucbytes_len = __pyx_t_4;
+  __pyx_v_ucbytes_len = ((unsigned int)__pyx_t_4);
 
   /* "src/pyrfc/data_container.pyx":256
  *     ucbytes = pyuc.encode()
- *     cdef unsigned ucbytes_len = len(ucbytes)
+ *     cdef unsigned ucbytes_len = <unsigned> len(ucbytes)
  *     cdef unsigned sapuc_size = ucbytes_len + 1             # <<<<<<<<<<<<<<
  *     cdef SAP_UC* sapuc = mallocU(sapuc_size)
  *     sapuc[0] = 0
@@ -12227,7 +12270,7 @@ static SAP_UC *__pyx_f_5pyrfc_6_cyrfc_fillString(PyObject *__pyx_v_pyuc) {
   __pyx_v_sapuc_size = (__pyx_v_ucbytes_len + 1);
 
   /* "src/pyrfc/data_container.pyx":257
- *     cdef unsigned ucbytes_len = len(ucbytes)
+ *     cdef unsigned ucbytes_len = <unsigned> len(ucbytes)
  *     cdef unsigned sapuc_size = ucbytes_len + 1
  *     cdef SAP_UC* sapuc = mallocU(sapuc_size)             # <<<<<<<<<<<<<<
  *     sapuc[0] = 0

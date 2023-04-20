@@ -10,21 +10,25 @@
 
 $python_versions = "3.7.9 3.8.10 3.9.13 3.10.10 3.11.2"
 
-$PYRFC_BUILD_CYTHON="yes"
+$env:PYRFC_BUILD_CYTHON="yes"
 
 $action=$args[0]
 
 $python_versions.Split(" ") | ForEach {
     $version = $_
-    Write-Output $version
-    pyenv global $version
+
+    pyenv shell $version
+    python -V
+
     If($action -eq "pip") {
         python -m pip install --upgrade pip
     } else {
         If($action -ne "test") {
-            python setup.py bdist_wheel
+            python setup.py bdist_wheel 
             pip install --upgrade --force --find-links=dist pyrfc
         }
-        pytest -vvx
+        If($action -ne "skip-test") {
+            pytest -vvx
+        }
     }
 }

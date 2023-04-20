@@ -252,7 +252,7 @@ cdef SAP_UC* fillString(pyuc) except NULL:
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     ucbytes = pyuc.encode()
-    cdef unsigned ucbytes_len = len(ucbytes)
+    cdef unsigned ucbytes_len = <unsigned> len(ucbytes)
     cdef unsigned sapuc_size = ucbytes_len + 1
     cdef SAP_UC* sapuc = mallocU(sapuc_size)
     sapuc[0] = 0

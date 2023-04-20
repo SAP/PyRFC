@@ -199,7 +199,7 @@ cdef class ConnectionParameters:
     cdef RFC_CONNECTION_PARAMETER *_params
 
     def __cinit__(self, **params):
-        self._params_count = len(params)
+        self._params_count = <unsigned> len(params)
         if self._params_count < 1:
             raise RFCError("Connection parameters missing")
         self._params = <RFC_CONNECTION_PARAMETER*> malloc(self._params_count * sizeof(RFC_CONNECTION_PARAMETER))
