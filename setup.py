@@ -7,17 +7,20 @@ import os
 import sys
 from codecs import open
 from setuptools import setup, find_packages, Extension
-from src.pyrfc import __version__
 
-
-def readme_md():
-    HERE = os.path.abspath(os.path.dirname(__file__))
-    with open(os.path.join(HERE, "README.md"), "rb", "utf-8") as readme_file:
-        return readme_file.read().strip()
-
-
+PACKAGE_NAME = "pyrfc"
 MODULE_NAME = "_cyrfc"
-PYPIPACKAGE = "pyrfc"
+
+# long description = readme.md
+_here_ = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(_here_, "README.md"), "rb", "utf-8") as readme_file:
+    readme_md = readme_file.read().strip()
+
+# set version
+__version__ = ""
+with open(os.path.join(_here_, "src", PACKAGE_NAME, "version.py")) as version_py:
+    exec(version_py.read())
+
 BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or sys.platform.startswith("linux")
 CMDCLASS = {}
 
@@ -182,8 +185,8 @@ else:
 # https://docs.python.org/2/distutils/apiref.html
 PYRFC_EXT = Extension(
     language="c++",
-    name=f"{PYPIPACKAGE}.{MODULE_NAME}",
-    sources=[f"src/{PYPIPACKAGE}/{MODULE_NAME}.pyx"],
+    name=f"{PACKAGE_NAME}.{MODULE_NAME}",
+    sources=[f"src/{PACKAGE_NAME}/{MODULE_NAME}.pyx"],
     define_macros=MACROS,
     extra_compile_args=COMPILE_ARGS,
     extra_link_args=LINK_ARGS,
@@ -192,10 +195,10 @@ PYRFC_EXT = Extension(
 
 # cf. http://docs.python.org/distutils/setupscript.html#additional-meta-data
 setup(
-    name=PYPIPACKAGE,
+    name=PACKAGE_NAME,
     version=__version__,
     description=("Python bindings for SAP NetWeaver RFC SDK"),
-    long_description=readme_md(),
+    long_description=readme_md,
     long_description_content_type="text/markdown",
     download_url="https://github.com/SAP/PyRFC/tarball/master",
     classifiers=[  # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -215,7 +218,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Topic :: Software Development :: Libraries",
     ],
-    keywords=f"{MODULE_NAME} {PYPIPACKAGE} pyrfc sap rfc nwrfc sapnwrfc",
+    keywords=f"{MODULE_NAME} {PACKAGE_NAME} pyrfc sap rfc nwrfc sapnwrfc",
     author="SAP SE",
     url="https://github.com/SAP/pyrfc",
     license="OSI Approved :: Apache Software License",

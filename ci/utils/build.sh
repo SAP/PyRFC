@@ -25,7 +25,9 @@ do
             PYRFC_BUILD_CYTHON=yes python setup.py bdist_wheel
             pip install --upgrade --force --find-links=dist pyrfc
         fi
-        pytest -vvx
+        if [[ $1 != skip-test ]]; then
+            pytest -vvx
+        fi
     fi
 done
-[[ $1 == sdist ]] && python setup.py sdist
+python setup.py sdist
