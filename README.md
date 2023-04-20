@@ -1,7 +1,5 @@
 <h1>PyRFC</h1>
 
-:tada: Darwin on ARM supported with SAP NW RFC SDK 7.50 PL11 :tada:
-
 Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/product/connectors/nwrfcsdk.html) bindings for Python.
 
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
