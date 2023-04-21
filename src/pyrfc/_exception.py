@@ -5,6 +5,9 @@
 """ :mod:`pyrfc`-specific exception classes
 """
 
+from enum import Enum, auto
+from . _utils import enum_values
+
 
 class RFCError(Exception):
     """Exception base class
@@ -47,14 +50,13 @@ class RFCLibError(RFCError):
         self.msg_v4 = msg_v4
 
     def __str__(self):
-        code = 28 if self.code is None else self.code
-        rc_text = RFC_RC(code) if code in [item.value for item in RFC_RC] else "???"
+        code = 28 if self.code is None else self.code  # 28 = RFC_UNKNOWN_ERROR
+        rc_text = RcCodeText(code).value if code in enum_values(RcCodeText) else "??"
         return (
             f"{rc_text} (rc={self.code}): key={self.key}, message={self.message}"
             f" [MSG: class={self.msg_class}, type={self.msg_type}, number={self.msg_number},"
             f" v1-4:={self.msg_v1};{self.msg_v2};{self.msg_v3};{self.msg_v4}]"
         )
-
 
 class ABAPApplicationError(RFCLibError):
     """ABAP application error
@@ -167,3 +169,40 @@ class RFCTypeError(RFCLibError):
     """
 
     pass
+
+
+class RcCodeText(Enum):
+    RFC_OK = auto()
+    RFC_COMMUNICATION_FAILURE = auto()
+    RFC_LOGON_FAILURE = auto()
+    RFC_ABAP_RUNTIME_FAILURE = auto()
+    RFC_ABAP_MESSAGE = auto()
+    RFC_ABAP_EXCEPTION = auto()
+    RFC_CLOSED = auto()
+    RFC_CANCELED = auto()
+    RFC_TIMEOUT = auto()
+    RFC_MEMORY_INSUFFICIENT = auto()
+    RFC_VERSION_MISMATCH = auto()
+    RFC_INVALID_PROTOCOL = auto()
+    RFC_SERIALIZATION_FAILURE = auto()
+    RFC_INVALID_HANDLE = auto()
+    RFC_RETRY = auto()
+    RFC_EXTERNAL_FAILURE = auto()
+    RFC_EXECUTED = auto()
+    RFC_NOT_FOUND = auto()
+    RFC_NOT_SUPPORTED = auto()
+    RFC_ILLEGAL_STATE = auto()
+    RFC_INVALID_PARAMETER = auto()
+    RFC_CODEPAGE_CONVERSION_FAILURE = auto()
+    RFC_CONVERSION_FAILURE = auto()
+    RFC_BUFFER_TOO_SMALL = auto()
+    RFC_TABLE_MOVE_BOF = auto()
+    RFC_TABLE_MOVE_EOF = auto()
+    RFC_START_SAPGUI_FAILURE = auto()
+    RFC_ABAP_CLASS_EXCEPTION = auto()
+    RFC_UNKNOWN_ERROR = auto()
+    RFC_AUTHORIZATION_FAILURE = auto()
+    RFC_AUTHENTICATION_FAILURE = auto()
+    RFC_CRYPTOLIB_FAILURE = auto()
+    RFC_IO_FAILURE = auto()
+    RFC_LOCKING_FAILURE = auto()

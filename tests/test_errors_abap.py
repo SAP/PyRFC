@@ -133,7 +133,7 @@ class TestErrorsABAP:
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 4
-        assert "Division by 0" in error.message
+        assert "Division by 0" in str(error.message)
 
     def test_RFC_RAISE_ERROR_AbapRuntimeError_E51(self):
         # '51_E': 'ABAPRuntimeError-3-BLOCKED_COMMIT-A database commit was blocked by the application.-True''] ==
@@ -143,6 +143,18 @@ class TestErrorsABAP:
         error = ex.value
         assert error.code == 3
         assert error.key == "BLOCKED_COMMIT"
+
+    def test_pyrfc_exc_string(self):
+        with pytest.raises(ABAPApplicationError)as ex:
+            self.conn.call("RFC_READ_TABLE", QUERY_TABLE="T008X", DELIMITER=".")
+        error = ex.value
+        assert error.code == 5
+        assert error.key == "TABLE_NOT_AVAILABLE"
+        assert error.message == "ID:SV Type:E Number:029 T008X"
+        assert error.msg_type == "E"
+        assert error.msg_number == "029"
+        assert error.msg_v1 == "T008X"
+        assert str(error) == "5 (rc=5): key=TABLE_NOT_AVAILABLE, message=ID:SV Type:E Number:029 T008X [MSG: class=SV, type=E, number=029, v1-4:=T008X;;;]"
 
     # def test_RFC_RAISE_ERROR_ExternalRuntimeError(self):
     #     # Comment: cf. result_print of the error_test.py

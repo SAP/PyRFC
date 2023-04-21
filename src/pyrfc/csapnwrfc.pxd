@@ -60,11 +60,11 @@ cdef extern from "sapnwrfc.h":
         RFCTYPE_XMLDATA
         RFCTYPE_STRING
         RFCTYPE_XSTRING
-        RFCTYPE_INT8		    # 8-byte integer
+        RFCTYPE_INT8            # 8-byte integer
         RFCTYPE_UTCLONG         # timestamp/long, 8-byte integer
         RFCTYPE_UTCSECOND       # timestamp/second, 8-byte integer
         RFCTYPE_UTCMINUTE       # timestamp/minute, 8-byte integer
-        RFCTYPE_DTDAY		    # date/day , 4-byte integer
+        RFCTYPE_DTDAY           # date/day , 4-byte integer
         RFCTYPE_DTWEEK          # date/week, 4-byte integer
         RFCTYPE_DTMONTH         # date/month, 4-byte integer
         RFCTYPE_TSECOND         # time/second, 4-byte integer

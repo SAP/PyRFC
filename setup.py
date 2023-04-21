@@ -232,7 +232,7 @@ setup(
     setup_requires=["setuptools-git"],
     extras_require={':"linux" in sys_platform': ["cython"]},
     cmdclass=CMDCLASS,  # type: ignore
-    ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={"language_level": "1"})  # type: ignore
+    ext_modules=cythonize(PYRFC_EXT, annotate=True)  # type: ignore
     if BUILD_CYTHON
     else [PYRFC_EXT],  # type: ignore
     test_suite=MODULE_NAME,

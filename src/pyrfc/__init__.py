@@ -28,13 +28,11 @@ from ._exception import (
     ExternalRuntimeError,
 )
 
+from ._utils import py_to_string, string_to_py
+
 try:
     from ._cyrfc import (
-        RfcParameterDirection,
-        RfcFieldType,
         get_nwrfclib_version,
-        py_to_string,
-        string_to_py,
         reload_ini_file,
         set_ini_file_directory,
         set_cryptolib_path,
@@ -43,6 +41,7 @@ try:
         language_sap_to_iso,
         cancel_connection,
         Connection,
+        ConnectionParameters,
         Decimal,
         Throughput,
         TypeDescription,
@@ -51,7 +50,8 @@ try:
         UnitCallType,
         UnitState,
         RCStatus,
-        ConnectionParameters,
+        RfcParameterDirection,
+        RfcFieldType
     )
 except ModuleNotFoundError as ex:
     if "'src.pyrfc._cyrfc'" in ex.msg:
