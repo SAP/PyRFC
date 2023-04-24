@@ -1,6 +1,59 @@
 [build-system]
-requires = ["setuptools", "wheel", "Cython"]  # PEP 508 specifications.
+requires = ["Cython ~= 0.29.0", "setuptools ~= 67.7.0", "wheel ~= 0.40.0"]
 build-backend = "setuptools.build_meta"
+
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
+[project]
+name = "xtest_sapnwrfc"
+version = "0.0.14"
+readme = "README.md"
+license = { file = "LICENSES/Apache-2.0.txt" }
+description = "Python bindings for SAP NetWeaver RFC SDK"
+authors = [ { name = "SAP SE"} ]
+maintainers = [ { name = "Srdjan Boskovic", email = "srdjan.boskovic@sap.com" } ]
+requires-python = ">=3.7"
+keywords = ["pyrfc", "sap", "nwrfc", "sapnwrfc", "abap"]
+classifiers = [
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Cython",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3 :: Only"
+]
+dependencies = []
+
+[project.urls]
+homepage = "https://github.com/SAP/PyRFC"
+documentation = "http://sap.github.io/PyRFC"
+repository = "https://github.com/SAP/PyRFC.git"
 
 [tool.cython-lint]
 max-line-length = 148
+
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+[tool.setuptools]
+include-package-data = false
+#exclude-package-data = {"*" = ["*.cpp", "*.html", "*.pyx", "*.pxd"]}
+#license-files=["LICENSES/*.txt"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+xtest_sapnwrfc = ["*.pxd"]
+
+[tool.setuptools.exclude-package-data]
+xtest_sapnwrfc = ["*.pyx", "*.pxd", "*.cpp"]
+
+[tool.setuptools.dynamic]
+readme = {file = "README.md"}

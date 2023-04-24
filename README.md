@@ -18,6 +18,8 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
   - [Windows](#windows)
   - [macOS](#macos)
 - [Download and installation](#download-and-installation)
+  - [Linux](#linux)
+  - [Windows and macOS](#windows-and-macos)
 - [Getting started](#getting-started)
   - [Call ABAP Function Module from Python](#call-abap-function-module-from-python)
   - [Call Python function from ABAP](#call-python-function-from-abap)
@@ -80,13 +82,23 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Download and installation
 
+### Linux
+
+Cython must be installed upfront because the build from source is standard installation method on Linux.
+
+Also the `pip` option `--no-build-isolation` is mandatory:
+
+```shell
+pip install --no-build-isolation pyrfc
+```
+
+### Windows and macOS
+
 ```shell
 pip install pyrfc
 ```
 
-Cython is required on Linux platforms, for the the default build from source installation method.
-
-Build from source can be also requested on Windows and Darwin platforms:
+Build from source can be requested also on Windows and macOS platforms:
 
 ```shell
 pip install pyrfc --no-binary :all:
@@ -99,7 +111,7 @@ Alternative build from source installation:
 ```shell
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
-python setup.py bdist_wheel
+python -m build --wheel --sdist --outdir dist
 pip install --upgrade --no-index --find-links=dist pyrfc
 ```
 

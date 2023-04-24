@@ -3,23 +3,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import inspect
-import os
 import sys
-from codecs import open
+import os
 from setuptools import setup, find_packages, Extension
 
-PACKAGE_NAME = "pyrfc"
+PACKAGE_NAME = "xtest_sapnwrfc"
 MODULE_NAME = "_cyrfc"
-
-# long description = readme.md
-_here_ = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(_here_, "README.md"), "rb", "utf-8") as readme_file:
-    readme_md = readme_file.read().strip()
-
-# set version
-__version__ = ""
-with open(os.path.join(_here_, "src", PACKAGE_NAME, "version.py")) as version_py:
-    exec(version_py.read())
 
 BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or sys.platform.startswith("linux")
 CMDCLASS = {}
@@ -37,9 +26,6 @@ SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
 if not SAPNWRFC_HOME:
     sys.exit("Environment variable SAPNWRFC_HOME not set.\n" "Please specify this variable with the root directory of the SAP NWRFC Library.")
 
-print("pyrfc version", __version__)
-
-# https://launchpad.support.sap.com/#/notes/2573953
 if sys.platform.startswith("linux"):
     os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.so | grep "Patch Level"')
     LIBS = ["sapnwrfc", "sapucum"]
@@ -67,9 +53,9 @@ if sys.platform.startswith("linux"):
         "-fPIC",
         "-pthread",
         "-minline-all-stringops",
-        "-I{}/include".format(SAPNWRFC_HOME),
+        f"-I{SAPNWRFC_HOME}/include",
     ]
-    LINK_ARGS = ["-L{}/lib".format(SAPNWRFC_HOME)]
+    LINK_ARGS = [f"-L{SAPNWRFC_HOME}/lib"]
 elif sys.platform.startswith("win"):
     # https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options-listed-alphabetically
 
@@ -104,27 +90,27 @@ elif sys.platform.startswith("win"):
     ]
 
     COMPILE_ARGS = [
-        "-I{}\\include".format(SAPNWRFC_HOME),
-        "-I{}\\Include".format(PYTHONSOURCE),
-        "-I{}\\Include\\PC".format(PYTHONSOURCE),
+        f"-I{SAPNWRFC_HOME}\\include",
+        f"-I{PYTHONSOURCE}\\Include",
+        f"-I{PYTHONSOURCE}\\Include\\PC",
         "/EHs",
+        "/GL",
         "/Gy",
         "/J",
         "/MD",
         "/nologo",
-        "/W3",
-        "/Z7",
-        "/GL",
         "/O2",
         "/Oy-",
         "/we4552",
         "/we4700",
         "/we4789",
+        "/W3",
+        "/Z7",
     ]
 
     LINK_ARGS = [
-        "-LIBPATH:{}\\lib".format(SAPNWRFC_HOME),
-        "-LIBPATH:{}\\PCbuild".format(PYTHONSOURCE),
+        f"-LIBPATH:{SAPNWRFC_HOME}\\lib",
+        f"-LIBPATH:{PYTHONSOURCE}\\PCbuild",
         "/NXCOMPAT",
         "/STACK:0x2000000",
         "/SWAPRUN:NET",
@@ -163,8 +149,8 @@ elif sys.platform.startswith("darwin"):
         "-minline-all-stringops",
         "-isystem",
         "-std=c++11",
-        "-mmacosx-version-min={}".format(MACOS_VERSION_MIN),
-        "-I{}/include".format(SAPNWRFC_HOME),
+        f"-mmacosx-version-min={MACOS_VERSION_MIN}",
+        f"-I{SAPNWRFC_HOME}/include",
         "-Wno-cast-align",
         "-Wno-deprecated-declarations",
         "-Wno-unused-function",
@@ -173,14 +159,15 @@ elif sys.platform.startswith("darwin"):
         "-Wno-unreachable-code-fallthrough",
     ]
     LINK_ARGS = [
-        "-L{}/lib".format(SAPNWRFC_HOME),
+        f"-L{SAPNWRFC_HOME}/lib",
         "-stdlib=libc++",
-        "-mmacosx-version-min={}".format(MACOS_VERSION_MIN),
+        f"-mmacosx-version-min={MACOS_VERSION_MIN}",
         # https://stackoverflow.com/questions/6638500/how-to-specify-rpath-in-a-makefile
-        "-Wl,-rpath,{}/lib".format(SAPNWRFC_HOME),
+        f"-Wl,-rpath,{SAPNWRFC_HOME}/lib",
     ]
 else:
-    sys.exit("Platform not supported: {}.".format(sys.platform))
+    sys.exit(f"Platform not supported: {sys.platform}.")
+
 
 # https://docs.python.org/2/distutils/apiref.html
 PYRFC_EXT = Extension(
@@ -196,43 +183,12 @@ PYRFC_EXT = Extension(
 # cf. http://docs.python.org/distutils/setupscript.html#additional-meta-data
 setup(
     name=PACKAGE_NAME,
-    version=__version__,
-    description=("Python bindings for SAP NetWeaver RFC SDK"),
-    long_description=readme_md,
-    long_description_content_type="text/markdown",
-    download_url="https://github.com/SAP/PyRFC/tarball/master",
-    classifiers=[  # cf. http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        "Development Status :: 5 - Production/Stable",
-        "Intended Audience :: Developers",
-        "Natural Language :: English",
-        "License :: OSI Approved :: Apache Software License",
-        "Operating System :: OS Independent",
-        "Programming Language :: Cython",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Topic :: Software Development :: Libraries",
-    ],
-    keywords=f"{MODULE_NAME} {PACKAGE_NAME} pyrfc sap rfc nwrfc sapnwrfc",
-    author="SAP SE",
-    url="https://github.com/SAP/pyrfc",
-    license="OSI Approved :: Apache Software License",
-    maintainer="Srdjan Boskovic",
-    maintainer_email="srdjan.boskovic@sap.com",
-    packages=find_packages(where="src", exclude=["*.cpp", "*.pxd", "*.html"]),
-    package_dir={"": "src"},
-    # http://packages.python.org/distribute/setuptools.html#setting-the-zip-safe-flag
-    zip_safe=False,
-    install_requires=["setuptools"],
-    setup_requires=["setuptools-git"],
-    extras_require={':"linux" in sys_platform': ["cython"]},
+    # install_requires=["setuptools"],
+    # zip_safe = False,
+    # packages=find_packages(where="src", exclude=["*.cpp", "*.pxd", "*.html"]),
+    # package_dir={"": "src"},
     cmdclass=CMDCLASS,  # type: ignore
-    ext_modules=cythonize(PYRFC_EXT, annotate=True)  # type: ignore
+    ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={'language_level' : "3"})  # type: ignore
     if BUILD_CYTHON
     else [PYRFC_EXT],  # type: ignore
     test_suite=MODULE_NAME,

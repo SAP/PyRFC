@@ -14,11 +14,12 @@ Toolchain preparation
 
 Linux platform
 ---------------
-* :ref:`Install Python, pip <install-python-linux>` and utilities:
+
+* :ref:`Install Python, pip <install-python-linux>` and packages:
 
   .. code-block:: sh
 
-     pip install cython wheel pytest sphinx
+     pip install build cython wheel pytest sphinx
 
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git
@@ -33,7 +34,9 @@ Windows platform
 
   .. code-block:: sh
 
-     pip install cython wheel pytest sphinx
+     pip install build cython wheel pytest sphinx
+
+* :ref:`Visual C++ Redistributable Package for Visual Studio 2013 <install-vs-cpp-redist>` is required for runtime,
 
 * :ref:`Install SAP NW RFC Library <install-c-connector>`
 * To get any software from the Git source control system the Git
@@ -41,15 +44,13 @@ Windows platform
   http://code.google.com/p/msysgit/downloads/list?can=3.
   During installation specify that Git runs
   out of the Bash shell as you may need that shell later on.
-* Download and install the compiler toolchain, tested on Windows platforms
+* Download and install the compiler toolchain, following `SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50 <https://launchpad.support.sap.com/#/notes/2573790>`_
 
-  * `MS VisualStudio2008 Express Edition <http://go.microsoft.com/?linkid=7729279>`_ or later
-  * `Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1 <http://www.microsoft.com/en-us/download/details.aspx?id=3138>`_ or later
 
 macOS platform
 --------------
 
-* Install Xcode command line tools with C++ development headers and check if `uchar.h` copied to $SAPNWRFC_HOME/include
+* Install Xcode command line tools with C++ development headers
 
   .. code-block:: sh
 
@@ -60,72 +61,17 @@ macOS platform
 Building the code
 =================
 
-To build wheels for different Python versions, install these versions
-on your system and create a virtual environment for each of these versions,
-for example:
-
-``virtualenv --python=<PATH e.g. c:\Python27\python.exe OR /usr/bin/python2.7> ...``
-
-Otherwise, follow the example below.
-
-Linux platform
---------------
-
 Clone the repository:
 
 .. code-block:: sh
 
    git clone https://github.com/SAP/PyRFC
-
-Edit ``setup.py`` and set the CYTHON_VERSION
-
-Build the distribution
-
-.. code-block:: sh
-
-   python setup.py clean --all
-   python setup.py bdist_wheel
+   cd PyRFC
+   python -m build --wheel --outdir dist
 
 The result is found in the ``dist/`` directory. The process has to be done on all platforms
 for which we provide wheels.
 
-Windows platform
-----------------
-
-Open the ``GIT Bash`` shell and clone the repository.
-
-.. code-block:: sh
-
-   git clone https://github.com/SAP/PyRFC
-
-Open the ``CMD Shell`` from ``Microsoft Windows SDK 7.0`` and change to cloned ``pyrfc`` folder.
-
-Edit ``setup.py`` and set the CYTHON_VERSION
-
-Set env variables for the release, use /x64 for 64 bit and /x86 for 32 bit:
-
-.. code-block:: sh
-
-   set DISTUTILS_USE_SDK=1
-   setenv /x64 /release
-
-Build the distribution:
-
-.. code-block:: sh
-
-   python setup.py clean --all
-   python setup.py bdist_wheel
-
-Check the ``pyrfc\dist`` folder for a new created wheel.
-
-macOS platform
---------------
-
-.. code-block:: sh
-
-   MACOS_UNICODE_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include/unicode
-   sudo ln -s $MACOS_UNICODE_DIR $SAPNWRFC_HOME/include/unicode
-   sudo cp $MACOS_UNICODE_DIR/uchar.h $SAPNWRFC_HOME/include/.
 
 Linting and Formatting
 ----------------------
@@ -139,39 +85,6 @@ Linting and Formatting
    flake8 setup.py src tests --max-line-length=180
    black src test
 
-
-Virtual Environments
---------------------
-
-You may have buth 32bit and 64bit versions of Python installed on your
-system and use virtual environments. This is basically possible (e.g. installing
-the 32bit version on 64 bit system in ``C:\Python27_32\``, but beware of modifying
-the PATH variable.
-
-However, the PATH variable is modified when using a virtual environment, therefore
-modify the ``Scripts/activate.bat`` file with:
-
-.. code-block:: sh
-
-   set SAPNWRFC_HOME=C:\nwrfcsdk_x86
-   set PATH=C:\nwrfcsdk_x86\lib\;%PATH%
-   set PATH=%VIRTUAL_ENV%\Scripts;%PATH%
-
-This assures that specific SAP NW RFC Library is used (e.g. 32bit in this example).
-This is not required for building the distribution, but rather for importing the Python connector.
-
-The build process remains the same, only before building the distribution, you need to
-activate the virtual environment and assure that library paths are correct in ``setup.py``.
-
-Python 3
---------
-
-Prerequisites for building on Python 3, tested on Linux Mint and Ubuntu
-
-.. code-block:: sh
-
-   sudo apt-get install python3-setuptools python3-dev python-configparser
-   sudo pip3 install cython sphinx ipython pytest wheel
 
 
 Building the documentation
