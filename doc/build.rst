@@ -12,66 +12,27 @@ the distribution release code and documentation.
 Toolchain preparation
 =====================
 
-Linux platform
----------------
+* Download and install SAP NWRFC SDK requirements, following `SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50 <https://launchpad.support.sap.com/#/notes/2573790>`_
 
-* :ref:`Install Python, pip <install-python-linux>` and packages:
+* On Windows platform the `Visual C++ Redistributable Package for Visual Studio 2013 <https://www.microsoft.com/en-us/download/details.aspx?id=40784>`_ is required at runtime,
 
-  .. code-block:: sh
-
-     pip install build cython wheel pytest sphinx
-
-* :ref:`Install SAP NW RFC Library <install-c-connector>`
-* To get any software from the Git source control system the Git
-  client is required as well, use whatever your distribution has
-* The system must contain a ``gcc`` compiler as well as  development
-  header and library files as provided by your distribution
-
-Windows platform
------------------
-
-* :ref:`Install Python, pip<install-python-win>` and utilities:
-
-  .. code-block:: sh
-
-     pip install build cython wheel pytest sphinx
-
-* :ref:`Visual C++ Redistributable Package for Visual Studio 2013 <install-vs-cpp-redist>` is required for runtime,
-
-* :ref:`Install SAP NW RFC Library <install-c-connector>`
-* To get any software from the Git source control system the Git
-  client is required as well. Download and install from
-  http://code.google.com/p/msysgit/downloads/list?can=3.
-  During installation specify that Git runs
-  out of the Bash shell as you may need that shell later on.
-* Download and install the compiler toolchain, following `SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50 <https://launchpad.support.sap.com/#/notes/2573790>`_
-
-
-macOS platform
---------------
-
-* Install Xcode command line tools with C++ development headers
+* On macOS platform Xcode command line tools are required, eventually also C++ development headers:
 
   .. code-block:: sh
 
     xcode-select --install
     sudo installer -pkg macOS_SDK_headers_for_macOS_10.14.pkg -target /
 
+Install pyrfc build tools
 
-Building the code
-=================
+  .. code-block:: sh
 
-Clone the repository:
+     pip install build cython wheel pytest sphinx
 
-.. code-block:: sh
-
-   git clone https://github.com/SAP/PyRFC
-   cd PyRFC
-   python -m build --wheel --outdir dist
-
-The result is found in the ``dist/`` directory. The process has to be done on all platforms
-for which we provide wheels.
-
+* To get any software from the Git source control system the Git
+  client is required as well, use whatever your distribution has
+* The system must contain a ``gcc`` compiler as well as  development
+  header and library files as provided by your distribution
 
 Linting and Formatting
 ----------------------
@@ -85,6 +46,13 @@ Linting and Formatting
    flake8 setup.py src tests --max-line-length=180
    black src test
 
+Build from source
+-----------------
+
+.. code-block:: sh
+
+  cd PyRFC
+  python -m build --wheel --sdist --no-isolation --outdir dist
 
 
 Building the documentation
