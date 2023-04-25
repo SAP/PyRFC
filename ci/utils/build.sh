@@ -30,6 +30,7 @@ do
     fi
 done
 if [[ $1 != tools ]]; then
+    # build sdist on Linux
     python -m build --no-isolation --sdist --outdir dist
     pytest -vvx
 fi

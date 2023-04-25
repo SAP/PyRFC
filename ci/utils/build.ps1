@@ -32,4 +32,7 @@ $python_versions.Split(" ") | ForEach {
         }
     }
 }
-pytest -vvx
+If($action -ne "tools") {
+    # no sdist on Windows
+    pytest -vvx
+}
