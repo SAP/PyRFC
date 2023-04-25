@@ -1,5 +1,6 @@
 import pickle
 
+
 def enum_names(enum_obj):
     return set(e.name for e in enum_obj)
 

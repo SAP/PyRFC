@@ -58,6 +58,7 @@ class RFCLibError(RFCError):
             f" v1-4:={self.msg_v1};{self.msg_v2};{self.msg_v3};{self.msg_v4}]"
         )
 
+
 class ABAPApplicationError(RFCLibError):
     """ABAP application error
 

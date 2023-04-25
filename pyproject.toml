@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 [project]
-name = "xtest_sapnwrfc"
-version = "0.0.14"
+name = "pyrfc"
+version = "2.8.3"
 readme = "README.md"
 license = { file = "LICENSES/Apache-2.0.txt" }
 description = "Python bindings for SAP NetWeaver RFC SDK"
@@ -42,18 +42,13 @@ max-line-length = 148
 
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [tool.setuptools]
+package-dir = {"" = "src"}
 include-package-data = false
-#exclude-package-data = {"*" = ["*.cpp", "*.html", "*.pyx", "*.pxd"]}
-#license-files=["LICENSES/*.txt"]
+license-files=["LICENSES/*.txt"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.setuptools.package-data]
-xtest_sapnwrfc = ["*.pxd"]
-
-[tool.setuptools.exclude-package-data]
-xtest_sapnwrfc = ["*.pyx", "*.pxd", "*.cpp"]
+include = ["pyrfc"]
 
 [tool.setuptools.dynamic]
 readme = {file = "README.md"}

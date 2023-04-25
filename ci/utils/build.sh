@@ -18,16 +18,18 @@ do
     rm -rf tests/stfc-mrfc/__pycache__
     echo py$version
     pyenv activate py$version
-    if [[ $1 == pip ]]; then
-        pip install --upgrade pip
+    if [[ $1 == tools ]]; then
+        pip install --upgrade pip build setuptools cython wheel
     else
         if [[ $1 != test ]]; then
-            PYRFC_BUILD_CYTHON=yes python setup.py bdist_wheel
+            PYRFC_BUILD_CYTHON=yes python -m build --no-isolation --wheel --outdir dist
             pip install --upgrade --force --find-links=dist pyrfc
-        fi
-        if [[ $1 != skip-test ]]; then
+        else
             pytest -vvx
         fi
     fi
 done
-python setup.py sdist
+if [[ $1 != tools ]]; then
+    python -m build --no-isolation --sdist --outdir dist
+    pytest -vvx
+fi

@@ -18,8 +18,6 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
   - [Windows](#windows)
   - [macOS](#macos)
 - [Download and installation](#download-and-installation)
-  - [Linux](#linux)
-  - [Windows and macOS](#windows-and-macos)
 - [Getting started](#getting-started)
   - [Call ABAP Function Module from Python](#call-abap-function-module-from-python)
   - [Call Python function from ABAP](#call-python-function-from-abap)
@@ -82,23 +80,13 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Download and installation
 
-### Linux
-
-Cython must be installed upfront because the build from source is standard installation method on Linux.
-
-Also the `pip` option `--no-build-isolation` is mandatory:
-
-```shell
-pip install --no-build-isolation pyrfc
-```
-
-### Windows and macOS
-
 ```shell
 pip install pyrfc
 ```
 
-Build from source can be requested also on Windows and macOS platforms:
+Cython must be installed upfront because the build from source is standard installation method on Linux.
+
+Build from source can be requested also on other platforms:
 
 ```shell
 pip install pyrfc --no-binary :all:
@@ -111,9 +99,15 @@ Alternative build from source installation:
 ```shell
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
+python -m pip install .
+# or
 python -m build --wheel --sdist --outdir dist
 pip install --upgrade --no-index --find-links=dist pyrfc
 ```
+
+Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
+
+Using virtual environments you can isolate Python/PyRFC projects, working without administrator privileges.
 
 See also the [pyrfc documentation](http://sap.github.io/PyRFC),
 complementing _SAP NWRFC SDK_[documentation](https://support.sap.com/nwrfcsdk), especially [SAP NWRFC SDK 7.50 Programming Guide](https://support.sap.com/content/dam/support/en_us/library/ssp/products/connectors/nwrfcsdk/NW_RFC_750_ProgrammingGuide.pdf).

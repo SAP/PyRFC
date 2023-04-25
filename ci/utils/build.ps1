@@ -20,11 +20,11 @@ $python_versions.Split(" ") | ForEach {
     pyenv shell $version
     python -V
 
-    If($action -eq "pip") {
-        python -m pip install --upgrade pip
+    If($action -eq "tools") {
+        python -m pip install --upgrade pip build setuptools cython wheel
     } else {
         If($action -ne "test") {
-            python setup.py bdist_wheel 
+            python -m build --no-isolation --wheel --outdir dist
             pip install --upgrade --force --find-links=dist pyrfc
         }
         If($action -ne "skip-test") {
@@ -32,3 +32,4 @@ $python_versions.Split(" ") | ForEach {
         }
     }
 }
+pytest -vvx

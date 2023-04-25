@@ -5,9 +5,9 @@
 import inspect
 import sys
 import os
-from setuptools import setup, find_packages, Extension
+from setuptools import setup, Extension
 
-PACKAGE_NAME = "xtest_sapnwrfc"
+PACKAGE_NAME = "pyrfc"
 MODULE_NAME = "_cyrfc"
 
 BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or sys.platform.startswith("linux")
@@ -184,11 +184,8 @@ PYRFC_EXT = Extension(
 setup(
     name=PACKAGE_NAME,
     # install_requires=["setuptools"],
-    # zip_safe = False,
-    # packages=find_packages(where="src", exclude=["*.cpp", "*.pxd", "*.html"]),
-    # package_dir={"": "src"},
     cmdclass=CMDCLASS,  # type: ignore
-    ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={'language_level' : "3"})  # type: ignore
+    ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={"language_level": "3"})  # type: ignore
     if BUILD_CYTHON
     else [PYRFC_EXT],  # type: ignore
     test_suite=MODULE_NAME,

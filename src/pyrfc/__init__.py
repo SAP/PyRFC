@@ -5,7 +5,7 @@
 import importlib.metadata
 import os
 
-__version__ = importlib.metadata.version("xtest_sapnwrfc")
+__version__ = importlib.metadata.version("pyrfc")
 __version_info__ = tuple(__version__.split("."))
 
 if os.name == "nt":

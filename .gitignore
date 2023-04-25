@@ -38,3 +38,5 @@ setuptools*.egg
 material
 ci/test
 ci/issues
+
+tests/tmp

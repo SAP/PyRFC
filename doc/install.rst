@@ -120,64 +120,18 @@ For pyrfc:
 Python Connector Installation
 =============================
 
-Download the wheel from your platform, from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_ and pip install.
+see `README: Download and Installation <https://github.com/SAP/PyRFC#download-and-installation>`_
+
+Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
 
 Using virtual environments you can isolate Python/PyRFC projects, working without administrator privileges.
-
-Windows
--------
-
-.. _`install-python-win`:
-
-* If not already installed, install the Python first: https://www.python.org/downloads/windows/
-
-  Add Python and Scripts directories to ``PATH`` environment variable, e.g.
-
-  .. code-block:: none
-
-     set PATH=c:\Python37;c:\Python37\Scripts;%PATH%
-
-* Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
-
-* Install the Python connector from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_
-
-  .. code-block:: sh
-
-     wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-win_amd64.whl
-
-     pip install pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
-
-  Please look up the correct wheel name, depending on your platform and Python version.
-
-* Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
-
-Linux
------
-
-.. _`install-python-linux`:
-
-* Install Python 3
-
-* Install ``pip`` if not already included: https://pip.pypa.io/en/stable/installing/
-
-* Install the Python connector from the `latest release <https://github.com/SAP/PyRFC/releases/latest>`_
-
-  .. code-block:: sh
-
-     wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-linux_x86_64.whl
-
-     pip install pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
-
-  Please look up the correct wheel name, depending on your platform and Python version.
-
-* Run ``python`` and type ``from pyrfc import *``. If this finishes silently, without oputput, the installation was successful.
 
 macOS
 -----
 
 .. _`install-python-macOS`:
 
-The macOS system version of Python is usually the older one and using wirtual environments,
+The macOS system version of Python is usually the older one. Using wirtual environments,
 like `pyenv <https://github.com/pyenv/pyenv>`_ for example, is recommended:
 
 .. code-block:: sh

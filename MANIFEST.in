@@ -1,3 +1,2 @@
-recursive-exclude doc *
-recursive-exclude examples *
 recursive-exclude tests *
+include src/pyrfc/csapnwrfc.pxd
