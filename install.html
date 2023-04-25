@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Installation &#8212; pyrfc 2.8.0 documentation</title>
+    <title>Installation &#8212; pyrfc 2.8.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -20,7 +20,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.8.0 documentation</a></div>
+          href="index.html">pyrfc 2.8.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |
@@ -143,48 +143,12 @@ $<span class="w"> </span>install_name_tool<span class="w"> </span>-rpath<span cl
 </section>
 <section id="python-connector-installation">
 <span id="install-python-connector"></span><h2>Python Connector Installation<a class="headerlink" href="#python-connector-installation" title="Permalink to this heading">¶</a></h2>
-<p>Download the wheel from your platform, from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a> and pip install.</p>
+<p>see <a class="reference external" href="https://github.com/SAP/PyRFC#download-and-installation">README: Download and Installation</a></p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p>
 <p>Using virtual environments you can isolate Python/PyRFC projects, working without administrator privileges.</p>
-<section id="id3">
-<h3>Windows<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
-<ul id="install-python-win">
-<li><p>If not already installed, install the Python first: <a class="reference external" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a></p>
-<p>Add Python and Scripts directories to <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable, e.g.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set PATH=c:\Python37;c:\Python37\Scripts;%PATH%
-</pre></div>
-</div>
-</li>
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p></li>
-<li><p>Install the Python connector from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-win_amd64.whl
-
-pip<span class="w"> </span>install<span class="w"> </span>pyrfc-1.9.97-cp37-cp37m-macosx_10_14_x86_64.whl
-</pre></div>
-</div>
-<p>Please look up the correct wheel name, depending on your platform and Python version.</p>
-</li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p></li>
-</ul>
-</section>
-<section id="id5">
-<h3>Linux<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
-<ul id="install-python-linux">
-<li><p>Install Python 3</p></li>
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> if not already included: <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a></p></li>
-<li><p>Install the Python connector from the <a class="reference external" href="https://github.com/SAP/PyRFC/releases/latest">latest release</a></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-linux_x86_64.whl
-
-pip<span class="w"> </span>install<span class="w"> </span>pyrfc-1.9.94-cp37-cp37m-linux_x86_64.whl
-</pre></div>
-</div>
-<p>Please look up the correct wheel name, depending on your platform and Python version.</p>
-</li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">python</span></code> and type <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyrfc</span> <span class="pre">import</span> <span class="pre">*</span></code>. If this finishes silently, without oputput, the installation was successful.</p></li>
-</ul>
-</section>
-<section id="id7">
-<h3>macOS<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
-<p id="install-python-macos">The macOS system version of Python is usually the older one and using wirtual environments,
+<section id="id2">
+<h3>macOS<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<p id="install-python-macos">The macOS system version of Python is usually the older one. Using wirtual environments,
 like <a class="reference external" href="https://github.com/pyenv/pyenv">pyenv</a> for example, is recommended:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.8.0
 pyenv<span class="w"> </span>virtualenv<span class="w"> </span><span class="m">3</span>.8.0<span class="w"> </span>py380
@@ -225,7 +189,7 @@ This error occurs when SAP NW RFC Library 64bit version is installed on a system
 <section id="environment-variables">
 <h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h3>
 <section id="install-problems-envvar-win">
-<span id="id8"></span><h4>Windows<a class="headerlink" href="#install-problems-envvar-win" title="Permalink to this heading">¶</a></h4>
+<span id="id3"></span><h4>Windows<a class="headerlink" href="#install-problems-envvar-win" title="Permalink to this heading">¶</a></h4>
 <p>The environment variable may be set within a command prompt via the <code class="docutils literal notranslate"><span class="pre">set</span></code>
 command, e.g.</p>
 <ul class="simple">
@@ -309,8 +273,8 @@ the desired variable.</p></li>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2023-04-19 14:26.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+      Last updated on 2023-04-25 15:20.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
     </div>
         </div>
         <div class="clearer"></div>
