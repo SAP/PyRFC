@@ -33,8 +33,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-homepage = "https://github.com/SAP/PyRFC"
+bug-tracker = "https://github.com/wntrblm/nox/issues"
 documentation = "http://sap.github.io/PyRFC"
+homepage = "https://github.com/SAP/PyRFC"
 repository = "https://github.com/SAP/PyRFC.git"
 
 [tool.cython-lint]
@@ -50,5 +51,7 @@ license-files=["LICENSES/*.txt"]
 where = ["src"]
 include = ["pyrfc"]
 
-[tool.setuptools.dynamic]
-readme = {file = "README.md"}
+[tool.pytest.ini_options]
+minversion = "7.3"
+addopts = "-vvx"
+testpaths =["tests"]
