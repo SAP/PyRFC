@@ -56,36 +56,36 @@ def test_table_rejects_non_list():
 
 def test_basic_datatypes():
     INPUTS = [
-        dict(
+        {
             # Float
-            ZFLTP=0.123456789,
+            "ZFLTP": 0.123456789,
             # Decimal
-            ZDEC=12345.67,
+            "ZDEC": 12345.67,
             # Currency, Quantity
-            ZCURR=1234.56,
-            ZQUAN=12.3456,
-            ZQUAN_SIGN=-12.345,
-        ),
-        dict(
+            "ZCURR": 1234.56,
+            "ZQUAN": 12.3456,
+            "ZQUAN_SIGN": -12.345,
+        },
+        {
             # Float
-            ZFLTP=Decimal("0.123456789"),
+            "ZFLTP": Decimal("0.123456789"),
             # Decimal
-            ZDEC=Decimal("12345.67"),
+            "ZDEC": Decimal("12345.67"),
             # Currency, Quantity
-            ZCURR=Decimal("1234.56"),
-            ZQUAN=Decimal("12.3456"),
-            ZQUAN_SIGN=Decimal("-12.345"),
-        ),
-        dict(
+            "ZCURR": Decimal("1234.56"),
+            "ZQUAN": Decimal("12.3456"),
+            "ZQUAN_SIGN": Decimal("-12.345"),
+        },
+        {
             # Float
-            ZFLTP="0.123456789",
+            "ZFLTP": "0.123456789",
             # Decimal
-            ZDEC="12345.67",
+            "ZDEC": "12345.67",
             # Currency, Quantity
-            ZCURR="1234.56",
-            ZQUAN="12.3456",
-            ZQUAN_SIGN="-12.345",
-        ),
+            "ZCURR": "1234.56",
+            "ZQUAN": "12.3456",
+            "ZQUAN_SIGN": "-12.345",
+        },
     ]
 
     for is_input in INPUTS:
@@ -619,8 +619,8 @@ def test_float_rejects_point_for_comma_locale():
         assert error.code == 22
         assert error.key == "RFC_CONVERSION_FAILURE"
         assert (
-            error.message
-            == "Cannot convert string value 1.2 at position 1 for the field RFCFLOAT to type RFCTYPE_FLOAT"
+            error.message == "Cannot convert string value 1.2 at position 1"
+            " for the field RFCFLOAT to type RFCTYPE_FLOAT"
         )
         setlocale(LC_ALL, "")
 

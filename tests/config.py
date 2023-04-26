@@ -54,11 +54,15 @@ def ABAP_to_python_time(abap_time):
 
 
 def python_to_ABAP_date(py_date):
-    return "{:04d}{:02d}{:02d}".format(py_date.year, py_date.month, py_date.day)
+    return "{y:04d}{m:02d}{d:02d}".format(
+        y=py_date.year, m=py_date.month, d=py_date.day
+    )
 
 
 def python_to_ABAP_time(py_time):
-    return "{:02d}{:02d}{:02d}".format(py_time.hour, py_time.minute, py_time.second)
+    return "{h:02d}{m:02d}{s:02d}".format(
+        h=py_time.hour, m=py_time.minute, s=py_time.second
+    )
 
 
 CONFIG_SECTIONS = COPA._sections

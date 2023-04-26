@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+"""pyrfc package."""
+
 import importlib.metadata
 import os
 
@@ -49,7 +51,7 @@ from ._cyrfc import (
     UnitState,
     RCStatus,
     RfcParameterDirection,
-    RfcFieldType
+    RfcFieldType,
 )
 
 __author__ = "SAP SE"

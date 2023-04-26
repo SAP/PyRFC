@@ -111,32 +111,32 @@ class TestSTFC:
     """
 
     # STFC_STRUCTURE Inhomogene Struktur
-    imp = dict(
-        RFCFLOAT=1.23456789,
-        RFCINT2=0x7FFE,
-        RFCINT1=0x7F,
-        RFCCHAR4="bcde",
-        RFCINT4=0x7FFFFFFE,
-        RFCHEX3="fgh".encode("utf-8"),
-        RFCCHAR1="a",
-        RFCCHAR2="ij",
-        RFCTIME="123456",  # datetime.time(12,34,56),
-        RFCDATE="20161231",  # datetime.date(2011,10,17),
-        RFCDATA1="k" * 50,
-        RFCDATA2="l" * 50,
-    )
-    out = dict(
-        RFCFLOAT=imp["RFCFLOAT"] + 1,
-        RFCINT2=imp["RFCINT2"] + 1,
-        RFCINT1=imp["RFCINT1"] + 1,
-        RFCINT4=imp["RFCINT4"] + 1,
-        RFCHEX3=b"\xf1\xf2\xf3",
-        RFCCHAR1="X",
-        RFCCHAR2="YZ",
-        RFCDATE=str(datetime.date.today()).replace("-", ""),
-        RFCDATA1="k" * 50,
-        RFCDATA2="l" * 50,
-    )
+    imp = {
+        "RFCFLOAT": 1.23456789,
+        "RFCINT2": 0x7FFE,
+        "RFCINT1": 0x7F,
+        "RFCCHAR4": "bcde",
+        "RFCINT4": 0x7FFFFFFE,
+        "RFCHEX3": "fgh".encode("utf-8"),
+        "RFCCHAR1": "a",
+        "RFCCHAR2": "ij",
+        "RFCTIME": "123456",  # datetime.time(12,34,56),
+        "RFCDATE": "20161231",  # datetime.date(2011,10,17),
+        "RFCDATA1": "k" * 50,
+        "RFCDATA2": "l" * 50,
+    }
+    out = {
+        "RFCFLOAT": imp["RFCFLOAT"] + 1,
+        "RFCINT2": imp["RFCINT2"] + 1,
+        "RFCINT1": imp["RFCINT1"] + 1,
+        "RFCINT4": imp["RFCINT4"] + 1,
+        "RFCHEX3": b"\xf1\xf2\xf3",
+        "RFCCHAR1": "X",
+        "RFCCHAR2": "YZ",
+        "RFCDATE": str(datetime.date.today()).replace("-", ""),
+        "RFCDATA1": "k" * 50,
+        "RFCDATA2": "l" * 50,
+    }
 
     """
     def test_ZPYRFC_STFC_STRUCTURE(self):

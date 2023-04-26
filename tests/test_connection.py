@@ -8,9 +8,10 @@
 
 import datetime
 import socket
+import sys
 import pytest
 
-from pyrfc import Connection, RFCError, ExternalRuntimeError
+from pyrfc import Connection, RFCError, ExternalRuntimeError, __version__
 
 from tests.config import (
     PARAMS as params,
@@ -37,6 +38,19 @@ class TestConnection:
         assert all(
             k in self.conn.options for k in ("dtime", "return_import_params", "rstrip")
         )
+
+    @pytest.mark.skipif(
+        sys.version_info < (3, 11), reason="pyrfc version check on latest python only"
+    )
+    def test_pyrfc_version(self):
+        import tomllib
+
+        with open("pyproject.toml", "rb") as f:
+            data = tomllib.load(f)
+        package_name = data["project"]["name"]
+        version = data["project"]["version"]
+        assert package_name == "pyrfc"
+        assert version == __version__
 
     def test_connection_info(self):
         connection_info = self.conn.get_connection_attributes()
@@ -102,8 +116,8 @@ class TestConnection:
             conn.call("STFC_CONNECTION", REQUTEXT=hello)
         error = ex.value
         assert (
-            error.args[0]
-            == "Remote function module 'STFC_CONNECTION' invocation rejected because the connection is closed"
+            error.args[0] == "Remote function module 'STFC_CONNECTION' invocation "
+            "rejected because the connection is closed"
         )
 
     def test_ping(self):
@@ -115,11 +129,10 @@ class TestConnection:
         error = ex.value
         assert error.code == 13
         assert error.key == "RFC_INVALID_HANDLE"
-        assert (
-            error.message
-            == "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call"
-            or error.message == "An invalid handle was passed to the API call"
-        )
+        assert error.message in [
+            "An invalid handle 'RFC_CONNECTION_HANDLE' was passed to the API call",
+            "An invalid handle was passed to the API call",
+        ]
 
     def test_RFM_name_string(self):
         result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
@@ -185,32 +198,32 @@ class TestConnection:
 
     def test_STFC_STRUCTURE(self):
         # STFC_STRUCTURE Inhomogene Struktur
-        imp = dict(
-            RFCFLOAT=1.23456789,
-            RFCINT2=0x7FFE,
-            RFCINT1=0x7F,
-            RFCCHAR4="bcde",
-            RFCINT4=0x7FFFFFFE,
-            RFCHEX3="fgh".encode("utf-8"),
-            RFCCHAR1="a",
-            RFCCHAR2="ij",
-            RFCTIME="123456",  # datetime.time(12,34,56),
-            RFCDATE="20161231",  # datetime.date(2011,10,17),
-            RFCDATA1="k" * 50,
-            RFCDATA2="l" * 50,
-        )
-        out = dict(
-            RFCFLOAT=imp["RFCFLOAT"] + 1,  # type: ignore
-            RFCINT2=imp["RFCINT2"] + 1,  # type: ignore
-            RFCINT1=imp["RFCINT1"] + 1,  # type: ignore
-            RFCINT4=imp["RFCINT4"] + 1,  # type: ignore
-            RFCHEX3=b"\xf1\xf2\xf3",
-            RFCCHAR1="X",
-            RFCCHAR2="YZ",
-            RFCDATE=str(datetime.date.today()).replace("-", ""),
-            RFCDATA1="k" * 50,
-            RFCDATA2="l" * 50,
-        )
+        imp = {
+            "RFCFLOAT": 1.23456789,
+            "RFCINT2": 0x7FFE,
+            "RFCINT1": 0x7F,
+            "RFCCHAR4": "bcde",
+            "RFCINT4": 0x7FFFFFFE,
+            "RFCHEX3": "fgh".encode("utf-8"),
+            "RFCCHAR1": "a",
+            "RFCCHAR2": "ij",
+            "RFCTIME": "123456",  # datetime.time(12,34,56),
+            "RFCDATE": "20161231",  # datetime.date(2011,10,17),
+            "RFCDATA1": "k" * 50,
+            "RFCDATA2": "l" * 50,
+        }
+        out = {
+            "RFCFLOAT": imp["RFCFLOAT"] + 1,  # type: ignore
+            "RFCINT2": imp["RFCINT2"] + 1,  # type: ignore
+            "RFCINT1": imp["RFCINT1"] + 1,  # type: ignore
+            "RFCINT4": imp["RFCINT4"] + 1,  # type: ignore
+            "RFCHEX3": b"\xf1\xf2\xf3",
+            "RFCCHAR1": "X",
+            "RFCCHAR2": "YZ",
+            "RFCDATE": str(datetime.date.today()).replace("-", ""),
+            "RFCDATA1": "k" * 50,
+            "RFCDATA2": "l" * 50,
+        }
         table = []
         xtable = []
         records = ["1111", "2222", "3333", "4444", "5555"]

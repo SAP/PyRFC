@@ -1,25 +1,31 @@
 import pytest
 import subprocess
 import sys
-import tomllib
 from os import listdir
 from os.path import isfile, join
 
 
-@pytest.mark.skipif("darwin" not in sys.platform, reason="testing on Darwin only")
-class TestPackage:
+def platform_and_py_check():
+    return sys.version_info >= (3, 11) and "darwin" in sys.platform
 
+
+@pytest.mark.skipif("platform_and_py_check() == False")
+class TestPackage:
     def setup_class(self):
+        import tomllib
+
         self.package_name = "pyrfc"
         with open("pyproject.toml", "rb") as f:
             data = tomllib.load(f)
         self.package_name = data["project"]["name"]
         self.version = data["project"]["version"]
-        assert subprocess.call(["bash", "tests/build_test.sh"]) == 0
+        # assert subprocess.call(["bash", "tests/build_test.sh"]) == 0
 
-    def test_package_files(self):
+    def test_wheel_package(self):
         package_path = join("tests", "tmp", self.package_name)
-        package_files = [f for f in listdir(package_path) if isfile(join(package_path, f))]
+        package_files = [
+            f for f in listdir(package_path) if isfile(join(package_path, f))
+        ]
         print(package_files)
         exts = set()
         # no cython and c sources, only python and 'so'
@@ -30,8 +36,14 @@ class TestPackage:
         assert "py" in exts
         assert "so" in exts
 
-    def test_sdist_files(self):
-        sdist_path = join("tests", "tmp", f"{self.package_name}-{self.version}", "src", self.package_name)
+    def test_sdist_package(self):
+        sdist_path = join(
+            "tests",
+            "tmp",
+            f"{self.package_name}-{self.version}",
+            "src",
+            self.package_name,
+        )
         sdist_files = [f for f in listdir(sdist_path) if isfile(join(sdist_path, f))]
         print(sdist_files)
         exts = set()

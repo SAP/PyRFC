@@ -145,7 +145,7 @@ class TestErrorsABAP:
         assert error.key == "BLOCKED_COMMIT"
 
     def test_pyrfc_exc_string(self):
-        with pytest.raises(ABAPApplicationError)as ex:
+        with pytest.raises(ABAPApplicationError) as ex:
             self.conn.call("RFC_READ_TABLE", QUERY_TABLE="T008X", DELIMITER=".")
         error = ex.value
         assert error.code == 5
@@ -154,7 +154,10 @@ class TestErrorsABAP:
         assert error.msg_type == "E"
         assert error.msg_number == "029"
         assert error.msg_v1 == "T008X"
-        assert str(error) == "5 (rc=5): key=TABLE_NOT_AVAILABLE, message=ID:SV Type:E Number:029 T008X [MSG: class=SV, type=E, number=029, v1-4:=T008X;;;]"
+        assert (
+            str(error) == "5 (rc=5): key=TABLE_NOT_AVAILABLE, message=ID:SV "
+            "Type:E Number:029 T008X [MSG: class=SV, type=E, number=029, v1-4:=T008X;;;]"
+        )
 
     # def test_RFC_RAISE_ERROR_ExternalRuntimeError(self):
     #     # Comment: cf. result_print of the error_test.py

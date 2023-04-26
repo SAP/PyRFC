@@ -12,9 +12,9 @@ def my_stfc_connection(request_context=None, REQUTEXT=""):
 
 
 # server authorisation check
-def my_auth_check(func_name=False, request_context={}):
+def my_auth_check(func_name=False, request_context=None):
     print(f"authorization check for '{func_name}'")
-    print("request_context", request_context)
+    print("request_context", request_context or {})
     return 0
 
 
