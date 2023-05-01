@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # -*- coding: utf-8 -*-
+
+from os import path
 from configparser import ConfigParser
 import sys
 
@@ -22,14 +24,16 @@ def parameter_key_function(parameter):
 
 
 def main(function_name):
-    config = ConfigParser()
-    config.read("sapnwrfc.cfg")
-    params_connection = config._sections["connection"]
+    cp = ConfigParser()
+    cp.read(path.join(path.dirname(path.abspath(__file__)), "pyrfc.cfg"))
+
+    params_connection = dict(cp.items("coevi51"))
+    print(params_connection)
 
     try:
         connection = Connection(**params_connection)
         func_desc = connection.get_function_description(function_name)
-        print("Parameters of function: {0}".format(function_name))
+        print(f"Parameters of function: {function_name}")
 
         parameter_keys = [
             "name",
@@ -45,17 +49,15 @@ def main(function_name):
         ]
         parameter_widths = [20, 17, 11, 10, 9, 9, 15, 10, 15, 20]
         for key, width in zip(parameter_keys, parameter_widths):
-            sys.stdout.write("{0}".format(key).ljust(width).upper() + " ")
+            sys.stdout.write(f"{key}".ljust(width).upper() + " ")
         sys.stdout.write("\n")
 
         for parameter in sorted(func_desc.parameters, key=parameter_key_function):
             for key, width in zip(parameter_keys, parameter_widths):
                 if key == "type_description" and parameter[key] is not None:
-                    sys.stdout.write(
-                        "{0}".format(parameter[key].name).ljust(width) + " "
-                    )
+                    sys.stdout.write(f"{parameter[key].name}".ljust(width) + " ")
                 else:
-                    sys.stdout.write("{0}".format(parameter[key]).ljust(width) + " ")
+                    sys.stdout.write(f"{parameter[key]}".ljust(width) + " ")
             sys.stdout.write("\n")
             type_desc = parameter["type_description"]
             if type_desc is not None:
@@ -73,26 +75,20 @@ def main(function_name):
                 field_widths = [20, 17, 10, 10, 9, 9, 10, 15]
 
                 sys.stdout.write(
-                    " " * 4
-                    + "-----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(
+                    "    -----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(
                         type_desc
                     )
                 )
                 for key, width in zip(field_keys, field_widths):
-                    sys.stdout.write("{0}".format(key).ljust(width).upper() + " ")
+                    sys.stdout.write(f"{key}".ljust(width).upper() + " ")
                 sys.stdout.write("\n")
 
                 for field_description in type_desc.fields:
                     for key, width in zip(field_keys, field_widths):
-                        sys.stdout.write(
-                            "{0}".format(field_description[key]).ljust(width) + " "
-                        )
+                        sys.stdout.write(f"{field_description[key]}".ljust(width) + " ")
                     sys.stdout.write("\n")
                 sys.stdout.write(
-                    " " * 4
-                    + "-----------( Structure of {0.name} )-----------\n".format(
-                        type_desc
-                    )
+                    f"    -----------( Structure of {type_desc.name} )-----------\n"
                 )
             sys.stdout.write("-" * sum(parameter_widths) + "\n")
         connection.close()

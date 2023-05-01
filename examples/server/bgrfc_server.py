@@ -10,11 +10,21 @@ tlog = TLog()
 # clear tje log
 tlog.remove()
 
-def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=[]):
+
+def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=None):
     try:
-        context = request_context['server_context']
-        tid = context['unit_identifier']['id'] if 'unit_identifier' in context else None
-        print("server function: stfc_write_to_tcpic", "tid:", tid, "call:", UnitCallType.synchronous.value, context)
+        if TCPICDAT is None:
+            TCPICDAT = []
+        context = request_context["server_context"]
+        tid = context["unit_identifier"]["id"] if "unit_identifier" in context else None
+        print(
+            "server function: stfc_write_to_tcpic",
+            "tid:",
+            tid,
+            "call:",
+            UnitCallType.synchronous.value,
+            context,
+        )
 
         if context["call_type"] != UnitCallType.synchronous:
             # Obtain the database connection that was opened for the
@@ -51,10 +61,14 @@ def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=[]):
         print("Error in stfc_write_to_tcpic", ex)
         return RCStatus.RFC_EXTERNAL_FAILURE
 
-def on_auth_check(func_name=False, request_context={}):
+
+def on_auth_check(func_name=False, request_context=None):
+    if request_context is None:
+        request_context = {}
     print(f"authorization check for '{func_name}'")
     # print("request_context", request_context)
     return RCStatus.OK
+
 
 def onCheckFunction(rfcHandle, unit_identifier):
     # section 5.5.1 pg 76 of SAP NWRFC SDK Programming Guide 7.50
@@ -66,11 +80,14 @@ def onCheckFunction(rfcHandle, unit_identifier):
     if tlog_record is None:
         # Create TID record
         tlog_record = tlog.write(tid, UnitState.created)
-    print("bgRFC:onCheck", f"handle {rfcHandle} tid {tid} status {tlog_record['status']}")
+    print(
+        "bgRFC:onCheck", f"handle {rfcHandle} tid {tid} status {tlog_record['status']}"
+    )
     if tlog_record["status"] in [UnitState.created.name, UnitState.rolled_back.name]:
         return RCStatus.OK
     else:
         return RCStatus.RFC_EXECUTED
+
 
 def onCommitFunction(rfcHandle, unit_identifier):
     # section 5.5.3 pg 79 of SAP NWRFC SDK Programming Guide 7.50
@@ -83,6 +100,7 @@ def onCommitFunction(rfcHandle, unit_identifier):
     tlog.write(tid, UnitState.committed)
 
     return RCStatus.OK
+
 
 def onConfirmFunction(rfcHandle, unit_identifier):
     # section 5.5.4 pg 80 of SAP NWRFC SDK Programming Guide 7.50
@@ -99,6 +117,7 @@ def onConfirmFunction(rfcHandle, unit_identifier):
 
     return RCStatus.OK
 
+
 def onRollbackFunction(rfcHandle, unit_identifier):
     # section 5.5.3 pg 80 of SAP NWRFC SDK Programming Guide 7.50
     print("bgRFC:onRollback handle", rfcHandle, "unit", unit_identifier)
@@ -112,6 +131,7 @@ def onRollbackFunction(rfcHandle, unit_identifier):
 
     return RCStatus.RFC_OK
 
+
 def onGetStateFunction(rfcHandle, unit_identifier):
     # section 5.6.3 pg 84 of SAP NWRFC SDK Programming Guide 7.50
     print("bgRFC:onGetState handle", rfcHandle, "unit", unit_identifier)
@@ -124,7 +144,8 @@ def onGetStateFunction(rfcHandle, unit_identifier):
     tlog_record = tlog[tid]
     if tlog_record is None:
         return RCStatus.RFC_NOT_FOUND
-    return RCStatus(tlog_record['status'])
+    return RCStatus(tlog_record["status"])
+
 
 # create server
 server = Server(*BACKEND[backend_dest])

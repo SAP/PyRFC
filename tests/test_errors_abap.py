@@ -55,7 +55,7 @@ class TestErrorsABAP:
         assert error.code == 3
         assert error.key == "DYNPRO_SEND_IN_BACKGROUND"
 
-    def test_RFC_RAISE_ERROR_AbapRuntimeError_E0(self):
+    def test_AbapRuntimeError_E0(self):
         # RFC_RAISE_ERROR ARFC: Raise Different Type of Error Message
         # Comment: cf. result_print of the error_test.py
         # cf. ExceptionTest.c (l. 92ff)
@@ -66,7 +66,7 @@ class TestErrorsABAP:
         assert error.code == 4
         assert error.message == "Function not supported"
 
-    def test_RFC_RAISE_ERROR_AbapApplicationError_E1(self):
+    def test_AbapApplicationError_E1(self):
         # Comment: cf. result_print of the error_test.py
         # '1_E': 'ABAPApplicationError-5-RAISE_EXCEPTION-ID:SR Type:E Number:006 STRING-True',
         # cf. ExceptionTest.c (l. 75ff)
@@ -80,7 +80,7 @@ class TestErrorsABAP:
         assert error.msg_type == "E"
         assert error.msg_number == "006"
 
-    def test_RFC_RAISE_ERROR_AbapApplicationError_E2(self):
+    def test_AbapApplicationError_E2(self):
         # '2_E': 'ABAPApplicationError-5-RAISE_EXCEPTION- Number:000-True',
         # cf. ExceptionTest.c (l. 65ff)
         with pytest.raises(ABAPApplicationError) as ex:
@@ -91,7 +91,7 @@ class TestErrorsABAP:
         assert error.key == "RAISE_EXCEPTION"
         assert error.msg_number == "000"
 
-    def test_RFC_RAISE_ERROR_AbapRuntimeError_E3(self):
+    def test_AbapRuntimeError_E3(self):
         # '3_E': 'ABAPRuntimeError-3-COMPUTE_INT_ZERODIVIDE-Division by 0 (type I)-True''] ==
         # cf. ExceptionTest.c (l. 164ff)
         with pytest.raises(ABAPRuntimeError) as ex:
@@ -101,7 +101,7 @@ class TestErrorsABAP:
         assert error.code == 3
         assert error.key == "COMPUTE_INT_ZERODIVIDE"
 
-    def test_RFC_RAISE_ERROR_AbapRuntimeError_A(self):
+    def test_AbapRuntimeError_A(self):
         # cf. ExceptionTest.c (l. 112ff)
         with pytest.raises(ABAPRuntimeError) as ex:
             self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
@@ -113,7 +113,7 @@ class TestErrorsABAP:
         assert error.msg_number == "006"
         assert error.msg_v1 == "Method = 0"
 
-    def test_RFC_RAISE_ERROR_AbapRuntimeError_X(self):
+    def test_AbapRuntimeError_X(self):
         # cf. ExceptionTest.c (l. 137ff)
         with pytest.raises(ABAPRuntimeError) as ex:
             self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="X")
@@ -126,7 +126,7 @@ class TestErrorsABAP:
         assert error.msg_number == "341"
         assert error.msg_v1 == "MESSAGE_TYPE_X"
 
-    def test_RFC_RAISE_ERROR_AbapRuntimeError_E36(self):
+    def test_AbapRuntimeError_E36(self):
         # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] ==
         with pytest.raises(ABAPRuntimeError) as ex:
             self.conn.call("RFC_RAISE_ERROR", METHOD="36", MESSAGETYPE="E")
@@ -135,7 +135,7 @@ class TestErrorsABAP:
         assert error.code == 4
         assert "Division by 0" in str(error.message)
 
-    def test_RFC_RAISE_ERROR_AbapRuntimeError_E51(self):
+    def test_AbapRuntimeError_E51(self):
         # '51_E': 'ABAPRuntimeError-3-BLOCKED_COMMIT-A database commit was blocked by the application.-True''] ==
         with pytest.raises(ABAPRuntimeError) as ex:
             self.conn.call("RFC_RAISE_ERROR", METHOD="51", MESSAGETYPE="E")
@@ -159,7 +159,7 @@ class TestErrorsABAP:
             "Type:E Number:029 T008X [MSG: class=SV, type=E, number=029, v1-4:=T008X;;;]"
         )
 
-    # def test_RFC_RAISE_ERROR_ExternalRuntimeError(self):
+    # def test_ExternalRuntimeError(self):
     #     # Comment: cf. result_print of the error_test.py
     #     # '11_E': 'ExternalRuntimeError-17-RFC_NOT_FOUND-Function RFCPING not found-True',
     #     try:
@@ -170,7 +170,7 @@ class TestErrorsABAP:
     #         assert error.code == 17
     #         assert error.key =="RFC_NOT_FOUND"
 
-    # def test_RFC_RAISE_ERROR_CommunicationError(self):
+    # def test_CommunicationError(self):
     #     # Comment: cf. result_print of the error_test.py
     #     # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message
     #     # (CM_NO_DATA_RECEIVED)-True',

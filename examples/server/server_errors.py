@@ -5,14 +5,18 @@ from backends import BACKEND
 backend_dest = sys.argv[1]
 
 errorInfo = {
-    "code": 4, "key": "Function not supported",
+    "code": 4,
+    "key": "Function not supported",
     "message": "",
-    "msg_class": "SR", "msg_type": "A", "msg_number": "006",
+    "msg_class": "SR",
+    "msg_type": "A",
+    "msg_number": "006",
     "msg_v1": "",
     "msg_v2": "",
     "msg_v3": "",
-    "msg_v4": ""
+    "msg_v4": "",
 }
+
 
 def my_stfc_connection(request_context=None, REQUTEXT=""):
     print("stfc connection invoked")
@@ -24,6 +28,7 @@ def my_stfc_connection(request_context=None, REQUTEXT=""):
     # raise ABAPApplicationError(**errorInfo)
 
     return {"ECHOTEXT": REQUTEXT, "RESPTEXT": "Python server here"}
+
 
 # create server
 server = Server(*BACKEND[backend_dest])

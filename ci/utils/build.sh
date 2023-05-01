@@ -19,7 +19,7 @@ do
     echo py$version
     pyenv activate py$version
     if [[ $1 == tools ]]; then
-        pip install --upgrade pip build setuptools cython wheel
+        pip install --upgrade pip build setuptools cython wheel pytest pytest-tetdox tox
     else
         if [[ $1 != test ]]; then
             PYRFC_BUILD_CYTHON=yes python -m build --no-isolation --wheel --outdir dist

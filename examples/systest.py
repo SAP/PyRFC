@@ -9,7 +9,7 @@ for k in "Py_DEBUG", "WITH_PYMALLOC", "Py_UNICODE_SIZE":
     try:
         print(k + ": " + repr(sysconfig.get_config_var(k)))
     except Exception as ex:
-        print("Error getting %s" % k)
+        print("Error getting %s" % k, ex)
 
 print("From headers:")
 h_file = sysconfig.get_config_h_filename()
@@ -18,4 +18,4 @@ for k in "Py_DEBUG", "WITH_PYMALLOC", "Py_UNICODE_SIZE":
     try:
         print(k + ": " + repr(conf_vars[k]))
     except Exception as ex:
-        print("Error getting %s" % k)
+        print("Error getting %s" % k, ex)

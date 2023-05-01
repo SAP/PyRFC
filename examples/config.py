@@ -2,25 +2,23 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-try:
-    from configparser import ConfigParser
+from os import path
+from configparser import ConfigParser
 
-    COPA = ConfigParser()
-    fc = open("tests/pyrfc.cfg", "r")
-    COPA.read_file(fc)
-except ImportError as ex:
-    from configparser import config_parser
+cp = ConfigParser()
+cp.read(path.join(path.dirname(path.abspath(__file__)), "pyrfc.cfg"))
 
-    COPA = config_parser()
-    COPA.read_file("tests/pyrfc.cfg")
-
-CONFIG_SECTIONS = COPA._sections
-PARAMS = CONFIG_SECTIONS["coevi51"]
+sections = cp.sections()
+print(sections)
+# ['p7019s16', 'coevi51', 'coe_he_66', 'gateway', 'connection_e1q']
+coevi51_params = dict(cp.items("coevi51"))
+print(coevi51_params)
 
 
 def get_error(ex):
     error = {}
     ex_type_full = str(type(ex))
+    print(ex_type_full)
     # error["type"] = ex_type_full[ex_type_full.rfind(".") + 1 : ex_type_full.rfind("'")]
     error["code"] = ex.code if hasattr(ex, "code") else "<None>"
     error["key"] = ex.key if hasattr(ex, "key") else "<None>"

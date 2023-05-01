@@ -3,10 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pyrfc
+from os import path
 from pyrfc import ABAPApplicationError, ABAPRuntimeError, LogonError, CommunicationError
-from configparser import config_parser
-
-import sys
+from configparser import ConfigParser
 
 
 def initial_screen():
@@ -47,7 +46,7 @@ def get_idoc_desc(idoc_id):
             "MANDT": "000",
             "DOCNUM": "{0:016d}".format(idoc_id),
             "SEGNUM": "{0:06d}".format(i),
-            "SDATA": "Some chars with a - {} - number!".format(idoc_id + i),
+            "SDATA": f"Some chars with a - {idoc_id + i} - number!",
         }
         idoc_data_dicts.append(idoc_data)
     return {
@@ -57,9 +56,9 @@ def get_idoc_desc(idoc_id):
 
 
 def main():
-    config = config_parser()
-    config.read("sapnwrfc.cfg")
-    params_connection = config._sections["connection"]
+    config = ConfigParser()
+    config.read(path.join(path.dirname(path.abspath(__file__)), "pyrfc.cfg"))
+    params_connection = dict(config.items("coevi51"))
 
     idoc_id = 1
 
@@ -69,14 +68,14 @@ def main():
             choice = initial_screen()
             if 1 <= choice <= 4:  # Create and send a new iDoc
                 idoc = get_idoc_desc(idoc_id)
-                print(" - Created iDoc with idoc_id = {}".format(idoc_id))
+                print(f" - Created iDoc with idoc_id = {idoc_id}")
                 idoc_id += 1
                 if choice < 3:  # bgRFC
                     unit = connection.initialize_unit()
-                    print(" - (bgRFC) Using unit id = {}".format(unit["id"]))
+                    print(f" - (bgRFC) Using unit id = {unit['id']}")
                 else:  # t/qRFC
                     unit = connection.initialize_unit(background=False)
-                    print(" - (t/qRFC) Using unit id = {}".format(unit["id"]))
+                    print(f" - (t/qRFC) Using unit id = {unit['id']}")
                 if choice == 2:  # bgRFC, type 'Q'
                     queue_input = input("Enter queue names (comma separated): ")
                     queue_names = [q.strip() for q in queue_input.split(",")]
