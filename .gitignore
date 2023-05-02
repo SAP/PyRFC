@@ -16,7 +16,7 @@ __pycache__
 *.swp
 *.html
 *.inv
-*.ini
+sapnwrfc.ini
 
 *.egg
 *.eggs
