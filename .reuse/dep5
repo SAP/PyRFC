@@ -30,6 +30,6 @@ Copyright: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 License: Apache-2.0
 
 # Compiled sources, metadata, configuration
-Files: ci/* *.md *.json .gitignore .editorconfig .prettierignore CHANGES pytest.ini sapnwrfc.ini sapnwrfc.cfg MANIFEST.in VERSION
+Files: ci/* *.md *.json .gitignore .editorconfig .prettierignore CHANGES pytest.ini sapnwrfc.ini sapnwrfc.cfg MANIFEST.in tox.ini
 Copyright: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 License: Apache-2.0
