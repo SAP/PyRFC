@@ -9,11 +9,11 @@ from setuptools import setup, Extension
 
 PACKAGE_NAME = "pyrfc"
 MODULE_NAME = "_cyrfc"
-
-BUILD_CYTHON = bool(os.getenv("PYRFC_BUILD_CYTHON")) or sys.platform.startswith("linux")
 CMDCLASS = {}
 
-if BUILD_CYTHON:
+build_cython = sys.platform.startswith("linux")
+
+if build_cython:
     try:
         from Cython.Distutils import build_ext
         from Cython.Build import cythonize
@@ -186,7 +186,7 @@ setup(
     # install_requires=["setuptools"],
     cmdclass=CMDCLASS,  # type: ignore
     ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={"language_level": "3"})  # type: ignore
-    if BUILD_CYTHON
+    if build_cython
     else [PYRFC_EXT],  # type: ignore
     test_suite=MODULE_NAME,
 )
