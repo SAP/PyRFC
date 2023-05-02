@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 [project]
 name = "pyrfc"
-version = "2.8.3"
+version = "2.9.0"
 readme = "README.md"
 license = { file = "LICENSES/Apache-2.0.txt" }
 description = "Python bindings for SAP NetWeaver RFC SDK"
@@ -53,5 +53,4 @@ include = ["pyrfc"]
 
 [tool.pytest.ini_options]
 minversion = "7.3"
-addopts = "-vvx"
 testpaths =["tests"]
