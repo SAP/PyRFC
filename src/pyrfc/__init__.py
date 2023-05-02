@@ -4,11 +4,16 @@
 
 """pyrfc package."""
 
-import importlib.metadata
 import sys
 import os
 
-__version__ = "2.9.0" if sys.version_info < (3, 8) else importlib.metadata.version("pyrfc")
+# remove fixed version after python 3. end-of-life
+__version__ = "2.9.0"
+if sys.version_info >= (3, 8):
+    import importlib.metadata
+
+    __version__ = importlib.metadata.version("pyrfc")
+
 __version_info__ = tuple(__version__.split("."))
 
 if os.name == "nt":

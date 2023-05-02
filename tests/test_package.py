@@ -21,7 +21,7 @@ class TestPackage:
         # assert subprocess.call(["bash", "tests/build_test.sh"]) == 0
 
     def test_wheel_package(self):
-        package_path = join("tests", "tmp", self.package_name)
+        package_path = join(".tox", "pack", "tmp", self.package_name)
         package_files = [
             f for f in listdir(package_path) if isfile(join(package_path, f))
         ]
@@ -37,7 +37,8 @@ class TestPackage:
 
     def test_sdist_package(self):
         sdist_path = join(
-            "tests",
+            ".tox",
+            "pack",
             "tmp",
             f"{self.package_name}-{self.version}",
             "src",
