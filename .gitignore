@@ -39,7 +39,5 @@ material
 ci/test
 ci/issues
 
-tests/tmp
-tmp
 .tox
 
