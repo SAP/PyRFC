@@ -35,8 +35,6 @@ from ._exception import (
     ExternalRuntimeError,
 )
 
-from ._utils import py_to_string, string_to_py
-
 from ._cyrfc import (
     get_nwrfclib_version,
     reload_ini_file,
