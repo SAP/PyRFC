@@ -4,22 +4,40 @@
 
 import os
 
-from pyrfc import Server, set_ini_file_directory
+from pyrfc import (
+    Server,
+    set_ini_file_directory,
+)
 
 
-def my_stfc_connection(request_context=None, REQUTEXT=""):
+def my_stfc_connection(
+    request_context=None,
+    REQUTEXT="",
+):
     print("stfc invoked")
-    print("request_context", request_context)
+    print(
+        "request_context",
+        request_context,
+    )
     print("REQUTEXT: {REQUTEXT}")
-    return {"ECHOTEXT": REQUTEXT, "RESPTEXT": "Python server here"}
+    return {
+        "ECHOTEXT": REQUTEXT,
+        "RESPTEXT": "Python server here",
+    }
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 set_ini_file_directory(dir_path)
 
-server = Server({"dest": "gateway"}, {"dest": "MME"})
+server = Server(
+    {"dest": "gateway"},
+    {"dest": "MME"},
+)
 
-server.add_function("STFC_CONNECTION", my_stfc_connection)
+server.add_function(
+    "STFC_CONNECTION",
+    my_stfc_connection,
+)
 
 print("\nPress CTRL-C to skip server test...")
 server.serve(20)

@@ -19,8 +19,8 @@ from pyrfc import (
 
 def parameter_key_function(parameter):
     """returns a key for sorting parameters"""
-    value = {"RFC_IMPORT": 1, "RFC_CHANGING": 2, "RFC_TABLES": 3, "RFC_EXPORT": 4}
-    return value[parameter["direction"]]
+    direction = {"RFC_IMPORT": 1, "RFC_CHANGING": 2, "RFC_TABLES": 3, "RFC_EXPORT": 4}
+    return direction[parameter["direction"]]
 
 
 def main(function_name):
@@ -87,9 +87,7 @@ def main(function_name):
                     for key, width in zip(field_keys, field_widths):
                         sys.stdout.write(f"{field_description[key]}".ljust(width) + " ")
                     sys.stdout.write("\n")
-                sys.stdout.write(
-                    f"    -----------( Structure of {type_desc.name} )-----------\n"
-                )
+                sys.stdout.write(f"    -----------( Structure of {type_desc.name} )-----------\n")
             sys.stdout.write("-" * sum(parameter_widths) + "\n")
         connection.close()
 

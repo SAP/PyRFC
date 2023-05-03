@@ -4,13 +4,19 @@
 
 import pyrfc
 from os import path
-from pyrfc import ABAPApplicationError, ABAPRuntimeError, LogonError, CommunicationError
+
+from pyrfc import (
+    ABAPApplicationError,
+    ABAPRuntimeError,
+    LogonError,
+    CommunicationError,
+)
 from configparser import ConfigParser
 
 
 def initial_screen():
     choice = 9
-    while choice not in (1, 2, 3, 4, 0):
+    while choice not in [1, 2, 3, 4, 0]:
         print("\nPlease select one of the following choices:")
         print("\t1:\t Send a new IDoc (bgRFC, type 'T')")
         print("\t2:\t Send a new IDoc (bgRFC, type 'Q')")
@@ -18,9 +24,8 @@ def initial_screen():
         print("\t4:\t Send a new IDoc (qRFC)")
         # print("\t2: Display current pending IDocs")
         print("\t0:\t Exit")
-        var = input("Enter choice: ")
         try:
-            choice = int(var)
+            choice = int(input("Enter choice: "))  # noqa WPS110
         except ValueError:
             choice = 0
     return choice
@@ -40,13 +45,13 @@ def get_idoc_desc(idoc_id):
         "RCVPRN": "T90CLNT090",
     }
     idoc_data_dicts = []
-    for i in range(1, idoc_id + 1):
+    for idx in range(1, idoc_id + 1):
         idoc_data = {
             "SEGNAM": "E1TXTRW",
             "MANDT": "000",
             "DOCNUM": "{0:016d}".format(idoc_id),
-            "SEGNUM": "{0:06d}".format(i),
-            "SDATA": f"Some chars with a - {idoc_id + i} - number!",
+            "SEGNUM": "{0:06d}".format(idx),
+            "SDATA": f"Some chars with a - {idoc_id + idx} - number!",
         }
         idoc_data_dicts.append(idoc_data)
     return {
@@ -57,7 +62,12 @@ def get_idoc_desc(idoc_id):
 
 def main():
     config = ConfigParser()
-    config.read(path.join(path.dirname(path.abspath(__file__)), "pyrfc.cfg"))
+    config.read(
+        path.join(
+            path.dirname(path.abspath(__file__)),
+            "pyrfc.cfg",
+        )
+    )
     params_connection = dict(config.items("coevi51"))
 
     idoc_id = 1
@@ -77,15 +87,15 @@ def main():
                     unit = connection.initialize_unit(background=False)
                     print(f" - (t/qRFC) Using unit id = {unit['id']}")
                 if choice == 2:  # bgRFC, type 'Q'
-                    queue_input = input("Enter queue names (comma separated): ")
-                    queue_names = [q.strip() for q in queue_input.split(",")]
+                    queue_input = input("Enter queue names (comma separated): ")  # noqa WPS110
+                    queue_names = [qi.strip() for qi in queue_input.split(",")]
                     connection.fill_and_submit_unit(
                         unit,
                         [("IDOC_INBOUND_ASYNCHRONOUS", idoc)],
                         queue_names=queue_names,
                     )
                 elif choice == 4:  # qRFC
-                    queue_input = input("Enter queue name: ")
+                    queue_input = input("Enter queue name: ")  # noqa WPS110
                     queue = queue_input.strip()
                     connection.fill_and_submit_unit(
                         unit,
@@ -94,7 +104,8 @@ def main():
                     )
                 else:
                     connection.fill_and_submit_unit(
-                        unit, [("IDOC_INBOUND_ASYNCHRONOUS", idoc)]
+                        unit,
+                        [("IDOC_INBOUND_ASYNCHRONOUS", idoc)],
                     )
                 print(" - Unit filled and submitted.")
                 connection.confirm_unit(unit)
@@ -110,7 +121,10 @@ def main():
     except LogonError:
         print("Could not log in. Wrong credentials?")
         raise
-    except (ABAPApplicationError, ABAPRuntimeError):
+    except (
+        ABAPApplicationError,
+        ABAPRuntimeError,
+    ):
         print("An error occurred.")
         raise
 

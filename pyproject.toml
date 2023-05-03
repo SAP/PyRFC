@@ -38,10 +38,12 @@ documentation = "http://sap.github.io/PyRFC"
 homepage = "https://github.com/SAP/PyRFC"
 repository = "https://github.com/SAP/PyRFC.git"
 
-[tool.cython-lint]
-max-line-length = 148
+[tool.black]
+line-length = 120
 
-# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+[tool.cython-lint]
+max-line-length = 180
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 include-package-data = false

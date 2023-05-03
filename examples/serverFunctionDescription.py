@@ -2,9 +2,16 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from pyrfc import FunctionDescription, TypeDescription
+from pyrfc import (
+    FunctionDescription,
+    TypeDescription,
+)
 
-animals = TypeDescription("ANIMALS", nuc_length=20, uc_length=28)
+animals = TypeDescription(
+    "ANIMALS",
+    nuc_length=20,
+    uc_length=28,
+)
 animals.add_field(
     name="LION",
     field_type="RFCTYPE_CHAR",

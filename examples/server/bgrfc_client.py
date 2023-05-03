@@ -1,14 +1,14 @@
 import sys
 from pyrfc import Connection
 
-c = Connection(dest=sys.argv[1])
+client = Connection(dest=sys.argv[1])
 
-unit = c.initialize_unit()
+unit = client.initialize_unit()
 
 name = "BGRFC_TEST_OUTIN"
 counter = "00001"
 
-c.fill_and_submit_unit(
+client.fill_and_submit_unit(
     unit,
     [
         (
@@ -19,7 +19,13 @@ c.fill_and_submit_unit(
     queue_names=["RFCSDK_QUEUE_IN"],
     attributes={"lock": 1},
 )
-print(unit, c.get_unit_state(unit))
-input("Press Enter ...\n")
-print(unit, c.get_unit_state(unit))
-c.close()
+print(
+    unit,
+    client.get_unit_state(unit),
+)
+input("Press Enter ...\n")  # noqa WPS110
+print(
+    unit,
+    client.get_unit_state(unit),
+)
+client.close()

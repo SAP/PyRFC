@@ -1,8 +1,15 @@
 import sys
-from pyrfc import Connection, RFCError
+from pyrfc import Connection
 
-c = Connection(dest=sys.argv[1])
+with Connection(dest=sys.argv[1]) as client:
+    print(
+        client.get_unit_state(
+            {
+                "id": sys.argv[2],
+                "background": True,
+                "queued": True,
+            }
+        )
+    )
 
-print(c.get_unit_state({"id": sys.argv[2], "background": True, "queued": True}))
-
-c.close()
+    client.close()

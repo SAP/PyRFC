@@ -4,8 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*-
-
 import pytest
 from pyrfc import (
     Connection,
@@ -35,10 +33,14 @@ class TestErrors:
 
     # todo: test correct status after error -> or to the error tests?
     def test_incomplete_params(self):
-        incomplete_params = params.copy()
-        for p in ["ashost", "gwhost", "mshost"]:
-            if p in incomplete_params:
-                del incomplete_params[p]
+        incomplete_params = {}
+        for pname in params:
+            if pname not in [
+                "ashost",
+                "gwhost",
+                "mshost",
+            ]:
+                incomplete_params[pname] = params[pname]
         with pytest.raises(RFCError) as ex:
             Connection(**incomplete_params)
         error = ex.value
@@ -64,7 +66,13 @@ class TestErrors:
         with pytest.raises(Exception) as ex:
             self.conn.call()
         error = ex.value
-        assert isinstance(error, TypeError) is True
+        assert (
+            isinstance(
+                error,
+                TypeError,
+            )
+            is True
+        )
         assert error.args[0] == "call() takes at least 1 positional argument (0 given)"
 
     def test_call_non_existing_RFM(self):
@@ -87,25 +95,42 @@ class TestErrors:
 
     def test_call_non_existing_RFM_parameter(self):
         with pytest.raises(ExternalRuntimeError) as ex:
-            self.conn.call("STFC_CONNECTION", undefined=0)
+            self.conn.call(
+                "STFC_CONNECTION",
+                undefined=0,
+            )
         error = ex.value
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"
         assert error.message == "field 'undefined' not found"
 
     def test_non_existing_field_structure(self):
-        IMPORTSTRUCT = {"XRFCCHAR1": "A", "RFCCHAR2": "BC", "RFCCHAR4": "DEFG"}
+        IMPORTSTRUCT = {
+            "XRFCCHAR1": "A",
+            "RFCCHAR2": "BC",
+            "RFCCHAR4": "DEFG",
+        }
         with pytest.raises(ExternalRuntimeError) as ex:
-            self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+            self.conn.call(
+                "STFC_STRUCTURE",
+                IMPORTSTRUCT=IMPORTSTRUCT,
+            )
         error = ex.value
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"
         assert error.message == "field 'XRFCCHAR1' not found"
 
     def test_non_existing_field_table(self):
-        IMPORTSTRUCT = {"XRFCCHAR1": "A", "RFCCHAR2": "BC", "RFCCHAR4": "DEFG"}
+        IMPORTSTRUCT = {
+            "XRFCCHAR1": "A",
+            "RFCCHAR2": "BC",
+            "RFCCHAR4": "DEFG",
+        }
         with pytest.raises(ExternalRuntimeError) as ex:
-            self.conn.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+            self.conn.call(
+                "STFC_STRUCTURE",
+                RFCTABLE=[IMPORTSTRUCT],
+            )
         error = ex.value
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"

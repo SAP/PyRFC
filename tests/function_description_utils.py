@@ -39,30 +39,33 @@ def compare_function_description(fd1, fd2):
     # print(len(fd1_parameters))
     # print(len(fd2_parameters))
     assert len(fd1_parameters) == len(fd2_parameters)
-    for p, q in zip(fd1_parameters, fd2_parameters):
-        for k in parameter_keys:
-            if k != "type_description":
-                assert p[k] == q[k]
-        if p["type_description"] is None:
-            assert q["type_description"] is None
+    for (param1, param2) in zip(fd1_parameters, fd2_parameters):
+        for key in parameter_keys:
+            if key != "type_description":
+                assert param1[key] == param2[key]
+        if param1["type_description"] is None:
+            assert param2["type_description"] is None
         else:
             # compare fields
             fd1_fields = (
-                p["type_description"]["fields"]
-                if type(p["type_description"]) is dict
-                else p["type_description"].fields
+                param1["type_description"]["fields"]
+                if type(param1["type_description"]) is dict
+                else param1["type_description"].fields
             )
             fd2_fields = (
-                q["type_description"]["fields"]
-                if type(q["type_description"]) is dict
-                else q["type_description"].fields
+                param2["type_description"]["fields"]
+                if type(param2["type_description"]) is dict
+                else param2["type_description"].fields
             )
             assert len(fd1_fields) == len(fd2_fields)
             assert fd1_fields == fd2_fields
 
 
 def function_description_to_dict(func_desc):
-    FDD = {"name": func_desc.name, "parameters": []}
+    FDD = {
+        "name": func_desc.name,
+        "parameters": [],
+    }
     for parameter in func_desc.parameters:
         # print("parameter", parameter, parameter["type_description"])
         param = {}
@@ -82,13 +85,19 @@ def function_description_to_dict(func_desc):
 def main(func_name):
     # from data.func_desc_BAPISDORDER_GETDETAILEDLIST import FUNC_DESC_BAPISDORDER_GETDETAILEDLIST
     # from data.func_desc_BS01_SALESORDER_GETDETAIL import FUNC_DESC_BS01_SALESORDER_GETDETAIL
-    from data.func_desc_STFC_STRUCTURE import FUNC_DESC_STFC_STRUCTURE
 
-    client = Connection(dest="MME")
-    func_desc = client.get_function_description(func_name)
+    from data.func_desc_STFC_STRUCTURE import (  # noqa: E402 WPS131
+        FUNC_DESC_STFC_STRUCTURE,
+    )
+
+    with Connection(dest="MME") as client:
+        func_desc = client.get_function_description(func_name)
     fd = function_description_to_dict(func_desc)
     # print(fd) # > fd.py
-    compare_function_description(fd, FUNC_DESC_STFC_STRUCTURE)
+    compare_function_description(
+        fd,
+        FUNC_DESC_STFC_STRUCTURE,
+    )
     print("ok")
 
 

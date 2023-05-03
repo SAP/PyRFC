@@ -4,10 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*-
-
 from pyrfc import Connection
-
 from tests.config import PARAMS as params
 
 
@@ -32,22 +29,24 @@ class TestOptions:
             "ET_PRTS",
             "ET_RELATIONS",
         ]
-        result = self.conn.call(
+        res = self.conn.call(
             "EAM_TASKLIST_GET_DETAIL",
             {"not_requested": NOT_REQUESTED},
             IV_PLNTY=PLNTY,
             IV_PLNNR=PLNNR,
         )
-        assert len(result["ET_RETURN"]) == 0
+        assert len(res["ET_RETURN"]) == 0
 
     def test_error_when_all_requested(self):
         PLNTY = "A"
         PLNNR = "00100000"
-        result = self.conn.call(
-            "EAM_TASKLIST_GET_DETAIL", IV_PLNTY=PLNTY, IV_PLNNR=PLNNR
+        res = self.conn.call(
+            "EAM_TASKLIST_GET_DETAIL",
+            IV_PLNTY=PLNTY,
+            IV_PLNNR=PLNNR,
         )
-        assert len(result["ET_RETURN"]) == 1
-        assert result["ET_RETURN"][0] == {
+        assert len(res["ET_RETURN"]) == 1
+        assert res["ET_RETURN"][0] == {
             "TYPE": "E",
             "ID": "DIWP1",
             "NUMBER": "212",

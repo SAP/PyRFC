@@ -1,48 +1,79 @@
 import os
 import uuid
-from datetime import datetime
-from pyrfc import UnitState
+from contextlib import (
+    suppress,
+)
+from datetime import (
+    datetime,
+)
+from pyrfc import (
+    UnitState,
+)
 
 # default dbpath
 DBPATH = "./examples/server/tlog.log"
 
 
 class TLog:
-    def __len__(self):
+    def __len__(
+        self,
+    ):
         try:
-            with open(self.__fn, "r") as fp:
+            with open(
+                self.__fn,
+                "r",
+            ) as fp:
                 return len(fp.readlines())
         except IOError:
             return 0
 
-    def __getitem__(self, tid):
-        item = None
+    def __getitem__(
+        self,
+        tid,
+    ):
+        itm = None
         try:
-            with open(self.__fn, "r") as fp:
+            with open(
+                self.__fn,
+                "r",
+            ) as fp:
                 for line in fp:
                     if tid in line:
-                        item = self.parse_line(line)
-            return item
+                        itm = self.parse_line(line)
+            return itm
         except IOError:
             return None
 
-    def remove(self, tid=None):
-        try:
+    def remove(
+        self,
+        tid=None,
+    ):
+        with suppress(IOError):
             if tid is None:
                 os.remove(self.__fn)
             else:
-                with open(self.__fn, "r") as fp:
+                with open(
+                    self.__fn,
+                    "r",
+                ) as fp:
                     lines = fp.readlines()
-                with open(self.__fn, "w") as fp:
+                with open(
+                    self.__fn,
+                    "w",
+                ) as fp:
                     for line in lines:
                         if tid not in line[:-1]:
                             fp.write(line)
-        except IOError:
-            pass
 
-    def __contains__(self, tid):
+    def __contains__(
+        self,
+        tid,
+    ):
         try:
-            with open(self.__fn, "r") as fp:
+            with open(
+                self.__fn,
+                "r",
+            ) as fp:
                 for line in fp:
                     if tid in line:
                         return True
@@ -50,17 +81,33 @@ class TLog:
         except IOError:
             return False
 
-    def parse_line(self, line):
+    def parse_line(
+        self,
+        line,
+    ):
         try:
-            utc_date, utc_time, tid, status, *note = line.split()
-            tid = {"utc": f"{utc_date} {utc_time}", "tid": tid, "status": status}
+            (
+                utc_date,
+                utc_time,
+                tid,
+                status,
+                *note,
+            ) = line.split()
+            tid = {
+                "utc": f"{utc_date} {utc_time}",
+                "tid": tid,
+                "status": status,
+            }
             if len(note) > 0:
                 tid["note"] = note[0]
             return tid
         except Exception:
             raise Exception(f"TLOG line format invalid: '{line}'")
 
-    def getTIDs(self, tids=None):
+    def getTIDs(
+        self,
+        tids=None,
+    ):
         if type(tids) == str:
             tids = [tids]
         elif tids is None:
@@ -70,39 +117,57 @@ class TLog:
         else:
             TIDs = []
             try:
-                with open(self.__fn, "r") as fp:
+                with open(
+                    self.__fn,
+                    "r",
+                ) as fp:
                     for line in fp:
-                        for t in tids:
-                            if t in line:
+                        for td in tids:
+                            if td in line:
                                 TIDs.append(self.parse_line(line))
                 return TIDs
             except IOError:
                 return []
 
-    def __init__(self, dbpath=DBPATH):
+    def __init__(
+        self,
+        dbpath=DBPATH,
+    ):
         self.__fn = dbpath
 
-    def write(self, tid, status, note=None):
+    def write(
+        self,
+        tid,
+        status,
+        note=None,
+    ):
         if len(tid) != 32:
             raise Exception(f"TID length not 32: '{tid}'")
         if status not in UnitState:
             raise Exception(f"TID status '{status}' not supported for tid '{tid}'")
-        note = note = " " + note if note is not None else ""
+        note = " " + note if note is not None else ""
         tlog_record = f"{datetime.utcnow()} {tid} {status.name}{note}"
-        with open(self.__fn, "a") as f:
-            f.write(tlog_record + "\n")
+        with open(
+            self.__fn,
+            "a",
+        ) as file:
+            file.write(tlog_record + "\n")
         return self.parse_line(tlog_record)
 
-    def uuid(self):
+    def uuid(
+        self,
+    ):
         return uuid.uuid4().hex.upper()
 
-    def dump(self):
-        try:
-            with open(self.__fn, "r") as fp:
-                for line in fp:
-                    print(line[:-1])
-        except IOError:
-            pass
+    def dump(
+        self,
+    ):
+        with suppress(IOError), open(
+            self.__fn,
+            "r",
+        ) as fp:
+            for line in fp:
+                print(line[:-1])
 
 
 if __name__ == "__main__":
@@ -112,8 +177,15 @@ if __name__ == "__main__":
 
     Id = log.uuid()
 
-    log.write(Id, UnitState.created)
-    log.write(Id, UnitState.executed, "python_function_module")
+    log.write(
+        Id,
+        UnitState.created,
+    )
+    log.write(
+        Id,
+        UnitState.executed,
+        "python_function_module",
+    )
 
     print(Id in log)
 

@@ -4,26 +4,20 @@
 
 """pyrfc package."""
 
-import sys
+from contextlib import suppress
+import importlib.metadata
 import os
 
-# remove fixed version after python 3. end-of-life
-__version__ = "2.9.0"
-if sys.version_info >= (3, 8):
-    import importlib.metadata
 
-    __version__ = importlib.metadata.version("pyrfc")
-
+__version__ = importlib.metadata.version("pyrfc")
 __version_info__ = tuple(__version__.split("."))
 
 if os.name == "nt":
-    # Set DLL path, per https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew
-    try:
+    # add SAP NWRFC SDK to DLL pth
+    with suppress(Exception):
         os.add_dll_directory(os.path.join(os.environ["SAPNWRFC_HOME"], "lib"))
-    except Exception:
-        pass
 
-from ._exception import (
+from pyrfc._exception import (  # noqa F401
     RFCError,
     RFCLibError,
     CommunicationError,
@@ -35,7 +29,7 @@ from ._exception import (
     ExternalRuntimeError,
 )
 
-from ._cyrfc import (
+from pyrfc._cyrfc import (  # noqa F401
     get_nwrfclib_version,
     reload_ini_file,
     set_ini_file_directory,

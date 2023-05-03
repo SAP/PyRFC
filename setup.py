@@ -24,10 +24,13 @@ if build_cython:
 # Check if SAP NWRFC SDK configured
 SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
 if not SAPNWRFC_HOME:
-    sys.exit("Environment variable SAPNWRFC_HOME not set.\n" "Please specify this variable with the root directory of the SAP NWRFC Library.")
+    sys.exit(
+        "Environment variable SAPNWRFC_HOME not set.\n"
+        "Please specify this variable with the root directory of the SAP NWRFC Library."
+    )
 
 if sys.platform.startswith("linux"):
-    os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.so | grep "Patch Level"')
+    # os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.so | grep "Patch Level"')
     LIBS = ["sapnwrfc", "sapucum"]
     MACROS = [
         ("NDEBUG", None),
@@ -63,9 +66,12 @@ elif sys.platform.startswith("win"):
     PYTHONSOURCE = os.environ.get("PYTHONSOURCE")
     if not PYTHONSOURCE:
         PYTHONSOURCE = inspect.getfile(inspect).split("/inspect.py")[0]
-        # sys.exit('Environment variable PYTHONSOURCE not set. Please specify this variable with the root directory of the PYTHONSOURCE Library.')
+        # sys.exit(
+        #   "Environment variable PYTHONSOURCE not set."
+        #   "Please specify this variable with the root directory of PYTHONSOURCE Library."
+        # )
 
-    os.system("findstr Patch %SAPNWRFC_HOME%\\lib\\sapnwrfc.dll")
+    # os.system("findstr Patch %SAPNWRFC_HOME%\\lib\\sapnwrfc.dll")
     LIBS = ["sapnwrfc", "libsapucum"]
 
     MACROS = [
@@ -122,7 +128,7 @@ elif sys.platform.startswith("win"):
         "/LTCG",
     ]
 elif sys.platform.startswith("darwin"):
-    os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.dylib | grep "Patch Level"')
+    # os.system('strings $SAPNWRFC_HOME/lib/libsapnwrfc.dylib | grep "Patch Level"')
     MACOS_VERSION_MIN = "10.15"
 
     LIBS = ["sapnwrfc", "sapucum"]

@@ -16,9 +16,9 @@ from sys import exc_info, platform
 import socket
 from threading import Thread, Timer
 
-from . csapnwrfc cimport *
-from . _exception import *
-from . _utils import enum_names, enum_values
+from pyrfc.csapnwrfc cimport *
+from pyrfc._exception import *
+from pyrfc._utils import enum_names, enum_values
 
 
 ################################################################################

@@ -4,10 +4,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*-
-
 import pytest
-from pyrfc import Connection, set_cryptolib_path, ExternalRuntimeError
+from pyrfc import (
+    Connection,
+    set_cryptolib_path,
+    ExternalRuntimeError,
+)
 from tests.config import (
     CryptoLibPath,
     # ClientPSEPath,

@@ -4,8 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*-
-
 import pytest
 from pyrfc import (
     Connection,
@@ -36,7 +34,10 @@ class TestErrorsABAP:
 
     def test_RFC_RAISE_ERROR(self):
         with pytest.raises(ABAPRuntimeError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                MESSAGETYPE="A",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 4
@@ -60,7 +61,11 @@ class TestErrorsABAP:
         # Comment: cf. result_print of the error_test.py
         # cf. ExceptionTest.c (l. 92ff)
         with pytest.raises(ABAPRuntimeError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", METHOD="0", MESSAGETYPE="E")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                METHOD="0",
+                MESSAGETYPE="E",
+            )
         error = ex.value
         assert self.conn.alive is True
         assert error.code == 4
@@ -71,7 +76,11 @@ class TestErrorsABAP:
         # '1_E': 'ABAPApplicationError-5-RAISE_EXCEPTION-ID:SR Type:E Number:006 STRING-True',
         # cf. ExceptionTest.c (l. 75ff)
         with pytest.raises(ABAPApplicationError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", METHOD="1", MESSAGETYPE="E")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                METHOD="1",
+                MESSAGETYPE="E",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 5
@@ -84,7 +93,11 @@ class TestErrorsABAP:
         # '2_E': 'ABAPApplicationError-5-RAISE_EXCEPTION- Number:000-True',
         # cf. ExceptionTest.c (l. 65ff)
         with pytest.raises(ABAPApplicationError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", METHOD="2", MESSAGETYPE="E")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                METHOD="2",
+                MESSAGETYPE="E",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 5
@@ -95,7 +108,11 @@ class TestErrorsABAP:
         # '3_E': 'ABAPRuntimeError-3-COMPUTE_INT_ZERODIVIDE-Division by 0 (type I)-True''] ==
         # cf. ExceptionTest.c (l. 164ff)
         with pytest.raises(ABAPRuntimeError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", METHOD="3", MESSAGETYPE="E")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                METHOD="3",
+                MESSAGETYPE="E",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 3
@@ -104,7 +121,10 @@ class TestErrorsABAP:
     def test_AbapRuntimeError_A(self):
         # cf. ExceptionTest.c (l. 112ff)
         with pytest.raises(ABAPRuntimeError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="A")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                MESSAGETYPE="A",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 4
@@ -116,7 +136,10 @@ class TestErrorsABAP:
     def test_AbapRuntimeError_X(self):
         # cf. ExceptionTest.c (l. 137ff)
         with pytest.raises(ABAPRuntimeError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", MESSAGETYPE="X")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                MESSAGETYPE="X",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 4
@@ -129,7 +152,11 @@ class TestErrorsABAP:
     def test_AbapRuntimeError_E36(self):
         # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] ==
         with pytest.raises(ABAPRuntimeError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", METHOD="36", MESSAGETYPE="E")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                METHOD="36",
+                MESSAGETYPE="E",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 4
@@ -138,7 +165,11 @@ class TestErrorsABAP:
     def test_AbapRuntimeError_E51(self):
         # '51_E': 'ABAPRuntimeError-3-BLOCKED_COMMIT-A database commit was blocked by the application.-True''] ==
         with pytest.raises(ABAPRuntimeError) as ex:
-            self.conn.call("RFC_RAISE_ERROR", METHOD="51", MESSAGETYPE="E")
+            self.conn.call(
+                "RFC_RAISE_ERROR",
+                METHOD="51",
+                MESSAGETYPE="E",
+            )
         assert self.conn.alive is True
         error = ex.value
         assert error.code == 3
@@ -146,7 +177,11 @@ class TestErrorsABAP:
 
     def test_pyrfc_exc_string(self):
         with pytest.raises(ABAPApplicationError) as ex:
-            self.conn.call("RFC_READ_TABLE", QUERY_TABLE="T008X", DELIMITER=".")
+            self.conn.call(
+                "RFC_READ_TABLE",
+                QUERY_TABLE="T008X",
+                DELIMITER=".",
+            )
         error = ex.value
         assert error.code == 5
         assert error.key == "TABLE_NOT_AVAILABLE"

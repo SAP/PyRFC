@@ -4,20 +4,28 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*-
-
 import datetime
 import socket
 import sys
 import pytest
+from contextlib import suppress
 
-from pyrfc import Connection, RFCError, ExternalRuntimeError, __version__
+with suppress(ModuleNotFoundError):
+    import tomllib
+
+from pyrfc import (
+    Connection,
+    RFCError,
+    ExternalRuntimeError,
+    __version__,
+)
 
 from tests.config import (
     PARAMS as params,
     PARAMSDEST as paramsdest,
     CONFIG_SECTIONS as config_sections,
     UNICODETEST,
+    latest_python_version,
 )
 
 
@@ -36,19 +44,23 @@ class TestConnection:
         assert "minor" in version
         assert "patchLevel" in version
         assert all(
-            k in self.conn.options for k in ("dtime", "return_import_params", "rstrip")
+            attr in self.conn.options
+            for attr in (
+                "dtime",
+                "return_import_params",
+                "rstrip",
+            )
         )
 
     @pytest.mark.skipif(
-        sys.version_info < (3, 11), reason="pyrfc version check on latest python only"
+        "tomllib" not in sys.modules or sys.version_info < latest_python_version,
+        reason="pyrfc version check on latest python only",
     )
     def test_pyrfc_version(self):
-        import tomllib
-
-        with open("pyproject.toml", "rb") as f:
-            data = tomllib.load(f)
-        package_name = data["project"]["name"]
-        version = data["project"]["version"]
+        with open("pyproject.toml", "rb") as file:
+            pyproject = tomllib.load(file)
+        package_name = pyproject["project"]["name"]
+        version = pyproject["project"]["version"]
         assert package_name == "pyrfc"
         assert version == __version__
 
@@ -80,17 +92,17 @@ class TestConnection:
             "partnerIPv6"
             # 'reserved'
         )
-        assert all(k in connection_info for k in info_keys)
+        assert all(attr in connection_info for attr in info_keys)
 
     def test_connection_info_attributes(self):
-        data = self.conn.get_connection_attributes()
-        assert data["client"] == str(params["client"])
-        assert data["host"] == str(socket.gethostname())
-        assert data["isoLanguage"] == str(params["lang"].upper())
+        attributes = self.conn.get_connection_attributes()
+        assert attributes["client"] == str(params["client"])
+        assert attributes["host"] == str(socket.gethostname())
+        assert attributes["isoLanguage"] == str(params["lang"].upper())
         # Only valid for direct logon systems:
-        # self.assertEqual(data['sysNumber'], str(params['sysnr']))
-        assert data["user"] == str(params["user"].upper())
-        assert data["rfcRole"] == "C"
+        # self.assertEqual(attributes['sysNumber'], str(params['sysnr']))
+        assert attributes["user"] == str(params["user"].upper())
+        assert attributes["rfcRole"] == "C"
 
     def test_connection_info_disconnected(self):
         self.conn.close()
@@ -108,12 +120,18 @@ class TestConnection:
         assert self.conn.alive
 
     def test_call_over_closed_connection(self):
-        conn = Connection(config={"rstrip": False}, **config_sections["coevi51"])
+        conn = Connection(
+            config={"rstrip": False},
+            **config_sections["coevi51"],
+        )
         conn.close()
         assert conn.alive is False
         hello = "Hällo SAP!"
         with pytest.raises(RFCError) as ex:
-            conn.call("STFC_CONNECTION", REQUTEXT=hello)
+            conn.call(
+                "STFC_CONNECTION",
+                REQUTEXT=hello,
+            )
         error = ex.value
         assert (
             error.args[0] == "Remote function module 'STFC_CONNECTION' invocation "
@@ -135,12 +153,18 @@ class TestConnection:
         ]
 
     def test_RFM_name_string(self):
-        result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
-        assert result["ECHOTEXT"] == UNICODETEST
+        res = self.conn.call(
+            "STFC_CONNECTION",
+            REQUTEXT=UNICODETEST,
+        )
+        assert res["ECHOTEXT"] == UNICODETEST
 
     def test_RFM_name_unicode(self):
-        result = self.conn.call("STFC_CONNECTION", REQUTEXT=UNICODETEST)
-        assert result["ECHOTEXT"] == UNICODETEST
+        res = self.conn.call(
+            "STFC_CONNECTION",
+            REQUTEXT=UNICODETEST,
+        )
+        assert res["ECHOTEXT"] == UNICODETEST
 
     def test_RFM_name_invalid_type(self):
         with pytest.raises(Exception) as ex:
@@ -169,28 +193,30 @@ class TestConnection:
         }
         INPUTROWS = 10
         IMPORTTABLE = []
-        for i in range(INPUTROWS):
+        for idx in range(INPUTROWS):
             row = IMPORTSTRUCT
-            row["RFCINT1"] = i
+            row["RFCINT1"] = idx
             IMPORTTABLE.append(row)
-        result = self.conn.call(
-            "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+        res = self.conn.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+            RFCTABLE=IMPORTTABLE,
         )
         # ECHOSTRUCT match IMPORTSTRUCT
-        for k in IMPORTSTRUCT:
-            assert result["ECHOSTRUCT"][k] == IMPORTSTRUCT[k]
+        for attr in IMPORTSTRUCT:
+            assert res["ECHOSTRUCT"][attr] == IMPORTSTRUCT[attr]
 
         # check if row added
-        assert len(result["RFCTABLE"]) == INPUTROWS + 1
+        assert len(res["RFCTABLE"]) == INPUTROWS + 1
 
         # output table match import table
-        for i in range(INPUTROWS):
-            row_in = IMPORTTABLE[i]
-            row_out = result["RFCTABLE"][i]
+        for idx in range(INPUTROWS):
+            row_in = IMPORTTABLE[idx]
+            row_out = res["RFCTABLE"][idx]
             assert row_in == row_out
 
         # added row match incremented IMPORTSTRUCT
-        added_row = result["RFCTABLE"][INPUTROWS]
+        added_row = res["RFCTABLE"][INPUTROWS]
         assert added_row["RFCFLOAT"] == IMPORTSTRUCT["RFCFLOAT"] + 1
         assert added_row["RFCINT1"] == IMPORTSTRUCT["RFCINT1"] + 1
         assert added_row["RFCINT2"] == IMPORTSTRUCT["RFCINT2"] + 1
@@ -220,39 +246,57 @@ class TestConnection:
             "RFCHEX3": b"\xf1\xf2\xf3",
             "RFCCHAR1": "X",
             "RFCCHAR2": "YZ",
-            "RFCDATE": str(datetime.date.today()).replace("-", ""),
+            "RFCDATE": str(datetime.date.today()).replace(
+                "-",
+                "",
+            ),
             "RFCDATA1": "k" * 50,
             "RFCDATA2": "l" * 50,
         }
         table = []
         xtable = []
-        records = ["1111", "2222", "3333", "4444", "5555"]
+        records = [
+            "1111",
+            "2222",
+            "3333",
+            "4444",
+            "5555",
+        ]
         for rid in records:
             imp["RFCCHAR4"] = rid
             table.append(imp)
             xtable.append(imp)
         # print 'table len', len(table), len(xtable)
-        result = self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=imp, RFCTABLE=xtable)
+        res = self.conn.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=imp,
+            RFCTABLE=xtable,
+        )
         # print 'table len', len(table), len(xtable)
-        assert result["RESPTEXT"].startswith("SAP")
-        # assert result['ECHOSTRUCT'] == imp
-        assert len(result["RFCTABLE"]) == 1 + len(table)
-        for i in result["ECHOSTRUCT"]:
-            assert result["ECHOSTRUCT"][i] == imp[i]
-        del result["RFCTABLE"][5]["RFCCHAR4"]  # contains variable system id
-        del result["RFCTABLE"][5]["RFCTIME"]  # contains variable server time
-        for i in result["RFCTABLE"][5]:
-            assert result["RFCTABLE"][5][i] == out[i]
+        assert res["RESPTEXT"].startswith("SAP")
+        # assert res['ECHOSTRUCT'] == imp
+        assert len(res["RFCTABLE"]) == 1 + len(table)
+        for idx in res["ECHOSTRUCT"]:
+            assert res["ECHOSTRUCT"][idx] == imp[idx]
+        for idx in res["RFCTABLE"][5]:
+            # dont compare variable system id and server time
+            if idx not in [
+                "RFCCHAR4",
+                "RFCTIME",
+            ]:
+                assert res["RFCTABLE"][5][idx] == out[idx]
 
     def test_STFC_CHANGING(self):
         # STFC_CHANGING example with CHANGING parameters
         start_value = 33
         counter = 88
-        result = self.conn.call(
-            "STFC_CHANGING", START_VALUE=start_value, COUNTER=counter
+        res = self.conn.call(
+            "STFC_CHANGING",
+            START_VALUE=start_value,
+            COUNTER=counter,
         )
-        assert result["COUNTER"] == counter + 1
-        assert result["RESULT"] == start_value + counter
+        assert res["COUNTER"] == counter + 1
+        assert res["RESULT"] == start_value + counter
 
 
 """

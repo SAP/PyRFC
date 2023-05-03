@@ -2,10 +2,16 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from os import path
+from os import (
+    path,
+)
 from pyrfc import Connection
-from pprint import pprint
-from configparser import ConfigParser
+from pprint import (
+    pprint,
+)
+from configparser import (
+    ConfigParser,
+)
 
 import datetime
 
@@ -19,20 +25,37 @@ imp = {
     "RFCCHAR4": "bcde",  # CHAR[4]
     "RFCDATA1": "k" * 50,
     "RFCDATA2": "l" * 50,  # CHAR[50] each
-    "RFCTIME": datetime.time(12, 34, 56),  # TIME
-    "RFCDATE": datetime.date(2012, 10, 3),  # DATE
+    "RFCTIME": datetime.time(
+        12,
+        34,
+        56,
+    ),  # TIME
+    "RFCDATE": datetime.date(
+        2012,
+        10,
+        3,
+    ),  # DATE
     "RFCHEX3": b"\x66\x67\x68",  # BYTE[3]: String with 3 hexadecimal values (='fgh')
 }
 
 
 def main():
     config = ConfigParser()
-    config.read(path.join(path.dirname(path.abspath(__file__)), "pyrfc.cfg"))
+    config.read(
+        path.join(
+            path.dirname(path.abspath(__file__)),
+            "pyrfc.cfg",
+        )
+    )
     params_connection = dict(config.items("coevi51"))
 
-    conn = Connection(**params_connection)
-    result = conn.call("STFC_STRUCTURE", IMPORTSTRUCT=imp)
-    pprint(result)
+    with Connection(**params_connection) as client:
+        pprint(
+            client.call(
+                "STFC_STRUCTURE",
+                IMPORTSTRUCT=imp,
+            )
+        )
 
 
 if __name__ == "__main__":

@@ -2,15 +2,25 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*
-import platform
 import datetime
 from configparser import ConfigParser
+import platform
 from pyrfc import set_ini_file_directory
 
 COPA = ConfigParser()
-fc = open("tests/pyrfc.cfg", "r")
-COPA.read_file(fc)
+with open("tests/pyrfc.cfg", "r") as fc:
+    COPA.read_file(fc)
+
+# Numeric types
+#
+# ABAP:       https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenddic_builtin_types_intro.htm
+# JavaScript: https://www.ecma-international.org/ecma-262/10.0/index.html#Title
+#
+
+latest_python_version = (
+    3,
+    11,
+)
 
 # Numeric types
 #
@@ -54,15 +64,11 @@ def ABAP_to_python_time(abap_time):
 
 
 def python_to_ABAP_date(py_date):
-    return "{y:04d}{m:02d}{d:02d}".format(
-        y=py_date.year, m=py_date.month, d=py_date.day
-    )
+    return f"{py_date.year:04d}{py_date.month:02d}{py_date.day:02d}"
 
 
 def python_to_ABAP_time(py_time):
-    return "{h:02d}{m:02d}{s:02d}".format(
-        h=py_time.hour, m=py_time.minute, s=py_time.second
-    )
+    return f"{py_time.hour:02d}{py_time.minute:02d}{py_time.second:02d}"
 
 
 CONFIG_SECTIONS = COPA._sections

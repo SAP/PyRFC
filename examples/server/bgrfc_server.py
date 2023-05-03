@@ -1,7 +1,16 @@
 import sys
-from backends import BACKEND
-from pyrfc import Connection, Server, RCStatus, UnitState, UnitCallType
-from tlog import TLog
+from backends import (
+    BACKEND,
+)
+from pyrfc import (
+    Server,
+    RCStatus,
+    UnitState,
+    UnitCallType,
+)
+from tlog import (
+    TLog,
+)
 
 backend_dest = sys.argv[1]
 
@@ -11,7 +20,11 @@ tlog = TLog()
 tlog.remove()
 
 
-def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=None):
+def stfc_write_to_tcpic(
+    request_context,
+    RESTART_QNAME="",
+    TCPICDAT=None,
+):
     try:
         if TCPICDAT is None:
             TCPICDAT = []
@@ -26,14 +39,16 @@ def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=None):
             context,
         )
 
-        if context["call_type"] != UnitCallType.synchronous:
-            # Obtain the database connection that was opened for the
-            # current TID context.tid in the onCheckTID handler.
-            pass
+        # if context["call_type"] != UnitCallType.synchronous:
+        #     # Obtain the database connection that was opened for the
+        #     # current TID context.tid in the onCheckTID handler.
 
         # Implement functionality of function module MY_FUNCTION_MODULE, if any.
         # print(f"RESTART_QNAME: {RESTART_QNAME}")
-        print("TCPICDAT:", TCPICDAT)
+        print(
+            "TCPICDAT:",
+            TCPICDAT,
+        )
 
         # try:
         #     unit = client.initialize_unit()
@@ -47,7 +62,7 @@ def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=None):
         # except Exception as ex:
         #     print(ex)
 
-        if context["call_type"] != UnitCallType.synchronous:
+        if context["call_type"] != UnitCallType.synchronous:  # noqa SIM102
             # Store the data received in funcHandle as well as any results
             # computed in the business functionality of the FM (if any)
             # via the DB connection obtained above.
@@ -55,14 +70,24 @@ def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=None):
             # in case of an error easier, you can update the TID’s status to EXECUTED
             # in this step.
             if tid is not None:
-                tlog.write(tid, UnitState.executed, "stfc_write_to_tcpic")
+                tlog.write(
+                    tid,
+                    UnitState.executed,
+                    "stfc_write_to_tcpic",
+                )
         return RCStatus.OK
     except Exception as ex:
-        print("Error in stfc_write_to_tcpic", ex)
+        print(
+            "Error in stfc_write_to_tcpic",
+            ex,
+        )
         return RCStatus.RFC_EXTERNAL_FAILURE
 
 
-def on_auth_check(func_name=False, request_context=None):
+def on_auth_check(
+    func_name=False,
+    request_context=None,
+):
     if request_context is None:
         request_context = {}
     print(f"authorization check for '{func_name}'")
@@ -70,7 +95,10 @@ def on_auth_check(func_name=False, request_context=None):
     return RCStatus.OK
 
 
-def onCheckFunction(rfcHandle, unit_identifier):
+def onCheckFunction(
+    rfcHandle,
+    unit_identifier,
+):
     # section 5.5.1 pg 76 of SAP NWRFC SDK Programming Guide 7.50
     if tlog is None:
         # TLog not available
@@ -79,62 +107,110 @@ def onCheckFunction(rfcHandle, unit_identifier):
     tlog_record = tlog[tid]
     if tlog_record is None:
         # Create TID record
-        tlog_record = tlog.write(tid, UnitState.created)
+        tlog_record = tlog.write(
+            tid,
+            UnitState.created,
+        )
     print(
-        "bgRFC:onCheck", f"handle {rfcHandle} tid {tid} status {tlog_record['status']}"
+        "bgRFC:onCheck",
+        f"handle {rfcHandle} tid {tid} status {tlog_record['status']}",
     )
-    if tlog_record["status"] in [UnitState.created.name, UnitState.rolled_back.name]:
+    if tlog_record["status"] in [
+        UnitState.created.name,
+        UnitState.rolled_back.name,
+    ]:
         return RCStatus.OK
     else:
         return RCStatus.RFC_EXECUTED
 
 
-def onCommitFunction(rfcHandle, unit_identifier):
+def onCommitFunction(
+    rfcHandle,
+    unit_identifier,
+):
     # section 5.5.3 pg 79 of SAP NWRFC SDK Programming Guide 7.50
-    print("bgRFC:onCommit handle", rfcHandle, "unit", unit_identifier)
+    print(
+        "bgRFC:onCommit handle",
+        rfcHandle,
+        "unit",
+        unit_identifier,
+    )
 
     if tlog is None:
         # TLog not available
         return RCStatus.RFC_EXTERNAL_FAILURE
     tid = unit_identifier["id"]
-    tlog.write(tid, UnitState.committed)
+    tlog.write(
+        tid,
+        UnitState.committed,
+    )
 
     return RCStatus.OK
 
 
-def onConfirmFunction(rfcHandle, unit_identifier):
+def onConfirmFunction(
+    rfcHandle,
+    unit_identifier,
+):
     # section 5.5.4 pg 80 of SAP NWRFC SDK Programming Guide 7.50
-    print("bgRFC:onConfirm handle", rfcHandle, "unit", unit_identifier)
+    print(
+        "bgRFC:onConfirm handle",
+        rfcHandle,
+        "unit",
+        unit_identifier,
+    )
 
     if tlog is None:
         # TLog not available
         return RCStatus.RFC_EXTERNAL_FAILURE
 
     tid = unit_identifier["id"]
-    tlog.write(tid, UnitState.confirmed)
+    tlog.write(
+        tid,
+        UnitState.confirmed,
+    )
     # or remove tid records from db
     # tlog.remove(tid)
 
     return RCStatus.OK
 
 
-def onRollbackFunction(rfcHandle, unit_identifier):
+def onRollbackFunction(
+    rfcHandle,
+    unit_identifier,
+):
     # section 5.5.3 pg 80 of SAP NWRFC SDK Programming Guide 7.50
-    print("bgRFC:onRollback handle", rfcHandle, "unit", unit_identifier)
+    print(
+        "bgRFC:onRollback handle",
+        rfcHandle,
+        "unit",
+        unit_identifier,
+    )
 
     if tlog is None:
         # TLog not available
         return RCStatus.RFC_EXTERNAL_FAILURE
 
     tid = unit_identifier["id"]
-    tlog.write(tid, UnitState.rolled_back)
+    tlog.write(
+        tid,
+        UnitState.rolled_back,
+    )
 
     return RCStatus.RFC_OK
 
 
-def onGetStateFunction(rfcHandle, unit_identifier):
+def onGetStateFunction(
+    rfcHandle,
+    unit_identifier,
+):
     # section 5.6.3 pg 84 of SAP NWRFC SDK Programming Guide 7.50
-    print("bgRFC:onGetState handle", rfcHandle, "unit", unit_identifier)
+    print(
+        "bgRFC:onGetState handle",
+        rfcHandle,
+        "unit",
+        unit_identifier,
+    )
 
     if tlog is None:
         # TLog not available
@@ -153,7 +229,10 @@ server = Server(*BACKEND[backend_dest])
 print(server.get_server_attributes())
 
 # expose python function stfc_write_to_tcpic as ABAP function STFC_WRITE_TO_TCPIC, to be called by ABAP system
-server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
+server.add_function(
+    "STFC_WRITE_TO_TCPIC",
+    stfc_write_to_tcpic,
+)
 
 # register bgRFC handlers
 server.bgrfc_init(
@@ -170,7 +249,7 @@ server.bgrfc_init(
 # start server
 server.start()
 
-input("Press Enter key to stop server...\n")
+input("Press Enter key to stop server...\n")  # noqa WPS110
 
 # stop server and database
 server.stop()

@@ -1,4 +1,6 @@
-from pyrfc import ABAPRuntimeError
+from pyrfc import (
+    ABAPRuntimeError,
+)
 
 errorInfo = {
     "code": 4,
@@ -13,6 +15,6 @@ errorInfo = {
     "msg_v4": "",
 }
 
-e = ABAPRuntimeError(**errorInfo)
+err = ABAPRuntimeError(**errorInfo)
 
-print(e)
+print(err)

@@ -1,16 +1,16 @@
-﻿# -*- coding: utf-8 -*-
-
-# Copyright 2014 SAP AG.
+﻿# Copyright 2014 SAP AG.
 # SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
+
+from tests.abap_system import connection_info
 
 import pytest
 import sys
 from decimal import Decimal
 from locale import setlocale, localeconv, LC_ALL
-
 from pyrfc import Connection, set_locale_radix, ExternalRuntimeError
+
 
 from tests.config import (
     CONNECTION_INFO,
@@ -22,8 +22,6 @@ from tests.config import (
     BYTEARRAY_TEST,
     BYTES_TEST,
 )
-
-from tests.abap_system import connection_info
 
 setlocale(LC_ALL)
 
@@ -37,7 +35,10 @@ def get_locale_radix():
 def test_structure_rejects_non_dict():
     with pytest.raises(TypeError) as ex:
         IMPORTSTRUCT = {"RFCINT1": "1"}
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=[IMPORTSTRUCT])
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=[IMPORTSTRUCT],
+        )
     error = ex.value
     assert error.args[0] == "dictionary required for structure parameter, received"
     assert error.args[1] == "<class 'list'>"
@@ -47,7 +48,10 @@ def test_structure_rejects_non_dict():
 def test_table_rejects_non_list():
     with pytest.raises(TypeError) as ex:
         IMPORTSTRUCT = {"RFCINT1": "1"}
-        client.call("STFC_STRUCTURE", RFCTABLE=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            RFCTABLE=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "list required for table parameter, received"
     assert error.args[1] == "<class 'dict'>"
@@ -89,11 +93,14 @@ def test_basic_datatypes():
     ]
 
     for is_input in INPUTS:
-        result = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=is_input)["ES_OUTPUT"]
-        for k in is_input:
-            in_value = is_input[k]
-            out_value = result[k]
-            if k == "ZFLTP":
+        res = client.call(
+            "/COE/RBP_FE_DATATYPES",
+            IS_INPUT=is_input,
+        )["ES_OUTPUT"]
+        for attr in is_input:
+            in_value = is_input[attr]
+            out_value = res[attr]
+            if attr == "ZFLTP":
                 assert type(out_value) is float
             else:
                 assert type(out_value) is Decimal
@@ -105,12 +112,18 @@ def test_basic_datatypes():
 
 def test_string_unicode():
     hello = "Hällo SAP!"
-    result = client.call("STFC_CONNECTION", REQUTEXT=hello)["ECHOTEXT"]
-    assert result == hello
+    res = client.call(
+        "STFC_CONNECTION",
+        REQUTEXT=hello,
+    )["ECHOTEXT"]
+    assert res == hello
 
     hello = "01234" * 51
-    result = client.call("STFC_CONNECTION", REQUTEXT=hello)["ECHOTEXT"]
-    assert result == hello
+    res = client.call(
+        "STFC_CONNECTION",
+        REQUTEXT=hello,
+    )["ECHOTEXT"]
+    assert res == hello
 
     unicode_test = [
         "string",
@@ -120,14 +133,20 @@ def test_string_unicode():
         "a\xac\u1234\u20ac\U0001F4AA",
     ]
 
-    for s in unicode_test:
-        is_input = {"ZSHLP_MAT1": s}
-        result = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=is_input)["ES_OUTPUT"]
-        assert is_input["ZSHLP_MAT1"] == result["ZSHLP_MAT1"]
+    for ch in unicode_test:
+        is_input = {"ZSHLP_MAT1": ch}
+        res = client.call(
+            "/COE/RBP_FE_DATATYPES",
+            IS_INPUT=is_input,
+        )["ES_OUTPUT"]
+        assert is_input["ZSHLP_MAT1"] == res["ZSHLP_MAT1"]
 
 
 def test_date_output():
-    lm = client.call("BAPI_USER_GET_DETAIL", USERNAME="demo")["LASTMODIFIED"]
+    lm = client.call(
+        "BAPI_USER_GET_DETAIL",
+        USERNAME="demo",
+    )["LASTMODIFIED"]
     assert len(lm["MODDATE"]) > 0
     assert len(lm["MODTIME"]) > 0
 
@@ -144,9 +163,11 @@ def test_min_max_positive():
         "ZDECF34_MAX": RFC_MATH["DECF34"]["POS"]["MAX"],
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
 
     assert type(output["ZFLTP_MIN"]) is float
     assert type(output["ZFLTP_MAX"]) is float
@@ -175,9 +196,11 @@ def test_min_max_negative():
         "ZDECF34_MAX": RFC_MATH["DECF34"]["NEG"]["MAX"],
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
 
     assert type(output["ZFLTP_MIN"]) is float
     assert type(output["ZFLTP_MAX"]) is float
@@ -208,9 +231,11 @@ def test_bcd_floats_accept_floats():
         "ZQUAN_SIGN": -12.345,
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
     assert type(output["ZFLTP"]) is float
     assert IS_INPUT["ZFLTP"] == output["ZFLTP"]
 
@@ -253,9 +278,11 @@ def test_bcd_floats_accept_strings():
         "ZQUAN_SIGN": "-12.345",
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
     assert type(output["ZFLTP"]) is float
     assert float(IS_INPUT["ZFLTP"]) == output["ZFLTP"]
 
@@ -293,9 +320,11 @@ def test_bcd_floats_accept_strings_radix_comma():
         "ZQUAN_SIGN": "-12.345",
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
     assert type(output["ZFLTP"]) is float
     assert float(IS_INPUT["ZFLTP"]) == output["ZFLTP"]
 
@@ -333,9 +362,11 @@ def test_bcd_floats_accept_decimals():
         "ZQUAN_SIGN": Decimal("-12.345"),
     }
 
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
     assert type(output["ZFLTP"]) is float
     assert IS_INPUT["ZFLTP"] == Decimal(str(output["ZFLTP"]))
 
@@ -361,10 +392,15 @@ def test_bcd_floats_accept_decimals():
 def test_raw_types_accept_bytes():
     ZRAW = BYTES_TEST
     DIFF = b"\x00\x00\x00\x00"
-    IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    IS_INPUT = {
+        "ZRAW": ZRAW,
+        "ZRAWSTRING": ZRAW,
+    }
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
     assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
     assert type(output["ZRAW"]) is bytes
@@ -374,10 +410,15 @@ def test_raw_types_accept_bytes():
 def test_raw_types_accept_bytearray():
     ZRAW = BYTEARRAY_TEST
     DIFF = b"\x00\x00\x00\x00"
-    IS_INPUT = {"ZRAW": ZRAW, "ZRAWSTRING": ZRAW}
-    output = client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)[
-        "ES_OUTPUT"
-    ]
+    IS_INPUT = {
+        "ZRAW": ZRAW,
+        "ZRAWSTRING": ZRAW,
+    }
+    output = client.call(
+        "/COE/RBP_FE_DATATYPES",
+        IS_INPUT=IS_INPUT,
+        IV_COUNT=0,
+    )["ES_OUTPUT"]
     assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
     assert type(output["ZRAW"]) is bytes
@@ -405,21 +446,19 @@ def test_date_time():
         {"RFCDATE": "20161231", "RFCTIME": "123466"},  # out of range time
         {"RFCDATE": "20161231", "RFCTIME": 123456},  # wrong time type
     ]
-    counter = 0
-    for dt in DATETIME_TEST:
-        counter += 1
-        if counter < 7:
-            result = client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
-            assert dt["RFCDATE"] == result["RFCDATE"]
+    for index, dt in enumerate(DATETIME_TEST):
+        if index < 6:
+            res = client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
+            assert dt["RFCDATE"] == res["RFCDATE"]
             if dt["RFCTIME"] == "":
-                assert "000000" == result["RFCTIME"]
+                assert res["RFCTIME"] == "000000"
             else:
-                assert dt["RFCTIME"] == result["RFCTIME"]
+                assert dt["RFCTIME"] == res["RFCTIME"]
         else:
             with pytest.raises(TypeError) as ex:
                 client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             error = ex.value
-            if counter < 13:
+            if index < 12:
                 assert error.args[0] == "date value required, received"
                 assert error.args[1] == dt["RFCDATE"]
                 assert isinstance(dt["RFCDATE"], error.args[3])
@@ -437,7 +476,9 @@ def test_date_accepts_string():
     IMPORTSTRUCT = {"RFCDATE": TEST_DATE}
     IMPORTTABLE = [IMPORTSTRUCT]
     output = client.call(
-        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+        "STFC_STRUCTURE",
+        IMPORTSTRUCT=IMPORTSTRUCT,
+        RFCTABLE=IMPORTTABLE,
     )
     assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
     assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
@@ -450,7 +491,9 @@ def test_date_accepts_date():
     IMPORTSTRUCT = {"RFCDATE": TEST_DATE}
     IMPORTTABLE = [IMPORTSTRUCT]
     output = client.call(
-        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+        "STFC_STRUCTURE",
+        IMPORTSTRUCT=IMPORTSTRUCT,
+        RFCTABLE=IMPORTTABLE,
     )
     assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
     assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
@@ -463,7 +506,9 @@ def test_time_accepts_string():
     IMPORTSTRUCT = {"RFCTIME": TEST_TIME}
     IMPORTTABLE = [IMPORTSTRUCT]
     output = client.call(
-        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+        "STFC_STRUCTURE",
+        IMPORTSTRUCT=IMPORTSTRUCT,
+        RFCTABLE=IMPORTTABLE,
     )
     assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
     assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
@@ -476,7 +521,9 @@ def test_time_accepts_time():
     IMPORTSTRUCT = {"RFCTIME": TEST_TIME}
     IMPORTTABLE = [IMPORTSTRUCT]
     output = client.call(
-        "STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT, RFCTABLE=IMPORTTABLE
+        "STFC_STRUCTURE",
+        IMPORTSTRUCT=IMPORTSTRUCT,
+        RFCTABLE=IMPORTTABLE,
     )
     assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
     assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
@@ -487,7 +534,10 @@ def test_time_accepts_time():
 def test_error_int_rejects_string():
     IMPORTSTRUCT = {"RFCINT1": "1"}
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "an integer required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCINT1"]
@@ -495,7 +545,10 @@ def test_error_int_rejects_string():
     assert error.args[4] == "RFCINT1"
     assert error.args[5] == "IMPORTSTRUCT"
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+        client.call(
+            "STFC_STRUCTURE",
+            RFCTABLE=[IMPORTSTRUCT],
+        )
     error = ex.value
     assert error.args[0] == "an integer required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCINT1"]
@@ -507,7 +560,10 @@ def test_error_int_rejects_string():
 def test_error_int_rejects_float():
     IMPORTSTRUCT = {"RFCINT1": 1.0}
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "an integer required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCINT1"]
@@ -516,7 +572,10 @@ def test_error_int_rejects_float():
     assert error.args[5] == "IMPORTSTRUCT"
 
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+        client.call(
+            "STFC_STRUCTURE",
+            RFCTABLE=[IMPORTSTRUCT],
+        )
     error = ex.value
     assert error.args[0] == "an integer required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCINT1"]
@@ -528,19 +587,31 @@ def test_error_int_rejects_float():
 def test_error_string_rejects_None():
     IMPORTSTRUCT = {"RFCCHAR4": None}
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "an string is required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-    assert isinstance(None, error.args[3])  # error.args[3] is type(None)
+    assert isinstance(
+        None,
+        error.args[3],
+    )  # error.args[3] is type(None)
     assert error.args[4] == "RFCCHAR4"
     assert error.args[5] == "IMPORTSTRUCT"
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+        client.call(
+            "STFC_STRUCTURE",
+            RFCTABLE=[IMPORTSTRUCT],
+        )
     error = ex.value
     assert error.args[0] == "an string is required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCCHAR4"]
-    assert isinstance(None, error.args[3])  # error.args[3] is type(None)
+    assert isinstance(
+        None,
+        error.args[3],
+    )  # error.args[3] is type(None)
     assert error.args[4] == "RFCCHAR4"
     assert error.args[5] == "RFCTABLE"
 
@@ -548,7 +619,10 @@ def test_error_string_rejects_None():
 def test_error_string_rejects_int():
     IMPORTSTRUCT = {"RFCCHAR4": 1}
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "an string is required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCCHAR4"]
@@ -557,7 +631,10 @@ def test_error_string_rejects_int():
     assert error.args[5] == "IMPORTSTRUCT"
 
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
+        client.call(
+            "STFC_STRUCTURE",
+            RFCTABLE=[IMPORTSTRUCT],
+        )
     error = ex.value
     assert error.args[0] == "an string is required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCCHAR4"]
@@ -569,7 +646,10 @@ def test_error_string_rejects_int():
 def test_float_rejects_not_a_number_string():
     IMPORTSTRUCT = {"RFCFLOAT": "A"}
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "a decimal value required, received"
     assert error.args[1] == IMPORTSTRUCT["RFCFLOAT"]
@@ -581,7 +661,10 @@ def test_float_rejects_not_a_number_string():
 def test_float_rejects_array():
     IMPORTSTRUCT = {"RFCFLOAT": []}
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "a decimal value required, received"
     assert error.args[1] == []
@@ -593,7 +676,10 @@ def test_float_rejects_array():
 def test_float_rejects_comma_for_point_locale():
     IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
     with pytest.raises(TypeError) as ex:
-        client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+        client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )
     error = ex.value
     assert error.args[0] == "a decimal value required, received"
     assert error.args[1] == "1,2"
@@ -604,17 +690,26 @@ def test_float_rejects_comma_for_point_locale():
 
 def test_float_accepts_point_for_point_locale():
     IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
-    output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
+    output = client.call(
+        "STFC_STRUCTURE",
+        IMPORTSTRUCT=IMPORTSTRUCT,
+    )["ECHOSTRUCT"]
     assert output["RFCFLOAT"] == 1.2
 
 
 def test_float_rejects_point_for_comma_locale():
     if sys.platform != "win32":
-        setlocale(LC_ALL, "de_DE")
+        setlocale(
+            LC_ALL,
+            "de_DE",
+        )
         set_locale_radix(get_locale_radix())
         IMPORTSTRUCT = {"RFCFLOAT": "1.2"}
         with pytest.raises(ExternalRuntimeError) as ex:
-            client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
+            client.call(
+                "STFC_STRUCTURE",
+                IMPORTSTRUCT=IMPORTSTRUCT,
+            )
         error = ex.value
         assert error.code == 22
         assert error.key == "RFC_CONVERSION_FAILURE"
@@ -622,23 +717,39 @@ def test_float_rejects_point_for_comma_locale():
             error.message == "Cannot convert string value 1.2 at position 1"
             " for the field RFCFLOAT to type RFCTYPE_FLOAT"
         )
-        setlocale(LC_ALL, "")
+        setlocale(
+            LC_ALL,
+            "",
+        )
 
 
 def test_float_accepts_comma_for_comma_locale():
     if sys.platform != "win32":
-        setlocale(LC_ALL, "de_DE")
+        setlocale(
+            LC_ALL,
+            "de_DE",
+        )
         set_locale_radix(get_locale_radix())
         IMPORTSTRUCT = {"RFCFLOAT": "1,2"}
-        output = client.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)["ECHOSTRUCT"]
+        output = client.call(
+            "STFC_STRUCTURE",
+            IMPORTSTRUCT=IMPORTSTRUCT,
+        )["ECHOSTRUCT"]
         assert output["RFCFLOAT"] == 1.2
-        setlocale(LC_ALL, "")
+        setlocale(
+            LC_ALL,
+            "",
+        )
 
 
 def test_bcd_rejects_not_a_number_string():
     IS_INPUT = {"ZDEC": "A"}
     with pytest.raises(TypeError) as ex:
-        client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+        client.call(
+            "/COE/RBP_FE_DATATYPES",
+            IS_INPUT=IS_INPUT,
+            IV_COUNT=0,
+        )["ES_OUTPUT"]
     error = ex.value
     assert error.args[0] == "a decimal value required, received"
     assert error.args[1] == IS_INPUT["ZDEC"]
@@ -650,7 +761,11 @@ def test_bcd_rejects_not_a_number_string():
 def test_numc_rejects_non_string():
     IS_INPUT = {"ZNUMC": 1}
     with pytest.raises(TypeError) as ex:
-        client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+        client.call(
+            "/COE/RBP_FE_DATATYPES",
+            IS_INPUT=IS_INPUT,
+            IV_COUNT=0,
+        )["ES_OUTPUT"]
     error = ex.value
     assert error.args[0] == "a numeric string is required, received"
     assert error.args[1] == IS_INPUT["ZNUMC"]
@@ -662,7 +777,11 @@ def test_numc_rejects_non_string():
 def test_numc_rejects_non_numeric_string():
     IS_INPUT = {"ZNUMC": "a1"}
     with pytest.raises(TypeError) as ex:
-        client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+        client.call(
+            "/COE/RBP_FE_DATATYPES",
+            IS_INPUT=IS_INPUT,
+            IV_COUNT=0,
+        )["ES_OUTPUT"]
     error = ex.value
     assert error.args[0] == "a numeric string is required, received"
     assert error.args[1] == IS_INPUT["ZNUMC"]
@@ -674,7 +793,11 @@ def test_numc_rejects_non_numeric_string():
 def test_numc_rejects_empty_string():
     IS_INPUT = {"ZNUMC": ""}
     with pytest.raises(TypeError) as ex:
-        client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+        client.call(
+            "/COE/RBP_FE_DATATYPES",
+            IS_INPUT=IS_INPUT,
+            IV_COUNT=0,
+        )["ES_OUTPUT"]
     error = ex.value
     assert error.args[0] == "a numeric string is required, received"
     assert error.args[1] == IS_INPUT["ZNUMC"]
@@ -686,7 +809,11 @@ def test_numc_rejects_empty_string():
 def test_numc_rejects_space_string():
     IS_INPUT = {"ZNUMC": " "}
     with pytest.raises(TypeError) as ex:
-        client.call("/COE/RBP_FE_DATATYPES", IS_INPUT=IS_INPUT, IV_COUNT=0)["ES_OUTPUT"]
+        client.call(
+            "/COE/RBP_FE_DATATYPES",
+            IS_INPUT=IS_INPUT,
+            IV_COUNT=0,
+        )["ES_OUTPUT"]
     error = ex.value
     assert error.args[0] == "a numeric string is required, received"
     assert error.args[1] == IS_INPUT["ZNUMC"]
@@ -699,13 +826,22 @@ def test_utclong_accepts_min_max_initial():
     UTCLONG = RFC_MATH["UTCLONG"]
     conn = Connection(**connection_info("QM7"))
 
-    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["MIN"])
+    res = conn.call(
+        "ZDATATYPES",
+        IV_UTCLONG=UTCLONG["MIN"],
+    )
     assert res["EV_UTCLONG"] == UTCLONG["MIN"]
 
-    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["MAX"])
+    res = conn.call(
+        "ZDATATYPES",
+        IV_UTCLONG=UTCLONG["MAX"],
+    )
     assert res["EV_UTCLONG"] == UTCLONG["MAX"]
 
-    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["INITIAL"])
+    res = conn.call(
+        "ZDATATYPES",
+        IV_UTCLONG=UTCLONG["INITIAL"],
+    )
     assert res["EV_UTCLONG"] == UTCLONG["INITIAL"]
 
     conn.close()
@@ -715,7 +851,10 @@ def test_utclong_rejects_non_string_or_invalid_format():
     UTCLONG = RFC_MATH["UTCLONG"]
     conn = Connection(**connection_info("QM7"))
     with pytest.raises(TypeError) as ex:
-        res = conn.call("ZDATATYPES", IV_UTCLONG=1)
+        res = conn.call(
+            "ZDATATYPES",
+            IV_UTCLONG=1,
+        )
     error = ex.value
     assert error.args == (
         "an string is required, received",
@@ -726,16 +865,25 @@ def test_utclong_rejects_non_string_or_invalid_format():
     )
 
     with pytest.raises(ExternalRuntimeError) as ex:
-        conn.call("ZDATATYPES", IV_UTCLONG="1")
+        conn.call(
+            "ZDATATYPES",
+            IV_UTCLONG="1",
+        )
     error = ex.value
     assert error.code == 22
     assert error.key == "RFC_CONVERSION_FAILURE"
     assert error.message == "Cannot convert 1 to RFCTYPE_UTCLONG : illegal format"
 
-    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["MIN"])
+    res = conn.call(
+        "ZDATATYPES",
+        IV_UTCLONG=UTCLONG["MIN"],
+    )
     assert res["EV_UTCLONG"] == UTCLONG["MIN"]
 
-    res = conn.call("ZDATATYPES", IV_UTCLONG=UTCLONG["MAX"])
+    res = conn.call(
+        "ZDATATYPES",
+        IV_UTCLONG=UTCLONG["MAX"],
+    )
     assert res["EV_UTCLONG"] == UTCLONG["MAX"]
 
     conn.close()

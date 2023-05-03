@@ -4,8 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*-
-
 # Note: Some test cases for the exception testing are taken from the c-connector test cases
 # /bas/BIN/src/krn/rfc/nwrfc/testFramework/clienttests/ExceptionTest.c
 # Furthermore, the python script error_test.py in this directory provides more test cases.

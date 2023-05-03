@@ -4,8 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# -*- coding: utf-8 -*-
-
 import datetime
 import unittest
 from pyrfc import Connection
@@ -133,7 +131,10 @@ class TestSTFC:
         "RFCHEX3": b"\xf1\xf2\xf3",
         "RFCCHAR1": "X",
         "RFCCHAR2": "YZ",
-        "RFCDATE": str(datetime.date.today()).replace("-", ""),
+        "RFCDATE": str(datetime.date.today()).replace(
+            "-",
+            "",
+        ),
         "RFCDATA1": "k" * 50,
         "RFCDATA2": "l" * 50,
     }

@@ -2,12 +2,25 @@ BACKEND = {
     "ALX": [
         {"dest": "ALX_GATEWAY"},
         {"dest": "ALX"},
-        {"port": 8081, "server_log": True},
+        {
+            "port": 8081,
+            "server_log": True,
+        },
     ],
     "QM7": [
         {"dest": "gatewayqm7"},
         {"dest": "QM7"},
-        {"port": 8081, "server_log": False},
+        {
+            "port": 8081,
+            "server_log": False,
+        },
     ],
-    "MME": [{"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": True}],
+    "MME": [
+        {"dest": "gateway"},
+        {"dest": "MME"},
+        {
+            "port": 8081,
+            "server_log": True,
+        },
+    ],
 }

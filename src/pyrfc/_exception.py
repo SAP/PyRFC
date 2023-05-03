@@ -5,7 +5,7 @@
 """:mod:`pyrfc`-specific exception classes."""
 
 from enum import Enum, auto
-from ._utils import enum_values
+from pyrfc._utils import enum_values  # noqa WPS130
 
 
 class RFCError(Exception):
@@ -13,8 +13,6 @@ class RFCError(Exception):
 
     Indicates that there was an error in the Python connector.
     """
-
-    pass
 
 
 class RFCLibError(RFCError):
@@ -68,8 +66,6 @@ class ABAPApplicationError(RFCLibError):
     ABAP_APPLICATION_FAILURE.
     """
 
-    pass
-
 
 class ABAPRuntimeError(RFCLibError):
     """ABAP runtime error.
@@ -78,8 +74,6 @@ class ABAPRuntimeError(RFCLibError):
     and the error object has an RFC_ERROR_GROUP value of
     ABAP_RUNTIME_FAILURE.
     """
-
-    pass
 
 
 class LogonError(RFCLibError):
@@ -127,8 +121,6 @@ class CommunicationError(RFCLibError):
     COMMUNICATION_FAILURE.
     """
 
-    pass
-
 
 class ExternalRuntimeError(RFCLibError):
     """External runtime error.
@@ -137,8 +129,6 @@ class ExternalRuntimeError(RFCLibError):
     and the error object has an RFC_ERROR_GROUP value of
     EXTERNAL_RUNTIME_FAILURE.
     """
-
-    pass
 
 
 class ExternalApplicationError(RFCLibError):
@@ -149,8 +139,6 @@ class ExternalApplicationError(RFCLibError):
     EXTERNAL_APPLICATION_FAILURE.
     """
 
-    pass
-
 
 class ExternalAuthorizationError(RFCLibError):
     """External authorization error.
@@ -160,8 +148,6 @@ class ExternalAuthorizationError(RFCLibError):
     EXTERNAL_AUTHORIZATION_FAILURE.
     """
 
-    pass
-
 
 class RFCTypeError(RFCLibError):
     """Type concersion error.
@@ -170,8 +156,6 @@ class RFCTypeError(RFCLibError):
     and the error object has an RFC_ERROR_GROUP value of
     RFC_TYPE_ERROR
     """
-
-    pass
 
 
 class RcCodeText(Enum):
