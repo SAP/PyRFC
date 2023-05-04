@@ -1,13 +1,18 @@
-#!/usr/bin/env python
-
 # SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
+from tests.config import (
+    PARAMS as params,
+    PARAMSDEST as paramsdest,
+    CONFIG_SECTIONS as config_sections,
+    UNICODETEST,
+    latest_python_version,
+)
+
 import datetime
 import socket
 import sys
-import pytest
 from contextlib import suppress
 
 with suppress(ModuleNotFoundError):
@@ -20,13 +25,7 @@ from pyrfc import (
     __version__,
 )
 
-from tests.config import (
-    PARAMS as params,
-    PARAMSDEST as paramsdest,
-    CONFIG_SECTIONS as config_sections,
-    UNICODETEST,
-    latest_python_version,
-)
+import pytest
 
 
 class TestConnection:
@@ -280,10 +279,7 @@ class TestConnection:
             assert res["ECHOSTRUCT"][idx] == imp[idx]
         for idx in res["RFCTABLE"][5]:
             # dont compare variable system id and server time
-            if idx not in [
-                "RFCCHAR4",
-                "RFCTIME",
-            ]:
+            if idx not in ["RFCCHAR4", "RFCTIME"]:
                 assert res["RFCTABLE"][5][idx] == out[idx]
 
     def test_STFC_CHANGING(self):

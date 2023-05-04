@@ -71,6 +71,8 @@ def python_to_ABAP_time(py_time):
     return f"{py_time.hour:02d}{py_time.minute:02d}{py_time.second:02d}"
 
 
+set_ini_file_directory("tests")
+
 CONFIG_SECTIONS = COPA._sections
 CONNECTION_INFO = CONFIG_SECTIONS["coevi51"]
 UNICODETEST = "ทดสอบสร้างลูกค้าจากภายนอกครั้งที่" * 7
@@ -79,9 +81,6 @@ BYTEARRAY_TEST = bytearray.fromhex("01414243444549500051fdfeff")
 BYTES_TEST = bytes(BYTEARRAY_TEST)
 PARAMS = CONNECTION_INFO
 PARAMSDEST = {"dest": "MME"}
-
-
-set_ini_file_directory("tests")
 
 PLATFORM = platform.system().lower()
 CryptoLibPath = {

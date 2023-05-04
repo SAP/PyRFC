@@ -1,19 +1,11 @@
-#!/usr/bin/env python
-
 # SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
+from tests.config import CryptoLibPath  # ClientPSEPath,
+from pyrfc import Connection, set_cryptolib_path, ExternalRuntimeError
+
 import pytest
-from pyrfc import (
-    Connection,
-    set_cryptolib_path,
-    ExternalRuntimeError,
-)
-from tests.config import (
-    CryptoLibPath,
-    # ClientPSEPath,
-)
 
 
 class TestWsrfc:

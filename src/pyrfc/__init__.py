@@ -29,28 +29,32 @@ from pyrfc._exception import (  # noqa F401
     ExternalRuntimeError,
 )
 
-from pyrfc._cyrfc import (  # noqa F401
-    get_nwrfclib_version,
-    reload_ini_file,
-    set_ini_file_directory,
-    set_cryptolib_path,
-    set_locale_radix,
-    language_iso_to_sap,
-    language_sap_to_iso,
-    cancel_connection,
-    Connection,
-    ConnectionParameters,
-    Decimal,
-    Throughput,
-    TypeDescription,
-    FunctionDescription,
-    Server,
-    UnitCallType,
-    UnitState,
-    RCStatus,
-    RfcParameterDirection,
-    RfcFieldType,
-)
+try:
+    from pyrfc._cyrfc import (  # noqa F401
+        get_nwrfclib_version,
+        reload_ini_file,
+        set_ini_file_directory,
+        set_cryptolib_path,
+        set_locale_radix,
+        language_iso_to_sap,
+        language_sap_to_iso,
+        cancel_connection,
+        Connection,
+        ConnectionParameters,
+        Decimal,
+        Throughput,
+        TypeDescription,
+        FunctionDescription,
+        Server,
+        UnitCallType,
+        UnitState,
+        RCStatus,
+        RfcParameterDirection,
+        RfcFieldType,
+    )
+except Exception as ex:
+    # PyRFC module could not be loaded
+    print(ex)
 
 __author__ = "SAP SE"
 __email__ = "srdjan.boskovic@sap.com"

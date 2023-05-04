@@ -2,10 +2,9 @@
 requires = ["Cython >= 0.29", "setuptools >= 67", "wheel >= 0.40"]
 build-backend = "setuptools.build_meta"
 
-# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 [project]
 name = "pyrfc"
-version = "3.0.0"
+version = "2.8.73"
 readme = "README.md"
 license = { file = "LICENSES/Apache-2.0.txt" }
 description = "Python bindings for SAP NetWeaver RFC SDK"

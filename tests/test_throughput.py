@@ -2,9 +2,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import pytest
 from pyrfc import Connection, Throughput
 from tests.config import PARAMS as params
+
+import pytest
 
 
 def equal_no_time(t1, t2):
@@ -19,11 +20,7 @@ def equal_no_time(t1, t2):
     ]
     for cnt in counters:
         if t1[cnt] != t2[cnt]:
-            return (
-                cnt,
-                t1[cnt],
-                t2[cnt],
-            )
+            return (cnt, t1[cnt], t2[cnt])
     return True
 
 
@@ -41,19 +38,9 @@ class TestThroughput:
     def test_create_with_multiple_connection(self):
         c1 = Connection(**params)
         c2 = Connection(**params)
-        throughput = Throughput(
-            [
-                c1,
-                c2,
-            ]
-        )
+        throughput = Throughput([c1, c2])
         assert len(throughput.connections) == 2
-        throughput = Throughput(
-            [
-                c1,
-                c1,
-            ]
-        )
+        throughput = Throughput([c1, c1])
         assert len(throughput.connections) == 1
         c1.close()
         c2.close()
@@ -61,12 +48,7 @@ class TestThroughput:
     def test_remove_from_connection(self):
         c1 = Connection(**params)
         c2 = Connection(**params)
-        throughput = Throughput(
-            [
-                c1,
-                c2,
-            ]
-        )
+        throughput = Throughput([c1, c2])
         assert len(throughput.connections) == 2
         throughput.removeFromConnection(c2)
         assert len(throughput.connections) == 1
@@ -79,13 +61,7 @@ class TestThroughput:
         with pytest.raises(Exception) as ex:
             Throughput(1)
         error = ex.value
-        assert (
-            isinstance(
-                error,
-                TypeError,
-            )
-            is True
-        )
+        assert isinstance(error, TypeError) is True
         assert error.args == (
             "Connection object required, received",
             1,
@@ -94,20 +70,9 @@ class TestThroughput:
         )
 
         with pytest.raises(Exception) as ex:
-            Throughput(
-                [
-                    conn,
-                    1,
-                ]
-            )
+            Throughput([conn, 1])
         error = ex.value
-        assert (
-            isinstance(
-                error,
-                TypeError,
-            )
-            is True
-        )
+        assert isinstance(error, TypeError) is True
         assert error.args == (
             "Connection object required, received",
             1,
@@ -145,10 +110,7 @@ class TestThroughput:
             "deserializationTime": 0,
         }
 
-        conn.call(
-            "STFC_CONNECTION",
-            REQUTEXT="hello",
-        )
+        conn.call("STFC_CONNECTION", REQUTEXT="hello")
         assert equal_no_time(
             throughput.stats,
             {
@@ -162,10 +124,7 @@ class TestThroughput:
             },
         )
 
-        conn.call(
-            "STFC_CONNECTION",
-            REQUTEXT="hello",
-        )
+        conn.call("STFC_CONNECTION", REQUTEXT="hello")
         assert equal_no_time(
             throughput.stats,
             {
@@ -193,10 +152,7 @@ class TestThroughput:
             },
         )
 
-        conn.call(
-            "BAPI_USER_GET_DETAIL",
-            USERNAME="demo",
-        )["LASTMODIFIED"]
+        conn.call("BAPI_USER_GET_DETAIL", USERNAME="demo")
         assert equal_no_time(
             throughput.stats,
             {

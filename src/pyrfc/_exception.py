@@ -5,7 +5,7 @@
 """:mod:`pyrfc`-specific exception classes."""
 
 from enum import Enum, auto
-from pyrfc._utils import enum_values  # noqa WPS130
+from pyrfc._utils import enum_values
 
 
 class RFCError(Exception):

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -12,7 +10,6 @@ from pyrfc import (
     ABAPApplicationError,
     ExternalRuntimeError,
 )
-
 from tests.config import PARAMS as params
 
 
@@ -35,11 +32,7 @@ class TestErrors:
     def test_incomplete_params(self):
         incomplete_params = {}
         for pname in params:
-            if pname not in [
-                "ashost",
-                "gwhost",
-                "mshost",
-            ]:
+            if pname not in ["ashost", "gwhost", "mshost"]:
                 incomplete_params[pname] = params[pname]
         with pytest.raises(RFCError) as ex:
             Connection(**incomplete_params)
@@ -66,13 +59,7 @@ class TestErrors:
         with pytest.raises(Exception) as ex:
             self.conn.call()
         error = ex.value
-        assert (
-            isinstance(
-                error,
-                TypeError,
-            )
-            is True
-        )
+        assert isinstance(error, TypeError) is True
         assert error.args[0] == "call() takes at least 1 positional argument (0 given)"
 
     def test_call_non_existing_RFM(self):
@@ -87,18 +74,11 @@ class TestErrors:
         with pytest.raises(RFCError) as ex:
             self.conn.call(1)
         error = ex.value
-        assert error.args == (
-            "Remote function module name must be unicode string, received:",
-            1,
-            int,
-        )
+        assert error.args == ("Remote function module name must be unicode string, received:", 1, int)
 
     def test_call_non_existing_RFM_parameter(self):
         with pytest.raises(ExternalRuntimeError) as ex:
-            self.conn.call(
-                "STFC_CONNECTION",
-                undefined=0,
-            )
+            self.conn.call("STFC_CONNECTION", undefined=0)
         error = ex.value
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"
@@ -111,10 +91,7 @@ class TestErrors:
             "RFCCHAR4": "DEFG",
         }
         with pytest.raises(ExternalRuntimeError) as ex:
-            self.conn.call(
-                "STFC_STRUCTURE",
-                IMPORTSTRUCT=IMPORTSTRUCT,
-            )
+            self.conn.call("STFC_STRUCTURE", IMPORTSTRUCT=IMPORTSTRUCT)
         error = ex.value
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"
@@ -127,10 +104,7 @@ class TestErrors:
             "RFCCHAR4": "DEFG",
         }
         with pytest.raises(ExternalRuntimeError) as ex:
-            self.conn.call(
-                "STFC_STRUCTURE",
-                RFCTABLE=[IMPORTSTRUCT],
-            )
+            self.conn.call("STFC_STRUCTURE", RFCTABLE=[IMPORTSTRUCT])
         error = ex.value
         assert error.code == 20
         assert error.key == "RFC_INVALID_PARAMETER"

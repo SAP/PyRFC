@@ -1,15 +1,15 @@
-﻿# Copyright 2014 SAP AG.
-# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+﻿# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
 from tests.abap_system import connection_info
 
-import pytest
 import sys
 from decimal import Decimal
 from locale import setlocale, localeconv, LC_ALL
 from pyrfc import Connection, set_locale_radix, ExternalRuntimeError
+
+import pytest
 
 
 from tests.config import (

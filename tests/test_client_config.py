@@ -1,13 +1,13 @@
-#!/usr/bin/env python
-
 # SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import datetime
-import pytest
-from pyrfc import Connection, RFCError
 from tests.config import CONFIG_SECTIONS as config_sections
+
+import datetime
+from pyrfc import Connection, RFCError
+
+import pytest
 
 
 class TestConnection:

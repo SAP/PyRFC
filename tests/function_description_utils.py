@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 import sys
 from pyrfc import Connection
 
@@ -39,7 +43,7 @@ def compare_function_description(fd1, fd2):
     # print(len(fd1_parameters))
     # print(len(fd2_parameters))
     assert len(fd1_parameters) == len(fd2_parameters)
-    for (param1, param2) in zip(fd1_parameters, fd2_parameters):
+    for param1, param2 in zip(fd1_parameters, fd2_parameters):
         for key in parameter_keys:
             if key != "type_description":
                 assert param1[key] == param2[key]

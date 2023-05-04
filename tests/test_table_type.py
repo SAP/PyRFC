@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -8,7 +6,7 @@ from pyrfc import Connection
 from tests.config import PARAMS as params
 
 
-class TestTT:
+class TestTableTypeParameters:
     """
     This test cases cover table types of variable and structure types
     """

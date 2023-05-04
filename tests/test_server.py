@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -52,10 +50,7 @@ client = Connection(dest="MME")
 class TestServer:
     def test_add_wrong_function(self):
         with pytest.raises(ABAPApplicationError) as ex:
-            server.add_function(
-                "STFC_CONNECTION1",
-                my_stfc_connection,
-            )
+            server.add_function("STFC_CONNECTION1", my_stfc_connection)
         error = ex.value
         assert error.code == 5
         assert error.key == "FU_NOT_FOUND"
@@ -63,14 +58,8 @@ class TestServer:
 
     def test_add_function_twice(self):
         with pytest.raises(TypeError) as ex:
-            server.add_function(
-                "STFC_CONNECTION",
-                my_stfc_connection,
-            )
-            server.add_function(
-                "STFC_CONNECTION",
-                my_stfc_connection,
-            )
+            server.add_function("STFC_CONNECTION", my_stfc_connection)
+            server.add_function("STFC_CONNECTION", my_stfc_connection)
         error = ex.value
         assert error.args[0] == "Server function 'STFC_CONNECTION' already installed."
 
