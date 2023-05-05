@@ -85,12 +85,14 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 pip install pyrfc
 ```
 
-Cython must be installed upfront because the build from source is standard installation method on Linux.
+On Windows and macOS platforms pre-built binary wheel is installed, without local compilation. On Linux platform the package is locally built from source distribution.m
 
-Build from source can be requested also on other platforms:
+Build from source distribution can be requested also on other platforms:
 
 ```shell
-pip install pyrfc --no-binary :all:
+pip install --no-binary pyrfc pyrfc
+# or
+pip install https://files.pythonhosted.org/packages/.../pyrfc-2.8.3.tar.gz
 ```
 
 Alternative build from source installation:

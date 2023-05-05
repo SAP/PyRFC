@@ -1,21 +1,16 @@
-from pyrfc import (
-    Server,
-)
-from threading import (
-    Thread,
-)
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+from pyrfc import Server
+from threading import Thread
 
 
-# server function
-def my_stfc_connection(
-    request_context=None,
-    REQUTEXT="",
-):
+def my_stfc_connection(request_context=None, REQUTEXT=""):
+    """Server function my_stfc_connection with the signature of ABAP function module STFC_CONNECTION."""
+
     print("stfc connection invoked")
-    print(
-        "request_context",
-        request_context,
-    )
+    print("request_context", request_context)
     print(f"REQUTEXT: {REQUTEXT}")
 
     return {
@@ -24,23 +19,19 @@ def my_stfc_connection(
     }
 
 
-# server authorisation check
-def my_auth_check(
-    func_name=False,
-    request_context=None,
-):
+def my_auth_check(func_name=False, request_context=None):
+    """Server authorization check."""
+
     if request_context is None:
         request_context = {}
     print(f"authorization check for '{func_name}'")
-    print(
-        "request_context",
-        request_context,
-    )
+    print("request_context", request_context)
     return 0
 
 
-# start server
 def launch_server():
+    """Start server."""
+
     # create server for ABAP system ABC
     server = Server(
         {"dest": "gateway"},

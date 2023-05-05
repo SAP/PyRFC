@@ -1,13 +1,11 @@
-import sys
-from pyrfc import (
-    Connection,
-    RFCError,
-)
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
 
-client = Connection(
-    dest=sys.argv[1],
-    config={"timeout": 20},
-)
+import sys
+from pyrfc import Connection, RFCError
+
+client = Connection(dest=sys.argv[1], config={"timeout": 20})
 
 try:
     # 10 seconds long RFC call, cancelled after 5 seconds,
@@ -18,9 +16,5 @@ try:
         SECONDS=10,
     )
 except RFCError as ex:
-    print(
-        ex.code,
-        ex.key,
-        ex.message,
-    )
+    print(ex.code, ex.key, ex.message)
     # 7 RFC_CANCELED Connection was canceled: 5059097088. New handle: 4798322688

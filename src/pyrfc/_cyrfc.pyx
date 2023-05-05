@@ -1890,7 +1890,7 @@ cdef class Server:
             Server.__bgRfcFunction[func_name] = bgRfcFunction[func_name]
         return self.install_bgrfc_handlers(sysId)
 
-    def install_bgrfc_handlers(self, sysId):
+    cdef install_bgrfc_handlers(self, sysId):
         ucSysId = fillString(sysId) if sysId is not None else NULL
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_RC rc = RfcInstallBgRfcHandlers(

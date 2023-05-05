@@ -1,9 +1,13 @@
-from pyrfc import Server
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
 
-# server functions
+from pyrfc import Server
 
 
 def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
+    """Server function my_stfc_structure with the signature of ABAP function module STFC_STRUCTURE."""
+
     print("stfc structure invoked")
     print("request_context", request_context)
     if IMPORTSTRUCT is None:
@@ -21,10 +25,9 @@ def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
     return {"ECHOSTRUCT": ECHOSTRUCT, "RFCTABLE": RFCTABLE, "RESPTEXT": RESPTEXT}
 
 
-# server authorisation check
-
-
 def my_auth_check(func_name=False, request_context=None):
+    """Server authorization check."""
+
     if request_context is None:
         request_context = {}
     print(f"authorization check for '{func_name}'")

@@ -1,11 +1,10 @@
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+from backends import BACKEND
 import sys
-from pyrfc import (
-    Server,
-    ExternalRuntimeError,
-)
-from backends import (
-    BACKEND,
-)
+from pyrfc import Server, ExternalRuntimeError
 
 backend_dest = sys.argv[1]
 
@@ -23,15 +22,9 @@ errorInfo = {
 }
 
 
-def my_stfc_connection(
-    request_context=None,
-    REQUTEXT="",
-):
+def my_stfc_connection(request_context=None, REQUTEXT=""):
     print("stfc connection invoked")
-    print(
-        "request_context",
-        request_context,
-    )
+    print("request_context", request_context)
     print(f"REQUTEXT: {REQUTEXT}")
 
     raise ExternalRuntimeError(**errorInfo)
