@@ -162,7 +162,7 @@ server = Server(*BACKEND[backend_dest])
 print(server.get_server_attributes())
 
 # expose python function stfc_write_to_tcpic as ABAP function STFC_WRITE_TO_TCPIC, to be called by ABAP system
-server.add_function("STFC_WRITE_TO_TCPIC",  stfc_write_to_tcpic)
+server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
 
 # register bgRFC handlers
 server.bgrfc_init(
