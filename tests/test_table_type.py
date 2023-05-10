@@ -19,7 +19,7 @@ class TestTableTypeParameters:
         self.conn.close()
         assert not self.conn.alive
 
-    def test_TABLE_TYPE(self):
+    def test_table_type_parameter(self):
         res = self.conn.call(
             "/COE/RBP_PAM_SERVICE_ORD_CHANG",
             IV_ORDERID="4711",

@@ -40,4 +40,7 @@ ci/test
 ci/issues
 
 .tox
+# pytest-html-reporter
+report
+archive
 
