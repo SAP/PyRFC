@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import sys
+
 from pyrfc import Connection
 
 with Connection(dest=sys.argv[1]) as client:

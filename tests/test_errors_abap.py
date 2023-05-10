@@ -3,15 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pytest
-from pyrfc import (
-    Connection,
-    RFCError,
-    ABAPRuntimeError,
-    ABAPApplicationError,
-    # CommunicationError,
-    # ExternalRuntimeError,
-)
 
+from pyrfc import ABAPApplicationError, ABAPRuntimeError, Connection, RFCError
 from tests.config import PARAMS as params
 
 

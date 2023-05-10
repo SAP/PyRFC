@@ -2,12 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from os import (
-    path,
-)
-from configparser import (
-    ConfigParser,
-)
+from configparser import ConfigParser
+from os import path
 
 cp = ConfigParser()
 cp.read(

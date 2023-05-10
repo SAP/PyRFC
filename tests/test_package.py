@@ -2,12 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from tests.config import latest_python_version
 import sys
+from contextlib import suppress
 from os import listdir
 from os.path import isfile, join
-from contextlib import suppress
+
 import pytest
+
+from tests.config import latest_python_version
 
 with suppress(ModuleNotFoundError):
     import tomllib

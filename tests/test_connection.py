@@ -2,30 +2,22 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from tests.config import (
-    PARAMS as params,
-    PARAMSDEST as paramsdest,
-    CONFIG_SECTIONS as config_sections,
-    UNICODETEST,
-    latest_python_version,
-)
-
 import datetime
 import socket
 import sys
 from contextlib import suppress
 
+from tests.config import CONFIG_SECTIONS as config_sections
+from tests.config import PARAMS as params
+from tests.config import PARAMSDEST as paramsdest
+from tests.config import UNICODETEST, latest_python_version
+
 with suppress(ModuleNotFoundError):
     import tomllib
 
-from pyrfc import (
-    Connection,
-    RFCError,
-    ExternalRuntimeError,
-    __version__,
-)
-
 import pytest
+
+from pyrfc import Connection, ExternalRuntimeError, RFCError, __version__
 
 
 class TestConnection:

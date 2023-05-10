@@ -2,9 +2,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from backends import BACKEND
 import sys
-from pyrfc import Server, ExternalRuntimeError
+
+from backends import BACKEND
+
+from pyrfc import ExternalRuntimeError, Server
 
 backend_dest = sys.argv[1]
 

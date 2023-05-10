@@ -2,10 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from pyrfc import (
-    FunctionDescription,
-    TypeDescription,
-)
+from pyrfc import FunctionDescription, TypeDescription
 
 animals = TypeDescription(
     "ANIMALS",

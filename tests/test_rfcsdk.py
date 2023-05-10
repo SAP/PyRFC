@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+from pyrfc import language_iso_to_sap, language_sap_to_iso, reload_ini_file
 from tests.config import LANGUAGES
-from pyrfc import reload_ini_file, language_iso_to_sap, language_sap_to_iso
 
 
 class TestRfcSDK:

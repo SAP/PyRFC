@@ -6,8 +6,8 @@ import os
 import uuid
 from contextlib import suppress
 from datetime import datetime
-from pyrfc import UnitState
 
+from pyrfc import UnitState
 
 # default dbpath
 DBPATH = "./examples/server/tlog.log"

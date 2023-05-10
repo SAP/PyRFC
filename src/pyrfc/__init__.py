@@ -4,10 +4,9 @@
 
 """pyrfc package."""
 
-from contextlib import suppress
 import importlib.metadata
 import os
-
+from contextlib import suppress
 
 __version__ = importlib.metadata.version("pyrfc")
 __version_info__ = tuple(__version__.split("."))
@@ -17,40 +16,40 @@ if os.name == "nt":
     with suppress(Exception):
         os.add_dll_directory(os.path.join(os.environ["SAPNWRFC_HOME"], "lib"))
 
-from pyrfc._exception import (  # noqa F401
-    RFCError,
-    RFCLibError,
-    CommunicationError,
-    LogonError,
+from pyrfc._exception import CommunicationError  # noqa F401
+from pyrfc._exception import (
     ABAPApplicationError,
     ABAPRuntimeError,
-    ExternalAuthorizationError,
     ExternalApplicationError,
+    ExternalAuthorizationError,
     ExternalRuntimeError,
+    LogonError,
+    RFCError,
+    RFCLibError,
 )
 
 try:
-    from pyrfc._cyrfc import (  # noqa F401
-        get_nwrfclib_version,
-        reload_ini_file,
-        set_ini_file_directory,
-        set_cryptolib_path,
-        set_locale_radix,
-        language_iso_to_sap,
-        language_sap_to_iso,
-        cancel_connection,
+    from pyrfc._cyrfc import RCStatus  # noqa F401
+    from pyrfc._cyrfc import (
         Connection,
         ConnectionParameters,
         Decimal,
+        FunctionDescription,
+        RfcFieldType,
+        RfcParameterDirection,
+        Server,
         Throughput,
         TypeDescription,
-        FunctionDescription,
-        Server,
         UnitCallType,
         UnitState,
-        RCStatus,
-        RfcParameterDirection,
-        RfcFieldType,
+        cancel_connection,
+        get_nwrfclib_version,
+        language_iso_to_sap,
+        language_sap_to_iso,
+        reload_ini_file,
+        set_cryptolib_path,
+        set_ini_file_directory,
+        set_locale_radix,
     )
 except Exception as ex:
     # PyRFC module could not be loaded

@@ -1,6 +1,4 @@
-from pyrfc import (
-    ABAPRuntimeError,
-)
+from pyrfc import ABAPRuntimeError
 
 errorInfo = {
     "code": 4,

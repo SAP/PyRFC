@@ -2,16 +2,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import pyrfc
+from configparser import ConfigParser
 from os import path
 
-from pyrfc import (
-    ABAPApplicationError,
-    ABAPRuntimeError,
-    LogonError,
-    CommunicationError,
-)
-from configparser import ConfigParser
+import pyrfc
+from pyrfc import ABAPApplicationError, ABAPRuntimeError, CommunicationError, LogonError
 
 
 def initial_screen():

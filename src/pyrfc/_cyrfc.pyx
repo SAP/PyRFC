@@ -4,22 +4,23 @@
 
 """ The _pyrfc C-extension module """
 
-from libc.stdlib cimport malloc, free
 from libc.stdint cimport uintptr_t
+from libc.stdlib cimport free, malloc
+
+import socket
 from collections.abc import Iterable
-from datetime import date, time, datetime
+from datetime import date, datetime, time
 from decimal import Decimal
 from enum import Enum, auto
 from locale import localeconv
 from os.path import isfile, join
 from sys import exc_info, platform
-import socket
 from threading import Thread, Timer
 
 from pyrfc.csapnwrfc cimport *
+
 from pyrfc._exception import *
 from pyrfc._utils import enum_names, enum_values
-
 
 ################################################################################
 # Configuration options

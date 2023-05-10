@@ -4,10 +4,7 @@
 
 import os
 
-from pyrfc import (
-    Server,
-    set_ini_file_directory,
-)
+from pyrfc import Server, set_ini_file_directory
 
 
 def my_stfc_connection(

@@ -8,8 +8,8 @@
 # Some of them are used as well.
 
 import unittest
-from pyrfc import Connection
 
+from pyrfc import Connection
 from tests.config import PARAMS as params
 
 

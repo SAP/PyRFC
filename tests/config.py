@@ -3,8 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import datetime
-from configparser import ConfigParser
 import platform
+from configparser import ConfigParser
+
 from pyrfc import set_ini_file_directory
 
 COPA = ConfigParser()

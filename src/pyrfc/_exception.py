@@ -5,6 +5,7 @@
 """:mod:`pyrfc`-specific exception classes."""
 
 from enum import Enum, auto
+
 from pyrfc._utils import enum_values
 
 

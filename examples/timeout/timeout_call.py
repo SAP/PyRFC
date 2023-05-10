@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import sys
+
 from pyrfc import Connection, RFCError
 
 client = Connection(dest=sys.argv[1], config={"timeout": 20})

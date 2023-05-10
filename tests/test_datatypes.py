@@ -2,25 +2,23 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from tests.abap_system import connection_info
-
 import sys
 from decimal import Decimal
-from locale import setlocale, localeconv, LC_ALL
-from pyrfc import Connection, set_locale_radix, ExternalRuntimeError
+from locale import LC_ALL, localeconv, setlocale
 
 import pytest
 
-
+from pyrfc import Connection, ExternalRuntimeError, set_locale_radix
+from tests.abap_system import connection_info
 from tests.config import (
+    BYTEARRAY_TEST,
+    BYTES_TEST,
     CONNECTION_INFO,
     RFC_MATH,
     ABAP_to_python_date,
     ABAP_to_python_time,
     python_to_ABAP_date,
     python_to_ABAP_time,
-    BYTEARRAY_TEST,
-    BYTES_TEST,
 )
 
 setlocale(LC_ALL)

@@ -2,18 +2,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from os import (
-    path,
-)
-from pyrfc import Connection
-from pprint import (
-    pprint,
-)
-from configparser import (
-    ConfigParser,
-)
-
 import datetime
+from configparser import ConfigParser
+from os import path
+from pprint import pprint
+
+from pyrfc import Connection
 
 imp = {
     "RFCINT1": 0x7F,  # INT1: Integer value (1 byte)

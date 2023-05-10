@@ -4,8 +4,8 @@
 
 import datetime
 import unittest
-from pyrfc import Connection
 
+from pyrfc import Connection
 from tests.config import PARAMS as params
 
 

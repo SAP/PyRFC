@@ -2,17 +2,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from os import path
-from configparser import ConfigParser
 import sys
+from configparser import ConfigParser
+from os import path
 
-from pyrfc import (
-    Connection,
-    ABAPApplicationError,
-    ABAPRuntimeError,
-    LogonError,
-    CommunicationError,
-)
+from pyrfc import ABAPApplicationError, ABAPRuntimeError, CommunicationError, Connection, LogonError
 
 
 def parameter_key_function(parameter):

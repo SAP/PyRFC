@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import sys
-from backends import BACKEND
 
-from pyrfc import Server, RCStatus, UnitState, UnitCallType
+from backends import BACKEND
 from tlog import TLog
 
+from pyrfc import RCStatus, Server, UnitCallType, UnitState
 
 backend_dest = sys.argv[1]
 

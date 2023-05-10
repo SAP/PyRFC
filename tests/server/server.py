@@ -3,10 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
-from pyrfc import (
-    Server,
-    set_ini_file_directory,
-)
+
+from pyrfc import Server, set_ini_file_directory
 
 
 # server function

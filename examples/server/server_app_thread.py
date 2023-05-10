@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from pyrfc import Server
 from threading import Thread
+
+from pyrfc import Server
 
 
 def my_stfc_connection(request_context=None, REQUTEXT=""):
