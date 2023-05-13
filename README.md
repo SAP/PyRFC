@@ -103,6 +103,8 @@ cd PyRFC
 python -m pip install .
 # or
 python -m build --wheel --sdist --outdir dist
+# or
+PYRFC_BUILD_CYTHON=yes python -m build --wheel --sdist --outdir dist
 pip install --upgrade --no-index --find-links=dist pyrfc
 ```
 

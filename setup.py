@@ -11,7 +11,7 @@ from setuptools import setup, Extension
 PACKAGE_NAME = "pyrfc"
 MODULE_NAME = "_cyrfc"
 
-build_cython = sys.platform.startswith("linux")
+build_cython = sys.platform.startswith("linux") or bool(os.environ.get("PYRFC_BUILD_CYTHON"))
 
 # build from source on Linux
 CMDCLASS = {}
