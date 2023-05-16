@@ -43,6 +43,7 @@ try:
         UnitCallType,
         UnitState,
         cancel_connection,
+        get_function_description,
         get_nwrfclib_version,
         language_iso_to_sap,
         language_sap_to_iso,
