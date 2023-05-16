@@ -85,20 +85,10 @@ Linux
 macOS
 -----
 
-The macOS firewall stealth mode is by default active, blocking the ICMP protocol based network access to Macbook. Applications like
-Ping do not work by default (`Can't ping a machine - why? <https://discussions.apple.com/thread/2554739>`_) and the stealth mode
-must be disabled:
-
-.. code-block:: sh
-
-    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode off
-
 1. Create the SAP NWRFC SDK root directory ``/usr/local/sap/nwrfcsdk`` (this location is fixed, more info below)
 2. Set SAPNWRFC_HOME environment variable to that location: ``SAPNWRFC_HOME=/usr/local/sap/nwrfcsdk``
 3. Unpack the SAP NWRFC SDK archive to it, e.g. ``/usr/local/sap/nwrfcsdk/lib`` shall exist.
 4. Set the remote paths in SAP NWRFC SDK by running `paths_fix.sh <https://github.com/SAP/PyRFC/blob/master/ci/utils/paths_fix.sh>`_ script.
-5. Unzip the `uchar.zip` file attached to `SAP OSS Note 2573953 <https://launchpad.support.sap.com/#/notes/2573953>`_
-   and copy the `uchar.h` file to SAP NWRFC SDK include directory
 
 This location is fixed to the default ``/usr/local/sap/nwrfcsdk/lib`` rpath, embedded into node-rfc package published on npm.
 
