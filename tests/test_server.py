@@ -10,10 +10,14 @@ import pytest
 from pyrfc import ABAPApplicationError, Connection, Server, set_ini_file_directory
 
 sys.path.append(os.path.dirname(__file__))
-from data.func_desc_BAPISDORDER_GETDETAILEDLIST import FUNC_DESC_BAPISDORDER_GETDETAILEDLIST  # noqa: E402
-from data.func_desc_BS01_SALESORDER_GETDETAIL import FUNC_DESC_BS01_SALESORDER_GETDETAIL  # noqa: E402
-from data.func_desc_STFC_STRUCTURE import FUNC_DESC_STFC_STRUCTURE  # noqa: E402
-from function_description_utils import compare_function_description  # noqa: E402
+from data.func_desc_BAPISDORDER_GETDETAILEDLIST import (
+    FUNC_DESC_BAPISDORDER_GETDETAILEDLIST,
+)
+from data.func_desc_BS01_SALESORDER_GETDETAIL import (
+    FUNC_DESC_BS01_SALESORDER_GETDETAIL,
+)
+from data.func_desc_STFC_STRUCTURE import FUNC_DESC_STFC_STRUCTURE
+from function_description_utils import compare_function_description
 
 
 def my_stfc_connection(request_context=None, REQUTEXT=""):

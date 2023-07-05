@@ -7,6 +7,7 @@ import unittest
 
 from pyrfc import Connection
 from tests.config import PARAMS as params
+from typing import ClassVar
 
 
 class TestSTFC:
@@ -107,7 +108,7 @@ class TestSTFC:
     """
 
     # STFC_STRUCTURE Inhomogene Struktur
-    imp = {
+    imp: ClassVar[dict] = {
         "RFCFLOAT": 1.23456789,
         "RFCINT2": 0x7FFE,
         "RFCINT1": 0x7F,
@@ -121,7 +122,7 @@ class TestSTFC:
         "RFCDATA1": "k" * 50,
         "RFCDATA2": "l" * 50,
     }
-    out = {
+    out: ClassVar[dict] = {
         "RFCFLOAT": imp["RFCFLOAT"] + 1,
         "RFCINT2": imp["RFCINT2"] + 1,
         "RFCINT1": imp["RFCINT1"] + 1,

@@ -36,11 +36,8 @@ documentation = "http://sap.github.io/PyRFC"
 homepage = "https://github.com/SAP/PyRFC"
 repository = "https://github.com/SAP/PyRFC.git"
 
-[tool.black]
-line-length = 120
-
 [tool.cython-lint]
-max-line-length = 180
+max-line-length = 172
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -54,3 +51,39 @@ include = ["pyrfc"]
 [tool.pytest.ini_options]
 minversion = "7.3"
 testpaths =["tests"]
+
+[tool.ruff]
+select = [
+  "C90",    # McCabe cyclomatic complexity
+  "E",      # pycodestyle
+  "F",      # Pyflakes
+  "ICN",    # flake8-import-conventions
+  "INT",    # flake8-gettext
+  "PLC",    # Pylint conventions
+  "PLE",    # Pylint errors
+  "PLR09",  # Pylint refactoring: max-args, max-branches, max returns, max-statements
+  "PYI",    # flake8-pyi
+  "RSE",    # flake8-raise
+  "RUF",    # Ruff-specific rules
+  "T10",    # flake8-debugger
+  "TCH",    # flake8-type-checking
+  "TID",    # flake8-tidy-imports
+  "W",      # pycodestyle
+  "YTT",    # flake8-2020
+]
+
+line-length = 172
+target-version = "py37"
+
+[tool.ruff.mccabe]
+max-complexity = 100
+
+[tool.ruff.per-file-ignores]
+"src/pyrfc/__init__.py" = ["F401"]
+"tests/test_server.py" = ["E402"]
+
+[tool.ruff.pylint]
+max-args = 12
+max-branches = 110
+max-returns = 12
+max-statements = 289

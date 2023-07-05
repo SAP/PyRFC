@@ -4,7 +4,13 @@
 
 import pytest
 
-from pyrfc import ABAPApplicationError, Connection, ExternalRuntimeError, LogonError, RFCError
+from pyrfc import (
+    ABAPApplicationError,
+    Connection,
+    ExternalRuntimeError,
+    LogonError,
+    RFCError,
+)
 from tests.config import PARAMS as params
 
 
@@ -69,7 +75,11 @@ class TestErrors:
         with pytest.raises(RFCError) as ex:
             self.conn.call(1)
         error = ex.value
-        assert error.args == ("Remote function module name must be unicode string, received:", 1, int)
+        assert error.args == (
+            "Remote function module name must be unicode string, received:",
+            1,
+            int,
+        )
 
     def test_call_non_existing_RFM_parameter(self):
         with pytest.raises(ExternalRuntimeError) as ex:

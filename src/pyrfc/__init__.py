@@ -16,7 +16,7 @@ if os.name == "nt":
     with suppress(Exception):
         os.add_dll_directory(os.path.join(os.environ["SAPNWRFC_HOME"], "lib"))
 
-from pyrfc._exception import CommunicationError  # noqa F401
+from pyrfc._exception import CommunicationError  # F401
 from pyrfc._exception import (
     ABAPApplicationError,
     ABAPRuntimeError,
@@ -29,7 +29,7 @@ from pyrfc._exception import (
 )
 
 try:
-    from pyrfc._cyrfc import RCStatus  # noqa F401
+    from pyrfc._cyrfc import RCStatus
     from pyrfc._cyrfc import (
         Connection,
         ConnectionParameters,
