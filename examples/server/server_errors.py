@@ -51,7 +51,7 @@ server.add_function(
 # start server
 server.start()
 
-input("Press Enter to stop server...")  # noqa WPS110
+input("Press Enter to stop server...")  # WPS110
 
 # stop server
 server.stop()

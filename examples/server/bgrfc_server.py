@@ -52,12 +52,12 @@ def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=None):
         # except Exception as ex:
         #     print(ex)
 
-        if context["call_type"] != UnitCallType.synchronous:  # noqa SIM102
+        if context["call_type"] != UnitCallType.synchronous:  # SIM102
             # Store the data received in funcHandle as well as any results
             # computed in the business functionality of the FM (if any)
             # via the DB connection obtained above.
             # Optionally, if you want to make status tracking and forensic analysis
-            # in case of an error easier, you can update the TID’s status to EXECUTED
+            # in case of an error easier, you can update the TID`s status to EXECUTED
             # in this step.
             if tid is not None:
                 tlog.write(tid, UnitState.executed, "stfc_write_to_tcpic")
@@ -179,7 +179,7 @@ server.bgrfc_init(
 # start server
 server.start()
 
-input("Press Enter key to stop server...\n")  # noqa WPS110
+input("Press Enter key to stop server...\n")  # WPS110
 
 # stop server and database
 server.stop()

@@ -16,10 +16,10 @@ if os.name == "nt":
     with suppress(Exception):
         os.add_dll_directory(os.path.join(os.environ["SAPNWRFC_HOME"], "lib"))
 
-from pyrfc._exception import CommunicationError  # F401
 from pyrfc._exception import (
     ABAPApplicationError,
     ABAPRuntimeError,
+    CommunicationError,
     ExternalApplicationError,
     ExternalAuthorizationError,
     ExternalRuntimeError,
@@ -29,8 +29,8 @@ from pyrfc._exception import (
 )
 
 try:
-    from pyrfc._cyrfc import RCStatus
     from pyrfc._cyrfc import (
+        RCStatus,
         Connection,
         ConnectionParameters,
         Decimal,
@@ -43,7 +43,6 @@ try:
         UnitCallType,
         UnitState,
         cancel_connection,
-        get_function_description,
         get_nwrfclib_version,
         language_iso_to_sap,
         language_sap_to_iso,

@@ -60,7 +60,7 @@ def launch_server():
 server_thread = Thread(target=launch_server)
 server_thread.start()
 
-input("Press Enter to stop server...")  # noqa WPS110
+input("Press Enter to stop server...")  # WPS110
 
 # stop server
 server_thread.join()

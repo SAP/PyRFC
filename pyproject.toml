@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyrfc"
-version = "3.0.dev1"
+version = "3.0"
 readme = "README.md"
 license = { file = "LICENSES/Apache-2.0.txt" }
 description = "Python bindings for SAP NetWeaver RFC SDK"
@@ -73,7 +73,7 @@ select = [
 ]
 
 line-length = 172
-target-version = "py37"
+target-version = "py38"
 
 [tool.ruff.mccabe]
 max-complexity = 100
@@ -83,7 +83,7 @@ max-complexity = 100
 "tests/test_server.py" = ["E402"]
 
 [tool.ruff.pylint]
-max-args = 12
+max-args = 11
 max-branches = 110
-max-returns = 12
+max-returns = 8
 max-statements = 289

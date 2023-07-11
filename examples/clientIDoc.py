@@ -20,7 +20,7 @@ def initial_screen():
         # print("\t2: Display current pending IDocs")
         print("\t0:\t Exit")
         try:
-            choice = int(input("Enter choice: "))  # noqa WPS110
+            choice = int(input("Enter choice: "))  # WPS110
         except ValueError:
             choice = 0
     return choice
@@ -82,7 +82,7 @@ def main():
                     unit = connection.initialize_unit(background=False)
                     print(f" - (t/qRFC) Using unit id = {unit['id']}")
                 if choice == 2:  # bgRFC, type 'Q'
-                    queue_input = input("Enter queue names (comma separated): ")  # noqa WPS110
+                    queue_input = input("Enter queue names (comma separated): ")  # WPS110
                     queue_names = [qi.strip() for qi in queue_input.split(",")]
                     connection.fill_and_submit_unit(
                         unit,
@@ -90,7 +90,7 @@ def main():
                         queue_names=queue_names,
                     )
                 elif choice == 4:  # qRFC
-                    queue_input = input("Enter queue name: ")  # noqa WPS110
+                    queue_input = input("Enter queue name: ")  # WPS110
                     queue = queue_input.strip()
                     connection.fill_and_submit_unit(
                         unit,

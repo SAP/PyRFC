@@ -17,7 +17,7 @@ with suppress(ModuleNotFoundError):
 
 @pytest.mark.skipif(
     "tomllib" not in sys.modules
-    or "darwin" not in sys.platform
+    or "linux" not in sys.platform
     or sys.version_info < latest_python_version,
     reason="package check on latest python only",
 )
