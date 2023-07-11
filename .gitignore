@@ -18,3 +18,8 @@ _sources
 *.trc
 *.ini
 *.~*
+
+.tox
+pytest_html_report.html
+report
+report/

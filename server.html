@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Server scenario &#8212; pyrfc 2.8.3 documentation</title>
+    <title>Server scenario &#8212; pyrfc 3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -20,7 +19,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 2.8.3 documentation</a></div>
+          href="index.html">pyrfc 3.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="client.html" title="Client scenario"
              accesskey="P">previous</a> |
@@ -62,19 +61,19 @@ or created by Python application.</p>
 <section id="server-in-thread-created-by-pyrfc">
 <span id="server-thread-pyrfc"></span><h2>Server in thread created by PyRFC<a class="headerlink" href="#server-in-thread-created-by-pyrfc" title="Permalink to this heading">¶</a></h2>
 <p>Server running in new thread created by PyRFC is started using <code class="docutils literal notranslate"><span class="pre">start()</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">({</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;gateway&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;MME&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8081</span><span class="p">,</span> <span class="s2">&quot;server_log&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create server</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">({</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;gateway&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;MME&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8081</span><span class="p">,</span> <span class="s2">&quot;server_log&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
 
 <span class="c1"># expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system</span>
 <span class="n">server</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;STFC_STRUCTURE&quot;</span><span class="p">,</span> <span class="n">my_stfc_structure</span><span class="p">)</span>
 
 <span class="c1"># start server</span>
 <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
 </pre></div>
 </div>
 <p>and can be stopped using <code class="docutils literal notranslate"><span class="pre">stop()</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">server</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Server stoped&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># stop server</span>
+<span class="n">server</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Example: <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/server_pyrfc_thread.py">server_pyrfc_thread.py</a></p>
@@ -83,27 +82,41 @@ or created by Python application.</p>
 <span id="server-thread-app"></span><h2>Server in thread created by application<a class="headerlink" href="#server-in-thread-created-by-application" title="Permalink to this heading">¶</a></h2>
 <p>Here the PyRFC server is registered for ABAP system <code class="docutils literal notranslate"><span class="pre">gateway</span></code> and Python function
 <code class="docutils literal notranslate"><span class="pre">my_stfc_connection</span></code> is exposed input/output parameters like ABAP function module <code class="docutils literal notranslate"><span class="pre">STFC_CONNECTION</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># server function</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 <span class="k">def</span> <span class="nf">my_stfc_connection</span><span class="p">(</span><span class="n">request_context</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">REQUTEXT</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Server function my_stfc_connection with the signature of ABAP function module STFC_CONNECTION.&quot;&quot;&quot;</span>
+
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;stfc connection invoked&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;request_context&quot;</span><span class="p">,</span> <span class="n">request_context</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;REQUTEXT: </span><span class="si">{</span><span class="n">REQUTEXT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># start server</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;ECHOTEXT&quot;</span><span class="p">:</span> <span class="n">REQUTEXT</span><span class="p">,</span>
+        <span class="s2">&quot;RESPTEXT&quot;</span><span class="p">:</span> <span class="s2">&quot;Python server here&quot;</span><span class="p">,</span>
 </pre></div>
 </div>
 <p>Server is created and started in Python function <cite>launch_server()</cite> and this function is invoked in
 new thread started by application:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># start server</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 <span class="k">def</span> <span class="nf">launch_server</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Start server.&quot;&quot;&quot;</span>
+
     <span class="c1"># create server for ABAP system ABC</span>
-    <span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">({</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;gateway&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;MME&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8081</span><span class="p">,</span> <span class="s2">&quot;server_log&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;gateway&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;dest&quot;</span><span class="p">:</span> <span class="s2">&quot;MME&quot;</span><span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8081</span><span class="p">,</span>
+            <span class="s2">&quot;server_log&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">get_server_attributes</span><span class="p">())</span>
 
     <span class="c1"># expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called by ABAP system</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;STFC_CONNECTION&quot;</span><span class="p">,</span> <span class="n">my_stfc_connection</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span>
+        <span class="s2">&quot;STFC_CONNECTION&quot;</span><span class="p">,</span>
+        <span class="n">my_stfc_connection</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># start server</span>
     <span class="n">server</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
@@ -111,14 +124,14 @@ new thread started by application:</p>
     <span class="c1"># get server attributes</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">get_server_attributes</span><span class="p">())</span>
 
+
 <span class="n">server_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">launch_server</span><span class="p">)</span>
-<span class="n">server_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>and stopped by application:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># stop server</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="c1"># stop server</span>
 <span class="n">server_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Server  stoped&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Example: <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/server_app_thread.py">server_app_thread.py</a></p>
@@ -152,19 +165,19 @@ new thread started by application:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/server/bgrfc_client.py<span class="w"> </span>MME
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">unit</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">initialize_unit</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">pyrfc</span> <span class="kn">import</span> <span class="n">Connection</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">unit</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">initialize_unit</span><span class="p">()</span>
 
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BGRFC_TEST_OUTIN&quot;</span>
 <span class="n">counter</span> <span class="o">=</span> <span class="s2">&quot;00001&quot;</span>
 
-<span class="n">c</span><span class="o">.</span><span class="n">fill_and_submit_unit</span><span class="p">(</span>
+<span class="n">client</span><span class="o">.</span><span class="n">fill_and_submit_unit</span><span class="p">(</span>
     <span class="n">unit</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="p">(</span>
-            <span class="s2">&quot;STFC_WRITE_TO_TCPIC&quot;</span><span class="p">,</span>
-            <span class="p">{</span><span class="s2">&quot;TCPICDAT&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">20</span><span class="si">}{</span><span class="n">counter</span><span class="si">:</span><span class="s2">20</span><span class="si">}{</span><span class="n">unit</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">32</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]},</span>
-        <span class="p">)</span>
-    <span class="p">],</span>
+    <span class="p">[(</span><span class="s2">&quot;STFC_WRITE_TO_TCPIC&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;TCPICDAT&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">20</span><span class="si">}{</span><span class="n">counter</span><span class="si">:</span><span class="s2">20</span><span class="si">}{</span><span class="n">unit</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">32</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]})],</span>
     <span class="n">queue_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;RFCSDK_QUEUE_IN&quot;</span><span class="p">],</span>
     <span class="n">attributes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lock&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
 <span class="p">)</span>
@@ -182,20 +195,20 @@ new thread started by application:</p>
 <p>In addition to standard server, the bgRFC server requires the implementation of bgRFC event handlers,
 as per example <a class="reference external" href="https://github.com/SAP/PyRFC/blob/master/examples/server/bgrfc_server.py">bgrfc_server.py</a>
 Event handlers shall be registered before server has started:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># register bgRFC handlers</span>
-<span class="n">server</span><span class="o">.</span><span class="n">bgrfc_init</span><span class="p">(</span>
-    <span class="n">backend_dest</span><span class="p">,</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;check&quot;</span><span class="p">:</span> <span class="n">onCheckFunction</span><span class="p">,</span>
-        <span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="n">onCommitFunction</span><span class="p">,</span>
-        <span class="s2">&quot;rollback&quot;</span><span class="p">:</span> <span class="n">onRollbackFunction</span><span class="p">,</span>
-        <span class="s2">&quot;confirm&quot;</span><span class="p">:</span> <span class="n">onConfirmFunction</span><span class="p">,</span>
-        <span class="s2">&quot;getState&quot;</span><span class="p">:</span> <span class="n">onGetStateFunction</span><span class="p">,</span>
-    <span class="p">},</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+    <span class="n">tid</span> <span class="o">=</span> <span class="n">unit_identifier</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+    <span class="n">tlog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tid</span><span class="p">,</span> <span class="n">UnitState</span><span class="o">.</span><span class="n">rolled_back</span><span class="p">)</span>
 
-<span class="c1"># start server</span>
-<span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">RCStatus</span><span class="o">.</span><span class="n">RFC_OK</span>
+
+
+<span class="k">def</span> <span class="nf">onGetStateFunction</span><span class="p">(</span><span class="n">rfcHandle</span><span class="p">,</span> <span class="n">unit_identifier</span><span class="p">):</span>
+    <span class="c1"># section 5.6.3 pg 84 of SAP NWRFC SDK Programming Guide 7.50</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;bgRFC:onGetState handle&quot;</span><span class="p">,</span> <span class="n">rfcHandle</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">,</span> <span class="n">unit_identifier</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">tlog</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># TLog not available</span>
+        <span class="k">return</span> <span class="n">RCStatus</span><span class="o">.</span><span class="n">RFC_EXTERNAL_FAILURE</span>
 </pre></div>
 </div>
 <p>To test, first start the Python server</p>
@@ -313,8 +326,8 @@ True
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2023-04-25 15:30.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+      Last updated on 2023-07-11 14:18.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
         </div>
         <div class="clearer"></div>
