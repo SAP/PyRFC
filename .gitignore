@@ -43,4 +43,6 @@ ci/issues
 # pytest-html-reporter
 report
 archive
+output.json
+
 
