@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+#cython: language_level=3
+
 """ The _pyrfc C-extension module """
 
 from libc.stdint cimport uintptr_t
@@ -628,7 +630,8 @@ cdef class Connection:
 
     def __del__(self):
         self._close()
-        self._connection._free()
+        if self._connection is not None:
+            self._connection._free()
 
     def __enter__(self):
         return self
@@ -1567,7 +1570,8 @@ cdef class ServerConnection:
 
     def __del__(self):
         self._close()
-        self._connection._free()
+        if self._connection is not None:
+            self._connection._free()
 
 cdef RFC_RC metadataLookup(
             const SAP_UC* functionName,
@@ -1925,7 +1929,6 @@ cdef class Server:
         global server_functions
         if func_name in server_functions:
             raise TypeError(f"Server function '{func_name}' already installed.")
-
         if not self._client_connection:
             self._client_connection.open()
         cdef RFC_ERROR_INFO errorInfo
@@ -2011,12 +2014,16 @@ cdef class Server:
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
         rfcServerState = wrapString(RfcGetServerStateAsString(attributes.state), -1, True)
+        protocol_type = None
+        if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER:
+            protocol_type = "multi count"
+        else:
+            protocol_type = socket.gethostname()  # Own host name
         return {
             # This server's name as given when creating the server.
             'serverName': wrapString(attributes.serverName, -1, True)
             # This RFC server's type. Will be one of RFC_MULTI_COUNT_REGISTERED_SERVER or RFC_TCP_SOCKET_SERVER
-            , 'protocolType': "multi count" if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER
-            else socket.gethostname()  # Own host name
+            , 'protocolType': protocol_type
             # The current number of active registrations (in case of a Registered Server)
             # or the maximum number of parallel connections the server will accept (in case of a TCP Socket Server)
             , 'registrationCount': attributes.registrationCount
@@ -2034,7 +2041,7 @@ cdef class Server:
                  thereof if the connection cannot be closed cleanly.
         """
         # Shutdown server
-        if self._server_connection:
+        if self._server_connection is not None:
             self._server_connection.close()
         # Remove all installed server functions
         after_remove = {}
