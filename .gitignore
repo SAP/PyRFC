@@ -45,4 +45,6 @@ report
 archive
 output.json
 
+.coverage
+coverage*.*
 

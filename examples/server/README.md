@@ -60,7 +60,7 @@ PASSWD=Welcome1
 ### Python
 
 ```python
-python examples/server/bgrfc.py
+python examples/server/bgrfc_server.py ALX | MME | QM7
 ```
 
 ### ALX
@@ -69,11 +69,11 @@ python examples/server/bgrfc.py
 
 2. Run test report `z_nwrfc_server_bgrfc` with parameters:
 
-- QNAME_O: BASIS_BGRFC_OUTIN
-- QNAME_IN: NCO_CONN_JUNIT_QUEUE_BC
-- RFCDEST: NWRFC_SERVER_OS
-- LOCK_OUT: X
-- LOCK_IN: X
+   - QNAME_O: BASIS_BGRFC_OUTIN
+   - QNAME_IN: NCO_CONN_JUNIT_QUEUE_BC
+   - RFCDEST: NWRFC_SERVER_OS
+   - LOCK_OUT: X
+   - LOCK_IN: X
 
 3. Run transaction `SBGRFCMON`, select outbound queues for destination NWRFC_SERVER_OS
 
@@ -83,8 +83,36 @@ python examples/server/bgrfc.py
 
 ### MME
 
-Run transaction `SBGRFCMON` and find the locked queue `NCO_CONN_JUNIT_QUEUE_BC`
+1. Start Python server
 
-Delete the lock, so that queue gets executed.
+2. Run test report `z_nwrfc_server_bgrfc` with parameters:
+
+   - QNAME_O: BASIS_BGRFC_OUTIN
+   - QNAME_IN: RFCSDK_QUEUE_IN
+   - RFCDEST: NWRFC_SERVER_OS
+   - LOCK_OUT: X
+   - LOCK_IN: X
+
+3. Run transaction `SBGRFCMON` and find the locked queue `RFCSDK_QUEUE_IN`
+
+4. Delete the lock, so that queue gets executed.
 
 Run SE16 and check TCPIC table
+
+```ini
+DEST=gateway
+GWSERV=sapgw00
+GWHOST=coevi51
+PROGRAM_ID=SERVER1
+REG_COUNT=1
+
+DEST=MME
+USER=demo
+PASSWD=welcome
+ASHOST=coevi51.wdf.sap.corp
+#ASHOST=10.68.110.51
+SYSNR=00
+CLIENT=620
+LANG=EN
+#TRACE=3
+```
