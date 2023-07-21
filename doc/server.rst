@@ -149,7 +149,7 @@ Event handlers shall be registered before server has started:
 
 .. literalinclude:: ../examples/server/bgrfc_server.py
    :language: python
-   :lines: 137-150
+   :lines: 158-189
 
 To test, first start the Python server
 

@@ -16,8 +16,7 @@ Toolchain preparation
 
 * Download and install SAP NWRFC SDK requirements, following `SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50 <https://launchpad.support.sap.com/#/notes/2573790>`_
 
-* On Windows platform the `Visual C++ Redistributable Package for Visual Studio 2013 <https://www.microsoft.com/en-us/download/details.aspx?id=40784>`_
-is required at runtime, see `README # Windows Requirements <https://github.com/SAP/PyRFC#windows>`_
+* On Windows platform the `Visual C++ Redistributable Package for Visual Studio 2013 <https://www.microsoft.com/en-us/download/details.aspx?id=40784>`_ is required at runtime, see `README # Windows Requirements <https://github.com/SAP/PyRFC#windows>`_
 
 * On macOS platform Xcode command line tools are required, eventually also C++ development headers:
 

@@ -155,33 +155,36 @@ def onGetStateFunction(rfcHandle, unit_identifier):
         return RCStatus.RFC_NOT_FOUND
     return RCStatus(tlog_record["status"])
 
-
 # create server
 server = Server(*BACKEND[backend_dest])
-
 print(server.get_server_attributes())
 
-# expose python function stfc_write_to_tcpic as ABAP function STFC_WRITE_TO_TCPIC, to be called by ABAP system
-server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
+try:
+    # expose python function stfc_write_to_tcpic as ABAP function STFC_WRITE_TO_TCPIC, to be called by ABAP system
+    server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
 
-# register bgRFC handlers
-server.bgrfc_init(
-    backend_dest,
-    {
-        "check": onCheckFunction,
-        "commit": onCommitFunction,
-        "rollback": onRollbackFunction,
-        "confirm": onConfirmFunction,
-        "getState": onGetStateFunction,
-    },
-)
+    # register bgRFC handlers
+    server.bgrfc_init(
+        backend_dest,
+        {
+            "check": onCheckFunction,
+            "commit": onCommitFunction,
+            "rollback": onRollbackFunction,
+            "confirm": onConfirmFunction,
+            "getState": onGetStateFunction,
+        },
+    )
 
-# start server
-server.start()
+    # start server
+    server.start()
 
-input("Press Enter key to stop server...\n")  # WPS110
+    input("Press Enter key to stop server...\n")  # WPS110
 
-# stop server and database
-server.stop()
+    # stop server and database
+    server.stop()
+
+finally:
+    # clean-up the server
+    server.close()
 
 tlog.dump()
