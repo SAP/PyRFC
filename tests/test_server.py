@@ -41,6 +41,7 @@ server = Server(
     {"dest": "gateway"},
     {"dest": "MME"},
 )
+
 client = Connection(dest="MME")
 
 
@@ -88,3 +89,6 @@ class TestServer:
     def test_stfc_connection(self):
         print("\nPress CTRL-C to skip server test...")
         server.serve()
+
+def teardown():
+    server.close()
