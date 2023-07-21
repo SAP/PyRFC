@@ -4,24 +4,27 @@
 Building from source
 ====================
 
-SAP NW RFC Library shall be installed as described in the :ref:`Installation
-<installation>`. Instead of downloading and installing precompiled egg, you
-need to prepare the toolchain and clone the :mod:`pyrfc` repository, so that you can build
-the distribution release code and documentation.
+After SAP NW RFC Library is installed as described in the :ref:`Installation
+<installation>`, the :mod:`pyrfc` repository shall be cloned so that you can build
+the distribution release wheel, source distribution and documentation.
+
+and Instead of downloading and installing precompiled egg, you
+need to prepare the toolchain and clone
 
 Toolchain preparation
 =====================
 
 * Download and install SAP NWRFC SDK requirements, following `SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50 <https://launchpad.support.sap.com/#/notes/2573790>`_
 
-* On Windows platform the `Visual C++ Redistributable Package for Visual Studio 2013 <https://www.microsoft.com/en-us/download/details.aspx?id=40784>`_ is required at runtime,
+* On Windows platform the `Visual C++ Redistributable Package for Visual Studio 2013 <https://www.microsoft.com/en-us/download/details.aspx?id=40784>`_
+is required at runtime, see `README # Windows Requirements <https://github.com/SAP/PyRFC#windows>`_
 
 * On macOS platform Xcode command line tools are required, eventually also C++ development headers:
 
   .. code-block:: sh
 
     xcode-select --install
-    sudo installer -pkg macOS_SDK_headers_for_macOS_10.14.pkg -target /
+    sudo installer -pkg macOS_SDK_headers_for_macOS_10.15.pkg -target /
 
 Install pyrfc build tools
 
@@ -37,14 +40,14 @@ Install pyrfc build tools
 Linting and Formatting
 ----------------------
 
-.. code-block:: sh
+Done by `tox` job 'lint_format'
 
-   # cython
-   cython-lint setup.py src/pyrfc tests --max-line-length=180
+.. code-block:: ini
 
-   # python
-   flake8 setup.py src tests --max-line-length=180
-   black src test
+    cython-lint src/pyrfc --max-line-length=180
+    ruff check --fix src setup.py tests examples --line-length=120 --ignore=F401
+    pydocstyle src
+
 
 Build from source
 -----------------
@@ -53,6 +56,10 @@ Build from source
 
   cd PyRFC
   python -m build --wheel --sdist --no-isolation --outdir dist
+
+  # or
+
+  python -m pip install .
 
 
 Building the documentation
