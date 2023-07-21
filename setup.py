@@ -187,7 +187,6 @@ PYRFC_EXT = Extension(
 
 setup(
     name=PACKAGE_NAME,
-    # install_requires=["setuptools"],
     cmdclass=CMDCLASS,  # type: ignore
     ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={"language_level": "3"})  # type: ignore
     if build_cython

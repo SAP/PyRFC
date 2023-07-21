@@ -105,6 +105,7 @@ class UnitCallType(Enum):
     queued = RFC_CALL_TYPE.RFC_QUEUED
     background_unit = RFC_CALL_TYPE.RFC_BACKGROUND_UNIT
 
+
 ################################################################################
 # NW RFC SDK FUNCTIONALITY
 ################################################################################
@@ -294,16 +295,20 @@ cdef class ConnectionParameters:
             self._params[i].value = fillString(value)
             i += 1
 
-    def __del__(self):
+    def __dealloc__(self):
         self._free()
 
     def _free(self):
+        _server_log("Connection Parameters", "free")
         if self._params_count > 0:
             for i in range(self._params_count):
                 free(<SAP_UC*>self._params[i].name)
                 free(<SAP_UC*> self._params[i].value)
             free(self._params)
             self._params_count = 0
+
+    def free(self):
+        self._free()
 
 ################################################################################
 # Type Description
@@ -624,12 +629,13 @@ cdef class Connection:
         can be delayed by the garbage collection and problems may occur
         when too many connections are opened.
         """
-        self.__del__()
-
-    def __del__(self):
+        _server_log("Connection", f"{self.handle} free")
         self._close()
         if self._connection is not None:
             self._connection._free()
+
+    def __dealloc__(self):
+        self.free()
 
     def __enter__(self):
         return self
@@ -661,6 +667,7 @@ cdef class Connection:
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the connection cannot be closed cleanly.
         """
+        _server_log("Connection", f"{self.handle} close")
         self._close()
 
     def cancel(self):
@@ -691,8 +698,8 @@ cdef class Connection:
         if self._handle != NULL:
             rc = RfcCloseConnection(self._handle, &errorInfo)
             self._handle = NULL
-            if rc != RFC_OK:
-                self._error(&errorInfo)
+            #if rc != RFC_OK:
+            #    self._error(&errorInfo)
 
     cdef _error(self, RFC_ERROR_INFO* errorInfo):
         """
@@ -1242,7 +1249,7 @@ cdef class Connection:
                 finally:
                     RfcDestroyFunction(funcCont, NULL)
             # execute
-            print (" Invocation finished. submitting unit.")
+            _server_log("bgRFC", "Invocation finished. submitting unit.")
             with nogil:
                 rc = RfcSubmitUnit(self._uHandle, &errorInfo)
             if rc != RFC_OK:
@@ -1510,67 +1517,6 @@ def _server_log(origin, log_message):
     if server_context["server_log"]:
         print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
 
-
-cdef class ServerConnection:
-    cdef ConnectionParameters _connection
-    cdef RFC_SERVER_HANDLE _handle
-    cdef public bint debug
-    cdef public bint rstrip
-
-    def __init__(self, **params):
-        self._connection = ConnectionParameters(**params)
-        self._handle = NULL
-        self._open()
-
-    cdef _open(self):
-        cdef RFC_ERROR_INFO errorInfo
-        with nogil:
-            self._handle = RfcCreateServer(self._connection._params, self._connection._params_count, &errorInfo)
-        if errorInfo.code != RFC_OK:
-            self._handle = NULL
-            raise wrapError(&errorInfo)
-        _server_log("Server connection", f"{<uintptr_t>self._handle}")
-
-    cdef _close(self):
-        if self._handle != NULL:
-            _server_log("Server close", <uintptr_t>self._handle)
-            with nogil:
-                RfcShutdownServer(self._handle, 60, NULL)
-                RfcDestroyServer(self._handle, NULL)
-                self._handle = NULL
-
-    def open(self):
-        self._open()
-
-    def close(self):
-        self._close()
-
-    def __bool__(self):
-        return self.alive
-
-    @property
-    def handle(self):
-        """Server connection handle
-
-        :getter: Returns server connection handle
-        :type: uitptr_t
-        """
-        return <uintptr_t>self._handle
-
-    @property
-    def alive(self):
-        """Conection alive property
-
-        :getter: Returns True when alive
-        :type: boolean
-        """
-        return self._handle != NULL
-
-    def __del__(self):
-        self._close()
-        if self._connection is not None:
-            self._connection._free()
-
 cdef RFC_RC metadataLookup(
             const SAP_UC* functionName,
             RFC_ATTRIBUTES rfcAttributes,
@@ -1758,16 +1704,48 @@ cdef class Server:
     cdef public bint debug
     cdef public bint rstrip
     cdef Connection _client_connection
-    cdef ServerConnection _server_connection
+    cdef ConnectionParameters _server_handle_params
+    cdef RFC_SERVER_HANDLE _server_handle
     cdef object _server_thread
 
-    __bgRfcFunction = {
-        "check": None,
-        "commit": None,
-        "rollback": None,
-        "confirm": None,
-        "getState": None
-    }
+    @property
+    def bgrfc_handlers(self):
+        """Server bgRFC handlers
+
+        :getter: Returns server bgRFC handlers implemented by application
+        :type: dict(str,function)
+        """
+        return self.__bgRfcFunction
+
+    @property
+    def bgrfc_handlers_count(self):
+        """Server bgRFC handlers initialized
+
+        :getter: Returns the number of bgRFC handlers implemented by application
+        :type: int
+        """
+        return len([f for f in self.__bgRfcFunction.values() if callable(f) ])
+
+    @property
+    def server_handle(self):
+        """Server connection handle
+
+        :getter: Returns server connection handle
+        :type: uitptr_t
+        """
+        return <uintptr_t>self._server_handle if self._server_handle is not NULL else None
+
+    @property
+    def alive(self):
+        """Server conection alive property
+
+        :getter: Returns True when alive
+        :type: boolean
+        """
+        return self._server_handle != NULL
+
+    def __bool__(self):
+        return self.alive
 
     def __cinit__(self, server_params, client_params, config=None):
         # config parsing
@@ -1778,14 +1756,37 @@ cdef class Server:
         server_context["auth_check"] = config.get("auth_check", default_auth_check)
         server_context["port"] = config.get("port", 8080)
 
+        self._server_handle_params = ConnectionParameters(**server_params)
         self._client_connection = Connection(**client_params)
-        self._server_connection = ServerConnection(**server_params)
         self._server_thread=Thread(target=self.serve)
+
+        # Create Server
+        cdef RFC_ERROR_INFO errorInfo
+        with nogil:
+            self._server_handle = RfcCreateServer(self._server_handle_params._params, self._server_handle_params._params_count, &errorInfo)
+        if errorInfo.code != RFC_OK:
+            self._server_handle = NULL
+            raise wrapError(&errorInfo)
+        _server_log("Server", f"{self.server_handle} created")
+
+
+    #
+    # bgRFC protocol handlers defined as class methods, calling application handlers
+    #
+
+    __bgRfcFunction = {
+        "check": None,
+        "commit": None,
+        "rollback": None,
+        "confirm": None,
+        "getState": None
+    }
 
     @staticmethod
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["check"]
-        if handler is None:
+        if not callable(handler):
+            _server_log("bgRFC handler onCheck is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
         try:
             unit_identifier = wrapUnitIdentifier(identifier[0])
@@ -1797,7 +1798,8 @@ cdef class Server:
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["commit"]
-        if handler is None:
+        if not callable(handler):
+            _server_log("bgRFC handler onCommit is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
         try:
             unit_identifier = wrapUnitIdentifier(identifier[0])
@@ -1809,7 +1811,8 @@ cdef class Server:
     @staticmethod
     cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["rollback"]
-        if handler is None:
+        if not callable(handler):
+            _server_log("bgRFC handler onRollback is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
         try:
             unit_identifier = wrapUnitIdentifier(identifier[0])
@@ -1821,7 +1824,8 @@ cdef class Server:
     @staticmethod
     cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         handler = Server.__bgRfcFunction["confirm"]
-        if handler is None:
+        if not callable(handler):
+            _server_log("bgRFC handler onConfirm is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
         try:
             unit_identifier = wrapUnitIdentifier(identifier[0])
@@ -1837,7 +1841,7 @@ cdef class Server:
                 RFC_UNIT_STATE *unitState
             ) with gil:
         handler = Server.__bgRfcFunction["getState"]
-        if handler is None:
+        if not callable(handler):
             _server_log("bgRFC handler onGetState is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.RFC_EXTERNAL_FAILURE.value
         try:
@@ -1859,7 +1863,7 @@ cdef class Server:
             _server_log("Error in bgRFC handler onGetState:\n", ex)
             return RCStatus.RFC_EXTERNAL_FAILURE.value
 
-    def bgrfc_init(self, sysId, bgRfcFunction):
+    def bgrfc_init(self, sysId=None, bgRfcFunction={}):
         """Installs the necessary callback functions for processing incoming bgRFC calls.
 
         These functions need to be implemented by Python application and will be used by the RFC runtime.
@@ -1893,7 +1897,7 @@ cdef class Server:
             Server.__bgRfcFunction[func_name] = bgRfcFunction[func_name]
         return self.install_bgrfc_handlers(sysId)
 
-    cdef install_bgrfc_handlers(self, sysId):
+    cdef install_bgrfc_handlers(self, sysId=None):
         ucSysId = fillString(sysId) if sysId is not None else NULL
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_RC rc = RfcInstallBgRfcHandlers(
@@ -1906,6 +1910,9 @@ cdef class Server:
                             &errorInfo
                         )
         free(ucSysId)
+        _server_log(f"Server {self.server_handle}", f"bgRFC handlers installed: {self.bgrfc_handlers_count}")
+        for k, v in self.__bgRfcFunction.items():
+            _server_log(f"bgRFC handler {k}", f"{self.__bgRfcFunction[k]}")
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
         return rc
@@ -1921,21 +1928,20 @@ cdef class Server:
             The function must accept a ``request_context`` parameter and
             all IMPORT, CHANGING, and TABLE parameters of the given
             ``func_desc``.
-        :raises: :exc:`TypeError` if a function with the name given is already
+        :raises: :exc:`RFCError` if a function with the name given is already
             installed.
         """
         global server_functions
         if func_name in server_functions:
-            raise TypeError(f"Server function '{func_name}' already installed.")
-        if not self._client_connection:
+            raise RFCError(f"Server function '{func_name}' already installed.")
+        if not self._client_connection.alive:
             self._client_connection.open()
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_ABAP_NAME funcName = fillString(func_name)
         cdef RFC_FUNCTION_DESC_HANDLE func_desc_handle = RfcGetFunctionDesc(self._client_connection._handle, funcName, &errorInfo)
-        self._client_connection.close()
-
         if errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
+        self._client_connection.close()
 
         server_functions[func_name] = {
             "func_desc_handle": <uintptr_t>func_desc_handle,
@@ -1943,8 +1949,8 @@ cdef class Server:
             "server": self
         }
 
-        _server_log("Server function installed", func_name)
-        _server_log("Server function installed", server_functions[func_name])
+        _server_log(f"Server function {func_name}", "installed")
+        _server_log(f"Server function {func_name}", server_functions[func_name])
 
     def serve(self):
         """
@@ -1953,16 +1959,20 @@ cdef class Server:
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the server processing fails.
         """
+
+        if self.bgrfc_handlers_count < 1:
+            raise RFCError(f"Server {self.server_handle}", "bgRFC handlers must be provided by application")
+
         cdef RFC_ERROR_INFO errorInfo
 
         cdef RFC_RC rc = RfcInstallGenericServerFunction(genericHandler, metadataLookup, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
 
-        rc = RfcLaunchServer(self._server_connection._handle, &errorInfo)
+        rc = RfcLaunchServer(self._server_handle, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
-        _server_log("Server", f"launched {self._server_connection.handle}")
+        _server_log("Server", f"{self.server_handle} launched")
 
         return rc
 
@@ -1971,13 +1981,15 @@ cdef class Server:
         Start the RFC server in new thread, waiting for incoming requests and processes them.
         """
         self._server_thread.start()
+        _server_log("Server", f"{self.server_handle} started")
 
     def stop(self):
         """
         Stop the RFC server thread.
         """
-        if self._server_thread.is_alive():
+        if bool(self._server_thread) and self._server_thread.is_alive():
             self._server_thread.join()
+        _server_log("Server", f"{self.server_handle} stopped")
 
     def close(self):
         """ Explicitly close the registration.
@@ -1987,7 +1999,25 @@ cdef class Server:
         servers are registered.
         """
         self.stop()
-        self._close()
+
+        # Server connection close
+        if self._server_handle != NULL:
+            with nogil:
+                RfcShutdownServer(self._server_handle, 60, NULL)
+                RfcDestroyServer(self._server_handle, NULL)
+            self._server_handle = NULL
+
+        # Remove all installed server functions
+        global server_functions
+        after_remove = {}
+        for func_name, func_data in server_functions.items():
+            if func_data["server"] != self:
+                after_remove[func_name] = func_data
+        server_functions = after_remove
+        _server_log("Server", f"{self.server_handle} closed")
+
+    def __dealloc__(self):
+        self.close()
 
     def get_server_attributes(self):
         """Retrieves detailed information about a multi-count Registered Server or a TCP Socket Server.
@@ -2008,7 +2038,7 @@ cdef class Server:
         cdef RFC_SERVER_ATTRIBUTES attributes
         cdef RFC_ERROR_INFO errorInfo
 
-        rc = RfcGetServerAttributes(self._server_connection._handle, &attributes, &errorInfo)
+        rc = RfcGetServerAttributes(self._server_handle, &attributes, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
         rfcServerState = wrapString(RfcGetServerStateAsString(attributes.state), -1, True)
@@ -2032,22 +2062,6 @@ cdef class Server:
             # The maximum number of requests the server has been processing in parallel since it has been created
             , 'peakBusyCount': attributes.peakBusyCount
         }
-
-    def _close(self):
-        """ Close the connection (private function)
-        :raises: :exc:`~pyrfc.RFCError` or a subclass
-                 thereof if the connection cannot be closed cleanly.
-        """
-        # Shutdown server
-        if self._server_connection is not None:
-            self._server_connection.close()
-        # Remove all installed server functions
-        after_remove = {}
-        global server_functions
-        for func_name, func_data in server_functions.items():
-            if func_data["server"] != self:
-                after_remove[func_name] = func_data
-        server_functions = after_remove
 
     cdef _error(self, RFC_ERROR_INFO* errorInfo):
         """
@@ -2296,7 +2310,7 @@ cdef class Throughput:
                 # is ok
                 pass
 
-    def __del__(self):
+    def __dealloc__(self):
         self.destroy()
 
     def __exit__(self, type, value, traceback):

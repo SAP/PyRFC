@@ -65,11 +65,9 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ### Windows
 
-- [Visual C++ Redistributable Package for Visual Studio 2013](https://www.microsoft.com/en-US/download/details.aspx?id=40784) is required for runtime, see [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
+- [Visual C++ Redistributable Package for Visual Studio 2013](https://www.microsoft.com/en-US/download/details.aspx?id=40784) is required for run-time, see [SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50](https://launchpad.support.sap.com/#/notes/2573790)
 
-- Build toolchain for Python 3 requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version recommended
-
-- Build toolchain for Python 2 requires [Microsoft Visual C++ 9.0](http://aka.ms/vcpython27)
+- Build toolchain for Python requires [Microsoft C++ Build Tools](https://aka.ms/buildtools), the latest version recommended
 
 - Due to a [change introduced with Python 3.8 for Windows](https://docs.python.org/3.8/whatsnew/3.8.html#bpo-36085-whatsnew), PATH directories are no longer searched for DLL. The SAP NWRFC SDK lib path is no longer required on PATH, for Python >= 3.8.
 
@@ -85,14 +83,14 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 pip install pyrfc
 ```
 
-On Windows and macOS platforms pre-built binary wheel is installed, without local compilation. On Linux platform the package is locally built from source distribution.m
+On Windows and macOS platforms pre-built binary wheel is installed, without local compilation. On Linux platform the package is locally built from source distribution.
 
 Build from source distribution can be requested also on other platforms:
 
 ```shell
 pip install --no-binary pyrfc pyrfc
 # or
-pip install https://files.pythonhosted.org/packages/.../pyrfc-2.8.3.tar.gz
+pip install https://files.pythonhosted.org/packages/.../pyrfc-3.1.0.tar.gz
 ```
 
 Alternative build from source installation:
@@ -100,6 +98,9 @@ Alternative build from source installation:
 ```shell
 git clone https://github.com/SAP/PyRFC.git
 cd PyRFC
+# if you use tox
+tox -e py311 # for Python 3.11
+# or
 python -m pip install .
 # or
 python -m build --wheel --sdist --outdir dist

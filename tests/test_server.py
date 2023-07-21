@@ -7,7 +7,7 @@ import sys
 
 import pytest
 
-from pyrfc import ABAPApplicationError, Connection, Server, set_ini_file_directory
+from pyrfc import ABAPApplicationError, RFCError, Connection, Server, set_ini_file_directory
 
 sys.path.append(os.path.dirname(__file__))
 from data.func_desc_BAPISDORDER_GETDETAILEDLIST import (
@@ -54,7 +54,7 @@ class TestServer:
         assert error.message == "ID:FL Type:E Number:046 STFC_CONNECTION1"
 
     def test_add_function_twice(self):
-        with pytest.raises(TypeError) as ex:
+        with pytest.raises(RFCError) as ex:
             server.add_function("STFC_CONNECTION", my_stfc_connection)
             server.add_function("STFC_CONNECTION", my_stfc_connection)
         error = ex.value
