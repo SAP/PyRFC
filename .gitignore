@@ -48,3 +48,5 @@ output.json
 .coverage
 coverage*.*
 
+# cpp source removed from git
+src/pyrfc/_cyrfc.cpp
