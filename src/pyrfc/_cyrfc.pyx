@@ -292,6 +292,8 @@ cdef class ConnectionParameters:
         cdef int i = 0
         for name, value in params.iteritems():
             self._params[i].name = fillString(name)
+            if type(value) is not str:
+                raise RFCError(f"Connection parameter '{name}' value is not string")
             self._params[i].value = fillString(value)
             i += 1
 
