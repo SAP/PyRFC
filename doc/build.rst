@@ -66,34 +66,17 @@ Building the documentation
 
 Ensure that the lib directory of the SAP NW RFC library is in your PATH environment.
 
-Change into the ``doc`` directory and type:
+Run the `tox` job for building the documentation and copy the output to `gh-pages` branch
 
 .. code-block:: sh
 
-   make clean
-   make html
+   tox -e docs
+   git checkout gh-pages
+   cp -R .tox/docs/tmp/html/. .
 
-The result is found in ``_build/html`` and for other options call ``make``.
 
-* If you get an error *'sphinx-build' is not recognized as an internal or external command, operable program or batch file* on calling ``make html``, install ``sphinx``
-* If you have DLL import errors (Windows), check the lib directory of the SAP NW RFC Library PATH env variable.
-
-The docu is hosted on GitHub Pages, a propietary solution where a git branch ``gh-pages`` is created
-as an orphan and the output of the documentation build process (``_build/html``) is stored in that branch.
-GitHub then serves these files under a special ``/pages/`` url.
-
-To update GitHub Pages, copy everyhing under ``_build/html`` and overwrite the existing files in the ``gh-pages`` branch root.
-
-.. code-block:: sh
-
-    cp -R _build/html ~/tmp
-    git checkout gh-pages
-    rm -Rf *.html *.js *.egg build doc _* pyrfc* *.inv .buildinfo
-    cp -R ~/tmp/_build/html/. .
-
+Commit and push the changes to `gh-pages` branch.
 
 .. note::
 
    An additional file .nojekyll is placed in ``gh-pages`` to disable the default GitHub processing which breaks sphinx style folders with leading underscores.
-
-   ``gh-pages`` updates are a bit inconvenien, check if this answer helps http://stackoverflow.com/questions/4750520/git-branch-gh-pages
