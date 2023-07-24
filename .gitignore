@@ -23,3 +23,8 @@ _sources
 pytest_html_report.html
 report
 report/
+.coverage
+archive/
+coverage.json
+coverage.svg
+output.json

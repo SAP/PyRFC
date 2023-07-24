@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Building from source &#8212; pyrfc 3.0 documentation</title>
+    <title>Building from source &#8212; pyrfc 3.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -19,7 +19,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 3.0 documentation</a></div>
+          href="index.html">pyrfc 3.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="authentication.html" title="Security"
              accesskey="P">previous</a> |
@@ -41,17 +41,18 @@
             
   <section id="building-from-source">
 <span id="build"></span><h1>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this heading">¶</a></h1>
-<p>SAP NW RFC Library shall be installed as described in the <a class="reference internal" href="install.html#installation"><span class="std std-ref">Installation</span></a>. Instead of downloading and installing precompiled egg, you
-need to prepare the toolchain and clone the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> repository, so that you can build
-the distribution release code and documentation.</p>
+<p>After SAP NW RFC Library is installed as described in the <a class="reference internal" href="install.html#installation"><span class="std std-ref">Installation</span></a>, the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> repository shall be cloned so that you can build
+the distribution release wheel, source distribution and documentation.</p>
+<p>and Instead of downloading and installing precompiled egg, you
+need to prepare the toolchain and clone</p>
 <section id="toolchain-preparation">
 <h2>Toolchain preparation<a class="headerlink" href="#toolchain-preparation" title="Permalink to this heading">¶</a></h2>
 <ul>
 <li><p>Download and install SAP NWRFC SDK requirements, following <a class="reference external" href="https://launchpad.support.sap.com/#/notes/2573790">SAP Note 2573790 - Installation, Support and Availability of the SAP NetWeaver RFC Library 7.50</a></p></li>
-<li><p>On Windows platform the <a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=40784">Visual C++ Redistributable Package for Visual Studio 2013</a> is required at runtime,</p></li>
+<li><p>On Windows platform the <a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=40784">Visual C++ Redistributable Package for Visual Studio 2013</a> is required at runtime, see <a class="reference external" href="https://github.com/SAP/PyRFC#windows">README # Windows Requirements</a></p></li>
 <li><p>On macOS platform Xcode command line tools are required, eventually also C++ development headers:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>xcode-select<span class="w"> </span>--install
-sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>macOS_SDK_headers_for_macOS_10.14.pkg<span class="w"> </span>-target<span class="w"> </span>/
+sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>macOS_SDK_headers_for_macOS_10.15.pkg<span class="w"> </span>-target<span class="w"> </span>/
 </pre></div>
 </div>
 </li>
@@ -70,12 +71,10 @@ header and library files as provided by your distribution</p></li>
 </ul>
 <section id="linting-and-formatting">
 <h3>Linting and Formatting<a class="headerlink" href="#linting-and-formatting" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># cython</span>
-cython-lint<span class="w"> </span>setup.py<span class="w"> </span>src/pyrfc<span class="w"> </span>tests<span class="w"> </span>--max-line-length<span class="o">=</span><span class="m">180</span>
-
-<span class="c1"># python</span>
-flake8<span class="w"> </span>setup.py<span class="w"> </span>src<span class="w"> </span>tests<span class="w"> </span>--max-line-length<span class="o">=</span><span class="m">180</span>
-black<span class="w"> </span>src<span class="w"> </span><span class="nb">test</span>
+<p>Done by <cite>tox</cite> job ‘lint_format’</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">cython-lint src/pyrfc --max-line-length</span><span class="o">=</span><span class="s">180</span>
+<span class="na">ruff check --fix src setup.py tests examples --line-length</span><span class="o">=</span><span class="s">120 --ignore=F401</span>
+<span class="na">pydocstyle src</span>
 </pre></div>
 </div>
 </section>
@@ -83,6 +82,10 @@ black<span class="w"> </span>src<span class="w"> </span><span class="nb">test</s
 <h3>Build from source<a class="headerlink" href="#build-from-source" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>PyRFC
 python<span class="w"> </span>-m<span class="w"> </span>build<span class="w"> </span>--wheel<span class="w"> </span>--sdist<span class="w"> </span>--no-isolation<span class="w"> </span>--outdir<span class="w"> </span>dist
+
+<span class="c1"># or</span>
+
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
 </section>
@@ -90,30 +93,16 @@ python<span class="w"> </span>-m<span class="w"> </span>build<span class="w"> </
 <section id="building-the-documentation">
 <h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this heading">¶</a></h2>
 <p>Ensure that the lib directory of the SAP NW RFC library is in your PATH environment.</p>
-<p>Change into the <code class="docutils literal notranslate"><span class="pre">doc</span></code> directory and type:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>clean
-make<span class="w"> </span>html
-</pre></div>
-</div>
-<p>The result is found in <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> and for other options call <code class="docutils literal notranslate"><span class="pre">make</span></code>.</p>
-<ul class="simple">
-<li><p>If you get an error <em>‘sphinx-build’ is not recognized as an internal or external command, operable program or batch file</em> on calling <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code>, install <code class="docutils literal notranslate"><span class="pre">sphinx</span></code></p></li>
-<li><p>If you have DLL import errors (Windows), check the lib directory of the SAP NW RFC Library PATH env variable.</p></li>
-</ul>
-<p>The docu is hosted on GitHub Pages, a propietary solution where a git branch <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> is created
-as an orphan and the output of the documentation build process (<code class="docutils literal notranslate"><span class="pre">_build/html</span></code>) is stored in that branch.
-GitHub then serves these files under a special <code class="docutils literal notranslate"><span class="pre">/pages/</span></code> url.</p>
-<p>To update GitHub Pages, copy everyhing under <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> and overwrite the existing files in the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch root.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-R<span class="w"> </span>_build/html<span class="w"> </span>~/tmp
+<p>Run the <cite>tox</cite> job for building the documentation and copy the output to <cite>gh-pages</cite> branch</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>tox<span class="w"> </span>-e<span class="w"> </span>docs
 git<span class="w"> </span>checkout<span class="w"> </span>gh-pages
-rm<span class="w"> </span>-Rf<span class="w"> </span>*.html<span class="w"> </span>*.js<span class="w"> </span>*.egg<span class="w"> </span>build<span class="w"> </span>doc<span class="w"> </span>_*<span class="w"> </span>pyrfc*<span class="w"> </span>*.inv<span class="w"> </span>.buildinfo
-cp<span class="w"> </span>-R<span class="w"> </span>~/tmp/_build/html/.<span class="w"> </span>.
+cp<span class="w"> </span>-R<span class="w"> </span>.tox/docs/tmp/html/.<span class="w"> </span>.
 </pre></div>
 </div>
+<p>Commit and push the changes to <cite>gh-pages</cite> branch.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>An additional file .nojekyll is placed in <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> to disable the default GitHub processing which breaks sphinx style folders with leading underscores.</p>
-<p><code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> updates are a bit inconvenien, check if this answer helps <a class="reference external" href="http://stackoverflow.com/questions/4750520/git-branch-gh-pages">http://stackoverflow.com/questions/4750520/git-branch-gh-pages</a></p>
 </div>
 </section>
 </section>
@@ -180,7 +169,7 @@ cp<span class="w"> </span>-R<span class="w"> </span>~/tmp/_build/html/.<span cla
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, SAP.
-      Last updated on 2023-07-11 14:18.
+      Last updated on 2023-07-24 15:30.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
         </div>
