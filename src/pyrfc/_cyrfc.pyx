@@ -628,7 +628,6 @@ cdef class Connection:
         can be delayed by the garbage collection and problems may occur
         when too many connections are opened.
         """
-        _server_log("Connection", f"{self.handle} free")
         self._close()
         if self._connection is not None:
             self._connection._free()

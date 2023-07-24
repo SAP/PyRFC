@@ -14,7 +14,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - [Features](#features)
 - [Supported platforms](#supported-platforms)
 - [Requirements](#requirements)
-  - [SAP NW RFC SDK 7.50.11](#sap-nw-rfc-sdk-75011)
+  - [SAP NW RFC SDK 7.50 Patch Level 12](#sap-nw-rfc-sdk-750-patch-level-12)
   - [Docker](#docker)
   - [Windows](#windows)
   - [macOS](#macos)
@@ -52,7 +52,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 ## Requirements
 
-### SAP NW RFC SDK 7.50.11
+### SAP NW RFC SDK 7.50 Patch Level 12
 
 - see [SAP Note 3274546](https://launchpad.support.sap.com/#/notes/3274546) for a list of bug fixes and enhancements made with this patch release
 - Using the latest version is recommended as SAP NWRFC SDK is fully backwards compatible, from today S4, down to R/3 release 4.6C.
