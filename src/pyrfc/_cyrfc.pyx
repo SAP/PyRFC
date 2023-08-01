@@ -1995,13 +1995,18 @@ cdef class Server:
         is delayed by the garbage collection, problems may occur when too many
         servers are registered.
         """
+
+        if self._server_handle == NULL:
+            return
+
         self.stop()
 
         # Server connection close
-        if self._server_handle != NULL:
-            with nogil:
-                RfcDestroyServer(self._server_handle, NULL)
-            self._server_handle = NULL
+        server_handle = self.server_handle
+        with nogil:
+            RfcDestroyServer(self._server_handle, NULL)
+        self._server_handle = NULL
+        _server_log("Server", f"{server_handle} closed")
 
         # Remove all installed server functions
         global server_functions
@@ -2010,7 +2015,6 @@ cdef class Server:
             if func_data["server"] != self:
                 after_remove[func_name] = func_data
         server_functions = after_remove
-        _server_log("Server", f"{self.server_handle} closed")
 
     def __dealloc__(self):
         self.close()

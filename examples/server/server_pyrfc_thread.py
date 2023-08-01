@@ -36,7 +36,7 @@ def my_auth_check(func_name=False, request_context=None):
 
 
 # create server
-server = Server({"dest": "gateway"}, {"dest": "MME"}, {"port": 8081, "server_log": False})
+server = Server({"dest": "MME_GATEWAY"}, {"dest": "MME"}, { "server_log": True})
 
 # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
 server.add_function("STFC_STRUCTURE", my_stfc_structure)
@@ -49,6 +49,5 @@ print(server.get_server_attributes())
 
 input("Press Enter to stop server...")  # WPS110
 
-# stop server
-server.stop()
-print("Server stoped")
+# shutdown server
+server.close()
