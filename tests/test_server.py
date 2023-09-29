@@ -6,8 +6,7 @@ import os
 import sys
 
 import pytest
-
-from pyrfc import ABAPApplicationError, RFCError, Connection, Server, set_ini_file_directory
+from pyrfc import ABAPApplicationError, Connection, RFCError, Server, set_ini_file_directory
 
 sys.path.append(os.path.dirname(__file__))
 from data.func_desc_BAPISDORDER_GETDETAILEDLIST import (
@@ -44,7 +43,7 @@ server = Server(
 
 client = Connection(dest="MME")
 
-
+@pytest.mark.skipif(not sys.platform.startswith("darwin"), reason="Manual server test on Darwin only")
 class TestServer:
     def test_add_wrong_function(self):
         with pytest.raises(ABAPApplicationError) as ex:
@@ -85,10 +84,72 @@ class TestServer:
             FUNC_DESC_BS01_SALESORDER_GETDETAIL,
         )
 
-    @pytest.mark.skip(reason="manual test only")
-    def test_stfc_connection(self):
-        print("\nPress CTRL-C to skip server test...")
-        server.serve()
+
+    def test_stfc_structure(self):
+        def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
+            """Server function my_stfc_structure with the signature of ABAP function module STFC_STRUCTURE."""
+
+            print("stfc structure invoked")
+            print("request_context", request_context)
+            if IMPORTSTRUCT is None:
+                IMPORTSTRUCT = {}
+            if RFCTABLE is None:
+                RFCTABLE = []
+            ECHOSTRUCT = IMPORTSTRUCT.copy()
+            ECHOSTRUCT['RFCINT1'] += 1
+            ECHOSTRUCT['RFCINT2'] += 1
+            ECHOSTRUCT['RFCINT4'] += 1
+            if len(RFCTABLE) == 0:
+                RFCTABLE = [ECHOSTRUCT]
+            RESPTEXT = f"Python server sends {len(RFCTABLE)} table rows"
+            print(f"ECHOSTRUCT: {ECHOSTRUCT}")
+            print(f"RFCTABLE: {RFCTABLE}")
+            print(f"RESPTEXT: {RESPTEXT}")
+
+            return {"ECHOSTRUCT": ECHOSTRUCT, "RFCTABLE": RFCTABLE, "RESPTEXT": RESPTEXT}
+
+
+        def my_auth_check(func_name=False, request_context=None):
+            """Server authorization check."""
+
+            if request_context is None:
+                request_context = {}
+            print(f"authorization check for '{func_name}'")
+            print("request_context", request_context)
+            return 0
+
+        import time
+
+        # create server
+        server = Server({"dest": "MME_GATEWAY"}, {"dest": "MME"}, { "server_log": True})
+
+        # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
+        server.add_function("STFC_STRUCTURE", my_stfc_structure)
+
+        # start server
+        server.start()
+
+        # call ABAP function module which will call Python server
+        # and return the server response
+        client = Connection(dest="MME")
+        result = client.call("ZSERVER_TEST_STFC_STRUCTURE")
+
+        # check the server response
+        assert result["RESPTEXT"] == "Python server sends 1 table rows"
+        assert "ECHOSTRUCT" in result
+        assert result["ECHOSTRUCT"]["RFCINT1"] == 2
+        assert result["ECHOSTRUCT"]["RFCINT2"] == 3
+        assert result["ECHOSTRUCT"]["RFCINT4"] == 5
+        assert result["ECHOSTRUCT"]["RFCDATE"] == "20230928"
+        assert result["ECHOSTRUCT"]["RFCTIME"] == "240000"
+
+        time.sleep(5)
+
+        # shutdown server
+        server.close()
+
+# get server attributes
+print(server.get_server_attributes())
 
 def teardown():
     server.close()

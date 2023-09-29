@@ -513,6 +513,8 @@ cdef class Connection:
            * ``dtime``
              ABAP DATE and TIME strings are returned as Python datetime date and time objects,
              instead of ABAP date and time strings (default is False)
+             The plausiblity of time string sent to function container is checked in PyRFC only
+             if this option set to True. Otherwise validated by SAP NW RFC SDK and ABAP application
 
            * ``rstrip``
              right strips strings returned from RFC call (default is True)
@@ -548,7 +550,7 @@ cdef class Connection:
     :raises: :exc:`~pyrfc.RFCError` or a subclass
              thereof if the connection attempt fails.
     """
-    cdef unsigned __bconfig
+    cdef unsigned bconfig
     cdef public dict __config
     cdef bint active_transaction
     cdef bint active_unit
@@ -609,13 +611,13 @@ cdef class Connection:
         self.__config['timeout'] = config.get('timeout', None)
 
         # set internal configuration
-        self.__bconfig = 0
+        self.bconfig = 0
         if self.__config['dtime']:
-            self.__bconfig |= _MASK_DTIME
+            self.bconfig |= _MASK_DTIME
         if self.__config['return_import_params']:
-            self.__bconfig |= _MASK_RETURN_IMPORT_PARAMS
+            self.bconfig |= _MASK_RETURN_IMPORT_PARAMS
         if self.__config['rstrip']:
-            self.__bconfig |= _MASK_RSTRIP
+            self.bconfig |= _MASK_RSTRIP
 
         self._connection = ConnectionParameters(**params)
         self._handle = NULL
@@ -913,7 +915,7 @@ cdef class Connection:
                 cancel_timer = Timer(timeout, cancel_connection, (self,))
                 cancel_timer.start()
             for name, value in params.iteritems():
-                fillFunctionParameter(funcDesc, funcCont, name, value)
+                functionContainerSet(funcDesc, funcCont, name, value, self.bconfig)
             # save old handle for troubleshooting
             with nogil:
                 rc = RfcInvoke(self._handle, funcCont, &errorInfo)
@@ -941,10 +943,10 @@ cdef class Connection:
                     elif errorInfo.code == RFC_CANCELED:
                         errorInfo.message = fillString(f"Connection was canceled: {closed_handle}. New handle: {self.handle}")
                 self._error(&errorInfo)
-            if self.__bconfig & _MASK_RETURN_IMPORT_PARAMS:
-                return wrapResult(funcDesc, funcCont, <RFC_DIRECTION> 0, self.__bconfig)
+            if self.bconfig & _MASK_RETURN_IMPORT_PARAMS:
+                return functionContainerGet(funcDesc, funcCont, <RFC_DIRECTION> 0, self.bconfig)
             else:
-                return wrapResult(funcDesc, funcCont, RFC_IMPORT, self.__bconfig)
+                return functionContainerGet(funcDesc, funcCont, RFC_IMPORT, self.bconfig)
         finally:
             RfcDestroyFunction(funcCont, NULL)
 
@@ -1061,7 +1063,7 @@ cdef class Connection:
                     self._error(&errorInfo)
                 try:
                     for name, value in params.iteritems():
-                        fillFunctionParameter(funcDesc, funcCont, name, value)
+                        functionContainerSet(funcDesc, funcCont, name, value, self.bconfig)
                     # Add RFC call to transaction
                     rc = RfcInvokeInTransaction(self._tHandle, funcCont, &errorInfo)
                     if rc != RFC_OK:
@@ -1238,7 +1240,7 @@ cdef class Connection:
                     self._error(&errorInfo)
                 try:
                     for name, value in params.iteritems():
-                        fillFunctionParameter(funcDesc, funcCont, name, value)
+                        functionContainerSet(funcDesc, funcCont, name, value, self.bconfig)
                     # Add RFC call to unit
                     rc = RfcInvokeInUnit(self._uHandle, funcCont, &errorInfo)
                     if rc != RFC_OK:
@@ -1615,7 +1617,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
         # Filter out variables that are of direction u'RFC_EXPORT'
         # (these will be set by the callback function)
-        func_handle_variables = wrapResult(funcDesc, funcHandle, RFC_EXPORT, server.rstrip)
+        func_handle_variables = functionContainerGet(funcDesc, funcHandle, RFC_EXPORT, server.bconfig)
 
         # Invoke callback function
         result = callback(request_context, **func_handle_variables)
@@ -1623,7 +1625,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         # Return results
         if context["call_type"] != UnitCallType.background_unit:
             for name, value in result.iteritems():
-                fillFunctionParameter(funcDesc, funcHandle, name, value)
+                functionContainerSet(funcDesc, funcHandle, name, value, server.bconfig)
 
     # Server exception handling: cf. SAP NetWeaver RFC SDK 7.50
     # 5.1 Preparing a Server Program for Receiving RFC Requests
@@ -1687,9 +1689,16 @@ cdef class Server:
 
     :type server_params: dict
 
-    :param config: Configuration of the instance. Allowed keys are:
+    :param config: Configuration of server instance. Allowed keys are:
 
-           ``debug``
+           * ``dtime``
+             ABAP DATE and TIME strings are returned as Python datetime date and time objects,
+             instead of ABAP date and time strings (default is False)
+
+           * ``rstrip``
+             right strips strings returned from RFC call (default is True)
+
+           * ``debug``
              For testing/debugging operations. If True, the server
              behaves more permissive, e.g. allows incoming calls without a
              valid connection handle. (default is False)
@@ -1700,7 +1709,9 @@ cdef class Server:
              thereof if the connection attempt fails.
     """
     cdef public bint debug
+    cdef public bint dtime
     cdef public bint rstrip
+    cdef public unsigned bconfig
     cdef Connection _client_connection
     cdef ConnectionParameters _server_handle_params
     cdef RFC_SERVER_HANDLE _server_handle
@@ -1746,13 +1757,20 @@ cdef class Server:
         return self.alive
 
     def __cinit__(self, server_params, client_params, config=None):
-        # config parsing
+        # check and set server configuration
         config = config or {}
+        self.dtime = config.get('dtime', False)
         self.debug = config.get('debug', False)
         self.rstrip = config.get('rstrip', True)
         server_context["server_log"] = config.get("server_log", False)
         server_context["auth_check"] = config.get("auth_check", default_auth_check)
         server_context["port"] = config.get("port", 8080)
+
+        self.bconfig = 0
+        if self.dtime:
+            self.bconfig |= _MASK_DTIME
+        if self.rstrip:
+            self.bconfig |= _MASK_RSTRIP
 
         self._server_handle_params = ConnectionParameters(**server_params)
         self._client_connection = Connection(**client_params)
@@ -2391,7 +2409,7 @@ cdef class Throughput:
 # FILL FUNCTIONS                                                               #
 ################################################################################
 
-cdef fillFunctionParameter(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container, name, value):
+cdef functionContainerSet(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDLE container, name, value, unsigned config):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_PARAMETER_DESC paramDesc
@@ -2400,9 +2418,9 @@ cdef fillFunctionParameter(RFC_FUNCTION_DESC_HANDLE funcDesc, RFC_FUNCTION_HANDL
     free(cName)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
-    fillVariable(paramDesc.type, container, paramDesc.name, value, paramDesc.typeDescHandle)
+    fillVariable(paramDesc.type, container, paramDesc.name, value, paramDesc.typeDescHandle, config)
 
-cdef fillStructureField(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, name, value):
+cdef fillStructureField(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, name, value, unsigned config):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_FIELD_DESC fieldDesc
@@ -2411,9 +2429,9 @@ cdef fillStructureField(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE cont
     free(cName)
     if rc != RFC_OK:
         raise wrapError(&errorInfo)
-    fillVariable(fieldDesc.type, container, fieldDesc.name, value, fieldDesc.typeDescHandle)
+    fillVariable(fieldDesc.type, container, fieldDesc.name, value, fieldDesc.typeDescHandle, config)
 
-cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines):
+cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines, unsigned config):
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_STRUCTURE_HANDLE lineHandle
     cdef unsigned int rowCount = int(len(lines))
@@ -2425,12 +2443,12 @@ cdef fillTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, lines)
         line = lines[i]
         if type(line) is dict:
             for name, value in line.iteritems():
-                fillStructureField(typeDesc, lineHandle, name, value)
+                fillStructureField(typeDesc, lineHandle, name, value, config)
         else:
-            fillStructureField(typeDesc, lineHandle, '', line)
+            fillStructureField(typeDesc, lineHandle, '', line, config)
         i += 1
 
-cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, value, RFC_TYPE_DESC_HANDLE typeDesc):
+cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, value, RFC_TYPE_DESC_HANDLE typeDesc, unsigned config):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_STRUCTURE_HANDLE struct
@@ -2447,14 +2465,14 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
             for name, value in value.iteritems():
-                fillStructureField(typeDesc, struct, name, value)
+                fillStructureField(typeDesc, struct, name, value, config)
         elif typ == RFCTYPE_TABLE:
             if type(value) is not list:
                 raise TypeError('list required for table parameter, received', str(type(value)))
             rc = RfcGetTable(container, cName, &table, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            fillTable(typeDesc, table, value)
+            fillTable(typeDesc, table, value, config)
         elif typ == RFCTYPE_BYTE:
             bValue = fillBytes(value)
             rc = RfcSetBytes(container, cName, bValue, int(len(value)), &errorInfo)
@@ -2549,8 +2567,10 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
                         if len(value) != 6:
                             format_ok = False
                         else:
-                            if len(value.rstrip()) > 0:
-                                time(int(value[:2]), int(value[2:4]), int(value[4:6]))
+                            # plausability check if Python datetime format used
+                            if config & _MASK_DTIME:
+                                if len(value.rstrip()) > 0:
+                                    time(int(value[:2]), int(value[2:4]), int(value[4:6]))
                             cValue = fillString(value)
                     except Exception as ex:
                         format_ok = False
@@ -2773,11 +2793,11 @@ cdef wrapFunctionDescription(RFC_FUNCTION_DESC_HANDLE funcDesc):
     return func_desc
 
 
-cdef wrapResult(
+cdef functionContainerGet(
             RFC_FUNCTION_DESC_HANDLE funcDesc,
             RFC_FUNCTION_HANDLE container,
             RFC_DIRECTION filter_parameter_direction,
-            config
+            unsigned config
         ):
     """
     :param funcDesc: a C pointer to a function description.
@@ -2826,7 +2846,7 @@ cdef wrapUnitAttributes(RFC_UNIT_ATTRIBUTES *uattr):
     unit_attributes['sending_time'] = wrapString(uattr.sendingTime, 6, True)
     return unit_attributes
 
-cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, config):
+cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, unsigned config):
     cdef unsigned i, fieldCount
     cdef RFC_FIELD_DESC fieldDesc
     RfcGetFieldCount(typeDesc, &fieldCount, NULL)
@@ -2857,7 +2877,7 @@ cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container
 #        RfcMoveTo(self.container, i, &errorInfo)
 #        return wrapStructure(self.typeDesc, self.container)
 
-cdef wrapTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, config):
+cdef wrapTable(RFC_TYPE_DESC_HANDLE typeDesc, RFC_TABLE_HANDLE container, unsigned config):
     cdef RFC_ERROR_INFO errorInfo
     cdef unsigned rowCount
     # # For debugging in tables (cf. class TableCursor)
@@ -2880,7 +2900,7 @@ cdef wrapVariable(
             SAP_UC* cName,
             unsigned cLen,
             RFC_TYPE_DESC_HANDLE typeDesc,
-            config
+            unsigned config
         ):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo

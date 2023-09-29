@@ -7,8 +7,8 @@ from decimal import Decimal
 from locale import LC_ALL, localeconv, setlocale
 
 import pytest
-
 from pyrfc import Connection, ExternalRuntimeError, set_locale_radix
+
 from tests.abap_system import connection_info
 from tests.config import (
     BYTEARRAY_TEST,
@@ -234,30 +234,30 @@ def test_bcd_floats_accept_floats():
         IS_INPUT=IS_INPUT,
         IV_COUNT=0,
     )["ES_OUTPUT"]
-    assert type(output["ZFLTP"]) is float
+    assert isinstance(output["ZFLTP"], float)
     assert IS_INPUT["ZFLTP"] == output["ZFLTP"]
 
-    assert type(output["ZDEC"]) is Decimal
+    assert isinstance(output["ZDEC"], Decimal)
     assert str(IS_INPUT["ZDEC"]) == str(output["ZDEC"])
     assert IS_INPUT["ZDEC"] == float(output["ZDEC"])
 
-    assert type(output["ZDECF16_MIN"]) is Decimal
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
     assert str(IS_INPUT["ZDECF16_MIN"]) == str(output["ZDECF16_MIN"])
     assert IS_INPUT["ZDECF16_MIN"] == float(output["ZDECF16_MIN"])
 
-    assert type(output["ZDECF34_MIN"]) is Decimal
+    assert isinstance(output["ZDECF34_MIN"], Decimal)
     assert str(IS_INPUT["ZDECF34_MIN"]) == str(output["ZDECF34_MIN"])
     assert IS_INPUT["ZDECF34_MIN"] == float(output["ZDECF34_MIN"])
 
-    assert type(output["ZCURR"]) is Decimal
+    assert isinstance(output["ZCURR"], Decimal)
     assert str(IS_INPUT["ZCURR"]) == str(output["ZCURR"])
     assert IS_INPUT["ZCURR"] == float(output["ZCURR"])
 
-    assert type(output["ZQUAN"]) is Decimal
+    assert isinstance(output["ZQUAN"], Decimal)
     assert str(IS_INPUT["ZQUAN"]) == str(output["ZQUAN"])
     assert IS_INPUT["ZQUAN"] == float(output["ZQUAN"])
 
-    assert type(output["ZQUAN_SIGN"]) is Decimal
+    assert isinstance(output["ZQUAN_SIGN"], Decimal)
     assert str(IS_INPUT["ZQUAN_SIGN"]) == str(output["ZQUAN_SIGN"])
     assert IS_INPUT["ZQUAN_SIGN"] == float(output["ZQUAN_SIGN"])
 
@@ -419,8 +419,8 @@ def test_raw_types_accept_bytearray():
     )["ES_OUTPUT"]
     assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
-    assert type(output["ZRAW"]) is bytes
-    assert type(output["ZRAWSTRING"]) is bytes
+    assert isinstance(output["ZRAW"], bytes)
+    assert isinstance(output["ZRAWSTRING"], bytes)
 
 
 def test_date_time():
@@ -445,7 +445,8 @@ def test_date_time():
         {"RFCDATE": "20161231", "RFCTIME": 123456},  # wrong time type
     ]
     for index, dt in enumerate(DATETIME_TEST):
-        if index < 6:
+        print(index, dt)
+        if index < 6 or index == 16:
             res = client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             assert dt["RFCDATE"] == res["RFCDATE"]
             if dt["RFCTIME"] == "":

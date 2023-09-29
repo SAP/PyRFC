@@ -14,10 +14,13 @@ def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
         IMPORTSTRUCT = {}
     if RFCTABLE is None:
         RFCTABLE = []
-    ECHOSTRUCT = IMPORTSTRUCT
+    ECHOSTRUCT = IMPORTSTRUCT.copy()
+    ECHOSTRUCT['RFCINT1'] += 1
+    ECHOSTRUCT['RFCINT2'] += 1
+    ECHOSTRUCT['RFCINT4'] += 1
     if len(RFCTABLE) == 0:
         RFCTABLE = [ECHOSTRUCT]
-    RESPTEXT = f"Python server response: {ECHOSTRUCT['RFCINT1']}, table rows: {len(RFCTABLE)}"
+    RESPTEXT = f"Python server sends {len(RFCTABLE)} table rows"
     print(f"ECHOSTRUCT: {ECHOSTRUCT}")
     print(f"RFCTABLE: {RFCTABLE}")
     print(f"RESPTEXT: {RESPTEXT}")

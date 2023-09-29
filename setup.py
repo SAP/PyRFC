@@ -163,6 +163,7 @@ elif sys.platform.startswith("darwin"):
         "-Wno-unused-function",
         "-Wno-nullability-completeness",
         "-Wno-expansion-to-defined",
+        "-Wno-unreachable-code",
         "-Wno-unreachable-code-fallthrough",
     ]
     LINK_ARGS = [
