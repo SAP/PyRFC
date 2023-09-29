@@ -99,9 +99,9 @@ def test_basic_datatypes():
             in_value = is_input[attr]
             out_value = res[attr]
             if attr == "ZFLTP":
-                assert type(out_value) is float
+                assert isinstance(out_value, float)
             else:
-                assert type(out_value) is Decimal
+                assert isinstance(out_value, Decimal)
             if type(in_value) != type(out_value):
                 assert str(in_value) == str(out_value)
             else:
@@ -167,12 +167,12 @@ def test_min_max_positive():
         IV_COUNT=0,
     )["ES_OUTPUT"]
 
-    assert type(output["ZFLTP_MIN"]) is float
-    assert type(output["ZFLTP_MAX"]) is float
-    assert type(output["ZDECF16_MIN"]) is Decimal
-    assert type(output["ZDECF16_MAX"]) is Decimal
-    assert type(output["ZDECF34_MAX"]) is Decimal
-    assert type(output["ZDECF16_MIN"]) is Decimal
+    assert isinstance(output["ZFLTP_MIN"], float)
+    assert isinstance(output["ZFLTP_MAX"], float)
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
+    assert isinstance(output["ZDECF16_MAX"], Decimal)
+    assert isinstance(output["ZDECF34_MAX"], Decimal)
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
 
     assert float(IS_INPUT["ZFLTP_MIN"]) == output["ZFLTP_MIN"]
     assert float(IS_INPUT["ZFLTP_MAX"]) == output["ZFLTP_MAX"]
@@ -200,12 +200,12 @@ def test_min_max_negative():
         IV_COUNT=0,
     )["ES_OUTPUT"]
 
-    assert type(output["ZFLTP_MIN"]) is float
-    assert type(output["ZFLTP_MAX"]) is float
-    assert type(output["ZDECF16_MIN"]) is Decimal
-    assert type(output["ZDECF16_MAX"]) is Decimal
-    assert type(output["ZDECF16_MIN"]) is Decimal
-    assert type(output["ZDECF34_MAX"]) is Decimal
+    assert isinstance(output["ZFLTP_MIN"], float)
+    assert isinstance(output["ZFLTP_MAX"], float)
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
+    assert isinstance(output["ZDECF16_MAX"], Decimal)
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
+    assert isinstance(output["ZDECF34_MAX"], Decimal)
 
     assert float(IS_INPUT["ZFLTP_MIN"]) == output["ZFLTP_MIN"]
     assert float(IS_INPUT["ZFLTP_MAX"]) == output["ZFLTP_MAX"]
@@ -281,25 +281,25 @@ def test_bcd_floats_accept_strings():
         IS_INPUT=IS_INPUT,
         IV_COUNT=0,
     )["ES_OUTPUT"]
-    assert type(output["ZFLTP"]) is float
+    assert isinstance(output["ZFLTP"], float)
     assert float(IS_INPUT["ZFLTP"]) == output["ZFLTP"]
 
-    assert type(output["ZDEC"]) is Decimal
+    assert isinstance(output["ZDEC"], Decimal)
     assert IS_INPUT["ZDEC"] == str(output["ZDEC"])
 
-    assert type(output["ZDECF16_MIN"]) is Decimal
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
     assert IS_INPUT["ZDECF16_MIN"] == str(output["ZDECF16_MIN"])
 
-    assert type(output["ZDECF34_MIN"]) is Decimal
+    assert isinstance(output["ZDECF34_MIN"], Decimal)
     assert IS_INPUT["ZDECF34_MIN"] == str(output["ZDECF34_MIN"])
 
-    assert type(output["ZCURR"]) is Decimal
+    assert isinstance(output["ZCURR"], Decimal)
     assert IS_INPUT["ZCURR"] == str(output["ZCURR"])
 
-    assert type(output["ZQUAN"]) is Decimal
+    assert isinstance(output["ZQUAN"], Decimal)
     assert IS_INPUT["ZQUAN"] == str(output["ZQUAN"])
 
-    assert type(output["ZQUAN_SIGN"]) is Decimal
+    assert isinstance(output["ZQUAN_SIGN"], Decimal)
     assert IS_INPUT["ZQUAN_SIGN"] == str(output["ZQUAN_SIGN"])
 
 
@@ -323,25 +323,25 @@ def test_bcd_floats_accept_strings_radix_comma():
         IS_INPUT=IS_INPUT,
         IV_COUNT=0,
     )["ES_OUTPUT"]
-    assert type(output["ZFLTP"]) is float
+    assert isinstance(output["ZFLTP"], float)
     assert float(IS_INPUT["ZFLTP"]) == output["ZFLTP"]
 
-    assert type(output["ZDEC"]) is Decimal
+    assert isinstance(output["ZDEC"], Decimal)
     assert IS_INPUT["ZDEC"] == str(output["ZDEC"])
 
-    assert type(output["ZDECF16_MIN"]) is Decimal
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
     assert IS_INPUT["ZDECF16_MIN"] == str(output["ZDECF16_MIN"])
 
-    assert type(output["ZDECF34_MIN"]) is Decimal
+    assert isinstance(output["ZDECF34_MIN"], Decimal)
     assert IS_INPUT["ZDECF34_MIN"] == str(output["ZDECF34_MIN"])
 
-    assert type(output["ZCURR"]) is Decimal
+    assert isinstance(output["ZCURR"], Decimal)
     assert IS_INPUT["ZCURR"] == str(output["ZCURR"])
 
-    assert type(output["ZQUAN"]) is Decimal
+    assert isinstance(output["ZQUAN"], Decimal)
     assert IS_INPUT["ZQUAN"] == str(output["ZQUAN"])
 
-    assert type(output["ZQUAN_SIGN"]) is Decimal
+    assert isinstance(output["ZQUAN_SIGN"], Decimal)
     assert IS_INPUT["ZQUAN_SIGN"] == str(output["ZQUAN_SIGN"])
     # locale.setlocale(locale.LC_ALL, "")
 
@@ -365,25 +365,25 @@ def test_bcd_floats_accept_decimals():
         IS_INPUT=IS_INPUT,
         IV_COUNT=0,
     )["ES_OUTPUT"]
-    assert type(output["ZFLTP"]) is float
+    assert isinstance(output["ZFLTP"], float)
     assert IS_INPUT["ZFLTP"] == Decimal(str(output["ZFLTP"]))
 
-    assert type(output["ZDEC"]) is Decimal
+    assert isinstance(output["ZDEC"], Decimal)
     assert IS_INPUT["ZDEC"] == Decimal(str(output["ZDEC"]))
 
-    assert type(output["ZDECF16_MIN"]) is Decimal
+    assert isinstance(output["ZDECF16_MIN"], Decimal)
     assert IS_INPUT["ZDECF16_MIN"] == Decimal(str(output["ZDECF16_MIN"]))
 
-    assert type(output["ZDECF34_MIN"]) is Decimal
+    assert isinstance(output["ZDECF34_MIN"], Decimal)
     assert IS_INPUT["ZDECF34_MIN"] == Decimal(str(output["ZDECF34_MIN"]))
 
-    assert type(output["ZCURR"]) is Decimal
+    assert isinstance(output["ZCURR"], Decimal)
     assert IS_INPUT["ZCURR"] == Decimal(str(output["ZCURR"]))
 
-    assert type(output["ZQUAN"]) is Decimal
+    assert isinstance(output["ZQUAN"], Decimal)
     assert IS_INPUT["ZQUAN"] == Decimal(str(output["ZQUAN"]))
 
-    assert type(output["ZQUAN_SIGN"]) is Decimal
+    assert isinstance(output["ZQUAN_SIGN"], Decimal)
     assert IS_INPUT["ZQUAN_SIGN"] == Decimal(str(output["ZQUAN_SIGN"]))
 
 
@@ -401,8 +401,8 @@ def test_raw_types_accept_bytes():
     )["ES_OUTPUT"]
     assert output["ZRAW"] == ZRAW + DIFF
     assert output["ZRAWSTRING"] == ZRAW
-    assert type(output["ZRAW"]) is bytes
-    assert type(output["ZRAWSTRING"]) is bytes
+    assert isinstance(output["ZRAW"], bytes)
+    assert isinstance(output["ZRAWSTRING"], bytes)
 
 
 def test_raw_types_accept_bytearray():
@@ -479,8 +479,8 @@ def test_date_accepts_string():
         IMPORTSTRUCT=IMPORTSTRUCT,
         RFCTABLE=IMPORTTABLE,
     )
-    assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
-    assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
+    assert isinstance(output["ECHOSTRUCT"]["RFCDATE"], str)
+    assert isinstance(output["RFCTABLE"][0]["RFCDATE"], str)
     assert output["ECHOSTRUCT"]["RFCDATE"] == TEST_DATE
     assert output["RFCTABLE"][0]["RFCDATE"] == TEST_DATE
 
@@ -494,8 +494,8 @@ def test_date_accepts_date():
         IMPORTSTRUCT=IMPORTSTRUCT,
         RFCTABLE=IMPORTTABLE,
     )
-    assert type(output["ECHOSTRUCT"]["RFCDATE"]) is str
-    assert type(output["RFCTABLE"][0]["RFCDATE"]) is str
+    assert isinstance(output["ECHOSTRUCT"]["RFCDATE"], str)
+    assert isinstance(output["RFCTABLE"][0]["RFCDATE"], str)
     assert output["ECHOSTRUCT"]["RFCDATE"] == python_to_ABAP_date(TEST_DATE)
     assert output["RFCTABLE"][0]["RFCDATE"] == python_to_ABAP_date(TEST_DATE)
 
@@ -509,8 +509,8 @@ def test_time_accepts_string():
         IMPORTSTRUCT=IMPORTSTRUCT,
         RFCTABLE=IMPORTTABLE,
     )
-    assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
-    assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
+    assert isinstance(output["ECHOSTRUCT"]["RFCTIME"], str)
+    assert isinstance(output["RFCTABLE"][0]["RFCTIME"], str)
     assert output["ECHOSTRUCT"]["RFCTIME"] == TEST_TIME
     assert output["RFCTABLE"][0]["RFCTIME"] == TEST_TIME
 
@@ -524,8 +524,8 @@ def test_time_accepts_time():
         IMPORTSTRUCT=IMPORTSTRUCT,
         RFCTABLE=IMPORTTABLE,
     )
-    assert type(output["ECHOSTRUCT"]["RFCTIME"]) is str
-    assert type(output["RFCTABLE"][0]["RFCTIME"]) is str
+    assert isinstance(output["ECHOSTRUCT"]["RFCTIME"], str)
+    assert isinstance(output["RFCTABLE"][0]["RFCTIME"], str)
     assert output["ECHOSTRUCT"]["RFCTIME"] == python_to_ABAP_time(TEST_TIME)
     assert output["RFCTABLE"][0]["RFCTIME"] == python_to_ABAP_time(TEST_TIME)
 

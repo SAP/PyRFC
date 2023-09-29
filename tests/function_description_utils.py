@@ -33,14 +33,14 @@ typedesc_keys = [
 
 def compare_function_description(fd1, fd2):
     # compare names
-    fd1_name = fd1["name"] if type(fd1) is dict else fd1.name
-    fd2_name = fd2["name"] if type(fd2) is dict else fd2.name
+    fd1_name = fd1["name"] if isinstance(fd1, dict) else fd1.name
+    fd2_name = fd2["name"] if isinstance(fd2, dict) else fd2.name
     # print(fd1_name, len(fd1_name))
     # print(fd2_name, len(fd2_name))
     assert fd1_name == fd2_name
     # compare parameters
-    fd1_parameters = fd1["parameters"] if type(fd1) is dict else fd1.parameters
-    fd2_parameters = fd2["parameters"] if type(fd2) is dict else fd2.parameters
+    fd1_parameters = fd1["parameters"] if isinstance(fd1, dict) else fd1.parameters
+    fd2_parameters = fd2["parameters"] if isinstance(fd2, dict) else fd2.parameters
     # print(len(fd1_parameters))
     # print(len(fd2_parameters))
     assert len(fd1_parameters) == len(fd2_parameters)
@@ -54,12 +54,12 @@ def compare_function_description(fd1, fd2):
             # compare fields
             fd1_fields = (
                 param1["type_description"]["fields"]
-                if type(param1["type_description"]) is dict
+                if isinstance(param1["type_description"], dict)
                 else param1["type_description"].fields
             )
             fd2_fields = (
                 param2["type_description"]["fields"]
-                if type(param2["type_description"]) is dict
+                if isinstance(param2["type_description"], dict)
                 else param2["type_description"].fields
             )
             assert len(fd1_fields) == len(fd2_fields)
