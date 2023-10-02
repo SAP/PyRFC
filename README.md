@@ -25,6 +25,7 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - [SPJ articles](#spj-articles)
 - [How to obtain support](#how-to-obtain-support)
 - [Contributing](#contributing)
+- [Code of Conduct](#code-of-conduct)
 - [License](#license)
 
 ## Features
@@ -237,6 +238,10 @@ Check out the [SAP Community](https://community.sap.com/) (search for "pyrfc") a
 
 We appreciate contributions from the community to **PyRFC**!
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more details on our philosophy around extending this module.
+
+## Code of Conduct
+
+See [Code of Conduct](./CODE_OF_CONDUCT.md)
 
 ## License
 
