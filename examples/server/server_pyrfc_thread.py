@@ -39,7 +39,9 @@ def my_auth_check(func_name=False, request_context=None):
 
 
 # create server
-server = Server({"dest": "MME_GATEWAY"}, {"dest": "MME"}, { "server_log": True})
+server = Server({"dest": "MME_GATEWAY"}, {"dest": "MME"}, {"check_date": False, "check_time": False, "server_log": True})
+
+print(server.options)
 
 # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
 server.add_function("STFC_STRUCTURE", my_stfc_structure)

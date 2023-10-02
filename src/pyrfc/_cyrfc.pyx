@@ -30,6 +30,9 @@ from pyrfc._utils import enum_names, enum_values
 _MASK_DTIME = 0x01
 _MASK_RETURN_IMPORT_PARAMS = 0x02
 _MASK_RSTRIP = 0x04
+_MASK_CHECK_DATE = 0x08
+_MASK_CHECK_TIME = 0x10
+
 
 _LOCALE_RADIX = localeconv()["decimal_point"]
 
@@ -513,8 +516,16 @@ cdef class Connection:
            * ``dtime``
              ABAP DATE and TIME strings are returned as Python datetime date and time objects,
              instead of ABAP date and time strings (default is False)
-             The plausiblity of time string sent to function container is checked in PyRFC only
-             if this option set to True. Otherwise validated by SAP NW RFC SDK and ABAP application
+
+           * ``check_date``
+             Check the date value before writing to function container (default is True).
+             When deactivated, the validation shall be done by SAP NW RFC SDK and
+             ABAP application.
+
+           * ``check_time``
+             Check the time value before writing to function container (default is True).
+             When deactivated, the validation shall be done by SAP NW RFC SDK and
+             ABAP application.
 
            * ``rstrip``
              right strips strings returned from RFC call (default is True)
@@ -602,12 +613,14 @@ cdef class Connection:
         # check and set connection configuration
         config = config or {}
         for k in config:
-            if k not in['dtime', 'return_import_params', 'rstrip', 'timeout']:
+            if k not in['dtime', 'return_import_params', 'rstrip', 'check_date', 'check_time', 'timeout']:
                 raise RFCError(f"Connection configuration option '{k}' is not supported")
         self.__config = {}
-        self.__config['dtime'] = config.get('dtime', False)
-        self.__config['return_import_params'] = config.get('return_import_params', False)
         self.__config['rstrip'] = config.get('rstrip', True)
+        self.__config['return_import_params'] = config.get('return_import_params', False)
+        self.__config['dtime'] = config.get('dtime', False)
+        self.__config['check_date'] = config.get('check_date', True)
+        self.__config['check_time'] = config.get('check_time', True)
         self.__config['timeout'] = config.get('timeout', None)
 
         # set internal configuration
@@ -618,7 +631,10 @@ cdef class Connection:
             self.bconfig |= _MASK_RETURN_IMPORT_PARAMS
         if self.__config['rstrip']:
             self.bconfig |= _MASK_RSTRIP
-
+        if self.__config['check_date']:
+            self.bconfig |= _MASK_CHECK_DATE
+        if self.__config['check_time']:
+            self.bconfig |= _MASK_CHECK_TIME
         self._connection = ConnectionParameters(**params)
         self._handle = NULL
         self.active_transaction = False
@@ -1695,6 +1711,16 @@ cdef class Server:
              ABAP DATE and TIME strings are returned as Python datetime date and time objects,
              instead of ABAP date and time strings (default is False)
 
+           * ``check_date``
+             Check the date value before writing to function container (default is True).
+             When deactivated, the validation shall be done by SAP NW RFC SDK and
+             Python application.
+
+           * ``check_time``
+             Check the time value before writing to function container (default is True).
+             When deactivated, the validation shall be done by SAP NW RFC SDK and
+             Python application.
+
            * ``rstrip``
              right strips strings returned from RFC call (default is True)
 
@@ -1709,8 +1735,7 @@ cdef class Server:
              thereof if the connection attempt fails.
     """
     cdef public bint debug
-    cdef public bint dtime
-    cdef public bint rstrip
+    cdef public dict __config
     cdef public unsigned bconfig
     cdef Connection _client_connection
     cdef ConnectionParameters _server_handle_params
@@ -1753,24 +1778,46 @@ cdef class Server:
         """
         return self._server_handle != NULL
 
+    @property
+    def options(self):
+        """Server instance configuration
+
+        :getter: Server instance configuration
+        :setter: Set when new server instance created
+        :type: dict
+        """
+        return self.__config
+
     def __bool__(self):
         return self.alive
 
     def __cinit__(self, server_params, client_params, config=None):
         # check and set server configuration
         config = config or {}
-        self.dtime = config.get('dtime', False)
-        self.debug = config.get('debug', False)
-        self.rstrip = config.get('rstrip', True)
+
+        for k in config:
+            if k not in['rstrip', 'dtime', 'check_date', 'check_time', 'debug', 'server_log', 'auth_check', 'port']:
+                raise RFCError(f"Connection configuration option '{k}' is not supported")
+        self.__config = {}
+        self.__config['rstrip'] = config.get('rstrip', True)
+        self.__config['dtime'] = config.get('dtime', False)
+        self.__config['check_date'] = config.get('check_date', True)
+        self.__config['check_time'] = config.get('check_time', True)
+        self.__config['debug'] = self.debug = config.get('debug', False)
         server_context["server_log"] = config.get("server_log", False)
         server_context["auth_check"] = config.get("auth_check", default_auth_check)
         server_context["port"] = config.get("port", 8080)
+        self.__config["server_context"] = server_context
 
         self.bconfig = 0
-        if self.dtime:
-            self.bconfig |= _MASK_DTIME
-        if self.rstrip:
+        if self.__config['rstrip']:
             self.bconfig |= _MASK_RSTRIP
+        if self.__config['dtime']:
+            self.bconfig |= _MASK_DTIME
+        if self.__config['check_date']:
+            self.bconfig |= _MASK_CHECK_DATE
+        if self.__config['check_time']:
+            self.bconfig |= _MASK_CHECK_TIME
 
         self._server_handle_params = ConnectionParameters(**server_params)
         self._client_connection = Connection(**client_params)
@@ -2538,47 +2585,50 @@ cdef fillVariable(RFCTYPE typ, RFC_FUNCTION_HANDLE container, SAP_UC* cName, val
             free(cValue)
         elif typ == RFCTYPE_DATE:
             if value:
-                format_ok = True
-                if type(value) is date:
-                    cValue = fillString(f'{value.year:04}{value.month:02}{value.day:02}')
-                else:
-                    try:
-                        if len(value) != 8:
-                            format_ok = False
-                        else:
-                            if len(value.rstrip()) > 0:
+                cValue = NULL
+                try:
+                    if type(value) is date:
+                        cValue = fillString(f'{value.year:04}{value.month:02}{value.day:02}')
+                    elif type(value) is str:
+                        if config & _MASK_CHECK_DATE:
+                            if len(value) != 8:
+                                raise Exception
+                            if len(value.strip()) > 0:
                                 date(int(value[:4]), int(value[4:6]), int(value[6:8]))
-                            cValue = fillString(value)
-                    except Exception as ex:
-                        format_ok = False
-                if not format_ok:
+                        cValue = fillString(value)
+                    else:
+                        raise Exception
+                except Exception as ex:
+                    if cValue != NULL:
+                        free(cValue)
                     raise TypeError('date value required, received', value, 'of type', type(value))
-                rc = RfcSetDate(container, cName, cValue, &errorInfo)
-                free(cValue)
+                if cValue != NULL:
+                    rc = RfcSetDate(container, cName, cValue, &errorInfo)
+                    free(cValue)
             else:
                 rc = RFC_OK
         elif typ == RFCTYPE_TIME:
             if value:
-                format_ok = True
-                if type(value) is time:
-                    cValue = fillString(f'{value.hour:02}{value.minute:02}{value.second:02}')
-                else:
-                    try:
-                        if len(value) != 6:
-                            format_ok = False
-                        else:
-                            # plausability check if Python datetime format used
-                            if config & _MASK_DTIME:
-                                if len(value.rstrip()) > 0:
-                                    time(int(value[:2]), int(value[2:4]), int(value[4:6]))
-                            cValue = fillString(value)
-                    except Exception as ex:
-                        format_ok = False
-
-                if not format_ok:
+                cValue = NULL
+                try:
+                    if type(value) is time:
+                        cValue = fillString(f'{value.hour:02}{value.minute:02}{value.second:02}')
+                    elif type(value) is str:
+                        if config & _MASK_CHECK_TIME:
+                            if len(value) != 6:
+                                raise Exception
+                            if len(value.rstrip()) > 0:
+                                time(int(value[:2]), int(value[2:4]), int(value[4:6]))
+                        cValue = fillString(value)
+                    else:
+                        raise Exception
+                except Exception as ex:
+                    if cValue != NULL:
+                        free(cValue)
                     raise TypeError('time value required, received', value, 'of type', type(value))
-                rc = RfcSetTime(container, cName, cValue, &errorInfo)
-                free(cValue)
+                if cValue != NULL:
+                    rc = RfcSetTime(container, cName, cValue, &errorInfo)
+                    free(cValue)
             else:
                 rc = RFC_OK
         else:

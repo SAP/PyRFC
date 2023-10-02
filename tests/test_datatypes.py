@@ -446,7 +446,7 @@ def test_date_time():
     ]
     for index, dt in enumerate(DATETIME_TEST):
         print(index, dt)
-        if index < 6 or index == 16:
+        if index < 6:
             res = client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             assert dt["RFCDATE"] == res["RFCDATE"]
             if dt["RFCTIME"] == "":
@@ -468,6 +468,54 @@ def test_date_time():
                 assert isinstance(dt["RFCTIME"], error.args[3])
                 assert error.args[4] == "RFCTIME"
             assert error.args[5] == "IMPORTSTRUCT"
+
+def test_date_time_no_check():
+    conn = Connection(config={"check_date": False, "check_time": False}, **CONNECTION_INFO)
+    DATETIME_TEST = [
+        {"RFCDATE": "20161231", "RFCTIME": "123456"},  # good, correct date
+        {"RFCDATE": "", "RFCTIME": "123456"},  # good, empty date
+        {"RFCDATE": "        ", "RFCTIME": "123456"},  # good, space date
+        {"RFCDATE": "20161231", "RFCTIME": ""},  # good, empty time
+        {"RFCDATE": "20161231", "RFCTIME": "      "},  # good, space time
+        {"RFCDATE": "20161231", "RFCTIME": "000000"},  # good, zero time
+        {"RFCDATE": "2016123", "RFCTIME": "123456"},  # shorter date
+        {"RFCDATE": " ", "RFCTIME": "123456"},  # shorter empty date
+        {"RFCDATE": "201612311", "RFCTIME": "123456"},  # longer date
+        {"RFCDATE": "         ", "RFCTIME": "123456"},  # longer empty date
+        {"RFCDATE": "20161232", "RFCTIME": "123456"},  # out of range date
+        {"RFCDATE": 20161231, "RFCTIME": "123456"},  # wrong date type
+        {"RFCDATE": "20161231", "RFCTIME": "12345"},  # shorter time
+        {"RFCDATE": "20161231", "RFCTIME": " "},  # shorter empty time
+        {"RFCDATE": "20161231", "RFCTIME": "1234566"},  # longer time
+        {"RFCDATE": "20161231", "RFCTIME": "       "},  # longer empty time
+        {"RFCDATE": "20161231", "RFCTIME": "123466"},  # out of range time
+        {"RFCDATE": "20161231", "RFCTIME": 123456},  # wrong time type
+    ]
+    for index, dt in enumerate(DATETIME_TEST):
+        print(index, dt)
+        if index not in (11,17):
+            res = conn.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
+            assert dt["RFCDATE"][:8] in res["RFCDATE"]
+            if dt["RFCTIME"] == "":
+                assert res["RFCTIME"] == "000000"
+            else:
+                assert dt["RFCTIME"][:6] in res["RFCTIME"]
+        else:
+            with pytest.raises(TypeError) as ex:
+                client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
+            error = ex.value
+            if index < 12:
+                assert error.args[0] == "date value required, received"
+                assert error.args[1] == dt["RFCDATE"]
+                assert isinstance(dt["RFCDATE"], error.args[3])
+                assert error.args[4] == "RFCDATE"
+            else:
+                assert error.args[0] == "time value required, received"
+                assert error.args[1] == dt["RFCTIME"]
+                assert isinstance(dt["RFCTIME"], error.args[3])
+                assert error.args[4] == "RFCTIME"
+            assert error.args[5] == "IMPORTSTRUCT"
+
 
 
 def test_date_accepts_string():
