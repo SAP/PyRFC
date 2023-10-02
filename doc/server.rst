@@ -36,13 +36,13 @@ Server running in new thread created by PyRFC is started using ``start()`` metho
 
 .. literalinclude:: ../examples/server/server_pyrfc_thread.py
    :language: python
-   :lines: 38-45
+   :lines: 41-41
 
-and can be stopped using ``stop()`` method:
+and can be stopped using ``close()`` method:
 
 .. literalinclude:: ../examples/server/server_pyrfc_thread.py
    :language: python
-   :lines: 52-53
+   :lines: 61-62
 
 Example: `server_pyrfc_thread.py <https://github.com/SAP/PyRFC/blob/master/examples/server/server_pyrfc_thread.py>`_
 
@@ -56,20 +56,20 @@ Here the PyRFC server is registered for ABAP system ``gateway`` and Python funct
 
 .. literalinclude:: ../examples/server/server_app_thread.py
    :language: python
-   :lines: 9-19
+   :lines: 10-20
 
 Server is created and started in Python function `launch_server()` and this function is invoked in
 new thread started by application:
 
 .. literalinclude:: ../examples/server/server_app_thread.py
    :language: python
-   :lines: 32-60
+   :lines: 33-61
 
 and stopped by application:
 
 .. literalinclude:: ../examples/server/server_app_thread.py
    :language: python
-   :lines: 64-66
+   :lines: 65-67
 
 Example: `server_app_thread.py <https://github.com/SAP/PyRFC/blob/master/examples/server/server_app_thread.py>`_
 
