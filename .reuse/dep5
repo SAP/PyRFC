@@ -32,6 +32,6 @@ License: Apache-2.0
 
 # Compiled sources, metadata, configuration
 
-Files: ci/* *.md *.json .gitignore .editorconfig .prettierignore CHANGES pytest.ini sapnwrfc.ini sapnwrfc.cfg MANIFEST.in tox.ini
+Files: ci/* *.md *.json *.ini .gitignore .editorconfig .prettierignore CHANGES pytest.ini  sapnwrfc.cfg MANIFEST.in
 Copyright: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 License: Apache-2.0
