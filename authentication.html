@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Security &#8212; pyrfc 3.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <title>Security &#8212; pyrfc 3.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=87cb3894" />
+    <script src="_static/documentation_options.js?v=828ea960"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Building from source" href="build.html" />
@@ -19,7 +19,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 3.1 documentation</a></div>
+          href="index.html">pyrfc 3.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="server.html" title="Server scenario"
              accesskey="P">previous</a> |
@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <section id="security">
-<span id="authentication"></span><h1>Security<a class="headerlink" href="#security" title="Permalink to this heading">¶</a></h1>
+<span id="authentication"></span><h1>Security<a class="headerlink" href="#security" title="Link to this heading">¶</a></h1>
 <p>Plain RFC connections are mainly used for prototyping, while in production
 secure connections are required. For more information on RFC security see:</p>
 <ul class="simple">
@@ -67,9 +67,9 @@ secure connections are required. For more information on RFC security see:</p>
 configured for SNC communication, here you may find connection strings examples,
 for testing plain and secure RFC connections, with various authentication methods.</p>
 <section id="id1">
-<h2>Authentication<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<h2>Authentication<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <section id="plain-auth">
-<span id="id2"></span><h3>Plain with user / password<a class="headerlink" href="#plain-auth" title="Permalink to this heading">¶</a></h3>
+<span id="id2"></span><h3>Plain with user / password<a class="headerlink" href="#plain-auth" title="Link to this heading">¶</a></h3>
 <p>The simplest and least secure form of the user authentication.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ABAP_SYSTEM</span> <span class="o">=</span> <span class="p">{</span>
      <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span>
@@ -88,7 +88,7 @@ for testing plain and secure RFC connections, with various authentication method
 </div>
 </section>
 <section id="snc-with-user-pse">
-<span id="id3"></span><h3>SNC with User PSE<a class="headerlink" href="#snc-with-user-pse" title="Permalink to this heading">¶</a></h3>
+<span id="id3"></span><h3>SNC with User PSE<a class="headerlink" href="#snc-with-user-pse" title="Link to this heading">¶</a></h3>
 <p><a class="reference external" href="http://help.sap.com/saphelp_nw73/helpdata/en/4c/61a6c6364012f3e10000000a15822b/content.htm?frameset=/en/4c/6269c8c72271d0e10000000a15822b/frameset.htm">User PSE</a>
 is used for opening the SNC connection and the same user is used for the authentication
 (logon) in NW ABAP backend. Generally not recomended, see <a class="reference external" href="https://launchpad.support.sap.com/#/notes/1028503">SAP Note 1028503 - SNC-secured RFC connection: Logon ticket is ignored</a></p>
@@ -121,7 +121,7 @@ SNC_LIB can be set as the environment variable, in which case it does
 not have to be provided as a parameter for opening SNC connection.</p>
 </section>
 <section id="snc-with-x509">
-<span id="snc-with-x50"></span><h3>SNC with X509<a class="headerlink" href="#snc-with-x509" title="Permalink to this heading">¶</a></h3>
+<span id="snc-with-x50"></span><h3>SNC with X509<a class="headerlink" href="#snc-with-x509" title="Link to this heading">¶</a></h3>
 <p>The client system PSE is used for opening SNC connection and forwarding user
 X509 certificate to NW ABAP backend system, for authentication and logon.</p>
 <p><strong>Prerequisites</strong></p>
@@ -225,9 +225,9 @@ the environment variable SECUDIR points to the folder with generated keystores</
         <div class="right">
           
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014, SAP.
-      Last updated on 2023-07-24 15:30.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2014, SAP.
+      Last updated on 2023-10-02 13:53.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
         </div>
         <div class="clearer"></div>

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyrfc &#8212; pyrfc 3.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <title>pyrfc &#8212; pyrfc 3.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=87cb3894" />
+    <script src="_static/documentation_options.js?v=828ea960"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Bibliography" href="bibliography.html" /> 
@@ -18,7 +18,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 3.1 documentation</a></div>
+          href="index.html">pyrfc 3.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="bibliography.html" title="Bibliography"
              accesskey="P">previous</a> |
@@ -37,22 +37,22 @@
           <div class="body" role="main">
             
   <section id="pyrfc">
-<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code><a class="headerlink" href="#pyrfc" title="Permalink to this heading">¶</a></h1>
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code><a class="headerlink" href="#pyrfc" title="Link to this heading">¶</a></h1>
 <p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyrfc</span></code> package.</p>
 <div class="toctree-wrapper compound">
 </div>
 <section id="pyrfc-module-functions">
-<span id="pyrfcapi"></span><h2>PyRFC module functions<a class="headerlink" href="#pyrfc-module-functions" title="Permalink to this heading">¶</a></h2>
+<span id="pyrfcapi"></span><h2>PyRFC module functions<a class="headerlink" href="#pyrfc-module-functions" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.get_nwrfclib_version">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">get_nwrfclib_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.get_nwrfclib_version" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">get_nwrfclib_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.get_nwrfclib_version" title="Link to this definition">¶</a></dt>
 <dd><p>Get SAP NW RFC Lib version
 :returns: tuple of major, minor and patch level and OS platform</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.set_ini_file_directory">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">set_ini_file_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.set_ini_file_directory" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">set_ini_file_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.set_ini_file_directory" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the directory in which to search for the sapnwrfc.ini file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -66,7 +66,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.reload_ini_file">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">reload_ini_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.reload_ini_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">reload_ini_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.reload_ini_file" title="Link to this definition">¶</a></dt>
 <dd><p>Reloads the contents of the sapnwrfc.ini file into memory.</p>
 <p>Searches the directory given by <code class="docutils literal notranslate"><span class="pre">RfcSetIniPath()</span></code> (or the current working directory)
 for the file sapnwrfc.ini and loads its contents into memory. Reloading the sapnwrfc.ini
@@ -83,7 +83,7 @@ this is not considered an error! Default settings are used in this case.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.language_iso_to_sap">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">language_iso_to_sap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang_iso</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.language_iso_to_sap" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">language_iso_to_sap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang_iso</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.language_iso_to_sap" title="Link to this definition">¶</a></dt>
 <dd><p>Language code conversion of ISO code to SAP code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -101,7 +101,7 @@ if ISO to SAP code conversion fails.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.language_sap_to_iso">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">language_sap_to_iso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang_sap</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.language_sap_to_iso" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">language_sap_to_iso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang_sap</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.language_sap_to_iso" title="Link to this definition">¶</a></dt>
 <dd><p>Language code conversion of SAP code to ISO code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -119,7 +119,7 @@ if SAP to ISO code conversion fails.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.set_cryptolib_path">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">set_cryptolib_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.set_cryptolib_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">set_cryptolib_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.set_cryptolib_path" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the absolute path to the sapcrypto library to enable TLS encryption via Websocket Rfc.</p>
 <p>The parameter path_name needs also to contain the name of the library.
 This function has the same effect as the sapnwrfc.ini parameter TLS_SAPCRYPTOLIB.
@@ -136,7 +136,7 @@ This API cannot reset a new path to the library during runtime. Once set, the pa
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.set_locale_radix">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">set_locale_radix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.set_locale_radix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">set_locale_radix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.set_locale_radix" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the locale radix for decimal conversions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -150,7 +150,7 @@ This API cannot reset a new path to the library during runtime. Once set, the pa
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfc.cancel_connection">
-<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">cancel_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_connection</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.cancel_connection" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">cancel_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_connection</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.cancel_connection" title="Link to this definition">¶</a></dt>
 <dd><p>Immediately cancels the RFC call which is currently being called over the given RFC connection
 and closes the connection. Can be used only on an RFC client connection.</p>
 <p>RFC call cancellation with timeout can be done automatically, without using this method explicitely.
@@ -169,10 +169,10 @@ thereof if the connection cannot be cancelled cleanly.</p>
 
 </section>
 <section id="connection">
-<span id="apiconn"></span><h2>Connection<a class="headerlink" href="#connection" title="Permalink to this heading">¶</a></h2>
+<span id="apiconn"></span><h2>Connection<a class="headerlink" href="#connection" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfc.Connection">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">Connection</span></span><a class="headerlink" href="#pyrfc.Connection" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">Connection</span></span><a class="headerlink" href="#pyrfc.Connection" title="Link to this definition">¶</a></dt>
 <dd><p>A connection to an SAP backend system</p>
 <p>Instantiating an <a class="reference internal" href="#pyrfc.Connection" title="pyrfc.Connection"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyrfc.Connection</span></code></a> object will
 automatically attempt to open a connection the SAP backend.</p>
@@ -184,6 +184,14 @@ automatically attempt to open a connection the SAP backend.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">dtime</span></code>
 ABAP DATE and TIME strings are returned as Python datetime date and time objects,
 instead of ABAP date and time strings (default is False)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_date</span></code>
+Check the date value before writing to function container (default is True).
+When deactivated, the validation shall be done by SAP NW RFC SDK and
+ABAP application.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_time</span></code>
+Check the time value before writing to function container (default is True).
+When deactivated, the validation shall be done by SAP NW RFC SDK and
+ABAP application.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rstrip</span></code>
 right strips strings returned from RFC call (default is True)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">return_import_params</span></code>
@@ -220,7 +228,7 @@ thereof if the connection attempt fails.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrfc.Connection.alive">
-<span class="sig-name descname"><span class="pre">alive</span></span><a class="headerlink" href="#pyrfc.Connection.alive" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alive</span></span><a class="headerlink" href="#pyrfc.Connection.alive" title="Link to this definition">¶</a></dt>
 <dd><p>Conection alive property</p>
 <dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
@@ -234,7 +242,7 @@ thereof if the connection attempt fails.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrfc.Connection.handle">
-<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#pyrfc.Connection.handle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#pyrfc.Connection.handle" title="Link to this definition">¶</a></dt>
 <dd><p>Get client connection handle</p>
 <dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
@@ -248,7 +256,7 @@ thereof if the connection attempt fails.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrfc.Connection.options">
-<span class="sig-name descname"><span class="pre">options</span></span><a class="headerlink" href="#pyrfc.Connection.options" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">options</span></span><a class="headerlink" href="#pyrfc.Connection.options" title="Link to this definition">¶</a></dt>
 <dd><p>Client connection configuration</p>
 <dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
@@ -265,7 +273,7 @@ thereof if the connection attempt fails.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.get_connection_attributes">
-<span class="sig-name descname"><span class="pre">get_connection_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.get_connection_attributes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_connection_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.get_connection_attributes" title="Link to this definition">¶</a></dt>
 <dd><p>Get connection details</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -307,7 +315,7 @@ thereof if the connection attempt fails.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.open">
-<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.open" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.open" title="Link to this definition">¶</a></dt>
 <dd><p>Open client the connection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
@@ -319,7 +327,7 @@ thereof if the connection cannot be opened.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.reopen">
-<span class="sig-name descname"><span class="pre">reopen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.reopen" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reopen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.reopen" title="Link to this definition">¶</a></dt>
 <dd><p>Re-open client the connection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
@@ -331,7 +339,7 @@ thereof if the connection cannot be re-opened.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.call">
-<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.call" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.call" title="Link to this definition">¶</a></dt>
 <dd><p>Invokes a remote-enabled function module via RFC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -370,7 +378,7 @@ thereof if the RFC call fails.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.close" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.close" title="Link to this definition">¶</a></dt>
 <dd><p>Close the connection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
@@ -382,7 +390,7 @@ thereof if the connection cannot be closed cleanly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.cancel">
-<span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.cancel" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.cancel" title="Link to this definition">¶</a></dt>
 <dd><p>Cancels the ongoing RFC call using <cite>~pyrfc.cancel_connection()</cite> function</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
@@ -394,7 +402,7 @@ thereof if the connection cannot be cancelled cleanly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.free" title="Link to this definition">¶</a></dt>
 <dd><p>Explicitly free connection parameters and close the connection.</p>
 <p>Note that this is usually required because the object destruction
 can be delayed by the garbage collection and problems may occur
@@ -403,7 +411,7 @@ when too many connections are opened.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.ping">
-<span class="sig-name descname"><span class="pre">ping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.ping" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.ping" title="Link to this definition">¶</a></dt>
 <dd><p>Send a RFC Ping through the current connection</p>
 <p>Returns nothing.</p>
 <dl class="field-list simple">
@@ -416,7 +424,7 @@ thereof if the RFC Ping fails.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.reset_server_context">
-<span class="sig-name descname"><span class="pre">reset_server_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.reset_server_context" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset_server_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.reset_server_context" title="Link to this definition">¶</a></dt>
 <dd><p>Resets the SAP server context (“user context / ABAP session context”)
 associated with the given client connection, but does not close the connection</p>
 <dl class="field-list simple">
@@ -432,7 +440,7 @@ was found for the</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.is_valid">
-<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.is_valid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.is_valid" title="Link to this definition">¶</a></dt>
 <dd><p>Checks an RFC connection. Can be used to check whether a client/server connection
 has already been closed, or whether the NW RFC library still “considers” the connection
 to be open.</p>
@@ -452,7 +460,7 @@ you’ll have to use the more expensive RfcPing().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.initialize_unit">
-<span class="sig-name descname"><span class="pre">initialize_unit</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">background=True</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.initialize_unit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">initialize_unit</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">background=True</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.initialize_unit" title="Link to this definition">¶</a></dt>
 <dd><p>Initializes a logical unit of work (LUW), shorthand: unit</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -473,7 +481,7 @@ has extended functionality. Default: True</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.fill_and_submit_unit">
-<span class="sig-name descname"><span class="pre">fill_and_submit_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calls</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">queue_names=None</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">attributes=None</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.fill_and_submit_unit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fill_and_submit_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calls</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">queue_names=None</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">attributes=None</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.fill_and_submit_unit" title="Link to this definition">¶</a></dt>
 <dd><p>Fills a unit with one or more RFC and submits it to the backend.</p>
 <p>Fills a unit for this connection, prepare the invocation
 of multiple RFC function modules in it, and submits the unit
@@ -572,7 +580,7 @@ occurred. In this case, the unit is destroyed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.confirm_unit">
-<span class="sig-name descname"><span class="pre">confirm_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.confirm_unit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">confirm_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.confirm_unit" title="Link to this definition">¶</a></dt>
 <dd><p>Confirm the current unit in the backend.</p>
 <p>This also destroys the unit.</p>
 <dl class="field-list simple">
@@ -589,7 +597,7 @@ thereof if the connection attempt fails.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.destroy_unit">
-<span class="sig-name descname"><span class="pre">destroy_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.destroy_unit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">destroy_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.destroy_unit" title="Link to this definition">¶</a></dt>
 <dd><p>Destroy the current unit.</p>
 <p>E.g. if the completed unit could not be recorded in the frontend.</p>
 <dl class="field-list simple">
@@ -606,7 +614,7 @@ thereof if the connection attempt fails.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.get_unit_state">
-<span class="sig-name descname"><span class="pre">get_unit_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.get_unit_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_unit_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.get_unit_state" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieves the processing status of the given background unit.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -630,7 +638,7 @@ RFC_UNIT_CONFIRMED</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.get_function_description">
-<span class="sig-name descname"><span class="pre">get_function_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.get_function_description" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_function_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.get_function_description" title="Link to this definition">¶</a></dt>
 <dd><p>Returns a function description of a function module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -645,7 +653,7 @@ will be returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.type_desc_get">
-<span class="sig-name descname"><span class="pre">type_desc_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.type_desc_get" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">type_desc_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.type_desc_get" title="Link to this definition">¶</a></dt>
 <dd><p>Removes the Type Description from SAP NW RFC Lib cache</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -659,7 +667,7 @@ will be returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.type_desc_remove">
-<span class="sig-name descname"><span class="pre">type_desc_remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.type_desc_remove" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">type_desc_remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.type_desc_remove" title="Link to this definition">¶</a></dt>
 <dd><p>Removes the Type Description from SAP NW RFC Lib cache</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -676,7 +684,7 @@ will be returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Connection.func_desc_remove">
-<span class="sig-name descname"><span class="pre">func_desc_remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.func_desc_remove" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">func_desc_remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Connection.func_desc_remove" title="Link to this definition">¶</a></dt>
 <dd><p>Removes the Function Description from SAP NW RFC Lib cache</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -695,10 +703,10 @@ will be returned.</p>
 
 </section>
 <section id="server">
-<span id="apiserver"></span><h2>Server<a class="headerlink" href="#server" title="Permalink to this heading">¶</a></h2>
+<span id="apiserver"></span><h2>Server<a class="headerlink" href="#server" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfc.Server">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">Server</span></span><a class="headerlink" href="#pyrfc.Server" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">Server</span></span><a class="headerlink" href="#pyrfc.Server" title="Link to this definition">¶</a></dt>
 <dd><p>An ABAP server</p>
 <p>An instance of <a class="reference internal" href="#pyrfc.Server" title="pyrfc.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> allows for installing
 Python callback functions and serve requests from SAP systems.</p>
@@ -713,13 +721,26 @@ and <code class="docutils literal notranslate"><span class="pre">SAPROUTER</span
 The parameters may contain the following keywords:
 <code class="docutils literal notranslate"><span class="pre">GWHOST`,</span> <span class="pre">``GWSERV</span></code>, <code class="docutils literal notranslate"><span class="pre">PROGRAM_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">TRACE</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">SAPROUTER</span></code>.</p></li>
-<li><p><strong>config</strong> (<em>dict</em><em> or </em><em>None</em><em> (</em><em>default</em><em>)</em>) – <p>Configuration of the instance. Allowed keys are:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">debug</span></code></dt><dd><p>For testing/debugging operations. If True, the server
+<li><p><strong>config</strong> (<em>dict</em><em> or </em><em>None</em><em> (</em><em>default</em><em>)</em>) – <p>Configuration of server instance. Allowed keys are:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dtime</span></code>
+ABAP DATE and TIME strings are returned as Python datetime date and time objects,
+instead of ABAP date and time strings (default is False)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_date</span></code>
+Check the date value before writing to function container (default is True).
+When deactivated, the validation shall be done by SAP NW RFC SDK and
+Python application.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_time</span></code>
+Check the time value before writing to function container (default is True).
+When deactivated, the validation shall be done by SAP NW RFC SDK and
+Python application.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rstrip</span></code>
+right strips strings returned from RFC call (default is True)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">debug</span></code>
+For testing/debugging operations. If True, the server
 behaves more permissive, e.g. allows incoming calls without a
-valid connection handle. (default is False)</p>
-</dd>
-</dl>
+valid connection handle. (default is False)</p></li>
+</ul>
 </p></li>
 </ul>
 </dd>
@@ -730,7 +751,7 @@ thereof if the connection attempt fails.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Server.bgrfc_init">
-<span class="sig-name descname"><span class="pre">bgrfc_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sysId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bgRfcFunction</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.bgrfc_init" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bgrfc_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sysId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bgRfcFunction</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.bgrfc_init" title="Link to this definition">¶</a></dt>
 <dd><p>Installs the necessary callback functions for processing incoming bgRFC calls.</p>
 <p>These functions need to be implemented by Python application and will be used by the RFC runtime.
 When no callback function is provided, the default one is used,
@@ -754,7 +775,7 @@ any backend system, for which no explicit handlers have been installed.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Server.add_function">
-<span class="sig-name descname"><span class="pre">add_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.add_function" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.add_function" title="Link to this definition">¶</a></dt>
 <dd><p>Installs a function in the server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -775,7 +796,7 @@ installed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Server.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.serve" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.serve" title="Link to this definition">¶</a></dt>
 <dd><p>Starts the RFC server, waiting for incoming requests and processes them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
@@ -787,19 +808,19 @@ thereof if the server processing fails.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Server.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.start" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.start" title="Link to this definition">¶</a></dt>
 <dd><p>Start the RFC server in new thread, waiting for incoming requests and processes them.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Server.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.stop" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.stop" title="Link to this definition">¶</a></dt>
 <dd><p>Stop the RFC server thread.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Server.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.close" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.close" title="Link to this definition">¶</a></dt>
 <dd><p>Explicitly close the registration.
 Note that this is usually not necessary as the registration will be closed
 automatically upon object destruction. However, if the the object destruction
@@ -809,7 +830,7 @@ servers are registered.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Server.get_server_attributes">
-<span class="sig-name descname"><span class="pre">get_server_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.get_server_attributes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_server_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Server.get_server_attributes" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieves detailed information about a multi-count Registered Server or a TCP Socket Server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -836,10 +857,10 @@ or the maximum number of parallel connections the server will accept (in case of
 
 </section>
 <section id="connection-parameters">
-<span id="apiconnectionparams"></span><h2>Connection Parameters<a class="headerlink" href="#connection-parameters" title="Permalink to this heading">¶</a></h2>
+<span id="apiconnectionparams"></span><h2>Connection Parameters<a class="headerlink" href="#connection-parameters" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfc.ConnectionParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ConnectionParameters</span></span><a class="headerlink" href="#pyrfc.ConnectionParameters" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ConnectionParameters</span></span><a class="headerlink" href="#pyrfc.ConnectionParameters" title="Link to this definition">¶</a></dt>
 <dd><p>Connection parameters instance in SAP unicode format</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -853,14 +874,14 @@ or the maximum number of parallel connections the server will accept (in case of
 
 </section>
 <section id="function-description">
-<span id="apifuncdesc"></span><h2>Function Description<a class="headerlink" href="#function-description" title="Permalink to this heading">¶</a></h2>
+<span id="apifuncdesc"></span><h2>Function Description<a class="headerlink" href="#function-description" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Actually, the FunctionDescription class does not support exceptions.</p>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfc.FunctionDescription">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">FunctionDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.FunctionDescription" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">FunctionDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.FunctionDescription" title="Link to this definition">¶</a></dt>
 <dd><p>A function description</p>
 <p>This class wraps the RFC_FUNCTION_DESC_HANDLE as e.g. returned by
 RfcGetFunctionDesc() and used for server functionality.</p>
@@ -883,7 +904,7 @@ RfcGetFunctionDesc() and used for server functionality.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.FunctionDescription.add_parameter">
-<span class="sig-name descname"><span class="pre">add_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_length</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">decimals=0</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">default_value=&quot;&quot;</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">parameter_text=&quot;&quot;</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">optional=False</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">type_description=None</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.FunctionDescription.add_parameter" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_length</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">decimals=0</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">default_value=&quot;&quot;</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">parameter_text=&quot;&quot;</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">optional=False</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">type_description=None</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.FunctionDescription.add_parameter" title="Link to this definition">¶</a></dt>
 <dd><p>Adds a parameter to the function description.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -907,10 +928,10 @@ RfcGetFunctionDesc() and used for server functionality.</p>
 
 </section>
 <section id="type-description">
-<span id="apitypedesc"></span><h2>Type Description<a class="headerlink" href="#type-description" title="Permalink to this heading">¶</a></h2>
+<span id="apitypedesc"></span><h2>Type Description<a class="headerlink" href="#type-description" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfc.TypeDescription">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">TypeDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.TypeDescription" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">TypeDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.TypeDescription" title="Link to this definition">¶</a></dt>
 <dd><p>A type description</p>
 <p>This class wraps the RFC_TYPE_DESC_HANDLE as e.g. contained in
 a parameter description of a function description.</p>
@@ -936,7 +957,7 @@ a parameter description of a function description.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.TypeDescription.add_field">
-<span class="sig-name descname"><span class="pre">add_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_offset</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">decimals=0</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">type_description=None</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.TypeDescription.add_field" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uc_offset</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">decimals=0</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">type_description=None</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.TypeDescription.add_field" title="Link to this definition">¶</a></dt>
 <dd><p>Adds a field to the type description.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -958,13 +979,13 @@ a parameter description of a function description.</p>
 
 </section>
 <section id="throughput">
-<span id="apithrououghput"></span><h2>Throughput<a class="headerlink" href="#throughput" title="Permalink to this heading">¶</a></h2>
+<span id="apithrououghput"></span><h2>Throughput<a class="headerlink" href="#throughput" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfc.Throughput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">Throughput</span></span><a class="headerlink" href="#pyrfc.Throughput" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">Throughput</span></span><a class="headerlink" href="#pyrfc.Throughput" title="Link to this definition">¶</a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="pyrfc.Throughput._handle">
-<span class="sig-name descname"><span class="pre">_handle</span></span><a class="headerlink" href="#pyrfc.Throughput._handle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_handle</span></span><a class="headerlink" href="#pyrfc.Throughput._handle" title="Link to this definition">¶</a></dt>
 <dd><p>Get throughput object handle</p>
 <dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
@@ -978,7 +999,7 @@ a parameter description of a function description.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrfc.Throughput.connections">
-<span class="sig-name descname"><span class="pre">connections</span></span><a class="headerlink" href="#pyrfc.Throughput.connections" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connections</span></span><a class="headerlink" href="#pyrfc.Throughput.connections" title="Link to this definition">¶</a></dt>
 <dd><p>Get connections attached to throughput monitoring</p>
 <dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
@@ -992,7 +1013,7 @@ a parameter description of a function description.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrfc.Throughput.stats">
-<span class="sig-name descname"><span class="pre">stats</span></span><a class="headerlink" href="#pyrfc.Throughput.stats" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stats</span></span><a class="headerlink" href="#pyrfc.Throughput.stats" title="Link to this definition">¶</a></dt>
 <dd><p>Get throughput monitor statistics</p>
 <dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
@@ -1015,7 +1036,7 @@ a parameter description of a function description.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Throughput.setOnConnection">
-<span class="sig-name descname"><span class="pre">setOnConnection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.setOnConnection" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setOnConnection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.setOnConnection" title="Link to this definition">¶</a></dt>
 <dd><p>Attaches a throughput object to a connection to be monitored by the throughput object.
 Once attached to a connection, the throughput object collects the data statistics of
 function calls invoked via this connection.</p>
@@ -1033,7 +1054,7 @@ function calls invoked via this connection.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Throughput.getFromConnection">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">getFromConnection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.getFromConnection" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">getFromConnection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.getFromConnection" title="Link to this definition">¶</a></dt>
 <dd><p>Returns the currently attached throughput object from a connection, if any.</p>
 <p>For more info search for the <code class="docutils literal notranslate"><span class="pre">RfcGetThroughputFromConnection</span></code> method in
 <a class="reference external" href="https://support.sap.com/en/product/connectors/nwrfcsdk.html">SAP NetWeaver RFC SDK Doxygen Documentation</a></p>
@@ -1055,7 +1076,7 @@ function calls invoked via this connection.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Throughput.removeFromConnection">
-<span class="sig-name descname"><span class="pre">removeFromConnection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.removeFromConnection" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">removeFromConnection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.removeFromConnection" title="Link to this definition">¶</a></dt>
 <dd><p>Removes the throughput object from a connection.
 The connection will no longer be monitored.</p>
 <dl class="field-list simple">
@@ -1073,7 +1094,7 @@ The connection will no longer be monitored.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfc.Throughput.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.reset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.Throughput.reset" title="Link to this definition">¶</a></dt>
 <dd><p>Resets the data so far collected and aggregated by the throughput object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1089,7 +1110,7 @@ The connection will no longer be monitored.</p>
 
 </section>
 <section id="errors">
-<span id="apierr"></span><h2>Errors<a class="headerlink" href="#errors" title="Permalink to this heading">¶</a></h2>
+<span id="apierr"></span><h2>Errors<a class="headerlink" href="#errors" title="Link to this heading">¶</a></h2>
 <p>If a problem occurs in the Python connector or in an underlying component (e.g.
 C connector, SAP system, ABAP code, …), an exception is raised. The class
 of the exception indicates where the problem occurred.</p>
@@ -1106,21 +1127,21 @@ The class of the error depends on the group of the error.</p></li>
 <a class="reference internal image-reference" href="_images/exceptions.png" id="inheritance-of-errors"><img alt="Inheritance of errors: Exception-&gt;RFCError-&gt;RFCLibError-&gt;specific errors" class="align-center" id="inheritance-of-errors" src="_images/exceptions.png" style="width: 445.5px; height: 532.8000000000001px;" /></a>
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.RFCError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">RFCError</span></span><a class="headerlink" href="#pyrfc.RFCError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">RFCError</span></span><a class="headerlink" href="#pyrfc.RFCError" title="Link to this definition">¶</a></dt>
 <dd><p>Exception base class.</p>
 <p>Indicates that there was an error in the Python connector.</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.RFCLibError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">RFCLibError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.RFCLibError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">RFCLibError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.RFCLibError" title="Link to this definition">¶</a></dt>
 <dd><p>RFC library error.</p>
 <p>Base class for exceptions raised by the local underlying C connector (sapnwrfc.c).</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.LogonError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">LogonError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'RFC_LOGON_FAILURE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.LogonError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">LogonError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'RFC_LOGON_FAILURE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.LogonError" title="Link to this definition">¶</a></dt>
 <dd><p>Logon error.</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0
 and the error object has an RFC_ERROR_GROUP value of
@@ -1129,7 +1150,7 @@ LOGON_FAILURE.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.CommunicationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">CommunicationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.CommunicationError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">CommunicationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.CommunicationError" title="Link to this definition">¶</a></dt>
 <dd><p>Communication error.</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0
 and the error object has an RFC_ERROR_GROUP value of
@@ -1138,7 +1159,7 @@ COMMUNICATION_FAILURE.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.ABAPApplicationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ABAPApplicationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ABAPApplicationError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ABAPApplicationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ABAPApplicationError" title="Link to this definition">¶</a></dt>
 <dd><p>ABAP application error.</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0
 and the error object has an RFC_ERROR_GROUP value of
@@ -1147,7 +1168,7 @@ ABAP_APPLICATION_FAILURE.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.ABAPRuntimeError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ABAPRuntimeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ABAPRuntimeError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ABAPRuntimeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ABAPRuntimeError" title="Link to this definition">¶</a></dt>
 <dd><p>ABAP runtime error.</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0
 and the error object has an RFC_ERROR_GROUP value of
@@ -1156,7 +1177,7 @@ ABAP_RUNTIME_FAILURE.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.ExternalAuthorizationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ExternalAuthorizationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ExternalAuthorizationError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ExternalAuthorizationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ExternalAuthorizationError" title="Link to this definition">¶</a></dt>
 <dd><p>External authorization error.</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0
 and the error object has an RFC_ERROR_GROUP value of
@@ -1165,7 +1186,7 @@ EXTERNAL_AUTHORIZATION_FAILURE.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.ExternalRuntimeError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ExternalRuntimeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ExternalRuntimeError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ExternalRuntimeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ExternalRuntimeError" title="Link to this definition">¶</a></dt>
 <dd><p>External runtime error.</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0
 and the error object has an RFC_ERROR_GROUP value of
@@ -1174,7 +1195,7 @@ EXTERNAL_RUNTIME_FAILURE.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="pyrfc.ExternalApplicationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ExternalApplicationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ExternalApplicationError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfc.</span></span><span class="sig-name descname"><span class="pre">ExternalApplicationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_v4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfc.ExternalApplicationError" title="Link to this definition">¶</a></dt>
 <dd><p>External application error.</p>
 <p>This exception is raised if a RFC call returns an RC code greater than 0
 and the error object has an RFC_ERROR_GROUP value of
@@ -1182,7 +1203,7 @@ EXTERNAL_APPLICATION_FAILURE.</p>
 </dd></dl>
 
 <section id="error-types-codes-groups-and-classes">
-<span id="error-types"></span><h3>Error types, codes, groups, and classes<a class="headerlink" href="#error-types-codes-groups-and-classes" title="Permalink to this heading">¶</a></h3>
+<span id="error-types"></span><h3>Error types, codes, groups, and classes<a class="headerlink" href="#error-types-codes-groups-and-classes" title="Link to this heading">¶</a></h3>
 <p><a class="reference internal" href="bibliography.html#c09a"><span class="std std-ref">Schmidt and Li (2009a)</span></a> describe four possible <em>error types</em> on
 the basis of the return code (i.e. <em>error code</em>) of a RFM invocation:</p>
 <ul class="simple">
@@ -1302,9 +1323,9 @@ error representations.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014, SAP.
-      Last updated on 2023-07-24 15:30.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2014, SAP.
+      Last updated on 2023-10-02 13:53.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
         </div>
         <div class="clearer"></div>

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Remarks &#8212; pyrfc 3.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <title>Remarks &#8212; pyrfc 3.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=87cb3894" />
+    <script src="_static/documentation_options.js?v=828ea960"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Bibliography" href="bibliography.html" />
@@ -19,7 +19,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyrfc 3.1 documentation</a></div>
+          href="index.html">pyrfc 3.2 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="build.html" title="Building from source"
              accesskey="P">previous</a> |
@@ -40,9 +40,9 @@
           <div class="body" role="main">
             
   <section id="remarks">
-<h1>Remarks<a class="headerlink" href="#remarks" title="Permalink to this heading">¶</a></h1>
+<h1>Remarks<a class="headerlink" href="#remarks" title="Link to this heading">¶</a></h1>
 <section id="rfc-call-results-differ-from-expected">
-<h2>RFC call results differ from expected<a class="headerlink" href="#rfc-call-results-differ-from-expected" title="Permalink to this heading">¶</a></h2>
+<h2>RFC call results differ from expected<a class="headerlink" href="#rfc-call-results-differ-from-expected" title="Link to this heading">¶</a></h2>
 <p>The response when invoking ABAP function module directly via transaction SE37
 may be different from the response when called via Python connector. Typically leading
 zeros are not shown in SE37 but sent to Python when remote FM is called from Python.</p>
@@ -60,13 +60,13 @@ locally or remotely, via SAP RFC protocol.</p>
 before reporting the problem.</p>
 </section>
 <section id="multiple-threads">
-<h2>Multiple threads<a class="headerlink" href="#multiple-threads" title="Permalink to this heading">¶</a></h2>
+<h2>Multiple threads<a class="headerlink" href="#multiple-threads" title="Link to this heading">¶</a></h2>
 <p>If you work with a multiple thread environment, assure that each thread has
 its own <code class="docutils literal notranslate"><span class="pre">Connection</span></code> object. The reason is that during the RFC calls,
 the Python global interpreter lock (GIL) is released.</p>
 </section>
 <section id="open-valid-and-alive-connections">
-<h2>Open, valid, and alive connections<a class="headerlink" href="#open-valid-and-alive-connections" title="Permalink to this heading">¶</a></h2>
+<h2>Open, valid, and alive connections<a class="headerlink" href="#open-valid-and-alive-connections" title="Link to this heading">¶</a></h2>
 <p>A connection may be closed by the client (e.g. via <a class="reference internal" href="pyrfc.html#pyrfc.Connection.close" title="pyrfc.Connection.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Connection.close()</span></code></a>) or
 by the server (e.g. if an ABAP message is raised). The connection object
 maintains a object variable <code class="docutils literal notranslate"><span class="pre">alive</span></code> to record the actual state.
@@ -144,9 +144,9 @@ an explicit object variable is kept.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014, SAP.
-      Last updated on 2023-07-24 15:30.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2014, SAP.
+      Last updated on 2023-10-02 13:53.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
         </div>
         <div class="clearer"></div>
