@@ -121,7 +121,11 @@ class TestServer:
         import time
 
         # create server
-        server = Server({"dest": "MME_GATEWAY"}, {"dest": "MME"}, { "check_date": False, "check_time": False, "server_log": True})
+        server = Server(
+            {"dest": "MME_GATEWAY"},
+            {"dest": "MME"},
+            {"check_date": False, "check_time": False, "server_log": True}
+        )
 
         # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
         server.add_function("STFC_STRUCTURE", my_stfc_structure)

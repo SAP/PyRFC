@@ -39,7 +39,11 @@ def my_auth_check(func_name=False, request_context=None):
 
 
 # create server
-server = Server({"dest": "MME_GATEWAY"}, {"dest": "MME"}, {"check_date": False, "check_time": False, "server_log": True})
+server = Server(
+    {"dest": "MME_GATEWAY"},
+    {"dest": "MME"},
+    {"check_date": False, "check_time": False, "server_log": True}
+)
 
 print(server.options)
 
