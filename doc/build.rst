@@ -72,7 +72,7 @@ Run the `tox` job for building the documentation and copy the output to `gh-page
 
    tox -e docs
    git checkout gh-pages
-   cp -R .tox/docs/tmp/html/. .
+   yes | cp -R .tox/docs/tmp/html/. .
 
 
 Commit and push the changes to `gh-pages` branch.
