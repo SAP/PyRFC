@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pytest
-
 from pyrfc import Connection, Throughput
+
 from tests.config import PARAMS as params
 
 

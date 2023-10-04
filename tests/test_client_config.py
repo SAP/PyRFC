@@ -5,8 +5,8 @@
 import datetime
 
 import pytest
-
 from pyrfc import Connection, RFCError
+
 from tests.config import CONFIG_SECTIONS as config_sections
 
 

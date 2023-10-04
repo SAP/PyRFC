@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pytest
-
 from pyrfc import Connection, RFCError
+
 from tests.config import CONNECTION_INFO
 
 client = Connection(**CONNECTION_INFO)

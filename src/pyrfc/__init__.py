@@ -30,11 +30,11 @@ from pyrfc._exception import (
 
 try:
     from pyrfc._cyrfc import (
-        RCStatus,
         Connection,
         ConnectionParameters,
         Decimal,
         FunctionDescription,
+        RCStatus,
         RfcFieldType,
         RfcParameterDirection,
         Server,

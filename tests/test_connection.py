@@ -16,7 +16,6 @@ with suppress(ModuleNotFoundError):
     import tomllib
 
 import pytest
-
 from pyrfc import Connection, ExternalRuntimeError, RFCError, __version__
 
 

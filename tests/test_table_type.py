@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from pyrfc import Connection
+
 from tests.config import PARAMS as params
 
 

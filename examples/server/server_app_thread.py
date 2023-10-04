@@ -37,10 +37,7 @@ def launch_server():
     server = Server(
         {"dest": "gateway"},
         {"dest": "MME"},
-        {
-            "port": 8081,
-            "server_log": False,
-        },
+        {"check_date": False, "check_time": False, "port": 8081, "server_log": False}
     )
     print(server.get_server_attributes())
 

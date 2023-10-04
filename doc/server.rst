@@ -63,13 +63,13 @@ new thread started by application:
 
 .. literalinclude:: ../examples/server/server_app_thread.py
    :language: python
-   :lines: 33-61
+   :lines: 33-60
 
 and stopped by application:
 
 .. literalinclude:: ../examples/server/server_app_thread.py
    :language: python
-   :lines: 65-67
+   :lines: 60-64
 
 Example: `server_app_thread.py <https://github.com/SAP/PyRFC/blob/master/examples/server/server_app_thread.py>`_
 

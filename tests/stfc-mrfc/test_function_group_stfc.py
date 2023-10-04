@@ -4,10 +4,11 @@
 
 import datetime
 import unittest
+from typing import ClassVar
 
 from pyrfc import Connection
+
 from tests.config import PARAMS as params
-from typing import ClassVar
 
 
 class TestSTFC:
