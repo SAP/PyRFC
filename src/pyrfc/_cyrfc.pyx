@@ -14,11 +14,10 @@ from decimal import Decimal
 from enum import Enum, auto
 from locale import localeconv
 from os.path import isfile, join
-from sys import exc_info, platform
+from sys import exc_info, platform, version_info
 from threading import Thread, Timer
 
 from pyrfc.csapnwrfc cimport *
-
 from pyrfc._exception import *
 from pyrfc._utils import enum_names, enum_values
 
@@ -1530,7 +1529,11 @@ def default_auth_check(func_name=False, request_context = None):
 
 def _server_log(origin, log_message):
     if server_context["server_log"]:
-        print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
+        if version_info > (3, 12):
+            from datetime import UTC
+            print (f"[{datetime.now(UTC).replace(tzinfo=None)} UTC] {origin} '{log_message}'")
+        else:
+            print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
 
 
 cdef RFC_RC metadataLookup(

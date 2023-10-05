@@ -61,4 +61,4 @@ input("Press Enter to stop server...")  # WPS110
 
 # stop server
 server_thread.join()
-print("Server  stoped")
+print("Server stoped")
