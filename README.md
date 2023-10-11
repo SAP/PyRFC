@@ -15,9 +15,10 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - [Supported platforms](#supported-platforms)
 - [Requirements](#requirements)
   - [SAP NW RFC SDK 7.50 Patch Level 12](#sap-nw-rfc-sdk-750-patch-level-12)
-  - [Docker](#docker)
+  - [Linux](#linux)
   - [Windows](#windows)
   - [macOS](#macos)
+  - [Docker](#docker)
 - [Download and installation](#download-and-installation)
 - [Getting started](#getting-started)
   - [Call ABAP Function Module from Python](#call-abap-function-module-from-python)
@@ -60,9 +61,9 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - Can be downloaded from SAP Software Download Center of the SAP Support Portal, like described at https://support.sap.com/nwrfcsdk.
 - If you are lacking the required authorization for downloading software from the SAP Service Marketplace, please follow the instructions of [SAP Note 1037575](https://launchpad.support.sap.com/#/notes/1037575) for requesting this authorization.
 
-### Docker
+### Linux
 
-- Docker container examples for Linux, Intel and ARM based Darwin: [SAP/fundamental-tools/docker](https://github.com/SAP/fundamental-tools/tree/main/docker). SAP NWRFC SDK libraries are not included.
+PyRFC is using source distribution (sdist) installation on Linux systems and [Cython](https://cython.readthedocs.io/en/latest/index.html) is required on Linux system to build the PyRFC package from source. See [Installing Cython](https://cython.readthedocs.io/en/latest/src/quickstart/install.html#installing-cython)
 
 ### Windows
 
@@ -77,6 +78,10 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - Remote paths must be set in SAP NWRFC SDK for macOS: [documentation](http://sap.github.io/PyRFC/install.html#macos)
 
 - When the PyRFC is started for the first time, the popups may come-up for each NWRFC SDK library, to confirm the usage. If SAP NW RFC SDK is installed in admin folder, the app shall be first time started with admin privileges, eg. `sudo -E`
+
+### Docker
+
+- Docker container examples for Linux, Intel and ARM based Darwin: [SAP/fundamental-tools/docker](https://github.com/SAP/fundamental-tools/tree/main/docker). SAP NWRFC SDK libraries are not included.
 
 ## Download and installation
 
