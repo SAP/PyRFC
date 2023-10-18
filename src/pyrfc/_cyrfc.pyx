@@ -1528,12 +1528,13 @@ def default_auth_check(func_name=False, request_context = None):
 
 
 def _server_log(origin, log_message):
-    if server_context["server_log"]:
-        if version_info > (3, 12):
-            from datetime import UTC
-            print (f"[{datetime.now(UTC).replace(tzinfo=None)} UTC] {origin} '{log_message}'")
-        else:
-            print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
+    if "server_log" in server_context:
+        if server_context["server_log"]:
+            if version_info > (3, 12):
+                from datetime import UTC
+                print (f"[{datetime.now(UTC).replace(tzinfo=None)} UTC] {origin} '{log_message}'")
+            else:
+                print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
 
 
 cdef RFC_RC metadataLookup(

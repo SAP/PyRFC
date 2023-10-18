@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from configparser import ConfigParser
 from os import path
 
 import pyrfc
@@ -56,19 +55,13 @@ def get_idoc_desc(idoc_id):
 
 
 def main():
-    config = ConfigParser()
-    config.read(
-        path.join(
-            path.dirname(path.abspath(__file__)),
-            "pyrfc.cfg",
-        )
-    )
-    params_connection = dict(config.items("coevi51"))
+    params_connection = {"dest": "MME"}
 
     idoc_id = 1
 
     try:
         connection = pyrfc.Connection(**params_connection)
+        print(connection.alive)
         while True:
             choice = initial_screen()
             if 1 <= choice <= 4:  # Create and send a new iDoc
