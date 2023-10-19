@@ -23,12 +23,11 @@ Different error message may be caused by missing Windows C++ binary for example,
      .. code-block:: sh
 
         $ cd /usr/local/sap/nwrfcsdk/bin
-        $ ./rfcexec
-        Error: Not all mandatory parameters specified
-        Please start the program in the following way:
-        rfcexec -t -a <program ID> -g <gateway host> -x <gateway service>
-                -f <file with list of allowed commands> -s <allowed Sys ID>
-        The options "-t" (trace), "-f" and "-s" are optional.
+        $ ./startrfc -v
+        NW RFC Library Version: 750 Patch Level 12
+        Compiler Version:
+        Version not available.
+        Startrfc Version: 2018-08-15
 
 
 Information on where to download the SAP NWRFC SDK you may find `here <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_ .
