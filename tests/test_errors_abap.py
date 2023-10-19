@@ -122,7 +122,8 @@ class TestErrorsABAP:
         assert error.msg_class == "SR"
         assert error.msg_type == "A"
         assert error.msg_number == "006"
-        assert error.msg_v1 == "Method = 0"
+        assert error.msg_v1 == "STRING"
+        assert error.message == "Function not supported"
 
     def test_AbapRuntimeError_X(self):
         # cf. ExceptionTest.c (l. 137ff)
@@ -135,10 +136,11 @@ class TestErrorsABAP:
         error = ex.value
         assert error.code == 4
         assert error.key == "MESSAGE_TYPE_X"
-        assert error.msg_class == "00"
+        assert error.msg_class == "SR"
         assert error.msg_type == "X"
-        assert error.msg_number == "341"
-        assert error.msg_v1 == "MESSAGE_TYPE_X"
+        assert error.msg_number == "006"
+        assert error.msg_v1 == "STRING"
+        assert error.message == "The current application has triggered a termination with a short dump."
 
     def test_AbapRuntimeError_E36(self):
         # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] ==
