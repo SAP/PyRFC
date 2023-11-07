@@ -4,6 +4,8 @@
 
 #!/bin/bash
 
+ICUV="50"
+
 if [ -z "$SAPNWRFC_HOME" ]; then
     echo "SAPNWRFC_HOME env variable not set. Should point to SAP NWRFC SDK library root"
     exit 1
@@ -25,17 +27,19 @@ for filename in *.dylib; do
 done
 
 # LC_LOAD_DYLIB
-install_name_tool -change @loader_path/libicuuc.50.dylib @rpath/libicuuc.50.dylib libicui18n.50.dylib
-install_name_tool -change @loader_path/libicudata.50.dylib @rpath/libicudata.50.dylib libicui18n.50.dylib
-install_name_tool -change @loader_path/libicudata.50.dylib @rpath/libicudata.50.dylib libicuuc.50.dylib
+install_name_tool -change @loader_path/libicuuc.$ICUV.dylib @rpath/libicuuc.$ICUV.dylib libicui18n.$ICUV.dylib
+install_name_tool -change @loader_path/libicudata.$ICUV.dylib @rpath/libicudata.$ICUV.dylib libicui18n.$ICUV.dylib
+install_name_tool -change @loader_path/libicudata.$ICUV.dylib @rpath/libicudata.$ICUV.dylib libicuuc.$ICUV.dylib
 cd ..
 
 #
 # bin folder fix
 #
 
+BINFILES="rfcexec startrfc"
+
 cd bin
-for filename in *; do
+for filename in ${BINFILES}; do
     chmod +x $filename
     # LC_RPATH
     install_name_tool -add_rpath $RPATH $filename
