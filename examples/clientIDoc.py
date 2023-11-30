@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from os import path
 
 import pyrfc
 from pyrfc import ABAPApplicationError, ABAPRuntimeError, CommunicationError, LogonError

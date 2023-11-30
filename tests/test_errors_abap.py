@@ -6,8 +6,6 @@ import pytest
 from pyrfc import ABAPApplicationError, ABAPRuntimeError, Connection, RFCError
 
 from tests.config import PARAMS as params
-
-
 class TestErrorsABAP:
     def setup_method(self):
         self.conn = Connection(**params)
@@ -37,7 +35,6 @@ class TestErrorsABAP:
         assert error.msg_class == "SR"
         assert error.msg_type == "A"
         assert error.msg_number == "006"
-
     def test_STFC_SAPGUI(self):
         # STFC_SAPGUI RFC-TEST:   RFC with SAPGUI
         with pytest.raises(ABAPRuntimeError) as ex:
