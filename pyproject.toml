@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 [project]
 name = "pyrfc"
-version = "2.8.3"
+version = "2.8.31"
 readme = "README.md"
 license = { file = "LICENSES/Apache-2.0.txt" }
 description = "Python bindings for SAP NetWeaver RFC SDK"
@@ -30,7 +30,9 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3 :: Only"
 ]
-dependencies = []
+dependencies = [
+    "importlib-metadata"
+]
 
 [project.urls]
 homepage = "https://github.com/SAP/PyRFC"

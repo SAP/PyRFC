@@ -2,10 +2,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import importlib.metadata
 import os
+import sys
 
-__version__ = importlib.metadata.version("pyrfc")
+if sys.version_info < (3,8):
+    import importlib_metadata as mtd
+else:
+    import importlib.metadata as mtd
+
+__version__ = mtd.version("pyrfc")
 __version_info__ = tuple(__version__.split("."))
 
 if os.name == "nt":
