@@ -5,10 +5,7 @@
 import os
 import sys
 
-if sys.version_info < (3,8):
-    import importlib_metadata as mtd
-else:
-    import importlib.metadata as mtd
+import importlib_metadata as mtd
 
 __version__ = mtd.version("pyrfc")
 __version_info__ = tuple(__version__.split("."))
