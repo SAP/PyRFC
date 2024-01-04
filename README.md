@@ -9,7 +9,6 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrfc)](https://pypistats.org/packages/pyrfc)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/PyRFC)](https://api.reuse.software/info/github.com/SAP/PyRFC)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4349/badge)](https://bestpractices.coreinfrastructure.org/projects/4349)
-[![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 - [Features](#features)
 - [Supported platforms](#supported-platforms)
@@ -27,7 +26,6 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 - [How to obtain support](#how-to-obtain-support)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
-- [License](#license)
 
 ## Features
 
@@ -247,7 +245,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more details on our philosophy around
 ## Code of Conduct
 
 See [Code of Conduct](./CODE_OF_CONDUCT.md)
-
-## License
-
-Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE file](LICENSES/Apache-2.0.txt).
