@@ -1,4 +1,4 @@
-﻿# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
+# SPDX-FileCopyrightText: 2013 SAP SE Srdjan Boskovic <srdjan.boskovic@sap.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -469,6 +469,7 @@ def test_date_time():
                 assert error.args[4] == "RFCTIME"
             assert error.args[5] == "IMPORTSTRUCT"
 
+
 def test_date_time_no_check():
     conn = Connection(config={"check_date": False, "check_time": False}, **CONNECTION_INFO)
     DATETIME_TEST = [
@@ -492,8 +493,8 @@ def test_date_time_no_check():
         {"RFCDATE": "20161231", "RFCTIME": 123456},  # wrong time type
     ]
     for index, dt in enumerate(DATETIME_TEST):
-        print(index, dt)
-        if index not in (11,17):
+        # print(index, dt)
+        if index not in (11, 17):
             res = conn.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             assert dt["RFCDATE"][:8] in res["RFCDATE"]
             if dt["RFCTIME"] == "":
@@ -515,7 +516,6 @@ def test_date_time_no_check():
                 assert isinstance(dt["RFCTIME"], error.args[3])
                 assert error.args[4] == "RFCTIME"
             assert error.args[5] == "IMPORTSTRUCT"
-
 
 
 def test_date_accepts_string():

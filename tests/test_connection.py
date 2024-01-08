@@ -79,7 +79,7 @@ class TestConnection:
             "progName",
             "partnerBytesPerChar",
             "partnerIP",
-            "partnerIPv6"
+            "partnerIPv6",
             # 'reserved'
         )
         assert all(attr in connection_info for attr in info_keys)

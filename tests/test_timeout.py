@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pytest
-from pyrfc import Connection, RFCError
+from pyrfc import Connection, RFCError, ExternalRuntimeError
 
 from tests.config import CONNECTION_INFO
 
@@ -61,3 +61,11 @@ class TestTimeout:
         assert "Connection was canceled" in error.args[0]
         # ensure new connection replaced the canceled one
         assert client.alive is True
+
+    def test_timeout_with_rfc_error(self):
+        with pytest.raises(ExternalRuntimeError) as ex:
+            client.call("STFC_CONNECTION", options={"timeout": 60}, undefined=0)
+        error = ex.value
+        assert error.code == 20
+        assert error.key == "RFC_INVALID_PARAMETER"
+        assert error.message == "field 'undefined' not found"

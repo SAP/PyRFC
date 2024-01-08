@@ -88,7 +88,7 @@ CryptoLibPath = {
     "darwin": "/Applications/Secure Login Client.app/Contents/MacOS/lib/libsapcrypto.dylib",
     "linux": "/usr/local/sap/cryptolib/libsapcrypto.so",
     "win32": "C:\\Tools\\cryptolib\\sapcrypto.dll",
-    "windows": "C:\\Tools\\cryptolib\\sapcrypto.dll"
+    "windows": "C:\\Tools\\cryptolib\\sapcrypto.dll",
     # "C:\\Program Files\\SAP\\FrontEnd\\SecureLogin\\libsapcrypto.dll"
 }[PLATFORM]
 

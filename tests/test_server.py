@@ -43,6 +43,7 @@ server = Server(
 
 client = Connection(dest="MME")
 
+
 @pytest.mark.skipif(not sys.platform.startswith("darwin"), reason="Manual server test on Darwin only")
 class TestServer:
     def test_add_wrong_function(self):
@@ -84,7 +85,6 @@ class TestServer:
             FUNC_DESC_BS01_SALESORDER_GETDETAIL,
         )
 
-
     def test_stfc_structure(self):
         def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
             """Server function my_stfc_structure with the signature of ABAP function module STFC_STRUCTURE."""
@@ -96,9 +96,9 @@ class TestServer:
             if RFCTABLE is None:
                 RFCTABLE = []
             ECHOSTRUCT = IMPORTSTRUCT.copy()
-            ECHOSTRUCT['RFCINT1'] += 1
-            ECHOSTRUCT['RFCINT2'] += 1
-            ECHOSTRUCT['RFCINT4'] += 1
+            ECHOSTRUCT["RFCINT1"] += 1
+            ECHOSTRUCT["RFCINT2"] += 1
+            ECHOSTRUCT["RFCINT4"] += 1
             if len(RFCTABLE) == 0:
                 RFCTABLE = [ECHOSTRUCT]
             RESPTEXT = f"Python server sends {len(RFCTABLE)} table rows"
@@ -107,7 +107,6 @@ class TestServer:
             print(f"RESPTEXT: {RESPTEXT}")
 
             return {"ECHOSTRUCT": ECHOSTRUCT, "RFCTABLE": RFCTABLE, "RESPTEXT": RESPTEXT}
-
 
         def my_auth_check(func_name=False, request_context=None):
             """Server authorization check."""
@@ -122,9 +121,7 @@ class TestServer:
 
         # create server
         server = Server(
-            {"dest": "MME_GATEWAY"},
-            {"dest": "MME"},
-            {"check_date": False, "check_time": False, "server_log": True}
+            {"dest": "MME_GATEWAY"}, {"dest": "MME"}, {"check_date": False, "check_time": False, "server_log": True}
         )
 
         # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
@@ -152,8 +149,10 @@ class TestServer:
         # shutdown server
         server.close()
 
+
 # get server attributes
 print(server.get_server_attributes())
+
 
 def teardown():
     server.close()
