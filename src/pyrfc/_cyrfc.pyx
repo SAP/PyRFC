@@ -1543,7 +1543,7 @@ cdef RFC_RC metadataLookup(
             const SAP_UC* functionName,
             RFC_ATTRIBUTES rfcAttributes,
             RFC_FUNCTION_DESC_HANDLE *funcDescHandle
-        ) with gil:
+        ) noexcept with gil:
     global server_functions
     function_name = wrapString(functionName)
     if function_name not in server_functions:
@@ -1572,7 +1572,7 @@ cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverE
 
     return server_context
 
-cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) with gil:
+cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) noexcept with gil:
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_ATTRIBUTES attributes
