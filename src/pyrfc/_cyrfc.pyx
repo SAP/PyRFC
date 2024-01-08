@@ -912,6 +912,7 @@ cdef class Connection:
             self._error(&errorInfo)
         cdef int isActive = 0
         options = options or {}
+        cancel_timer = None
         try:  # now we have a function module
             if 'not_requested' in options:
                 skip_parameters = options['not_requested']
@@ -924,7 +925,6 @@ cdef class Connection:
                     if rc != RFC_OK:
                         self._error(&errorInfo)
             # set connection timeout, starts before writing input parameters to container
-            cancel_timer = None
             timeout = options.get('timeout', self.__config['timeout'])
             if timeout is not None:
                 cancel_timer = Timer(timeout, cancel_connection, (self,))
@@ -963,7 +963,7 @@ cdef class Connection:
             else:
                 return functionContainerGet(funcDesc, funcCont, RFC_IMPORT, self.bconfig)
         finally:
-            if cancel_timer:
+            if cancel_timer is not None:
                 cancel_timer.cancel()
             RfcDestroyFunction(funcCont, NULL)
 
