@@ -963,6 +963,8 @@ cdef class Connection:
             else:
                 return functionContainerGet(funcDesc, funcCont, RFC_IMPORT, self.bconfig)
         finally:
+            if cancel_timer:
+                cancel_timer.cancel()
             RfcDestroyFunction(funcCont, NULL)
 
     ##########################################################################
