@@ -8,7 +8,7 @@ import importlib.metadata
 import os
 from contextlib import suppress
 
-__version__ = importlib.metadata.version("pyrfc")
+__version__ = importlib.metadata.version(__name__)
 __version_info__ = tuple(__version__.split("."))
 
 if os.name == "nt":
