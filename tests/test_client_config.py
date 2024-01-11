@@ -116,7 +116,10 @@ class TestConnection:
                 **config_sections["coevi51"],
             )
         error = ex.value
-        assert error.args[0] == "Connection configuration option 'xtimeout' is not supported"
+        assert (
+            error.args[0]
+            == "Connection configuration option 'xtimeout' is not supported"
+        )
 
     def test_config_parameter(self):
         conn = Connection(

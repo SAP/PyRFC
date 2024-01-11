@@ -140,7 +140,10 @@ class TestErrorsABAP:
         assert error.msg_type == "X"
         assert error.msg_number == "006"
         # assert error.msg_v1 == "STRING"
-        assert error.message == "The current application has triggered a termination with a short dump."
+        assert (
+            error.message
+            == "The current application has triggered a termination with a short dump."
+        )
 
     def test_AbapRuntimeError_E36(self):
         # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] ==

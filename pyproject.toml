@@ -73,7 +73,7 @@ select = [
   "YTT",    # flake8-2020
 ]
 
-line-length = 172
+line-length = 88
 target-version = "py38"
 
 [tool.ruff.mccabe]

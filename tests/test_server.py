@@ -6,7 +6,13 @@ import os
 import sys
 
 import pytest
-from pyrfc import ABAPApplicationError, Connection, RFCError, Server, set_ini_file_directory
+from pyrfc import (
+    ABAPApplicationError,
+    Connection,
+    RFCError,
+    Server,
+    set_ini_file_directory,
+)
 
 sys.path.append(os.path.dirname(__file__))
 from data.func_desc_BAPISDORDER_GETDETAILEDLIST import (
@@ -44,7 +50,9 @@ server = Server(
 client = Connection(dest="MME")
 
 
-@pytest.mark.skipif(not sys.platform.startswith("darwin"), reason="Manual server test on Darwin only")
+@pytest.mark.skipif(
+    not sys.platform.startswith("darwin"), reason="Manual server test on Darwin only"
+)
 class TestServer:
     def test_add_wrong_function(self):
         with pytest.raises(ABAPApplicationError) as ex:
@@ -106,7 +114,11 @@ class TestServer:
             print(f"RFCTABLE: {RFCTABLE}")
             print(f"RESPTEXT: {RESPTEXT}")
 
-            return {"ECHOSTRUCT": ECHOSTRUCT, "RFCTABLE": RFCTABLE, "RESPTEXT": RESPTEXT}
+            return {
+                "ECHOSTRUCT": ECHOSTRUCT,
+                "RFCTABLE": RFCTABLE,
+                "RESPTEXT": RESPTEXT,
+            }
 
         def my_auth_check(func_name=False, request_context=None):
             """Server authorization check."""
@@ -121,7 +133,9 @@ class TestServer:
 
         # create server
         server = Server(
-            {"dest": "MME_GATEWAY"}, {"dest": "MME"}, {"check_date": False, "check_time": False, "server_log": True}
+            {"dest": "MME_GATEWAY"},
+            {"dest": "MME"},
+            {"check_date": False, "check_time": False, "server_log": True},
         )
 
         # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system

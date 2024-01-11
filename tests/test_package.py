@@ -16,7 +16,9 @@ with suppress(ModuleNotFoundError):
 
 
 @pytest.mark.skipif(
-    "tomllib" not in sys.modules or "linux" not in sys.platform or sys.version_info < latest_python_version,
+    "tomllib" not in sys.modules
+    or "linux" not in sys.platform
+    or sys.version_info < latest_python_version,
     reason="package check on latest python only",
 )
 class TestPackageContent:
@@ -33,7 +35,9 @@ class TestPackageContent:
 
     def test_wheel_package(self):
         package_path = join(self.temp_dir, self.package_name)
-        package_files = [fn for fn in listdir(package_path) if isfile(join(package_path, fn))]
+        package_files = [
+            fn for fn in listdir(package_path) if isfile(join(package_path, fn))
+        ]
         exts = set()
         # no cython and c sources, only python and 'so'
         for fn in package_files:

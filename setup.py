@@ -11,7 +11,9 @@ from setuptools import Extension, setup
 PACKAGE_NAME = "pyrfc"
 MODULE_NAME = "_cyrfc"
 
-build_cython = sys.platform.startswith("linux") or bool(os.environ.get("PYRFC_BUILD_CYTHON"))
+build_cython = sys.platform.startswith("linux") or bool(
+    os.environ.get("PYRFC_BUILD_CYTHON")
+)
 
 # build from source on Linux
 CMDCLASS = {}
@@ -20,7 +22,9 @@ if build_cython:
         from Cython.Build import cythonize
         from Cython.Distutils import build_ext
     except ImportError:
-        sys.exit("Cython not installed: https://cython.readthedocs.io/en/latest/src/quickstart/install.html")
+        sys.exit(
+            "Cython not installed: https://cython.readthedocs.io/en/latest/src/quickstart/install.html"
+        )
     CMDCLASS = {"build_ext": build_ext}
 
 # check if SAP NWRFC SDK configured
@@ -189,7 +193,11 @@ PYRFC_EXT = Extension(
 setup(
     name=PACKAGE_NAME,
     cmdclass=CMDCLASS,  # type: ignore
-    ext_modules=cythonize(PYRFC_EXT, annotate=True, compiler_directives={"language_level": "3", "embedsignature": True})  # type: ignore
+    ext_modules=cythonize(
+        PYRFC_EXT,
+        annotate=True,
+        compiler_directives={"language_level": "3", "embedsignature": True},
+    )  # type: ignore
     if build_cython
     else [PYRFC_EXT],  # type: ignore
     test_suite="tests",

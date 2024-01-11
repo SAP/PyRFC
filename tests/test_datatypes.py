@@ -471,7 +471,9 @@ def test_date_time():
 
 
 def test_date_time_no_check():
-    conn = Connection(config={"check_date": False, "check_time": False}, **CONNECTION_INFO)
+    conn = Connection(
+        config={"check_date": False, "check_time": False}, **CONNECTION_INFO
+    )
     DATETIME_TEST = [
         {"RFCDATE": "20161231", "RFCTIME": "123456"},  # good, correct date
         {"RFCDATE": "", "RFCTIME": "123456"},  # good, empty date
