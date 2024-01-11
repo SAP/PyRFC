@@ -20,7 +20,7 @@ with open("tests/pyrfc.cfg", "r") as fc:
 
 latest_python_version = (
     3,
-    11,
+    12,
 )
 
 # Numeric types
