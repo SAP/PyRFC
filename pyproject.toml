@@ -82,9 +82,3 @@ max-complexity = 100
 [tool.ruff.per-file-ignores]
 "src/pyrfc/__init__.py" = ["F401"]
 "tests/test_server.py" = ["E402"]
-
-[tool.ruff.pylint]
-max-args = 11
-max-branches = 110
-max-returns = 8
-max-statements = 289

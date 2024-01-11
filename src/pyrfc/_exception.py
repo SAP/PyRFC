@@ -22,7 +22,7 @@ class RFCLibError(RFCError):
     Base class for exceptions raised by the local underlying C connector (sapnwrfc.c).
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         message=None,
         code=None,
@@ -85,7 +85,7 @@ class LogonError(RFCLibError):
     LOGON_FAILURE.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         message=None,
         code=2,

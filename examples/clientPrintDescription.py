@@ -15,7 +15,7 @@ def parameter_key_function(parameter):
     return direction[parameter["direction"]]
 
 
-def main(function_name):
+def main(function_name):  # noqa: PLR0912
     cp = ConfigParser()
     cp.read(path.join(path.dirname(path.abspath(__file__)), "pyrfc.cfg"))
 
@@ -66,11 +66,7 @@ def main(function_name):
                 ]
                 field_widths = [20, 17, 10, 10, 9, 9, 10, 15]
 
-                sys.stdout.write(
-                    "    -----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(
-                        type_desc
-                    )
-                )
+                sys.stdout.write("    -----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(type_desc))
                 for key, width in zip(field_keys, field_widths):
                     sys.stdout.write(f"{key}".ljust(width).upper() + " ")
                 sys.stdout.write("\n")
