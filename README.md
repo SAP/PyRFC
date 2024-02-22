@@ -50,6 +50,8 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
   - **must not** be distributed with embedded SAP NWRFC SDK binaries, only private use permitted
 
+- [Ansible Module for use of SAP PyRFC](https://docs.ansible.com/ansible/latest/collections/community/sap_libs/sap_pyrfc_module.html)
+
 ## Requirements
 
 ### SAP NW RFC SDK 7.50 Patch Level 12
