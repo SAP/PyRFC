@@ -52,6 +52,8 @@ Asynchronous, non-blocking [SAP NetWeawer RFC SDK](https://support.sap.com/en/pr
 
 - [Ansible Module for use of SAP PyRFC](https://docs.ansible.com/ansible/latest/collections/community/sap_libs/sap_pyrfc_module.html)
 
+- Microsoft IIS, see [#359](https://github.com/SAP/PyRFC/issues/359)
+
 ## Requirements
 
 ### SAP NW RFC SDK 7.50 Patch Level 12
