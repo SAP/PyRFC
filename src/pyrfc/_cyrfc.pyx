@@ -1749,6 +1749,24 @@ cdef class Server:
     cdef object _server_thread
 
     @property
+    def transaction_handlers(self):
+        """Server transactional RFC handlers
+
+        :getter: Returns server transactional handlers implemented by application
+        :type: dict(str,function)
+        """
+        return self.__transactionHandler
+
+    @property
+    def transaction_handlers_count(self):
+        """Server transactional handlers implemented
+
+        :getter: Returns the number of transactional handlers implemented by application
+        :type: int
+        """
+        return len([f for f in self.__transactionHandler.values() if callable(f)])
+
+    @property
     def bgrfc_handlers(self):
         """Server bgRFC handlers
 
@@ -1759,7 +1777,7 @@ cdef class Server:
 
     @property
     def bgrfc_handlers_count(self):
-        """Server bgRFC handlers initialized
+        """Server bgRFC handlers implemented
 
         :getter: Returns the number of bgRFC handlers implemented by application
         :type: int
