@@ -2246,7 +2246,7 @@ cdef class Server:
         rc = RfcGetServerAttributes(self._server_handle, &attributes, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
-        rfcServerState = wrapString(RfcGetServerStateAsString(attributes.state), -1, True)
+        rfcServerState = wrapString(RfcGetServerStateAsString(attributes.state), -1)
         protocol_type = None
         if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER:
             protocol_type = "multi count"
@@ -2254,7 +2254,7 @@ cdef class Server:
             protocol_type = socket.gethostname()  # Own host name
         return {
             # This server's name as given when creating the server.
-            'serverName': wrapString(attributes.serverName, -1, True)
+            'serverName': wrapString(attributes.serverName, -1)
             # This RFC server's type. Will be one of RFC_MULTI_COUNT_REGISTERED_SERVER or RFC_TCP_SOCKET_SERVER
             , 'protocolType': protocol_type
             # The current number of active registrations (in case of a Registered Server)
@@ -2866,31 +2866,31 @@ cdef SAP_UC* fillString(pyuc) except NULL:
 
 cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes):
     return {
-        'dest': wrapString(attributes.dest, 64, True).rstrip('\0')
-        , 'host': wrapString(attributes.host, 100, True).rstrip('\0')
-        , 'partnerHost': wrapString(attributes.partnerHost, 100, True).rstrip('\0')
-        , 'sysNumber': wrapString(attributes.sysNumber, 2, True).rstrip('\0')
-        , 'sysId': wrapString(attributes.sysId, 8, True).rstrip('\0')
-        , 'client': wrapString(attributes.client, 3, True).rstrip('\0')
-        , 'user': wrapString(attributes.user, 12, True).rstrip('\0')
-        , 'language': wrapString(attributes.language, 2, True).rstrip('\0')
-        , 'trace': wrapString(attributes.trace, 1, True).rstrip('\0')
-        , 'isoLanguage': wrapString(attributes.isoLanguage, 2, True).rstrip('\0')
-        , 'codepage': wrapString(attributes.codepage, 4, True).rstrip('\0')
-        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4, True).rstrip('\0')
-        , 'rfcRole': wrapString(attributes.rfcRole, 1, True).rstrip('\0')
+        'dest': wrapString(attributes.dest, 64).rstrip('\0')
+        , 'host': wrapString(attributes.host, 100).rstrip('\0')
+        , 'partnerHost': wrapString(attributes.partnerHost, 100).rstrip('\0')
+        , 'sysNumber': wrapString(attributes.sysNumber, 2).rstrip('\0')
+        , 'sysId': wrapString(attributes.sysId, 8).rstrip('\0')
+        , 'client': wrapString(attributes.client, 3).rstrip('\0')
+        , 'user': wrapString(attributes.user, 12).rstrip('\0')
+        , 'language': wrapString(attributes.language, 2).rstrip('\0')
+        , 'trace': wrapString(attributes.trace, 1).rstrip('\0')
+        , 'isoLanguage': wrapString(attributes.isoLanguage, 2).rstrip('\0')
+        , 'codepage': wrapString(attributes.codepage, 4).rstrip('\0')
+        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4).rstrip('\0')
+        , 'rfcRole': wrapString(attributes.rfcRole, 1).rstrip('\0')
         , 'type': wrapString(attributes.type, 1).rstrip('\0')
-        , 'partnerType': wrapString(attributes.partnerType, 1, True).rstrip('\0')
-        , 'rel': wrapString(attributes.rel, 4, True).rstrip('\0')
-        , 'partnerRel': wrapString(attributes.partnerRel, 4, True).rstrip('\0')
-        , 'kernelRel': wrapString(attributes.kernelRel, 4, True).rstrip('\0')
-        , 'cpicConvId': wrapString(attributes.cpicConvId, 8, True).rstrip('\0')
-        , 'progName': wrapString(attributes.progName, 128, True).rstrip('\0')
-        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, True).rstrip('\0')
-        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, True).rstrip('\0')
-        , 'partnerIP': wrapString(attributes.partnerIP, 15, True).rstrip('\0')
-        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, True).rstrip('\0')
-        , 'reserved': wrapString(attributes.reserved, 17, True).rstrip('\0')
+        , 'partnerType': wrapString(attributes.partnerType, 1).rstrip('\0')
+        , 'rel': wrapString(attributes.rel, 4).rstrip('\0')
+        , 'partnerRel': wrapString(attributes.partnerRel, 4).rstrip('\0')
+        , 'kernelRel': wrapString(attributes.kernelRel, 4).rstrip('\0')
+        , 'cpicConvId': wrapString(attributes.cpicConvId, 8).rstrip('\0')
+        , 'progName': wrapString(attributes.progName, 128).rstrip('\0')
+        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1).rstrip('\0')
+        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4).rstrip('\0')
+        , 'partnerIP': wrapString(attributes.partnerIP, 15).rstrip('\0')
+        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45).rstrip('\0')
+        , 'reserved': wrapString(attributes.reserved, 17).rstrip('\0')
     }
 
 
@@ -3027,13 +3027,13 @@ cdef wrapUnitAttributes(RFC_UNIT_ATTRIBUTES *uattr):
     unit_attributes['unit_history'] = uattr.unitHistory != 0
     unit_attributes['lock'] = uattr.lock != 0
     unit_attributes['no_commit_check'] = uattr.noCommitCheck != 0
-    unit_attributes['user'] = wrapString(uattr.user, 12, True)
-    unit_attributes['client'] = wrapString(uattr.client, 3, True)
-    unit_attributes['t_code'] = wrapString(uattr.tCode, 20, True)
-    unit_attributes['program'] = wrapString(uattr.program, 40, True)
-    unit_attributes['hostname'] = wrapString(uattr.hostname, 40, True)
-    unit_attributes['sending_date'] = wrapString(uattr.sendingDate, 8, True)
-    unit_attributes['sending_time'] = wrapString(uattr.sendingTime, 6, True)
+    unit_attributes['user'] = wrapString(uattr.user, 12)
+    unit_attributes['client'] = wrapString(uattr.client, 3)
+    unit_attributes['t_code'] = wrapString(uattr.tCode, 20)
+    unit_attributes['program'] = wrapString(uattr.program, 40)
+    unit_attributes['hostname'] = wrapString(uattr.hostname, 40)
+    unit_attributes['sending_date'] = wrapString(uattr.sendingDate, 8)
+    unit_attributes['sending_time'] = wrapString(uattr.sendingTime, 6)
     return unit_attributes
 
 cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, unsigned config):
@@ -3255,7 +3255,10 @@ cdef wrapVariable(
         rc = RfcGetDate(container, cName, dateValue, &errorInfo)
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
-        value = wrapString(dateValue, 8)
+        # Some ABAP applications may return empty dates as spaces
+        # No strip done here because the consumer might consider the date
+        # field changed, from space(8) to empty string
+        value = wrapString(dateValue, 8, False)
         # return date or None
         if config & _MASK_DTIME:
             if (value == '00000000') or not value:
@@ -3269,7 +3272,8 @@ cdef wrapVariable(
         rc = RfcGetTime(container, cName, timeValue, &errorInfo)
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
-        value = wrapString(timeValue, 6)
+        # Same as dates (see above)
+        value = wrapString(timeValue, 6, False)
         # return time or None
         if config & _MASK_DTIME:
             if not value:
@@ -3300,7 +3304,7 @@ cdef wrapError(RFC_ERROR_INFO* errorInfo):
             wrapString(errorInfo.abapMsgV3), wrapString(errorInfo.abapMsgV4)
         )
 
-cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=False):
+cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=True):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     if uclen == -1:
@@ -3319,8 +3323,8 @@ cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=False):
     try:
         if rstrip:
             return utf8[:result_len].rstrip().decode()
-        else:
-            return utf8[:result_len].decode()
+
+        return utf8[:result_len].decode()
     finally:
         free(utf8)
 
@@ -3343,7 +3347,7 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=True):
     try:
         if rstrip:
             return utf8[:result_len].rstrip().decode()
-        else:
-            return utf8[:result_len].decode()
+
+        return utf8[:result_len].decode()
     finally:
         free(utf8)
