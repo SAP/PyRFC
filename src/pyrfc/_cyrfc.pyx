@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+#cython: language_level=3
+
 """ The _pyrfc C-extension module """
 
 from libc.stdint cimport uintptr_t
@@ -1581,31 +1583,31 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
     global server_functions
 
-    # section 5.6.2 of SAP NWRFC SDK Programming Guide 7.50
-    context = get_server_context(rfcHandle, serverErrorInfo)
-    if context is None:
-        err_msg = f"Error code {serverErrorInfo.code} when getting server context for connection '{<uintptr_t>rfcHandle}'"
-        new_error = ExternalRuntimeError(
-            message=err_msg,
-            code=RFC_EXTERNAL_FAILURE
-        )
-        fillError(new_error, serverErrorInfo)
-        return RFC_EXTERNAL_FAILURE
-
-    funcDesc = RfcDescribeFunction(funcHandle, NULL)
-    RfcGetFunctionName(funcDesc, funcName, NULL)
-
-    func_name = wrapString(funcName)
-    if func_name not in server_functions:
-        _server_log("genericHandler", f"No metadata found for function '{function_name}'")
-        return RFC_NOT_FOUND
-
-    func_data = server_functions[func_name]
-    callback = func_data['callback']
-    server = func_data['server']
-    # func_desc = func_data['func_desc_handle']
-
     try:
+        # section 5.6.2 of SAP NWRFC SDK Programming Guide 7.50
+        context = get_server_context(rfcHandle, serverErrorInfo)
+        if context is None:
+            err_msg = f"Error code {serverErrorInfo.code} when getting server context for connection '{<uintptr_t>rfcHandle}'"
+            new_error = ExternalRuntimeError(
+                message=err_msg,
+                code=RFC_EXTERNAL_FAILURE
+            )
+            fillError(new_error, serverErrorInfo)
+            return RFC_EXTERNAL_FAILURE
+
+        funcDesc = RfcDescribeFunction(funcHandle, NULL)
+        RfcGetFunctionName(funcDesc, funcName, NULL)
+
+        func_name = wrapString(funcName)
+        if func_name not in server_functions:
+            _server_log("genericHandler", f"No metadata found for function '{function_name}'")
+            return RFC_NOT_FOUND
+
+        func_data = server_functions[func_name]
+        callback = func_data['callback']
+        server = func_data['server']
+        # func_desc = func_data['func_desc_handle']
+
         rc = RfcGetConnectionAttributes(rfcHandle, &attributes, &errorInfo)
         if rc != RFC_OK:
             _server_log("genericHandler", f"Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
