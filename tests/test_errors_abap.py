@@ -5,7 +5,7 @@
 import pytest
 from pyrfc import ABAPApplicationError, ABAPRuntimeError, Connection, RFCError
 
-from tests.config import PARAMS as params
+from tests.config import CONNECTION_PARAMS as params
 
 
 class TestErrorsABAP:

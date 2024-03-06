@@ -9,11 +9,10 @@ from locale import LC_ALL, localeconv, setlocale
 import pytest
 from pyrfc import Connection, ExternalRuntimeError, set_locale_radix
 
-from tests.abap_system import connection_info
 from tests.config import (
     BYTEARRAY_TEST,
     BYTES_TEST,
-    CONNECTION_INFO,
+    CONNECTION_DEST,
     RFC_MATH,
     ABAP_to_python_date,
     ABAP_to_python_time,
@@ -23,7 +22,7 @@ from tests.config import (
 
 setlocale(LC_ALL)
 
-client = Connection(**CONNECTION_INFO)
+client = Connection(**CONNECTION_DEST)
 
 
 def get_locale_radix():
@@ -126,9 +125,9 @@ def test_string_unicode():
     unicode_test = [
         "string",
         "四周远处都能望见",
-        "\U0001F4AA",
+        "\U0001f4aa",
         "\u0001\uf4aa",
-        "a\xac\u1234\u20ac\U0001F4AA",
+        "a\xac\u1234\u20ac\U0001f4aa",
     ]
 
     for ch in unicode_test:
@@ -472,7 +471,7 @@ def test_date_time():
 
 def test_date_time_no_check():
     conn = Connection(
-        config={"check_date": False, "check_time": False}, **CONNECTION_INFO
+        config={"check_date": False, "check_time": False}, **CONNECTION_DEST
     )
     DATETIME_TEST = [
         {"RFCDATE": "20161231", "RFCTIME": "123456"},  # good, correct date
@@ -873,7 +872,7 @@ def test_numc_rejects_space_string():
 
 def test_utclong_accepts_min_max_initial():
     UTCLONG = RFC_MATH["UTCLONG"]
-    conn = Connection(**connection_info("QM7"))
+    conn = Connection(dest="QM7")
 
     res = conn.call(
         "ZDATATYPES",
@@ -898,7 +897,7 @@ def test_utclong_accepts_min_max_initial():
 
 def test_utclong_rejects_non_string_or_invalid_format():
     UTCLONG = RFC_MATH["UTCLONG"]
-    conn = Connection(**connection_info("QM7"))
+    conn = Connection(dest="QM7")
     with pytest.raises(TypeError) as ex:
         res = conn.call(
             "ZDATATYPES",

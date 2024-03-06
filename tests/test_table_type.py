@@ -4,7 +4,7 @@
 
 from pyrfc import Connection
 
-from tests.config import PARAMS as params
+from tests.config import CONNECTION_DEST as params
 
 
 class TestTableTypeParameters:

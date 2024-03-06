@@ -11,7 +11,7 @@ from pyrfc import (
     RFCError,
 )
 
-from tests.config import PARAMS as params
+from tests.config import CONNECTION_PARAMS as params
 
 
 class TestErrors:

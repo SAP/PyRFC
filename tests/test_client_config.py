@@ -7,14 +7,14 @@ import datetime
 import pytest
 from pyrfc import Connection, RFCError
 
-from tests.config import CONFIG_SECTIONS as config_sections
+from tests.config import CONNECTION_PARAMS
 
 
 class TestConnection:
     def test_config_rstrip_false(self):
         conn = Connection(
             config={"rstrip": False},
-            **config_sections["coevi51"],
+            **CONNECTION_PARAMS,
         )
 
         # Test with rstrip=False (input length=255 char)
@@ -34,7 +34,7 @@ class TestConnection:
         conn.close()
 
     def test_config_rstrip_true(self):
-        conn = Connection(**config_sections["coevi51"])
+        conn = Connection(**CONNECTION_PARAMS)
 
         # Test with rstrip=True (input length=255 char)
         hello = "Hällo SAP!" + " " * 245
@@ -55,7 +55,7 @@ class TestConnection:
     def test_config_dtime_true(self):
         conn = Connection(
             config={"dtime": True},
-            **config_sections["coevi51"],
+            **CONNECTION_PARAMS,
         )
         # dates as datetime objects
         dates = conn.call(
@@ -67,7 +67,7 @@ class TestConnection:
         conn.close()
 
     def test_config_dtime_false(self):
-        conn = Connection(**config_sections["coevi51"])
+        conn = Connection(**CONNECTION_PARAMS)
         # dates as strings
         dates = conn.call(
             "BAPI_USER_GET_DETAIL",
@@ -79,7 +79,7 @@ class TestConnection:
 
     def test_config_return_import_params_false(self):
         # no import params return
-        conn = Connection(**config_sections["coevi51"])
+        conn = Connection(**CONNECTION_PARAMS)
         hello = "Hällo SAP!"
         res = conn.call(
             "STFC_CONNECTION",
@@ -92,7 +92,7 @@ class TestConnection:
         # return import params
         conn = Connection(
             config={"return_import_params": True},
-            **config_sections["coevi51"],
+            **CONNECTION_PARAMS,
         )
         res = conn.call(
             "STFC_CONNECTION",
@@ -104,7 +104,7 @@ class TestConnection:
     def test_config_timeout(self):
         conn = Connection(
             config={"timeout": 123},
-            **config_sections["coevi51"],
+            **CONNECTION_PARAMS,
         )
         assert conn.options["timeout"] == 123
         conn.close()
@@ -113,7 +113,7 @@ class TestConnection:
         with pytest.raises(RFCError) as ex:
             Connection(
                 config={"xtimeout": 123},
-                **config_sections["coevi51"],
+                **CONNECTION_PARAMS,
             )
         error = ex.value
         assert (
@@ -124,7 +124,7 @@ class TestConnection:
     def test_config_parameter(self):
         conn = Connection(
             config={"dtime": True},
-            **config_sections["coevi51"],
+            **CONNECTION_PARAMS,
         )
         # dtime test
         dates = conn.call(
@@ -134,7 +134,7 @@ class TestConnection:
         assert type(dates["MODDATE"]) is datetime.date
         assert type(dates["MODTIME"]) is datetime.time
         conn.close()
-        conn = Connection(**config_sections["coevi51"])
+        conn = Connection(**CONNECTION_PARAMS)
         dates = conn.call(
             "BAPI_USER_GET_DETAIL",
             USERNAME="demo",
@@ -144,7 +144,7 @@ class TestConnection:
         conn.close()
         conn = Connection(
             config={"dtime": True},
-            **config_sections["coevi51"],
+            **CONNECTION_PARAMS,
         )
         # no import params return
         hello = "Hällo SAP!"
@@ -157,7 +157,7 @@ class TestConnection:
         # return import params
         conn = Connection(
             config={"return_import_params": True},
-            **config_sections["coevi51"],
+            **CONNECTION_PARAMS,
         )
         res = conn.call(
             "STFC_CONNECTION",

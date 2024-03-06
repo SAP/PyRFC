@@ -7,9 +7,8 @@ import socket
 import sys
 from contextlib import suppress
 
-from tests.config import CONFIG_SECTIONS as config_sections
-from tests.config import PARAMS as params
-from tests.config import PARAMSDEST as paramsdest
+from tests.config import CONNECTION_DEST as paramsdest
+from tests.config import CONNECTION_PARAMS as params
 from tests.config import UNICODETEST, latest_python_version
 
 with suppress(ModuleNotFoundError):
@@ -110,18 +109,12 @@ class TestConnection:
         assert self.conn.alive
 
     def test_call_over_closed_connection(self):
-        conn = Connection(
-            config={"rstrip": False},
-            **config_sections["coevi51"],
-        )
+        conn = Connection(config={"rstrip": False}, **params)
         conn.close()
         assert conn.alive is False
         hello = "Hällo SAP!"
         with pytest.raises(RFCError) as ex:
-            conn.call(
-                "STFC_CONNECTION",
-                REQUTEXT=hello,
-            )
+            conn.call("STFC_CONNECTION", REQUTEXT=hello)
         error = ex.value
         assert (
             error.args[0]

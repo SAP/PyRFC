@@ -8,7 +8,7 @@ from typing import ClassVar
 
 from pyrfc import Connection
 
-from tests.config import PARAMS as params
+from tests.config import CONNECTION_PARAMS as params
 
 
 class TestSTFC:

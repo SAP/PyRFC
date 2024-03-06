@@ -5,7 +5,7 @@
 import pytest
 from pyrfc import Connection, Throughput
 
-from tests.config import PARAMS as params
+from tests.config import CONNECTION_DEST as params
 
 
 def equal_no_time(t1, t2):

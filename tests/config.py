@@ -74,14 +74,12 @@ def python_to_ABAP_time(py_time):
 
 set_ini_file_directory("tests")
 
-CONFIG_SECTIONS = COPA._sections
-CONNECTION_INFO = CONFIG_SECTIONS["coevi51"]
+CONNECTION_PARAMS = dict(COPA["coevi51"])
+CONNECTION_DEST = dict(COPA["coevi51dest"])
 UNICODETEST = "ทดสอบสร้างลูกค้าจากภายนอกครั้งที่" * 7
 UNICODE1 = "四周远处都"
 BYTEARRAY_TEST = bytearray.fromhex("01414243444549500051fdfeff")
 BYTES_TEST = bytes(BYTEARRAY_TEST)
-PARAMS = CONNECTION_INFO
-PARAMSDEST = {"dest": "MME"}
 
 PLATFORM = platform.system().lower()
 CryptoLibPath = {
