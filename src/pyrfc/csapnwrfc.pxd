@@ -147,11 +147,17 @@ cdef extern from "sapnwrfc.h":
     ctypedef void *RFC_SERVER_HANDLE
     ctypedef RFC_RC (*RFC_SERVER_FUNCTION)    (RFC_CONNECTION_HANDLE, RFC_FUNCTION_HANDLE, RFC_ERROR_INFO *) except * with gil
     ctypedef RFC_RC (*RFC_FUNC_DESC_CALLBACK) (SAP_UC *, RFC_ATTRIBUTES, RFC_FUNCTION_DESC_HANDLE *) except * with gil
-    ctypedef RFC_RC (*RFC_ON_CHECK_UNIT)     (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER*) except * with gil
+    # bgrfc handlers
+    ctypedef RFC_RC (*RFC_ON_CHECK_UNIT)     (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) except * with gil
     ctypedef RFC_RC (*RFC_ON_COMMIT_UNIT)    (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) except * with gil
     ctypedef RFC_RC (*RFC_ON_ROLLBACK_UNIT)  (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) except * with gil
     ctypedef RFC_RC (*RFC_ON_CONFIRM_UNIT)   (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) except * with gil
     ctypedef RFC_RC (*RFC_ON_GET_UNIT_STATE) (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER*, RFC_UNIT_STATE*) except * with gil
+    # transaction handlers
+    ctypedef RFC_RC (*RFC_ON_CHECK_TRANSACTION) (RFC_CONNECTION_HANDLE, SAP_UC *) except * with gil
+    ctypedef RFC_RC (*RFC_ON_COMMIT_TRANSACTION) (RFC_CONNECTION_HANDLE, SAP_UC *) except * with gil
+    ctypedef RFC_RC (*RFC_ON_ROLLBACK_TRANSACTION) (RFC_CONNECTION_HANDLE, SAP_UC *) except * with gil
+    ctypedef RFC_RC (*RFC_ON_CONFIRM_TRANSACTION) (RFC_CONNECTION_HANDLE, SAP_UC *) except * with gil
 
     ctypedef struct RFC_CONNECTION_PARAMETER:
         SAP_UC *name
@@ -435,7 +441,13 @@ cdef extern from "sapnwrfc.h":
                 RFC_ON_CONFIRM_UNIT onConfirmFunction,
                 RFC_ON_GET_UNIT_STATE onGetStateFunction,
                 RFC_ERROR_INFO *errorInfo) nogil
-
+    RFC_RC RfcInstallTransactionHandlers (
+                const SAP_UC *sysId,
+                RFC_ON_CHECK_TRANSACTION onCheckFunction,
+                RFC_ON_COMMIT_TRANSACTION onCommitFunction,
+                RFC_ON_ROLLBACK_TRANSACTION onRollbackFunction,
+                RFC_ON_CONFIRM_TRANSACTION onConfirmFunction,
+                RFC_ERROR_INFO *errorInfo) nogil
     RFC_THROUGHPUT_HANDLE RfcCreateThroughput(RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcDestroyThroughput (RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcSetThroughputOnConnection (RFC_CONNECTION_HANDLE rfcHandle, RFC_THROUGHPUT_HANDLE throughput, RFC_ERROR_INFO *errorInfo)

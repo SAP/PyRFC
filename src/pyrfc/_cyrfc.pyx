@@ -1749,22 +1749,40 @@ cdef class Server:
     cdef object _server_thread
 
     @property
+    def transaction_handlers(self):
+        """Server transactional RFC handlers
+
+        :getter: Returns server transactional handlers implemented by application
+        :type: dict(str,function)
+        """
+        return self.__transactionHandler
+
+    @property
+    def transaction_handlers_count(self):
+        """Server transactional handlers implemented
+
+        :getter: Returns the number of transactional handlers implemented by application
+        :type: int
+        """
+        return len([f for f in self.__transactionHandler.values() if callable(f)])
+
+    @property
     def bgrfc_handlers(self):
         """Server bgRFC handlers
 
         :getter: Returns server bgRFC handlers implemented by application
         :type: dict(str,function)
         """
-        return self.__bgRfcFunction
+        return self.__bgRfcHandler
 
     @property
     def bgrfc_handlers_count(self):
-        """Server bgRFC handlers initialized
+        """Server bgRFC handlers implemented
 
         :getter: Returns the number of bgRFC handlers implemented by application
         :type: int
         """
-        return len([f for f in self.__bgRfcFunction.values() if callable(f)])
+        return len([f for f in self.__bgRfcHandler.values() if callable(f)])
 
     @property
     def server_handle(self):
@@ -1839,10 +1857,107 @@ cdef class Server:
         _server_log("Server", f"{self.server_handle} created")
 
     #
+    # transaction protocol handlers defined as class methods, calling application handlers
+    #
+
+    __transactionHandler = {
+        "check": None,
+        "commit": None,
+        "rollback": None,
+        "confirm": None,
+    }
+
+    @staticmethod
+    cdef RFC_RC __onCheckTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
+        handler = Server.__transactionHandler["check"]
+        if not callable(handler):
+            _server_log("Transaction check handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RCStatus.OK.value
+        try:
+            transaction_id = wrapString(tid)
+            return handler(<uintptr_t>rfcHandle, transaction_id).value
+        except Exception as ex:
+            _server_log("Error in transaction check handler:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
+
+    @staticmethod
+    cdef RFC_RC __onCommitTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
+        handler = Server.__transactionHandler["commit"]
+        if not callable(handler):
+            _server_log("Transaction commit handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RCStatus.OK.value
+        try:
+            transaction_id = wrapString(tid)
+            return handler(<uintptr_t>rfcHandle, transaction_id).value
+        except Exception as ex:
+            _server_log("Error in transaction commit handler:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
+
+    @staticmethod
+    cdef RFC_RC __onRollbackTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
+        handler = Server.__transactionHandler["rollback"]
+        if not callable(handler):
+            _server_log("Transaction rollback handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RCStatus.OK.value
+        try:
+            transaction_id = wrapString(tid)
+            return handler(<uintptr_t>rfcHandle, transaction_id).value
+        except Exception as ex:
+            _server_log("Error in transaction rollback handler:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
+
+    @staticmethod
+    cdef RFC_RC __onConfirmTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
+        handler = Server.__transactionHandler["confirm"]
+        if not callable(handler):
+            _server_log("Transaction confirm handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RCStatus.OK.value
+        try:
+            transaction_id = wrapString(tid)
+            return handler(<uintptr_t>rfcHandle, transaction_id).value
+        except Exception as ex:
+            _server_log("Error in transaction confirm handler:", ex)
+            return RCStatus.RFC_EXTERNAL_FAILURE.value
+
+    def transaction_rfc_init(self, sysId=None, transactionHandler=None):
+        """Installs the necessary callback functions for processing incoming transactional rfc calls.
+
+        These functions need to be implemented by Python application and will be used by the RFC runtime.
+        When no callback function is provided, the default one is used,
+        not necessarily matching your application requirements.
+
+        For more info search for the ``RfcInstallTransactionHandlers`` method in
+        `SAP NetWeaver RFC SDK Doxygen Documentation <https://support.sap.com/en/product/connectors/nwrfcsdk.html>`_
+
+        :param sysId: System ID of the SAP system for which to use this set of transaction handlers, or None
+                      When None value provided, the transaction handlers will be used for bgRFC calls from
+                      any backend system, for which no explicit handlers have been installed.
+        :type sysId: string or None
+
+        :param transactionHandler: Function callbacks
+        :type transactionHandler: dict(str, function)
+
+            * "check": onCheckTransaction,
+            * "commit": onCommitTransaction,
+            * "rollback": onRollbackTransaction,
+            * "confirm": onConfirmTransaction,
+
+        :return: error code, zero when no error
+        """
+        if isinstance(transactionHandler, dict):
+            for func_name in transactionHandler:
+                if func_name not in Server.__transactionHandler:
+                    raise TypeError(f"Transaction handler function key not supported: '{func_name}'")
+                if not callable(transactionHandler[func_name]):
+                    raise TypeError(f"Transaction handler function referenced by '{func_name}' is not callable: '{transactionHandler[func_name]}'")
+                Server.__transactionHandler[func_name] = transactionHandler[func_name]
+        return self.install_transaction_handlers(sysId)
+
+    #
     # bgRFC protocol handlers defined as class methods, calling application handlers
     #
 
-    __bgRfcFunction = {
+    __bgRfcHandler = {
         "check": None,
         "commit": None,
         "rollback": None,
@@ -1852,7 +1967,7 @@ cdef class Server:
 
     @staticmethod
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcFunction["check"]
+        handler = Server.__bgRfcHandler["check"]
         if not callable(handler):
             _server_log("bgRFC handler onCheck is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
@@ -1865,7 +1980,7 @@ cdef class Server:
 
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcFunction["commit"]
+        handler = Server.__bgRfcHandler["commit"]
         if not callable(handler):
             _server_log("bgRFC handler onCommit is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
@@ -1878,7 +1993,7 @@ cdef class Server:
 
     @staticmethod
     cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcFunction["rollback"]
+        handler = Server.__bgRfcHandler["rollback"]
         if not callable(handler):
             _server_log("bgRFC handler onRollback is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
@@ -1891,7 +2006,7 @@ cdef class Server:
 
     @staticmethod
     cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcFunction["confirm"]
+        handler = Server.__bgRfcHandler["confirm"]
         if not callable(handler):
             _server_log("bgRFC handler onConfirm is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.OK.value
@@ -1908,7 +2023,7 @@ cdef class Server:
                 const RFC_UNIT_IDENTIFIER *identifier,
                 RFC_UNIT_STATE *unitState
             ) with gil:
-        handler = Server.__bgRfcFunction["getState"]
+        handler = Server.__bgRfcHandler["getState"]
         if not callable(handler):
             _server_log("bgRFC handler onGetState is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
             return RCStatus.RFC_EXTERNAL_FAILURE.value
@@ -1931,7 +2046,7 @@ cdef class Server:
             _server_log("Error in bgRFC handler onGetState:\n", ex)
             return RCStatus.RFC_EXTERNAL_FAILURE.value
 
-    def bgrfc_init(self, sysId=None, bgRfcFunction=None):
+    def bgrfc_init(self, sysId=None, bgRfcHandler=None):
         """Installs the necessary callback functions for processing incoming bgRFC calls.
 
         These functions need to be implemented by Python application and will be used by the RFC runtime.
@@ -1946,8 +2061,8 @@ cdef class Server:
                       any backend system, for which no explicit handlers have been installed.
         :type sysId: string or None
 
-        :param bgRfcFunction: Function callbacks
-        :type bgRfcFunction: dict(str, function)
+        :param bgRfcHandler: Function callbacks
+        :type bgRfcHandler: dict(str, function)
 
             * "check": onCheckFunction,
             * "commit": onCommitFunction,
@@ -1957,13 +2072,13 @@ cdef class Server:
 
         :return: error code, zero when no error
         """
-        if bgRfcFunction is not None:
-            for func_name in bgRfcFunction:
-                if func_name not in Server.__bgRfcFunction:
+        if bgRfcHandler is not None:
+            for func_name in bgRfcHandler:
+                if func_name not in Server.__bgRfcHandler:
                     raise TypeError(f"BgRfc callback function key not supported: '{func_name}'")
-                if not callable(bgRfcFunction[func_name]):
-                    raise TypeError(f"BgRfc callback function referenced by '{func_name}' is not callable: '{bgRfcFunction[func_name]}'")
-                Server.__bgRfcFunction[func_name] = bgRfcFunction[func_name]
+                if not callable(bgRfcHandler[func_name]):
+                    raise TypeError(f"BgRfc callback function referenced by '{func_name}' is not callable: '{bgRfcHandler[func_name]}'")
+                Server.__bgRfcHandler[func_name] = bgRfcHandler[func_name]
         return self.install_bgrfc_handlers(sysId)
 
     cdef install_bgrfc_handlers(self, sysId=None):
@@ -1980,8 +2095,27 @@ cdef class Server:
                         )
         free(ucSysId)
         _server_log(f"Server {self.server_handle}", f"bgRFC handlers installed: {self.bgrfc_handlers_count}")
-        for k, v in self.__bgRfcFunction.items():
-            _server_log(f"bgRFC handler {k}", f"{self.__bgRfcFunction[k]}")
+        for k, v in self.__bgRfcHandler.items():
+            _server_log(f"bgRFC handler {k}", f"{self.__bgRfcHandler[k]}")
+        if rc != RFC_OK or errorInfo.code != RFC_OK:
+            raise wrapError(&errorInfo)
+        return rc
+
+    cdef install_transaction_handlers(self, sysId=None):
+        ucSysId = fillString(sysId) if sysId is not None else NULL
+        cdef RFC_ERROR_INFO errorInfo
+        cdef RFC_RC rc = RfcInstallTransactionHandlers(
+                            ucSysId,
+                            Server.__onCheckTransaction,
+                            Server.__onCommitTransaction,
+                            Server.__onRollbackTransaction,
+                            Server.__onConfirmTransaction,
+                            &errorInfo
+                        )
+        free(ucSysId)
+        _server_log(f"Server {self.server_handle}", f"Transaction handlers installed: {self.transaction_handlers_count}")
+        for k, v in self.__transactionHandler.items():
+            _server_log(f"Transaction handler {k}", f"{self.__transactionHandler[k]}")
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
         return rc
@@ -2112,7 +2246,7 @@ cdef class Server:
         rc = RfcGetServerAttributes(self._server_handle, &attributes, &errorInfo)
         if rc != RFC_OK or errorInfo.code != RFC_OK:
             raise wrapError(&errorInfo)
-        rfcServerState = wrapString(RfcGetServerStateAsString(attributes.state), -1, True)
+        rfcServerState = wrapString(RfcGetServerStateAsString(attributes.state), -1)
         protocol_type = None
         if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER:
             protocol_type = "multi count"
@@ -2120,7 +2254,7 @@ cdef class Server:
             protocol_type = socket.gethostname()  # Own host name
         return {
             # This server's name as given when creating the server.
-            'serverName': wrapString(attributes.serverName, -1, True)
+            'serverName': wrapString(attributes.serverName, -1)
             # This RFC server's type. Will be one of RFC_MULTI_COUNT_REGISTERED_SERVER or RFC_TCP_SOCKET_SERVER
             , 'protocolType': protocol_type
             # The current number of active registrations (in case of a Registered Server)
@@ -2732,31 +2866,31 @@ cdef SAP_UC* fillString(pyuc) except NULL:
 
 cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes):
     return {
-        'dest': wrapString(attributes.dest, 64, True).rstrip('\0')
-        , 'host': wrapString(attributes.host, 100, True).rstrip('\0')
-        , 'partnerHost': wrapString(attributes.partnerHost, 100, True).rstrip('\0')
-        , 'sysNumber': wrapString(attributes.sysNumber, 2, True).rstrip('\0')
-        , 'sysId': wrapString(attributes.sysId, 8, True).rstrip('\0')
-        , 'client': wrapString(attributes.client, 3, True).rstrip('\0')
-        , 'user': wrapString(attributes.user, 12, True).rstrip('\0')
-        , 'language': wrapString(attributes.language, 2, True).rstrip('\0')
-        , 'trace': wrapString(attributes.trace, 1, True).rstrip('\0')
-        , 'isoLanguage': wrapString(attributes.isoLanguage, 2, True).rstrip('\0')
-        , 'codepage': wrapString(attributes.codepage, 4, True).rstrip('\0')
-        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4, True).rstrip('\0')
-        , 'rfcRole': wrapString(attributes.rfcRole, 1, True).rstrip('\0')
+        'dest': wrapString(attributes.dest, 64).rstrip('\0')
+        , 'host': wrapString(attributes.host, 100).rstrip('\0')
+        , 'partnerHost': wrapString(attributes.partnerHost, 100).rstrip('\0')
+        , 'sysNumber': wrapString(attributes.sysNumber, 2).rstrip('\0')
+        , 'sysId': wrapString(attributes.sysId, 8).rstrip('\0')
+        , 'client': wrapString(attributes.client, 3).rstrip('\0')
+        , 'user': wrapString(attributes.user, 12).rstrip('\0')
+        , 'language': wrapString(attributes.language, 2).rstrip('\0')
+        , 'trace': wrapString(attributes.trace, 1).rstrip('\0')
+        , 'isoLanguage': wrapString(attributes.isoLanguage, 2).rstrip('\0')
+        , 'codepage': wrapString(attributes.codepage, 4).rstrip('\0')
+        , 'partnerCodepage': wrapString(attributes.partnerCodepage, 4).rstrip('\0')
+        , 'rfcRole': wrapString(attributes.rfcRole, 1).rstrip('\0')
         , 'type': wrapString(attributes.type, 1).rstrip('\0')
-        , 'partnerType': wrapString(attributes.partnerType, 1, True).rstrip('\0')
-        , 'rel': wrapString(attributes.rel, 4, True).rstrip('\0')
-        , 'partnerRel': wrapString(attributes.partnerRel, 4, True).rstrip('\0')
-        , 'kernelRel': wrapString(attributes.kernelRel, 4, True).rstrip('\0')
-        , 'cpicConvId': wrapString(attributes.cpicConvId, 8, True).rstrip('\0')
-        , 'progName': wrapString(attributes.progName, 128, True).rstrip('\0')
-        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1, True).rstrip('\0')
-        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4, True).rstrip('\0')
-        , 'partnerIP': wrapString(attributes.partnerIP, 15, True).rstrip('\0')
-        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45, True).rstrip('\0')
-        , 'reserved': wrapString(attributes.reserved, 17, True).rstrip('\0')
+        , 'partnerType': wrapString(attributes.partnerType, 1).rstrip('\0')
+        , 'rel': wrapString(attributes.rel, 4).rstrip('\0')
+        , 'partnerRel': wrapString(attributes.partnerRel, 4).rstrip('\0')
+        , 'kernelRel': wrapString(attributes.kernelRel, 4).rstrip('\0')
+        , 'cpicConvId': wrapString(attributes.cpicConvId, 8).rstrip('\0')
+        , 'progName': wrapString(attributes.progName, 128).rstrip('\0')
+        , 'partnerBytesPerChar': wrapString(attributes.partnerBytesPerChar, 1).rstrip('\0')
+        , 'partnerSystemCodepage': wrapString(attributes.partnerSystemCodepage, 4).rstrip('\0')
+        , 'partnerIP': wrapString(attributes.partnerIP, 15).rstrip('\0')
+        , 'partnerIPv6': wrapString(attributes.partnerIPv6, 45).rstrip('\0')
+        , 'reserved': wrapString(attributes.reserved, 17).rstrip('\0')
     }
 
 
@@ -2893,13 +3027,13 @@ cdef wrapUnitAttributes(RFC_UNIT_ATTRIBUTES *uattr):
     unit_attributes['unit_history'] = uattr.unitHistory != 0
     unit_attributes['lock'] = uattr.lock != 0
     unit_attributes['no_commit_check'] = uattr.noCommitCheck != 0
-    unit_attributes['user'] = wrapString(uattr.user, 12, True)
-    unit_attributes['client'] = wrapString(uattr.client, 3, True)
-    unit_attributes['t_code'] = wrapString(uattr.tCode, 20, True)
-    unit_attributes['program'] = wrapString(uattr.program, 40, True)
-    unit_attributes['hostname'] = wrapString(uattr.hostname, 40, True)
-    unit_attributes['sending_date'] = wrapString(uattr.sendingDate, 8, True)
-    unit_attributes['sending_time'] = wrapString(uattr.sendingTime, 6, True)
+    unit_attributes['user'] = wrapString(uattr.user, 12)
+    unit_attributes['client'] = wrapString(uattr.client, 3)
+    unit_attributes['t_code'] = wrapString(uattr.tCode, 20)
+    unit_attributes['program'] = wrapString(uattr.program, 40)
+    unit_attributes['hostname'] = wrapString(uattr.hostname, 40)
+    unit_attributes['sending_date'] = wrapString(uattr.sendingDate, 8)
+    unit_attributes['sending_time'] = wrapString(uattr.sendingTime, 6)
     return unit_attributes
 
 cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, unsigned config):
@@ -3121,7 +3255,10 @@ cdef wrapVariable(
         rc = RfcGetDate(container, cName, dateValue, &errorInfo)
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
-        value = wrapString(dateValue, 8)
+        # Some ABAP applications may return empty dates as spaces
+        # No strip done here because the consumer might consider the date
+        # field changed, from space(8) to empty string
+        value = wrapString(dateValue, 8, False)
         # return date or None
         if config & _MASK_DTIME:
             if (value == '00000000') or not value:
@@ -3135,7 +3272,8 @@ cdef wrapVariable(
         rc = RfcGetTime(container, cName, timeValue, &errorInfo)
         if rc != RFC_OK:
             raise wrapError(&errorInfo)
-        value = wrapString(timeValue, 6)
+        # Same as dates (see above)
+        value = wrapString(timeValue, 6, False)
         # return time or None
         if config & _MASK_DTIME:
             if not value:
@@ -3166,7 +3304,7 @@ cdef wrapError(RFC_ERROR_INFO* errorInfo):
             wrapString(errorInfo.abapMsgV3), wrapString(errorInfo.abapMsgV4)
         )
 
-cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=False):
+cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=True):
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     if uclen == -1:
@@ -3185,8 +3323,8 @@ cdef wrapString(const SAP_UC* uc, uclen=-1, rstrip=False):
     try:
         if rstrip:
             return utf8[:result_len].rstrip().decode()
-        else:
-            return utf8[:result_len].decode()
+
+        return utf8[:result_len].decode()
     finally:
         free(utf8)
 
@@ -3209,7 +3347,7 @@ cdef wrapString(SAP_UC* uc, uclen=-1, rstrip=True):
     try:
         if rstrip:
             return utf8[:result_len].rstrip().decode()
-        else:
-            return utf8[:result_len].decode()
+
+        return utf8[:result_len].decode()
     finally:
         free(utf8)
