@@ -15,9 +15,9 @@ def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
     if RFCTABLE is None:
         RFCTABLE = []
     ECHOSTRUCT = IMPORTSTRUCT.copy()
-    ECHOSTRUCT['RFCINT1'] += 1
-    ECHOSTRUCT['RFCINT2'] += 1
-    ECHOSTRUCT['RFCINT4'] += 1
+    ECHOSTRUCT["RFCINT1"] += 1
+    ECHOSTRUCT["RFCINT2"] += 1
+    ECHOSTRUCT["RFCINT4"] += 1
     if len(RFCTABLE) == 0:
         RFCTABLE = [ECHOSTRUCT]
     RESPTEXT = f"Python server sends {len(RFCTABLE)} table rows"
@@ -42,7 +42,7 @@ def my_auth_check(func_name=False, request_context=None):
 server = Server(
     {"dest": "MME_GATEWAY"},
     {"dest": "MME"},
-    {"check_date": False, "check_time": False, "server_log": True}
+    {"check_date": False, "check_time": False, "server_log": True},
 )
 
 print(server.options)
