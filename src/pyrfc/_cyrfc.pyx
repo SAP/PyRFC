@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-#cython: language_level=3
+# cython: language_level=3
 
 """ The _pyrfc C-extension module """
 
