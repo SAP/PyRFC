@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyrfc"
-version = "3.3.1"
+version = "3.4"
 readme = "README.md"
 license = { file = "LICENSES/Apache-2.0.txt" }
 description = "Python bindings for SAP NetWeaver RFC SDK"
@@ -50,10 +50,16 @@ where = ["src"]
 include = ["pyrfc"]
 
 [tool.pytest.ini_options]
-minversion = "7.3"
+minversion = "8"
 testpaths =["tests"]
 
 [tool.ruff]
+preview = true
+respect-gitignore = true
+line-length = 88
+target-version = "py38"
+
+[tool.ruff.lint]
 select = [
   "C90",    # McCabe cyclomatic complexity
   "E",      # pycodestyle
@@ -73,12 +79,22 @@ select = [
   "YTT",    # flake8-2020
 ]
 
-line-length = 88
-target-version = "py38"
+[tool.ruff.lint.mccabe]
+max-complexity = 10
 
-[tool.ruff.mccabe]
-max-complexity = 100
-
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "src/pyrfc/__init__.py" = ["F401"]
 "tests/test_server.py" = ["E402"]
+
+[tool.ruff.format]
+# same as Black
+quote-style = "double"
+
+# same as Black
+indent-style = "space"
+
+# same as Black
+skip-magic-trailing-comma = false
+
+# same as Black
+line-ending = "auto"
