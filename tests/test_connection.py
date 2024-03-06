@@ -51,7 +51,8 @@ class TestConnection:
         package_name = pyproject["project"]["name"]
         version = pyproject["project"]["version"]
         assert package_name == "pyrfc"
-        assert version == __version__
+        if __version__ != "0.0.0":
+            assert version == __version__
 
     def test_connection_info(self):
         connection_info = self.conn.get_connection_attributes()

@@ -4,11 +4,11 @@
 
 """pyrfc package."""
 
-import importlib.metadata
 import os
 from contextlib import suppress
+from importlib.metadata import version
 
-__version__ = importlib.metadata.version(__name__)
+__version__ = version(__name__)
 __version_info__ = tuple(__version__.split("."))
 
 if os.name == "nt":
