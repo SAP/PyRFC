@@ -1545,34 +1545,43 @@ cdef RFC_RC metadataLookup(
             RFC_FUNCTION_DESC_HANDLE *funcDescHandle
         ) noexcept with gil:
     global server_functions
-    function_name = wrapString(functionName)
-    if function_name not in server_functions:
-        _server_log("metadataLookup", f"No metadata found for function '{function_name}'.")
+    try:
+        function_name = wrapString(functionName)
+        if function_name not in server_functions:
+            _server_log("metadataLookup", f"No metadata found for function '{function_name}'.")
+            return RFC_NOT_FOUND
+        func_metadata = server_functions[function_name]
+        # callback = func_metadata['callback']
+        funcDescHandle[0] = <RFC_FUNCTION_DESC_HANDLE><uintptr_t>func_metadata['func_desc_handle']
+        _server_log("metadataLookup", f"Function '{function_name}' handle {<uintptr_t>funcDescHandle[0]}.")
+        return RFC_OK
+    except Exception as ex:
+        _server_log("metadataLookup error", ex)
         return RFC_NOT_FOUND
-    func_metadata = server_functions[function_name]
-    # callback = func_metadata['callback']
-    funcDescHandle[0] = <RFC_FUNCTION_DESC_HANDLE><uintptr_t>func_metadata['func_desc_handle']
-    _server_log("metadataLookup", f"Function '{function_name}' handle {<uintptr_t>funcDescHandle[0]}.")
-    return RFC_OK
 
-cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverErrorInfo):
+
+cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverErrorInfo) with gil:
     cdef RFC_SERVER_CONTEXT context
-    cdef RFC_RC rc = RfcGetServerContext(rfcHandle, &context, serverErrorInfo)
-    if rc != RFC_OK or serverErrorInfo.code != RFC_OK:
+    cdef RFC_RC rc
+    try:
+        rc = RfcGetServerContext(rfcHandle, &context, serverErrorInfo)
+        if rc != RFC_OK or serverErrorInfo.code != RFC_OK:
+            _server_log("get_server_context", f"error rc={rc} code={serverErrorInfo.code}")
+            return None
+        server_context = {
+            "call_type": UnitCallType(context.type),
+            "is_stateful": context.isStateful != 0
+        }
+        if context.type != RFC_SYNCHRONOUS and context.unitIdentifier != NULL:
+            server_context["unit_identifier"] = wrapUnitIdentifier(context.unitIdentifier[0])
+        if context.type == RFC_BACKGROUND_UNIT and context.unitAttributes != NULL:
+            server_context ["unit_attributes"] = wrapUnitAttributes(context.unitAttributes)
+        return server_context
+    except Exception as ex:
+        _server_log("get_server_context", f"error {ex}")
         return None
 
-    server_context = {
-        "call_type": UnitCallType(context.type),
-        "is_stateful": context.isStateful != 0
-    }
-    if context.type != RFC_SYNCHRONOUS:
-        server_context["unit_identifier"] = wrapUnitIdentifier(context.unitIdentifier[0])
-    if context.type == RFC_BACKGROUND_UNIT:
-        server_context ["unit_attributes"] = wrapUnitAttributes(context.unitAttributes)
-
-    return server_context
-
-cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) noexcept with gil:
+cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) with gil:
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_ATTRIBUTES attributes
@@ -1598,14 +1607,13 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
         func_name = wrapString(funcName)
         if func_name not in server_functions:
-            _server_log("genericHandler", f"No metadata found for function '{function_name}'")
+            _server_log("genericHandler", f"error: No metadata found for function '{function_name}'")
             return RFC_NOT_FOUND
 
         func_data = server_functions[func_name]
         callback = func_data['callback']
         server = func_data['server']
         # func_desc = func_data['func_desc_handle']
-
         rc = RfcGetConnectionAttributes(rfcHandle, &attributes, &errorInfo)
         if rc != RFC_OK:
             _server_log("genericHandler", f"Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
@@ -1646,8 +1654,13 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
         # Return results
         if context["call_type"] != UnitCallType.background_unit:
-            for name, value in result.iteritems():
-                functionContainerSet(funcDesc, funcHandle, name, value, server.bconfig)
+            if isinstance(result, dict):
+                for name, value in result.iteritems():
+                    functionContainerSet(funcDesc, funcHandle, name, value, server.bconfig)
+            else:
+                _server_log("genericHandler", f"error: callback function {func_name} did not return dictionary, but {type(result)}")
+
+        return RFC_OK
 
     # Server exception handling: cf. SAP NetWeaver RFC SDK 7.50
     # 5.1 Preparing a Server Program for Receiving RFC Requests
@@ -1687,8 +1700,6 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         )
         fillError(new_error, serverErrorInfo)
         return RFC_EXTERNAL_FAILURE
-
-    return RFC_OK
 
 
 cdef class Server:
