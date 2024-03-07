@@ -6,7 +6,13 @@ import sys
 from configparser import ConfigParser
 from os import path
 
-from pyrfc import ABAPApplicationError, ABAPRuntimeError, CommunicationError, Connection, LogonError
+from pyrfc import (
+    ABAPApplicationError,
+    ABAPRuntimeError,
+    CommunicationError,
+    Connection,
+    LogonError,
+)
 
 
 def parameter_key_function(parameter):
@@ -66,7 +72,11 @@ def main(function_name):  # noqa: PLR0912
                 ]
                 field_widths = [20, 17, 10, 10, 9, 9, 10, 15]
 
-                sys.stdout.write("    -----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(type_desc))
+                sys.stdout.write(
+                    "    -----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(
+                        type_desc
+                    )
+                )
                 for key, width in zip(field_keys, field_widths):
                     sys.stdout.write(f"{key}".ljust(width).upper() + " ")
                 sys.stdout.write("\n")
@@ -75,7 +85,9 @@ def main(function_name):  # noqa: PLR0912
                     for key, width in zip(field_keys, field_widths):
                         sys.stdout.write(f"{field_description[key]}".ljust(width) + " ")
                     sys.stdout.write("\n")
-                sys.stdout.write(f"    -----------( Structure of {type_desc.name} )-----------\n")
+                sys.stdout.write(
+                    f"    -----------( Structure of {type_desc.name} )-----------\n"
+                )
             sys.stdout.write("-" * sum(parameter_widths) + "\n")
         connection.close()
 

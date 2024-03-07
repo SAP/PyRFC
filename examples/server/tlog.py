@@ -77,7 +77,7 @@ class TLog:
             raise Exception(f"TLOG line format invalid: '{line}'")
 
     def getTIDs(self, tids=None):
-        if isinstance(tids,str):
+        if isinstance(tids, str):
             tids = [tids]
         elif tids is None:
             tids = []

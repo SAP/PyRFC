@@ -74,7 +74,9 @@ def main():
                     unit = connection.initialize_unit(background=False)
                     print(f" - (t/qRFC) Using unit id = {unit['id']}")
                 if choice == 2:  # bgRFC, type 'Q'
-                    queue_input = input("Enter queue names (comma separated): ")  # WPS110
+                    queue_input = input(
+                        "Enter queue names (comma separated): "
+                    )  # WPS110
                     queue_names = [qi.strip() for qi in queue_input.split(",")]
                     connection.fill_and_submit_unit(
                         unit,

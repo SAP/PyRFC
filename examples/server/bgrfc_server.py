@@ -5,9 +5,8 @@
 import sys
 
 from backends import BACKEND
-from tlog import TLog
-
 from pyrfc import RCStatus, Server, UnitCallType, UnitState
+from tlog import TLog
 
 backend_dest = sys.argv[1]
 
@@ -17,10 +16,8 @@ tlog = TLog()
 tlog.remove()
 
 
-def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=None):
+def stfc_write_to_tcpic(request_context, RESTART_QNAME="", TCPICDAT=[]):
     try:
-        if TCPICDAT is None:
-            TCPICDAT = []
         context = request_context["server_context"]
         tid = context["unit_identifier"]["id"] if "unit_identifier" in context else None
         print(
@@ -155,12 +152,16 @@ def onGetStateFunction(rfcHandle, unit_identifier):
         return RCStatus.RFC_NOT_FOUND
     return RCStatus(tlog_record["status"])
 
+
 # create server
+
+
 server = Server(*BACKEND[backend_dest])
 print(server.get_server_attributes())
 
 try:
-    # expose python function stfc_write_to_tcpic as ABAP function STFC_WRITE_TO_TCPIC, to be called by ABAP system
+    # expose python function stfc_write_to_tcpic as ABAP function STFC_WRITE_TO_TCPIC,
+    # to be called by ABAP system
     server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
 
     # register bgRFC handlers
