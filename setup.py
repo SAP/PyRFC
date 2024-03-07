@@ -190,14 +190,12 @@ PYRFC_EXT = Extension(
     libraries=LIBS,
 )
 
+PYRFC_EXT.cython_directives = {"language_level": "3", "embedsignature": True}  # type: ignore
+
 setup(
     name=PACKAGE_NAME,
     cmdclass=CMDCLASS,  # type: ignore
-    ext_modules=cythonize(
-        PYRFC_EXT,
-        annotate=True,
-        compiler_directives={"language_level": "3", "embedsignature": True},
-    )  # type: ignore
+    ext_modules=cythonize(PYRFC_EXT, annotate=True)  # type: ignore
     if build_cython
     else [PYRFC_EXT],  # type: ignore
     test_suite="tests",

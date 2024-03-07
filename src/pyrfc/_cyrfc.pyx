@@ -2,14 +2,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# cython: language_level=3
-
 """ The _pyrfc C-extension module """
 
 from libc.stdint cimport uintptr_t
 from libc.stdlib cimport free, malloc
 
-import socket
+from socket import gethostname
 from collections.abc import Iterable
 from datetime import date, datetime, time
 from decimal import Decimal
@@ -2253,7 +2251,7 @@ cdef class Server:
         if attributes.type == RFC_MULTI_COUNT_REGISTERED_SERVER:
             protocol_type = "multi count"
         else:
-            protocol_type = socket.gethostname()  # Own host name
+            protocol_type = gethostname()  # Own host name
         return {
             # This server's name as given when creating the server.
             'serverName': wrapString(attributes.serverName, -1)
