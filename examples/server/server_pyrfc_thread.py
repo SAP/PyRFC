@@ -6,7 +6,8 @@ from pyrfc import Server
 
 
 def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
-    """Server function my_stfc_structure with the signature of ABAP function module STFC_STRUCTURE."""
+    """Server function my_stfc_structure with the signature
+    of ABAP function module STFC_STRUCTURE."""
 
     print("stfc structure invoked")
     print("request_context", request_context)
@@ -40,14 +41,15 @@ def my_auth_check(func_name=False, request_context=None):
 
 # create server
 server = Server(
-    {"dest": "MME_GATEWAY"},
-    {"dest": "MME"},
-    {"check_date": False, "check_time": False, "server_log": True},
+    server_params={"dest": "MME_GATEWAY"},
+    client_params={"dest": "MME"},
+    config={"check_date": False, "check_time": False, "server_log": True},
 )
 
 print(server.options)
 
-# expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
+# expose python function my_stfc_structure as ABAP function STFC_STRUCTURE
+# to be called from ABAP system
 server.add_function("STFC_STRUCTURE", my_stfc_structure)
 
 # start server
@@ -56,7 +58,7 @@ server.start()
 # get server attributes
 print(server.get_server_attributes())
 
-input("Press Enter to stop server...")  # WPS110
+input("Press Enter to stop server...")
 
 # shutdown server
 server.close()

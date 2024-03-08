@@ -83,7 +83,7 @@ BYTES_TEST = bytes(BYTEARRAY_TEST)
 
 PLATFORM = platform.system().lower()
 CryptoLibPath = {
-    "darwin": "/Applications/Secure Login Client.app/Contents/MacOS/lib/libsapcrypto.dylib",
+    "darwin": "/Applications/Secure Login Client.app/Contents/MacOS/lib/libsapcrypto.dylib",  # noqa: E501
     "linux": "/usr/local/sap/cryptolib/libsapcrypto.so",
     "win32": "C:\\Tools\\cryptolib\\sapcrypto.dll",
     "windows": "C:\\Tools\\cryptolib\\sapcrypto.dll",

@@ -4,6 +4,7 @@
 
 import os
 import sys
+import time
 
 import pytest
 from pyrfc import (
@@ -95,7 +96,8 @@ class TestServer:
 
     def test_stfc_structure(self):
         def my_stfc_structure(request_context=None, IMPORTSTRUCT=None, RFCTABLE=None):
-            """Server function my_stfc_structure with the signature of ABAP function module STFC_STRUCTURE."""
+            """Server function my_stfc_structure with the signature
+            of ABAP function module STFC_STRUCTURE."""
 
             print("stfc structure invoked")
             print("request_context", request_context)
@@ -129,8 +131,6 @@ class TestServer:
             print("request_context", request_context)
             return 0
 
-        import time
-
         # create server
         server = Server(
             {"dest": "MME_GATEWAY"},
@@ -138,7 +138,8 @@ class TestServer:
             {"check_date": False, "check_time": False, "server_log": True},
         )
 
-        # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE, to be called by ABAP system
+        # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE,
+        # to be called by ABAP system
         server.add_function("STFC_STRUCTURE", my_stfc_structure)
 
         # start server

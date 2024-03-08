@@ -8,7 +8,8 @@ from pyrfc import Server
 
 
 def my_stfc_connection(request_context=None, REQUTEXT=""):
-    """Server function my_stfc_connection with the signature of ABAP function module STFC_CONNECTION."""
+    """Server function my_stfc_connection with the signature
+    of ABAP function module STFC_CONNECTION."""
 
     print("stfc connection invoked")
     print("request_context", request_context)
@@ -35,17 +36,20 @@ def launch_server():
 
     # create server for ABAP system ABC
     server = Server(
-        {"dest": "gateway"},
-        {"dest": "MME"},
-        {"check_date": False, "check_time": False, "port": 8081, "server_log": False},
+        server_params={"dest": "gateway"},
+        client_params={"dest": "MME"},
+        config={
+            "check_date": False,
+            "check_time": False,
+            "port": 8081,
+            "server_log": False,
+        },
     )
     print(server.get_server_attributes())
 
-    # expose python function my_stfc_connection as ABAP function STFC_CONNECTION, to be called by ABAP system
-    server.add_function(
-        "STFC_CONNECTION",
-        my_stfc_connection,
-    )
+    # expose python function my_stfc_connection as ABAP function STFC_CONNECTION,
+    # to be called by ABAP system
+    server.add_function("STFC_CONNECTION", my_stfc_connection)
 
     # start server
     server.serve()
@@ -57,7 +61,7 @@ def launch_server():
 server_thread = Thread(target=launch_server)
 server_thread.start()
 
-input("Press Enter to stop server...")  # WPS110
+input("Press Enter to stop server...")
 
 # stop server
 server_thread.join()

@@ -119,7 +119,7 @@ class TestConnection:
         error = ex.value
         assert (
             error.args[0]
-            == "Remote function module 'STFC_CONNECTION' invocation rejected because the connection is closed"
+            == "Remote function module 'STFC_CONNECTION' invocation rejected because the connection is closed"  # noqa: E501
         )
 
     def test_ping(self):
@@ -278,21 +278,3 @@ class TestConnection:
         )
         assert res["COUNTER"] == counter + 1
         assert res["RESULT"] == start_value + counter
-
-
-"""
-# old tests, referring to non static z-functions
-#    def test_invalid_input(self):
-#        self.conn.call('Z_PBR_EMPLOYEE_GET', IV_EMPLOYEE='100190', IV_USER_ID='')
-#        self.conn.call('Z_PBR_EMPLOYEE_GET', IV_EMPLOYEE='', IV_USER_ID='HRPB_MNG01')
-#        self.assertRaises(TypeError, self.conn.call, 'Z_PBR_EMPLOYEE_GET', IV_EMPLOYEE=100190, IV_USER_ID='HRPB_MNG01')
-#
-#    def test_xstring_output(self):
-#        self.conn.call('Z_PBR_EMPLOYEE_GET_XSTRING', IV_EMPLOYEE='100190')
-#
-#    def test_xstring_input_output(self):
-#        for i in 1, 2, 3, 1023, 1024, 1025:
-#            s = 'X' * i
-#            out = self.conn.call('Z_PBR_TEST_2', IV_INPUT_XSTRING=s)
-#            self.assertEqual(s, out['EV_EXPORT_XSTRING'])
-"""

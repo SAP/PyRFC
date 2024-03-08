@@ -22,9 +22,7 @@ if build_cython:
         from Cython.Build import cythonize
         from Cython.Distutils import build_ext
     except ImportError:
-        sys.exit(
-            "Cython not installed: https://cython.readthedocs.io/en/latest/src/quickstart/install.html"
-        )
+        sys.exit("Cython not installed")
     CMDCLASS = {"build_ext": build_ext}
 
 # check if SAP NWRFC SDK configured
@@ -32,7 +30,7 @@ SAPNWRFC_HOME = os.environ.get("SAPNWRFC_HOME")
 if not SAPNWRFC_HOME:
     sys.exit(
         "Environment variable SAPNWRFC_HOME not set.\n"
-        "Please specify this variable with the root directory of the SAP NWRFC Library."
+        "This variable shall point to the root directory of the SAP NWRFC Library."
     )
 
 
@@ -70,13 +68,11 @@ elif sys.platform.startswith("win"):
     # https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options-listed-alphabetically
 
     # Python sources
-    PYTHONSOURCE = os.environ.get("PYTHONSOURCE")
+    PYTHONSOURCE = os.getenv(
+        "PYTHONSOURCE", inspect.getfile(inspect).split("/inspect.py")[0]
+    )
     if not PYTHONSOURCE:
-        PYTHONSOURCE = inspect.getfile(inspect).split("/inspect.py")[0]
-        # sys.exit(
-        #   "Environment variable PYTHONSOURCE not set."
-        #   "Please specify this variable with the root directory of PYTHONSOURCE Library."
-        # )
+        sys.exit("Environment variable PYTHONSOURCE not set.")
 
     LIBS = ["sapnwrfc", "libsapucum"]
 
@@ -194,9 +190,7 @@ PYRFC_EXT.cython_directives = {"language_level": "3", "embedsignature": True}  #
 
 setup(
     name=PACKAGE_NAME,
-    cmdclass=CMDCLASS,  # type: ignore
-    ext_modules=cythonize(PYRFC_EXT, annotate=True)  # type: ignore
-    if build_cython
-    else [PYRFC_EXT],  # type: ignore
+    cmdclass=CMDCLASS,
+    ext_modules=cythonize(PYRFC_EXT, annotate=True) if build_cython else [PYRFC_EXT],
     test_suite="tests",
 )

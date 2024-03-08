@@ -448,7 +448,7 @@ def test_date_time():
         if index < 6:
             res = client.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             assert dt["RFCDATE"] == res["RFCDATE"]
-            if dt["RFCTIME"] == "":
+            if not dt["RFCTIME"]:
                 assert res["RFCTIME"] == "000000"
             else:
                 assert dt["RFCTIME"] == res["RFCTIME"]
@@ -498,7 +498,7 @@ def test_date_time_no_check():
         if index not in (11, 17):
             res = conn.call("STFC_STRUCTURE", IMPORTSTRUCT=dt)["ECHOSTRUCT"]
             assert dt["RFCDATE"][:8] in res["RFCDATE"]
-            if dt["RFCTIME"] == "":
+            if not dt["RFCTIME"]:
                 assert res["RFCTIME"] == "000000"
             else:
                 assert dt["RFCTIME"][:6] in res["RFCTIME"]

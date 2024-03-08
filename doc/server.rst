@@ -36,13 +36,13 @@ Server running in new thread created by PyRFC is started using ``start()`` metho
 
 .. literalinclude:: ../examples/server/server_pyrfc_thread.py
    :language: python
-   :lines: 41-54
+   :lines: 42-61
 
 and can be stopped using ``close()`` method:
 
 .. literalinclude:: ../examples/server/server_pyrfc_thread.py
    :language: python
-   :lines: 61-62
+   :lines: 63-64
 
 Example: `server_pyrfc_thread.py <https://github.com/SAP/PyRFC/blob/master/examples/server/server_pyrfc_thread.py>`_
 
@@ -63,13 +63,13 @@ new thread started by application:
 
 .. literalinclude:: ../examples/server/server_app_thread.py
    :language: python
-   :lines: 33-60
+   :lines: 34-64
 
 and stopped by application:
 
 .. literalinclude:: ../examples/server/server_app_thread.py
    :language: python
-   :lines: 62-63
+   :lines: 66-67
 
 Example: `server_app_thread.py <https://github.com/SAP/PyRFC/blob/master/examples/server/server_app_thread.py>`_
 

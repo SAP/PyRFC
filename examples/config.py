@@ -26,7 +26,7 @@ def get_error(
     error = {}
     ex_type_full = str(type(ex))
     print(ex_type_full)
-    # error["type"] = ex_type_full[ex_type_full.rfind(".") + 1 : ex_type_full.rfind("'")]
+    # error["type"] = ex_type_full[ex_type_full.rfind(".") + 1 : ex_type_full.rfind("'")] # noqa: E501
     error["code"] = ex.code if "code" in ex else "<None>"
     error["key"] = ex.key if "key" in ex else "<None>"
     error["message"] = ex.message.split("\n")

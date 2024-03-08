@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-""" The _pyrfc C-extension module """
+"""The _pyrfc C-extension module"""
 
 from libc.stdint cimport uintptr_t
 from libc.stdlib cimport free, malloc
@@ -254,10 +254,9 @@ cdef _cancel_connection(client_connection):
 
 
 def cancel_connection(client_connection):
-    """Immediately cancels the RFC call which is currently being called over the given RFC connection
-    and closes the connection. Can be used only on an RFC client connection.
+    """Immediately cancels the RFC call and closes the connection.
 
-    RFC call cancellation with timeout can be done automatically, without using this method explicitely.
+    Can be used only on an RFC client connection call cancellation with timeout can be done automatically, without using this method explicitely.
     The ``timeout`` option can be at connection level, when creating connection instance, or at RFC call level, as
     RFC ``Connection.call()`` option. Either way, the connection will be cancelled if RFC call takes longer than ``timeout`` seconds.
 
@@ -319,7 +318,7 @@ cdef class ConnectionParameters:
 
 
 class TypeDescription(object):
-    """ A type description
+    """A type description
 
     This class wraps the RFC_TYPE_DESC_HANDLE as e.g. contained in
     a parameter description of a function description.
@@ -356,7 +355,7 @@ class TypeDescription(object):
 
     def add_field(self, name, field_type, nuc_length, uc_length, nuc_offset,
                   uc_offset, decimals=0, type_description=None):
-        """ Adds a field to the type description.
+        """Adds a field to the type description.
 
         :param name: Field name
         :type name: string (30)
@@ -405,7 +404,7 @@ class TypeDescription(object):
 
 
 class FunctionDescription(object):
-    """ A function description
+    """A function description
 
     This class wraps the RFC_FUNCTION_DESC_HANDLE as e.g. returned by
     RfcGetFunctionDesc() and used for server functionality.
@@ -434,7 +433,7 @@ class FunctionDescription(object):
     def add_parameter(self, name, parameter_type, direction, nuc_length,
                       uc_length, decimals=0, default_value="", parameter_text="",
                       optional=False, type_description=None):
-        """ Adds a parameter to the function description.
+        """Adds a parameter to the function description.
 
         :param name: Parameter name
         :type name: string (30)
@@ -505,7 +504,7 @@ class FunctionDescription(object):
 
 
 cdef class Connection:
-    """ A connection to an SAP backend system
+    """A connection to an SAP backend system
 
     Instantiating an :class:`pyrfc.Connection` object will
     automatically attempt to open a connection the SAP backend.
@@ -641,7 +640,7 @@ cdef class Connection:
         self._open()
 
     def free(self):
-        """ Explicitly free connection parameters and close the connection.
+        """Explicitly free connection parameters and close the connection.
 
         Note that this is usually required because the object destruction
         can be delayed by the garbage collection and problems may occur
@@ -663,7 +662,7 @@ cdef class Connection:
         self._close()
 
     def open(self):
-        """ Open client the connection
+        """Open client the connection
 
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the connection cannot be opened.
@@ -671,7 +670,7 @@ cdef class Connection:
         self._open()
 
     def reopen(self):
-        """ Re-open client the connection
+        """Re-open client the connection
 
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the connection cannot be re-opened.
@@ -679,7 +678,7 @@ cdef class Connection:
         self._reopen()
 
     def close(self):
-        """ Close the connection
+        """Close the connection
 
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the connection cannot be closed cleanly.
@@ -687,7 +686,7 @@ cdef class Connection:
         self._close()
 
     def cancel(self):
-        """ Cancels the ongoing RFC call using `~pyrfc.cancel_connection()` function
+        """Cancels the ongoing RFC call using `~pyrfc.cancel_connection()` function
 
         :raises: :exc:`~pyrfc.RFCError` or a subclass
                  thereof if the connection cannot be cancelled cleanly.
@@ -733,7 +732,7 @@ cdef class Connection:
         raise wrapError(errorInfo)
 
     def ping(self):
-        """ Send a RFC Ping through the current connection
+        """Send a RFC Ping through the current connection
 
         Returns nothing.
 
@@ -747,7 +746,8 @@ cdef class Connection:
             self._error(&errorInfo)
 
     def reset_server_context(self):
-        """ Resets the SAP server context ("user context / ABAP session context")
+        """
+        Resets the SAP server context ("user context / ABAP session context")
         associated with the given client connection, but does not close the connection
 
         :raises: :exc:`~pyrfc.RFCError` or a subclass
@@ -764,7 +764,7 @@ cdef class Connection:
             self._error(&errorInfo)
 
     def get_connection_attributes(self):
-        """ Get connection details
+        """Get connection details
 
         :returns: Mapping of connection information keys:
 
@@ -815,7 +815,8 @@ cdef class Connection:
         return result
 
     def is_valid(self):
-        """Checks an RFC connection. Can be used to check whether a client/server connection
+        """
+        Checks an RFC connection. Can be used to check whether a client/server connection
         has already been closed, or whether the NW RFC library still "considers" the connection
         to be open.
 
@@ -844,7 +845,7 @@ cdef class Connection:
     #     print("c:handle", "ok" if c_handle - self._handle == 0 else "error")
 
     def get_function_description(self, func_name):
-        """ Returns a function description of a function module.
+        """Returns a function description of a function module.
 
         :param func_name: Name of the function module whose description
               will be returned.
@@ -861,7 +862,8 @@ cdef class Connection:
         return wrapFunctionDescription(funcDesc)
 
     def call(self, func_name, options=None, **params):
-        """ Invokes a remote-enabled function module via RFC.
+        """
+        Invokes a remote-enabled function module via RFC.
 
         :param func_name: Name of the function module that will be invoked.
         :type func_name: string
@@ -883,16 +885,15 @@ cdef class Connection:
 
         :type options: dictionary
 
-        :param params: Parameter of the function module. All non optional
-                IMPORT, CHANGING, and TABLE parameters must be provided.
-        :type params: keyword arguments
+        :param **params:
+            Parameter of the function module.
+            All non optional IMPORT, CHANGING, and TABLE parameters must be provided.
 
         :return: Dictionary with all EXPORT, CHANGING, and TABLE parameters.
                  The IMPORT parameters are also given, if :attr:`Connection.config.return_import_params`
                  is set to ``True``.
 
-        :raises: :exc:`~pyrfc.RFCError` or a subclass
-                 thereof if the RFC call fails.
+        :raises: :exc:`~pyrfc.RFCError` or a subclass thereof if the RFC call fails.
         """
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
@@ -1032,7 +1033,7 @@ cdef class Connection:
     #  TRANSACTIONAL / QUEUED RFC
 
     def _get_transaction_id(self):
-        """ Returns a unique 24 char transaction ID (GUID)."""
+        """Returns a unique 24 char transaction ID (GUID)."""
         cdef RFC_RC rc
         cdef RFC_ERROR_INFO errorInfo
         cdef RFC_TID tid
@@ -1334,7 +1335,7 @@ cdef class Connection:
     # * queued - boolean, set on fill_and_submit_unit() call
 
     def initialize_unit(self, background=True):
-        """ Initializes a logical unit of work (LUW), shorthand: unit
+        """Initializes a logical unit of work (LUW), shorthand: unit
 
         .. warning::
 
@@ -1357,7 +1358,7 @@ cdef class Connection:
         return {'background': background, 'id': id, "queued": False}
 
     def fill_and_submit_unit(self, unit, calls, queue_names=None, attributes=None):
-        """ Fills a unit with one or more RFC and submits it to the backend.
+        """Fills a unit with one or more RFC and submits it to the backend.
 
         Fills a unit for this connection, prepare the invocation
         of multiple RFC function modules in it, and submits the unit
@@ -1471,7 +1472,7 @@ cdef class Connection:
             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
 
     def destroy_unit(self, unit):
-        """ Destroy the current unit.
+        """Destroy the current unit.
 
         E.g. if the completed unit could not be recorded in the frontend.
 
@@ -1489,7 +1490,7 @@ cdef class Connection:
             raise RFCError("Argument 'unit' not valid. (Is unit['background'] boolean?)")
 
     def confirm_unit(self, unit):
-        """ Confirm the current unit in the backend.
+        """Confirm the current unit in the backend.
 
         This also destroys the unit.
 
@@ -1707,7 +1708,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
 
 cdef class Server:
-    """ An ABAP server
+    """An ABAP server
 
     An instance of :class:`~pyrfc.Server` allows for installing
     Python callback functions and serve requests from SAP systems.
@@ -2209,7 +2210,8 @@ cdef class Server:
             _server_log("Server", f"{self.server_handle} stopped")
 
     def close(self):
-        """ Explicitly close the registration.
+        """
+        Explicitly close the registration.
         Note that this is usually not necessary as the registration will be closed
         automatically upon object destruction. However, if the the object destruction
         is delayed by the garbage collection, problems may occur when too many
@@ -2450,7 +2452,8 @@ cdef class Throughput:
         return <uintptr_t>self._throughput_handle
 
     def setOnConnection(self, Connection connection):
-        """Attaches a throughput object to a connection to be monitored by the throughput object.
+        """
+        Attaches a throughput object to a connection to be monitored by the throughput object.
         Once attached to a connection, the throughput object collects the data statistics of
         function calls invoked via this connection.
 
@@ -2493,7 +2496,8 @@ cdef class Throughput:
         return None
 
     def removeFromConnection(self, Connection connection):
-        """Removes the throughput object from a connection.
+        """
+        Removes the throughput object from a connection.
         The connection will no longer be monitored.
 
         :param connection: Connection instance
@@ -2910,7 +2914,7 @@ cdef wrapConnectionAttributes(RFC_ATTRIBUTES attributes):
 
 
 cdef wrapTypeDescription(RFC_TYPE_DESC_HANDLE typeDesc):
-    """ Parses a RFC_TYPE_DESC_HANDLE
+    """Parses a RFC_TYPE_DESC_HANDLE
 
     :param typeDesc: Handle of RFC_TYPE_DESC_HANDLE
     :return: object of class TypeDescription

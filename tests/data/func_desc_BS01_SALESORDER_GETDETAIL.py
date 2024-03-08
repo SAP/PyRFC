@@ -7597,7 +7597,7 @@ FUNC_DESC_BS01_SALESORDER_GETDETAIL = {
                     },
                 ],
             },
-            "parameter_text": "Communication Table: Means of Payment Order/Billing Document",
+            "parameter_text": "Communication Table: Means of Payment Order/Billing Document",  # noqa: E501
         },
         {
             "name": "ORDER_FLOWS",

@@ -4,6 +4,7 @@
 
 import sys
 
+from data.func_desc_STFC_STRUCTURE import FUNC_DESC_STFC_STRUCTURE
 from pyrfc import Connection
 
 parameter_keys = [
@@ -88,13 +89,6 @@ def function_description_to_dict(func_desc):
 
 # function description test data
 def main(func_name):
-    # from data.func_desc_BAPISDORDER_GETDETAILEDLIST import FUNC_DESC_BAPISDORDER_GETDETAILEDLIST
-    # from data.func_desc_BS01_SALESORDER_GETDETAIL import FUNC_DESC_BS01_SALESORDER_GETDETAIL
-
-    from data.func_desc_STFC_STRUCTURE import (
-        FUNC_DESC_STFC_STRUCTURE,
-    )
-
     with Connection(dest="MME") as client:
         func_desc = client.get_function_description(func_name)
     fd = function_description_to_dict(func_desc)

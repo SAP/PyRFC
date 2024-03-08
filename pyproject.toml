@@ -80,21 +80,14 @@ select = [
 ]
 
 [tool.ruff.lint.mccabe]
-max-complexity = 10
+max-complexity = 12
 
 [tool.ruff.lint.per-file-ignores]
 "src/pyrfc/__init__.py" = ["F401"]
-"tests/test_server.py" = ["E402"]
 
 [tool.ruff.format]
 # same as Black
 quote-style = "double"
-
-# same as Black
 indent-style = "space"
-
-# same as Black
 skip-magic-trailing-comma = false
-
-# same as Black
 line-ending = "auto"

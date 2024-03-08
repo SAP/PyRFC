@@ -73,7 +73,7 @@ def main(function_name):  # noqa: PLR0912
                 field_widths = [20, 17, 10, 10, 9, 9, 10, 15]
 
                 sys.stdout.write(
-                    "    -----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(
+                    "    -----------( Structure of {0.name} (n/uc_length={0.nuc_length}/{0.uc_length})--\n".format(  # noqa: E501
                         type_desc
                     )
                 )

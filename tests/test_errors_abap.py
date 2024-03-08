@@ -64,7 +64,7 @@ class TestErrorsABAP:
 
     def test_AbapApplicationError_E1(self):
         # Comment: cf. result_print of the error_test.py
-        # '1_E': 'ABAPApplicationError-5-RAISE_EXCEPTION-ID:SR Type:E Number:006 STRING-True',
+        # '1_E': 'ABAPApplicationError-5-RAISE_EXCEPTION-ID:SR Type:E Number:006 STRING-True' # noqa: E501
         # cf. ExceptionTest.c (l. 75ff)
         with pytest.raises(ABAPApplicationError) as ex:
             self.conn.call(
@@ -96,7 +96,7 @@ class TestErrorsABAP:
         assert error.msg_number == "000"
 
     def test_AbapRuntimeError_E3(self):
-        # '3_E': 'ABAPRuntimeError-3-COMPUTE_INT_ZERODIVIDE-Division by 0 (type I)-True''] ==
+        # '3_E': 'ABAPRuntimeError-3-COMPUTE_INT_ZERODIVIDE-Division by 0 (type I)-True''] # noqa: E501
         # cf. ExceptionTest.c (l. 164ff)
         with pytest.raises(ABAPRuntimeError) as ex:
             self.conn.call(
@@ -146,7 +146,7 @@ class TestErrorsABAP:
         )
 
     def test_AbapRuntimeError_E36(self):
-        # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] ==
+        # '36_E': 'ABAPRuntimeError-4-Division by 0 (type I)-Division by 0 (type I)-True''] # noqa: E501
         with pytest.raises(ABAPRuntimeError) as ex:
             self.conn.call(
                 "RFC_RAISE_ERROR",
@@ -159,7 +159,7 @@ class TestErrorsABAP:
         assert "Division by 0" in str(error.message)
 
     def test_AbapRuntimeError_E51(self):
-        # '51_E': 'ABAPRuntimeError-3-BLOCKED_COMMIT-A database commit was blocked by the application.-True''] ==
+        # '51_E': 'ABAPRuntimeError-3-BLOCKED_COMMIT-A database commit was blocked by the application # noqa: E501
         with pytest.raises(ABAPRuntimeError) as ex:
             self.conn.call(
                 "RFC_RAISE_ERROR",
@@ -187,12 +187,12 @@ class TestErrorsABAP:
         assert error.msg_v1 == "T008X"
         assert (
             str(error) == "5 (rc=5): key=TABLE_NOT_AVAILABLE, message=ID:SV "
-            "Type:E Number:029 T008X [MSG: class=SV, type=E, number=029, v1-4:=T008X;;;]"
+            "Type:E Number:029 T008X [MSG: class=SV, type=E, number=029, v1-4:=T008X;;;]"  # noqa: E501
         )
 
     # def test_ExternalRuntimeError(self):
     #     # Comment: cf. result_print of the error_test.py
-    #     # '11_E': 'ExternalRuntimeError-17-RFC_NOT_FOUND-Function RFCPING not found-True',
+    #     # '11_E': 'ExternalRuntimeError-17-RFC_NOT_FOUND-Function RFCPING not found-True', # noqa: E501
     #     try:
     #         self.conn.call("RFC_RAISE_ERROR", METHOD="17", MESSAGETYPE="E")
     #     with pytest.raises(ExternalRuntimeError) as ex:
@@ -203,7 +203,7 @@ class TestErrorsABAP:
 
     # def test_CommunicationError(self):
     #     # Comment: cf. result_print of the error_test.py
-    #     # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message
+    #     # '32_E': 'CommunicationError-1-RFC_COMMUNICATION_FAILURE-connection closed without message # noqa: E501
     #     # (CM_NO_DATA_RECEIVED)-True',
     #     try:
     #         self.conn.call("RFC_RAISE_ERROR", METHOD="32", MESSAGETYPE="E")

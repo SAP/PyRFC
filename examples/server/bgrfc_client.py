@@ -22,7 +22,7 @@ client.fill_and_submit_unit(
 
 print(unit, client.get_unit_state(unit))
 
-input("Press Enter ...\n")  # WPS110
+input("Press Enter ...\n")
 
 print(unit, client.get_unit_state(unit))
 

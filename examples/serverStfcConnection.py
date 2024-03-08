@@ -16,7 +16,7 @@ def my_stfc_connection(
         "request_context",
         request_context,
     )
-    print("REQUTEXT: {REQUTEXT}")
+    print(f"REQUTEXT: {REQUTEXT}")
     return {
         "ECHOTEXT": REQUTEXT,
         "RESPTEXT": "Python server here",

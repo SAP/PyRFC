@@ -68,7 +68,7 @@ class TestSTFC:
 
     @unittest.skip("not supported yet (??? VB specific)")
     def test_STFC_INSERT_INTO_TCPIC(self):
-        # STFC_INSERT_INTO_TCPIC RFC-TEST:   Insert data into TCPIC running in Update Task
+        # STFC_INSERT_INTO_TCPIC RFC-TEST: Insert data into TCPIC running in Update Task
         pass
 
     @unittest.skip("not supported yet (???)")
@@ -87,24 +87,28 @@ class TestSTFC:
 
     @unittest.skip("not supported yet (qrfc)")
     def test_STFC_QRFC_TCPIC(self):
-        # STFC_QRFC_TCPIC qRFC-Test: Wiederverwendung von qRFC mit Eingangsqueue
+        # STFC_QRFC_TCPIC
+        # qRFC-Test: Wiederverwendung von qRFC mit Eingangsqueue
         pass
 
     @unittest.skip("not supported yet (qrfc/trfc)")
     def test_STFC_RETURN_DATA(self):
-        # STFC_RETURN_DATA RFC-TEST:   tRFC/qRFC mit Rückmeldestatus und -daten
+        # STFC_RETURN_DATA
+        # RFC-TEST:   tRFC/qRFC mit Rückmeldestatus und -daten
         pass
 
     @unittest.skip("not supported yet (qrfc/trfc)")
     def test_STFC_RETURN_DATA_INTERFACE(self):
-        # STFC_RETURN_DATA_INTERFACE RFC-TEST:   Schnittstelenbeschreibung für tRFC/qRFC mit Rückmeldedaten
+        # STFC_RETURN_DATA_INTERFACE
+        # RFC-TEST:   Schnittstelenbeschreibung für tRFC/qRFC mit Rückmeldedaten
         pass
     """
 
     """
     @unittest.skip("not supported yet (server)")
     def test_STFC_START_CONNECT_REG_SERVER(self):
-        # STFC_START_CONNECT_REG_SERVER RFC-Test:  CONNECTION Test
+        # STFC_START_CONNECT_REG_SERVER
+        # RFC-Test:  CONNECTION Test
         pass
     """
 
@@ -138,62 +142,6 @@ class TestSTFC:
         "RFCDATA1": "k" * 50,
         "RFCDATA2": "l" * 50,
     }
-
-    """
-    def test_ZPYRFC_STFC_STRUCTURE(self):
-        # ZYPRFC_STFC_STRUCTURE Inhomogene Struktur
-        imp = dict(RFCFLOAT=1.23456789, RFCCHAR1=u'a',
-            RFCINT2=0x7ffe, RFCINT1=0x7f,
-            RFCCHAR4=u'bcde', RFCINT4=0x7ffffffe,
-            RFCHEX3=str.encode('fgh'),
-            RFCCHAR2=u'ij',
-            RFCTIME=datetime.time(12,34,56),
-            RFCDATE=datetime.date(2011,10,17),
-            RFCDATA1=u'k'*50, RFCDATA2=u'l'*50,
-            RFCNUMC10='1234567890',
-            RFCDEC17_8=Decimal('1.32442')
-        )
-        out = dict(RFCFLOAT=imp['RFCFLOAT']+1, RFCCHAR1=u'X',
-            RFCINT2=imp['RFCINT2']+1, RFCINT1=imp['RFCINT1']+1,
-            RFCINT4=imp['RFCINT4']+1,
-            RFCHEX3=b'\xf1\xf2\xf3',
-            RFCCHAR2=u'YZ',
-            RFCDATE=datetime.date.today(),
-            RFCDATA1=u'k'*50, RFCDATA2=u'l'*50,
-            RFCNUMC10='1234512345',
-            RFCDEC17_8=Decimal('0')
-        )
-        result = self.conn.call('ZPYRFC_STFC_STRUCTURE', IMPORTSTRUCT=imp, RFCTABLE=[imp])
-        # print result
-        self.assertTrue(result['RESPTEXT'].startswith('SAP'))
-        assert result['ECHOSTRUCT'] == imp
-        assert len(result['RFCTABLE']) == 2
-        assert result['RFCTABLE'][0] == imp
-        del result['RFCTABLE'][1]['RFCCHAR4'] # contains variable system id
-        del result['RFCTABLE'][1]['RFCTIME'] # contains variable server time
-        assert result['RFCTABLE'][1] == out
-
-    @unittest.skip("not supported yet (trfc)")
-    def test_STFC_TX_TEST(self):
-        # STFC_TX_TEST RFC_TEST:  Transaction-oriented RFC (via Update Task)
-        pass
-
-    @unittest.skip("not supported yet (trfc)")
-    def test_STFC_WRITE_TO_TCPIC(self):
-        # STFC_WRITE_TO_TCPIC RFC-TEST:   TRANSACTIONAL RFC
-        pass
-
-    # TODO: Purpose???
-    def test_STRFC_CHECK_USER_LANGUAGE(self):
-        # STRFC_CHECK_USER_LANGUAGE Check User/Language from Client and Server (TCPIC)
-        pass
-
-    # TODO: This is not treated. Question: Treated in the c connector?
-    # code=4 Error ausgelöst in FB TRFC_RAISE_ERROR Error ausgelöst in FB TRFC_RAISE_ERROR
-    def test_TRFC_RAISE_ERROR(self):
-        # TRFC_RAISE_ERROR ARFC: Raise different type of error messages
-        pass
-"""
 
 
 if __name__ == "__main__":

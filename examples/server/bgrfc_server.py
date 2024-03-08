@@ -179,7 +179,7 @@ try:
     # start server
     server.start()
 
-    input("Press Enter key to stop server...\n")  # WPS110
+    input("Press Enter key to stop server...\n")
 
     # stop server and database
     server.stop()

@@ -22,7 +22,7 @@ class RFCLibError(RFCError):
     Base class for exceptions raised by the local underlying C connector (sapnwrfc.c).
     """
 
-    def __init__(  # noqa: PLR0913
+    def __init__(  # noqa: PLR0913 PLR0917
         self,
         message=None,
         code=None,
@@ -54,7 +54,7 @@ class RFCLibError(RFCError):
         rc_text = RcCodeText(code).value if code in enum_values(RcCodeText) else "??"
         return (
             f"{rc_text} (rc={self.code}): key={self.key}, message={self.message}"
-            f" [MSG: class={self.msg_class}, type={self.msg_type}, number={self.msg_number},"
+            f" [MSG: class={self.msg_class}, type={self.msg_type}, number={self.msg_number},"  # noqa: E501
             f" v1-4:={self.msg_v1};{self.msg_v2};{self.msg_v3};{self.msg_v4}]"
         )
 
@@ -85,7 +85,7 @@ class LogonError(RFCLibError):
     LOGON_FAILURE.
     """
 
-    def __init__(  # noqa: PLR0913
+    def __init__(  # noqa: PLR0913 PLR0917
         self,
         message=None,
         code=2,
@@ -153,8 +153,8 @@ class ExternalAuthorizationError(RFCLibError):
 class RFCTypeError(RFCLibError):
     """Type concersion error.
 
-    This exception is raised when invalid data type detected in RFC input (fill) conversion
-    and the error object has an RFC_ERROR_GROUP value of
+    This exception is raised when invalid data type detected in RFC input
+    (fill) conversion and the error object has an RFC_ERROR_GROUP value of
     RFC_TYPE_ERROR
     """
 

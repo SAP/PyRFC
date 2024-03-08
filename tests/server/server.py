@@ -43,21 +43,23 @@ set_ini_file_directory(dir_path)
 
 # create server instance
 server = Server(
-    {"dest": "gateway"},
-    {"dest": "MME"},
-    {
+    server_params={"dest": "gateway"},
+    client_params={"dest": "MME"},
+    config={
         "port": 8081,
         "server_log": False,
     },
 )
 
-# expose python function my_stfc_connection as ABAP function STFC_CONNECTION, that ABAP server can call
-server.add_function(
-    "STFC_CONNECTION",
-    my_stfc_connection,
-)
+# expose python function my_stfc_connection as ABAP function STFC_CONNECTION,
+# that ABAP server can call
+server.add_function("STFC_CONNECTION", my_stfc_connection)
 
-# start server
-server.serve()
+try:
+    server.start()
 
-# server = Server({"dest": "gateway"}, {"dest": "MME"}, {"auth_check": my_auth_check, "server_log": True})
+    input("Press Enter to stop server...\n")
+
+    server.stop()
+except Exception as ex:
+    print(ex)

@@ -2,10 +2,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Note: Some test cases for the exception testing are taken from the c-connector test cases
+# Note: Some test cases for the exception testing are taken
+# from the c-connector test cases
 # /bas/BIN/src/krn/rfc/nwrfc/testFramework/clienttests/ExceptionTest.c
-# Furthermore, the python script error_test.py in this directory provides more test cases.
-# Some of them are used as well.
+# Furthermore, the python script error_test.py in this directory
+# provides more test cases. Some of them are used as well.
 
 import unittest
 
@@ -44,7 +45,8 @@ class TestMRFC:
 
     @unittest.skip("not supported yet (trfc)")
     def test_RFC_CALL_TRANSACTION_USING(self):
-        # RFC_CALL_TRANSACTION_USING Verification Program for Execution of RFCs via CALL TRANSACTION USING
+        # RFC_CALL_TRANSACTION_USING
+        # Verification Program for Execution of RFCs via CALL TRANSACTION USING
         pass
 
     # ToDo: Class based exceptions
