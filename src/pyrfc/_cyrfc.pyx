@@ -1581,7 +1581,7 @@ cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverE
         _server_log("get_server_context", f"error {ex}")
         return None
 
-cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) with gil:
+cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) noexcept with gil:
     cdef RFC_RC rc
     cdef RFC_ERROR_INFO errorInfo
     cdef RFC_ATTRIBUTES attributes
@@ -1618,7 +1618,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         if rc != RFC_OK:
             _server_log("genericHandler", f"Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
             if not server.debug:
-                raise ExternalRuntimeError(message="Invalid connection handle.")
+                raise ExternalRuntimeError(message="Invalid connection handle.", code=RFC_EXTERNAL_FAILURE)
             conn_attr = {}
         else:
             conn_attr = wrapConnectionAttributes(attributes)
@@ -1658,7 +1658,11 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
                 for name, value in result.iteritems():
                     functionContainerSet(funcDesc, funcHandle, name, value, server.bconfig)
             else:
-                _server_log("genericHandler", f"error: callback function {func_name} did not return dictionary, but {type(result)}")
+                message = f"error: callback function {func_name} returned {type(result)} instead of dictionary"
+                _server_log("genericHandler", message)
+                new_error = ExternalRuntimeError(message=message, code=RFC_EXTERNAL_FAILURE)
+                fillError(new_error, serverErrorInfo)
+                return RFC_EXTERNAL_FAILURE
 
         return RFC_OK
 
