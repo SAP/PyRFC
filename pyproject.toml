@@ -50,7 +50,7 @@ where = ["src"]
 include = ["pyrfc"]
 
 [tool.pytest.ini_options]
-minversion = "8"
+minversion = "7.4"
 testpaths =["tests"]
 
 [tool.ruff]

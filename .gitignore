@@ -4,12 +4,10 @@
 .vscode
 *.code-workspace
 
-*.pyc
-*.pyo
-__pycache__
+*.py[cod]
+__pycache__/
 *.so
 *.o
-*.pyd
 *.trc
 *.log
 *.c
@@ -35,7 +33,6 @@ setuptools*.egg
 .pytest_cache
 .python-version
 
-material
 ci/test
 ci/issues
 
