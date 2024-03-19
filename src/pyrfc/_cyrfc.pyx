@@ -1518,17 +1518,8 @@ cdef class Connection:
 #                   "server": Server object)
 server_functions = {}
 
-# global information about served functions / callbacks
-# "auth_check": Default authorization check function
 # "server_log": Server logging flag, default False
 server_context = {}
-
-
-def default_auth_check(func_name=False, request_context = None):
-    request_context = request_context or {}
-    _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
-    return RFC_OK
-
 
 def _server_log(origin, log_message):
     if "server_log" in server_context:
@@ -1637,14 +1628,16 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
         # Authorization check
         auth_function = server_context["auth_check"]
-        rc = auth_function(func_name, request_context)
-        if rc != RFC_OK:
-            new_error = ExternalRuntimeError(
-                message=f"Authentication exception raised by callback function: '{func_name}'",
-                code=RFC_EXTERNAL_FAILURE
-            )
-            fillError(new_error, serverErrorInfo)
-            return RFC_EXTERNAL_FAILURE
+        if callable(auth_function):
+            _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
+            rc = auth_function(func_name, request_context).value
+            if rc != RFC_OK:
+                new_error = ExternalRuntimeError(
+                    message=f"Authentication exception raised by callback function: '{func_name}'",
+                    code=RFC_EXTERNAL_FAILURE
+                )
+                fillError(new_error, serverErrorInfo)
+                return RFC_EXTERNAL_FAILURE
 
         # Filter out variables that are of direction u'RFC_EXPORT'
         # (these will be set by the callback function)
@@ -1845,7 +1838,7 @@ cdef class Server:
         self.__config['check_time'] = config.get('check_time', True)
         self.__config['debug'] = self.debug = config.get('debug', False)
         server_context["server_log"] = config.get("server_log", False)
-        server_context["auth_check"] = config.get("auth_check", default_auth_check)
+        server_context["auth_check"] = config.get("auth_check", None)
         server_context["port"] = config.get("port", 8080)
         self.__config["server_context"] = server_context
 
