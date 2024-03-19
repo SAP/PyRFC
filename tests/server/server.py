@@ -4,7 +4,7 @@
 
 import os
 
-from pyrfc import Server, set_ini_file_directory
+from pyrfc import RCStatus, Server, set_ini_file_directory
 
 
 # server function
@@ -35,7 +35,7 @@ def my_auth_check(
         "request_context",
         request_context or {},
     )
-    return 0
+    return RCStatus.OK
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))

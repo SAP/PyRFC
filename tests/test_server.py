@@ -4,12 +4,12 @@
 
 import os
 import sys
-import time
 
 import pytest
 from pyrfc import (
     ABAPApplicationError,
     Connection,
+    RCStatus,
     RFCError,
     Server,
     set_ini_file_directory,
@@ -44,8 +44,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 set_ini_file_directory(dir_path)
 
 server = Server(
-    {"dest": "gateway"},
-    {"dest": "MME"},
+    server_params={"dest": "gateway"},
+    client_params={"dest": "MME"},
 )
 
 client = Connection(dest="MME")
@@ -129,17 +129,21 @@ class TestServer:
                 request_context = {}
             print(f"authorization check for '{func_name}'")
             print("request_context", request_context)
-            return 0
+            return RCStatus.OK
 
         # create server
         server = Server(
-            {"dest": "MME_GATEWAY"},
-            {"dest": "MME"},
-            {"check_date": False, "check_time": False, "server_log": True},
+            server_params={"dest": "MME_GATEWAY"},
+            client_params={"dest": "MME"},
+            config={
+                "auth_check": my_auth_check,
+                "check_date": False,
+                "check_time": False,
+                "server_log": True,
+            },
         )
 
         # expose python function my_stfc_structure as ABAP function STFC_STRUCTURE,
-        # to be called by ABAP system
         server.add_function("STFC_STRUCTURE", my_stfc_structure)
 
         # start server
@@ -159,14 +163,61 @@ class TestServer:
         assert result["ECHOSTRUCT"]["RFCDATE"] == "20230928"
         assert result["ECHOSTRUCT"]["RFCTIME"] == "240000"
 
-        time.sleep(5)
-
         # shutdown server
         server.close()
 
+    def test_trfc(self):
+        def stfc_write_to_tcpic(request_context=None, RESTART_QNAME="", TCPICDAT=[]):
+            context = (
+                {"error": "No request context"}
+                if request_context is None
+                else request_context["server_context"]
+            )
+            print("Python function: stfc_write_to_tcpic", f"context {context}")
+            return {"TCPICDAT": TCPICDAT}
 
-# get server attributes
-print(server.get_server_attributes())
+        def onCheckTransaction(rfcHandle, tid):
+            print("Executed onCheckTransaction Python function", rfcHandle, tid)
+            return RCStatus.OK
+
+        def onCommitTransaction(rfcHandle, tid):
+            print("Executed  onCommitTransaction Python function", rfcHandle, tid)
+            return RCStatus.OK
+
+        def onConfirmTransaction(rfcHandle, tid):
+            print("Executed onConfirmTransaction Python function", rfcHandle, tid)
+            return RCStatus.OK
+
+        def onRollbackTransaction(rfcHandle, tid):
+            print("Executed onRollbackTransaction Python function", rfcHandle, tid)
+            return RCStatus.OK
+
+        try:
+            # Create server
+            server = Server(
+                server_params={"dest": "MME_GATEWAY"},
+                client_params={"dest": "MME"},
+                config={"check_date": False, "check_time": False, "server_log": False},
+            )
+
+            # ABAP function used to send IDocs via tRFC/qRFC
+            server.add_function("STFC_WRITE_TO_TCPIC", stfc_write_to_tcpic)
+
+            # Register the RFC transaction handlers.
+            server.transaction_rfc_init(
+                sysId="MME",
+                transactionHandler={
+                    "check": onCheckTransaction,
+                    "commit": onCommitTransaction,
+                    "rollback": onRollbackTransaction,
+                    "confirm": onConfirmTransaction,
+                },
+            )
+        except Exception as ex:
+            print(ex)
+        finally:
+            # Shutdown server
+            server.close()
 
 
 def teardown():
