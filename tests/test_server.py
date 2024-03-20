@@ -4,6 +4,7 @@
 
 import os
 import sys
+from time import sleep
 
 import pytest
 from pyrfc import (
@@ -122,13 +123,17 @@ class TestServer:
                 "RESPTEXT": RESPTEXT,
             }
 
-        def my_auth_check(func_name=False, request_context=None):
-            """Server authorization check."""
-
+        def authentication_check(func_name=False, request_context=None):
             if request_context is None:
                 request_context = {}
-            print(f"authorization check for '{func_name}'")
-            print("request_context", request_context)
+            print(
+                f"[js] authorization '{func_name}' request_context",
+                request_context,
+            )
+            return RCStatus.OK
+
+        def authorization_check(rfcHandle=None, securityAttributes=None):
+            print(f"[js] authorization for {rfcHandle}, attr {securityAttributes}")
             return RCStatus.OK
 
         # create server
@@ -136,7 +141,8 @@ class TestServer:
             server_params={"dest": "MME_GATEWAY"},
             client_params={"dest": "MME"},
             config={
-                "auth_check": my_auth_check,
+                "authentication_check": authentication_check,
+                "authorization_check": authorization_check,
                 "check_date": False,
                 "check_time": False,
                 "server_log": True,
@@ -154,6 +160,9 @@ class TestServer:
         client = Connection(dest="MME")
         result = client.call("ZSERVER_TEST_STFC_STRUCTURE")
 
+        # shutdown server
+        server.close()
+
         # check the server response
         assert result["RESPTEXT"] == "Python server sends 1 table rows"
         assert "ECHOSTRUCT" in result
@@ -163,9 +172,6 @@ class TestServer:
         assert result["ECHOSTRUCT"]["RFCDATE"] == "20230928"
         assert result["ECHOSTRUCT"]["RFCTIME"] == "240000"
 
-        # shutdown server
-        server.close()
-
     def test_trfc(self):
         def stfc_write_to_tcpic(request_context=None, RESTART_QNAME="", TCPICDAT=[]):
             context = (
@@ -173,23 +179,33 @@ class TestServer:
                 if request_context is None
                 else request_context["server_context"]
             )
-            print("Python function: stfc_write_to_tcpic", f"context {context}")
+            print("[js] python function: stfc_write_to_tcpic", f"context {context}")
             return {"TCPICDAT": TCPICDAT}
 
         def onCheckTransaction(rfcHandle, tid):
-            print("Executed onCheckTransaction Python function", rfcHandle, tid)
+            print("[js] onCheckTransaction", rfcHandle, tid)
             return RCStatus.OK
 
         def onCommitTransaction(rfcHandle, tid):
-            print("Executed  onCommitTransaction Python function", rfcHandle, tid)
+            print("[js] onCommitTransaction", rfcHandle, tid)
             return RCStatus.OK
 
         def onConfirmTransaction(rfcHandle, tid):
-            print("Executed onConfirmTransaction Python function", rfcHandle, tid)
+            print("[js] onConfirmTransaction", rfcHandle, tid)
             return RCStatus.OK
 
         def onRollbackTransaction(rfcHandle, tid):
-            print("Executed onRollbackTransaction Python function", rfcHandle, tid)
+            print("[js] onRollbackTransaction", rfcHandle, tid)
+            return RCStatus.OK
+
+        def authenticationHandler(function_name, server_context=None):
+            print(f"[js] authentication for {function_name}, context {server_context}")
+            return RCStatus.OK
+
+        def authorizationHandler(rfcHandle=None, securityAttributes=None):
+            print(
+                f"[js] authorization for {rfcHandle}, security attr {securityAttributes}"
+            )
             return RCStatus.OK
 
         try:
@@ -213,6 +229,20 @@ class TestServer:
                     "confirm": onConfirmTransaction,
                 },
             )
+
+            # Start server
+            server.start()
+
+            # call RSARFCT0
+            client = Connection(dest="MME")
+            tcall = "00001"
+            ncall = client.call("ZSERVER_TEST_TRFC", NCALL=tcall)["EV_NCALL"]
+            client.close()
+            assert ncall == tcall
+
+            # receive queues from abap system
+            sleep(5)
+
         except Exception as ex:
             print(ex)
         finally:

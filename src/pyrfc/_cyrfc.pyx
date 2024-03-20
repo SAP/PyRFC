@@ -1521,14 +1521,13 @@ server_functions = {}
 # "server_log": Server logging flag, default False
 server_context = {}
 
-def _server_log(origin, log_message):
-    if "server_log" in server_context:
-        if server_context["server_log"]:
-            if version_info > (3, 12):
-                from datetime import UTC
-                print (f"[{datetime.now(UTC).replace(tzinfo=None)} UTC] {origin} '{log_message}'")
-            else:
-                print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'")
+def _server_log(origin, log_message, *args):
+    if server_context.get("server_log", False):
+        if version_info > (3, 12):
+            from datetime import UTC
+            print (f"[{datetime.now(UTC).replace(tzinfo=None)} UTC] {origin} '{log_message}'", *args)
+        else:
+            print (f"[{datetime.utcnow()} UTC] {origin} '{log_message}'", *args)
 
 
 cdef RFC_RC metadataLookup(
@@ -1537,28 +1536,30 @@ cdef RFC_RC metadataLookup(
             RFC_FUNCTION_DESC_HANDLE *funcDescHandle
         ) noexcept with gil:
     global server_functions
+    origin = "metadataLookup"
     try:
         function_name = wrapString(functionName)
         if function_name not in server_functions:
-            _server_log("metadataLookup", f"No metadata found for function '{function_name}'.")
+            _server_log(origin, f"No metadata found for function '{function_name}'.")
             return RFC_NOT_FOUND
         func_metadata = server_functions[function_name]
         # callback = func_metadata['callback']
         funcDescHandle[0] = <RFC_FUNCTION_DESC_HANDLE><uintptr_t>func_metadata['func_desc_handle']
-        _server_log("metadataLookup", f"Function '{function_name}' handle {<uintptr_t>funcDescHandle[0]}.")
+        _server_log(origin, f"Function '{function_name}' handle {<uintptr_t>funcDescHandle[0]}.")
         return RFC_OK
     except Exception as ex:
-        _server_log("metadataLookup error", ex)
+        _server_log(origin, "error", ex)
         return RFC_NOT_FOUND
 
 
 cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverErrorInfo) with gil:
     cdef RFC_SERVER_CONTEXT context
     cdef RFC_RC rc
+    origin = "get_server_context"
     try:
         rc = RfcGetServerContext(rfcHandle, &context, serverErrorInfo)
         if rc != RFC_OK or serverErrorInfo.code != RFC_OK:
-            _server_log("get_server_context", f"error rc={rc} code={serverErrorInfo.code}")
+            _server_log(origin, f"error rc={rc} code={serverErrorInfo.code}")
             return None
         server_context = {
             "call_type": UnitCallType(context.type),
@@ -1570,7 +1571,7 @@ cdef get_server_context(RFC_CONNECTION_HANDLE rfcHandle, RFC_ERROR_INFO* serverE
             server_context ["unit_attributes"] = wrapUnitAttributes(context.unitAttributes)
         return server_context
     except Exception as ex:
-        _server_log("get_server_context", f"error {ex}")
+        _server_log(origin, "error", ex)
         return None
 
 cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE funcHandle, RFC_ERROR_INFO* serverErrorInfo) noexcept with gil:
@@ -1581,6 +1582,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
     cdef RFC_ABAP_NAME funcName
 
     global server_functions
+    origin = "genericHandler"
 
     try:
         # section 5.6.2 of SAP NWRFC SDK Programming Guide 7.50
@@ -1599,7 +1601,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
 
         func_name = wrapString(funcName)
         if func_name not in server_functions:
-            _server_log("genericHandler", f"error: No metadata found for function '{function_name}'")
+            _server_log(origin, f"error: No metadata found for function '{function_name}'")
             return RFC_NOT_FOUND
 
         func_data = server_functions[func_name]
@@ -1608,14 +1610,14 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         # func_desc = func_data['func_desc_handle']
         rc = RfcGetConnectionAttributes(rfcHandle, &attributes, &errorInfo)
         if rc != RFC_OK:
-            _server_log("genericHandler", f"Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
+            _server_log(origin, f"Request for '{func_name}': Error while retrieving connection attributes (rc={rc}).")
             if not server.debug:
                 raise ExternalRuntimeError(message="Invalid connection handle.", code=RFC_EXTERNAL_FAILURE)
             conn_attr = {}
         else:
             conn_attr = wrapConnectionAttributes(attributes)
             _server_log(
-                "genericHandler",
+                origin,
                 "User '{user}' from system '{sysId}' client '{client}' host '{partnerHost}' invokes '{func_name}'"
                 .format(func_name=func_name, **conn_attr)
             )
@@ -1626,18 +1628,17 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
             'server_context': context
         }
 
-        # Authorization check
-        auth_function = server_context["auth_check"]
+        # Authentication check
+        auth_function = server_context["authentication_check"]
         if callable(auth_function):
-            _server_log(f"authorization check for '{func_name}'", request_context['server_context'])
-            rc = auth_function(func_name, request_context).value
-            if rc != RFC_OK:
-                new_error = ExternalRuntimeError(
-                    message=f"Authentication exception raised by callback function: '{func_name}'",
-                    code=RFC_EXTERNAL_FAILURE
-                )
+            check = auth_function(func_name, request_context)
+            if check != RCStatus.OK:
+                message = f"No authentication for '{func_name}': {check}"
+                _server_log(origin, message)
+                new_error = ExternalRuntimeError(message=message, code=RFC_EXTERNAL_FAILURE)
                 fillError(new_error, serverErrorInfo)
                 return RFC_EXTERNAL_FAILURE
+        _server_log(origin, f"Authenticated '{func_name}'", request_context['server_context'])
 
         # Filter out variables that are of direction u'RFC_EXPORT'
         # (these will be set by the callback function)
@@ -1653,7 +1654,7 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
                     functionContainerSet(funcDesc, funcHandle, name, value, server.bconfig)
             else:
                 message = f"error: callback function {func_name} returned {type(result)} instead of dictionary"
-                _server_log("genericHandler", message)
+                _server_log(origin, message)
                 new_error = ExternalRuntimeError(message=message, code=RFC_EXTERNAL_FAILURE)
                 fillError(new_error, serverErrorInfo)
                 return RFC_EXTERNAL_FAILURE
@@ -1667,26 +1668,26 @@ cdef RFC_RC genericHandler(RFC_CONNECTION_HANDLE rfcHandle, RFC_FUNCTION_HANDLE 
         # returns:   RFC_EXTERNAL_FAILURE
         fillError(e, serverErrorInfo)
         serverErrorInfo.code = RFC_EXTERNAL_FAILURE  # Overwrite code, if set.
-        _server_log("genericHandler", f"Request for '{func_name}' raises ExternalRuntimeError {e} - code set to RFC_EXTERNAL_FAILURE.")
+        _server_log(origin, f"Request for '{func_name}' raises ExternalRuntimeError {e} - code set to RFC_EXTERNAL_FAILURE.")
         return RFC_EXTERNAL_FAILURE
     except ABAPRuntimeError as e:  # ABAP Message
         # Parameter: msg_type, msg_class, msg_number, msg_v1-v4
         # returns:   RFC_ABAP_MESSAGE
         fillError(e, serverErrorInfo)
         serverErrorInfo.code = RFC_ABAP_MESSAGE  # Overwrite code, if set.
-        _server_log("genericHandler", f"Request for '{func_name}' raises ABAPRuntimeError {e} - code set to RFC_ABAP_MESSAGE.")
+        _server_log(origin, f"Request for '{func_name}' raises ABAPRuntimeError {e} - code set to RFC_ABAP_MESSAGE.")
         return RFC_ABAP_MESSAGE
     except ABAPApplicationError as e:  # ABAP Exception in implementing function
         # Parameter: key (optional: msg_type, msg_class, msg_number, msg_v1-v4)
         # returns:   RFC_ABAP_EXCEPTION
         fillError(e, serverErrorInfo)
         serverErrorInfo.code = RFC_ABAP_EXCEPTION  # Overwrite code, if set.
-        _server_log("genericHandler", f"Request for '{func_name}' raises ABAPApplicationError {e} - code set to RFC_ABAP_EXCEPTION.")
+        _server_log(origin, f"Request for '{func_name}' raises ABAPApplicationError {e} - code set to RFC_ABAP_EXCEPTION.")
         return RFC_ABAP_EXCEPTION
     except Exception as ex:
         exctype, value = exc_info()[:2]
         _server_log(
-            "genericHandler",
+            origin,
             f"Request for '{func_name}' raises an invalid exception:\n Exception: {exctype}\n Values: {value}\n"
             "Callback functions may only raise ABAPApplicationError, ABAPRuntimeError, or ExternalRuntimeError.\n"
             "The values of the request were:\n"
@@ -1827,9 +1828,14 @@ cdef class Server:
     def __cinit__(self, server_params, client_params, config=None):
         # check and set server configuration
         config = config or {}
-
         for k in config:
-            if k not in['rstrip', 'dtime', 'check_date', 'check_time', 'debug', 'server_log', 'auth_check', 'port']:
+            if k not in [
+                    'rstrip',
+                    'dtime', 'check_date', 'check_time',
+                    'debug','server_log',
+                    'authorization_check', 'authentication_check',
+                    'port'
+            ]:
                 raise RFCError(f"Connection configuration option '{k}' is not supported")
         self.__config = {}
         self.__config['rstrip'] = config.get('rstrip', True)
@@ -1838,8 +1844,10 @@ cdef class Server:
         self.__config['check_time'] = config.get('check_time', True)
         self.__config['debug'] = self.debug = config.get('debug', False)
         server_context["server_log"] = config.get("server_log", False)
-        server_context["auth_check"] = config.get("auth_check", None)
+        server_context["authentication_check"] = config.get("authentication_check", None)
+        server_context["authorization_check"] = config.get("authorization_check", None)
         server_context["port"] = config.get("port", 8080)
+
         self.__config["server_context"] = server_context
 
         self.bconfig = 0
@@ -1860,11 +1868,40 @@ cdef class Server:
         cdef RFC_ERROR_INFO errorInfo
         with nogil:
             self._server_handle = RfcCreateServer(self._server_handle_params._params, self._server_handle_params._params_count, &errorInfo)
+        if errorInfo.code == RFC_OK and callable(server_context["authorization_check"]):
+            RfcInstallAuthorizationCheckHandler(Server.__onAuthorizationCheck, &errorInfo)
         if errorInfo.code != RFC_OK:
             self._server_handle = NULL
             raise wrapError(&errorInfo)
         _server_log("Server", f"{self.server_handle} created")
 
+    #
+    # authorization check handler
+    #
+
+    @staticmethod
+    cdef RFC_RC __onAuthorizationCheck(RFC_CONNECTION_HANDLE rfcHandle, RFC_SECURITY_ATTRIBUTES *secAttributes, RFC_ERROR_INFO *errorInfo) with gil:
+        origin = "onAuthorizationCheck"
+        security_attributes = wrapSecurityAttributes(secAttributes)
+        functionName = security_attributes['functionName']
+        try:
+            check = server_context["authorization_check"](<uintptr_t>rfcHandle, security_attributes)
+            if check == RCStatus.OK:
+                # authorized
+                _server_log(origin, "Authorized", functionName)
+                return RFC_OK
+            # not authorized
+            message=f"No authorization for '{functionName}': {check}"
+            _server_log(origin, message)
+            error = ExternalRuntimeError(message=message, code=RFC_AUTHORIZATION_FAILURE)
+            fillError(error, errorInfo)
+            return RFC_AUTHORIZATION_FAILURE
+        except Exception as ex:
+            message=f"Authorization exception raised for '{functionName}': {ex}"
+            _server_log(origin, message)
+            error = ExternalRuntimeError(message=message, code=RFC_AUTHORIZATION_FAILURE)
+            fillError(new_error, errorInfo)
+            return RFC_AUTHORIZATION_FAILURE
     #
     # transaction protocol handlers defined as class methods, calling application handlers
     #
@@ -1878,55 +1915,35 @@ cdef class Server:
 
     @staticmethod
     cdef RFC_RC __onCheckTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
-        handler = Server.__transactionHandler["check"]
-        if not callable(handler):
-            _server_log("Transaction check handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
-        try:
-            transaction_id = wrapString(tid)
-            return handler(<uintptr_t>rfcHandle, transaction_id).value
-        except Exception as ex:
-            _server_log("Error in transaction check handler:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+        origin = "onCheckTransaction"
+        Server.__trfc_handler(origin, Server.__transactionHandler["check"], rfcHandle, tid)
 
     @staticmethod
     cdef RFC_RC __onCommitTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
-        handler = Server.__transactionHandler["commit"]
-        if not callable(handler):
-            _server_log("Transaction commit handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
-        try:
-            transaction_id = wrapString(tid)
-            return handler(<uintptr_t>rfcHandle, transaction_id).value
-        except Exception as ex:
-            _server_log("Error in transaction commit handler:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+        origin = "onCommitTransaction"
+        Server.__trfc_handler(origin, Server.__transactionHandler["commit"], rfcHandle, tid)
 
     @staticmethod
     cdef RFC_RC __onRollbackTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
-        handler = Server.__transactionHandler["rollback"]
-        if not callable(handler):
-            _server_log("Transaction rollback handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
-        try:
-            transaction_id = wrapString(tid)
-            return handler(<uintptr_t>rfcHandle, transaction_id).value
-        except Exception as ex:
-            _server_log("Error in transaction rollback handler:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+        origin = "onRollbackTransaction"
+        Server.__trfc_handler(origin, Server.__transactionHandler["rollback"], rfcHandle, tid)
 
     @staticmethod
     cdef RFC_RC __onConfirmTransaction(RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
-        handler = Server.__transactionHandler["confirm"]
+        origin = "onConfirmTransaction"
+        Server.__trfc_handler(origin, Server.__transactionHandler["confirm"], rfcHandle, tid)
+
+    @staticmethod
+    cdef RFC_RC __trfc_handler(origin, handler, RFC_CONNECTION_HANDLE rfcHandle, const SAP_UC *tid) with gil:
         if not callable(handler):
-            _server_log("Transaction confirm handler is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
+            _server_log(origin, "not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RFC_OK
         try:
             transaction_id = wrapString(tid)
             return handler(<uintptr_t>rfcHandle, transaction_id).value
         except Exception as ex:
-            _server_log("Error in transaction confirm handler:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+            _server_log(origin, "error:", ex)
+            return RFC_EXTERNAL_FAILURE
 
     def transaction_rfc_init(self, sysId=None, transactionHandler=None):
         """Installs the necessary callback functions for processing incoming transactional rfc calls.
@@ -1976,55 +1993,35 @@ cdef class Server:
 
     @staticmethod
     cdef RFC_RC __onCheckFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcHandler["check"]
-        if not callable(handler):
-            _server_log("bgRFC handler onCheck is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
-        try:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier).value
-        except Exception as ex:
-            _server_log("Error in bgRFC handler onCheck:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+        origin = "onCheckFunction"
+        Server.__bgrfc_handler(origin, Server.__bgRfcHandler["check"], rfcHandle, identifier)
 
     @staticmethod
     cdef RFC_RC __onCommitFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcHandler["commit"]
-        if not callable(handler):
-            _server_log("bgRFC handler onCommit is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
-        try:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier).value
-        except Exception as ex:
-            _server_log("Error in bgRFC handler onCommit:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+        origin = "onCommitFunction"
+        Server.__bgrfc_handler(origin, Server.__bgRfcHandler["commit"], rfcHandle, identifier)
 
     @staticmethod
     cdef RFC_RC __onRollbackFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcHandler["rollback"]
-        if not callable(handler):
-            _server_log("bgRFC handler onRollback is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
-        try:
-            unit_identifier = wrapUnitIdentifier(identifier[0])
-            return handler(<uintptr_t>rfcHandle, unit_identifier).value
-        except Exception as ex:
-            _server_log("Error in bgRFC handler onRollback:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+        origin = "onRollbackFunction"
+        Server.__bgrfc_handler(origin, Server.__bgRfcHandler["rollback"], rfcHandle, identifier)
 
     @staticmethod
     cdef RFC_RC __onConfirmFunction(RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
-        handler = Server.__bgRfcHandler["confirm"]
+        origin = "onConfirmFunction"
+        Server.__bgrfc_handler(origin, Server.__bgRfcHandler["confirm"], rfcHandle, identifier)
+
+    @staticmethod
+    cdef RFC_RC __bgrfc_handler(origin, handler, RFC_CONNECTION_HANDLE rfcHandle, const RFC_UNIT_IDENTIFIER *identifier) with gil:
         if not callable(handler):
-            _server_log("bgRFC handler onConfirm is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.OK.value
+            _server_log(origin, "not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RFC_OK
         try:
             unit_identifier = wrapUnitIdentifier(identifier[0])
             return handler(<uintptr_t>rfcHandle, unit_identifier).value
         except Exception as ex:
-            _server_log("Error in bgRFC handler onConfirm:", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+            _server_log(origin, "error:", ex)
+            return RFC_EXTERNAL_FAILURE
 
     @staticmethod
     cdef RFC_RC __onGetStateFunction(
@@ -2032,10 +2029,11 @@ cdef class Server:
                 const RFC_UNIT_IDENTIFIER *identifier,
                 RFC_UNIT_STATE *unitState
             ) with gil:
+        origin = "onGetStateFunction"
         handler = Server.__bgRfcHandler["getState"]
         if not callable(handler):
-            _server_log("bgRFC handler onGetState is not registered for server connection handle '{<uintptr_t>rfcHandle}'")
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+            _server_log(origin, "not registered for server connection handle '{<uintptr_t>rfcHandle}'")
+            return RFC_EXTERNAL_FAILURE
         try:
             unit_identifier = wrapUnitIdentifier(identifier[0])
             state = handler(<uintptr_t>rfcHandle, unit_identifier)
@@ -2050,10 +2048,10 @@ cdef class Server:
                 unitState[0] = RFC_UNIT_CONFIRMED
             else:
                 raise Exception(f"TID {unit_identifier['id']} invalid state '{state}'")
-            return RCStatus.OK.value
+            return RFC_OK
         except Exception as ex:
-            _server_log("Error in bgRFC handler onGetState:\n", ex)
-            return RCStatus.RFC_EXTERNAL_FAILURE.value
+            _server_log(origin, "error:\n", ex)
+            return RFC_EXTERNAL_FAILURE
 
     def bgrfc_init(self, sysId=None, bgRfcHandler=None):
         """Installs the necessary callback functions for processing incoming bgRFC calls.
@@ -3047,6 +3045,21 @@ cdef wrapUnitAttributes(RFC_UNIT_ATTRIBUTES *uattr):
     unit_attributes['sending_date'] = wrapString(uattr.sendingDate, 8)
     unit_attributes['sending_time'] = wrapString(uattr.sendingTime, 6)
     return unit_attributes
+
+cdef wrapSecurityAttributes(RFC_SECURITY_ATTRIBUTES *secAttributes):
+    security_attributes = {
+        'functionName': wrapString(secAttributes.functionName).rstrip('\0'),
+        'sysId': wrapString(secAttributes.sysId, 8).rstrip('\0'),
+        'client': wrapString(secAttributes.client, 3).rstrip('\0'),
+        'user': wrapString(secAttributes.user, 12).rstrip('\0'),
+        'progName': wrapString(secAttributes.progName, 128).rstrip('\0'),
+        'sncAclKeyLength': secAttributes.sncAclKeyLength
+    }
+    if secAttributes.sncAclKeyLength >  0:
+        security_attributes['sncName'] = wrapString(secAttributes.sncName).rstrip('\0'),
+        security_attributes['ssoTicket']= wrapString(secAttributes.ssoTicket).rstrip('\0'),
+        security_attributes['sncAclKey'] = bytes(secAttributes.sncAclKey)[:secAttributes.sncAclKeyLength]
+    return security_attributes
 
 cdef wrapStructure(RFC_TYPE_DESC_HANDLE typeDesc, RFC_STRUCTURE_HANDLE container, unsigned config):
     cdef unsigned i, fieldCount

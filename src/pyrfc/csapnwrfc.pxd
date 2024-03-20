@@ -133,6 +133,17 @@ cdef extern from "sapnwrfc.h":
         RFC_QUEUED
         RFC_BACKGROUND_UNIT
 
+    ctypedef struct RFC_SECURITY_ATTRIBUTES:
+        SAP_UC *functionName
+        SAP_UC *sysId           # Calling ABAP system ID. More...
+        SAP_UC *client          # ABAP Client ("Mandant") More...
+        SAP_UC *user            # ABAP User. More...
+        SAP_UC *progName        # Name of the calling APAB program (report, module pool) More...
+        SAP_UC *sncName         # SNC name of the calling ABAP system, if SNC is enabled. Use this only for display or logging purposes. More...
+        SAP_UC *ssoTicket       # Logon ticket of the ABAP user, if SSO2 or assertion tickets are enabled. More...
+        SAP_RAW *sncAclKey      # Canonical representation of the SNC name of the calling ABAP system, if SNC is enabled. Use this for comparisons and access checks.
+        unsigned sncAclKeyLength # Length of the above SNC AclKey.
+
     ctypedef void *RFC_FUNCTION_DESC_HANDLE
     ctypedef void *RFC_FUNCTION_HANDLE
     ctypedef void *RFC_TYPE_DESC_HANDLE
@@ -147,6 +158,8 @@ cdef extern from "sapnwrfc.h":
     ctypedef void *RFC_SERVER_HANDLE
     ctypedef RFC_RC (*RFC_SERVER_FUNCTION)    (RFC_CONNECTION_HANDLE, RFC_FUNCTION_HANDLE, RFC_ERROR_INFO *) except * with gil
     ctypedef RFC_RC (*RFC_FUNC_DESC_CALLBACK) (SAP_UC *, RFC_ATTRIBUTES, RFC_FUNCTION_DESC_HANDLE *) except * with gil
+    # authorization handler
+    ctypedef RFC_RC (*RFC_ON_AUTHORIZATION_CHECK) (RFC_CONNECTION_HANDLE, RFC_SECURITY_ATTRIBUTES *, RFC_ERROR_INFO *) except * with gil
     # bgrfc handlers
     ctypedef RFC_RC (*RFC_ON_CHECK_UNIT)     (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) except * with gil
     ctypedef RFC_RC (*RFC_ON_COMMIT_UNIT)    (RFC_CONNECTION_HANDLE, RFC_UNIT_IDENTIFIER *) except * with gil
@@ -268,6 +281,7 @@ cdef extern from "sapnwrfc.h":
         SAP_UC hostname[40+1]
         RFC_DATE sendingDate
         RFC_TIME sendingTime
+
 
     ctypedef enum RFC_UNIT_STATE:
         RFC_UNIT_NOT_FOUND
@@ -466,3 +480,4 @@ cdef extern from "sapnwrfc.h":
     RFC_RC RfcReloadIniFile (RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcLanguageIsoToSap (const SAP_UC *laiso, SAP_UC *lang, RFC_ERROR_INFO *errorInfo)
     RFC_RC RfcLanguageSapToIso (const SAP_UC *lang, SAP_UC *laiso, RFC_ERROR_INFO *errorInfo)
+    RFC_RC RfcInstallAuthorizationCheckHandler (RFC_ON_AUTHORIZATION_CHECK onAuthorizationCheck, RFC_ERROR_INFO *errorInfo)
