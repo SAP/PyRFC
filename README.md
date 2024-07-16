@@ -58,9 +58,9 @@ Asynchronous, non-blocking [SAP NetWeaver RFC SDK](https://support.sap.com/en/pr
 
 ### SAP NW RFC SDK 7.50 Patch Level 12
 
-- see [SAP Note 3274546](https://launchpad.support.sap.com/#/notes/3274546) for a list of bug fixes and enhancements made with this patch release
-- Only the latest path level is supported by SAP
-- Using the latest version is recommended as SAP NWRFC SDK is fully backwards compatible, from today S4, down to R/3 release 4.6C.
+- see [SAP Note 3337381: SAP NetWeaver RFC SDK 7.50 -- Patch Level 12](https://me.sap.com/notes/3337381) for a list of bug fixes and enhancements made with this patch release.
+- **Only the latest patch level is supported by SAP**
+- The latest version is fully backwards compatible, from today S4, down to R/3 release 4.6C.
 - Can be downloaded from SAP Software Download Center of the SAP Support Portal, like described at https://support.sap.com/nwrfcsdk.
 - If you are lacking the required authorization for downloading software from the SAP Service Marketplace, please follow the instructions of [SAP Note 1037575](https://launchpad.support.sap.com/#/notes/1037575) for requesting this authorization.
 
