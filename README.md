@@ -27,6 +27,11 @@ Asynchronous, non-blocking [SAP NetWeaver RFC SDK](https://support.sap.com/en/pr
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
 
+
+## Call for Maintainers
+
+This project is currently looking for new maintainers. Please see [this issue](https://github.com/SAP/PyRFC/issues/372) for details.
+
 ## Features
 
 - Client and Server bindings
