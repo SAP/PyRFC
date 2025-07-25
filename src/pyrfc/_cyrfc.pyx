@@ -3210,7 +3210,12 @@ cdef wrapVariable(
                 rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
+            # Fix for decimal conversion bug - return as string instead of Decimal
+            try:
+                return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
+            except:
+                # If decimal conversion fails, return as string
+                return wrapString(stringValue, -1, config & _MASK_RSTRIP)
         finally:
             free(stringValue)
     elif typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
